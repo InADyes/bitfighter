@@ -50,8 +50,7 @@ export class Game {
             console.error("cannot tick fight, missing champion");
             return ;
         }
-
-        this.handleTickFight(this.champion, this.challenger); //todo: how does this set stuff to null?
+        this.handleTickFight(this.champion, this.challenger);
     }
 }
 
