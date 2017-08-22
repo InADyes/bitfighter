@@ -1,2 +1,7 @@
 /node_modules
+
+# ignore npm log files
 *.log
+
+# compiled
+/lib/index.js
