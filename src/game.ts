@@ -2,27 +2,36 @@
 
 namespace Game {
 
+type newChallengerFunc = (canvas: HTMLCanvasElement, id: number, name: string, bits: number) => Champion;
+type newFightFunc = (canvas: HTMLCanvasElement, queue: Champion[]) => Champion | null;
+type newTickFunc = (canvas: HTMLCanvasElement, chamption: Champion, challenger: Champion) => void;
+
 export class Game {
     canvas: HTMLCanvasElement;
     challenger: Champion | null;
     champion: Champion | null;
     queue: Champion[] = [];
-    handleNewChallenger: (canvas: HTMLCanvasElement, challenger: Champion) => void;
-    handleNewFight: (canvas: HTMLCanvasElement, queue: Champion[]) => Champion | null;
-    handleTickFight: (canvas: HTMLCanvasElement, chamption: Champion, challenger: Champion) => void;
+    handleNewChallenger: newChallengerFunc;
+    handleNewFight: newFightFunc;
+    handleTickFight: newTickFunc;
     constructor(
         canvas: HTMLCanvasElement,
-        handleNewChallenger: (canvas: HTMLCanvasElement, challenger: Champion) => void,
-        handleNewFight: (canvas: HTMLCanvasElement, queue: Champion[]) => Champion | null,
-        handleTickFight: (canvas: HTMLCanvasElement, chamption: Champion, challenger: Champion) => void) {
+        handleNewChallenger: newChallengerFunc,
+        handleNewFight: newFightFunc,
+        handleTickFight: newTickFunc) {
         this.canvas = canvas;
         this.handleNewChallenger = handleNewChallenger;
         this.handleNewFight = handleNewFight;
         this.handleTickFight = handleTickFight;
     }
-    newChallenger(challenger: Champion) {
-        this.handleNewChallenger(this.canvas, challenger);
-        this.queue.push(challenger);
+    newDonation(id: number, name: string, bits: number) {
+        if (false) {
+
+        } else {
+            let challenger = this.handleNewChallenger(this.canvas, id, name, bits);
+            this.queue.push(challenger);
+        }
+
     }
     newFight() {
         if (this.challenger != null) {
@@ -37,8 +46,7 @@ export class Game {
         if (this.champion != null) {
             this.challenger = challenger;
             console.log(`new fight: ${this.champion} & ${this.challenger}`)
-        }
-        else {
+        } else {
             console.log("no champion, challener becomes champion");
             this.champion = challenger;
         }
@@ -58,9 +66,11 @@ export class Game {
 }
 
 export class Champion {
+    id: number;
     name: string;
     status: Logic.Stats;
-    constructor(name: string, status: Logic.Stats) {
+    constructor(id: number, name: string, status: Logic.Stats) {
+        this.id = id;
         this.name = name;
         this.status = status
     }

@@ -1,10 +1,15 @@
+/// <reference path="game.ts" />
+
 namespace Logic {
     export interface Stats {
         health: number;
     }
-    export function handleNewChallenger(canvas: HTMLCanvasElement, challenger: Game.Champion) {
+    export function handleNewChallenger(canvas: HTMLCanvasElement, id: number, name: string, bits: number) {
+        let challenger = new Game.Champion(id, name, {health: bits})
+    
         console.log(`new challenger: ${challenger}`);
         console.log(challenger);
+        return challenger;
     }
     export function handleNewFight(canvas: HTMLCanvasElement, queue: Game.Champion[]) {
         let champion = queue.pop();
