@@ -10,5 +10,8 @@
     "url": "git+https://github.com/maxwellburson/opera-event-test.git"
   },
   "author": "",
-  "homepage": "https://github.com/maxwellburson/opera-event-test#readme"
+  "homepage": "https://github.com/maxwellburson/opera-event-test#readme",
+  "dependencies": {
+    //"typescript-collections": "^1.2.3"
+  }
 }
