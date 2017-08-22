@@ -1,3 +1,5 @@
+/// <reference path="logic.ts" />
+
 namespace Game {
 
 export class Game {
@@ -29,9 +31,10 @@ export class Game {
             console.error("no challenger picked");
             return ;
         }
-        console.log(`new fight: ${challenger}\n`)
-        if (this.champion != null)
+        if (this.champion != null) {
             this.challenger = challenger;
+            console.log(`new fight: ${this.champion} & ${this.challenger}`)
+        }
         else {
             console.log("no champion, challener becomes champion");
             this.champion = challenger;
@@ -54,18 +57,14 @@ export class Game {
 
 export class Champion {
     name: string;
-    status: Status;
-    constructor(name: string, status: Status) {
+    status: Logic.Stats;
+    constructor(name: string, status: Logic.Stats) {
         this.name = name;
         this.status = status
     }
     toString() {
         return this.name;
     }
-}
-
-export interface Status {
-    health: number;
 }
 
 }
