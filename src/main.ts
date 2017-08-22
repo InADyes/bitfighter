@@ -7,7 +7,8 @@ window.onload = function() {
     let gameTickButton = document.getElementById("tick-fight");
     let nameInputNode = <HTMLInputElement>document.getElementById("challenger-name");
     let statInputNode = <HTMLInputElement>document.getElementById("challenger-stat");
-    if (newChallengerButton == null || newFightButton == null || gameTickButton == null || nameInputNode == null || statInputNode == null) {
+    let arenaCanvas = <HTMLCanvasElement>document.getElementById("arena");
+    if (newChallengerButton == null || newFightButton == null || gameTickButton == null || nameInputNode == null || statInputNode == null || arenaCanvas == null) {
         console.error("missing DOM hook");
         return;
     }
@@ -25,6 +26,7 @@ window.onload = function() {
 
     //todo: need to hook into canvas or graphics here eventually
     let game = new Game.Game(
+        arenaCanvas,
         Logic.handleNewChallenger,
         Logic.handleNewFight,
         Logic.handleTickFight

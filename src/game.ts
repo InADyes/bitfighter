@@ -3,22 +3,25 @@
 namespace Game {
 
 export class Game {
+    canvas: HTMLCanvasElement;
     challenger: Champion | null;
     champion: Champion | null;
     queue: Champion[] = [];
-    handleNewChallenger: (challenger: Champion) => void;
-    handleNewFight: (queue: Champion[]) => Champion | null;
-    handleTickFight: (chamption: Champion, challenger: Champion) => void;
+    handleNewChallenger: (canvas: HTMLCanvasElement, challenger: Champion) => void;
+    handleNewFight: (canvas: HTMLCanvasElement, queue: Champion[]) => Champion | null;
+    handleTickFight: (canvas: HTMLCanvasElement, chamption: Champion, challenger: Champion) => void;
     constructor(
-        handleNewChallenger: (challenger: Champion) => void,
-        handleNewFight: (queue: Champion[]) => Champion | null,
-        handleTickFight: (chamption: Champion, challenger: Champion) => void) {
-            this.handleNewChallenger = handleNewChallenger;
-            this.handleNewFight = handleNewFight;
-            this.handleTickFight = handleTickFight;
-        }
+        canvas: HTMLCanvasElement,
+        handleNewChallenger: (canvas: HTMLCanvasElement, challenger: Champion) => void,
+        handleNewFight: (canvas: HTMLCanvasElement, queue: Champion[]) => Champion | null,
+        handleTickFight: (canvas: HTMLCanvasElement, chamption: Champion, challenger: Champion) => void) {
+        this.canvas = canvas;
+        this.handleNewChallenger = handleNewChallenger;
+        this.handleNewFight = handleNewFight;
+        this.handleTickFight = handleTickFight;
+    }
     newChallenger(challenger: Champion) {
-        this.handleNewChallenger(challenger);
+        this.handleNewChallenger(this.canvas, challenger);
         this.queue.push(challenger);
     }
     newFight() {
@@ -26,7 +29,7 @@ export class Game {
             console.error(`new fight error, challenger already exists: ${this.challenger}`)
             return;
         }
-        let challenger = this.handleNewFight(this.queue)
+        let challenger = this.handleNewFight(this.canvas, this.queue)
         if (challenger == null) {
             console.error("no challenger picked");
             return ;
@@ -50,7 +53,7 @@ export class Game {
             console.error("cannot tick fight, missing champion");
             return ;
         }
-        this.handleTickFight(this.champion, this.challenger);
+        this.handleTickFight(this.canvas, this.champion, this.challenger);
     }
 }
 
