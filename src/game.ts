@@ -2,33 +2,54 @@
 
 namespace Game {
 
-type newChallengerFunc = (canvas: HTMLCanvasElement, id: number, name: string, bits: number) => Champion;
+type newDonationFunc = (canvas: HTMLCanvasElement, id: number, name: string, bits: number) => Champion;
 type newFightFunc = (canvas: HTMLCanvasElement, queue: Champion[]) => Champion | null;
 type newTickFunc = (canvas: HTMLCanvasElement, chamption: Champion, challenger: Champion) => void;
+type additionalDonationFunc = (canvas: HTMLCanvasElement, champion: Champion, bits: number) => void;
+
+function findChamp(champs: Champion[], id: number) {
+    for (let i = 0; i < champs.length; i++) {
+        if (champs[i].id == id)
+            return champs[i];
+    }
+    return null;
+}
 
 export class Game {
     canvas: HTMLCanvasElement;
     challenger: Champion | null;
     champion: Champion | null;
     queue: Champion[] = [];
-    handleNewChallenger: newChallengerFunc;
+    handleNewDonation: newDonationFunc;
+    handleLineDonation: additionalDonationFunc;
+    handleBattleDonation: additionalDonationFunc;
     handleNewFight: newFightFunc;
     handleTickFight: newTickFunc;
     constructor(
         canvas: HTMLCanvasElement,
-        handleNewChallenger: newChallengerFunc,
+        handleNewDonation: newDonationFunc,
+        handleLineDonation: additionalDonationFunc,
+        handleBattleDonation: additionalDonationFunc,
         handleNewFight: newFightFunc,
         handleTickFight: newTickFunc) {
         this.canvas = canvas;
-        this.handleNewChallenger = handleNewChallenger;
+        this.handleNewDonation = handleNewDonation;
+        this.handleLineDonation = handleLineDonation;
+        this.handleBattleDonation = handleBattleDonation;
         this.handleNewFight = handleNewFight;
         this.handleTickFight = handleTickFight;
     }
     newDonation(id: number, name: string, bits: number) {
-        if (false) {
-
+        let champ: Champion | null;
+    
+        if (this.champion != null && this.champion.id == id) {
+            this.handleBattleDonation(this.canvas, this.champion, bits);
+        } else if (this.challenger != null && this.challenger.id == id) {
+            this.handleBattleDonation(this.canvas, this.challenger, bits);
+        } else if ((champ = findChamp(this.queue, id)) != null) {
+            this.handleLineDonation(this.canvas, champ, bits);
         } else {
-            let challenger = this.handleNewChallenger(this.canvas, id, name, bits);
+            let challenger = this.handleNewDonation(this.canvas, id, name, bits);
             this.queue.push(challenger);
         }
 

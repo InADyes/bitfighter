@@ -20,4 +20,8 @@ namespace Logic {
     export function handleTickFight(canvas: HTMLCanvasElement, champion: Game.Champion, challenger: Game.Champion) {
         console.log("fight tick");
     }
+    export function boostChamp(canvas: HTMLCanvasElement, champ: Game.Champion, bits: number) {
+        console.log(`increasing ${champ}'s health by ${bits}`);
+        champ.status.health += bits;
+    }
 }

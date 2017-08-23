@@ -33,6 +33,8 @@ window.onload = function() {
     let game = new Game.Game(
         arenaCanvas,
         Logic.handleNewChallenger,
+        Logic.boostChamp,
+        Logic.boostChamp,
         Logic.handleNewFight,
         Logic.handleTickFight
     );
