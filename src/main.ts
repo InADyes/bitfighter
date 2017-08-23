@@ -1,5 +1,6 @@
 /// <reference path="game.ts" />
 /// <reference path="logic.ts" />
+/// <reference path="animate.ts" />
 
 window.onload = function() {
     let newDonationButton = document.getElementById("new-donation");
@@ -38,4 +39,9 @@ window.onload = function() {
         Logic.handleNewFight,
         Logic.handleTickFight
     );
+    function animateLoop() {
+        Animate.tickCanvas(game);
+        window.requestAnimationFrame(animateLoop);
+    }
+    animateLoop();
 };

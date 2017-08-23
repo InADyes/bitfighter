@@ -16,6 +16,7 @@ function findChamp(champs: Champion[], id: number) {
 }
 
 export class Game {
+    counter: number = 0;
     canvas: HTMLCanvasElement;
     challenger: Champion | null;
     champion: Champion | null;
