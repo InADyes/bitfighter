@@ -11,6 +11,7 @@ class Game extends GameTemplate {
             window.setTimeout(this.newChallenger.bind(this), 4000);
             window.setTimeout(this.tick.bind(this), 6000);
         }
+        tickCanvas(this, this.canvas);
     }
     tickFight() {
         //fight logic to go here
@@ -22,7 +23,9 @@ class Game extends GameTemplate {
         console.log("fight tick");
         //needs to be cleaned up and stuff
         if (this.champion.status.power / (this.champion.status.power + this.challenger.status.power) >= Math.random() ) {
-
+            this.champion.status.health -= 35;
+        } else {
+            this.challenger.status.health -= 35;
         }
 
         console.log(`champion health: ${this.champion.status.health}`);

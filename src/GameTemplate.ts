@@ -3,6 +3,11 @@ class GameTemplate {
     champion: Champion | null = null;
     queue: Champion[] = [];
     graveyard: Champion[] = [];
+    canvas: HTMLCanvasElement;
+
+    constructor(canvas: HTMLCanvasElement) {
+        this.canvas = canvas;
+    }
 
     searchQueue(id: number) {
         for (let champ of this.queue) {
