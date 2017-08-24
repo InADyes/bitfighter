@@ -23,13 +23,13 @@ ctx.clearRect(0, 0, canvas.height, canvas.width);
 //  var time = 1;
 //  var delayMillis = 100;
 var champCharac = new Image();
-
+var challenCharac = new Image();
 var champicon = new Image();
 var challenicon = new Image();
 //  var img3 = new Image();
 // var img
 champCharac.src = "images/champion_alpha.png";
-
+challenCharac.src = "images/champion_alpha.png";
 
 //img2.src = "images/soilder1-1.jpg";
 // img3.src = "images/soilder1-2.jpg";
@@ -38,10 +38,20 @@ champCharac.src = "images/champion_alpha.png";
 //ctx.rotate()
 if (game.champion != null)
     {
+        
+        champCharac.onload = function(){
+            if (ctx == null)
+                return;
+            ctx.drawImage(champCharac, 0, 300, 100, 200);
+        }
         champicon.src = game.champion.icon;
-
-        ctx.drawImage(champCharac, 0, 300, 100, 200);
-        ctx.drawImage(champicon, 0, 250, 50,50);
+        
+        champicon.onload = function(){
+            if (ctx == null)
+                return;
+            ctx.drawImage(champicon, 0, 250, 50,50);
+        }
+        
 
         ctx.beginPath();
         ctx.strokeStyle = "red";
@@ -61,9 +71,19 @@ if (game.champion != null)
 //ctx.save();
 if (game.challenger != null)
     {
+        challenCharac.onload = function(){
+            if (ctx == null)
+                return;
+            ctx.drawImage(challenCharac, 600, 300, 100, 200);
+        }
+        
         challenicon.src = game.challenger.icon;
-        ctx.drawImage(champCharac, 600, 300, 100, 200);
-        ctx.drawImage(challenicon, 600, 250, 50, 50);
+        challenicon.onload = function(){
+            if (ctx == null)
+                return;
+            ctx.drawImage(challenicon, 600, 250, 50, 50);
+        }
+        
         //ctx.restore();
         //ctx.restore();
         
