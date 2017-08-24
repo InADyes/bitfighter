@@ -21,8 +21,12 @@ class Game extends GameTemplate {
 
         console.log("fight tick");
         //needs to be cleaned up and stuff
-        this.challenger.status.health -= Math.random() * this.champion.status.power;
-        this.champion.status.health -= Math.random() * this.challenger.status.power;
+        let challengerRoll = Math.random() * this.champion.status.power;
+        let championRoll =  Math.random() * this.challenger.status.power;
+        if (challengerRoll > championRoll) {
+
+        }
+
         console.log(`champion health: ${this.champion.status.health}`);
         console.log(`challenger health: ${this.challenger.status.health}`);
         if (this.challenger.status.health <= 0) {
@@ -59,8 +63,10 @@ class Game extends GameTemplate {
         if (this.champion != null && this.champion.id == donation.id) {
             //chapion donation
             this.champion.status.power += donation.amount;
+            this.champion.status.health += donation.amount;
         } else if (this.challenger != null && this.challenger.id == donation.id) {
             //challenger donation
+            this.challenger.status.power += donation.amount;
             this.challenger.status.power += donation.amount;
         } else if ((champ = this.searchQueue(donation.id)) != null) {
             //queue donation
@@ -70,6 +76,7 @@ class Game extends GameTemplate {
             this.queue.push(new Champion(
                 donation.id,
                 donation.name,
+                "images/icon.png",
                 {
                     health: 100,
                     power: donation.amount,
