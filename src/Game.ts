@@ -11,6 +11,8 @@ class Game extends GameTemplate {
             window.setTimeout(this.newChallenger.bind(this), 4000);
             window.setTimeout(this.tick.bind(this), 6000);
         }
+        console.log("new render:");
+        console.log(this);
         tickCanvas(this, this.canvas);
     }
     tickFight() {
