@@ -44,6 +44,13 @@ class Game extends GameTemplate {
             this.champion = this.challenger;
             this.challenger = null;
         }
+        //post battle heal
+        if (this.champion) {
+            this.champion.status.health += this.champion.status.heal;
+            if (this.champion.status.health > 100)
+                this.champion.status.health = 100;
+            
+        }
     }
     newChallenger() {
         let champ = this.queue.pop();
@@ -60,17 +67,19 @@ class Game extends GameTemplate {
         console.log("new challenger");
         console.log(this);
     }
-    donate(donation: {id: number, name: string, amount: number}) {
+    donate(donation: {id: number, name: string, amount: number, art: number}) {
         let champ: Champion | null;
     
         if (this.champion != null && this.champion.id == donation.id) {
             //chapion donation
             this.champion.status.power += donation.amount;
             this.champion.status.health += donation.amount;
+            tickCanvas(this, this.canvas);
         } else if (this.challenger != null && this.challenger.id == donation.id) {
             //challenger donation
             this.challenger.status.power += donation.amount;
-            this.challenger.status.power += donation.amount;
+            this.challenger.status.health += donation.amount;
+            tickCanvas(this, this.canvas);
         } else if ((champ = this.searchQueue(donation.id)) != null) {
             //queue donation
             champ.status.power += donation.amount;
