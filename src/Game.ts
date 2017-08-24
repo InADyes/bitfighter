@@ -21,9 +21,7 @@ class Game extends GameTemplate {
 
         console.log("fight tick");
         //needs to be cleaned up and stuff
-        let challengerRoll = Math.random() * this.champion.status.power;
-        let championRoll =  Math.random() * this.challenger.status.power;
-        if (challengerRoll > championRoll) {
+        if (this.champion.status.power / (this.champion.status.power + this.challenger.status.power) >= Math.random() ) {
 
         }
 
