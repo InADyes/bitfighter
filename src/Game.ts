@@ -6,22 +6,39 @@ class Game extends GameTemplate {
         //all game timing goes here
         if (this.champion && this.challenger) {
             this.tickFight();
-            window.setTimeout(this.tick.bind(this), 3000);
+            window.setTimeout(this.tick.bind(this), 2000);
         } else {
-            window.setTimeout(this.newChallenger.bind(this), 9000);
-            window.setTimeout(this.tick.bind(this), 12000);
+            window.setTimeout(this.newChallenger.bind(this), 4000);
+            window.setTimeout(this.tick.bind(this), 6000);
         }
     }
     tickFight() {
-        console.log("fight tick");
         //fight logic to go here
+        if (this.champion == null || this.challenger == null) {
+            console.log("tickFight: missing champion(s)")
+            return;
+        }
+
+        console.log("fight tick");
+        //needs to be cleaned up and stuff
+        this.challenger.status.health -= Math.random() * this.champion.status.power;
+        this.champion.status.health -= Math.random() * this.challenger.status.power;
+        console.log(`champion health: ${this.champion.status.health}`);
+        console.log(`challenger health: ${this.challenger.status.health}`);
+        if (this.challenger.status.health <= 0) {
+            this.graveyard.push(this.challenger);
+            this.challenger = null;
+        }
+        if (this.champion.status.health <= 0) {
+            this.graveyard.push(this.champion);
+            this.champion = null;
+        }
+        if (this.champion == null && this.challenger) {
+            this.champion = this.challenger;
+            this.challenger = null;
+        }
     }
     newChallenger() {
-        // if (this.queue == undefined) {
-        //     console.log("no champions in queue");
-        //     return;
-        // }
-
         let champ = this.queue.pop();
 
         if (champ == undefined) {
