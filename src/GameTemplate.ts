@@ -1,21 +1,23 @@
-function findChamp(champs: Champion[], id: number) {
-    for (let i = 0; i < champs.length; i++) {
-        if (champs[i].id == id)
-            return champs[i];
-    }
-    return null;
-}
-
 class GameTemplate {
     challenger: Champion | null = null;
     champion: Champion | null = null;
     queue: Champion[] = [];
+    graveyard: Champion[] = [];
+
+    searchQueue(id: number) {
+        for (let champ of this.queue) {
+            if (champ.id == id)
+                return champ;
+        }
+        return null;
+    }
 }
 
 class Champion {
     id: number;
     name: string;
     status: Stats;
+    icon: string;
     constructor(id: number, name: string, status: Stats) {
         this.id = id;
         this.name = name;

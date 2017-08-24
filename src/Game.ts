@@ -1,79 +1,67 @@
+/// <reference path="GameTemplate.ts" />
+
 class Game extends GameTemplate {
-    donation(donation: {id: number, name: string, amount: number}) {
-
-    }
-    message(message: {id: number, name: string, message: string}) {
-        
-    }
-}
-
-
-
-    
-
-    export function handleNewChallenger(canvas: HTMLCanvasElement, id: number, name: string, bits: number) {
-        let challenger = new Game.Champion(id, name, {health: bits})
-    
-        console.log(`new challenger: ${challenger}`);
-        console.log(challenger);
-        return challenger;
-    }
-    export function handleNewFight(canvas: HTMLCanvasElement, queue: Game.Champion[]) {
-        let champion = queue.pop();
-        if (champion == undefined)
-            return null;
-        return champion;
-    }
-    export function handleTickFight(canvas: HTMLCanvasElement, champion: Game.Champion, challenger: Game.Champion) {
-        console.log("fight tick");
-    }
-    export function boostChamp(canvas: HTMLCanvasElement, champ: Game.Champion, bits: number) {
-        console.log(`increasing ${champ}'s health by ${bits}`);
-        champ.status.health += bits;
+    //either moves somone from the queue to the arena or ticks the arena
+    tick() {
+        //all game timing goes here
+        if (this.champion && this.challenger) {
+            this.tickFight();
+            window.setTimeout(this.tick.bind(this), 3000);
+        } else {
+            window.setTimeout(this.newChallenger.bind(this), 9000);
+            window.setTimeout(this.tick.bind(this), 12000);
+        }
     }
     tickFight() {
-        if (this.challenger == null) {
-            console.error("cannot tick fight, missing challenger");
-            return ;
-        }
-        if (this.champion == null) {
-            console.error("cannot tick fight, missing champion");
-            return ;
-        }
-        this.handleTickFight(this.canvas, this.champion, this.challenger);
+        console.log("fight tick");
+        //fight logic to go here
     }
-    newFight() {
-        if (this.challenger != null) {
-            console.error(`new fight error, challenger already exists: ${this.challenger}`)
+    newChallenger() {
+        // if (this.queue == undefined) {
+        //     console.log("no champions in queue");
+        //     return;
+        // }
+
+        let champ = this.queue.pop();
+
+        if (champ == undefined) {
+            console.log("no champions in queue");
             return;
         }
-        let challenger = this.handleNewFight(this.canvas, this.queue)
-        if (challenger == null) {
-            console.error("no challenger picked");
-            return ;
-        }
-        if (this.champion != null) {
-            this.challenger = challenger;
-            console.log(`new fight: ${this.champion} & ${this.challenger}`)
-        } else {
-            console.log("no champion, challener becomes champion");
-            this.champion = challenger;
-        }
 
+        if (this.champion == null)
+            this.champion = champ;
+        else
+            this.challenger = champ;
+        console.log("new challenger");
+        console.log(this);
     }
-    newDonation(id: number, name: string, bits: number) {
+    donate(donation: {id: number, name: string, amount: number}) {
         let champ: Champion | null;
     
-        if (this.champion != null && this.champion.id == id) {
-            this.handleBattleDonation(this.canvas, this.champion, bits);
-        } else if (this.challenger != null && this.challenger.id == id) {
-            this.handleBattleDonation(this.canvas, this.challenger, bits);
-        } else if ((champ = findChamp(this.queue, id)) != null) {
-            this.handleLineDonation(this.canvas, champ, bits);
+        if (this.champion != null && this.champion.id == donation.id) {
+            //chapion donation
+            this.champion.status.power += donation.amount;
+        } else if (this.challenger != null && this.challenger.id == donation.id) {
+            //challenger donation
+            this.challenger.status.power += donation.amount;
+        } else if ((champ = this.searchQueue(donation.id)) != null) {
+            //queue donation
+            champ.status.power += donation.amount;
         } else {
-            let challenger = this.handleNewDonation(this.canvas, id, name, bits);
-            this.queue.push(challenger);
+            //no current champion donation (new champion)
+            this.queue.push(new Champion(
+                donation.id,
+                donation.name,
+                {
+                    health: 100,
+                    power: donation.amount,
+                    heal: 30
+                }
+            ));
         }
-
+    }
+    message(message: {id: number, name: string, message: string}) {
+        console.log(`${name} message says: ${message}`);
     }
 }
