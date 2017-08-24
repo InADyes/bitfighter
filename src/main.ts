@@ -24,5 +24,11 @@ document.addEventListener("DOMContentLoaded", function(){
 
     //todo: need to hook into canvas or graphics here eventually
     let game = new Game();
-    game.tick();
+    //game.tick();
+    let game2 = new Game();
+    let champ = new Champion(10, "max", "images/icon.png",{health: 100, power: 10, heal: 10});
+    let challen = new Champion(10, "shawn", "images/icon.png",{health: 100, power: 10, heal: 10});
+    game2.challenger = challen;
+    game2.champion = champ;
+    tickCanvas(game2, arenaCanvas);
 });
