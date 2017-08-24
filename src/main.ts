@@ -30,5 +30,19 @@ document.addEventListener("DOMContentLoaded", function(){
     let challen = new Champion(10, "shawn", "images/icon.png",{health: 100, power: 10, heal: 10});
     game2.challenger = challen;
     game2.champion = champ;
-    tickCanvas(game2, arenaCanvas);
+    //tickCanvas(game2, arenaCanvas);
+    
+    let ctx = arenaCanvas.getContext("2d");
+    if (ctx == null) {
+        console.error("why is ctx null, wtf");
+        return;
+    } 
+    ctx.clearRect(0, 0, arenaCanvas.height, arenaCanvas.width);
+    var champCharac = new Image();
+    champCharac.onload = function(){
+        if (ctx == null)
+            return;
+        ctx.drawImage(champCharac, 0, 0);
+    }
+    champCharac.src = "images/champion_alpha.png";
 });
