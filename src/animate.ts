@@ -74,14 +74,14 @@ if (game.challenger != null)
         challenCharac.onload = function(){
             if (ctx == null)
                 return;
-            ctx.drawImage(challenCharac, 600, 300, 100, 200);
+            ctx.drawImage(challenCharac, 630, 300, 100, 200);
         }
         
         challenicon.src = game.challenger.icon;
         challenicon.onload = function(){
             if (ctx == null)
                 return;
-            ctx.drawImage(challenicon, 600, 250, 50, 50);
+            ctx.drawImage(challenicon, 630, 250, 50, 50);
         }
         
         //ctx.restore();
