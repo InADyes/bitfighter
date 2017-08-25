@@ -5,11 +5,11 @@ function DrawCharacter(champion: Champion, ctx: CanvasRenderingContext2D, x: num
     var champCharac = new Image();
     var challenCharac = new Image();
     var champicon = new Image();
-    champCharac.src = "images/champion_alpha.png";
+    champCharac.src = champion.art;
     champCharac.onload = function(){
         if (ctx == null)
             return;
-        ctx.drawImage(champCharac, x+20, y, 50, 100);
+        ctx.drawImage(champCharac, x+20, y, 100, 100);
     }
     champicon.src = champion.icon;
     
