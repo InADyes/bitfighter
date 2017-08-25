@@ -9,32 +9,32 @@ function DrawCharacter(champion: Champion, ctx: CanvasRenderingContext2D, x: num
     champCharac.onload = function(){
         if (ctx == null)
             return;
-        ctx.drawImage(champCharac, x, y, 50, 100);
+        ctx.drawImage(champCharac, x+20, y, 50, 100);
     }
     champicon.src = champion.icon;
     
     champicon.onload = function(){
         if (ctx == null)
             return;
-        ctx.drawImage(champicon, x, y+117, 30,30);
+        ctx.drawImage(champicon, x, y+122, 30,30);
     }
     
 
     ctx.beginPath();
     ctx.strokeStyle = "red";
     ctx.lineWidth = 5;
-    ctx.moveTo(x,y+110);
-    ctx.lineTo(10+champion.status.health, y+110);
+    ctx.moveTo(x,y+115);
+    ctx.lineTo(x+champion.status.health, y+115);
     ctx.stroke();
     
     ctx.font = "15px Arial";
-    ctx.fillText(champion.name, x+10,y+105);
+    ctx.fillText(champion.name, x+10,y+110);
 
     ctx.font ="10px Arial";
-    ctx.fillText("power: "+String(champion.status.power), x+30, y+132);
+    ctx.fillText("power: "+String(champion.status.power), x+30, y+137);
     
     ctx.font ="10px Arial";
-    ctx.fillText("heal: "+String(champion.status.heal), x+30, y+142);
+    ctx.fillText("heal: "+String(champion.status.heal), x+30, y+147);
     
 }
 
@@ -82,6 +82,12 @@ if (game.champion != null)
         DrawCharacter(game.champion, ctx, 10,10);
     }
 
+if (game.challenger != null)
+    {
+        DrawCharacter(game.challenger, ctx, 120,10);
+
+    }
+    console.log("zzzzzzz");
 //ctx.save();
 /*if (game.challenger != null)
     {
@@ -97,7 +103,7 @@ if (game.champion != null)
                 return;
             ctx.drawImage(challenicon, 530, 50, 50, 50);
         }
-        
+
         //ctx.restore();
         //ctx.restore();
         
