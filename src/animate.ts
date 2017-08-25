@@ -1,5 +1,46 @@
 /// <reference path="GameTemplate.ts" />
 
+function DrawCharacter(champion: Champion, ctx: CanvasRenderingContext2D, x: number, y:number)
+{
+    var champCharac = new Image();
+    var challenCharac = new Image();
+    var champicon = new Image();
+    champCharac.src = "images/champion_alpha.png";
+    champCharac.onload = function(){
+        if (ctx == null)
+            return;
+        ctx.drawImage(champCharac, x, y, 50, 100);
+    }
+    champicon.src = champion.icon;
+    
+    champicon.onload = function(){
+        if (ctx == null)
+            return;
+        ctx.drawImage(champicon, x, y+117, 30,30);
+    }
+    
+
+    ctx.beginPath();
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 5;
+    ctx.moveTo(x,y+110);
+    ctx.lineTo(10+champion.status.health, y+110);
+    ctx.stroke();
+    
+    ctx.font = "15px Arial";
+    ctx.fillText(champion.name, x+10,y+105);
+
+    ctx.font ="10px Arial";
+    ctx.fillText("power: "+String(champion.status.power), x+30, y+132);
+    
+    ctx.font ="10px Arial";
+    ctx.fillText("heal: "+String(champion.status.heal), x+30, y+142);
+    
+}
+
+
+
+
  function tickCanvas(game: Game, canvas: HTMLCanvasElement) {
 //     let ctx = game.canvas.getContext("2d");
 //     if (ctx == null) {
@@ -22,14 +63,14 @@ ctx.clearRect(0, 0, canvas.width, canvas.height);
 //game.counter++;
 //  var time = 1;
 //  var delayMillis = 100;
-var champCharac = new Image();
-var challenCharac = new Image();
-var champicon = new Image();
-var challenicon = new Image();
+
+//var challenCharac = new Image();
+
+//var challenicon = new Image();
 //  var img3 = new Image();
 // var img
-champCharac.src = "images/champion_alpha.png";
-challenCharac.src = "images/champion_alpha.png";
+
+//challenCharac.src = "images/champion_alpha.png";
 
 //img2.src = "images/soilder1-1.jpg";
 // img3.src = "images/soilder1-2.jpg";
@@ -38,50 +79,23 @@ challenCharac.src = "images/champion_alpha.png";
 //ctx.rotate()
 if (game.champion != null)
     {
-        
-        champCharac.onload = function(){
-            if (ctx == null)
-                return;
-            ctx.drawImage(champCharac, 0, 300, 100, 200);
-        }
-        champicon.src = game.champion.icon;
-        
-        champicon.onload = function(){
-            if (ctx == null)
-                return;
-            ctx.drawImage(champicon, 0, 250, 50,50);
-        }
-        
-
-        ctx.beginPath();
-        ctx.strokeStyle = "red";
-        ctx.lineWidth = 5;
-        ctx.moveTo(10,520);
-        ctx.lineTo(10+game.champion.status.health, 520);
-        ctx.stroke();
-
-        ctx.font ="15px Arial";
-        ctx.fillText("power: "+String(game.champion.status.power), 10, 535);
-        
-        ctx.font ="15px Arial";
-        ctx.fillText("heal: "+String(game.champion.status.heal), 10, 550);
-        
+        DrawCharacter(game.champion, ctx, 10,10);
     }
 
 //ctx.save();
-if (game.challenger != null)
+/*if (game.challenger != null)
     {
         challenCharac.onload = function(){
             if (ctx == null)
                 return;
-            ctx.drawImage(challenCharac, 630, 300, 100, 200);
+            ctx.drawImage(challenCharac, 530, 100, 100, 200);
         }
         
         challenicon.src = game.challenger.icon;
         challenicon.onload = function(){
             if (ctx == null)
                 return;
-            ctx.drawImage(challenicon, 630, 250, 50, 50);
+            ctx.drawImage(challenicon, 530, 50, 50, 50);
         }
         
         //ctx.restore();
@@ -90,17 +104,19 @@ if (game.challenger != null)
         
         ctx.strokeStyle = "red";
         ctx.lineWidth = 5;
-        ctx.moveTo(630,520);
-        ctx.lineTo(630+game.challenger.status.health, 520);
+        ctx.moveTo(530,320);
+        ctx.lineTo(530+game.challenger.status.health, 320);
         ctx.stroke();
         
-        ctx.font ="15px Arial";
-        ctx.fillText("power: "+String(game.challenger.status.power), 630, 535);
+        ctx.font = "25px Arial";
+        ctx.fillText(game.challenger.name, 565,305);
+        ctx.font ="10px Arial";
+        ctx.fillText("power: "+String(game.challenger.status.power), 530, 335);
         
-        ctx.font ="15px Arial";
-        ctx.fillText("heal: "+String(game.challenger.status.heal), 630, 550);
+        ctx.font ="10px Arial";
+        ctx.fillText("heal: "+String(game.challenger.status.heal), 530, 350);
        
-    }
+    }*/
 
 
 //  img1.width = 40;
