@@ -88,9 +88,9 @@ if (game.challenger != null)
 
     }
    // console.log("zzzzzzz");
-   var graveyardicon = new Image();
-   for (var i = 0; i < game.graveyard.length; i++)
+   for (let i = 0; i < game.graveyard.length; i++)
     {
+        let graveyardicon = new Image();
         graveyardicon.src = game.graveyard[i].icon;
         graveyardicon.onload = function(){
             if (ctx == null)

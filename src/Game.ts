@@ -1,5 +1,12 @@
 /// <reference path="GameTemplate.ts" />
 
+//this is real aweful
+function animateHealth(champ: Champion, hpChange: number, x: number, y: number) {
+    console.log("todo: animate health");
+    champ.status.health += hpChange;
+    //callback to check if one of them died goes here
+}
+
 class Game extends GameTemplate {
     //either moves somone from the queue to the arena or ticks the arena
     tick() {
