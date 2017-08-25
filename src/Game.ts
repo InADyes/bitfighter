@@ -43,6 +43,12 @@ class Game extends GameTemplate {
         if (this.champion == null && this.challenger) {
             this.champion = this.challenger;
             this.challenger = null;
+
+            //set the graveyard
+            let champ = this.graveyard.pop();
+            this.graveyard = [];
+            if (champ)
+                this.graveyard.push(champ);
         }
         //post battle heal
         if (this.champion && this.challenger == null) {
@@ -50,7 +56,7 @@ class Game extends GameTemplate {
         }
     }
     newChallenger() {
-        let champ = this.queue.pop();
+        let champ = this.queue.shift();
 
         if (champ == undefined) {
             console.log("no champions in queue");
