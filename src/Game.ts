@@ -14,9 +14,24 @@ function animateHealth(canvas: HTMLCanvasElement, champ: Champion, hpChange: num
         animateNegative(ctx, champ, -1 * hpChange, x, y);
 }
 
+function ShakeChampion(ctx: CanvasRenderingContext2D, x:number, y:number){
+    var shakeOne = new Image();
+    shakeOne.src = "icon.png";
+    shakeOne.onload = function(){
+        if (ctx == null)
+            return;
+        ctx.drawImage(shakeOne, x, y, 15, 15);
+        
+    }
+}
+
 function animateNegative(ctx: CanvasRenderingContext2D, champ: Champion, hpChange: number, x: number, y: number) {
     champ.status.health -= 1;
     drawHP(ctx, champ.status.health, x, y);
+    if (hpChange%2 == 0)
+        ShakeChampion(ctx, 103,20);
+    else
+        ShakeChampion(ctx,97,20);
     hpChange--;
     if (hpChange > 0)
         window.requestAnimationFrame(animateNegative.bind(null, ctx, champ, hpChange, x, y));
@@ -38,6 +53,7 @@ function drawHP(ctx: CanvasRenderingContext2D, hp: number, x: number, y: number)
     ctx.moveTo(x, y);
     ctx.lineTo(x + hp, y);
     ctx.stroke();
+
 }
 
 class Game extends GameTemplate {
