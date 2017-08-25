@@ -45,7 +45,7 @@ class Game extends GameTemplate {
             this.challenger = null;
         }
         //post battle heal
-        if (this.champion) {
+        if (this.champion && this.challenger == null) {
             this.champion.status.health += this.champion.status.heal;
             if (this.champion.status.health > 100)
                 this.champion.status.health = 100;
