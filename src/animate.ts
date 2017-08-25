@@ -23,12 +23,12 @@ function DrawCharacter(champion: Champion, ctx: CanvasRenderingContext2D, x: num
     ctx.beginPath();
     ctx.strokeStyle = "red";
     ctx.lineWidth = 5;
-    ctx.moveTo(x,y+115);
-    ctx.lineTo(x+champion.status.health, y+115);
+    ctx.moveTo(x,y+120);
+    ctx.lineTo(x+champion.status.health, y+120);
     ctx.stroke();
     
     ctx.font = "15px Arial";
-    ctx.fillText(champion.name, x+10,y+110);
+    ctx.fillText(champion.name, x+10,y+115);
 
     ctx.font ="10px Arial";
     ctx.fillText("power: "+String(champion.status.power), x+30, y+137);
@@ -79,25 +79,29 @@ ctx.clearRect(0, 0, canvas.width, canvas.height);
 //ctx.rotate()
 if (game.champion != null)
     {
-        DrawCharacter(game.champion, ctx, 40,10);
+        DrawCharacter(game.champion, ctx, 40,30);
     }
 
 if (game.challenger != null)
     {
-        DrawCharacter(game.challenger, ctx, 160,10);
+        DrawCharacter(game.challenger, ctx, 160,30);
 
     }
    // console.log("zzzzzzz");
-   var graveyardicon = new Image();
-   for (var i = 0; i < game.graveyard.length; i++)
+  
+   if (game.graveyard != null)
     {
-        graveyardicon.src = game.graveyard[i].icon;
-        graveyardicon.onload = function(){
-            if (ctx == null)
-                return;
-            ctx.drawImage(graveyardicon, 10, 10+i*21, 20,20);            
-        }
+        for (let i = 0; i < game.graveyard.length; i++)
+            {
+                let graveyardicon = new Image();
+                graveyardicon.src = game.graveyard[i].icon;
+                graveyardicon.onload = function(){
+                    if (ctx == null)
+                        return;
+                    ctx.drawImage(graveyardicon, 10, 10+i*21, 20,20);            
+                }
 
+            }
     }
 //ctx.save();
 /*if (game.challenger != null)
