@@ -25,9 +25,9 @@ class Game extends GameTemplate {
         console.log("fight tick");
         //needs to be cleaned up and stuff
         if (this.champion.status.power / (this.champion.status.power + this.challenger.status.power) >= Math.random() ) {
-            this.champion.status.health -= 35;
-        } else {
             this.challenger.status.health -= 35;
+        } else {
+            this.champion.status.health -= 35;
         }
 
         console.log(`champion health: ${this.champion.status.health}`);
@@ -46,10 +46,7 @@ class Game extends GameTemplate {
         }
         //post battle heal
         if (this.champion && this.challenger == null) {
-            this.champion.status.health += this.champion.status.heal;
-            if (this.champion.status.health > 100)
-                this.champion.status.health = 100;
-            
+            window.setTimeout(this.healChampion.bind(this), 2000);
         }
     }
     newChallenger() {
@@ -66,6 +63,14 @@ class Game extends GameTemplate {
             this.challenger = champ;
         console.log("new challenger");
         console.log(this);
+        tickCanvas(this, this.canvas);
+    }
+    healChampion() {
+        if (this.champion == null)
+            return;
+        this.champion.status.health += this.champion.status.heal;
+        if (this.champion.status.health > 100)
+            this.champion.status.health = 100;
     }
     donate(donation: {id: number, name: string, amount: number, art: number}) {
         let champ: Champion | null;
@@ -74,11 +79,15 @@ class Game extends GameTemplate {
             //chapion donation
             this.champion.status.power += donation.amount;
             this.champion.status.health += donation.amount;
+            if (this.champion.status.health > 100)
+                this.champion.status.health = 100;
             tickCanvas(this, this.canvas);
         } else if (this.challenger != null && this.challenger.id == donation.id) {
             //challenger donation
             this.challenger.status.power += donation.amount;
             this.challenger.status.health += donation.amount;
+            if (this.challenger.status.health > 100)
+                this.challenger.status.health = 100;
             tickCanvas(this, this.canvas);
         } else if ((champ = this.searchQueue(donation.id)) != null) {
             //queue donation
