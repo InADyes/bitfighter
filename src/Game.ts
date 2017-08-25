@@ -1,10 +1,43 @@
 /// <reference path="GameTemplate.ts" />
 
 //this is real aweful
-function animateHealth(champ: Champion, hpChange: number, x: number, y: number) {
+function animateHealth(canvas: HTMLCanvasElement, champ: Champion, hpChange: number, x: number, y: number) {
     console.log("todo: animate health");
-    champ.status.health += hpChange;
-    //callback to check if one of them died goes here
+    let ctx = canvas.getContext("2d");
+    if (ctx == null) {
+        console.error("why is ctx null, wtf");
+        return;
+    } 
+    if (hpChange > 0)
+        animatePositive(ctx, champ, hpChange, x, y);
+    else
+        animateNegative(ctx, champ, -1 * hpChange, x, y);
+}
+
+function animateNegative(ctx: CanvasRenderingContext2D, champ: Champion, hpChange: number, x: number, y: number) {
+    champ.status.health -= 1;
+    drawHP(ctx, champ.status.health, x, y);
+    hpChange--;
+    if (hpChange > 0)
+        window.requestAnimationFrame(animateNegative.bind(null, ctx, champ, hpChange, x, y));
+}
+
+function animatePositive(ctx: CanvasRenderingContext2D, champ: Champion, hpChange: number, x: number, y: number) {
+    champ.status.health += 1;
+    drawHP(ctx, champ.status.health, x, y);
+    hpChange--;
+    if (hpChange > 0)
+    window.requestAnimationFrame(animateNegative.bind(null, ctx, champ, hpChange, x, y));
+}
+
+function drawHP(ctx: CanvasRenderingContext2D, hp: number, x: number, y: number) {
+    ctx.clearRect(0, 0, 100, 5);
+    ctx.beginPath();
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 5;
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + hp, y);
+    ctx.stroke();
 }
 
 class Game extends GameTemplate {
@@ -32,9 +65,11 @@ class Game extends GameTemplate {
         console.log("fight tick");
         //needs to be cleaned up and stuff
         if (this.champion.status.power / (this.champion.status.power + this.challenger.status.power) >= Math.random() ) {
-            this.challenger.status.health -= 35;
+            animateHealth(this.canvas, this.challenger, -35, 0, 0);
+            //this.challenger.status.health -= 35;
         } else {
-            this.champion.status.health -= 35;
+            animateHealth(this.canvas, this.challenger, -35, 0, 10);
+            //this.champion.status.health -= 35;
         }
 
         console.log(`champion health: ${this.champion.status.health}`);
