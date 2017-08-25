@@ -23,11 +23,13 @@ class Champion {
     name: string;
     status: Stats;
     icon: string;
-    constructor(id: number, name: string, icon: string, status: Stats) {
+    art: string;
+    constructor(id: number, name: string, icon: string, status: Stats, art: string) {
         this.id = id;
         this.name = name;
         this.status = status;
         this.icon = icon;
+        this.art = art;
     }
     toString() {
         return this.name;
