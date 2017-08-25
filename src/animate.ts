@@ -79,15 +79,26 @@ ctx.clearRect(0, 0, canvas.width, canvas.height);
 //ctx.rotate()
 if (game.champion != null)
     {
-        DrawCharacter(game.champion, ctx, 10,10);
+        DrawCharacter(game.champion, ctx, 40,10);
     }
 
 if (game.challenger != null)
     {
-        DrawCharacter(game.challenger, ctx, 120,10);
+        DrawCharacter(game.challenger, ctx, 160,10);
 
     }
-    console.log("zzzzzzz");
+   // console.log("zzzzzzz");
+   var graveyardicon = new Image();
+   for (var i = 0; i < game.graveyard.length; i++)
+    {
+        graveyardicon.src = game.graveyard[i].icon;
+        graveyardicon.onload = function(){
+            if (ctx == null)
+                return;
+            ctx.drawImage(graveyardicon, 10, 10+i*21, 20,20);            
+        }
+
+    }
 //ctx.save();
 /*if (game.challenger != null)
     {
