@@ -1,7 +1,7 @@
 /// <reference path="GameTemplate.ts" />
 
 //this is real aweful
-function animateHealth(canvas: HTMLCanvasElement, champ: Champion, hpChange: number, x: number, y: number) {
+function animateHealth(canvas: HTMLCanvasElement, champ: Champion, hpChange: number, x: number, y: number, game: Game) {
     console.log("todo: animate health");
     let ctx = canvas.getContext("2d");
     if (ctx == null) {
@@ -11,23 +11,27 @@ function animateHealth(canvas: HTMLCanvasElement, champ: Champion, hpChange: num
     if (hpChange > 0)
         animatePositive(ctx, champ, hpChange, x, y);
     else
-        animateNegative(ctx, champ, -1 * hpChange, x, y);
+        animateNegative(ctx, champ, -1 * hpChange, x, y, game);
 }
 
-function animateNegative(ctx: CanvasRenderingContext2D, champ: Champion, hpChange: number, x: number, y: number) {
+function animateNegative(ctx: CanvasRenderingContext2D, champ: Champion, hpChange: number, x: number, y: number, game: Game) {
+    console.log("hpchange: ", hpChange);
     champ.status.health -= 1;
     drawHP(ctx, champ.status.health, x, y);
     hpChange--;
     if (hpChange > 0)
-        window.requestAnimationFrame(animateNegative.bind(null, ctx, champ, hpChange, x, y));
+        window.requestAnimationFrame(animateNegative.bind(null, ctx, champ, hpChange, x, y, game));
+    else
+        window.setTimeout(game.checkDeath.bind(game), 1000);
 }
 
 function animatePositive(ctx: CanvasRenderingContext2D, champ: Champion, hpChange: number, x: number, y: number) {
+    console.log("hpchange: ", hpChange);
     champ.status.health += 1;
     drawHP(ctx, champ.status.health, x, y);
     hpChange--;
     if (hpChange > 0)
-    window.requestAnimationFrame(animateNegative.bind(null, ctx, champ, hpChange, x, y));
+        window.requestAnimationFrame(animatePositive.bind(null, ctx, champ, hpChange, x, y));
 }
 
 function drawHP(ctx: CanvasRenderingContext2D, hp: number, x: number, y: number) {
@@ -46,7 +50,6 @@ class Game extends GameTemplate {
         //all game timing goes here
         if (this.champion && this.challenger) {
             this.tickFight();
-            window.setTimeout(this.tick.bind(this), 2000);
         } else {
             window.setTimeout(this.newChallenger.bind(this), 4000);
             window.setTimeout(this.tick.bind(this), 6000);
@@ -65,22 +68,27 @@ class Game extends GameTemplate {
         console.log("fight tick");
         //needs to be cleaned up and stuff
         if (this.champion.status.power / (this.champion.status.power + this.challenger.status.power) >= Math.random() ) {
-            animateHealth(this.canvas, this.challenger, -35, 0, 0);
+            animateHealth(this.canvas, this.challenger, -35, 0, 0, this);
             //this.challenger.status.health -= 35;
         } else {
-            animateHealth(this.canvas, this.challenger, -35, 0, 10);
+            animateHealth(this.canvas, this.challenger, -35, 0, 10, this);
             //this.champion.status.health -= 35;
         }
-
-        console.log(`champion health: ${this.champion.status.health}`);
-        console.log(`challenger health: ${this.challenger.status.health}`);
-        if (this.challenger.status.health <= 0) {
-            this.graveyard.push(this.challenger);
-            this.challenger = null;
+    }
+    checkDeath() {
+        if (this.champion) {
+            console.log(`champion health: ${this.champion.status.health}`);
+            if (this.champion.status.health <= 0) {
+                this.graveyard.push(this.champion);
+                this.champion = null;
+            }
         }
-        if (this.champion.status.health <= 0) {
-            this.graveyard.push(this.champion);
-            this.champion = null;
+        if (this.challenger) {
+            console.log(`challenger health: ${this.challenger.status.health}`);
+            if (this.challenger.status.health <= 0) {
+                this.graveyard.push(this.challenger);
+                this.challenger = null;
+            }
         }
         if (this.champion == null && this.challenger) {
             this.champion = this.challenger;
@@ -94,8 +102,10 @@ class Game extends GameTemplate {
         }
         //post battle heal
         if (this.champion && this.challenger == null) {
-            window.setTimeout(this.healChampion.bind(this), 2000);
+            //window.setTimeout(this.healChampion.bind(this), 2000);
+            animateHealth(this.canvas, this.champion, this.champion.status.heal, 0, 40, this);
         }
+        window.setTimeout(this.tick.bind(this), 2000);
     }
     newChallenger() {
         let champ = this.queue.shift();
@@ -153,6 +163,7 @@ class Game extends GameTemplate {
                 }
             ));
         }
+        
     }
     message(message: {id: number, name: string, message: string}) {
         console.log(`${name} message says: ${message}`);
