@@ -15,7 +15,6 @@ function animateHealth(canvas: HTMLCanvasElement, champ: Champion, hpChange: num
 }
 
 function animateNegative(ctx: CanvasRenderingContext2D, champ: Champion, hpChange: number, x: number, y: number, game: Game) {
-    console.log("hpchange: ", hpChange);
     champ.status.health -= 1;
     hpChange--;
     drawHP(ctx, champ.status.health, x, y);
@@ -44,11 +43,20 @@ function drawHP(ctx: CanvasRenderingContext2D, hp: number, x: number, y: number)
     ctx.stroke();
 }
 
-let spriteArt = [ 'images/animation/Axe/Axe.png',
-                'images/animation/BBall/BBall.png',
-                'images/animation/Katana/Katana.png',
-                'images/animation/Orc/Orc.png',
-                'images/animation/Wizard/Wizard.png'];
+let spriteArt = [
+    'images/animation/champion_alpha.png',
+    'images/animation/Axe/Axe.png',
+    'images/animation/Katana/Katana.png',
+    'images/animation/Orc/Orc.png',
+    'images/animation/Wizard/Wizard.png'
+];
+
+let iconArt = [
+    'images/icons/cherries.png',
+    'images/icons/banana.png',
+    'images/icons/lime-icon.png',
+    'images/icons/orange-icon.png'
+];
 
 class Game extends GameTemplate {
     //either moves somone from the queue to the arena or ticks the arena
@@ -159,13 +167,13 @@ class Game extends GameTemplate {
             this.queue.push(new Champion(
                 donation.id,
                 donation.name,
-                "images/icon.png",
+                iconArt[Math.floor((iconArt.length * Math.random()))],
                 {
                     health: 100,
                     power: donation.amount,
                     heal: 30
                 },
-                spriteArt[donation.art % 5]
+                spriteArt[(donation.art - 1) % 5]
             ));
         }
         
