@@ -9,3 +9,6 @@
 
 # visual studio code settings
 /.vscode
+
+# macos
+.DS_Store
