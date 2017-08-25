@@ -46,7 +46,7 @@ function DrawCharacter(champion: Champion, ctx: CanvasRenderingContext2D, x: num
 //     if (ctx == null) {
 //         console.error("why is ctx null, wtf");
 //         return;
-//     }
+//     } 
 //     ctx.clearRect(0, 0, game.canvas.height, game.canvas.width);
 //     ctx.font = "30px Arial";
 //     ctx.fillText(String(game.counter), 10, 50);
