@@ -18,6 +18,16 @@ function animateNegative(ctx: CanvasRenderingContext2D, champ: Champion, hpChang
     console.log("hpchange: ", hpChange);
     champ.status.health -= 1;
     hpChange--;
+    ctx.clearRect(x,y-120, x+75, y-50);
+    var chamshake = new Image();
+    
+    chamshake.src = champ.art;
+
+    if(hpChange%2 != 0)
+        ctx.drawImage(chamshake, x+15,y-120,100,100);
+    else
+        ctx.drawImage(chamshake, x+20,y-120,100,100);
+    //ctx.drawImage()
     drawHP(ctx, champ.status.health, x, y);
     if (hpChange > 0 && champ.status.health > 0)
         window.requestAnimationFrame(animateNegative.bind(null, ctx, champ, hpChange, x, y, game));
