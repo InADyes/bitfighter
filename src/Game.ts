@@ -44,11 +44,11 @@ function drawHP(ctx: CanvasRenderingContext2D, hp: number, x: number, y: number)
     ctx.stroke();
 }
 
-let spriteArt = [ 'images/animation/Axe/axe.png',
-                'images/animation/Axe/BBall.png',
-                'images/animation/Axe/Katana.png',
-                'images/animation/Axe/Orc.png',
-                'images/animation/Axe/Wizard.png'];
+let spriteArt = [ 'images/animation/Axe/Axe.png',
+                'images/animation/BBall/BBall.png',
+                'images/animation/Katana/Katana.png',
+                'images/animation/Orc/Orc.png',
+                'images/animation/Wizard/Wizard.png'];
 
 class Game extends GameTemplate {
     //either moves somone from the queue to the arena or ticks the arena
