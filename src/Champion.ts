@@ -8,9 +8,13 @@ export class Champion extends Actor{
     private icon: string;
     private art: string;
     private stats: {
-        hp: number;
-        power: number;
-        regeneration: number;
+            hp: number;
+            att: number;
+            def: number;
+            as: number;
+            dmg: number;
+            armr: number;
+            rgn: number;
     };
     private healthBar: HealthBar;
     private oponent: Champion | null;
@@ -22,8 +26,12 @@ export class Champion extends Actor{
         art: string,
         stats: {
             hp: number;
-            power: number;
-            regeneration: number;
+            att: number;
+            def: number;
+            attspd: number;
+            dmg: number;
+            armr: number;
+            rgn: number;
         }
     ) {
         super();
