@@ -1,6 +1,8 @@
 /// <reference path='Actor.ts' />
 /// <reference path='Champion.ts' />
 
+namespace Game {
+
 // function animateHealth(canvas: HTMLCanvasElement, champ: Champion, hpChange: number, x: number, y: number, game: Game) {
 //     console.log("todo: animate health");
 //     let ctx = canvas.getContext("2d");
@@ -15,7 +17,7 @@
 // }
 
 // function animateNegative(ctx: CanvasRenderingContext2D, champ: Champion, hpChange: number, x: number, y: number, game: Game) {
-//     champ.status.health -= 1;
+//     champ.health -= 1;
 //     hpChange--;
 //     ctx.clearRect(x,y-120, x+75, y-50);
 //     var chamshake = new Image();
@@ -27,8 +29,8 @@
 //     else
 //         ctx.drawImage(chamshake, x+20,y-120,100,100);
 //     //ctx.drawImage()
-//     drawHP(ctx, champ.status.health, x, y);
-//     if (hpChange > 0 && champ.status.health > 0)
+//     drawHP(ctx, champ.health, x, y);
+//     if (hpChange > 0 && champ.health > 0)
 //         window.requestAnimationFrame(animateNegative.bind(null, ctx, champ, hpChange, x, y, game));
 //     else
 //         window.setTimeout(game.checkDeath.bind(game), 1000);
@@ -36,10 +38,10 @@
 
 // function animatePositive(ctx: CanvasRenderingContext2D, champ: Champion, hpChange: number, x: number, y: number) {
 //     console.log("hpchange: ", hpChange);
-//     champ.status.health += 1;
+//     champ.health += 1;
 //     hpChange++;
-//     drawHP(ctx, champ.status.health, x, y);
-//     if (hpChange > 0 && champ.status.health < 100)
+//     drawHP(ctx, champ.health, x, y);
+//     if (hpChange > 0 && champ.health < 100)
 //         window.requestAnimationFrame(animatePositive.bind(null, ctx, champ, hpChange, x, y));
 // }
 
@@ -108,15 +110,15 @@ class Game extends Actor {
     }
     // checkDeath() {
     //     if (this.champion) {
-    //         console.log(`champion health: ${this.champion.status.health}`);
-    //         if (this.champion.status.health <= 0) {
+    //         console.log(`champion health: ${this.champion.health}`);
+    //         if (this.champion.health <= 0) {
     //             this.graveyard.push(this.champion);
     //             this.champion = null;
     //         }
     //     }
     //     if (this.challenger) {
-    //         console.log(`challenger health: ${this.challenger.status.health}`);
-    //         if (this.challenger.status.health <= 0) {
+    //         console.log(`challenger health: ${this.challenger.health}`);
+    //         if (this.challenger.health <= 0) {
     //             this.graveyard.push(this.challenger);
     //             this.challenger = null;
     //         }
@@ -154,19 +156,19 @@ class Game extends Actor {
         console.log(this);
     }
     public donate(donation: {id: number, name: string, amount: number, art: number}) {
-        let champ: Champion | null;
+        let champ: Champion.Champion | null;
     
         if (this.champion != null && this.champion.id == donation.id) {
             //chapion donation
-            this.champion.status.power += donation.amount;
-            this.champion.status.health += donation.amount;
+            this.champion.power += donation.amount;
+            this.champion.health += donation.amount;
         } else if (this.challenger != null && this.challenger.id == donation.id) {
             //challenger donation
-            this.challenger.status.power += donation.amount;
-            this.challenger.status.health += donation.amount;
+            this.challenger.power += donation.amount;
+            this.challenger.health += donation.amount;
         } else if ((champ = this.searchQueue(donation.id)) != null) {
             //queue donation
-            champ.status.power += donation.amount;
+            champ.power += donation.amount;
         } else {
             //no current champion donation (new champion)
             this.queue.push(new Champion(
@@ -183,4 +185,6 @@ class Game extends Actor {
         }
         
     }
+}
+
 }
