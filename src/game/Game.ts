@@ -72,15 +72,14 @@ let iconArt = [
 
 class Game {
     private challenger: Champion.Champion | null = null;
-    private champion: Champion | null = null;
-    private queue: Champion[] = [];
-    private graveyard: Champion[] = [];
+    private champion: Champion.Champion | null = null;
+    private queue: Champion.Champion[] = [];
+    private graveyard: Champion.Champion[] = [];
     private frontCtx: CanvasRenderingContext2D;
     private backCtx: CanvasRenderingContext2D;
     private lastTimestamp: number;
 
     constructor(front: HTMLCanvasElement, back: HTMLCanvasElement) {
-        super();
         let frontCtx = front.getContext('2d');
         let backCtx = front.getContext('2d');
         if (frontCtx == null || backCtx == null) {
@@ -94,7 +93,7 @@ class Game {
 
     private searchQueue(id: number) {
         for (let champ of this.queue) {
-            if (champ.id == id)
+            if (champ.getID() == id)
                 return champ;
         }
         return null;
