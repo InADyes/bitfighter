@@ -12,8 +12,10 @@ export class Champion extends Actor{
         power: number;
         regeneration: number;
     };
+    private healthBar: HealthBar;
     private oponent: Champion | null;
     constructor(
+        ctx: CanvasRenderingContext2D,
         id: number,
         name: string,
         icon: string,
@@ -25,11 +27,13 @@ export class Champion extends Actor{
         }
     ) {
         super();
+        this.ctx = ctx;
         this.id = id;
         this.name = name;
         this.icon = icon;
         this.art = art;
         this.stats = stats;
+        this.healthBar = new HealthBar(ctx, {x: 0, y: 0});
     }
     toString() {
         return this.name;
@@ -42,6 +46,26 @@ export class Champion extends Actor{
     }
     protected draw(vector: {x: number, y: number}) {
 
+    }
+}
+
+class HealthBar extends Actor {
+    private ctx: CanvasRenderingContext2D;
+    private pos: {x: number, y: number};
+    private targetHealth: number;
+    private displayedRed: number;
+    private displayedYellow: number;
+    constructor(ctx: CanvasRenderingContext2D, pos: {x: number, y: number}) {
+        super();
+        this.ctx = ctx;
+        this.pos = pos;
+        this.targetHealth = 1000;
+        this.displayedRed = 1000;
+        this.displayedYellow = 1000;
+    }
+    protected draw(vector: {x: number, y: number}) {
+    }
+    public tick(timeDelta: number) {
     }
 }
 
