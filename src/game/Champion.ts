@@ -1,12 +1,10 @@
 namespace Champion {
 
 export class Champion extends Actor{
-    private ctx: CanvasRenderingContext2D;
-    private pos: {x: number, y: number};
     private id: number;
     private name: string;
     private icon: string;
-    private art: string;
+    private sprite: string;
     private stats: {
             hp: number;
             att: number;
@@ -17,13 +15,14 @@ export class Champion extends Actor{
             rgn: number;
     };
     private healthBar: HealthBar;
-    private oponent: Champion | null;
+    private opponent: Champion | null;
     constructor(
         ctx: CanvasRenderingContext2D,
+        pos: {x: number, y: number},
         id: number,
         name: string,
         icon: string,
-        art: string,
+        sprite: string,
         stats: {
             hp: number;
             att: number;
@@ -34,12 +33,11 @@ export class Champion extends Actor{
             rgn: number;
         }
     ) {
-        super();
-        this.ctx = ctx;
+        super(ctx, pos);
         this.id = id;
         this.name = name;
         this.icon = icon;
-        this.art = art;
+        this.sprite = sprite;
         this.stats = stats;
         this.healthBar = new HealthBar(ctx, {x: 0, y: 0});
     }
@@ -47,33 +45,39 @@ export class Champion extends Actor{
         return this.name;
     }
     public setOpponent(opponent: Champion | null) {
+        this.opponent = opponent;
     }
-    
     public tick(timeDelta: number) {
-
+        this.draw();
+        this.healthBar.tick(timeDelta);
     }
-    protected draw(vector: {x: number, y: number}) {
-
+    protected draw() {
+    }
+    public donate(amount: number) {
+    }
+    public getID() {
+        return this.id;
+    }
+    public setPosition(pos: {x: number, y: number}) {
+        this.pos = pos;
     }
 }
 
 class HealthBar extends Actor {
-    private ctx: CanvasRenderingContext2D;
-    private pos: {x: number, y: number};
     private targetHealth: number;
-    private displayedRed: number;
     private displayedYellow: number;
     constructor(ctx: CanvasRenderingContext2D, pos: {x: number, y: number}) {
-        super();
-        this.ctx = ctx;
-        this.pos = pos;
+        super(ctx, pos);
         this.targetHealth = 1000;
-        this.displayedRed = 1000;
         this.displayedYellow = 1000;
     }
-    protected draw(vector: {x: number, y: number}) {
+    protected draw() {
     }
     public tick(timeDelta: number) {
+        this.draw();
+    }
+    public setHealth(health: number) {
+        this.targetHealth = health;
     }
 }
 

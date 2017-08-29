@@ -1,4 +1,4 @@
-/// <reference path='Game.ts' />
+/// <reference path='game/Game.ts' />
 
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -24,6 +24,6 @@ document.addEventListener("DOMContentLoaded", function(){
         game.donate({id, name, amount, art});
     });
 
-    let game = new Game(arenaFront, arenaBack);
+    let game = new Game.Game(arenaFront, arenaBack);
     game.tick(performance.now());
 });
