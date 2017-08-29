@@ -48,25 +48,31 @@ export class Champion extends Actor{
     protected draw(vector: {x: number, y: number}) {
 
     }
+    public donate(amount: number) {
+    }
+    public getID() {
+        return this.id;
+    }
 }
 
 class HealthBar extends Actor {
     private ctx: CanvasRenderingContext2D;
     private pos: {x: number, y: number};
     private targetHealth: number;
-    private displayedRed: number;
     private displayedYellow: number;
     constructor(ctx: CanvasRenderingContext2D, pos: {x: number, y: number}) {
         super();
         this.ctx = ctx;
         this.pos = pos;
         this.targetHealth = 1000;
-        this.displayedRed = 1000;
         this.displayedYellow = 1000;
     }
     protected draw(vector: {x: number, y: number}) {
     }
     public tick(timeDelta: number) {
+    }
+    public setHealth(health: number) {
+        this.targetHealth = health;
     }
 }
 
