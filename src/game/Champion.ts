@@ -9,10 +9,10 @@ export class Champion extends Actor{
             hp: number;
             att: number;
             def: number;
-            as: number;
+            attspd: number;
             dmg: number;
             armr: number;
-            rgn: number;
+            regen: number;
     };
     private healthBar: HealthBar;
     private opponent: Champion | null;
@@ -30,7 +30,7 @@ export class Champion extends Actor{
             attspd: number;
             dmg: number;
             armr: number;
-            rgn: number;
+            regen: number;
         }
     ) {
         super(ctx, pos);
