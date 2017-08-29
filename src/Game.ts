@@ -70,8 +70,8 @@ let iconArt = [
     'images/icons/orange-icon.png'
 ];
 
-class Game extends Actor {
-    private challenger: Champion | null = null;
+class Game {
+    private challenger: Champion.Champion | null = null;
     private champion: Champion | null = null;
     private queue: Champion[] = [];
     private graveyard: Champion[] = [];
@@ -101,7 +101,7 @@ class Game extends Actor {
     }
     //either moves somone from the queue to the arena or ticks the arena
     public tick(timeDelta: number) {
-        this.draw({x: 0, y: 0});
+        this.draw();
         window.requestAnimationFrame((timestamp) => {
             let delta = timestamp - this.lastTimestamp;
             this.lastTimestamp = timestamp;

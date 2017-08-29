@@ -1,8 +1,6 @@
 namespace Champion {
 
 export class Champion extends Actor{
-    private ctx: CanvasRenderingContext2D;
-    private pos: {x: number, y: number};
     private id: number;
     private name: string;
     private icon: string;
@@ -16,6 +14,7 @@ export class Champion extends Actor{
     private opponent: Champion | null;
     constructor(
         ctx: CanvasRenderingContext2D,
+        pos: {x: number, y: number},
         id: number,
         name: string,
         icon: string,
@@ -26,8 +25,7 @@ export class Champion extends Actor{
             regeneration: number;
         }
     ) {
-        super();
-        this.ctx = ctx;
+        super(ctx, pos);
         this.id = id;
         this.name = name;
         this.icon = icon;
@@ -42,10 +40,10 @@ export class Champion extends Actor{
         this.opponent = opponent;
     }
     public tick(timeDelta: number) {
-        this.draw(this.pos);
+        this.draw();
         this.healthBar.tick(timeDelta);
     }
-    protected draw(vector: {x: number, y: number}) {
+    protected draw() {
     }
     public donate(amount: number) {
     }
@@ -55,20 +53,17 @@ export class Champion extends Actor{
 }
 
 class HealthBar extends Actor {
-    private ctx: CanvasRenderingContext2D;
-    private pos: {x: number, y: number};
     private targetHealth: number;
     private displayedYellow: number;
     constructor(ctx: CanvasRenderingContext2D, pos: {x: number, y: number}) {
-        super();
-        this.ctx = ctx;
-        this.pos = pos;
+        super(ctx, pos);
         this.targetHealth = 1000;
         this.displayedYellow = 1000;
     }
-    protected draw(vector: {x: number, y: number}) {
+    protected draw() {
     }
     public tick(timeDelta: number) {
+        this.draw();
     }
     public setHealth(health: number) {
         this.targetHealth = health;
