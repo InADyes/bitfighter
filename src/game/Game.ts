@@ -70,7 +70,7 @@ let iconArt = [
     'images/icons/orange-icon.png'
 ];
 
-class Game {
+export class Game {
     private challenger: Champion.Champion | null = null;
     private champion: Champion.Champion | null = null;
     private queue: Champion.Champion[] = [];
@@ -100,7 +100,10 @@ class Game {
     }
     //either moves somone from the queue to the arena or ticks the arena
     public tick(timeDelta: number) {
-        this.draw();
+        if (this.champion)
+            this.champion.tick(timeDelta);
+        if (this.challenger)
+            this.challenger.tick(timeDelta);
         window.requestAnimationFrame((timestamp) => {
             let delta = timestamp - this.lastTimestamp;
             this.lastTimestamp = timestamp;
@@ -157,29 +160,26 @@ class Game {
     public donate(donation: {id: number, name: string, amount: number, art: number}) {
         let champ: Champion.Champion | null;
 
-        if (this.champion != null && this.champion.id == donation.id) {
-            //chapion donation
-            this.champion.power += donation.amount;
-            this.champion.health += donation.amount;
-        } else if (this.challenger != null && this.challenger.id == donation.id) {
-            //challenger donation
-            this.challenger.power += donation.amount;
-            this.challenger.health += donation.amount;
-        } else if ((champ = this.searchQueue(donation.id)) != null) {
-            //queue donation
-            champ.power += donation.amount;
-        } else {
-            //no current champion donation (new champion)
-            this.queue.push(new Champion(
+        if (this.champion != null && this.champion.getID() == donation.id) {
+            this.champion.donate(donation.amount);
+        } else if (this.challenger != null && this.challenger.getID() == donation.id)
+            this.challenger.donate(donation.amount);
+        else if ((champ = this.searchQueue(donation.id)) != null)
+            champ.donate(donation.amount)
+        else {
+            //replace with logic in seperate place
+            this.queue.push(new Champion.Champion(
+                this.frontCtx,
+                {x: 0, y: 0},
                 donation.id,
                 donation.name,
                 iconArt[Math.floor((iconArt.length * Math.random()))],
+                spriteArt[(donation.art - 1) % 5],
                 {
-                    health: 100,
+                    hp: 100,
                     power: donation.amount,
-                    heal: 30
-                },
-                spriteArt[(donation.art - 1) % 5]
+                    regeneration: 30
+                }
             ));
         }
         

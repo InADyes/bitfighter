@@ -4,7 +4,7 @@ export class Champion extends Actor{
     private id: number;
     private name: string;
     private icon: string;
-    private art: string;
+    private sprite: string;
     private stats: {
         hp: number;
         power: number;
@@ -18,7 +18,7 @@ export class Champion extends Actor{
         id: number,
         name: string,
         icon: string,
-        art: string,
+        sprite: string,
         stats: {
             hp: number;
             power: number;
@@ -29,7 +29,7 @@ export class Champion extends Actor{
         this.id = id;
         this.name = name;
         this.icon = icon;
-        this.art = art;
+        this.sprite = sprite;
         this.stats = stats;
         this.healthBar = new HealthBar(ctx, {x: 0, y: 0});
     }
@@ -49,6 +49,9 @@ export class Champion extends Actor{
     }
     public getID() {
         return this.id;
+    }
+    public setPosition(pos: {x: number, y: number}) {
+        this.pos = pos;
     }
 }
 
