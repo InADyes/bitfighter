@@ -4,7 +4,7 @@
 *.log
 
 # compiled
-/lib/index.js
+*.js
 *.map
 
 # visual studio code settings
