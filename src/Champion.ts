@@ -13,7 +13,7 @@ export class Champion extends Actor{
         regeneration: number;
     };
     private healthBar: HealthBar;
-    private oponent: Champion | null;
+    private opponent: Champion | null;
     constructor(
         ctx: CanvasRenderingContext2D,
         id: number,
@@ -39,6 +39,7 @@ export class Champion extends Actor{
         return this.name;
     }
     public setOpponent(opponent: Champion | null) {
+        this.opponent = opponent;
     }
     
     public tick(timeDelta: number) {
