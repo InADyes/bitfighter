@@ -157,7 +157,7 @@ class Game extends Actor {
     }
     public donate(donation: {id: number, name: string, amount: number, art: number}) {
         let champ: Champion.Champion | null;
-    
+
         if (this.champion != null && this.champion.id == donation.id) {
             //chapion donation
             this.champion.power += donation.amount;
