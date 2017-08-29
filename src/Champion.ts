@@ -41,12 +41,11 @@ export class Champion extends Actor{
     public setOpponent(opponent: Champion | null) {
         this.opponent = opponent;
     }
-    
     public tick(timeDelta: number) {
-
+        this.draw(this.pos);
+        this.healthBar.tick(timeDelta);
     }
     protected draw(vector: {x: number, y: number}) {
-
     }
     public donate(amount: number) {
     }
