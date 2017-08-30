@@ -110,12 +110,12 @@ export class Combatant extends Actor{
             this.opponent.stats.hp = this.opponent.stats.hp - damage;
             this.opponent.healthBar.setHealth(this.opponent.stats.hp);
             this.opponent.healthBar.draw()
-            console.log(this.opponent.name + " " + this.opponent.id + " Has taken " damage + "! :(")
+            console.log(this.opponent.name + " " + this.opponent.id + " Has taken " +damage + "! :(");
         }
         if (this.opponent.stats.hp <= 0){
             this.opponent.stats.hp = 0;
             this.opponent.healthBar.setHealth(0);
-            console.log(this. opponent.name + " " + this.opponent.id + " Has been slain! Their body lies motionless on the floor... ;-;")
+            console.log(this. opponent.name + " " + this.opponent.id + " Has been slain! Their body lies motionless on the floor... ;-;");
         }
     }
     public isDead(){
