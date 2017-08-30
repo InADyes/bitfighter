@@ -64,21 +64,21 @@ export class Champion extends Actor{
 }
 
 class HealthBar extends Actor {
-    private targetHealth: number;
-    private displayedYellow: number;
-    constructor(ctx: CanvasRenderingContext2D, pos: {x: number, y: number}) {
-        super(ctx, pos);
-        this.targetHealth = 1000;
-        this.displayedYellow = 1000;
-    }
+    private targetHealth: number = 1000;
+    private displayedYellow: number = 1000;
+
+    private static yellowBarFollowRate: number = 3000; //per millesecond
+    private static healthToPixels: number = 10; //health units per pixel
+    private static height: number = 5; //health bar height
+
     protected draw() {
         this.ctx.fillStyle = 'red';
-        this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.displayedYellow / 10), 5);
-        this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.targetHealth / 10), 5);
+        this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.displayedYellow / HealthBar.healthToPixels), HealthBar.height);
+        this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.targetHealth / HealthBar.healthToPixels), HealthBar.height);
     }
     public tick(timeDelta: number) {
         if (this.targetHealth < this.displayedYellow) {
-            this.displayedYellow -= timeDelta * 3000000;
+            this.displayedYellow -= timeDelta / HealthBar.yellowBarFollowRate;
             if (this.targetHealth > this.displayedYellow)
                 this.displayedYellow = this.targetHealth;
         }
