@@ -201,7 +201,7 @@ export class Game {
                     hp: 1000,
                     att: donation.amount,
                     def: donation.amount,
-                    attspd: 2,
+                    attspd: 2000,
                     dmg: 50,
                     armr: 25,
                     regen: 200,

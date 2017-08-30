@@ -6,8 +6,8 @@ export class Combatant extends Actor{
     private icon: string;
     private spriteUrl: string;
     private spriteImage = new Image();
-    private attCD: number;
-    private dmgChk: boolean;
+    private attCD = 0;
+    private dmgChk = false;
     private stats: {
             hp: number;
             att: number;
@@ -53,15 +53,19 @@ export class Combatant extends Actor{
         this.opponent = opponent;
     }
     public tick(timeDelta: number) {
-        this.attCD = this.attCD + timeDelta;
-        if (this.attCD >= this.stats.attspd){
-            this.toHit();
-            this.attCD = this.attCD - this.stats.attspd;
+        if (this.opponent) {
+            this.attCD = this.attCD + timeDelta;
+            if (this.attCD >= this.stats.attspd){
+                this.toHit();
+                this.attCD = this.attCD - this.stats.attspd;
+            }
+            if (this.dmgChk == true){
+                this.dmgRoll();
+                this.dmgChk = false;
+            }
         }
-        if (this.dmgChk == true){
-            this.dmgRoll();
-            this.dmgChk = false;
-        }
+        else
+            this.attCD = 0;
         this.healthBar.tick(timeDelta);
     }
     public draw() {
