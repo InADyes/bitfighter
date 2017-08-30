@@ -144,6 +144,7 @@ export class Game {
             if (this.challenger) {
                 this.graveyard = [this.champion];
                 this.champion = this.challenger;
+                this.champion.setPosition(Game.championLocation);
                 this.challenger = null;
                 this.updateOpponants();
             } else {
