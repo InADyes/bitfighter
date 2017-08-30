@@ -1,4 +1,4 @@
-/// <reference path='game/Game.ts' />
+/// <reference path='Game.ts' />
 
 
 document.addEventListener("DOMContentLoaded", function(){

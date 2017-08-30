@@ -16,7 +16,6 @@
 //             return;
 //         ctx.drawImage(champicon, x, y+122, 30,30);
 //     }
-    
 
 //     ctx.beginPath();
 //     ctx.strokeStyle = "red";

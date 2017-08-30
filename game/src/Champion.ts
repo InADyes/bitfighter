@@ -72,8 +72,16 @@ class HealthBar extends Actor {
         this.displayedYellow = 1000;
     }
     protected draw() {
+        this.ctx.fillStyle = 'red';
+        this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.displayedYellow / 10), 5);
+        this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.targetHealth / 10), 5);
     }
     public tick(timeDelta: number) {
+        if (this.targetHealth < this.displayedYellow) {
+            this.displayedYellow -= timeDelta * 3000000;
+            if (this.targetHealth > this.displayedYellow)
+                this.displayedYellow = this.targetHealth;
+        }
         this.draw();
     }
     public setHealth(health: number) {
