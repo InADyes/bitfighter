@@ -92,8 +92,13 @@ export class Combatant extends Actor{
             return;
         total = this.stats.att + this.opponent.stats.def;
         roll = Math.ceil(Math.random() * total);
-        if (roll <= this.stats.att)
+        if (roll <= this.stats.att){
+            console.log(this.name + " " + this.id + " Has hit! =D")
             this.dmgChk = true;
+        }
+        if (roll > this.stats.att){
+            console.log(this.name + " " + this.id + " Missed the attack! Yikes!!! >_<")
+        }
         return;
     }
     protected dmgRoll(){
@@ -104,10 +109,12 @@ export class Combatant extends Actor{
         if (damage > 0){
             this.opponent.stats.hp = this.opponent.stats.hp - damage;
             this.opponent.healthBar.setHealth(this.opponent.stats.hp);
+            console.log(this.opponent.name + " " + this.opponent.id + " Has taken " damage + "! :(")
         }
         if (this.opponent.stats.hp <= 0){
             this.opponent.stats.hp = 0;
             this.opponent.healthBar.setHealth(0);
+            console.log(this. opponent.name + " " + this.opponent.id + " Has been slain! Their body lies motionless on the floor... ;-;")
         }
     }
     public isDead(){
