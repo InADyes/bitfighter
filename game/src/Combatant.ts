@@ -18,6 +18,7 @@ export class Combatant extends Actor{
             regen: number;
     };
     private healthBar: HealthBar;
+    private static healthBarOffset = {x: 0, y: 100};
     private opponent: Combatant | null;
     constructor(
         ctx: CanvasRenderingContext2D,
@@ -43,7 +44,7 @@ export class Combatant extends Actor{
         this.spriteUrl = sprite;
         this.spriteImage.src = this.spriteUrl;
         this.stats = stats;
-        this.healthBar = new HealthBar(ctx, {x: pos.x, y: pos.y + 100});
+        this.healthBar = new HealthBar(ctx, {x: pos.x + Combatant.healthBarOffset.x, y: pos.y + Combatant.healthBarOffset.y});
     }
     toString() {
         return this.name;
@@ -78,7 +79,7 @@ export class Combatant extends Actor{
     }
     public setPosition(pos: {x: number, y: number}) {
         this.pos = pos;
-        this.healthBar.setPosition({x: pos.x, y: pos.y + 100});
+        this.healthBar.setPosition({x: pos.x + Combatant.healthBarOffset.x, y: pos.y + Combatant.healthBarOffset.y});
     }
     protected toHit(){
         let total:      number;
