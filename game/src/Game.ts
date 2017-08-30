@@ -79,6 +79,7 @@ export class Game {
     private graveyard: Combatant.Combatant[] = [];
     private frontCtx: CanvasRenderingContext2D;
     private backCtx: CanvasRenderingContext2D;
+    private canvasSize: {x: number, y: number};
     private lastTimestamp: number = performance.now();
 
     private static fightTimeout: number = 3000; // how long between fights in milliseconds
@@ -96,6 +97,7 @@ export class Game {
 
         this.frontCtx = frontCtx;
         this.backCtx = backCtx;
+        this.canvasSize = {x: front.width, y: front.height};
     }
 
     private searchQueue(id: number) {
@@ -109,6 +111,7 @@ export class Game {
     public tick(timeDelta: number) {
         //console.log('timedelta:', timeDelta);
         this.checkDeath();
+        this.frontCtx.clearRect(0, 0, this.canvasSize.x, this.canvasSize.y);
         if (this.champion) {
             this.champion.tick(timeDelta);
             this.champion.draw();
