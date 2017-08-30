@@ -56,7 +56,7 @@ namespace Game {
 // }
 
 let spriteArt = [
-    'images/animation/Combatant_alpha.png',
+    'images/animation/champion_alpha.png',
     'images/animation/Axe/Axe.png',
     'images/animation/Katana/Katana.png',
     'images/animation/Orc/Orc.png',

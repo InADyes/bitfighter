@@ -4,7 +4,8 @@ export class Combatant extends Actor{
     private id: number;
     private name: string;
     private icon: string;
-    private sprite: string;
+    private spriteUrl: string;
+    private spriteImage = new Image();
     private attCD: number;
     private dmgChk: boolean;
     private stats: {
@@ -39,9 +40,10 @@ export class Combatant extends Actor{
         this.id = id;
         this.name = name;
         this.icon = icon;
-        this.sprite = sprite;
+        this.spriteUrl = sprite;
+        this.spriteImage.src = this.spriteUrl;
         this.stats = stats;
-        this.healthBar = new HealthBar(ctx, {x: 0, y: 0});
+        this.healthBar = new HealthBar(ctx, {x: pos.x, y: pos.y + 100});
     }
     toString() {
         return this.name;
@@ -63,7 +65,7 @@ export class Combatant extends Actor{
         this.healthBar.tick(timeDelta);
     }
     protected draw() {
-        
+        this.ctx.drawImage(this.spriteImage, this.pos.x, this.pos.y);
     }
     public donate(amount: number) {
     }
@@ -72,6 +74,7 @@ export class Combatant extends Actor{
     }
     public setPosition(pos: {x: number, y: number}) {
         this.pos = pos;
+        this.healthBar.setPosition({x: pos.x, y: pos.y + 100});
     }
     protected toHit(){
         let total:      number;

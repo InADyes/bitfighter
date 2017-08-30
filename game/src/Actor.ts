@@ -4,6 +4,9 @@ abstract class Actor {
     protected pos: {x: number, y: number};
     protected abstract draw(): void;
     public abstract tick(timeDelta: number): void;
+    public setPosition(pos: {x: number, y: number}) {
+        this.pos = pos;
+    }
     constructor(ctx: CanvasRenderingContext2D, pos: {x: number, y: number}) {
         this.ctx = ctx;
         this.pos = pos;
