@@ -1,15 +1,15 @@
-// function DrawCharacter(champion: Champion, ctx: CanvasRenderingContext2D, x: number, y:number)
+// function DrawCharacter(Combatant: Combatant, ctx: CanvasRenderingContext2D, x: number, y:number)
 // {
 //     var champCharac = new Image();
 //     var challenCharac = new Image();
 //     var champicon = new Image();
-//     champCharac.src = champion.art;
+//     champCharac.src = Combatant.art;
 //     champCharac.onload = function(){
 //         if (ctx == null)
 //             return;
 //         ctx.drawImage(champCharac, x+20, y, 100, 100);
 //     }
-//     champicon.src = champion.icon;
+//     champicon.src = Combatant.icon;
     
 //     champicon.onload = function(){
 //         if (ctx == null)
@@ -21,17 +21,17 @@
 //     ctx.strokeStyle = "red";
 //     ctx.lineWidth = 5;
 //     ctx.moveTo(x,y+120);
-//     ctx.lineTo(x+champion.status.health, y+120);
+//     ctx.lineTo(x+Combatant.status.health, y+120);
 //     ctx.stroke();
     
 //     ctx.font = "15px Arial";
-//     ctx.fillText(champion.name, x+10,y+115);
+//     ctx.fillText(Combatant.name, x+10,y+115);
 
 //     ctx.font ="10px Arial";
-//     ctx.fillText("power: "+String(champion.status.power), x+30, y+137);
+//     ctx.fillText("power: "+String(Combatant.status.power), x+30, y+137);
     
 //     ctx.font ="10px Arial";
-//     ctx.fillText("heal: "+String(champion.status.heal), x+30, y+147);
+//     ctx.fillText("heal: "+String(Combatant.status.heal), x+30, y+147);
     
 // }
 
@@ -67,16 +67,16 @@
 // //  var img3 = new Image();
 // // var img
 
-// //challenCharac.src = "images/champion_alpha.png";
+// //challenCharac.src = "images/Combatant_alpha.png";
 
 // //img2.src = "images/soilder1-1.jpg";
 // // img3.src = "images/soilder1-2.jpg";
 // //ctx.save();
 // //var time = new Date();
 // //ctx.rotate()
-// if (game.champion != null)
+// if (game.Combatant != null)
 //     {
-//         DrawCharacter(game.champion, ctx, 40,30);
+//         DrawCharacter(game.Combatant, ctx, 40,30);
 //     }
 
 // if (game.challenger != null)

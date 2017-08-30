@@ -1,9 +1,9 @@
 /// <reference path='Actor.ts' />
-/// <reference path='Champion.ts' />
+/// <reference path='Combatant.ts' />
 
 namespace Game {
 
-// function animateHealth(canvas: HTMLCanvasElement, champ: Champion, hpChange: number, x: number, y: number, game: Game) {
+// function animateHealth(canvas: HTMLCanvasElement, champ: Combatant, hpChange: number, x: number, y: number, game: Game) {
 //     console.log("todo: animate health");
 //     let ctx = canvas.getContext("2d");
 //     if (ctx == null) {
@@ -16,7 +16,7 @@ namespace Game {
 //         animateNegative(ctx, champ, -1 * hpChange, x, y, game);
 // }
 
-// function animateNegative(ctx: CanvasRenderingContext2D, champ: Champion, hpChange: number, x: number, y: number, game: Game) {
+// function animateNegative(ctx: CanvasRenderingContext2D, champ: Combatant, hpChange: number, x: number, y: number, game: Game) {
 //     champ.health -= 1;
 //     hpChange--;
 //     ctx.clearRect(x,y-120, x+75, y-50);
@@ -36,7 +36,7 @@ namespace Game {
 //         window.setTimeout(game.checkDeath.bind(game), 1000);
 // }
 
-// function animatePositive(ctx: CanvasRenderingContext2D, champ: Champion, hpChange: number, x: number, y: number) {
+// function animatePositive(ctx: CanvasRenderingContext2D, champ: Combatant, hpChange: number, x: number, y: number) {
 //     console.log("hpchange: ", hpChange);
 //     champ.health += 1;
 //     hpChange++;
@@ -56,7 +56,7 @@ namespace Game {
 // }
 
 let spriteArt = [
-    'images/animation/champion_alpha.png',
+    'images/animation/Combatant_alpha.png',
     'images/animation/Axe/Axe.png',
     'images/animation/Katana/Katana.png',
     'images/animation/Orc/Orc.png',
@@ -71,10 +71,10 @@ let iconArt = [
 ];
 
 export class Game {
-    private challenger: Champion.Champion | null = null;
-    private champion: Champion.Champion | null = null;
-    private queue: Champion.Champion[] = [];
-    private graveyard: Champion.Champion[] = [];
+    private challenger: Combatant.Combatant | null = null;
+    private champion: Combatant.Combatant | null = null;
+    private queue: Combatant.Combatant[] = [];
+    private graveyard: Combatant.Combatant[] = [];
     private frontCtx: CanvasRenderingContext2D;
     private backCtx: CanvasRenderingContext2D;
     private lastTimestamp: number;
@@ -112,7 +112,7 @@ export class Game {
     }
     // checkDeath() {
     //     if (this.champion) {
-    //         console.log(`champion health: ${this.champion.health}`);
+    //         console.log(`Combatant health: ${this.champion.health}`);
     //         if (this.champion.health <= 0) {
     //             this.graveyard.push(this.champion);
     //             this.champion = null;
@@ -138,7 +138,7 @@ export class Game {
     //     tickCanvas(this, this.canvas);
     //     //post battle heal
     //     if (this.champion && this.challenger == null) {
-    //         window.setTimeout(this.healChampion.bind(this), 2000);
+    //         window.setTimeout(this.healCombatant.bind(this), 2000);
     //     }
     //     window.setTimeout(this.tick.bind(this), 4000);
     // }
@@ -146,7 +146,7 @@ export class Game {
         let champ = this.queue.shift();
 
         if (champ == undefined) {
-            console.log("no champions in queue");
+            console.log("no Combatants in queue");
             return;
         }
 
@@ -158,7 +158,7 @@ export class Game {
         console.log(this);
     }
     public donate(donation: {id: number, name: string, amount: number, art: number}) {
-        let champ: Champion.Champion | null;
+        let champ: Combatant.Combatant | null;
 
         if (this.champion != null && this.champion.getID() == donation.id) {
             this.champion.donate(donation.amount);
@@ -168,7 +168,7 @@ export class Game {
             champ.donate(donation.amount)
         else {
             //replace with logic in seperate place
-            this.queue.push(new Champion.Champion(
+            this.queue.push(new Combatant.Combatant(
                 this.frontCtx,
                 {x: 0, y: 0},
                 donation.id,

@@ -1,6 +1,6 @@
-namespace Champion {
+namespace Combatant {
 
-export class Champion extends Actor{
+export class Combatant extends Actor{
     private id: number;
     private name: string;
     private icon: string;
@@ -17,7 +17,7 @@ export class Champion extends Actor{
             regen: number;
     };
     private healthBar: HealthBar;
-    private opponent: Champion | null;
+    private opponent: Combatant | null;
     constructor(
         ctx: CanvasRenderingContext2D,
         pos: {x: number, y: number},
@@ -46,7 +46,7 @@ export class Champion extends Actor{
     toString() {
         return this.name;
     }
-    public setOpponent(opponent: Champion | null) {
+    public setOpponent(opponent: Combatant | null) {
         this.opponent = opponent;
     }
     public tick(timeDelta: number) {
