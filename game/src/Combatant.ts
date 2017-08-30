@@ -66,6 +66,10 @@ export class Combatant extends Actor{
         
     }
     public donate(amount: number) {
+        this.stats.att = this.stats.att + amount;
+        this.stats.def = this.stats.att + amount;
+        this.stats.hp = this.stats.hp + amount;
+        this.healthBar.setHealth(this.stats.hp)
     }
     public getID() {
         return this.id;
