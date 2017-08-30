@@ -110,11 +110,12 @@ export class Combatant extends Actor{
             this.opponent.stats.hp = this.opponent.stats.hp - damage;
             this.opponent.healthBar.setHealth(this.opponent.stats.hp);
             this.opponent.healthBar.draw()
-            console.log(this.opponent.name + " " + this.opponent.id + " Has taken " damage + "! :(")
+            console.log(this.opponent.name + " " + this.opponent.id + " Has taken " + damage + "! :(")
         }
         if (this.opponent.stats.hp <= 0){
             this.opponent.stats.hp = 0;
             this.opponent.healthBar.setHealth(0);
+            this.opponent.healthBar.draw()
             console.log(this. opponent.name + " " + this.opponent.id + " Has been slain! Their body lies motionless on the floor... ;-;")
         }
     }
@@ -134,8 +135,9 @@ class HealthBar extends Actor {
     private static height: number = 5; //health bar height
 
     public draw() {
-        this.ctx.fillStyle = 'red';
+        this.ctx.fillStyle = 'grey';
         this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.displayedYellow / HealthBar.healthToPixels), HealthBar.height);
+        this.ctx.fillStyle = 'red';
         this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.targetHealth / HealthBar.healthToPixels), HealthBar.height);
     }
     public tick(timeDelta: number) {
@@ -144,7 +146,6 @@ class HealthBar extends Actor {
             if (this.targetHealth > this.displayedYellow)
                 this.displayedYellow = this.targetHealth;
         }
-        this.draw();
     }
     public setHealth(health: number) {
         this.targetHealth = health;

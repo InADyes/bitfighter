@@ -199,11 +199,11 @@ export class Game {
                 iconArt[Math.floor((iconArt.length * Math.random()))],
                 spriteArt[(donation.art - 1) % 5],
                 {
-                    hp: 500,
+                    hp: 1000,
                     att: donation.amount,
                     def: donation.amount,
                     attspd: 2000,
-                    dmg: 75,
+                    dmg: 125,
                     armr: 25,
                     regen: 200,
                 }
