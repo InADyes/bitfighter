@@ -16,10 +16,11 @@ document.addEventListener("DOMContentLoaded", function(){
         switch(e.key) {
             case 'donation':
                 let str = e.newValue;
-                if (str == undefined)
+                if (str == undefined) {
+                    console.error('bad storage event value');
                     break;
-                let donation = JSON.parse(str);
-                game.donate(donation);
+                }
+                game.donate(JSON.parse(str));
                 break;
             default:
                 console.error('unidentified storage event');
