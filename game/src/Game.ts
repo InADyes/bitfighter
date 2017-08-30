@@ -109,11 +109,15 @@ export class Game {
     public tick(timeDelta: number) {
         //console.log('timedelta:', timeDelta);
         this.checkDeath();
-        if (this.champion)
+        if (this.champion) {
             this.champion.tick(timeDelta);
+            this.champion.draw();
+        }
 
-        if (this.challenger)
+        if (this.challenger) {
             this.challenger.tick(timeDelta);
+            this.challenger.draw();
+        }
         else {
             if (this.checkQueue <= 0) {
                 this.newChallenger();
@@ -131,12 +135,14 @@ export class Game {
         if (this.challenger && this.challenger.isDead()) {
             this.graveyard.push(this.challenger);
             this.challenger = null;
+            this.updateOpponants();
         }
         if (this.champion && this.champion.isDead()) {
             if (this.challenger) {
                 this.graveyard = [this.champion];
                 this.champion = this.challenger;
                 this.challenger = null;
+                this.updateOpponants();
             } else {
                 this.graveyard = [];
                 this.champion = null;
@@ -154,11 +160,21 @@ export class Game {
         if (this.champion == null) {
             champ.setPosition(Game.championLocation);
             this.champion = champ;
-        } else
+        } else {
             this.challenger = champ;
+            this.updateOpponants();
+        }
         this.checkQueue = Game.fightTimeout;
         console.log("new challenger");
         console.log(this);
+    }
+    updateOpponants() {
+        if (this.challenger) {
+            this.challenger.setOpponent(this.champion);
+        }
+        if (this.champion) {
+            this.champion.setOpponent(this.challenger);
+        }
     }
     public donate(donation: {id: number, name: string, amount: number, art: number}) {
         let champ: Combatant.Combatant | null;

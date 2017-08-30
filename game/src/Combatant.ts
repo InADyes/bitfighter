@@ -18,7 +18,7 @@ export class Combatant extends Actor{
             regen: number;
     };
     private healthBar: HealthBar;
-    private static healthBarOffset = {x: 0, y: 100};
+    private static healthBarOffset = {x: 0, y: 150};
     private opponent: Combatant | null;
     constructor(
         ctx: CanvasRenderingContext2D,
@@ -62,11 +62,11 @@ export class Combatant extends Actor{
             this.dmgRoll();
             this.dmgChk = false;
         }
-        this.draw();
         this.healthBar.tick(timeDelta);
     }
-    protected draw() {
+    public draw() {
         this.ctx.drawImage(this.spriteImage, this.pos.x, this.pos.y);
+        this.healthBar.draw();
     }
     public donate(amount: number) {
         this.stats.att = this.stats.att + amount;
@@ -118,10 +118,10 @@ class HealthBar extends Actor {
     private displayedYellow: number = 1000;
 
     private static yellowBarFollowRate: number = 3000; //per millesecond
-    private static healthToPixels: number = 10; //health units per pixel
+    private static healthToPixels: number = 15; //health units per pixel
     private static height: number = 5; //health bar height
 
-    protected draw() {
+    public draw() {
         this.ctx.fillStyle = 'red';
         this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.displayedYellow / HealthBar.healthToPixels), HealthBar.height);
         this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.targetHealth / HealthBar.healthToPixels), HealthBar.height);

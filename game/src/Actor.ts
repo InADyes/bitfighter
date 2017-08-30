@@ -2,7 +2,7 @@
 abstract class Actor {
     protected ctx: CanvasRenderingContext2D;
     protected pos: {x: number, y: number};
-    protected abstract draw(): void;
+    public abstract draw(): void;
     public abstract tick(timeDelta: number): void;
     public setPosition(pos: {x: number, y: number}) {
         this.pos = pos;
