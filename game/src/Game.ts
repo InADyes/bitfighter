@@ -176,9 +176,13 @@ export class Game {
                 iconArt[Math.floor((iconArt.length * Math.random()))],
                 spriteArt[(donation.art - 1) % 5],
                 {
-                    hp: 100,
-                    power: donation.amount,
-                    regeneration: 30
+                    hp: 1000,
+                    att: donation.amount,
+                    def: donation.amount,
+                    attspd: 2,
+                    dmg: 50,
+                    armr: 25,
+                    regen: 200,
                 }
             ));
         }
