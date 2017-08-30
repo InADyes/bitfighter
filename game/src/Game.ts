@@ -22,7 +22,7 @@ namespace Game {
 //     ctx.clearRect(x,y-120, x+75, y-50);
 //     var chamshake = new Image();
     
-//     chamshake.src = champ.art;
+//     chamshake.src = champ.art;\
 
 //     if(hpChange%2 != 0)
 //         ctx.drawImage(chamshake, x+15,y-120,100,100);
@@ -70,6 +70,8 @@ let iconArt = [
     'images/icons/orange-icon.png'
 ];
 
+
+
 export class Game {
     private challenger: Combatant.Combatant | null = null;
     private champion: Combatant.Combatant | null = null;
@@ -77,7 +79,10 @@ export class Game {
     private graveyard: Combatant.Combatant[] = [];
     private frontCtx: CanvasRenderingContext2D;
     private backCtx: CanvasRenderingContext2D;
-    private lastTimestamp: number;
+    private lastTimestamp: number = performance.now();
+
+    private static fightTimeout: number = 3000; // how long between fights in milliseconds
+    private checkQueue: number = Game.fightTimeout; // countdown for starting a new fight
 
     constructor(front: HTMLCanvasElement, back: HTMLCanvasElement) {
         let frontCtx = front.getContext('2d');
@@ -100,10 +105,19 @@ export class Game {
     }
     //either moves somone from the queue to the arena or ticks the arena
     public tick(timeDelta: number) {
+        //console.log('timedelta:', timeDelta);
         if (this.champion)
             this.champion.tick(timeDelta);
+
         if (this.challenger)
             this.challenger.tick(timeDelta);
+        else {
+            if (this.checkQueue <= 0) {
+                this.newChallenger();
+            } else {
+                this.checkQueue -= timeDelta;
+            }
+        }
         window.requestAnimationFrame((timestamp) => {
             let delta = timestamp - this.lastTimestamp;
             this.lastTimestamp = timestamp;
@@ -154,6 +168,7 @@ export class Game {
             this.champion = champ;
         else
             this.challenger = champ;
+        this.checkQueue = Game.fightTimeout;
         console.log("new challenger");
         console.log(this);
     }
@@ -186,7 +201,6 @@ export class Game {
                 }
             ));
         }
-        
     }
 }
 
