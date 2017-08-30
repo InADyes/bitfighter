@@ -1,10 +1,9 @@
 const express = require('express')
 const app = express()
 
-app.use(express.static('game/lib'))
-app.use('/images', express.static('game/images'))
+app.use(express.static('game', [{dotfiles: 'allow'}]))
 
-app.use('/settings', express.static('settings/lib'))
+app.use('/settings', express.static('settings/', [{dotfiles: 'allow'}]));
 
 app.listen(3000, function () {
   console.log('listening on port 3000')
