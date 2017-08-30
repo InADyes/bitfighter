@@ -109,6 +109,7 @@ export class Combatant extends Actor{
         if (damage > 0){
             this.opponent.stats.hp = this.opponent.stats.hp - damage;
             this.opponent.healthBar.setHealth(this.opponent.stats.hp);
+            this.opponent.healthBar.draw()
             console.log(this.opponent.name + " " + this.opponent.id + " Has taken " damage + "! :(")
         }
         if (this.opponent.stats.hp <= 0){
