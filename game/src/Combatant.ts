@@ -68,6 +68,10 @@ export class Combatant extends Actor{
         this.ctx.drawImage(this.spriteImage, this.pos.x, this.pos.y);
     }
     public donate(amount: number) {
+        this.stats.att = this.stats.att + amount;
+        this.stats.def = this.stats.att + amount;
+        this.stats.hp = this.stats.hp + amount;
+        this.healthBar.setHealth(this.stats.hp)
     }
     public getID() {
         return this.id;
