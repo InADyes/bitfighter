@@ -19,7 +19,7 @@ export class Combatant extends Actor{
             regen: number;
     };
     private healthBar: HealthBar;
-    private spiritshake: SpiritAnimation;
+    private spriteShake: SpiritAnimation;
     private static healthBarOffset = {x: 0, y: 150};
     private opponent: Combatant | null;
     constructor(
@@ -48,8 +48,8 @@ export class Combatant extends Actor{
         this.spriteImage.src = this.spriteUrl;
         this.stats = stats;
         this.healthBar = new HealthBar(ctx, {x: pos.x + Combatant.healthBarOffset.x, y: pos.y + Combatant.healthBarOffset.y});
-        this.spiritshake = new SpiritAnimation(ctx,{x: pos.x, y: pos.y});
-        this.spiritshake.setshakeimage(this.spriteUrl);
+        this.spriteShake = new SpiritAnimation(ctx,{x: pos.x, y: pos.y});
+        this.spriteShake.setshakeimage(this.spriteUrl);
     }
     toString() {
         return this.name;
@@ -72,17 +72,18 @@ export class Combatant extends Actor{
         else
             this.attCD = 0;
         this.healthBar.tick(timeDelta);
-        this.spiritshake.tick(timeDelta);
+        this.spriteShake.tick(timeDelta);
     }
     public draw() {
-        this.ctx.drawImage(this.spriteImage, this.pos.x, this.pos.y+20);
+        //this.ctx.drawImage(this.spriteImage, this.pos.x, this.pos.y+20);
         this.ctx.fillStyle = 'black';
         this.ctx.font = "15px Arial";
         this.ctx.fillText(this.name, this.pos.x+40, this.pos.y+140);
-        this.healthBar.draw();
         this.ctx.drawImage(this.iconImage, this.pos.x, this.pos.y+120)
         this.ctx.fillStyle = 'black';
         this.ctx.fillText("DMG: "+String(this.stats.dmg), this.pos.x, this.pos.y+170);
+        this.healthBar.draw();
+        this.spriteShake.draw();
     }
     public donate(amount: number) {
         this.stats.att = this.stats.att + amount;
@@ -96,6 +97,7 @@ export class Combatant extends Actor{
     public setPosition(pos: {x: number, y: number}) {
         this.pos = pos;
         this.healthBar.setPosition({x: pos.x + Combatant.healthBarOffset.x, y: pos.y + Combatant.healthBarOffset.y});
+        this.spriteShake.setPosition(this.pos);
     }
     protected toHit(){
         let total:      number;
@@ -122,7 +124,7 @@ export class Combatant extends Actor{
             this.opponent.stats.hp = this.opponent.stats.hp - damage;
             this.opponent.healthBar.setHealth(this.opponent.stats.hp);
             this.opponent.healthBar.draw()
-            this.opponent.spiritshake.draw();
+            this.opponent.spriteShake.shake();
             console.log(this.opponent.name + " " + this.opponent.id + " Has taken " +damage + "! :(");
         }
         if (this.opponent.stats.hp <= 0){
@@ -171,25 +173,29 @@ class HealthBar extends Actor {
 }
 
 class SpiritAnimation extends Actor {
-    private shakingoffset: number = 0; 
     private shakespiritImage = new Image();
     private countdown: number = 0;
-    //private static countdownStart = Math.PI * 4;
+    private static countdownStart = Math.PI * 4;
 
     public setshakeimage(imageurl: string){
         this.shakespiritImage.src = imageurl;
     }
 
-    public draw() {
-        this.ctx.drawImage(this.shakespiritImage, this.pos.x+this.shakingoffset, this.pos.y+30);
-        //console.log("shaking pls");
-        //console.log(this.shakespiritImage.src);
-        console.log(String(this.shakingoffset));
+    public draw() { this.ctx.drawImage(
+            this.shakespiritImage,
+            this.pos.x + Math.floor(Math.sin(this.countdown) * 25),
+            this.pos.y
+        );
+    }
+    public shake() {
+        this.countdown = SpiritAnimation.countdownStart;
     }
 
     public tick(timeDelta: number){
-        this.countdown += 1;
-        this.shakingoffset = Math.sin(this.countdown/1000);
+        this.countdown -= timeDelta / 100;
+        if (this.countdown < 0)
+            this.countdown = 0;
+        console.log(this.countdown);
        // console.log(String(this.countdown));
         //console.log(String(this.timepast));
         //console.log(String(this.shakingoffset));
