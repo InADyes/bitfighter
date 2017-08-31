@@ -115,7 +115,8 @@ export class Combatant extends Actor{
         if (this.opponent.stats.hp <= 0){
             this.opponent.stats.hp = 0;
             this.opponent.healthBar.setHealth(0);
-            console.log(this. opponent.name + " " + this.opponent.id + " Has been slain! Their body lies motionless on the floor... ;-;");
+            this.opponent.healthBar.draw()
+            console.log(this. opponent.name + " " + this.opponent.id + " Has been slain! Their body lies motionless on the floor... ;-;")
         }
     }
     public isDead(){
@@ -145,7 +146,6 @@ class HealthBar extends Actor {
             if (this.targetHealth > this.displayedYellow)
                 this.displayedYellow = this.targetHealth;
         }
-        //this.draw();
     }
     public setHealth(health: number) {
         this.targetHealth = health;
