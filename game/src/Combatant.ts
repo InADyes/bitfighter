@@ -15,8 +15,10 @@ export class Combatant extends Actor{
             regeneration: number; // after a fight char will be healed by this amount
     };
     private healthBar: HealthBar;
+    private static healthBarOffset = {x: 0, y: 130};
     private sprite: Sprite;
-    private static healthBarOffset = {x: 0, y: 150};
+    private textOut: TextOut;
+    private static textOutOffset = {x: 30, y: 10};
     private opponent: Combatant | null;
     constructor(
         ctx: CanvasRenderingContext2D,
@@ -45,6 +47,10 @@ export class Combatant extends Actor{
             y: pos.y + Combatant.healthBarOffset.y
         });
         this.sprite = new Sprite(ctx, {x: pos.x, y: pos.y}, sprite);
+        this.textOut = new TextOut(ctx, {
+            x: pos.x + Combatant.textOutOffset.x ,
+            y: pos.y + Combatant.textOutOffset.y
+        });
     }
     toString() {
         return this.name;
@@ -65,16 +71,21 @@ export class Combatant extends Actor{
             this.attCD = 0;
         this.healthBar.tick(timeDelta);
         this.sprite.tick(timeDelta);
+        this.textOut.tick(timeDelta);
     }
     public draw() {
         this.ctx.fillStyle = 'black';
+        this.ctx.strokeStyle = 'white';
         this.ctx.font = "15px Arial";
-        this.ctx.fillText(this.name, this.pos.x + 40, this.pos.y + 140);
-        this.ctx.drawImage(this.iconImage, this.pos.x, this.pos.y + 120)
-        this.ctx.fillStyle = 'black';
-        this.ctx.fillText("DMG: " + String(this.stats.attackDamage), this.pos.x, this.pos.y + 170);
+        this.ctx.lineWidth = 1;
+        this.ctx.strokeText(this.name, this.pos.x + 30, this.pos.y + 120);
+        this.ctx.fillText(this.name, this.pos.x + 30, this.pos.y + 120);
+        this.ctx.drawImage(this.iconImage, this.pos.x, this.pos.y + 100)
+        // this.ctx.strokeText("DMG: " + String(this.stats.attackDamage), this.pos.x, this.pos.y + 170);
+        // this.ctx.fillText("DMG: " + String(this.stats.attackDamage), this.pos.x, this.pos.y + 170);
         this.healthBar.draw();
         this.sprite.draw();
+        this.textOut.draw();
     }
     public donate(amount: number) {
         this.stats.accuracy = this.stats.accuracy + amount;
@@ -92,6 +103,10 @@ export class Combatant extends Actor{
             y: pos.y + Combatant.healthBarOffset.y
         });
         this.sprite.setPosition(this.pos);
+        this.textOut.setPosition({
+            x: pos.x + Combatant.textOutOffset.x ,
+            y: pos.y + Combatant.textOutOffset.y
+        });
     }
     private attack(opponent: Combatant) {
         let total:      number;
@@ -114,6 +129,7 @@ export class Combatant extends Actor{
         this.healthBar.setHealth(this.stats.hitPoints);
         this.sprite.shake();
         console.log(this.name + " " + this.id + " Has taken " + damage + "! :(");
+        this.textOut.add(String(damage));
         if (this.stats.hitPoints <= 0)
             console.log(this.name + " " + this.id + " Has been slain! Their body lies motionless on the floor... ;-;");
     }
@@ -180,6 +196,31 @@ class Sprite extends Actor {
         this.countdown -= timeDelta / Sprite.timeToAmplitueRatio;
         if (this.countdown < 0)
             this.countdown = 0;
+    }
+}
+
+class TextOut extends Actor {
+    private static timeout = 5000;
+    private static offsetRatio = 50;
+
+    private displayedText: {
+        text: string,
+        timeout: number
+    }[] = [];
+    public tick(timeDelta: number) {
+        this.displayedText.forEach(e => e.timeout += timeDelta);
+        this.displayedText = this.displayedText.filter(e => e.timeout < TextOut.timeout);
+    }
+    public draw() {
+        this.ctx.fillStyle = 'red';
+        this.ctx.strokeStyle = 'black';
+        this.displayedText.forEach(e => {
+            this.ctx.strokeText(e.text, this.pos.x, this.pos.y - e.timeout / TextOut.offsetRatio);
+            this.ctx.fillText(e.text, this.pos.x, this.pos.y - e.timeout / TextOut.offsetRatio);
+        });
+    }
+    public add(text: string) {
+        this.displayedText.push({text: text, timeout: 0});
     }
 }
 

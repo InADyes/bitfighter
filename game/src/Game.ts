@@ -84,8 +84,8 @@ export class Game {
 
     private static fightTimeout: number = 3000; // how long between fights in milliseconds
     private checkQueue: number = Game.fightTimeout; // countdown for starting a new fight
-    private static championLocation = {x: 10, y: 10};
-    private static challengerLocation = {x: 100, y: 10};
+    private static championLocation = {x: 20, y: 30};
+    private static challengerLocation = {x: 100, y: 30};
 
     constructor(front: HTMLCanvasElement, back: HTMLCanvasElement) {
         let frontCtx = front.getContext('2d');
