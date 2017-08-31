@@ -69,8 +69,13 @@ export class Combatant extends Actor{
         this.healthBar.tick(timeDelta);
     }
     public draw() {
-        this.ctx.drawImage(this.spriteImage, this.pos.x, this.pos.y);
+        this.ctx.drawImage(this.spriteImage, this.pos.x, this.pos.y+20);
+        this.ctx.fillStyle = 'black';
+        this.ctx.font = "15px Arial";
+        this.ctx.fillText(this.name, this.pos.x+20, this.pos.y+140);
         this.healthBar.draw();
+        this.ctx.fillStyle = 'black';
+        this.ctx.fillText("DMG: "+String(this.stats.dmg), this.pos.x, this.pos.y+170);
     }
     public donate(amount: number) {
         this.stats.att = this.stats.att + amount;
@@ -135,13 +140,10 @@ class HealthBar extends Actor {
     private static height: number = 6; //health bar height
 
     public draw() {
-<<<<<<< HEAD
-        this.ctx.fillStyle = 'yellow';
-=======
+       
         this.ctx.fillStyle = 'grey';
         this.ctx.fillRect(this.pos.x, this.pos.y, 1000 / HealthBar.healthToPixels, HealthBar.height);
         this.ctx.fillStyle = 'orange';
->>>>>>> 0a1e7b3c5d4971b0b9f53beae1846f3dd5856187
         this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.displayedYellow / HealthBar.healthToPixels), HealthBar.height);
         this.ctx.fillStyle = 'red';
         this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.targetHealth / HealthBar.healthToPixels), HealthBar.height);
