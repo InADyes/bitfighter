@@ -3,58 +3,6 @@
 
 namespace Game {
 
-// function animateHealth(canvas: HTMLCanvasElement, champ: Combatant, hpChange: number, x: number, y: number, game: Game) {
-//     console.log("todo: animate health");
-//     let ctx = canvas.getContext("2d");
-//     if (ctx == null) {
-//         console.error("why is ctx null, wtf");
-//         return;
-//     } 
-//     if (hpChange > 0)
-//         animatePositive(ctx, champ, hpChange, x, y);
-//     else
-//         animateNegative(ctx, champ, -1 * hpChange, x, y, game);
-// }
-
-// function animateNegative(ctx: CanvasRenderingContext2D, champ: Combatant, hpChange: number, x: number, y: number, game: Game) {
-//     champ.health -= 1;
-//     hpChange--;
-//     ctx.clearRect(x,y-120, x+75, y-50);
-//     var chamshake = new Image();
-    
-//     chamshake.src = champ.art;\
-
-//     if(hpChange%2 != 0)
-//         ctx.drawImage(chamshake, x+15,y-120,100,100);
-//     else
-//         ctx.drawImage(chamshake, x+20,y-120,100,100);
-//     //ctx.drawImage()
-//     drawHP(ctx, champ.health, x, y);
-//     if (hpChange > 0 && champ.health > 0)
-//         window.requestAnimationFrame(animateNegative.bind(null, ctx, champ, hpChange, x, y, game));
-//     else
-//         window.setTimeout(game.checkDeath.bind(game), 1000);
-// }
-
-// function animatePositive(ctx: CanvasRenderingContext2D, champ: Combatant, hpChange: number, x: number, y: number) {
-//     console.log("hpchange: ", hpChange);
-//     champ.health += 1;
-//     hpChange++;
-//     drawHP(ctx, champ.health, x, y);
-//     if (hpChange > 0 && champ.health < 100)
-//         window.requestAnimationFrame(animatePositive.bind(null, ctx, champ, hpChange, x, y));
-// }
-
-// function drawHP(ctx: CanvasRenderingContext2D, hp: number, x: number, y: number) {
-//     ctx.clearRect(x - 3, y - 3, 104, 9);
-//     ctx.beginPath();
-//     ctx.strokeStyle = "red";
-//     ctx.lineWidth = 5;
-//     ctx.moveTo(x, y);
-//     ctx.lineTo(x + hp, y);
-//     ctx.stroke();
-// }
-
 let spriteArt = [
     'images/animation/champion_alpha.png',
     'images/animation/Axe/Axe.png',
@@ -70,6 +18,18 @@ let iconArt = [
     'images/icons/orange-icon.png'
 ];
 
+// still thinking about this
+let characters = [
+    {
+        hitPoints: 1000,
+        accuracy: 1, // ratio
+        dodge: 1, // ratio
+        attackSpeed: 2000,
+        attackDamage: 125,
+        armor: 25,
+        regeneration: 200,
+    }
+];
 
 
 export class Game {

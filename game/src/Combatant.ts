@@ -76,11 +76,11 @@ export class Combatant extends Actor{
     public draw() {
         this.ctx.fillStyle = 'black';
         this.ctx.strokeStyle = 'white';
-        this.ctx.font = "15px Arial";
+        this.ctx.font = "14px Arial";
         this.ctx.lineWidth = 1;
-        this.ctx.strokeText(this.name, this.pos.x + 30, this.pos.y + 120);
-        this.ctx.fillText(this.name, this.pos.x + 30, this.pos.y + 120);
-        this.ctx.drawImage(this.iconImage, this.pos.x, this.pos.y + 100)
+        this.ctx.strokeText(this.name, this.pos.x + 25, this.pos.y + 122);
+        this.ctx.fillText(this.name, this.pos.x + 25, this.pos.y + 122);
+        this.ctx.drawImage(this.iconImage, this.pos.x, this.pos.y + 105);
         // this.ctx.strokeText("DMG: " + String(this.stats.attackDamage), this.pos.x, this.pos.y + 170);
         // this.ctx.fillText("DMG: " + String(this.stats.attackDamage), this.pos.x, this.pos.y + 170);
         this.healthBar.draw();
@@ -122,10 +122,12 @@ export class Combatant extends Actor{
         }
     }
     private takeHit(damage: number) {
-        if (this.stats.armor >= damage)
-            return;
+        // if (this.stats.armor >= damage)
+        //     return;
     
         this.stats.hitPoints -= damage - this.stats.armor;
+        if (damage < 0)
+            damage = 0;
         this.healthBar.setHealth(this.stats.hitPoints);
         this.sprite.shake();
         console.log(this.name + " " + this.id + " Has taken " + damage + "! :(");
@@ -214,6 +216,7 @@ class TextOut extends Actor {
     public draw() {
         this.ctx.fillStyle = 'red';
         this.ctx.strokeStyle = 'black';
+        this.ctx.font = "14px Arial";
         this.displayedText.forEach(e => {
             this.ctx.strokeText(e.text, this.pos.x, this.pos.y - e.timeout / TextOut.offsetRatio);
             this.ctx.fillText(e.text, this.pos.x, this.pos.y - e.timeout / TextOut.offsetRatio);
