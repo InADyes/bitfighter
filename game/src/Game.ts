@@ -128,6 +128,11 @@ export class Game {
                 this.checkQueue -= timeDelta;
             }
         }
+        for(let i=0; i<this.graveyard.length; i++)
+            {
+                this.frontCtx.drawImage(this.graveyard[i].iconImage, 0, 0+20*i);
+            }
+        
         window.requestAnimationFrame((timestamp) => {
             let delta = timestamp - this.lastTimestamp;
             this.lastTimestamp = timestamp;
