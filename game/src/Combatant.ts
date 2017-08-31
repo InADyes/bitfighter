@@ -130,12 +130,14 @@ class HealthBar extends Actor {
     private targetHealth: number = 1000;
     private displayedYellow: number = 1000;
 
-    private static yellowBarFollowRate: number = 3; //per millesecond
+    private static yellowBarFollowRate: number = 7; //per millesecond
     private static healthToPixels: number = 15; //health units per pixel
-    private static height: number = 7; //health bar height
+    private static height: number = 6; //health bar height
 
     public draw() {
-        this.ctx.fillStyle = 'yellow';
+        this.ctx.fillStyle = 'grey';
+        this.ctx.fillRect(this.pos.x, this.pos.y, 1000 / HealthBar.healthToPixels, HealthBar.height);
+        this.ctx.fillStyle = 'orange';
         this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.displayedYellow / HealthBar.healthToPixels), HealthBar.height);
         this.ctx.fillStyle = 'red';
         this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.targetHealth / HealthBar.healthToPixels), HealthBar.height);
