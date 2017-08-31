@@ -192,7 +192,7 @@ class SpiritAnimation extends Actor {
         this.shakingoffset = Math.sin(this.countdown/1000);
        // console.log(String(this.countdown));
         //console.log(String(this.timepast));
-        console.log(String(this.shakingoffset));
+        //console.log(String(this.shakingoffset));
     }
 }
 
