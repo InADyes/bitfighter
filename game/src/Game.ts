@@ -130,7 +130,8 @@ export class Game {
         }
         for(let i=0; i<this.graveyard.length; i++)
             {
-                this.frontCtx.drawImage(this.graveyard[i].iconImage, 0, 0+20*i);
+                
+                this.frontCtx.drawImage(this.graveyard[i].getIcon(), 0, 0+20*i);
             }
         
         window.requestAnimationFrame((timestamp) => {

@@ -17,6 +17,7 @@ export class Combatant extends Actor{
     };
     private healthBar: HealthBar;
     private sprite: Sprite;
+    private graveyard: Graveyard;
     private static healthBarOffset = {x: 0, y: 150};
     private opponent: Combatant | null;
     constructor(
@@ -43,6 +44,7 @@ export class Combatant extends Actor{
         this.stats = stats;
         this.healthBar = new HealthBar(ctx, {x: pos.x + Combatant.healthBarOffset.x, y: pos.y + Combatant.healthBarOffset.y});
         this.sprite = new Sprite(ctx, {x: pos.x, y: pos.y}, sprite);
+        this.graveyard = new Graveyard(ctx, {x: pos.x, y: pos.y}, this.id);
     }
     toString() {
         return this.name;
@@ -85,6 +87,9 @@ export class Combatant extends Actor{
     }
     public getID() {
         return this.id;
+    }
+    public getIcon() {
+        return this.iconImage;
     }
     public setPosition(pos: {x: number, y: number}) {
         this.pos = pos;
@@ -188,6 +193,25 @@ class Sprite extends Actor {
         this.countdown -= timeDelta / Sprite.timeToAmplitueRatio;
         if (this.countdown < 0)
             this.countdown = 0;
+    }
+}
+
+class Graveyard extends Actor{
+    private graveyardowner: number;
+    private graveyardqueue: Combatant.Combatant[] = [];
+
+    constructor(ctx: CanvasRenderingContext2D,  pos: {x: number, y: number}, graveyardid: number) {
+        super(ctx ,pos);
+        this.graveyardowner = graveyardid;
+    }
+
+    public draw(){
+       // for(let i = 0; i <= this.graveyardqueue.length; i++)
+       //     this.ctx.drawImage(this.graveyardqueue[i].iconImage, 0, 0+20*i);
+    }
+
+    public tick(){
+
     }
 }
 
