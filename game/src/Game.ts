@@ -204,13 +204,13 @@ export class Game {
                 iconArt[Math.floor((iconArt.length * Math.random()))],
                 spriteArt[(donation.art - 1) % 5],
                 {
-                    hp: 1000,
-                    att: donation.amount,
-                    def: donation.amount,
-                    attspd: 2000,
-                    dmg: 125,
-                    armr: 25,
-                    regen: 200,
+                    hitPoints: 1000,
+                    accuracy: donation.amount,
+                    dodge: donation.amount,
+                    attackSpeed: 2000,
+                    attackDamage: 125,
+                    armor: 25,
+                    regeneration: 200,
                 }
             );
             champ.setPosition(Game.challengerLocation);
