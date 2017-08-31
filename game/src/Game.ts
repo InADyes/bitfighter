@@ -76,7 +76,7 @@ export class Game {
     private challenger: Combatant.Combatant | null = null;
     private champion: Combatant.Combatant | null = null;
     private queue: Combatant.Combatant[] = [];
-    private graveyard: Combatant.Combatant[] = [];
+    private graveyard: Combatant.Graveyard; 
     private frontCtx: CanvasRenderingContext2D;
     private backCtx: CanvasRenderingContext2D;
     private canvasSize: {x: number, y: number};
@@ -94,10 +94,12 @@ export class Game {
             console.error("could not get get canvas 2d context");
             return;
         }
-
+        
         this.frontCtx = frontCtx;
         this.backCtx = backCtx;
         this.canvasSize = {x: front.width, y: front.height};
+        let graveyard = new Combatant.Graveyard(this.frontCtx,{x:0,y:0});
+
     }
 
     private searchQueue(id: number) {
@@ -128,12 +130,12 @@ export class Game {
                 this.checkQueue -= timeDelta;
             }
         }
-        for(let i=0; i<this.graveyard.length; i++)
+       /* for(let i=0; i<this.graveyard.length; i++)
             {
                 
                 this.frontCtx.drawImage(this.graveyard[i].getIcon(), 0, 0+20*i);
             }
-        
+        */
         window.requestAnimationFrame((timestamp) => {
             let delta = timestamp - this.lastTimestamp;
             this.lastTimestamp = timestamp;
@@ -142,19 +144,20 @@ export class Game {
     }
     checkDeath() {
         if (this.challenger && this.challenger.isDead()) {
-            this.graveyard.push(this.challenger);
+            
+            this.graveyard.addloser(this.challenger);
             this.challenger = null;
             this.updateOpponants();
         }
         if (this.champion && this.champion.isDead()) {
             if (this.challenger) {
-                this.graveyard = [this.champion];
+                this.graveyard.newqueue(this.champion);
                 this.champion = this.challenger;
                 this.champion.setPosition(Game.championLocation);
                 this.challenger = null;
                 this.updateOpponants();
             } else {
-                this.graveyard = [];
+                this.graveyard.clearqueue();
                 this.champion = null;
             }
         }
