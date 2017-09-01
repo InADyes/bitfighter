@@ -6,6 +6,7 @@ export class Combatant extends Actor{
     private iconImage = new Image();
     private attCD = 0;
     private dmgChk = false;
+    private recoveramount = 0;
     private stats: {
             hp: number;
             att: number;
@@ -138,6 +139,7 @@ export class Combatant extends Actor{
     }
     public heal(){
         this.stats.hp += this.stats.regen; 
+        //this.recoveramount = this.stats.regen;
     }
 }
 
@@ -165,6 +167,7 @@ class HealthBar extends Actor {
             if (this.targetHealth > this.displayedYellow)
                 this.displayedYellow = this.targetHealth;
         }
+        //if (this.)
     }
     public setHealth(health: number) {
         this.targetHealth = health;
