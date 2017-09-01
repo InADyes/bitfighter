@@ -139,9 +139,10 @@ namespace Combatant {
             // if (this.stats.armor >= damage)
             //     return;
         
-            this.stats.hitPoints -= damage - this.stats.armor;
+            damage -= this.stats.armor;
             if (damage < 0)
                 damage = 0;
+            this.stats.hitPoints -= damage;
             this.healthBar.setHealth(this.stats.hitPoints);
             this.sprite.shake();
             console.log(this.name + " " + this.id + " Has taken " + damage + "! :(");
@@ -193,34 +194,6 @@ namespace Combatant {
     class Sprite extends Actor {
         private spriteImage = new Image();
         private countdown: number = 0;
-    
-        private static countdownStart = Math.PI * 3;
-        private static shakeAmplitude = 10;
-        private static timeToAmplitueRatio = 75;
-    
-        constructor(ctx: CanvasRenderingContext2D,  pos: {x: number, y: number}, sprite: string) {
-            super(ctx ,pos);
-            this.spriteImage.src = sprite;
-        }
-        public draw() { this.ctx.drawImage(
-                this.spriteImage,
-                this.pos.x + Math.floor(Math.sin(this.countdown) * Sprite.shakeAmplitude),
-                this.pos.y
-            );
-        }
-        public shake() {
-            this.countdown = Sprite.countdownStart;
-        }
-        public tick(timeDelta: number) {
-            this.countdown -= timeDelta / Sprite.timeToAmplitueRatio;
-            if (this.countdown < 0)
-                this.countdown = 0;
-        }
-    }
-
-class HealthBar extends Actor {
-    private targetHealth: number = HealthBar.maxValue;
-    private displayedYellow: number = HealthBar.maxValue;
     
         private static countdownStart = Math.PI * 3;
         private static shakeAmplitude = 10;
