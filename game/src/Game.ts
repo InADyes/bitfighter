@@ -37,7 +37,7 @@ export class Game {
         this.frontCtx = frontCtx;
         this.backCtx = backCtx;
         this.canvasSize = {x: front.width, y: front.height};
-        this.graveyard = new Graveyard(this.frontCtx,{x:0,y:0});
+        this.graveyard = new Graveyard(this.frontCtx, {x: 0, y: 0});
 
     }
 
@@ -72,7 +72,7 @@ export class Game {
         window.requestAnimationFrame((timestamp) => {
             let delta = timestamp - this.lastTimestamp;
             this.lastTimestamp = timestamp;
-           // delta = delta * 10;
+            //delta = delta * 4;
             this.tick(delta);
         });
     }
@@ -176,12 +176,12 @@ export class Graveyard extends Actor{
     public clearqueue() {
         this.graveyardqueue = [];
     }
-    public draw(){
+    public draw() {
         for(let i = 0; i < this.graveyardqueue.length; i++)
-            this.ctx.drawImage(this.graveyardqueue[i].getIcon(), 0, 0+20*i);
+            this.ctx.drawImage(this.graveyardqueue[i].getIcon(), 0, 0 + 20 * i);
     }
 
-    public tick(){
+    public tick() {
 
     }
 }
