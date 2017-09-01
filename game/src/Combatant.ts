@@ -1,5 +1,15 @@
 namespace Combatant {
 
+export interface Stats {
+    hitPoints: number;
+    accuracy: number;
+    dodge: number;
+    attackSpeed: number;
+    attackDamage: number;
+    armor: number;
+    regeneration: number;
+}
+
 export class Combatant extends Actor{
     private id: number;
     private name: string;

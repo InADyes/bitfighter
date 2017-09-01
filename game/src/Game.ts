@@ -1,36 +1,8 @@
 /// <reference path='Actor.ts' />
 /// <reference path='Combatant.ts' />
+/// <reference path='ClassPicker.ts' />
 
 namespace Game {
-
-let spriteArt = [
-    'images/animation/champion_alpha.png',
-    'images/animation/Axe/Axe.png',
-    'images/animation/Katana/Katana.png',
-    'images/animation/Orc/Orc.png',
-    'images/animation/Wizard/Wizard.png'
-];
-
-let iconArt = [
-    'images/icons/cherries.png',
-    'images/icons/banana.png',
-    'images/icons/lime-icon.png',
-    'images/icons/orange-icon.png'
-];
-
-// still thinking about this
-let characters = [
-    {
-        hitPoints: 1000,
-        accuracy: 1, // ratio
-        dodge: 1, // ratio
-        attackSpeed: 2000,
-        attackDamage: 125,
-        armor: 25,
-        regeneration: 200,
-    }
-];
-
 
 export class Game {
     private challenger: Combatant.Combatant | null = null;
@@ -156,22 +128,15 @@ export class Game {
             champ.donate(donation.amount)
         else {
             //replace with logic in seperate place
+            let pick = ClassPicker.pickCharacter(donation);
             let champ = new Combatant.Combatant(
                 this.frontCtx,
                 {x: 0, y: 0},
                 donation.id,
                 donation.name,
                 iconArt[Math.floor((iconArt.length * Math.random()))],
-                spriteArt[(donation.art - 1) % 5],
-                {
-                    hitPoints: 1000,
-                    accuracy: donation.amount,
-                    dodge: donation.amount,
-                    attackSpeed: 2000,
-                    attackDamage: 125,
-                    armor: 25,
-                    regeneration: 200,
-                }
+                pick.spriteUrl,
+                pick.stats
             );
             champ.setPosition(Game.challengerLocation);
             this.queue.push(champ);
