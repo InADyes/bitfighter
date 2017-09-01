@@ -28,7 +28,7 @@ let characters: Character[] = [
         attackSpeed: {base: 1300, scaler: 0},
         attackDamage: {base: 100, scaler: 0},
         armor: {base: 40, scaler: 0},
-        regeneration: {base: 200, scaler: 0},
+        regeneration: {base: 0.2, scaler: 0},
         spriteUrl: 'images/characters/sword.png'
     },
     { // daggers
@@ -38,7 +38,7 @@ let characters: Character[] = [
         attackSpeed: {base: 1750, scaler: 0},
         attackDamage: {base: 150, scaler: 0},
         armor: {base: 45, scaler: 0},
-        regeneration: {base: 200, scaler: 0},
+        regeneration: {base: 0.2, scaler: 0},
         spriteUrl: 'images/characters/daggers.png'
     },
     { // big axe
@@ -48,7 +48,7 @@ let characters: Character[] = [
         attackSpeed: {base: 2250, scaler: 0},
         attackDamage: {base: 185, scaler: 0},
         armor: {base: 60, scaler: 0},
-        regeneration: {base: 200, scaler: 0},
+        regeneration: {base: 0.2, scaler: 0},
         spriteUrl: 'images/characters/axe.png'
     }
 ];

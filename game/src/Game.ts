@@ -72,6 +72,7 @@ export class Game {
         window.requestAnimationFrame((timestamp) => {
             let delta = timestamp - this.lastTimestamp;
             this.lastTimestamp = timestamp;
+           // delta = delta * 10;
             this.tick(delta);
         });
     }
@@ -90,6 +91,7 @@ export class Game {
                 this.graveyard.addloser(this.champion);
                 this.champion = this.challenger;
                 this.champion.setPosition(Game.championLocation);
+                this.champion.setFacingDirection(false);
                 this.challenger = null;
                 this.champion.heal();
                 this.updateOpponants();
@@ -109,6 +111,7 @@ export class Game {
 
         if (this.champion == null) {
             champ.setPosition(Game.championLocation);
+            champ.setFacingDirection(false);
             this.champion = champ;
         } else {
             this.challenger = champ;
@@ -148,6 +151,7 @@ export class Game {
                 pick.stats
             );
             champ.setPosition(Game.challengerLocation);
+            champ.setFacingDirection(true);
             this.queue.push(champ);
         }
     }
