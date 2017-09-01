@@ -24,20 +24,20 @@ let characters: Character[] = [
     { // sword
         hitPoints: {base: 1000, scaler: 0},
         accuracy: {base: 0, scaler: 1},
-        dodge: {base: 0, scaler: 1},
-        attackSpeed: {base: 2000, scaler: 0},
-        attackDamage: {base: 125, scaler: 0},
-        armor: {base: 25, scaler: 0},
+        dodge: {base: 10, scaler: 1},
+        attackSpeed: {base: 1300, scaler: 0},
+        attackDamage: {base: 100, scaler: 0},
+        armor: {base: 40, scaler: 0},
         regeneration: {base: 0.2, scaler: 0},
         spriteUrl: 'images/characters/sword.png'
     },
     { // daggers
         hitPoints: {base: 1000, scaler: 0},
         accuracy: {base: 0, scaler: 1},
-        dodge: {base: 0, scaler: 1},
-        attackSpeed: {base: 2000, scaler: 500},
-        attackDamage: {base: 125, scaler: 0},
-        armor: {base: 25, scaler: 0},
+        dodge: {base: 5, scaler: 1},
+        attackSpeed: {base: 1750, scaler: 0},
+        attackDamage: {base: 150, scaler: 0},
+        armor: {base: 45, scaler: 0},
         regeneration: {base: 0.2, scaler: 0},
         spriteUrl: 'images/characters/daggers.png'
     },
@@ -45,9 +45,9 @@ let characters: Character[] = [
         hitPoints: {base: 1000, scaler: 0},
         accuracy: {base: 0, scaler: 1},
         dodge: {base: 0, scaler: 1},
-        attackSpeed: {base: 2000, scaler: 500},
-        attackDamage: {base: 125, scaler: 0},
-        armor: {base: 25, scaler: 0},
+        attackSpeed: {base: 2250, scaler: 0},
+        attackDamage: {base: 185, scaler: 0},
+        armor: {base: 60, scaler: 0},
         regeneration: {base: 0.2, scaler: 0},
         spriteUrl: 'images/characters/axe.png'
     }
