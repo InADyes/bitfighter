@@ -17,7 +17,7 @@ export class Combatant extends Actor{
     };
     private healthBar: HealthBar;
     private sprite: Sprite;
-    public graveyard: Graveyard;
+   
     private static healthBarOffset = {x: 0, y: 150};
     private opponent: Combatant | null;
     constructor(
@@ -78,7 +78,6 @@ export class Combatant extends Actor{
         this.ctx.fillText("DMG: "+String(this.stats.dmg), this.pos.x, this.pos.y+170);
         this.healthBar.draw();
         this.sprite.draw();
-        this.graveyard.draw();
     }
     public donate(amount: number) {
         this.stats.att = this.stats.att + amount;
@@ -136,6 +135,9 @@ export class Combatant extends Actor{
         if (this.stats.hp <= 0)
             return true;
         return false;
+    }
+    public heal(){
+        this.stats.hp += this.stats.regen; 
     }
 }
 
@@ -197,33 +199,5 @@ class Sprite extends Actor {
     }
 }
 
-export class Graveyard extends Actor{
-    //private graveyardowner: number;
-    private graveyardqueue: Combatant.Combatant[] = [];
-
-   // constructor(ctx: CanvasRenderingContext2D,  pos: {x: number, y: number}, graveyardid: number) {
-   //     super(ctx ,pos);
-    //this.graveyardowner = graveyardid;
-   // }
-  
-    public addloser(champ: Combatant.Combatant) {
-        this.graveyardqueue.push(champ);
-    }
-    public newqueue(champ: Combatant.Combatant) {
-        this.graveyardqueue = [];
-        this.graveyardqueue.push(champ);
-    }
-    public clearqueue() {
-        this.graveyardqueue = [];
-    }
-    public draw(){
-        for(let i = 0; i < this.graveyardqueue.length; i++)
-            this.ctx.drawImage(this.graveyardqueue[i].getIcon(), 0, 0+20*i);
-    }
-
-    public tick(){
-
-    }
-}
 
 }
