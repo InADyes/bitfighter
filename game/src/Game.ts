@@ -3,12 +3,19 @@
 /// <reference path='ClassPicker.ts' />
 
 namespace Game {
+    
+let iconArt = [
+    'images/icons/cherries.png',
+    'images/icons/banana.png',
+    'images/icons/lime-icon.png',
+    'images/icons/orange-icon.png'
+];
 
 export class Game {
     private challenger: Combatant.Combatant | null = null;
     private champion: Combatant.Combatant | null = null;
     private queue: Combatant.Combatant[] = [];
-    private graveyard: Combatant.Combatant[] = [];
+    private graveyard: Graveyard; 
     private frontCtx: CanvasRenderingContext2D;
     private backCtx: CanvasRenderingContext2D;
     private canvasSize: {x: number, y: number};
@@ -26,10 +33,12 @@ export class Game {
             console.error("could not get get canvas 2d context");
             return;
         }
-
+        
         this.frontCtx = frontCtx;
         this.backCtx = backCtx;
         this.canvasSize = {x: front.width, y: front.height};
+        this.graveyard = new Graveyard(this.frontCtx,{x:0,y:0});
+
     }
 
     private searchQueue(id: number) {
@@ -60,11 +69,13 @@ export class Game {
                 this.checkQueue -= timeDelta;
             }
         }
-        for(let i=0; i<this.graveyard.length; i++)
+        this.graveyard.draw();
+       /* for(let i=0; i<this.graveyard.length; i++)
             {
-                this.frontCtx.drawImage(this.graveyard[i].iconImage, 0, 0+20*i);
+                
+                this.frontCtx.drawImage(this.graveyard[i].getIcon(), 0, 0+20*i);
             }
-        
+        */
         window.requestAnimationFrame((timestamp) => {
             let delta = timestamp - this.lastTimestamp;
             this.lastTimestamp = timestamp;
@@ -73,19 +84,24 @@ export class Game {
     }
     checkDeath() {
         if (this.challenger && this.challenger.isDead()) {
-            this.graveyard.push(this.challenger);
+            if(this.champion == null)
+                return;
+            this.graveyard.addloser(this.challenger);
             this.challenger = null;
+            this.champion.heal();
             this.updateOpponants();
         }
         if (this.champion && this.champion.isDead()) {
             if (this.challenger) {
-                this.graveyard = [this.champion];
+                this.graveyard.clearqueue();
+                this.graveyard.addloser(this.champion);
                 this.champion = this.challenger;
                 this.champion.setPosition(Game.championLocation);
                 this.challenger = null;
+                this.champion.heal();
                 this.updateOpponants();
             } else {
-                this.graveyard = [];
+                this.graveyard.clearqueue();
                 this.champion = null;
             }
         }
@@ -143,5 +159,35 @@ export class Game {
         }
     }
 }
+
+export class Graveyard extends Actor{
+    //private graveyardowner: number;
+    private graveyardqueue: Combatant.Combatant[] = [];
+
+   // constructor(ctx: CanvasRenderingContext2D,  pos: {x: number, y: number}, graveyardid: number) {
+   //     super(ctx ,pos);
+    //this.graveyardowner = graveyardid;
+   // }
+  
+    public addloser(champ: Combatant.Combatant) {
+        this.graveyardqueue.push(champ);
+    }
+    public newqueue(champ: Combatant.Combatant) {
+        this.graveyardqueue = [];
+        this.graveyardqueue.push(champ);
+    }
+    public clearqueue() {
+        this.graveyardqueue = [];
+    }
+    public draw(){
+        for(let i = 0; i < this.graveyardqueue.length; i++)
+            this.ctx.drawImage(this.graveyardqueue[i].getIcon(), 0, 0+20*i);
+    }
+
+    public tick(){
+
+    }
+}
+
 
 }

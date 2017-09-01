@@ -29,6 +29,7 @@ export class Combatant extends Actor{
     private sprite: Sprite;
     private textOut: TextOut;
     private static textOutOffset = {x: 30, y: 10};
+    //private static healthBarOffset = {x: 0, y: 150};
     private opponent: Combatant | null;
     constructor(
         ctx: CanvasRenderingContext2D,
@@ -106,6 +107,9 @@ export class Combatant extends Actor{
     public getID() {
         return this.id;
     }
+    public getIcon() {
+        return this.iconImage;
+    }
     public setPosition(pos: {x: number, y: number}) {
         this.pos = pos;
         this.healthBar.setPosition({
@@ -149,6 +153,9 @@ export class Combatant extends Actor{
         if (this.stats.hitPoints <= 0)
             return true;
         return false;
+    }
+    public heal(){
+        this.stats.hitPoints += this.stats.regeneration; 
     }
 }
 
