@@ -11,13 +11,6 @@ let spriteArt = [
     'images/animation/Wizard/Wizard.png'
 ];
 
-let iconArt = [
-    'images/icons/cherries.png',
-    'images/icons/banana.png',
-    'images/icons/lime-icon.png',
-    'images/icons/orange-icon.png'
-];
-
 interface Stat {
     base: number;
     scaler: number;

@@ -3,6 +3,13 @@
 /// <reference path='ClassPicker.ts' />
 
 namespace Game {
+    
+let iconArt = [
+    'images/icons/cherries.png',
+    'images/icons/banana.png',
+    'images/icons/lime-icon.png',
+    'images/icons/orange-icon.png'
+];
 
 export class Game {
     private challenger: Combatant.Combatant | null = null;
