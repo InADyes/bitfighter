@@ -150,7 +150,9 @@ namespace Combatant {
             return false;
         }
         public heal(){
-            this.stats.hitPoints += this.stats.regeneration;
+            this.stats.hitPoints += this.stats.regeneration * 1000;
+            if(this.stats.hitPoints > 1000)
+                this.stats.hitPoints = 1000;
             this.healthBar.setHealth(this.stats.hitPoints);
         }
     }
