@@ -70,7 +70,6 @@ namespace Combatant {
             this.opponent = opponent;
         }
         public tick(timeDelta: number) {
-            if (this.opponent)
             if (this.opponent) {
                 this.attCD = this.attCD + timeDelta;
                 if (this.attCD >= this.stats.attackSpeed) {
@@ -92,8 +91,6 @@ namespace Combatant {
             this.ctx.strokeText(this.name, this.pos.x + 25, this.pos.y + 122);
             this.ctx.fillText(this.name, this.pos.x + 25, this.pos.y + 122);
             this.ctx.drawImage(this.iconImage, this.pos.x, this.pos.y + 105);
-            // this.ctx.strokeText("DMG: " + String(this.stats.attackDamage), this.pos.x, this.pos.y + 170);
-            // this.ctx.fillText("DMG: " + String(this.stats.attackDamage), this.pos.x, this.pos.y + 170);
             this.healthBar.draw();
             this.sprite.draw();
             this.textOut.draw();
@@ -136,9 +133,6 @@ namespace Combatant {
             }
         }
         private takeHit(damage: number) {
-            // if (this.stats.armor >= damage)
-            //     return;
-        
             damage -= this.stats.armor;
             if (damage < 0)
                 damage = 0;
@@ -165,7 +159,7 @@ namespace Combatant {
         private targetHealth: number = 1000;
         private redHealth: number = 1000;
         private displayedYellow: number = 1000;
-        
+
     
         private static yellowBarFollowRate: number = 7; //per millesecond
         private static healthToPixels: number = 15; //health units per pixel
