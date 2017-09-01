@@ -190,36 +190,37 @@ namespace Combatant {
         }
     }
     
-<<<<<<< HEAD
     class Sprite extends Actor {
         private spriteImage = new Image();
         private countdown: number = 0;
-=======
-        damage -= this.stats.armor;
-        if (damage < 0)
-            damage = 0;
-        this.stats.hitPoints -= damage;
-        this.healthBar.setHealth(this.stats.hitPoints);
-        this.sprite.shake();
-        console.log(this.name + " " + this.id + " Has taken " + damage + "! :(");
-        this.textOut.add(String(damage));
-        if (this.stats.hitPoints <= 0)
-            console.log(this.name + " " + this.id + " Has been slain! Their body lies motionless on the floor... ;-;");
+    
+        private static countdownStart = Math.PI * 3;
+        private static shakeAmplitude = 10;
+        private static timeToAmplitueRatio = 75;
+    
+        constructor(ctx: CanvasRenderingContext2D,  pos: {x: number, y: number}, sprite: string) {
+            super(ctx ,pos);
+            this.spriteImage.src = sprite;
+        }
+        public draw() { this.ctx.drawImage(
+                this.spriteImage,
+                this.pos.x + Math.floor(Math.sin(this.countdown) * Sprite.shakeAmplitude),
+                this.pos.y
+            );
+        }
+        public shake() {
+            this.countdown = Sprite.countdownStart;
+        }
+        public tick(timeDelta: number) {
+            this.countdown -= timeDelta / Sprite.timeToAmplitueRatio;
+            if (this.countdown < 0)
+                this.countdown = 0;
+        }
     }
-    public isDead() {
-        if (this.stats.hitPoints <= 0)
-            return true;
-        return false;
-    }
-    public heal(){
-        this.stats.hitPoints += this.stats.regeneration; 
-    }
-}
 
 class HealthBar extends Actor {
     private targetHealth: number = HealthBar.maxValue;
     private displayedYellow: number = HealthBar.maxValue;
->>>>>>> a17d63c3cbdd4b36977b011fd3332995eb5f5673
     
         private static countdownStart = Math.PI * 3;
         private static shakeAmplitude = 10;
