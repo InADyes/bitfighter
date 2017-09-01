@@ -50,7 +50,6 @@ export class Game {
     }
     //either moves somone from the queue to the arena or ticks the arena
     public tick(timeDelta: number) {
-        //console.log('timedelta:', timeDelta);
         this.checkDeath();
         this.frontCtx.clearRect(0, 0, this.canvasSize.x, this.canvasSize.y);
         if (this.champion) {
@@ -70,12 +69,6 @@ export class Game {
             }
         }
         this.graveyard.draw();
-       /* for(let i=0; i<this.graveyard.length; i++)
-            {
-                
-                this.frontCtx.drawImage(this.graveyard[i].getIcon(), 0, 0+20*i);
-            }
-        */
         window.requestAnimationFrame((timestamp) => {
             let delta = timestamp - this.lastTimestamp;
             this.lastTimestamp = timestamp;

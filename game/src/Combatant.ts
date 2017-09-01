@@ -156,38 +156,43 @@ namespace Combatant {
             return false;
         }
         public heal(){
-            this.stats.hitPoints += this.stats.regeneration; 
+            this.stats.hitPoints += this.stats.regeneration;
+            this.healthBar.setHealth(this.stats.hitPoints);
         }
     }
     
     class HealthBar extends Actor {
-        private targetHealth: number = HealthBar.maxValue;
-        private displayedYellow: number = HealthBar.maxValue;
+        private targetHealth: number = 1000;
+        private redHealth: number = 1000;
+        private displayedYellow: number = 1000;
         
     
         private static yellowBarFollowRate: number = 7; //per millesecond
         private static healthToPixels: number = 15; //health units per pixel
         private static height: number = 6; //health bar height
-        private static maxValue = 1000; //health bar max value
     
         public draw() {
            
             this.ctx.fillStyle = 'grey';
-            this.ctx.fillRect(this.pos.x, this.pos.y, HealthBar.maxValue / HealthBar.healthToPixels, HealthBar.height);
+            this.ctx.fillRect(this.pos.x, this.pos.y, 1000 / HealthBar.healthToPixels, HealthBar.height);
             this.ctx.fillStyle = 'orange';
             this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.displayedYellow / HealthBar.healthToPixels), HealthBar.height);
             this.ctx.fillStyle = 'red';
-            this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.targetHealth / HealthBar.healthToPixels), HealthBar.height);
+            this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.redHealth / HealthBar.healthToPixels), HealthBar.height);
         }
         public tick(timeDelta: number) {
-            if (this.targetHealth < this.displayedYellow) {
+            if (this.redHealth < this.displayedYellow) {
                 this.displayedYellow -= timeDelta / HealthBar.yellowBarFollowRate;
-                if (this.targetHealth > this.displayedYellow)
-                    this.displayedYellow = this.targetHealth;
+                if (this.redHealth > this.displayedYellow)
+                    this.displayedYellow = this.redHealth;
             }
+            if (this.redHealth < this.targetHealth)
+                this.redHealth += timeDelta / HealthBar.yellowBarFollowRate;
         }
         public setHealth(health: number) {
             this.targetHealth = health;
+            if (this.redHealth > this.targetHealth)
+                this.redHealth = this.targetHealth;
         }
     }
     
