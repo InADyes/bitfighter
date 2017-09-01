@@ -29,8 +29,8 @@ namespace Combatant {
         private sprite: Sprite;
         private textOut: TextOut;
         private static textOutOffset = {x: 30, y: 10};
-        //private static healthBarOffset = {x: 0, y: 150};
         private opponent: Combatant | null;
+        private attackAnimationStarted = false;
         constructor(
             ctx: CanvasRenderingContext2D,
             pos: {x: number, y: number},
@@ -72,9 +72,14 @@ namespace Combatant {
         public tick(timeDelta: number) {
             if (this.opponent) {
                 this.attCD = this.attCD + timeDelta;
+                if (this.attackAnimationStarted == false && this.attCD >= this.stats.attackSpeed - 150) {
+                    this.sprite.attackAnimation();
+                    this.attackAnimationStarted = true;
+                }
                 if (this.attCD >= this.stats.attackSpeed) {
                     this.attack(this.opponent);
                     this.attCD = this.attCD - this.stats.attackSpeed;
+                    this.attackAnimationStarted = false;
                 }
             }
             else
@@ -138,7 +143,7 @@ namespace Combatant {
                 damage = 0;
             this.stats.hitPoints -= damage;
             this.healthBar.setHealth(this.stats.hitPoints);
-            this.sprite.shake();
+            //this.sprite.shake();
             console.log(this.name + " " + this.id + " Has taken " + damage + "! :(");
             this.textOut.add(String(damage));
             if (this.stats.hitPoints <= 0)
@@ -153,6 +158,9 @@ namespace Combatant {
             this.stats.hitPoints += this.stats.regeneration;
             this.healthBar.setHealth(this.stats.hitPoints);
         }
+        public setFacingDirection(left: boolean) {
+            this.sprite.setFacingDirection(left);
+        }
     }
     
     class HealthBar extends Actor {
@@ -166,7 +174,6 @@ namespace Combatant {
         private static height: number = 6; //health bar height
     
         public draw() {
-           
             this.ctx.fillStyle = 'grey';
             this.ctx.fillRect(this.pos.x, this.pos.y, 1000 / HealthBar.healthToPixels, HealthBar.height);
             this.ctx.fillStyle = 'orange';
@@ -193,8 +200,9 @@ namespace Combatant {
     class Sprite extends Actor {
         private spriteImage = new Image();
         private countdown: number = 0;
+        private facingLeft =  false;
     
-        private static countdownStart = Math.PI * 3;
+        private static countdownStart = Math.PI;
         private static shakeAmplitude = 10;
         private static timeToAmplitueRatio = 75;
     
@@ -202,19 +210,24 @@ namespace Combatant {
             super(ctx ,pos);
             this.spriteImage.src = sprite;
         }
-        public draw() { this.ctx.drawImage(
+        public draw() {
+            let offset = Math.floor(Math.sin(this.countdown) * Sprite.shakeAmplitude);
+            this.ctx.drawImage(
                 this.spriteImage,
-                this.pos.x + Math.floor(Math.sin(this.countdown) * Sprite.shakeAmplitude),
+                this.facingLeft ? this.pos.x - offset : this.pos.x + offset,
                 this.pos.y
             );
         }
-        public shake() {
+        public attackAnimation() {
             this.countdown = Sprite.countdownStart;
         }
         public tick(timeDelta: number) {
             this.countdown -= timeDelta / Sprite.timeToAmplitueRatio;
             if (this.countdown < 0)
                 this.countdown = 0;
+        }
+        public setFacingDirection(left: boolean) {
+            this.facingLeft = left;
         }
     }
     
