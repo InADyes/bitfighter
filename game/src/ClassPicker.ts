@@ -2,14 +2,6 @@
 /// <reference path='Combatant.ts' />
 
 namespace ClassPicker {
-    
-let spriteArt = [
-    'images/animation/champion_alpha.png',
-    'images/animation/Axe/Axe.png',
-    'images/animation/Katana/Katana.png',
-    'images/animation/Orc/Orc.png',
-    'images/animation/Wizard/Wizard.png'
-];
 
 interface Stat {
     base: number;
@@ -37,7 +29,7 @@ let characters: Character[] = [
         attackDamage: {base: 125, scaler: 0},
         armor: {base: 25, scaler: 0},
         regeneration: {base: 200, scaler: 0},
-        spriteUrl: 'images/animation/champion_alpha.png'
+        spriteUrl: 'images/characters/sword.png'
     },
     { // daggers
         hitPoints: {base: 1000, scaler: 0},
@@ -47,7 +39,7 @@ let characters: Character[] = [
         attackDamage: {base: 125, scaler: 0},
         armor: {base: 25, scaler: 0},
         regeneration: {base: 200, scaler: 0},
-        spriteUrl: 'images/animation/elf.png'
+        spriteUrl: 'images/characters/daggers.png'
     },
     { // big axe
         hitPoints: {base: 1000, scaler: 0},
@@ -57,7 +49,7 @@ let characters: Character[] = [
         attackDamage: {base: 125, scaler: 0},
         armor: {base: 25, scaler: 0},
         regeneration: {base: 200, scaler: 0},
-        spriteUrl: 'images/animation/elf.png'
+        spriteUrl: 'images/characters/axe.png'
     }
 ];
 
