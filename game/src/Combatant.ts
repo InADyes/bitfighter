@@ -28,9 +28,9 @@ namespace Combatant {
         private static healthBarOffset = {x: 0, y: 130};
         private sprite: Sprite;
         private textOut: TextOut;
-        private static textOutOffset = {x: 30, y: 10};
+        private static textOutOffset = {x: 30, y: 0};
         private opponent: Combatant | null;
-        private attackAnimationStarted = false;
+        private deathTimeout = 1500;
         constructor(
             ctx: CanvasRenderingContext2D,
             pos: {x: number, y: number},
@@ -70,20 +70,20 @@ namespace Combatant {
             this.opponent = opponent;
         }
         public tick(timeDelta: number) {
-            if (this.opponent) {
+            if (this.opponent && this.opponent.stats.hitPoints > 0 && this.stats.hitPoints > 0) { // todo: fix me
                 this.attCD = this.attCD + timeDelta;
-                if (this.attackAnimationStarted == false && this.attCD >= this.stats.attackSpeed - 150) {
+                if (this.attCD >= this.stats.attackSpeed - 150 && this.attCD - timeDelta <= this.stats.attackSpeed - 150) {
                     this.sprite.attackAnimation();
-                    this.attackAnimationStarted = true;
                 }
                 if (this.attCD >= this.stats.attackSpeed) {
                     this.attack(this.opponent);
                     this.attCD = this.attCD - this.stats.attackSpeed;
-                    this.attackAnimationStarted = false;
                 }
             }
             else
                 this.attCD = 0;
+            if (this.stats.hitPoints <= 0)
+                this.deathTimeout -= timeDelta;
             this.healthBar.tick(timeDelta);
             this.sprite.tick(timeDelta);
             this.textOut.tick(timeDelta);
@@ -135,6 +135,7 @@ namespace Combatant {
                 opponent.takeHit(this.stats.attackDamage);
             } else {
                 console.log(this.name + " " + this.id + " Missed the attack! Yikes!!! >_<");
+                opponent.textOut.add('dodge', 'orange');
             }
         }
         private takeHit(damage: number) {
@@ -142,15 +143,19 @@ namespace Combatant {
             if (damage < 0)
                 damage = 0;
             this.stats.hitPoints -= damage;
+            if (this.stats.hitPoints < 0)
+                this.stats.hitPoints = 0;
             this.healthBar.setHealth(this.stats.hitPoints);
             //this.sprite.shake();
             console.log(this.name + " " + this.id + " Has taken " + damage + "! :(");
-            this.textOut.add(String(damage));
+            this.textOut.add(String(damage), 'red');
             if (this.stats.hitPoints <= 0)
                 console.log(this.name + " " + this.id + " Has been slain! Their body lies motionless on the floor... ;-;");
         }
         public isDead() {
-            if (this.stats.hitPoints <= 0)
+            // if (this.stats.hitPoints <= 0)
+            //     return true;
+            if (this.deathTimeout <= 0)
                 return true;
             return false;
         }
@@ -254,23 +259,24 @@ namespace Combatant {
     
         private displayedText: {
             text: string,
-            timeout: number
+            timeout: number,
+            color: string
         }[] = [];
         public tick(timeDelta: number) {
             this.displayedText.forEach(e => e.timeout += timeDelta);
             this.displayedText = this.displayedText.filter(e => e.timeout < TextOut.timeout);
         }
         public draw() {
-            this.ctx.fillStyle = 'red';
             this.ctx.strokeStyle = 'black';
             this.ctx.font = "14px Arial";
             this.displayedText.forEach(e => {
+                this.ctx.fillStyle = e.color;
                 this.ctx.strokeText(e.text, this.pos.x, this.pos.y - e.timeout / TextOut.offsetRatio);
                 this.ctx.fillText(e.text, this.pos.x, this.pos.y - e.timeout / TextOut.offsetRatio);
             });
         }
-        public add(text: string) {
-            this.displayedText.push({text: text, timeout: 0});
+        public add(text: string, color: string) {
+            this.displayedText.push({text: text, timeout: 0, color: color});
         }
     }
     
