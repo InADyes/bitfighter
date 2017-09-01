@@ -1,4 +1,3 @@
-//interface
 abstract class Actor {
     protected ctx: CanvasRenderingContext2D;
     protected pos: {x: number, y: number};

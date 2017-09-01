@@ -1,25 +1,44 @@
 namespace Combatant {
 
+export interface Stats {
+    hitPoints: number;
+    accuracy: number;
+    dodge: number;
+    attackSpeed: number;
+    attackDamage: number;
+    armor: number;
+    regeneration: number;
+}
+
 export class Combatant extends Actor{
     private id: number;
     private name: string;
     private iconImage = new Image();
     private attCD = 0;
+<<<<<<< HEAD
     private dmgChk = false;
     private recoveramount = 0;
+=======
+>>>>>>> origin
     private stats: {
-            hp: number;
-            att: number;
-            def: number;
-            attspd: number;
-            dmg: number;
-            armr: number;
-            regen: number;
+            hitPoints: number; // hit points (max is 1000)
+            accuracy: number;
+            dodge: number;
+            attackSpeed: number; // attacks per millisecond
+            attackDamage: number;
+            armor: number; // damage reduction
+            regeneration: number; // after a fight char will be healed by this amount
     };
     private healthBar: HealthBar;
+    private static healthBarOffset = {x: 0, y: 130};
     private sprite: Sprite;
+<<<<<<< HEAD
    
     private static healthBarOffset = {x: 0, y: 150};
+=======
+    private textOut: TextOut;
+    private static textOutOffset = {x: 30, y: 10};
+>>>>>>> origin
     private opponent: Combatant | null;
     constructor(
         ctx: CanvasRenderingContext2D,
@@ -29,13 +48,13 @@ export class Combatant extends Actor{
         icon: string,
         sprite: string,
         stats: {
-            hp: number;
-            att: number;
-            def: number;
-            attspd: number;
-            dmg: number;
-            armr: number;
-            regen: number;
+            hitPoints: number;
+            accuracy: number;
+            dodge: number;
+            attackSpeed: number;
+            attackDamage: number;
+            armor: number;
+            regeneration: number;
         }
     ) {
         super(ctx, pos);
@@ -43,9 +62,19 @@ export class Combatant extends Actor{
         this.name = name;
         this.iconImage.src = icon; 
         this.stats = stats;
-        this.healthBar = new HealthBar(ctx, {x: pos.x + Combatant.healthBarOffset.x, y: pos.y + Combatant.healthBarOffset.y});
+        this.healthBar = new HealthBar(ctx, {
+            x: pos.x + Combatant.healthBarOffset.x,
+            y: pos.y + Combatant.healthBarOffset.y
+        });
         this.sprite = new Sprite(ctx, {x: pos.x, y: pos.y}, sprite);
+<<<<<<< HEAD
         //this.graveyard = new Graveyard(ctx, {x: pos.x, y: pos.y});
+=======
+        this.textOut = new TextOut(ctx, {
+            x: pos.x + Combatant.textOutOffset.x ,
+            y: pos.y + Combatant.textOutOffset.y
+        });
+>>>>>>> origin
     }
     toString() {
         return this.name;
@@ -54,37 +83,39 @@ export class Combatant extends Actor{
         this.opponent = opponent;
     }
     public tick(timeDelta: number) {
+        if (this.opponent)
         if (this.opponent) {
             this.attCD = this.attCD + timeDelta;
-            if (this.attCD >= this.stats.attspd) {
-                this.toHit();
-                this.attCD = this.attCD - this.stats.attspd;
-            }
-            if (this.dmgChk == true) {
-                this.dmgRoll();
-                this.dmgChk = false;
+            if (this.attCD >= this.stats.attackSpeed) {
+                this.attack(this.opponent);
+                this.attCD = this.attCD - this.stats.attackSpeed;
             }
         }
         else
             this.attCD = 0;
         this.healthBar.tick(timeDelta);
         this.sprite.tick(timeDelta);
+        this.textOut.tick(timeDelta);
     }
     public draw() {
         this.ctx.fillStyle = 'black';
-        this.ctx.font = "15px Arial";
-        this.ctx.fillText(this.name, this.pos.x+40, this.pos.y+140);
-        this.ctx.drawImage(this.iconImage, this.pos.x, this.pos.y+120)
-        this.ctx.fillStyle = 'black';
-        this.ctx.fillText("DMG: "+String(this.stats.dmg), this.pos.x, this.pos.y+170);
+        this.ctx.strokeStyle = 'white';
+        this.ctx.font = "14px Arial";
+        this.ctx.lineWidth = 1;
+        this.ctx.strokeText(this.name, this.pos.x + 25, this.pos.y + 122);
+        this.ctx.fillText(this.name, this.pos.x + 25, this.pos.y + 122);
+        this.ctx.drawImage(this.iconImage, this.pos.x, this.pos.y + 105);
+        // this.ctx.strokeText("DMG: " + String(this.stats.attackDamage), this.pos.x, this.pos.y + 170);
+        // this.ctx.fillText("DMG: " + String(this.stats.attackDamage), this.pos.x, this.pos.y + 170);
         this.healthBar.draw();
         this.sprite.draw();
+        this.textOut.draw();
     }
     public donate(amount: number) {
-        this.stats.att = this.stats.att + amount;
-        this.stats.def = this.stats.att + amount;
-        this.stats.hp = this.stats.hp + amount;
-        this.healthBar.setHealth(this.stats.hp)
+        this.stats.accuracy = this.stats.accuracy + amount;
+        this.stats.dodge = this.stats.accuracy + amount;
+        this.stats.hitPoints = this.stats.hitPoints + amount;
+        this.healthBar.setHealth(this.stats.hitPoints)
     }
     public getID() {
         return this.id;
@@ -94,46 +125,45 @@ export class Combatant extends Actor{
     }
     public setPosition(pos: {x: number, y: number}) {
         this.pos = pos;
-        this.healthBar.setPosition({x: pos.x + Combatant.healthBarOffset.x, y: pos.y + Combatant.healthBarOffset.y});
+        this.healthBar.setPosition({
+            x: pos.x + Combatant.healthBarOffset.x,
+            y: pos.y + Combatant.healthBarOffset.y
+        });
         this.sprite.setPosition(this.pos);
+        this.textOut.setPosition({
+            x: pos.x + Combatant.textOutOffset.x ,
+            y: pos.y + Combatant.textOutOffset.y
+        });
     }
-    protected toHit() {
+    private attack(opponent: Combatant) {
         let total:      number;
         let roll:       number;
-        if (this.opponent == null)
-            return;
-        total = this.stats.att + this.opponent.stats.def;
+    
+        total = this.stats.accuracy + opponent.stats.dodge;
         roll = Math.ceil(Math.random() * total);
-        if (roll <= this.stats.att){
-            console.log(this.name + " " + this.id + " Has hit! =D")
-            this.dmgChk = true;
+        if (roll <= this.stats.accuracy){
+            console.log(this.name + " " + this.id + " Has hit! =D");
+            opponent.takeHit(this.stats.attackDamage);
+        } else {
+            console.log(this.name + " " + this.id + " Missed the attack! Yikes!!! >_<");
         }
-        if (roll > this.stats.att){
-            console.log(this.name + " " + this.id + " Missed the attack! Yikes!!! >_<")
-        }
-        return;
     }
-    protected dmgRoll() {
-        let damage:      number;
-        if (this.opponent == null)
-            return;
-        damage = this.stats.dmg - this.opponent.stats.armr;
-        if (damage > 0) {
-            this.opponent.stats.hp = this.opponent.stats.hp - damage;
-            this.opponent.healthBar.setHealth(this.opponent.stats.hp);
-            this.opponent.healthBar.draw()
-            this.opponent.sprite.shake();
-            console.log(this.opponent.name + " " + this.opponent.id + " Has taken " +damage + "! :(");
-        }
-        if (this.opponent.stats.hp <= 0) {
-            this.opponent.stats.hp = 0;
-            this.opponent.healthBar.setHealth(0);
-            this.opponent.healthBar.draw()
-            console.log(this. opponent.name + " " + this.opponent.id + " Has been slain! Their body lies motionless on the floor... ;-;")
-        }
+    private takeHit(damage: number) {
+        // if (this.stats.armor >= damage)
+        //     return;
+    
+        this.stats.hitPoints -= damage - this.stats.armor;
+        if (damage < 0)
+            damage = 0;
+        this.healthBar.setHealth(this.stats.hitPoints);
+        this.sprite.shake();
+        console.log(this.name + " " + this.id + " Has taken " + damage + "! :(");
+        this.textOut.add(String(damage));
+        if (this.stats.hitPoints <= 0)
+            console.log(this.name + " " + this.id + " Has been slain! Their body lies motionless on the floor... ;-;");
     }
     public isDead() {
-        if (this.stats.hp <= 0)
+        if (this.stats.hitPoints <= 0)
             return true;
         return false;
     }
@@ -144,18 +174,19 @@ export class Combatant extends Actor{
 }
 
 class HealthBar extends Actor {
-    private targetHealth: number = 1000;
-    private displayedYellow: number = 1000;
+    private targetHealth: number = HealthBar.maxValue;
+    private displayedYellow: number = HealthBar.maxValue;
     
 
     private static yellowBarFollowRate: number = 7; //per millesecond
     private static healthToPixels: number = 15; //health units per pixel
     private static height: number = 6; //health bar height
+    private static maxValue = 1000; //health bar max value
 
     public draw() {
        
         this.ctx.fillStyle = 'grey';
-        this.ctx.fillRect(this.pos.x, this.pos.y, 1000 / HealthBar.healthToPixels, HealthBar.height);
+        this.ctx.fillRect(this.pos.x, this.pos.y, HealthBar.maxValue / HealthBar.healthToPixels, HealthBar.height);
         this.ctx.fillStyle = 'orange';
         this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.displayedYellow / HealthBar.healthToPixels), HealthBar.height);
         this.ctx.fillStyle = 'red';
@@ -202,5 +233,33 @@ class Sprite extends Actor {
     }
 }
 
+<<<<<<< HEAD
+=======
+class TextOut extends Actor {
+    private static timeout = 5000;
+    private static offsetRatio = 50;
+
+    private displayedText: {
+        text: string,
+        timeout: number
+    }[] = [];
+    public tick(timeDelta: number) {
+        this.displayedText.forEach(e => e.timeout += timeDelta);
+        this.displayedText = this.displayedText.filter(e => e.timeout < TextOut.timeout);
+    }
+    public draw() {
+        this.ctx.fillStyle = 'red';
+        this.ctx.strokeStyle = 'black';
+        this.ctx.font = "14px Arial";
+        this.displayedText.forEach(e => {
+            this.ctx.strokeText(e.text, this.pos.x, this.pos.y - e.timeout / TextOut.offsetRatio);
+            this.ctx.fillText(e.text, this.pos.x, this.pos.y - e.timeout / TextOut.offsetRatio);
+        });
+    }
+    public add(text: string) {
+        this.displayedText.push({text: text, timeout: 0});
+    }
+}
+>>>>>>> origin
 
 }
