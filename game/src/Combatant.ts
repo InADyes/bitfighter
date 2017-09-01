@@ -139,9 +139,10 @@ export class Combatant extends Actor{
         // if (this.stats.armor >= damage)
         //     return;
     
-        this.stats.hitPoints -= damage - this.stats.armor;
+        damage -= this.stats.armor;
         if (damage < 0)
             damage = 0;
+        this.stats.hitPoints -= damage;
         this.healthBar.setHealth(this.stats.hitPoints);
         this.sprite.shake();
         console.log(this.name + " " + this.id + " Has taken " + damage + "! :(");

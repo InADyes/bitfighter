@@ -29,7 +29,7 @@ interface Character {
 
 // still thinking about this
 let characters: Character[] = [
-    {
+    { // regular
         hitPoints: {base: 1000, scaler: 0},
         accuracy: {base: 0, scaler: 1},
         dodge: {base: 0, scaler: 1},
@@ -38,6 +38,16 @@ let characters: Character[] = [
         armor: {base: 25, scaler: 0},
         regeneration: {base: 200, scaler: 0},
         spriteUrl: 'images/animation/champion_alpha.png'
+    },
+    { // elf
+        hitPoints: {base: 1000, scaler: 0},
+        accuracy: {base: 0, scaler: 1},
+        dodge: {base: 0, scaler: 1},
+        attackSpeed: {base: 2000, scaler: 500},
+        attackDamage: {base: 125, scaler: 0},
+        armor: {base: 25, scaler: 0},
+        regeneration: {base: 200, scaler: 0},
+        spriteUrl: 'images/animation/elf.png'
     }
 ];
 
