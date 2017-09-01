@@ -214,11 +214,26 @@ namespace Combatant {
         }
         public draw() {
             let offset = Math.floor(Math.sin(this.countdown) * Sprite.shakeAmplitude);
-            this.ctx.drawImage(
-                this.spriteImage,
-                this.facingLeft ? this.pos.x - offset : this.pos.x + offset,
-                this.pos.y
-            );
+            if (this.facingLeft){
+                this.ctx.save()
+                this.ctx.scale(-1,1);
+                this.ctx.drawImage(
+                    this.spriteImage,
+                    this.facingLeft ? -(this.pos.x+90 - offset) : -(this.pos.x+90 + offset),
+                    this.pos.y
+                );
+                this.ctx.restore();
+            }
+            else
+                {
+                    this.ctx.drawImage(
+                        this.spriteImage,
+                        this.facingLeft ? this.pos.x - offset : this.pos.x + offset,
+                        this.pos.y
+                    );
+                }
+
+            
         }
         public attackAnimation() {
             this.countdown = Sprite.countdownStart;
