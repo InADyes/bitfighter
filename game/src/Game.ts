@@ -29,6 +29,7 @@ export class Game {
     constructor(front: HTMLCanvasElement, back: HTMLCanvasElement) {
         let frontCtx = front.getContext('2d');
         let backCtx = front.getContext('2d');
+
         if (frontCtx == null || backCtx == null) {
             console.error("could not get get canvas 2d context");
             return;
@@ -56,17 +57,14 @@ export class Game {
             this.champion.tick(timeDelta);
             this.champion.draw();
         }
-
         if (this.challenger) {
             this.challenger.tick(timeDelta);
             this.challenger.draw();
-        }
-        else {
-            if (this.checkQueue <= 0) {
+        } else {
+            if (this.checkQueue <= 0)
                 this.newChallenger();
-            } else {
+            else
                 this.checkQueue -= timeDelta;
-            }
         }
         this.graveyard.draw();
         window.requestAnimationFrame((timestamp) => {
@@ -80,6 +78,7 @@ export class Game {
         if (this.challenger && this.challenger.isDead()) {
             if(this.champion == null)
                 return;
+
             this.graveyard.addloser(this.challenger);
             this.challenger = null;
             this.champion.heal();
@@ -122,24 +121,21 @@ export class Game {
         console.log(this);
     }
     updateOpponants() {
-        if (this.challenger) {
+        if (this.challenger)
             this.challenger.setOpponent(this.champion);
-        }
-        if (this.champion) {
+        if (this.champion)
             this.champion.setOpponent(this.challenger);
-        }
     }
     public donate(donation: {id: number, name: string, amount: number, art: number}) {
         let champ: Combatant.Combatant | null;
 
-        if (this.champion != null && this.champion.getID() == donation.id) {
+        if (this.champion != null && this.champion.getID() == donation.id)
             this.champion.donate(donation.amount);
-        } else if (this.challenger != null && this.challenger.getID() == donation.id)
+        else if (this.challenger != null && this.challenger.getID() == donation.id)
             this.challenger.donate(donation.amount);
         else if ((champ = this.searchQueue(donation.id)) != null)
             champ.donate(donation.amount)
         else {
-            //replace with logic in seperate place
             let pick = ClassPicker.pickCharacter(donation);
             let champ = new Combatant.Combatant(
                 this.frontCtx,
@@ -157,14 +153,8 @@ export class Game {
     }
 }
 
-export class Graveyard extends Actor{
-    //private graveyardowner: number;
+class Graveyard extends Actor{
     private graveyardqueue: Combatant.Combatant[] = [];
-
-   // constructor(ctx: CanvasRenderingContext2D,  pos: {x: number, y: number}, graveyardid: number) {
-   //     super(ctx ,pos);
-    //this.graveyardowner = graveyardid;
-   // }
   
     public addloser(champ: Combatant.Combatant) {
         this.graveyardqueue.push(champ);
@@ -177,14 +167,11 @@ export class Graveyard extends Actor{
         this.graveyardqueue = [];
     }
     public draw() {
-        for(let i = 0; i < this.graveyardqueue.length; i++)
+        for (let i = 0; i < this.graveyardqueue.length; i++)
             this.ctx.drawImage(this.graveyardqueue[i].getIcon(), 0, 0 + 20 * i);
     }
 
-    public tick() {
-
-    }
+    public tick() {}
 }
-
 
 }
