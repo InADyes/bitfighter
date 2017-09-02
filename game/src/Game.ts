@@ -139,14 +139,13 @@ export class Game {
             let pick = ClassPicker.pickCharacter(donation);
             let champ = new Combatant.Combatant(
                 this.frontCtx,
-                {x: 0, y: 0},
+                Game.challengerLocation,
                 donation.id,
                 donation.name,
                 iconArt[Math.floor((iconArt.length * Math.random()))],
                 pick.spriteUrl,
                 pick.stats
             );
-            champ.setPosition(Game.challengerLocation);
             champ.setFacingDirection(true);
             this.queue.push(champ);
         }
