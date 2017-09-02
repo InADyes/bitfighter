@@ -12,8 +12,7 @@ let iconArt = [
 ];
 
 export class Game {
-    private challenger: Combatant.Combatant | null = null;
-    private champion: Combatant.Combatant | null = null;
+    private arena: Combatant.Combatant[] = [];
     private queue: Combatant.Combatant[] = [];
     private graveyard: Graveyard; 
     private frontCtx: CanvasRenderingContext2D;
@@ -51,103 +50,90 @@ export class Game {
     }
     //either moves somone from the queue to the arena or ticks the arena
     public tick(timeDelta: number) {
-        this.checkDeath();
         this.frontCtx.clearRect(0, 0, this.canvasSize.x, this.canvasSize.y);
-        if (this.champion) {
-            this.champion.tick(timeDelta);
-            this.champion.draw();
-        }
-        if (this.challenger) {
-            this.challenger.tick(timeDelta);
-            this.challenger.draw();
-        } else {
+
+        if (this.arena.length < 2) {
             if (this.checkQueue <= 0)
                 this.newChallenger();
             else
                 this.checkQueue -= timeDelta;
         }
+        this.arena.forEach(c => c.tick(timeDelta));
+        this.arena.forEach(c => c.draw());
         this.graveyard.draw();
-        window.requestAnimationFrame((timestamp) => {
+        window.requestAnimationFrame(timestamp => {
             let delta = timestamp - this.lastTimestamp;
             this.lastTimestamp = timestamp;
-            //delta = delta * 4;
+            delta = delta * 4;
             this.tick(delta);
         });
     }
-    checkDeath() {
-        if (this.challenger && this.challenger.isDead()) {
-            if(this.champion == null)
-                return;
-
-            this.graveyard.addloser(this.challenger);
-            this.challenger = null;
-            this.champion.heal();
-            this.updateOpponants();
-        }
-        if (this.champion && this.champion.isDead()) {
-            if (this.challenger) {
-                this.graveyard.clearqueue();
-                this.graveyard.addloser(this.champion);
-                this.champion = this.challenger;
-                this.champion.setPosition(Game.championLocation);
-                this.champion.setFacingDirection(false);
-                this.challenger = null;
-                this.champion.heal();
-                this.updateOpponants();
-            } else {
-                this.graveyard.clearqueue();
-                this.champion = null;
-            }
-        }
+    //somone died in the arena
+    arenaDeath(combatant: Combatant.Combatant) {
+        let index = this.arena.indexOf(combatant);
+        this.arena.splice(index, 1);
+        if (this.arena[0])
+            this.arena[0].heal();
+        this.updateArenaState();
     }
     newChallenger() {
         let champ = this.queue.shift();
 
         if (champ == undefined) {
-            console.log("no Combatants in queue");
             return;
         }
 
-        if (this.champion == null) {
-            champ.setPosition(Game.championLocation);
-            champ.setFacingDirection(false);
-            this.champion = champ;
-        } else {
-            this.challenger = champ;
-            this.updateOpponants();
-        }
+        this.arena.push(champ);
         this.checkQueue = Game.fightTimeout;
+        this.updateArenaState();
+    
         console.log("new challenger");
         console.log(this);
     }
-    updateOpponants() {
-        if (this.challenger)
-            this.challenger.setOpponent(this.champion);
-        if (this.champion)
-            this.champion.setOpponent(this.challenger);
+    private updateArenaState() {
+        // update positions
+        if (this.arena[0]) {
+            this.arena[0].setPosition(Game.championLocation);
+            this.arena[0].setFacingDirection(false);
+        }
+        if (this.arena[1]) {
+            this.arena[1].setPosition(Game.challengerLocation);
+            this.arena[1].setFacingDirection(true);
+        }
+
+        // update mode
+        if (this.arena.length > 1)
+            this.arena.forEach(c => c.fight());
+        else
+            this.arena.forEach(c => c.wait());
     }
     public donate(donation: {id: number, name: string, amount: number, art: number}) {
         let champ: Combatant.Combatant | null;
 
-        if (this.champion != null && this.champion.getID() == donation.id)
-            this.champion.donate(donation.amount);
-        else if (this.challenger != null && this.challenger.getID() == donation.id)
-            this.challenger.donate(donation.amount);
+        if (this.arena[0] && this.arena[0].getID() == donation.id)
+            this.arena[0].donate(donation.amount);
+        else if (this.arena[1] && this.arena[1].getID() == donation.id)
+            this.arena[1].donate(donation.amount);
         else if ((champ = this.searchQueue(donation.id)) != null)
             champ.donate(donation.amount)
         else {
             let pick = ClassPicker.pickCharacter(donation);
-            let champ = new Combatant.Combatant(
+            this.queue.push(new Combatant.Combatant(
                 this.frontCtx,
                 Game.challengerLocation,
                 donation.id,
                 donation.name,
                 iconArt[Math.floor((iconArt.length * Math.random()))],
                 pick.spriteUrl,
-                pick.stats
-            );
-            champ.setFacingDirection(true);
-            this.queue.push(champ);
+                pick.stats,
+                this.arenaDeath.bind(this),
+                (combatant, damage, accuracy) => {
+                    if (this.arena[0] && this.arena[0] != combatant)
+                        this.arena[0].takeHit(damage, accuracy);
+                    else if (this.arena[1])
+                        this.arena[1].takeHit(damage, accuracy);
+                }
+            ));
         }
     }
 }
