@@ -119,6 +119,11 @@ export class Game {
         }
     }
     private clearDead() {
+        // clean graveyard
+        if (this.arena[0] && this.arena[0].isDead())
+            this.graveyard.clearqueue();
+
+        // clean arena
         this.arena = this.arena.filter(c => {
             if (c.isDead()) {
                 this.graveyard.addloser(c);

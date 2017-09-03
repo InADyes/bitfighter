@@ -236,16 +236,13 @@ namespace Combatant {
                 );
                 this.ctx.restore();
             }
-            else
-                {
-                    this.ctx.drawImage(
-                        this.spriteImage,
-                        this.facingLeft ? this.pos.x - offset : this.pos.x + offset,
-                        this.pos.y
-                    );
-                }
-
-            
+            else  {
+                this.ctx.drawImage(
+                    this.spriteImage,
+                    this.facingLeft ? this.pos.x - offset : this.pos.x + offset,
+                    this.pos.y
+                );
+            }
         }
         public attackAnimation() {
             this.countdown = Sprite.countdownStart;
