@@ -97,8 +97,8 @@ export class Game {
 
         this.arena.push(champ);
         this.timeout = Game.fightTimeout;
+        
         this.updateArenaLocations();
-
         if (this.arena.length >= 2) {
             this.state = GameStates.fighting;
             this.arena.forEach(c => c.fight());
@@ -107,8 +107,8 @@ export class Game {
         console.log("new challenger");
         console.log(this);
     }
+    // update positions
     private updateArenaLocations() {
-        // update positions
         if (this.arena[0]) {
             this.arena[0].setPosition(Game.championLocation);
             this.arena[0].setFacingDirection(false);
@@ -119,8 +119,20 @@ export class Game {
         }
     }
     private clearDead() {
-        this.arena = this.arena.filter(c => c.isDead() == false);
+        let newArena: Combatant.Combatant[] = [];
+
+        this.arena.forEach(c => {
+            if (c.isDead())
+                this.graveyard.addloser(c);
+            else
+                newArena.push(c);
+        });
+
+        this.arena = newArena;
         this.arena.forEach(c => c.heal());
+
+        // update game state and initalize new game state
+        this.updateArenaLocations();
         this.state = GameStates.waitingForChallenger;
         this.timeout = Game.fightTimeout;
     }
