@@ -11,6 +11,12 @@ let iconArt = [
     'images/icons/orange-icon.png'
 ];
 
+const enum GameStates {
+    waitingForChallenger,
+    fighting,
+    deathTimeout
+};
+
 export class Game {
     private arena: Combatant.Combatant[] = [];
     private queue: Combatant.Combatant[] = [];
@@ -20,8 +26,10 @@ export class Game {
     private canvasSize: {x: number, y: number};
     private lastTimestamp: number = performance.now();
 
+    private state: GameStates = GameStates.waitingForChallenger;
+    private timeout: number = 0; // used differently depening on state
+
     private static fightTimeout: number = 3000; // how long between fights in milliseconds
-    private checkQueue: number = Game.fightTimeout; // countdown for starting a new fight
     private static championLocation = {x: 20, y: 30};
     private static challengerLocation = {x: 100, y: 30};
 
@@ -52,11 +60,23 @@ export class Game {
     public tick(timeDelta: number) {
         this.frontCtx.clearRect(0, 0, this.canvasSize.x, this.canvasSize.y);
 
-        if (this.arena.length < 2) {
-            if (this.checkQueue <= 0)
-                this.newChallenger();
-            else
-                this.checkQueue -= timeDelta;
+        switch (this.state) {
+            case GameStates.waitingForChallenger:
+                if (this.timeout <= 0)
+                    this.newChallenger();
+                else
+                    this.timeout -= timeDelta;
+                break;
+            case GameStates.deathTimeout:
+                if (this.timeout <= 0)
+                    this.clearDead()
+                else
+                    this.timeout -= timeDelta;
+                break;
+            case GameStates.fighting:
+                break;
+            default:
+                console.error('bad game state');
         }
         this.arena.forEach(c => c.tick(timeDelta));
         this.arena.forEach(c => c.draw());
@@ -68,14 +88,6 @@ export class Game {
             this.tick(delta);
         });
     }
-    //somone died in the arena
-    arenaDeath(combatant: Combatant.Combatant) {
-        let index = this.arena.indexOf(combatant);
-        this.arena.splice(index, 1);
-        if (this.arena[0])
-            this.arena[0].heal();
-        this.updateArenaState();
-    }
     newChallenger() {
         let champ = this.queue.shift();
 
@@ -84,13 +96,18 @@ export class Game {
         }
 
         this.arena.push(champ);
-        this.checkQueue = Game.fightTimeout;
-        this.updateArenaState();
-    
+        this.timeout = Game.fightTimeout;
+        this.updateArenaLocations();
+
+        if (this.arena.length >= 2) {
+            this.state = GameStates.fighting;
+            this.arena.forEach(c => c.fight());
+        }
+        
         console.log("new challenger");
         console.log(this);
     }
-    private updateArenaState() {
+    private updateArenaLocations() {
         // update positions
         if (this.arena[0]) {
             this.arena[0].setPosition(Game.championLocation);
@@ -100,12 +117,12 @@ export class Game {
             this.arena[1].setPosition(Game.challengerLocation);
             this.arena[1].setFacingDirection(true);
         }
-
-        // update mode
-        if (this.arena.length > 1)
-            this.arena.forEach(c => c.fight());
-        else
-            this.arena.forEach(c => c.wait());
+    }
+    private clearDead() {
+        this.arena = this.arena.filter(c => c.isDead() == false);
+        this.arena.forEach(c => c.heal());
+        this.state = GameStates.waitingForChallenger;
+        this.timeout = Game.fightTimeout;
     }
     public donate(donation: {id: number, name: string, amount: number, art: number}) {
         let champ: Combatant.Combatant | null;
@@ -126,7 +143,10 @@ export class Game {
                 iconArt[Math.floor((iconArt.length * Math.random()))],
                 pick.spriteUrl,
                 pick.stats,
-                this.arenaDeath.bind(this),
+                () => {
+                    this.state = GameStates.deathTimeout;
+                    this.arena.forEach(c => c.wait());
+                },
                 (combatant, damage, accuracy) => {
                     if (this.arena[0] && this.arena[0] != combatant)
                         this.arena[0].takeHit(damage, accuracy);

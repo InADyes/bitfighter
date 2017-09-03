@@ -161,7 +161,7 @@ namespace Combatant {
                 this.deathEvent(this);
             }
         }
-        public heal(){
+        public heal() {
             this.stats.hitPoints += this.stats.regeneration * 1000;
             if(this.stats.hitPoints > 1000)
                 this.stats.hitPoints = 1000;
@@ -169,6 +169,11 @@ namespace Combatant {
         }
         public setFacingDirection(left: boolean) {
             this.sprite.setFacingDirection(left);
+        }
+        public isDead() {
+            if (this.stats.hitPoints <= 0)
+                return true;
+            return false;
         }
     }
     
