@@ -119,16 +119,13 @@ export class Game {
         }
     }
     private clearDead() {
-        let newArena: Combatant.Combatant[] = [];
-
-        this.arena.forEach(c => {
-            if (c.isDead())
+        this.arena = this.arena.filter(c => {
+            if (c.isDead()) {
                 this.graveyard.addloser(c);
-            else
-                newArena.push(c);
+                return false;
+            }
+            return true;
         });
-
-        this.arena = newArena;
         this.arena.forEach(c => c.heal());
 
         // update game state and initalize new game state
