@@ -1,7 +1,5 @@
 /// <reference path='Game.ts' />
 
-
-
 document.addEventListener("DOMContentLoaded", function(){
     let arenaFront = <HTMLCanvasElement>document.getElementById("arena-front");
     let arenaBack = <HTMLCanvasElement>document.getElementById("arena-front");
@@ -28,5 +26,3 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     });
 });
-
-

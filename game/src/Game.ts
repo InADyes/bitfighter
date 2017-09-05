@@ -172,7 +172,7 @@ export class Game {
     }
 }
 
-class Graveyard extends Actor{
+class Graveyard extends Actor {
     private graveyardqueue: Combatant.Combatant[] = [];
   
     public addloser(champ: Combatant.Combatant) {
