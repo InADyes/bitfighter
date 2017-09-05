@@ -186,10 +186,12 @@ class Graveyard extends Actor{
         this.graveyardqueue = [];
     }
     public draw() {
-        for (let i = 0; i < this.graveyardqueue.length; i++)
+        for (let i = 0; i < this.graveyardqueue.length; i++) {
+            this.ctx.imageSmoothingEnabled = false;
             this.ctx.drawImage(this.graveyardqueue[i].getIcon(), 0, 0 + 20 * i);
+    
+        }
     }
-
     public tick() {}
 }
 

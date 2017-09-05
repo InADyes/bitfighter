@@ -95,6 +95,7 @@ namespace Combatant {
             this.ctx.lineWidth = 1;
             this.ctx.strokeText(this.name, this.pos.x + 25, this.pos.y + 122);
             this.ctx.fillText(this.name, this.pos.x + 25, this.pos.y + 122);
+            this.ctx.imageSmoothingEnabled = false;
             this.ctx.drawImage(this.iconImage, this.pos.x, this.pos.y + 105);
             this.healthBar.draw();
             this.sprite.draw();
@@ -229,6 +230,7 @@ namespace Combatant {
             if (this.facingLeft){
                 this.ctx.save()
                 this.ctx.scale(-1,1);
+                this.ctx.imageSmoothingEnabled = false;
                 this.ctx.drawImage(
                     this.spriteImage,
                     this.facingLeft ? -(this.pos.x+90 - offset) : -(this.pos.x+90 + offset),
@@ -237,6 +239,7 @@ namespace Combatant {
                 this.ctx.restore();
             }
             else  {
+                this.ctx.imageSmoothingEnabled = false;
                 this.ctx.drawImage(
                     this.spriteImage,
                     this.facingLeft ? this.pos.x - offset : this.pos.x + offset,
