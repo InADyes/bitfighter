@@ -30,6 +30,7 @@ export class Game {
     private timeout: number = 0; // used differently depening on state
 
     private static fightTimeout: number = 3000; // how long between fights in milliseconds
+    private static deathTimeout: number = 3000; // how long to wait after dieing
     private static championLocation = {x: 20, y: 30};
     private static challengerLocation = {x: 100, y: 30};
 
@@ -159,6 +160,7 @@ export class Game {
                 pick.stats,
                 () => {
                     this.state = GameStates.deathTimeout;
+                    this.timeout = Game.deathTimeout;
                     this.arena.forEach(c => c.wait());
                 },
                 (combatant, damage, accuracy) => {

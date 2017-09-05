@@ -19,13 +19,13 @@ export class Combatant extends Actor {
     private iconImage = new Image();
     private attCD = 0;
     private stats: {
-            hitPoints: number; // hit points (max is 1000)
-            accuracy: number;
-            dodge: number;
-            attackSpeed: number; // attacks per millisecond
-            attackDamage: number;
-            armor: number; // damage reduction
-            regeneration: number; // after a fight char will be healed by this amount
+        hitPoints: number; // hit points (max is 1000)
+        accuracy: number;
+        dodge: number;
+        attackSpeed: number; // attacks per millisecond
+        attackDamage: number;
+        armor: number; // damage reduction
+        regeneration: number; // after a fight char will be healed by this amount
     };
     private healthBar: HealthBar;
     private static healthBarOffset = {x: 0, y: 130};
@@ -163,7 +163,7 @@ export class Combatant extends Actor {
     }
     public heal() {
         this.stats.hitPoints += this.stats.regeneration * 1000;
-        if(this.stats.hitPoints > 1000)
+        if (this.stats.hitPoints > 1000)
             this.stats.hitPoints = 1000;
         this.healthBar.setHealth(this.stats.hitPoints);
     }
@@ -235,8 +235,7 @@ class Sprite extends Actor {
                 this.pos.y
             );
             this.ctx.restore();
-        }
-        else  {
+        } else {
             this.ctx.drawImage(
                 this.spriteImage,
                 this.facingLeft ? this.pos.x - offset : this.pos.x + offset,
