@@ -1,5 +1,5 @@
-namespace Combatant {
-    
+import * as Actor from './Actor';
+
 export interface Stats {
     hitPoints: number;
     accuracy: number;
@@ -10,7 +10,7 @@ export interface Stats {
     regeneration: number;
 }
 
-export class Combatant extends Actor {
+export class Combatant extends Actor.Actor {
     public deathEvent: (combatant: Combatant) => void;
     public attackEvent: (combatant: Combatant, damage: number, accuracy: number) => void;
 
@@ -182,7 +182,7 @@ export class Combatant extends Actor {
     }
 }
 
-class HealthBar extends Actor {
+class HealthBar extends Actor.Actor {
     private targetHealth: number = 1000;
     private redHealth: number = 1000;
     private displayedYellow: number = 1000;
@@ -216,7 +216,7 @@ class HealthBar extends Actor {
     }
 }
 
-class Sprite extends Actor {
+class Sprite extends Actor.Actor {
     private spriteImage = new Image();
     private countdown: number = 0;
     private facingLeft =  false;
@@ -261,7 +261,7 @@ class Sprite extends Actor {
     }
 }
 
-class TextOut extends Actor {
+class TextOut extends Actor.Actor {
     private static timeout = 5000;
     private static offsetRatio = 50;
 
@@ -286,6 +286,4 @@ class TextOut extends Actor {
     public add(text: string, color: string) {
         this.displayedText.push({text: text, timeout: 0, color: color});
     }
-}
-
 }

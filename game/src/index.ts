@@ -1,6 +1,4 @@
-/// <reference path='Game.ts' />
-
-import * as Chance from 'chance';
+import * as Game from './Game';
 
 document.addEventListener("DOMContentLoaded", function(){
     let arenaFront = <HTMLCanvasElement>document.getElementById("arena-front");

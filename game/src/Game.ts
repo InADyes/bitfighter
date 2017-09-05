@@ -1,9 +1,8 @@
-/// <reference path='Actor.ts' />
-/// <reference path='Combatant.ts' />
-/// <reference path='ClassPicker.ts' />
+import * as Actor from './Actor';
+import * as Combatant from './Combatant';
+import * as ClassPicker from './ClassPicker';
+import * as Chance from 'chance';
 
-namespace Game {
-    
 let iconArt = [
     'images/icons/cherries.png',
     'images/icons/banana.png',
@@ -25,7 +24,7 @@ export class Game {
     private backCtx: CanvasRenderingContext2D;
     private canvasSize: {x: number, y: number};
     private lastTimestamp: number = performance.now();
-    private chance: Chance.Chance = new Chance();
+    private chance: Chance.Chance = new Chance.Chance();
 
     private state: GameStates = GameStates.waitingForChallenger;
     private timeout: number = 0; // used differently depening on state
@@ -155,7 +154,7 @@ export class Game {
                 Game.challengerLocation,
                 donation.id,
                 donation.name,
-                iconArt[this.chance.integer({max: iconArt.length})],
+                iconArt[this.chance.integer({min: 0, max: iconArt.length})],
                 pick.spriteUrl,
                 pick.stats,
                 () => {
@@ -181,7 +180,7 @@ export class Game {
     }
 }
 
-class Graveyard extends Actor {
+class Graveyard extends Actor.Actor {
     private graveyardqueue: Combatant.Combatant[] = [];
   
     public addloser(champ: Combatant.Combatant) {
@@ -200,6 +199,4 @@ class Graveyard extends Actor {
     }
 
     public tick() {}
-}
-
 }

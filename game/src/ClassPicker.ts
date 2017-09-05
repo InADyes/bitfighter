@@ -1,8 +1,3 @@
-
-/// <reference path='Combatant.ts' />
-
-namespace ClassPicker {
-
 interface Stat {
     base: number;
     scaler: number;
@@ -69,6 +64,4 @@ export function pickCharacter(donation: {id: number, name: string, amount: numbe
         },
         spriteUrl: character.spriteUrl
     }
-}
-
 }
