@@ -1,5 +1,7 @@
 /// <reference path='Game.ts' />
 
+import * as Chance from 'chance';
+
 document.addEventListener("DOMContentLoaded", function(){
     let arenaFront = <HTMLCanvasElement>document.getElementById("arena-front");
     let arenaBack = <HTMLCanvasElement>document.getElementById("arena-front");
@@ -9,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     let game = new Game.Game(arenaFront, arenaBack);
+    game.seed(100);
     game.tick(performance.now());
     window.addEventListener('storage', (e) => {
         console.log(e)

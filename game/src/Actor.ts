@@ -11,4 +11,3 @@ abstract class Actor {
         this.pos = pos;
     }
 }
-

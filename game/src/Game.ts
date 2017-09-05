@@ -25,6 +25,7 @@ export class Game {
     private backCtx: CanvasRenderingContext2D;
     private canvasSize: {x: number, y: number};
     private lastTimestamp: number = performance.now();
+    private chance: Chance.Chance = new Chance();
 
     private state: GameStates = GameStates.waitingForChallenger;
     private timeout: number = 0; // used differently depening on state
@@ -133,7 +134,6 @@ export class Game {
             return true;
         });
         this.arena.forEach(c => c.heal());
-
         // update game state and initalize new game state
         this.updateArenaLocations();
         this.state = GameStates.waitingForChallenger;
@@ -155,7 +155,7 @@ export class Game {
                 Game.challengerLocation,
                 donation.id,
                 donation.name,
-                iconArt[Math.floor((iconArt.length * Math.random()))],
+                iconArt[this.chance.integer({max: iconArt.length})],
                 pick.spriteUrl,
                 pick.stats,
                 () => {
@@ -168,9 +168,16 @@ export class Game {
                         this.arena[0].takeHit(damage, accuracy);
                     else if (this.arena[1])
                         this.arena[1].takeHit(damage, accuracy);
-                }
+                },
+                this.chance
             ));
         }
+    }
+    // does not update graveyard
+    public seed(seed: number) {
+        this.chance = new Chance(seed);
+        this.arena.forEach(c => c.setChance(this.chance));
+        this.queue.forEach(c => c.setChance(this.chance));
     }
 }
 

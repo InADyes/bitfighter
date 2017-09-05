@@ -11,8 +11,8 @@ export interface Stats {
 }
 
 export class Combatant extends Actor {
-    public deathEvent: ((combatant: Combatant) => void);
-    public attackEvent: ((combatant: Combatant, damage: number, accuracy: number) => void);
+    public deathEvent: (combatant: Combatant) => void;
+    public attackEvent: (combatant: Combatant, damage: number, accuracy: number) => void;
 
     private id: number;
     private name: string;
@@ -33,6 +33,7 @@ export class Combatant extends Actor {
     private textOut: TextOut;
     private static textOutOffset = {x: 30, y: 0};
     private fighting: boolean = false;
+    private chance: Chance.Chance;
     constructor(
         ctx: CanvasRenderingContext2D,
         pos: {x: number, y: number},
@@ -50,7 +51,8 @@ export class Combatant extends Actor {
             regeneration: number;
         },
         deathEvent: (combatant: Combatant) => void,
-        attackEvent: (combatant: Combatant, damage: number, accuracy: number) => void
+        attackEvent: (combatant: Combatant, damage: number, accuracy: number) => void,
+        chance: Chance.Chance
 
     ) {
         super(ctx, pos);
@@ -69,6 +71,7 @@ export class Combatant extends Actor {
         });
         this.deathEvent = deathEvent;
         this.attackEvent = attackEvent;
+        this.chance = chance;
     }
     toString() {
         return this.name;
@@ -76,9 +79,8 @@ export class Combatant extends Actor {
     public tick(timeDelta: number) {
         if (this.fighting) {
             this.attCD = this.attCD + timeDelta;
-            if (this.attCD >= this.stats.attackSpeed - 150 && this.attCD - timeDelta <= this.stats.attackSpeed - 150) {
+            if (this.attCD >= this.stats.attackSpeed - 150 && this.attCD - timeDelta <= this.stats.attackSpeed - 150)
                 this.sprite.attackAnimation();
-            }
             if (this.attCD >= this.stats.attackSpeed) {
                 this.attackEvent(this, this.stats.attackDamage, this.stats.accuracy);
                 this.attCD = this.attCD - this.stats.attackSpeed;
@@ -138,7 +140,7 @@ export class Combatant extends Actor {
         let roll: number;
     
         total = accuracy + this.stats.dodge;
-        roll = Math.ceil(Math.random() * total);
+        roll = this.chance.integer({min: 1, max: total});
         if (roll > this.stats.accuracy) {
             console.log(this.name + " " + this.id + " dodged the attack! =D");
             this.textOut.add('dodge', 'orange');
@@ -174,6 +176,9 @@ export class Combatant extends Actor {
         if (this.stats.hitPoints <= 0)
             return true;
         return false;
+    }
+    public setChance(chance: Chance.Chance) {
+        this.chance = chance;
     }
 }
 
