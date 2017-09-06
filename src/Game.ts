@@ -154,7 +154,7 @@ export class Game {
                 Game.challengerLocation,
                 donation.id,
                 donation.name,
-                iconArt[this.chance.integer({min: 0, max: iconArt.length})],
+                iconArt[this.chance.integer({min: 0, max: iconArt.length - 1})],
                 pick.spriteUrl,
                 pick.stats,
                 () => {
