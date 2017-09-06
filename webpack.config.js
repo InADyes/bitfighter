@@ -1,7 +1,10 @@
 module.exports = {
-    entry: './game/src/index.ts',
+    entry: {
+        index: './index/src/index.ts',
+        settings: './index/src/settings.ts'
+    },
     output: {
-        filename: './game/dist/bundle.js'
+        filename: './index/dist/[name].bundle.js'
     },
     resolve: {
         extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']
