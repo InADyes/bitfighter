@@ -188,6 +188,8 @@ class Graveyard extends Actor{
     public draw() {
         for (let i = 0; i < this.graveyardqueue.length; i++) {
             this.ctx.imageSmoothingEnabled = false;
+            this.ctx.webkitImageSmoothingEnabled = false;
+            this.ctx.mozImageSmoothingEnabled = false;
             this.ctx.drawImage(this.graveyardqueue[i].getIcon(), 0, 0 + 20 * i);
     
         }
