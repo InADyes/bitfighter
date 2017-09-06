@@ -25,8 +25,8 @@ let characters: Character[] = [
         hitPoints: {base: 1000, scaler: 0},
         accuracy: {base: 0, scaler: 1},
         dodge: {base: 10, scaler: 1},
-        attackSpeed: {base: 1300, scaler: 0},
-        attackDamage: {base: 100, scaler: 0},
+        attackSpeed: {base: 1750, scaler: 0},
+        attackDamage: {base: 150, scaler: 0},
         armor: {base: 40, scaler: 0},
         regeneration: {base: 0.2, scaler: 0},
         spriteUrl: 'images/characters/sword.png'
@@ -35,8 +35,8 @@ let characters: Character[] = [
         hitPoints: {base: 1000, scaler: 0},
         accuracy: {base: 0, scaler: 1},
         dodge: {base: 5, scaler: 1},
-        attackSpeed: {base: 1750, scaler: 0},
-        attackDamage: {base: 150, scaler: 0},
+        attackSpeed: {base: 1300, scaler: 0},
+        attackDamage: {base: 100, scaler: 0},
         armor: {base: 45, scaler: 0},
         regeneration: {base: 0.2, scaler: 0},
         spriteUrl: 'images/characters/daggers.png'
