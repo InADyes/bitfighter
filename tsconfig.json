@@ -2,13 +2,11 @@
     "compileOnSave": true,
     "compilerOptions": {
         "watch": true,
-        "outFile": "lib/index.js",
         "sourceMap": true,
         "removeComments": true,
         "strict": true,
-        "strictNullChecks": true
-    },
-    "include": [
-        "src/index.ts"
-    ]
+        "strictNullChecks": true,
+        "module": "es6",
+        "target": "es5"
+    }
 }

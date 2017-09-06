@@ -1,9 +1,8 @@
-/// <reference path='Actor.ts' />
-/// <reference path='Combatant.ts' />
-/// <reference path='ClassPicker.ts' />
+import * as Actor from './Actor';
+import * as Combatant from './Combatant';
+import * as ClassPicker from './ClassPicker';
+import * as Chance from 'chance';
 
-namespace Game {
-    
 let iconArt = [
     'images/icons/cherries.png',
     'images/icons/banana.png',
@@ -25,11 +24,13 @@ export class Game {
     private backCtx: CanvasRenderingContext2D;
     private canvasSize: {x: number, y: number};
     private lastTimestamp: number = performance.now();
+    private chance: Chance.Chance = new Chance.Chance();
 
     private state: GameStates = GameStates.waitingForChallenger;
     private timeout: number = 0; // used differently depening on state
 
     private static fightTimeout: number = 3000; // how long between fights in milliseconds
+    private static deathTimeout: number = 3000; // how long to wait after dieing
     private static championLocation = {x: 20, y: 30};
     private static challengerLocation = {x: 100, y: 30};
 
@@ -132,7 +133,6 @@ export class Game {
             return true;
         });
         this.arena.forEach(c => c.heal());
-
         // update game state and initalize new game state
         this.updateArenaLocations();
         this.state = GameStates.waitingForChallenger;
@@ -154,11 +154,12 @@ export class Game {
                 Game.challengerLocation,
                 donation.id,
                 donation.name,
-                iconArt[Math.floor((iconArt.length * Math.random()))],
+                iconArt[this.chance.integer({min: 0, max: iconArt.length})],
                 pick.spriteUrl,
                 pick.stats,
                 () => {
                     this.state = GameStates.deathTimeout;
+                    this.timeout = Game.deathTimeout;
                     this.arena.forEach(c => c.wait());
                 },
                 (combatant, damage, accuracy) => {
@@ -166,13 +167,20 @@ export class Game {
                         this.arena[0].takeHit(damage, accuracy);
                     else if (this.arena[1])
                         this.arena[1].takeHit(damage, accuracy);
-                }
+                },
+                this.chance
             ));
         }
     }
+    // does not update graveyard
+    public seed(seed: number) {
+        this.chance = new Chance(seed);
+        this.arena.forEach(c => c.setChance(this.chance));
+        this.queue.forEach(c => c.setChance(this.chance));
+    }
 }
 
-class Graveyard extends Actor{
+class Graveyard extends Actor.Actor {
     private graveyardqueue: Combatant.Combatant[] = [];
   
     public addloser(champ: Combatant.Combatant) {
@@ -195,6 +203,4 @@ class Graveyard extends Actor{
         }
     }
     public tick() {}
-}
-
 }

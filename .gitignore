@@ -4,8 +4,7 @@
 *.log
 
 # compiled
-/game/**/*.js
-/settings/**/*.js
+/index/**/*.js
 *.map
 
 # visual studio code settings
