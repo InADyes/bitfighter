@@ -1,10 +1,10 @@
 module.exports = {
     entry: {
-        index: './index/src/index.ts',
-        settings: './index/src/settings.ts'
+        index: './src/index.ts',
+        settings: './src/settings.ts'
     },
     output: {
-        filename: './index/dist/[name].bundle.js'
+        filename: './dist/js/[name].bundle.js'
     },
     resolve: {
         extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']
