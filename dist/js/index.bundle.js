@@ -100,6 +100,10 @@ document.addEventListener("DOMContentLoaded", function () {
     var devicePixelRatio = window.devicePixelRatio || 1;
     arenaFront.width = arenaFront.clientWidth * devicePixelRatio;
     arenaFront.height = arenaFront.clientHeight * devicePixelRatio;
+    var ctx = arenaFront.getContext('2d');
+    if (ctx == null)
+        return;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
     var game = new __WEBPACK_IMPORTED_MODULE_0__Game__["a" /* Game */](arenaFront, arenaBack);
     game.seed(100);
     game.tick(performance.now());
@@ -118,6 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error('unidentified storage event');
         }
     });
+    game.donate({ id: 1, name: "bob", amount: 100, art: 2 });
 });
 
 

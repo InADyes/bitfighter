@@ -11,6 +11,10 @@ document.addEventListener("DOMContentLoaded", function(){
 
     arenaFront.width = arenaFront.clientWidth * devicePixelRatio;
     arenaFront.height = arenaFront.clientHeight * devicePixelRatio;
+    let ctx = arenaFront.getContext('2d');
+    if(ctx == null)
+        return;
+    ctx.scale(devicePixelRatio,devicePixelRatio);
 
     let game = new Game.Game(arenaFront, arenaBack);
     game.seed(100);
@@ -30,4 +34,5 @@ document.addEventListener("DOMContentLoaded", function(){
                 console.error('unidentified storage event');
         }
     });
+    game.donate({id: 1, name: "bob", amount: 100, art:2});
 });
