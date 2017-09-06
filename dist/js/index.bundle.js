@@ -97,6 +97,9 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("missing DOM hook");
         return;
     }
+    var devicePixelRatio = window.devicePixelRatio || 1;
+    arenaFront.width = arenaFront.clientWidth * devicePixelRatio;
+    arenaFront.height = arenaFront.clientHeight * devicePixelRatio;
     var game = new __WEBPACK_IMPORTED_MODULE_0__Game__["a" /* Game */](arenaFront, arenaBack);
     game.seed(100);
     game.tick(performance.now());

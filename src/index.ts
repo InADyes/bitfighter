@@ -7,6 +7,10 @@ document.addEventListener("DOMContentLoaded", function(){
         console.error("missing DOM hook");
         return;
     }
+    let devicePixelRatio = window.devicePixelRatio || 1;
+
+    arenaFront.width = arenaFront.clientWidth * devicePixelRatio;
+    arenaFront.height = arenaFront.clientHeight * devicePixelRatio;
 
     let game = new Game.Game(arenaFront, arenaBack);
     game.seed(100);
