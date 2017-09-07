@@ -152,8 +152,8 @@ export class Game {
             return true;
         });
         this.arena.forEach(c => c.heal());
-        // update game state and initalize new game state
-        // this.updateArenaLocations();
+
+        // if the right combatant died or they both died
         if (this.state != GameStates.moveChallengerToChampion) {
             this.state = GameStates.waitingForChallenger;
             this.timeout = Game.fightTimeout;
