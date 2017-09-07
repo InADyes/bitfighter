@@ -93,17 +93,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 document.addEventListener("DOMContentLoaded", function () {
     var arenaFront = document.getElementById("arena-front");
     var arenaBack = document.getElementById("arena-front");
+    var arenaWrapper = document.getElementById("arena-wrapper");
+    var scaleratio = 1;
     if (arenaFront == null || arenaBack == null) {
         console.error("missing DOM hook");
         return;
     }
     var devicePixelRatio = window.devicePixelRatio || 1;
-    arenaFront.width = arenaFront.clientWidth * devicePixelRatio;
-    arenaFront.height = arenaFront.clientHeight * devicePixelRatio;
-    var ctx = arenaFront.getContext('2d');
-    if (ctx == null)
+    if (arenaWrapper.style.width == null)
         return;
-    ctx.scale(devicePixelRatio, devicePixelRatio);
+    var widthnumber = 300;
+    var ctx = arenaFront.getContext('2d');
+    window.addEventListener("mouseover", function () {
+        if (arenaWrapper.style.width == null)
+            return;
+        scaleratio = devicePixelRatio * (Number(arenaWrapper.style.width.replace(/[^\d\.\-]/g, ''))) / 300;
+        arenaFront.width = arenaFront.clientWidth * scaleratio;
+        arenaFront.height = arenaFront.clientHeight * scaleratio;
+        if (ctx == null)
+            return;
+        ctx.scale(scaleratio, scaleratio);
+        console.log(String(Number(arenaWrapper.style.width.replace(/[^\d\.\-]/g, ''))));
+        console.log(String(widthnumber));
+        console.log(String(scaleratio));
+    });
     var game = new __WEBPACK_IMPORTED_MODULE_0__Game__["a" /* Game */](arenaFront, arenaBack);
     game.seed(100);
     game.tick(performance.now());

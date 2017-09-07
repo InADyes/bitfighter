@@ -3,18 +3,42 @@ import * as Game from './Game';
 document.addEventListener("DOMContentLoaded", function(){
     let arenaFront = <HTMLCanvasElement>document.getElementById("arena-front");
     let arenaBack = <HTMLCanvasElement>document.getElementById("arena-front");
+    let arenaWrapper = <HTMLDivElement>document.getElementById("arena-wrapper");
+    let scaleratio = 1;
     if (arenaFront == null || arenaBack == null) {
         console.error("missing DOM hook");
         return;
     }
     let devicePixelRatio = window.devicePixelRatio || 1;
-
-    arenaFront.width = arenaFront.clientWidth * devicePixelRatio;
-    arenaFront.height = arenaFront.clientHeight * devicePixelRatio;
-    let ctx = arenaFront.getContext('2d');
-    if(ctx == null)
+    
+    if(arenaWrapper.style.width == null)
         return;
-    ctx.scale(devicePixelRatio,devicePixelRatio);
+    let widthnumber = 300;
+
+    
+    let ctx = arenaFront.getContext('2d');
+    
+    window.addEventListener("mouseover", function(){
+        if(arenaWrapper.style.width == null)
+            return;
+        
+        scaleratio = devicePixelRatio*(Number(arenaWrapper.style.width.replace(/[^\d\.\-]/g, '')))/300;
+       
+        arenaFront.width = arenaFront.clientWidth * scaleratio;
+        arenaFront.height = arenaFront.clientHeight * scaleratio;
+
+        if(ctx == null)
+            return;
+        ctx.scale(scaleratio, scaleratio);
+
+        console.log(String(Number(arenaWrapper.style.width.replace(/[^\d\.\-]/g, ''))));
+        console.log(String(widthnumber));
+        console.log(String(scaleratio));
+        
+    })
+    
+    //console.log(String(scaleratio));
+    
 
     let game = new Game.Game(arenaFront, arenaBack);
     game.seed(100);
