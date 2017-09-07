@@ -24,8 +24,8 @@ document.addEventListener("DOMContentLoaded", function(){
         
         scaleratio = devicePixelRatio*(Number(arenaWrapper.style.width.replace(/[^\d\.\-]/g, '')))/300;
        
-        arenaFront.width = arenaFront.clientWidth * scaleratio;
-        arenaFront.height = arenaFront.clientHeight * scaleratio;
+        arenaFront.width = arenaFront.clientWidth * Math.sqrt(scaleratio);
+        arenaFront.height = arenaFront.clientHeight * Math.sqrt(scaleratio);
 
         if(ctx == null)
             return;
