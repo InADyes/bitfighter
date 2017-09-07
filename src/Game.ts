@@ -13,7 +13,8 @@ let iconArt = [
 const enum GameStates {
     waitingForChallenger,
     fighting,
-    deathTimeout
+    deathTimeout,
+    moveChallengerToChampion
 };
 
 export class Game {
@@ -33,6 +34,7 @@ export class Game {
     private static deathTimeout: number = 3000; // how long to wait after dieing
     private static championLocation = {x: 20, y: 30};
     private static challengerLocation = {x: 100, y: 30};
+    private static switchSidesTimeout: number = 3000;
 
     constructor(front: HTMLCanvasElement, back: HTMLCanvasElement) {
         let frontCtx = front.getContext('2d');
@@ -47,7 +49,6 @@ export class Game {
         this.backCtx = backCtx;
         this.canvasSize = {x: front.width, y: front.height};
         this.graveyard = new Graveyard(this.frontCtx, {x: 0, y: 0});
-
     }
 
     private searchQueue(id: number) {
@@ -76,6 +77,20 @@ export class Game {
                 break;
             case GameStates.fighting:
                 break;
+            case GameStates.moveChallengerToChampion:
+                if (this.timeout <= 0) {
+                    this.state = GameStates.waitingForChallenger;
+                    this.timeout = Game.fightTimeout;
+                    this.arena[0].setFacingDirection(false);
+                } else {
+                    this.timeout -= timeDelta;
+                    let distance = Game.challengerLocation.x - Game.championLocation.x;
+                    if (this.timeout < Game.switchSidesTimeout / 2) {
+                        let offset = this.timeout / (Game.switchSidesTimeout / 2) * distance;
+                        this.arena[0].setPosition({x: Game.championLocation.x + offset, y: Game.championLocation.y})
+                    }
+                }
+                break;
             default:
                 console.error('bad game state');
         }
@@ -92,9 +107,8 @@ export class Game {
     newChallenger() {
         let champ = this.queue.shift();
 
-        if (champ == undefined) {
+        if (champ == undefined)
             return;
-        }
 
         this.arena.push(champ);
         this.timeout = Game.fightTimeout;
@@ -121,9 +135,14 @@ export class Game {
     }
     private clearDead() {
         // clean graveyard
-        if (this.arena[0] && this.arena[0].isDead())
+        if (this.arena[0] && this.arena[0].isDead()) {
             this.graveyard.clearqueue();
-
+            // new champion
+            if (this.arena[1] && this.arena[1].isDead() == false) {
+                this.state = GameStates.moveChallengerToChampion;
+                this.timeout = Game.switchSidesTimeout;
+            }
+        }
         // clean arena
         this.arena = this.arena.filter(c => {
             if (c.isDead()) {
@@ -134,9 +153,11 @@ export class Game {
         });
         this.arena.forEach(c => c.heal());
         // update game state and initalize new game state
-        this.updateArenaLocations();
-        this.state = GameStates.waitingForChallenger;
-        this.timeout = Game.fightTimeout;
+        // this.updateArenaLocations();
+        if (this.state != GameStates.moveChallengerToChampion) {
+            this.state = GameStates.waitingForChallenger;
+            this.timeout = Game.fightTimeout;
+        }
     }
     public donate(donation: {id: number, name: string, amount: number, art: number}) {
         let champ: Combatant.Combatant | null;

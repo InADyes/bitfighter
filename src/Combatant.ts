@@ -141,7 +141,7 @@ export class Combatant extends Actor.Actor {
     
         total = accuracy + this.stats.dodge;
         roll = this.chance.integer({min: 1, max: total});
-        if (roll > this.stats.accuracy) {
+        if (roll > accuracy) {
             console.log(this.name + " " + this.id + " dodged the attack! =D");
             this.textOut.add('dodge', 'orange');
             return;
