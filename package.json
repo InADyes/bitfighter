@@ -22,6 +22,7 @@
     "@types/chance": "^0.7.35",
     "chance": "^1.0.11",
     "express": "^4.15.4",
+    "fabric": "^1.7.18",
     "ts-loader": "^2.3.4",
     "typescript": "^2.5.2",
     "webpack": "^3.5.5"
