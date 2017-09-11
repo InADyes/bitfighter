@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 
-app.use(express.static('dist/', [{dotfiles: 'allow'}]))
+app.use(express.static('dist/'))
 
 //app.use('/settings', express.static('settings/', [{dotfiles: 'allow'}]));
 
