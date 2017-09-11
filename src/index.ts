@@ -1,4 +1,5 @@
 import * as Game from './Game';
+import * as fabric from 'fabric';
 
 document.addEventListener("DOMContentLoaded", function(){
     let arenaFront = <HTMLCanvasElement>document.getElementById("arena-front");
@@ -14,7 +15,11 @@ document.addEventListener("DOMContentLoaded", function(){
     if(arenaWrapper.style.width == null)
         return;
     let widthnumber = 300;
-
+    
+    let abcde = <HTMLCanvasElement>new fabric.Canvas('arena-front');
+    fabric.Image.fromURL('dist/images.characters.axe.png', function(oImg){
+        abcde.add(oImg);
+    });
     
     let ctx = arenaFront.getContext('2d');
     
@@ -40,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function(){
     //console.log(String(scaleratio));
     
 
-    let game = new Game.Game(arenaFront, arenaBack);
+    let game = new Game.Game(abcde, arenaBack);
     game.seed(100);
     game.tick(performance.now());
     window.addEventListener('storage', (e) => {

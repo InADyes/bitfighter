@@ -4,6 +4,7 @@ body {
 
 #arena-wrapper {
     width: 300px;
+    height: 200px;
     resize: horizontal;
     overflow: auto;
     position: relative;

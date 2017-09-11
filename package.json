@@ -20,6 +20,7 @@
   "homepage": "https://github.com/the-opera-house/bitfighter#readme",
   "dependencies": {
     "@types/chance": "^0.7.35",
+    "@types/fabric": "^1.5.26",
     "chance": "^1.0.11",
     "express": "^4.15.4",
     "fabric": "^1.7.18",
