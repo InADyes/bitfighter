@@ -100,7 +100,7 @@ export class Game {
         window.requestAnimationFrame(timestamp => {
             let delta = timestamp - this.lastTimestamp;
             this.lastTimestamp = timestamp;
-            delta = delta * 4;
+            delta = delta * 2;
             this.tick(delta);
         });
     }
