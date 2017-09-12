@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function(){
         let id = Number(idInputNode.value);
         let name = nameInputNode.value;
         let amount = Number(bitsInputNode.value);
-        let style = Number(bitsInputNode.value);
+        let style = Number(styleInputNode.value);
         let art = Number(artInputNode.value);
 
         idInputNode.value = String(id + 1);
