@@ -84,6 +84,7 @@ export class Combatant extends Actor.Actor {
             if (this.attCD >= this.stats.attackSpeed) {
                 this.attackEvent(this, this.stats.attackDamage, this.stats.accuracy);
                 this.attCD = this.attCD - this.stats.attackSpeed;
+                this.attCD += Math.ceil((this.stats.attackSpeed * 3 / 4 - this.stats.attackSpeed  * 3 / 2) * Math.random());
             }
         }
         this.healthBar.tick(timeDelta);
