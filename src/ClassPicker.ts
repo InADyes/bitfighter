@@ -16,7 +16,7 @@ interface Character {
 
 // still thinking about this
 let characters: Character[] = [
-    { // sword
+    { // sword1
         hitPoints: {base: 1000, scaler: 0},
         accuracy: {base: 0, scaler: 1},
         dodge: {base: 10, scaler: 1},
@@ -26,7 +26,7 @@ let characters: Character[] = [
         regeneration: {base: 0.2, scaler: 0},
         spriteUrl: 'images/characters/sword.png'
     },
-    { // daggers
+    { // daggers1
         hitPoints: {base: 1000, scaler: 0},
         accuracy: {base: 0, scaler: 1},
         dodge: {base: 5, scaler: 1},
@@ -34,9 +34,9 @@ let characters: Character[] = [
         attackDamage: {base: 150, scaler: 0},
         armor: {base: 45, scaler: 0},
         regeneration: {base: 0.2, scaler: 0},
-        spriteUrl: 'images/characters/daggers.png'
+        spriteUrl: 'images/characters/123.png'
     },
-    { // big axe
+    { // big axe1
         hitPoints: {base: 1000, scaler: 0},
         accuracy: {base: 0, scaler: 1},
         dodge: {base: 0, scaler: 1},
@@ -44,13 +44,73 @@ let characters: Character[] = [
         attackDamage: {base: 185, scaler: 0},
         armor: {base: 60, scaler: 0},
         regeneration: {base: 0.2, scaler: 0},
-        spriteUrl: 'images/characters/axe.png'
+        spriteUrl: 'images/characters/axe1.png'
+    },
+    { // sword2
+        hitPoints: {base: 1000, scaler: 0},
+        accuracy: {base: 0, scaler: 1},
+        dodge: {base: 10, scaler: 1},
+        attackSpeed: {base: 1300, scaler: 0},
+        attackDamage: {base: 100, scaler: 0},
+        armor: {base: 40, scaler: 0},
+        regeneration: {base: 0.2, scaler: 0},
+        spriteUrl: 'images/characters/sword.png'
+    },
+    { // daggers2
+        hitPoints: {base: 1000, scaler: 0},
+        accuracy: {base: 0, scaler: 1},
+        dodge: {base: 5, scaler: 1},
+        attackSpeed: {base: 1750, scaler: 0},
+        attackDamage: {base: 150, scaler: 0},
+        armor: {base: 45, scaler: 0},
+        regeneration: {base: 0.2, scaler: 0},
+        spriteUrl: 'images/characters/123.png'
+    },
+    { // big axe2
+        hitPoints: {base: 1000, scaler: 0},
+        accuracy: {base: 0, scaler: 1},
+        dodge: {base: 0, scaler: 1},
+        attackSpeed: {base: 2250, scaler: 0},
+        attackDamage: {base: 185, scaler: 0},
+        armor: {base: 60, scaler: 0},
+        regeneration: {base: 0.2, scaler: 0},
+        spriteUrl: 'images/characters/axe1.png'
+    },
+    { // sword3
+        hitPoints: {base: 1000, scaler: 0},
+        accuracy: {base: 0, scaler: 1},
+        dodge: {base: 10, scaler: 1},
+        attackSpeed: {base: 1300, scaler: 0},
+        attackDamage: {base: 100, scaler: 0},
+        armor: {base: 40, scaler: 0},
+        regeneration: {base: 0.2, scaler: 0},
+        spriteUrl: 'images/characters/sword.png'
+    },
+    { // daggers3
+        hitPoints: {base: 1000, scaler: 0},
+        accuracy: {base: 0, scaler: 1},
+        dodge: {base: 5, scaler: 1},
+        attackSpeed: {base: 1750, scaler: 0},
+        attackDamage: {base: 150, scaler: 0},
+        armor: {base: 45, scaler: 0},
+        regeneration: {base: 0.2, scaler: 0},
+        spriteUrl: 'images/characters/123.png'
+    },
+    { // big axe3
+        hitPoints: {base: 1000, scaler: 0},
+        accuracy: {base: 0, scaler: 1},
+        dodge: {base: 0, scaler: 1},
+        attackSpeed: {base: 2250, scaler: 0},
+        attackDamage: {base: 185, scaler: 0},
+        armor: {base: 60, scaler: 0},
+        regeneration: {base: 0.2, scaler: 0},
+        spriteUrl: 'images/characters/axe1.png'
     }
 ];
 
 
 // i'm going to fix this i swear
-export function pickCharacter(donation: {id: number, name: string, amount: number, art: number}) {
+export function pickCharacter(donation: {id: number, name: string, amount: number, style: number, art: number}) {
     let character = characters[donation.art % characters.length];
     return {
         stats: {

@@ -236,7 +236,7 @@ class Sprite extends Actor.Actor {
             this.ctx.scale(-1,1);
             this.ctx.drawImage(
                 this.spriteImage,
-                this.facingLeft ? -(this.pos.x+90 - offset) : -(this.pos.x+90 + offset),
+                this.facingLeft ? -(this.pos.x+70 - offset) : -(this.pos.x+70 + offset),
                 this.pos.y
             );
             this.ctx.restore();

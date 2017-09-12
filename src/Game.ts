@@ -159,7 +159,7 @@ export class Game {
             this.timeout = Game.fightTimeout;
         }
     }
-    public donate(donation: {id: number, name: string, amount: number, art: number}) {
+    public donate(donation: {id: number, name: string, amount: number, style: number, art: number}) {
         let champ: Combatant.Combatant | null;
 
         if (this.arena[0] && this.arena[0].getID() == donation.id)
