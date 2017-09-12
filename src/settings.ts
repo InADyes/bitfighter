@@ -18,14 +18,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
         idInputNode.value = String(id + 1);
 
-        game.donate({id: id, name: name, amount: amount, art: art});
+        //game.donate({id: id, name: name, amount: amount, art: art});
     });
     
-    let game = new Game.Game(reel => {
-        localStorage.setItem('reel', JSON.stringify(reel));
-    });
+    // let game = new Game.Game(reel => {
+    //     localStorage.setItem('reel', JSON.stringify(reel));
+    // });
 
-    game.tick(performance.now());
+    //game.tick(performance.now());
 });
 
 

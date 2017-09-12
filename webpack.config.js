@@ -1,11 +1,32 @@
-module.exports = {
+const path = require('path');
+const webpack = require('webpack');
+
+module.exports = [
+//     {
+//     entry: {
+//         //index: './src/index.ts',
+//         //settings: './src/settings.ts',
+//     },
+//     output: {
+//         filename: './dist/js/[name].bundle.js'
+//     },
+//     resolve: {
+//         extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']
+//     },
+//     module: {
+//         loaders: [
+//             // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
+//             { test: /\.tsx?$/, loader: 'ts-loader' }
+//         ]
+//     },
+//     devtool: 'source-map'
+// }, 
+{
     entry: {
-        //index: './src/index.ts',
-        //settings: './src/settings.ts',
-        simulator: './src/simulator.ts'
+        simulator: './src/simulator/simulator.ts'
     },
     output: {
-        filename: './dist/js/[name].bundle.js'
+        filename: 'simulator.js'
     },
     resolve: {
         extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']
@@ -16,5 +37,6 @@ module.exports = {
             { test: /\.tsx?$/, loader: 'ts-loader' }
         ]
     },
-    devtool: 'source-map'
-}
+    devtool: 'source-map',
+    target: 'node'
+}]

@@ -1,4 +1,4 @@
-import * as Reel from '../Reel';
+import * as Reel from '../DisplayReel';
 
 export class Display {
     public newReel(reel: Reel.Event[]) {
