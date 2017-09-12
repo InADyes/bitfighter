@@ -1,26 +1,18 @@
-import * as Game from './Game';
+import * as Display from './front_end/Display';
 
 document.addEventListener("DOMContentLoaded", function(){
-    let arenaFront = <HTMLCanvasElement>document.getElementById("arena-front");
-    let arenaBack = <HTMLCanvasElement>document.getElementById("arena-front");
-    if (arenaFront == null || arenaBack == null) {
-        console.error("missing DOM hook");
-        return;
-    }
+    let display = new Display.Display;
 
-    let game = new Game.Game(arenaFront, arenaBack);
-    game.seed(100);
-    game.tick(performance.now());
     window.addEventListener('storage', (e) => {
         console.log(e)
         switch(e.key) {
-            case 'donation':
+            case 'reel':
                 let str = e.newValue;
                 if (str == undefined) {
                     console.error('bad storage event value');
                     break;
                 }
-                game.donate(JSON.parse(str));
+                display.newReel(JSON.parse(str));
                 break;
             default:
                 console.error('unidentified storage event');

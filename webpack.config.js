@@ -1,7 +1,8 @@
 module.exports = {
     entry: {
-        index: './src/index.ts',
-        settings: './src/settings.ts'
+        //index: './src/index.ts',
+        //settings: './src/settings.ts',
+        simulator: './src/simulator.ts'
     },
     output: {
         filename: './dist/js/[name].bundle.js'

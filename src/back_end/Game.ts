@@ -1,6 +1,6 @@
-import * as Combatant from './Combatant';
+import * as Combatant from '../Combatant';
 import * as ClassPicker from './ClassPicker';
-import * as Reel from '../Reel';
+import * as Reel from '../DisplayReel';
 
 let iconArt = [
     'images/icons/cherries.png',
@@ -20,6 +20,9 @@ export class Game {
     private queue: Combatant.Combatant[] = [];
     private lastTimestamp: number = performance.now();
 
+    private reelTimestamp: number = this.lastTimestamp;
+    private reel: Reel.Event[] = [];
+
     private state: GameStates = GameStates.waitingForChallenger;
     private timeout: number = 0; // used differently depening on state
 
@@ -27,7 +30,7 @@ export class Game {
     private static deathTimeout: number = 3000; // how long to wait after dieing
     private static switchSidesTimeout: number = 3000;
 
-    constructor (public newReelEvent: (reel: Reel.Event[]) => void) {};
+    constructor (public newReel: (reel: Reel.Event[]) => void) {};
 
     private searchQueue(id: number) {
         for (let champ of this.queue) {
@@ -46,8 +49,9 @@ export class Game {
                     this.timeout -= timeDelta;
                 break;
             case GameStates.deathTimeout:
-                if (this.timeout <= 0)
-                    this.clearDead()
+                if (this.timeout <= 0) {
+                    this.clearDead();
+                }
                 else
                     this.timeout -= timeDelta;
                 break;
@@ -64,7 +68,7 @@ export class Game {
             this.tick(delta);
         });
     }
-    newChallenger() {
+    private newChallenger() {
         let champ = this.queue.shift();
 
         if (champ == undefined)
@@ -73,21 +77,28 @@ export class Game {
         this.arena.push(champ);
         this.timeout = Game.fightTimeout;
       
-        
+        if (this.arena.length >= 2) {
+            this.state = GameStates.fighting;
+            this.arena.forEach(c => c.fight());
+        }
+
+
         console.log("new challenger");
         console.log(this);
     }
     private clearDead() {
-        // clean graveyard
-        if (this.arena[0] && this.arena[0].isDead()) {
-            // new champion
-            if (this.arena[1] && this.arena[1].isDead() == false) {
-                this.timeout = Game.switchSidesTimeout;
-            }
-        }
         // clean arena
-        this.arena = this.arena.filter(c => { c.isDead() == false});
+        for (let i = 0; i < this.arena.length;) {
+            if (this.arena[i].isDead()) {
+                this.reel.push(new Reel.ClearUpdate(this.reelTimestamp, i));
+                this.arena = this.arena.splice(i, 1);
+            }else
+                i++;
+        }
         this.arena.forEach(c => c.heal());
+        
+        this.newReel(this.reel);
+        this.reel = [];
 
         this.state = GameStates.waitingForChallenger;
         this.timeout = Game.fightTimeout;
@@ -117,6 +128,8 @@ export class Game {
                         this.arena[0].takeHit(damage, accuracy);
                     else if (this.arena[1])
                         this.arena[1].takeHit(damage, accuracy);
+                    else
+                        console.error('this should be impossible to reach');
                 },
                 (combatant, event) => {
                     //todo: could be more safe
@@ -124,6 +137,7 @@ export class Game {
                         event.character = 0;
                     else
                         event.character = 1;
+                    this.reel.push(event);
                 }
             ));
         }
