@@ -24,7 +24,7 @@ let characters: Character[] = [
         attackDamage: {base: 100, scaler: 0},
         armor: {base: 40, scaler: 0},
         regeneration: {base: 0.2, scaler: 0},
-        spriteUrl: 'images/characters/stickfighter-swordman.png'
+        spriteUrl: 'images/characters/stick1.png'
     },
     { // 1-2
         hitPoints: {base: 1000, scaler: 0},
@@ -34,7 +34,7 @@ let characters: Character[] = [
         attackDamage: {base: 150, scaler: 0},
         armor: {base: 45, scaler: 0},
         regeneration: {base: 0.2, scaler: 0},
-        spriteUrl: 'images/characters/stickfighter-mage.png'
+        spriteUrl: 'images/characters/stick2.png'
     },
     { // 1-3
         hitPoints: {base: 1000, scaler: 0},
@@ -44,7 +44,7 @@ let characters: Character[] = [
         attackDamage: {base: 185, scaler: 0},
         armor: {base: 60, scaler: 0},
         regeneration: {base: 0.2, scaler: 0},
-        spriteUrl: 'images/characters/stickfighter-farmer.png'
+        spriteUrl: 'images/characters/stick3.png'
     },
     { // 2-1
         hitPoints: {base: 1000, scaler: 0},

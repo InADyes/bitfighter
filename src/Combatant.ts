@@ -141,7 +141,7 @@ export class Combatant extends Actor.Actor {
         let roll: number;
         let dodgesound = new Audio("sounds/Dodge.wav");
         let normalhitsound = new Audio("sounds/Normal-hit.wav");
-        let deathsound = new Audio("sounds/Death.wav");
+        let deathsound = new Audio("sounds/death_loud_ver_2.wav");
 
         total = accuracy + this.stats.dodge;
         roll = this.chance.integer({min: 1, max: total});
