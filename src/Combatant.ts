@@ -139,19 +139,23 @@ export class Combatant extends Actor.Actor {
     public takeHit(damage: number, accuracy: number) {
         let total: number;
         let roll: number;
-    
+        let dodgesound = new Audio("sounds/Dodge.wav");
+        let normalhitsound = new Audio("sounds/Normal-hit.wav");
+        let deathsound = new Audio("sounds/Death.wav");
+
         total = accuracy + this.stats.dodge;
         roll = this.chance.integer({min: 1, max: total});
         if (roll > accuracy) {
             console.log(this.name + " " + this.id + " dodged the attack! =D");
             this.textOut.add('dodge', 'orange');
+            dodgesound.play();
             return;
         }
 
         console.log(this.name + " " + this.id + " was hit! Yikes!!! >_<");
         
-        let normalhit = new Audio("sounds/Normal-hit.wav");
-        normalhit.play();
+        
+        normalhitsound.play();
         
         damage -= this.stats.armor;
         if (damage < 0)
@@ -164,6 +168,7 @@ export class Combatant extends Actor.Actor {
         this.textOut.add(String(damage), 'red');
         if (this.stats.hitPoints <= 0) {
             console.log(this.name + " " + this.id + " Has been slain! Their body lies motionless on the floor... ;-;");
+            deathsound.play();
             this.deathEvent(this);
         }
     }
