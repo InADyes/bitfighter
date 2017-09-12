@@ -1,3 +1,19 @@
-#arena {
-    border: 1px solid black;
+img {
+    position: absolute;
+    width: 1200px;
+    z-index: -1;
+}
+canvas {
+    position: absolute;
+    top: 480px;
+    left: 1020px;
+}
+#background {
+    position: absolute;
+    top: 480px;
+    left: 1017px;
+    height: 180px;
+    width: 183px;
+    background-color: white;
+    opacity: 0.5;
 }
