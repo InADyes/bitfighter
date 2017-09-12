@@ -63,5 +63,5 @@ document.addEventListener("DOMContentLoaded", function(){
                 console.error('unidentified storage event');
         }
     });
-    game.donate({id: 1, name: "bob", amount: 100, art:2});
+    //game.donate({id: 1, name: "bob", amount: 100, art:2});
 });
