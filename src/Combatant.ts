@@ -149,7 +149,10 @@ export class Combatant extends Actor.Actor {
         }
 
         console.log(this.name + " " + this.id + " was hit! Yikes!!! >_<");
-
+        
+        let normalhit = new Audio("sounds/Normal-hit.wav");
+        normalhit.play();
+        
         damage -= this.stats.armor;
         if (damage < 0)
             damage = 0;
