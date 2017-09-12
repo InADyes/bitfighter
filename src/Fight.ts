@@ -12,6 +12,7 @@ export function buildFightReel(combatants: Status[]) {
                 caller.time,
                 c.indexOf(caller)
             ));
+            everyoneAlive = false;
         },
         (caller, damage, accuracy) => {
             let opponents = c.filter(c => c != caller);

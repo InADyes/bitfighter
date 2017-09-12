@@ -20,11 +20,9 @@
   "homepage": "https://github.com/the-opera-house/bitfighter#readme",
   "dependencies": {
     "@types/webpack": "^3.0.10",
-    "@types/yargs": "^8.0.2",
     "express": "^4.15.4",
     "ts-loader": "^2.3.4",
     "typescript": "^2.5.2",
-    "webpack": "^3.5.5",
-    "yargs": "^8.0.2"
+    "webpack": "^3.5.5"
   }
 }

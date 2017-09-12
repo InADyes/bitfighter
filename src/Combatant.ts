@@ -10,8 +10,9 @@ export interface Stats {
 
 export interface Status {
     id: number,
-    name: number,
+    name: string,
     donation: number,
     hitPoints: number,
+    art: number,
     stats: Stats
 }

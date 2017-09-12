@@ -1,3 +1,5 @@
+import { Stats, Status } from 'Combatant';
+
 interface Stat {
     base: number;
     scaler: number;
@@ -50,18 +52,23 @@ let characters: Character[] = [
 
 
 // i'm going to fix this i swear
-export function pickCharacter(donation: {id: number, name: string, amount: number, art: number}) {
-    let character = characters[donation.art % characters.length];
+export function pickCharacter(donation: {id: number, name: string, amount: number, art: number}) : Status {
+    let pick = donation.art % characters.length;
+    let character = characters[pick];
     return {
+        id: donation.id,
+        name: donation.name,
+        donation: donation.amount,
+        hitPoints: character.hitPoints.base + character.hitPoints.scaler * donation.amount,
+        art: pick,
         stats: {
-            hitPoints: character.hitPoints.base + character.hitPoints.scaler * donation.amount,
+            maxHitPoints: character.hitPoints.base + character.hitPoints.scaler * donation.amount,
             accuracy: character.accuracy.base + character.accuracy.scaler * donation.amount,
             dodge: character.dodge.base + character.dodge.scaler * donation.amount,
             attackSpeed: character.attackSpeed.base + character.attackSpeed.scaler * donation.amount,
             attackDamage: character.attackDamage.base + character.attackDamage.scaler * donation.amount,
             armor: character.armor.base + character.armor.scaler * donation.amount,
             regeneration: character.regeneration.base + character.regeneration.scaler * donation.amount
-        },
-        spriteUrl: character.spriteUrl
+        }
     }
 }
