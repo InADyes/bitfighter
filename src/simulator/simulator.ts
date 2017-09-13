@@ -5,9 +5,6 @@ import * as Fight from '../Fight';
 import { pickCharacter } from '../ClassPicker';
 import * as FightReel from '../FightReel';
 
-
-console.log(process.argv);
-
 class Results {
     hits = 0;
     miss = 0;
@@ -98,6 +95,11 @@ for (let i = 0; i < fights; i++) {
     }
 }
 
-for (let key in results[0]) {
-    console.log(`${ key }, ${ results[0][key] }, ${ results[1][key] }`);
-}
+console.log(', champion, challenger');
+console.log(`hits, ${ results[0].hits }, ${ results[1].hits }`);
+console.log(`miss, ${ results[0].miss }, ${ results[1].miss }`);
+console.log(`total_damage, ${ results[0].total_damage }, ${ results[1].total_damage }`);
+console.log(`crits, ${ results[0].crits }, ${ results[1].crits }`);
+console.log(`wins, ${ results[0].wins }, ${ results[1].wins }`);
+console.log(`losses, ${ results[0].losses }, ${ results[1].losses }`);
+console.log(`average_damage, ${ results[0].average_damage }, ${ results[1].average_damage }`);

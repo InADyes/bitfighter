@@ -80,12 +80,12 @@ export class Combatant {
         total = accuracy + this.status.stats.dodge;
         roll = Math.ceil(Math.random() * total);
         if (roll > accuracy) {
-            console.log(this.status.name + ' ' + this.status.id + ' dodged the attack! =D');
+            // console.log(this.status.name + ' ' + this.status.id + ' dodged the attack! =D');
             this.dodgeEvent(this);
             return;
         }
 
-        console.log(this.status.name + ' ' + this.status.id + ' was hit! Yikes!!! >_<');
+        // console.log(this.status.name + ' ' + this.status.id + ' was hit! Yikes!!! >_<');
 
         //calculate damage
         damage -= this.status.stats.armor;
@@ -96,10 +96,10 @@ export class Combatant {
 
         this.status.hitPoints -= damage;
         this.damageEvent(this, damage);
-        console.log(this.status.name + ' ' + this.status.id + ' Has taken ' + damage + '! :(');
+        // console.log(this.status.name + ' ' + this.status.id + ' Has taken ' + damage + '! :(');
 
         if (this.status.hitPoints <= 0) {
-            console.log(this.status.name + ' ' + this.status.id + ' Has been slain! Their body lies motionless on the floor... ;-;');
+            // console.log(this.status.name + ' ' + this.status.id + ' Has been slain! Their body lies motionless on the floor... ;-;');
             this.deathEvent(this);
         }
     }

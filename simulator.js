@@ -146,7 +146,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-console.log(__WEBPACK_IMPORTED_MODULE_0_process__["argv"]);
 var Results = (function () {
     function Results(classType, bits) {
         this.classType = classType;
@@ -186,7 +185,6 @@ var chars = [
     })
 ];
 var fights = Number(__WEBPACK_IMPORTED_MODULE_0_process__["argv"][6]);
-console.log('fights', fights);
 function other(char) {
     switch (char) {
         case 0:
@@ -227,11 +225,14 @@ for (var i = 0; i < fights; i++) {
         }
     }
 }
-console.log(results);
-console.log('champion, challenger');
-for (var key in results[0]) {
-    console.log(key + ", " + results[0][key] + ", " + results[1][key]);
-}
+console.log(', champion, challenger');
+console.log("hits, " + results[0].hits + ", " + results[1].hits);
+console.log("miss, " + results[0].miss + ", " + results[1].miss);
+console.log("total_damage, " + results[0].total_damage + ", " + results[1].total_damage);
+console.log("crits, " + results[0].crits + ", " + results[1].crits);
+console.log("wins, " + results[0].wins + ", " + results[1].wins);
+console.log("losses, " + results[0].losses + ", " + results[1].losses);
+console.log("average_damage, " + results[0].average_damage + ", " + results[1].average_damage);
 
 
 /***/ }),
@@ -300,11 +301,9 @@ var Combatant = (function () {
         total = accuracy + this.status.stats.dodge;
         roll = Math.ceil(Math.random() * total);
         if (roll > accuracy) {
-            console.log(this.status.name + ' ' + this.status.id + ' dodged the attack! =D');
             this.dodgeEvent(this);
             return;
         }
-        console.log(this.status.name + ' ' + this.status.id + ' was hit! Yikes!!! >_<');
         damage -= this.status.stats.armor;
         if (damage < 0)
             damage = 0;
@@ -312,9 +311,7 @@ var Combatant = (function () {
             damage = this.status.stats.maxHitPoints;
         this.status.hitPoints -= damage;
         this.damageEvent(this, damage);
-        console.log(this.status.name + ' ' + this.status.id + ' Has taken ' + damage + '! :(');
         if (this.status.hitPoints <= 0) {
-            console.log(this.status.name + ' ' + this.status.id + ' Has been slain! Their body lies motionless on the floor... ;-;');
             this.deathEvent(this);
         }
     };

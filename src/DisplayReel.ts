@@ -7,7 +7,10 @@ export const enum EventType {
 }
 
 export abstract class Event {
-    constructor (public timeout: number, readonly type: EventType) {}; //only public for now to make things more easy
+    constructor (
+        public timeout: number,
+        readonly type: EventType
+    ) {}; //only public for now to make things more easy
 }
 
 // needs more finished Combatant Information
