@@ -1,7 +1,6 @@
-import * as Game from './Game';
 import * as fabric from 'fabric';
 
-document.addEventListener("DOMContentLoaded", function(){
+/*document.addEventListener("DOMContentLoaded", function(){
     let arenaFront = <HTMLCanvasElement>document.getElementById("arena-front");
     let arenaBack = <HTMLCanvasElement>document.getElementById("arena-front");
     let arenaWrapper = <HTMLDivElement>document.getElementById("arena-wrapper");
@@ -64,4 +63,12 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     });
     game.donate({id: 1, name: "bob", amount: 100, art:2});
+});
+*/
+document.addEventListener("DOMContentLoaded", function(){
+    let canvas = new fabric.Canvas("arena-front");
+    let rect = new fabric.Rect();
+    canvas.add(rect);
+
+
 });
