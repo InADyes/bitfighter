@@ -1,4 +1,4 @@
-import * as Game from './Game';
+import * as Game from './buildDisplayReel';
 
 document.addEventListener("DOMContentLoaded", function() {
     let newDonationButton = document.getElementById('new-donation');

@@ -1,9 +1,9 @@
 // node
 import * as process from 'process';
-// npm
-import * as Fight from '../shared/Fight';
-import { pickCharacter } from '../shared/ClassPicker';
-import * as FightReel from '../shared/FightReel';
+// internal
+import * as Fight from '../shared/fight';
+import { pickCharacter } from '../shared/characterPicker';
+import * as FightReel from '../shared/fightReel';
 
 class Results {
     hits = 0;
