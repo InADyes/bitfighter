@@ -92,20 +92,36 @@ export class Combatant extends Actor.Actor {
         this.textOut.tick(timeDelta);
     }
     public draw() {
-        this.ctx.fillStyle = 'black';
-        this.ctx.strokeStyle = 'white';
-        this.ctx.font = "10px Arial";
-        this.ctx.lineWidth = 1;
+
+
+        this.healthBar.draw();
+        this.sprite.draw();
         if (this.ctx.canvas.height > 100) {
+            this.ctx.fillStyle = 'black';
+            this.ctx.strokeStyle = 'white';
+            this.ctx.font = "10px Arial";
+            this.ctx.lineWidth = 1;
             this.ctx.strokeText(this.name, this.pos.x + 25, this.pos.y + 122);
             this.ctx.fillText(this.name, this.pos.x + 25, this.pos.y + 122);
         }
         else {
-            this.ctx.strokeText(this.name, this.pos.x + 25, this.pos.y + 47);
-            this.ctx.fillText(this.name, this.pos.x + 25, this.pos.y + 47);
+            if (this.pos.x < 50) {
+                this.ctx.fillStyle = 'black';
+                this.ctx.strokeStyle = 'white';
+                this.ctx.font = "10px Arial";
+                this.ctx.lineWidth = 1;
+                this.ctx.strokeText(this.name, this.pos.x + 25, this.pos.y + 47);
+                this.ctx.fillText(this.name, this.pos.x + 25, this.pos.y + 47);
+            }
+            else{
+                this.ctx.fillStyle = 'black';
+                this.ctx.strokeStyle = 'white';
+                this.ctx.font = "10px Arial";
+                this.ctx.lineWidth = 1;
+                this.ctx.strokeText(this.name, this.pos.x + 65, this.pos.y + 47);
+                this.ctx.fillText(this.name, this.pos.x + 65, this.pos.y + 47);
+            }
         }//  this.ctx.drawImage(this.iconImage, this.pos.x, this.pos.y + 105);
-        this.healthBar.draw();
-        this.sprite.draw();
         this.textOut.draw();
 
 
@@ -209,7 +225,16 @@ class HealthBar extends Actor.Actor {
     private static healthToPixels2: number = 15;
     private static height: number = 6; //health bar height
 
+
+
     public draw() {
+        let backimgG = new Image();
+        let backimgR = new Image();
+        let backimgY = new Image();
+        backimgG.src = "images/greenback.png";
+        backimgR.src = "images/redback.png";
+        backimgY.src = "images/yellowback.png";
+
         if (this.ctx.canvas.height > 100) {
             this.ctx.fillStyle = 'grey';
             this.ctx.fillRect(this.pos.x, this.pos.y, 1000 / HealthBar.healthToPixels2, HealthBar.height);
@@ -219,12 +244,31 @@ class HealthBar extends Actor.Actor {
             this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.redHealth / HealthBar.healthToPixels2), HealthBar.height);
         }
         else {
-            this.ctx.fillStyle = 'green';
-            this.ctx.fillRect(this.pos.x, this.pos.y - 160, 1000 / HealthBar.healthToPixels1, this.ctx.canvas.height);
-            this.ctx.fillStyle = 'yellow';
-            this.ctx.fillRect(this.pos.x, this.pos.y - 160, Math.round(this.displayedYellow / HealthBar.healthToPixels1), this.ctx.canvas.height);
-            this.ctx.fillStyle = 'red';
-            this.ctx.fillRect(this.pos.x, this.pos.y - 160, Math.round(this.redHealth / HealthBar.healthToPixels1), this.ctx.canvas.height);
+            if (this.pos.x < 50) {
+                //this.ctx.fillStyle = 'green';
+                this.ctx.drawImage(backimgG, this.pos.x, this.pos.y - 160, 1000 / HealthBar.healthToPixels1, this.ctx.canvas.height);
+                //this.ctx.fillRect(this.pos.x, this.pos.y - 160, 1000 / HealthBar.healthToPixels1, this.ctx.canvas.height);
+                //this.ctx.fillStyle = 'yellow';
+                this.ctx.drawImage(backimgY, this.pos.x, this.pos.y - 160, Math.round(this.displayedYellow / HealthBar.healthToPixels1), this.ctx.canvas.height);
+                //this.ctx.fillRect(this.pos.x, this.pos.y - 160, Math.round(this.displayedYellow / HealthBar.healthToPixels1), this.ctx.canvas.height);
+                //this.ctx.fillStyle = 'red';
+                this.ctx.drawImage(backimgR, this.pos.x, this.pos.y - 160, Math.round(this.redHealth / HealthBar.healthToPixels1), this.ctx.canvas.height);
+                //this.ctx.fillRect(this.pos.x, this.pos.y - 160, Math.round(this.redHealth / HealthBar.healthToPixels1), this.ctx.canvas.height);
+            }
+            else {
+                this.ctx.save();
+                this.ctx.scale(-1, 1);
+                //this.ctx.fillStyle = 'green';
+                //this.ctx.fillRect(this.pos.x - 295, this.pos.y - 160, 1000 / HealthBar.healthToPixels1, this.ctx.canvas.height);
+                this.ctx.drawImage(backimgG,this.pos.x - 295, this.pos.y - 160, 1000 / HealthBar.healthToPixels1, this.ctx.canvas.height);
+                //this.ctx.fillStyle = 'yellow';
+                //this.ctx.fillRect(this.pos.x - 295, this.pos.y - 160, Math.round(this.displayedYellow / HealthBar.healthToPixels1), this.ctx.canvas.height);
+                this.ctx.drawImage(backimgY,this.pos.x - 295, this.pos.y - 160, Math.round(this.displayedYellow / HealthBar.healthToPixels1), this.ctx.canvas.height);
+               // this.ctx.fillStyle = 'red';
+                //this.ctx.fillRect(this.pos.x - 295, this.pos.y - 160, Math.round(this.redHealth / HealthBar.healthToPixels1), this.ctx.canvas.height);
+                this.ctx.drawImage(backimgR, this.pos.x - 295, this.pos.y - 160, Math.round(this.redHealth / HealthBar.healthToPixels1), this.ctx.canvas.height);
+                this.ctx.restore();
+            }
         }
     }
     public tick(timeDelta: number) {
@@ -282,7 +326,7 @@ class Sprite extends Actor.Actor {
                 this.ctx.scale(-1, 0.5);
                 this.ctx.drawImage(
                     this.spriteImage,
-                    this.facingLeft ? -(this.pos.x + 70 - offset) : -(this.pos.x + 70 + offset),
+                    this.facingLeft ? -(this.pos.x + 110 - offset) : -(this.pos.x + 110 + offset),
                     this.pos.y
                 );
                 this.ctx.restore();
@@ -331,8 +375,14 @@ class TextOut extends Actor.Actor {
         this.ctx.font = "10px Arial";
         this.displayedText.forEach(e => {
             this.ctx.fillStyle = e.color;
-            this.ctx.strokeText(e.text, this.pos.x - 10, this.pos.y - 10 - e.timeout / TextOut.offsetRatio);
-            this.ctx.fillText(e.text, this.pos.x - 10, this.pos.y - 10 - e.timeout / TextOut.offsetRatio);
+            if (this.pos.x < 50) {
+                this.ctx.strokeText(e.text, this.pos.x - 5, this.pos.y - 10 - e.timeout / TextOut.offsetRatio);
+                this.ctx.fillText(e.text, this.pos.x - 5, this.pos.y - 10 - e.timeout / TextOut.offsetRatio);
+            }
+            else {
+                this.ctx.strokeText(e.text, this.pos.x + 25, this.pos.y - 10 - e.timeout / TextOut.offsetRatio);
+                this.ctx.fillText(e.text, this.pos.x + 25, this.pos.y - 10 - e.timeout / TextOut.offsetRatio);
+            }
         });
     }
     public add(text: string, color: string) {
