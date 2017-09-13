@@ -1,6 +1,6 @@
 export const enum EventType {
     Health,
-    Attack,
+    Attack, // animation only
     Clear,
     Text
 }
@@ -13,17 +13,17 @@ export class Event {
     ) {}
 }
 
-export class HealthUpdate extends Event {
+export class Health extends Event {
     constructor (
         time: number,
         character: number,
-        readonly health: number
+        readonly health: number // delta
     ) {
         super(time, EventType.Health, character);
     }
 }
 
-export class AttackUpdate extends Event {
+export class Attack extends Event {
     constructor (
         time: number,
         character: number
@@ -32,7 +32,7 @@ export class AttackUpdate extends Event {
     }
 }
 
-export class ClearUpdate extends Event {
+export class Clear extends Event {
     constructor (
         time: number,
         character: number
@@ -41,7 +41,7 @@ export class ClearUpdate extends Event {
     }
 }
 
-export class TextUpdate extends Event {
+export class Text extends Event {
     constructor (
         time: number,
         character: number,
