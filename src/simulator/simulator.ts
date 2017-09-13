@@ -32,8 +32,8 @@ let results = [
         Number(process.argv[3])
     ),
     new Results(
-    Number(process.argv[4]),
-    Number(process.argv[5])
+        Number(process.argv[4]),
+        Number(process.argv[5])
     )
 ];
 
@@ -45,16 +45,14 @@ let chars = [
         art: results[0].classType
     }),
     pickCharacter({
-    id: 1,
-    name: 'hao',
-    amount: results[1].bits,
-    art: results[1].classType
+        id: 1,
+        name: 'hao',
+        amount: results[1].bits,
+        art: results[1].classType
     })
 ];
 
 let fights = Number(process.argv[6]);
-
-console.log('fights', fights);
 
 function other(char: number) {
     switch (char) {
@@ -100,4 +98,6 @@ for (let i = 0; i < fights; i++) {
     }
 }
 
-console.log(results);
+for (let key in results[0]) {
+    console.log(`${ key }, ${ results[0][key] }, ${ results[1][key] }`);
+}

@@ -228,6 +228,10 @@ for (var i = 0; i < fights; i++) {
     }
 }
 console.log(results);
+console.log('champion, challenger');
+for (var key in results[0]) {
+    console.log(key + ", " + results[0][key] + ", " + results[1][key]);
+}
 
 
 /***/ }),
@@ -247,7 +251,6 @@ module.exports = require("process");
 
 function buildFightReel(combatants) {
     var everyoneAlive = true;
-    var time = 0;
     var reel = [];
     var c = combatants.map(function (combatant) { return new Combatant(combatant, function (caller) {
         reel.push(new __WEBPACK_IMPORTED_MODULE_0__FightReel__["b" /* DeathEvent */](caller.time, c.indexOf(caller)));
