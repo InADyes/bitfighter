@@ -89,7 +89,6 @@ for (let i = 0; i < fights; i++) {
             case FightReel.EventType.healing:
 
                 break;
-            
             case FightReel.EventType.death:
                 results[event.character].losses++;
                 results[other(event.character)].wins++;

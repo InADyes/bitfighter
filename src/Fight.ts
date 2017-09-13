@@ -16,7 +16,7 @@ export function buildFightReel(combatants: Status[]) {
         },
         (caller, damage, accuracy) => {
             let opponents = c.filter(c => c != caller);
-            opponents[0].takeHit(damage, accuracy);
+            opponents[0].takeHit(damage, accuracy); // todo: maybe bug?
         },
         caller => {
             reel.push(new FightReel.DodgeEvent(
