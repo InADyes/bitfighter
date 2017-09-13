@@ -267,7 +267,7 @@ function buildFightReel(combatants) {
         return;
     }
     while (everyoneAlive) {
-        if (c[0].time < c[0].time)
+        if (c[0].time <= c[1].time)
             c[0].attack();
         else
             c[1].attack();

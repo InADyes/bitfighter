@@ -3,7 +3,6 @@ import { Status } from './Combatant';
 
 export function buildFightReel(combatants: Status[]) {
     let everyoneAlive = true;
-    let time = 0;
     let reel: FightReel.Event[] = [];
     let c = combatants.map((combatant) => new Combatant(
         combatant,
@@ -46,7 +45,7 @@ export function buildFightReel(combatants: Status[]) {
     }
 
     while (everyoneAlive) {
-        if (c[0].time < c[0].time)
+        if (c[0].time <= c[1].time)
             c[0].attack();
         else
             c[1].attack();
