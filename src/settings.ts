@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function(){
     let newDonationButton = document.getElementById("new-donation");
+    let modelConfirmButton = document.getElementById("select-model");
+    let modelInputNode = <HTMLInputElement>document.getElementById("model-type");
     let nameInputNode = <HTMLInputElement>document.getElementById("donation-name");
     let idInputNode = <HTMLInputElement>document.getElementById("donation-id");
     let bitsInputNode = <HTMLInputElement>document.getElementById("donation-bits");
@@ -19,6 +21,14 @@ document.addEventListener("DOMContentLoaded", function(){
         idInputNode.value = String(id + 1);
 
         localStorage.setItem("donation", JSON.stringify({id: id, name: name, amount: amount, style: style, art: art}));
+    });
+    if (modelConfirmButton == null || modelInputNode == null){
+        console.error("missing DOM hook");
+        return;
+    }
+    modelConfirmButton.addEventListener("click", function(element){
+        let gamemodel = Number(modelInputNode.value);
+        localStorage.setItem("gamemodel", String(gamemodel));
     });
 });
 

@@ -20,7 +20,7 @@ const enum GameStates {
 export class Game {
     private arena: Combatant.Combatant[] = [];
     private queue: Combatant.Combatant[] = [];
-    private graveyard: Graveyard; 
+   // private graveyard: Graveyard; 
     private frontCtx: CanvasRenderingContext2D;
     private backCtx: CanvasRenderingContext2D;
     private canvasSize: {x: number, y: number};
@@ -32,8 +32,8 @@ export class Game {
 
     private static fightTimeout: number = 3000; // how long between fights in milliseconds
     private static deathTimeout: number = 3000; // how long to wait after dieing
-    private static championLocation = {x: 20, y: 30};
-    private static challengerLocation = {x: 100, y: 30};
+    private static championLocation = {x: 0, y: 30};
+    private static challengerLocation = {x: 95, y: 30};
     private static switchSidesTimeout: number = 3000;
 
     constructor(front: HTMLCanvasElement, back: HTMLCanvasElement) {
@@ -48,7 +48,7 @@ export class Game {
         this.frontCtx = frontCtx;
         this.backCtx = backCtx;
         this.canvasSize = {x: front.width, y: front.height};
-        this.graveyard = new Graveyard(this.frontCtx, {x: 0, y: 0});
+      //  this.graveyard = new Graveyard(this.frontCtx, {x: 0, y: 0});
     }
 
     private searchQueue(id: number) {
@@ -96,7 +96,7 @@ export class Game {
         }
         this.arena.forEach(c => c.tick(timeDelta));
         this.arena.forEach(c => c.draw());
-        this.graveyard.draw();
+        //this.graveyard.draw();
         window.requestAnimationFrame(timestamp => {
             let delta = timestamp - this.lastTimestamp;
             this.lastTimestamp = timestamp;
@@ -136,7 +136,7 @@ export class Game {
     private clearDead() {
         // clean graveyard
         if (this.arena[0] && this.arena[0].isDead()) {
-            this.graveyard.clearqueue();
+           // this.graveyard.clearqueue();
             // new champion
             if (this.arena[1] && this.arena[1].isDead() == false) {
                 this.state = GameStates.moveChallengerToChampion;
@@ -146,7 +146,7 @@ export class Game {
         // clean arena
         this.arena = this.arena.filter(c => {
             if (c.isDead()) {
-                this.graveyard.addloser(c);
+                //this.graveyard.addloser(c);
                 return false;
             }
             return true;
@@ -175,7 +175,7 @@ export class Game {
                 Game.challengerLocation,
                 donation.id,
                 donation.name,
-                iconArt[this.chance.integer({min: 0, max: iconArt.length - 1})],
+              //  iconArt[this.chance.integer({min: 0, max: iconArt.length - 1})],
                 pick.spriteUrl,
                 pick.stats,
                 () => {
@@ -200,7 +200,7 @@ export class Game {
         this.queue.forEach(c => c.setChance(this.chance));
     }
 }
-
+/*
 class Graveyard extends Actor.Actor {
     private graveyardqueue: Combatant.Combatant[] = [];
   
@@ -220,4 +220,4 @@ class Graveyard extends Actor.Actor {
     }
 
     public tick() {}
-}
+}*/

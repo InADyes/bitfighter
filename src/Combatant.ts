@@ -16,7 +16,7 @@ export class Combatant extends Actor.Actor {
 
     private id: number;
     private name: string;
-    private iconImage = new Image();
+    // private iconImage = new Image();
     private attCD = 0;
     private stats: {
         hitPoints: number; // hit points (max is 1000)
@@ -28,18 +28,18 @@ export class Combatant extends Actor.Actor {
         regeneration: number; // after a fight char will be healed by this amount
     };
     private healthBar: HealthBar;
-    private static healthBarOffset = {x: 0, y: 130};
+    private static healthBarOffset = { x: 0, y: 130 };
     private sprite: Sprite;
     private textOut: TextOut;
-    private static textOutOffset = {x: 30, y: 0};
+    private static textOutOffset = { x: 30, y: 0 };
     private fighting: boolean = false;
     private chance: Chance.Chance;
     constructor(
         ctx: CanvasRenderingContext2D,
-        pos: {x: number, y: number},
+        pos: { x: number, y: number },
         id: number,
         name: string,
-        icon: string,
+        // icon: string,
         sprite: string,
         stats: {
             hitPoints: number;
@@ -58,15 +58,15 @@ export class Combatant extends Actor.Actor {
         super(ctx, pos);
         this.id = id;
         this.name = name;
-        this.iconImage.src = icon; 
+        // this.iconImage.src = icon; 
         this.stats = stats;
         this.healthBar = new HealthBar(ctx, {
             x: pos.x + Combatant.healthBarOffset.x,
             y: pos.y + Combatant.healthBarOffset.y
         });
-        this.sprite = new Sprite(ctx, {x: pos.x, y: pos.y}, sprite);
+        this.sprite = new Sprite(ctx, { x: pos.x, y: pos.y }, sprite);
         this.textOut = new TextOut(ctx, {
-            x: pos.x + Combatant.textOutOffset.x ,
+            x: pos.x + Combatant.textOutOffset.x,
             y: pos.y + Combatant.textOutOffset.y
         });
         this.deathEvent = deathEvent;
@@ -84,7 +84,7 @@ export class Combatant extends Actor.Actor {
             if (this.attCD >= this.stats.attackSpeed) {
                 this.attackEvent(this, this.stats.attackDamage, this.stats.accuracy);
                 this.attCD = this.attCD - this.stats.attackSpeed;
-                this.attCD += Math.ceil((this.stats.attackSpeed * 3 / 4 - this.stats.attackSpeed  * 3 / 2) * Math.random());
+                this.attCD += Math.ceil((this.stats.attackSpeed * 3 / 4 - this.stats.attackSpeed * 3 / 2) * Math.random());
             }
         }
         this.healthBar.tick(timeDelta);
@@ -94,14 +94,21 @@ export class Combatant extends Actor.Actor {
     public draw() {
         this.ctx.fillStyle = 'black';
         this.ctx.strokeStyle = 'white';
-        this.ctx.font = "14px Arial";
+        this.ctx.font = "10px Arial";
         this.ctx.lineWidth = 1;
-        this.ctx.strokeText(this.name, this.pos.x + 25, this.pos.y + 122);
-        this.ctx.fillText(this.name, this.pos.x + 25, this.pos.y + 122);
-        this.ctx.drawImage(this.iconImage, this.pos.x, this.pos.y + 105);
+        if (this.ctx.canvas.height > 100) {
+            this.ctx.strokeText(this.name, this.pos.x + 25, this.pos.y + 122);
+            this.ctx.fillText(this.name, this.pos.x + 25, this.pos.y + 122);
+        }
+        else {
+            this.ctx.strokeText(this.name, this.pos.x + 25, this.pos.y + 47);
+            this.ctx.fillText(this.name, this.pos.x + 25, this.pos.y + 47);
+        }//  this.ctx.drawImage(this.iconImage, this.pos.x, this.pos.y + 105);
         this.healthBar.draw();
         this.sprite.draw();
         this.textOut.draw();
+
+
     }
     public donate(amount: number) {
         this.stats.accuracy = this.stats.accuracy + amount;
@@ -121,10 +128,10 @@ export class Combatant extends Actor.Actor {
     wait() {
         this.fighting = false;
     }
-    public getIcon() {
-        return this.iconImage;
-    }
-    public setPosition(pos: {x: number, y: number}) {
+    /* public getIcon() {
+         return this.iconImage;
+     }*/
+    public setPosition(pos: { x: number, y: number }) {
         this.pos = pos;
         this.healthBar.setPosition({
             x: pos.x + Combatant.healthBarOffset.x,
@@ -132,7 +139,7 @@ export class Combatant extends Actor.Actor {
         });
         this.sprite.setPosition(this.pos);
         this.textOut.setPosition({
-            x: pos.x + Combatant.textOutOffset.x ,
+            x: pos.x + Combatant.textOutOffset.x,
             y: pos.y + Combatant.textOutOffset.y
         });
     }
@@ -144,7 +151,7 @@ export class Combatant extends Actor.Actor {
         let deathsound = new Audio("sounds/death_loud_ver_2.wav");
 
         total = accuracy + this.stats.dodge;
-        roll = this.chance.integer({min: 1, max: total});
+        roll = this.chance.integer({ min: 1, max: total });
         if (roll > accuracy) {
             console.log(this.name + " " + this.id + " dodged the attack! =D");
             this.textOut.add('dodge', 'orange');
@@ -153,10 +160,10 @@ export class Combatant extends Actor.Actor {
         }
 
         console.log(this.name + " " + this.id + " was hit! Yikes!!! >_<");
-        
-        
+
+
         normalhitsound.play();
-        
+
         damage -= this.stats.armor;
         if (damage < 0)
             damage = 0;
@@ -198,16 +205,27 @@ class HealthBar extends Actor.Actor {
 
 
     private static yellowBarFollowRate: number = 7; //per millesecond
-    private static healthToPixels: number = 15; //health units per pixel
+    private static healthToPixels1: number = 10; //health units per pixel
+    private static healthToPixels2: number = 15;
     private static height: number = 6; //health bar height
 
     public draw() {
-        this.ctx.fillStyle = 'grey';
-        this.ctx.fillRect(this.pos.x, this.pos.y, 1000 / HealthBar.healthToPixels, HealthBar.height);
-        this.ctx.fillStyle = 'orange';
-        this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.displayedYellow / HealthBar.healthToPixels), HealthBar.height);
-        this.ctx.fillStyle = 'red';
-        this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.redHealth / HealthBar.healthToPixels), HealthBar.height);
+        if (this.ctx.canvas.height > 100) {
+            this.ctx.fillStyle = 'grey';
+            this.ctx.fillRect(this.pos.x, this.pos.y, 1000 / HealthBar.healthToPixels2, HealthBar.height);
+            this.ctx.fillStyle = 'orange';
+            this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.displayedYellow / HealthBar.healthToPixels2), HealthBar.height);
+            this.ctx.fillStyle = 'red';
+            this.ctx.fillRect(this.pos.x, this.pos.y, Math.round(this.redHealth / HealthBar.healthToPixels2), HealthBar.height);
+        }
+        else {
+            this.ctx.fillStyle = 'green';
+            this.ctx.fillRect(this.pos.x, this.pos.y - 160, 1000 / HealthBar.healthToPixels1, this.ctx.canvas.height);
+            this.ctx.fillStyle = 'yellow';
+            this.ctx.fillRect(this.pos.x, this.pos.y - 160, Math.round(this.displayedYellow / HealthBar.healthToPixels1), this.ctx.canvas.height);
+            this.ctx.fillStyle = 'red';
+            this.ctx.fillRect(this.pos.x, this.pos.y - 160, Math.round(this.redHealth / HealthBar.healthToPixels1), this.ctx.canvas.height);
+        }
     }
     public tick(timeDelta: number) {
         if (this.redHealth < this.displayedYellow) {
@@ -228,34 +246,59 @@ class HealthBar extends Actor.Actor {
 class Sprite extends Actor.Actor {
     private spriteImage = new Image();
     private countdown: number = 0;
-    private facingLeft =  false;
+    private facingLeft = false;
 
     private static countdownStart = Math.PI;
     private static shakeAmplitude = 10;
     private static timeToAmplitueRatio = 75;
 
-    constructor(ctx: CanvasRenderingContext2D,  pos: {x: number, y: number}, sprite: string) {
-        super(ctx ,pos);
+    constructor(ctx: CanvasRenderingContext2D, pos: { x: number, y: number }, sprite: string) {
+        super(ctx, pos);
         this.spriteImage.src = sprite;
     }
     public draw() {
         let offset = Math.floor(Math.sin(this.countdown) * Sprite.shakeAmplitude);
-        if (this.facingLeft){
-            this.ctx.save()
-            this.ctx.scale(-1,1);
-            this.ctx.drawImage(
-                this.spriteImage,
-                this.facingLeft ? -(this.pos.x+70 - offset) : -(this.pos.x+70 + offset),
-                this.pos.y
-            );
-            this.ctx.restore();
-        } else {
-            this.ctx.drawImage(
-                this.spriteImage,
-                this.facingLeft ? this.pos.x - offset : this.pos.x + offset,
-                this.pos.y
-            );
+        if (this.ctx.canvas.height > 100) {
+            if (this.facingLeft) {
+                this.ctx.save()
+                this.ctx.scale(-1, 1);
+                this.ctx.drawImage(
+                    this.spriteImage,
+                    this.facingLeft ? -(this.pos.x + 70 - offset) : -(this.pos.x + 70 + offset),
+                    this.pos.y
+                );
+                this.ctx.restore();
+            } else {
+                this.ctx.drawImage(
+                    this.spriteImage,
+                    this.facingLeft ? this.pos.x - offset : this.pos.x + offset,
+                    this.pos.y
+                );
+            }
         }
+        else {
+            if (this.facingLeft) {
+                this.ctx.save();
+                this.ctx.scale(-1, 0.5);
+                this.ctx.drawImage(
+                    this.spriteImage,
+                    this.facingLeft ? -(this.pos.x + 70 - offset) : -(this.pos.x + 70 + offset),
+                    this.pos.y
+                );
+                this.ctx.restore();
+            } else {
+                this.ctx.save();
+                this.ctx.scale(1, 0.5);
+                this.ctx.drawImage(
+                    this.spriteImage,
+                    this.facingLeft ? this.pos.x - offset : this.pos.x + offset,
+                    this.pos.y
+                );
+                this.ctx.restore();
+            }
+        }
+
+
     }
     public attackAnimation() {
         this.countdown = Sprite.countdownStart;
@@ -285,14 +328,14 @@ class TextOut extends Actor.Actor {
     }
     public draw() {
         this.ctx.strokeStyle = 'black';
-        this.ctx.font = "14px Arial";
+        this.ctx.font = "10px Arial";
         this.displayedText.forEach(e => {
             this.ctx.fillStyle = e.color;
-            this.ctx.strokeText(e.text, this.pos.x, this.pos.y - e.timeout / TextOut.offsetRatio);
-            this.ctx.fillText(e.text, this.pos.x, this.pos.y - e.timeout / TextOut.offsetRatio);
+            this.ctx.strokeText(e.text, this.pos.x - 10, this.pos.y - 10 - e.timeout / TextOut.offsetRatio);
+            this.ctx.fillText(e.text, this.pos.x - 10, this.pos.y - 10 - e.timeout / TextOut.offsetRatio);
         });
     }
     public add(text: string, color: string) {
-        this.displayedText.push({text: text, timeout: 0, color: color});
+        this.displayedText.push({ text: text, timeout: 0, color: color });
     }
 }
