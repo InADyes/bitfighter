@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function(){
         return;
     let widthnumber = 300;
     
-    let abcde = <HTMLCanvasElement>new fabric.Canvas('arena-front');
+    var abcde = new fabric.Canvas('arena-front');
     fabric.Image.fromURL('dist/images.characters.axe.png', function(oImg){
         abcde.add(oImg);
     });
