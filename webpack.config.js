@@ -26,7 +26,9 @@ module.exports = [
         simulator: './src/simulator/simulator.ts'
     },
     output: {
-        filename: 'simulator.js'
+        filename: 'simulator.js',
+        devtoolModuleFilenameTemplate: 'file://[absolute-resource-path]',
+        devtoolFallbackModuleFilenameTemplate: 'file://[absolute-resource-path]?[hash]'
     },
     resolve: {
         extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']

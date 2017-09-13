@@ -1,11 +1,10 @@
 {
-    "compileOnSave": true,
     "compilerOptions": {
-        "watch": true,
         "sourceMap": true,
         "removeComments": true,
         "strict": true,
         "strictNullChecks": true,
-        "module": "commonjs"
+        "module": "es6",
+        "target": "es5"
     }
 }
