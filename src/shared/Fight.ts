@@ -1,5 +1,5 @@
 import * as FightReel from './FightReel';
-import { Status } from './Combatant';
+import { Status } from './Status';
 
 export function buildFightReel(combatants: Status[]) {
     let everyoneAlive = true;

@@ -1,4 +1,4 @@
-import { Stats, Status } from 'Combatant';
+import { Stats, Status } from 'Status';
 
 interface Stat {
     base: number;

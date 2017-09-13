@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import * as Combatant from '../shared/Combatant';
+import * as Combatant from '../shared/Status';
 import * as ClassPicker from '../shared/ClassPicker';
 import * as Reel from '../shared/DisplayReel';
 
