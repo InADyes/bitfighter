@@ -139,9 +139,9 @@ var HealingEvent = (function (_super) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_process__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_process___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_process__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Fight__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ClassPicker__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FightReel__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_Fight__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_ClassPicker__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_FightReel__ = __webpack_require__(0);
 
 
 
@@ -171,13 +171,13 @@ var results = [
     new Results(Number(__WEBPACK_IMPORTED_MODULE_0_process__["argv"][4]), Number(__WEBPACK_IMPORTED_MODULE_0_process__["argv"][5]))
 ];
 var chars = [
-    Object(__WEBPACK_IMPORTED_MODULE_2__ClassPicker__["a" /* pickCharacter */])({
+    Object(__WEBPACK_IMPORTED_MODULE_2__shared_ClassPicker__["a" /* pickCharacter */])({
         id: 0,
         name: 'shawn',
         amount: results[0].bits,
         art: results[0].classType
     }),
-    Object(__WEBPACK_IMPORTED_MODULE_2__ClassPicker__["a" /* pickCharacter */])({
+    Object(__WEBPACK_IMPORTED_MODULE_2__shared_ClassPicker__["a" /* pickCharacter */])({
         id: 1,
         name: 'hao',
         amount: results[1].bits,
@@ -198,7 +198,7 @@ function other(char) {
     }
 }
 for (var i = 0; i < fights; i++) {
-    var reel = __WEBPACK_IMPORTED_MODULE_1__Fight__["a" /* buildFightReel */]([chars[0], chars[1]]);
+    var reel = __WEBPACK_IMPORTED_MODULE_1__shared_Fight__["a" /* buildFightReel */]([chars[0], chars[1]]);
     if (reel == undefined) {
         __WEBPACK_IMPORTED_MODULE_0_process__["exit"]();
         break;
@@ -225,7 +225,7 @@ for (var i = 0; i < fights; i++) {
         }
     }
 }
-console.log(', champion, challenger');
+console.log("classType, " + results[0].classType + ", " + results[1].classType);
 console.log("hits, " + results[0].hits + ", " + results[1].hits);
 console.log("miss, " + results[0].miss + ", " + results[1].miss);
 console.log("total_damage, " + results[0].total_damage + ", " + results[1].total_damage);

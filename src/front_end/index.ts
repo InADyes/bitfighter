@@ -1,4 +1,4 @@
-import * as Display from './front_end/Display';
+import * as Display from './Display';
 
 document.addEventListener("DOMContentLoaded", function(){
     let display = new Display.Display;

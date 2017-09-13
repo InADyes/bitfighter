@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import * as Combatant from '../Combatant';
-import * as ClassPicker from '../ClassPicker';
-import * as Reel from '../DisplayReel';
+import * as Combatant from '../shared/Combatant';
+import * as ClassPicker from '../shared/ClassPicker';
+import * as Reel from '../shared/DisplayReel';
 
 let iconArt = [
     'images/icons/cherries.png',

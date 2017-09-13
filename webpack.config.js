@@ -1,11 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
 
-module.exports = [
-//     {
+module.exports = [{
 //     entry: {
-//         //index: './src/index.ts',
-//         //settings: './src/settings.ts',
+//         index: './src/index.ts'
 //     },
 //     output: {
 //         filename: './dist/js/[name].bundle.js'
@@ -20,7 +18,26 @@ module.exports = [
 //         ]
 //     },
 //     devtool: 'source-map'
-// }, 
+// },   
+// {
+    entry: {
+        settings: './src/back_end/settings.ts'
+    },
+    output: {
+        filename: './dist/js/[name].bundle.js'
+    },
+    resolve: {
+        extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']
+    },
+    module: {
+        loaders: [
+            // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
+            { test: /\.tsx?$/, loader: 'ts-loader' }
+        ]
+    },
+    devtool: 'source-map'//,
+    //target: 'node'
+}, 
 {
     entry: {
         simulator: './src/simulator/simulator.ts'
@@ -41,4 +58,4 @@ module.exports = [
     },
     devtool: 'source-map',
     target: 'node'
-}]
+}];

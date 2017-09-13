@@ -1,4 +1,4 @@
-import * as Game from './back_end/Game';
+import * as Game from './Game';
 
 document.addEventListener("DOMContentLoaded", function() {
     let newDonationButton = document.getElementById('new-donation');

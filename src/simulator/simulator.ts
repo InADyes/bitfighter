@@ -1,9 +1,9 @@
 // node
 import * as process from 'process';
 // npm
-import * as Fight from '../Fight';
-import { pickCharacter } from '../ClassPicker';
-import * as FightReel from '../FightReel';
+import * as Fight from '../shared/Fight';
+import { pickCharacter } from '../shared/ClassPicker';
+import * as FightReel from '../shared/FightReel';
 
 class Results {
     hits = 0;
@@ -95,7 +95,7 @@ for (let i = 0; i < fights; i++) {
     }
 }
 
-console.log(', champion, challenger');
+console.log(`classType, ${ results[0].classType }, ${ results[1].classType }`);
 console.log(`hits, ${ results[0].hits }, ${ results[1].hits }`);
 console.log(`miss, ${ results[0].miss }, ${ results[1].miss }`);
 console.log(`total_damage, ${ results[0].total_damage }, ${ results[1].total_damage }`);
