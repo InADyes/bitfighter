@@ -246,13 +246,13 @@ class HealthBar extends Actor.Actor {
         else {
             if (this.pos.x < 50) {
                 //this.ctx.fillStyle = 'green';
-                this.ctx.drawImage(backimgG, this.pos.x, this.pos.y - 160, 1000 / HealthBar.healthToPixels1, this.ctx.canvas.height);
+                this.ctx.drawImage(backimgR, this.pos.x, this.pos.y - 160, 1000 / HealthBar.healthToPixels1, this.ctx.canvas.height);
                 //this.ctx.fillRect(this.pos.x, this.pos.y - 160, 1000 / HealthBar.healthToPixels1, this.ctx.canvas.height);
                 //this.ctx.fillStyle = 'yellow';
                 this.ctx.drawImage(backimgY, this.pos.x, this.pos.y - 160, Math.round(this.displayedYellow / HealthBar.healthToPixels1), this.ctx.canvas.height);
                 //this.ctx.fillRect(this.pos.x, this.pos.y - 160, Math.round(this.displayedYellow / HealthBar.healthToPixels1), this.ctx.canvas.height);
                 //this.ctx.fillStyle = 'red';
-                this.ctx.drawImage(backimgR, this.pos.x, this.pos.y - 160, Math.round(this.redHealth / HealthBar.healthToPixels1), this.ctx.canvas.height);
+                this.ctx.drawImage(backimgG, this.pos.x, this.pos.y - 160, Math.round(this.redHealth / HealthBar.healthToPixels1), this.ctx.canvas.height);
                 //this.ctx.fillRect(this.pos.x, this.pos.y - 160, Math.round(this.redHealth / HealthBar.healthToPixels1), this.ctx.canvas.height);
             }
             else {
@@ -260,13 +260,13 @@ class HealthBar extends Actor.Actor {
                 this.ctx.scale(-1, 1);
                 //this.ctx.fillStyle = 'green';
                 //this.ctx.fillRect(this.pos.x - 295, this.pos.y - 160, 1000 / HealthBar.healthToPixels1, this.ctx.canvas.height);
-                this.ctx.drawImage(backimgG,this.pos.x - 295, this.pos.y - 160, 1000 / HealthBar.healthToPixels1, this.ctx.canvas.height);
+                this.ctx.drawImage(backimgR,this.pos.x - 295, this.pos.y - 160, 1000 / HealthBar.healthToPixels1, this.ctx.canvas.height);
                 //this.ctx.fillStyle = 'yellow';
                 //this.ctx.fillRect(this.pos.x - 295, this.pos.y - 160, Math.round(this.displayedYellow / HealthBar.healthToPixels1), this.ctx.canvas.height);
                 this.ctx.drawImage(backimgY,this.pos.x - 295, this.pos.y - 160, Math.round(this.displayedYellow / HealthBar.healthToPixels1), this.ctx.canvas.height);
                // this.ctx.fillStyle = 'red';
                 //this.ctx.fillRect(this.pos.x - 295, this.pos.y - 160, Math.round(this.redHealth / HealthBar.healthToPixels1), this.ctx.canvas.height);
-                this.ctx.drawImage(backimgR, this.pos.x - 295, this.pos.y - 160, Math.round(this.redHealth / HealthBar.healthToPixels1), this.ctx.canvas.height);
+                this.ctx.drawImage(backimgG, this.pos.x - 295, this.pos.y - 160, Math.round(this.redHealth / HealthBar.healthToPixels1), this.ctx.canvas.height);
                 this.ctx.restore();
             }
         }
