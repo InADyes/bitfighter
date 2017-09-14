@@ -17,9 +17,9 @@ export function buildFightReel(original: Status[]) {
             ));
             everyoneAlive = false;
         },
-        (caller, damage, accuracy) => {
+        (caller, damage, accuracy, crit) => {
             let opponents = c.filter(c => c != caller);
-            opponents[0].takeHit(damage, accuracy);
+            opponents[0].takeHit(damage, accuracy, crit);
         },
         caller => {
             reel.push(new FightReel.DodgeEvent(
@@ -39,6 +39,13 @@ export function buildFightReel(original: Status[]) {
                 caller.time,
                 c.indexOf(caller),
                 healing
+            ));
+        },
+        (caller, type) => {
+            reel.push(new FightReel.CritEvent(
+                caller.time,
+                c.indexOf(caller),
+                type
             ));
         }
     ));

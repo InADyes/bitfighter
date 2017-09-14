@@ -2,10 +2,17 @@ export interface Stats {
     readonly maxHitPoints: number;
     readonly accuracy: number;
     readonly dodge: number;
-    readonly attackSpeed: number;
-    readonly attackDamage: number;
+    readonly attackSpeed: {
+        min: number;
+        max: number;
+    }; // in milliseconds
+    readonly attackDamage: {
+        min: number;
+        max: number;
+    };
     readonly armor: number;
     readonly regeneration: number;
+    readonly crit: number;
 }
 
 export interface Status {
@@ -13,6 +20,7 @@ export interface Status {
     name: string,
     donation: number,
     hitPoints: number,
-    art: number,
-    stats: Stats
+    character: number,
+    stats: Stats,
+    level: number
 }
