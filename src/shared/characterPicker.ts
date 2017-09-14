@@ -23,9 +23,351 @@ let characters: Character[] = [
             armor: 20,
             regeneration: 200,
             crit: 20,
-        }, // 0: scullary maid
+        }, 
         rarity: 0
-    }
+    }, // 0: scullary maid
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, 
+        rarity: 0
+    }, // 1: Farmer
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, 
+        rarity: 0
+    }, // 2: Barkeep
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, 
+        rarity: 0
+    }, // 3: Street Urchin
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, 
+        rarity: 0
+    }, // 4: Aristocrat
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, 
+        rarity: 0
+    }, // 5: Minstrel
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, 
+        rarity: 0
+    }, // 6: Mage
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, 
+        rarity: 0
+    }, // 7: Rogue
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, 
+        rarity: 0
+    }, // 8: Gladiator
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, 
+        rarity: 0
+    }, // 9: Barbarian
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, 
+        rarity: 0
+    }, // 10: War Priest
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, 
+        rarity: 0
+    }, // 11: Werewolf
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, 
+        rarity: 0
+    }, // 12: Warlock
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, 
+        rarity: 0
+    }, // 13: Paladin
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, 
+        rarity: 0
+    }, // 14: Swashbuckler
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, 
+        rarity: 0
+    }, //15: Dragon
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, 
+        rarity: 0
+    }, //16: Angel
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, 
+        rarity: 0
+    }, // 17: Lich
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, 
+        rarity: 0
+    } // 18: Phoenix
 ];
 
 let rarityLevel = [
