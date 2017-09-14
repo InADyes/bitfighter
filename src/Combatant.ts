@@ -93,7 +93,7 @@ export class Combatant extends Actor.Actor {
     }
     public draw() {
 
-
+        
         this.healthBar.draw();
         this.sprite.draw();
         if (this.ctx.canvas.height > 100) {
@@ -110,16 +110,16 @@ export class Combatant extends Actor.Actor {
                 this.ctx.strokeStyle = 'white';
                 this.ctx.font = "10px Arial";
                 this.ctx.lineWidth = 1;
-                this.ctx.strokeText(this.name, this.pos.x + 25, this.pos.y + 47);
-                this.ctx.fillText(this.name, this.pos.x + 25, this.pos.y + 47);
+                this.ctx.strokeText(this.name, this.pos.x + 25, this.pos.y + 65);
+                this.ctx.fillText(this.name, this.pos.x + 25, this.pos.y + 65);
             }
-            else{
+            else {
                 this.ctx.fillStyle = 'black';
                 this.ctx.strokeStyle = 'white';
                 this.ctx.font = "10px Arial";
                 this.ctx.lineWidth = 1;
-                this.ctx.strokeText(this.name, this.pos.x + 65, this.pos.y + 47);
-                this.ctx.fillText(this.name, this.pos.x + 65, this.pos.y + 47);
+                this.ctx.strokeText(this.name, this.pos.x + 65, this.pos.y + 65);
+                this.ctx.fillText(this.name, this.pos.x + 65, this.pos.y + 65);
             }
         }//  this.ctx.drawImage(this.iconImage, this.pos.x, this.pos.y + 105);
         this.textOut.draw();
@@ -165,19 +165,22 @@ export class Combatant extends Actor.Actor {
         let dodgesound = new Audio("sounds/Dodge.wav");
         let normalhitsound = new Audio("sounds/Normal-hit.wav");
         let deathsound = new Audio("sounds/death_loud_ver_2.wav");
+        
+        
 
         total = accuracy + this.stats.dodge;
         roll = this.chance.integer({ min: 1, max: total });
         if (roll > accuracy) {
             console.log(this.name + " " + this.id + " dodged the attack! =D");
             this.textOut.add('dodge', 'orange');
+            dodgesound.volume = 0.01;
             dodgesound.play();
             return;
         }
 
         console.log(this.name + " " + this.id + " was hit! Yikes!!! >_<");
 
-
+        normalhitsound.volume = 0.01;
         normalhitsound.play();
 
         damage -= this.stats.armor;
@@ -191,6 +194,7 @@ export class Combatant extends Actor.Actor {
         this.textOut.add(String(damage), 'red');
         if (this.stats.hitPoints <= 0) {
             console.log(this.name + " " + this.id + " Has been slain! Their body lies motionless on the floor... ;-;");
+            deathsound.volume = 0.01;
             deathsound.play();
             this.deathEvent(this);
         }
@@ -260,11 +264,11 @@ class HealthBar extends Actor.Actor {
                 this.ctx.scale(-1, 1);
                 //this.ctx.fillStyle = 'green';
                 //this.ctx.fillRect(this.pos.x - 295, this.pos.y - 160, 1000 / HealthBar.healthToPixels1, this.ctx.canvas.height);
-                this.ctx.drawImage(backimgR,this.pos.x - 295, this.pos.y - 160, 1000 / HealthBar.healthToPixels1, this.ctx.canvas.height);
+                this.ctx.drawImage(backimgR, this.pos.x - 295, this.pos.y - 160, 1000 / HealthBar.healthToPixels1, this.ctx.canvas.height);
                 //this.ctx.fillStyle = 'yellow';
                 //this.ctx.fillRect(this.pos.x - 295, this.pos.y - 160, Math.round(this.displayedYellow / HealthBar.healthToPixels1), this.ctx.canvas.height);
-                this.ctx.drawImage(backimgY,this.pos.x - 295, this.pos.y - 160, Math.round(this.displayedYellow / HealthBar.healthToPixels1), this.ctx.canvas.height);
-               // this.ctx.fillStyle = 'red';
+                this.ctx.drawImage(backimgY, this.pos.x - 295, this.pos.y - 160, Math.round(this.displayedYellow / HealthBar.healthToPixels1), this.ctx.canvas.height);
+                // this.ctx.fillStyle = 'red';
                 //this.ctx.fillRect(this.pos.x - 295, this.pos.y - 160, Math.round(this.redHealth / HealthBar.healthToPixels1), this.ctx.canvas.height);
                 this.ctx.drawImage(backimgG, this.pos.x - 295, this.pos.y - 160, Math.round(this.redHealth / HealthBar.healthToPixels1), this.ctx.canvas.height);
                 this.ctx.restore();
@@ -320,23 +324,28 @@ class Sprite extends Actor.Actor {
                 );
             }
         }
+        //small one
         else {
             if (this.facingLeft) {
                 this.ctx.save();
-                this.ctx.scale(-1, 0.5);
+                //this.ctx.scale(-1, 0.5);
+                //this.ctx.scale(2, 2);
+                this.ctx.scale(-2,1);
                 this.ctx.drawImage(
                     this.spriteImage,
-                    this.facingLeft ? -(this.pos.x + 110 - offset) : -(this.pos.x + 110 + offset),
-                    this.pos.y
+                    this.facingLeft ? -(this.pos.x +15 - offset) : -(this.pos.x + 15 + offset),
+                    this.pos.y - 45
                 );
                 this.ctx.restore();
             } else {
                 this.ctx.save();
-                this.ctx.scale(1, 0.5);
+                //this.ctx.scale(1, 0.5);
+                //this.ctx.scale(2, 2);
+                this.ctx.scale(2,1);
                 this.ctx.drawImage(
                     this.spriteImage,
-                    this.facingLeft ? this.pos.x - offset : this.pos.x + offset,
-                    this.pos.y
+                    this.facingLeft ? this.pos.x -10 - offset : this.pos.x -10 + offset,
+                    this.pos.y -45
                 );
                 this.ctx.restore();
             }
@@ -375,13 +384,19 @@ class TextOut extends Actor.Actor {
         this.ctx.font = "10px Arial";
         this.displayedText.forEach(e => {
             this.ctx.fillStyle = e.color;
-            if (this.pos.x < 50) {
-                this.ctx.strokeText(e.text, this.pos.x - 5, this.pos.y - 10 - e.timeout / TextOut.offsetRatio);
-                this.ctx.fillText(e.text, this.pos.x - 5, this.pos.y - 10 - e.timeout / TextOut.offsetRatio);
+            if (this.ctx.canvas.height > 100) {
+                this.ctx.strokeText(e.text, this.pos.x, this.pos.y - e.timeout / TextOut.offsetRatio);
+                this.ctx.fillText(e.text, this.pos.x, this.pos.y - e.timeout / TextOut.offsetRatio);
             }
             else {
-                this.ctx.strokeText(e.text, this.pos.x + 25, this.pos.y - 10 - e.timeout / TextOut.offsetRatio);
-                this.ctx.fillText(e.text, this.pos.x + 25, this.pos.y - 10 - e.timeout / TextOut.offsetRatio);
+                if (this.pos.x < 50) {
+                    this.ctx.strokeText(e.text, this.pos.x - 5, this.pos.y - 10 - e.timeout / TextOut.offsetRatio);
+                    this.ctx.fillText(e.text, this.pos.x - 5, this.pos.y - 10 - e.timeout / TextOut.offsetRatio);
+                }
+                else {
+                    this.ctx.strokeText(e.text, this.pos.x + 25, this.pos.y - 10 - e.timeout / TextOut.offsetRatio);
+                    this.ctx.fillText(e.text, this.pos.x + 25, this.pos.y - 10 - e.timeout / TextOut.offsetRatio);
+                }
             }
         });
     }
