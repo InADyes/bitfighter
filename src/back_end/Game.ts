@@ -4,9 +4,10 @@ import { pickCharacter } from '../shared/characterPicker';
 import { Status, Stats } from '../shared/statusTypes';
 import * as fightReel from '../shared/fightReel';
 import * as displayReel from '../shared/displayReel';
+import * as frontEndMessage from '../shared/frontEndMessage';
 
-function pushToFrontEnd(obj: {characters: Status[], reel: displayReel.Event[]}) {
-    let str = JSON.stringify(obj);
+function pushToFrontEnd(message: frontEndMessage.Message) {
+    let str = JSON.stringify(message);
     localStorage.setItem('fight', str);
 }
 
@@ -18,20 +19,25 @@ export class Game {
 
     addCombatant(donation: {id: number, name: string, amount: number, character: number}) {
         this.queue.push(pickCharacter(donation))
+        console.log('new combatant added to queue');
 
-        if (typeof(this.timeout) == 'number')
-            this.nextFight();
+        this.nextFight();
     }
     nextFight() {
         let fight: fightReel.Event[];
         let display: displayReel.Event[];
         
-        if (this.lastResults.length + this.queue.length < 2) {
-            console.log('not enough combatants to fight');
+        if (this.timeout != null) {
+            console.log('cannot start fight: fight already in progress');
             return ;
         }
 
-        this.lastCombatants = this.lastResults.concat(this.queue.splice(0, this.lastResults.length));
+        if (this.lastResults.length + this.queue.length < 2) {
+            console.log('cannot start fight: not enough combatants');
+            return ;
+        }
+
+        this.lastCombatants = this.lastResults.concat(this.queue.splice(0, 2 - this.lastResults.length));
         let result = buildFightReel(this.lastCombatants);
         this.lastResults = result.combatants;
 
@@ -39,12 +45,14 @@ export class Game {
 
         pushToFrontEnd({characters: this.lastCombatants, reel: display});
 
+        console.log('new fight: ', this);
+
         this.timeout = setTimeout(
             () => {
                 this.timeout = null;
-                this.nextFight
+                this.nextFight();
             },
-            display[display.length - 1].time + 3000
+            display[display.length - 1].time + 5000
         );
     }
 }

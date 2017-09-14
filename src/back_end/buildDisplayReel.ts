@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import * as Status from '../shared/statusTypes';
 import * as DisplayReel from '../shared/displayReel';
 import * as FightReel from '../shared/fightReel';

@@ -4,7 +4,7 @@ import { Combatant } from './Combatant';
 
 export function buildFightReel(original: Status[]) {
     let combatants: Status[] = [];
-    Object.assign(combatants, original); // duplicates parameters
+    Object.assign(combatants, original); // duplicates parameters todo: this isn't working??
 
     let everyoneAlive = true;
     let reel: FightReel.Event[] = [];
