@@ -1,6 +1,6 @@
 import * as Game from './buildDisplayReel';
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener('DOMContentLoaded', function() {
     let newDonationButton = document.getElementById('new-donation');
     let nameInputNode = <HTMLInputElement>document.getElementById('donation-name');
     let idInputNode = <HTMLInputElement>document.getElementById('donation-id');

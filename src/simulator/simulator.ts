@@ -39,13 +39,13 @@ let chars = [
         id: 0,
         name: 'shawn',
         amount: results[0].bits,
-        art: results[0].classType
+        character: results[0].classType
     }),
     pickCharacter({
         id: 1,
         name: 'hao',
         amount: results[1].bits,
-        art: results[1].classType
+        character: results[1].classType
     })
 ];
 

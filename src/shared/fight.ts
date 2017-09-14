@@ -2,7 +2,10 @@ import * as FightReel from './fightReel';
 import { Status } from './statusTypes';
 import { Combatant } from './Combatant';
 
-export function buildFightReel(combatants: Status[]) {
+export function buildFightReel(original: Status[]) {
+    let combatants: Status[] = [];
+    Object.assign(combatants, original); // duplicates parameters
+
     let everyoneAlive = true;
     let reel: FightReel.Event[] = [];
     let c = combatants.map((combatant) => new Combatant(
@@ -16,7 +19,7 @@ export function buildFightReel(combatants: Status[]) {
         },
         (caller, damage, accuracy) => {
             let opponents = c.filter(c => c != caller);
-            opponents[0].takeHit(damage, accuracy); // todo: maybe bug?
+            opponents[0].takeHit(damage, accuracy);
         },
         caller => {
             reel.push(new FightReel.DodgeEvent(
@@ -42,7 +45,7 @@ export function buildFightReel(combatants: Status[]) {
 
     if (combatants.length < 2) {
         console.error('not enough combatants to fight');
-        return;
+        return { combatants: c.map(c => c.status), reel};
     }
 
     while (everyoneAlive) {

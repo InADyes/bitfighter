@@ -52,8 +52,8 @@ let characters: Character[] = [
 
 
 // i'm going to fix this i swear
-export function pickCharacter(donation: {id: number, name: string, amount: number, art: number}) : Status {
-    let pick = donation.art % characters.length;
+export function pickCharacter(donation: {id: number, name: string, amount: number, character: number}) : Status {
+    let pick = donation.character % characters.length;
     let character = characters[pick];
     return {
         id: donation.id,

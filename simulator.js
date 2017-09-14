@@ -68,66 +68,45 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export Event */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DamageEvent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return DodgeEvent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return DeathEvent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return HealingEvent; });
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var Event = (function () {
-    function Event(time, type, character) {
+class Event {
+    constructor(time, type, character) {
         this.time = time;
         this.type = type;
         this.character = character;
     }
     ;
-    return Event;
-}());
+}
+/* unused harmony export Event */
 
-var DamageEvent = (function (_super) {
-    __extends(DamageEvent, _super);
-    function DamageEvent(time, character, amount) {
-        var _this = _super.call(this, time, 0, character) || this;
-        _this.amount = amount;
-        return _this;
+class DamageEvent extends Event {
+    constructor(time, character, amount) {
+        super(time, 0, character);
+        this.amount = amount;
     }
-    return DamageEvent;
-}(Event));
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = DamageEvent;
 
-var DodgeEvent = (function (_super) {
-    __extends(DodgeEvent, _super);
-    function DodgeEvent(time, character) {
-        return _super.call(this, time, 1, character) || this;
+class DodgeEvent extends Event {
+    constructor(time, character) {
+        super(time, 1, character);
     }
-    return DodgeEvent;
-}(Event));
+}
+/* harmony export (immutable) */ __webpack_exports__["c"] = DodgeEvent;
 
-var DeathEvent = (function (_super) {
-    __extends(DeathEvent, _super);
-    function DeathEvent(time, character) {
-        return _super.call(this, time, 2, character) || this;
+class DeathEvent extends Event {
+    constructor(time, character) {
+        super(time, 2, character);
     }
-    return DeathEvent;
-}(Event));
+}
+/* harmony export (immutable) */ __webpack_exports__["b"] = DeathEvent;
 
-var HealingEvent = (function (_super) {
-    __extends(HealingEvent, _super);
-    function HealingEvent(time, character, amount) {
-        var _this = _super.call(this, time, 3, character) || this;
-        _this.amount = amount;
-        return _this;
+class HealingEvent extends Event {
+    constructor(time, character, amount) {
+        super(time, 3, character);
+        this.amount = amount;
     }
-    return HealingEvent;
-}(Event));
+}
+/* harmony export (immutable) */ __webpack_exports__["d"] = HealingEvent;
 
 
 
@@ -140,14 +119,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_process__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_process___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_process__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_fight__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_characterPicker__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_characterPicker__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_fightReel__ = __webpack_require__(0);
 
 
 
 
-var Results = (function () {
-    function Results(classType, bits) {
+class Results {
+    constructor(classType, bits) {
         this.classType = classType;
         this.bits = bits;
         this.hits = 0;
@@ -157,34 +136,29 @@ var Results = (function () {
         this.wins = 0;
         this.losses = 0;
     }
-    Object.defineProperty(Results.prototype, "average_damage", {
-        get: function () {
-            return this.total_damage / (this.wins + this.losses);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return Results;
-}());
-var results = [
+    get average_damage() {
+        return this.total_damage / (this.wins + this.losses);
+    }
+}
+let results = [
     new Results(Number(__WEBPACK_IMPORTED_MODULE_0_process__["argv"][2]), Number(__WEBPACK_IMPORTED_MODULE_0_process__["argv"][3])),
     new Results(Number(__WEBPACK_IMPORTED_MODULE_0_process__["argv"][4]), Number(__WEBPACK_IMPORTED_MODULE_0_process__["argv"][5]))
 ];
-var chars = [
+let chars = [
     Object(__WEBPACK_IMPORTED_MODULE_2__shared_characterPicker__["a" /* pickCharacter */])({
         id: 0,
         name: 'shawn',
         amount: results[0].bits,
-        art: results[0].classType
+        character: results[0].classType
     }),
     Object(__WEBPACK_IMPORTED_MODULE_2__shared_characterPicker__["a" /* pickCharacter */])({
         id: 1,
         name: 'hao',
         amount: results[1].bits,
-        art: results[1].classType
+        character: results[1].classType
     })
 ];
-var fights = Number(__WEBPACK_IMPORTED_MODULE_0_process__["argv"][6]);
+let fights = Number(__WEBPACK_IMPORTED_MODULE_0_process__["argv"][6]);
 function other(char) {
     switch (char) {
         case 0:
@@ -197,27 +171,26 @@ function other(char) {
             return -1;
     }
 }
-for (var i = 0; i < fights; i++) {
-    var reel = __WEBPACK_IMPORTED_MODULE_1__shared_fight__["a" /* buildFightReel */]([chars[0], chars[1]]);
+for (let i = 0; i < fights; i++) {
+    let reel = __WEBPACK_IMPORTED_MODULE_1__shared_fight__["a" /* buildFightReel */]([chars[0], chars[1]]);
     if (reel == undefined) {
         __WEBPACK_IMPORTED_MODULE_0_process__["exit"]();
         break;
     }
-    for (var _i = 0, _a = reel.reel; _i < _a.length; _i++) {
-        var event_1 = _a[_i];
-        switch (event_1.type) {
+    for (let event of reel.reel) {
+        switch (event.type) {
             case 0:
-                results[other(event_1.character)].total_damage += event_1.amount;
-                results[other(event_1.character)].hits++;
+                results[other(event.character)].total_damage += event.amount;
+                results[other(event.character)].hits++;
                 break;
             case 1:
-                results[other(event_1.character)].miss++;
+                results[other(event.character)].miss++;
                 break;
             case 3:
                 break;
             case 2:
-                results[event_1.character].losses++;
-                results[other(event_1.character)].wins++;
+                results[event.character].losses++;
+                results[other(event.character)].wins++;
                 break;
             default:
                 console.log('bad event type');
@@ -225,14 +198,14 @@ for (var i = 0; i < fights; i++) {
         }
     }
 }
-console.log("classType, " + results[0].classType + ", " + results[1].classType);
-console.log("hits, " + results[0].hits + ", " + results[1].hits);
-console.log("miss, " + results[0].miss + ", " + results[1].miss);
-console.log("total_damage, " + results[0].total_damage + ", " + results[1].total_damage);
-console.log("crits, " + results[0].crits + ", " + results[1].crits);
-console.log("wins, " + results[0].wins + ", " + results[1].wins);
-console.log("losses, " + results[0].losses + ", " + results[1].losses);
-console.log("average_damage, " + results[0].average_damage + ", " + results[1].average_damage);
+console.log(`classType, ${results[0].classType}, ${results[1].classType}`);
+console.log(`hits, ${results[0].hits}, ${results[1].hits}`);
+console.log(`miss, ${results[0].miss}, ${results[1].miss}`);
+console.log(`total_damage, ${results[0].total_damage}, ${results[1].total_damage}`);
+console.log(`crits, ${results[0].crits}, ${results[1].crits}`);
+console.log(`wins, ${results[0].wins}, ${results[1].wins}`);
+console.log(`losses, ${results[0].losses}, ${results[1].losses}`);
+console.log(`average_damage, ${results[0].average_damage}, ${results[1].average_damage}`);
 
 
 /***/ }),
@@ -247,28 +220,31 @@ module.exports = require("process");
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = buildFightReel;
-/* unused harmony export Combatant */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__fightReel__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Combatant__ = __webpack_require__(4);
 
-function buildFightReel(combatants) {
-    var everyoneAlive = true;
-    var reel = [];
-    var c = combatants.map(function (combatant) { return new Combatant(combatant, function (caller) {
+
+function buildFightReel(original) {
+    let combatants = [];
+    Object.assign(combatants, original);
+    let everyoneAlive = true;
+    let reel = [];
+    let c = combatants.map((combatant) => new __WEBPACK_IMPORTED_MODULE_1__Combatant__["a" /* Combatant */](combatant, caller => {
         reel.push(new __WEBPACK_IMPORTED_MODULE_0__fightReel__["b" /* DeathEvent */](caller.time, c.indexOf(caller)));
         everyoneAlive = false;
-    }, function (caller, damage, accuracy) {
-        var opponents = c.filter(function (c) { return c != caller; });
+    }, (caller, damage, accuracy) => {
+        let opponents = c.filter(c => c != caller);
         opponents[0].takeHit(damage, accuracy);
-    }, function (caller) {
+    }, caller => {
         reel.push(new __WEBPACK_IMPORTED_MODULE_0__fightReel__["c" /* DodgeEvent */](caller.time, c.indexOf(caller)));
-    }, function (caller, damage) {
+    }, (caller, damage) => {
         reel.push(new __WEBPACK_IMPORTED_MODULE_0__fightReel__["a" /* DamageEvent */](caller.time, c.indexOf(caller), damage));
-    }, function (caller, healing) {
+    }, (caller, healing) => {
         reel.push(new __WEBPACK_IMPORTED_MODULE_0__fightReel__["d" /* HealingEvent */](caller.time, c.indexOf(caller), healing));
-    }); });
+    }));
     if (combatants.length < 2) {
         console.error('not enough combatants to fight');
-        return;
+        return { combatants: c.map(c => c.status), reel };
     }
     while (everyoneAlive) {
         if (c[0].time <= c[1].time)
@@ -276,10 +252,17 @@ function buildFightReel(combatants) {
         else
             c[1].attack();
     }
-    return { combatants: c.filter(function (c) { return c.isDead() == false; }).map(function (c) { return c.status; }), reel: reel };
+    return { combatants: c.filter(c => c.isDead() == false).map(c => c.status), reel };
 }
-var Combatant = (function () {
-    function Combatant(status, deathEvent, attackEvent, dodgeEvent, damageEvent, healingEvent) {
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Combatant {
+    constructor(status, deathEvent, attackEvent, dodgeEvent, damageEvent, healingEvent) {
         this.status = status;
         this.deathEvent = deathEvent;
         this.attackEvent = attackEvent;
@@ -288,16 +271,16 @@ var Combatant = (function () {
         this.healingEvent = healingEvent;
         this.time = 0;
     }
-    Combatant.prototype.getID = function () {
+    getID() {
         return this.status.id;
-    };
-    Combatant.prototype.attack = function () {
+    }
+    attack() {
         this.time += this.status.stats.attackSpeed;
         this.attackEvent(this, this.status.stats.attackDamage, this.status.stats.accuracy);
-    };
-    Combatant.prototype.takeHit = function (damage, accuracy) {
-        var total;
-        var roll;
+    }
+    takeHit(damage, accuracy) {
+        let total;
+        let roll;
         total = accuracy + this.status.stats.dodge;
         roll = Math.ceil(Math.random() * total);
         if (roll > accuracy) {
@@ -314,33 +297,33 @@ var Combatant = (function () {
         if (this.status.hitPoints <= 0) {
             this.deathEvent(this);
         }
-    };
-    Combatant.prototype.heal = function () {
-        var healingAmount = this.status.stats.regeneration * 1000;
+    }
+    heal() {
+        let healingAmount = this.status.stats.regeneration * 1000;
         if (healingAmount + this.status.hitPoints > 1000)
             healingAmount = 1000 - this.status.hitPoints;
         this.status.hitPoints += this.status.stats.regeneration * 1000;
         this.healingEvent(this, healingAmount);
-    };
-    Combatant.prototype.isDead = function () {
+    }
+    isDead() {
         if (this.status.hitPoints <= 0)
             return true;
         return false;
-    };
-    return Combatant;
-}());
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Combatant;
 
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = pickCharacter;
 ;
 ;
-var characters = [
+let characters = [
     {
         hitPoints: { base: 1000, scaler: 0 },
         accuracy: { base: 0, scaler: 1 },
@@ -373,8 +356,8 @@ var characters = [
     }
 ];
 function pickCharacter(donation) {
-    var pick = donation.art % characters.length;
-    var character = characters[pick];
+    let pick = donation.character % characters.length;
+    let character = characters[pick];
     return {
         id: donation.id,
         name: donation.name,
