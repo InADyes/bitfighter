@@ -94,7 +94,7 @@ let characters: Character[] = [
         attackDamage: {base: 150, scaler: 0},
         armor: {base: 45, scaler: 0},
         regeneration: {base: 0.2, scaler: 0},
-        spriteUrl: 'images/characters/silhouettes-rogue.png'
+        spriteUrl: 'images/characters/silhouettes-mage.png'
     },
     { // 3-3
         hitPoints: {base: 1000, scaler: 0},
@@ -104,7 +104,7 @@ let characters: Character[] = [
         attackDamage: {base: 185, scaler: 0},
         armor: {base: 60, scaler: 0},
         regeneration: {base: 0.2, scaler: 0},
-        spriteUrl: 'images/characters/silhouettes-farmer.png'
+        spriteUrl: 'images/characters/silhouettes-dragon.png'
     }
 ];
 
