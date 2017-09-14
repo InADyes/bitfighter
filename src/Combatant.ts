@@ -371,7 +371,7 @@ class TextOut extends Actor.Actor {
         this.displayedText = this.displayedText.filter(e => e.timeout < TextOut.timeout);
     }
     public draw() {
-        this.ctx.strokeStyle = 'black';
+        this.ctx.strokeStyle = 'white';
         this.ctx.font = "10px Arial";
         this.displayedText.forEach(e => {
             this.ctx.fillStyle = e.color;
