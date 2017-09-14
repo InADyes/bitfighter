@@ -84,21 +84,21 @@ class DamageEvent extends Event {
         this.amount = amount;
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = DamageEvent;
+/* harmony export (immutable) */ __webpack_exports__["b"] = DamageEvent;
 
 class DodgeEvent extends Event {
     constructor(time, character) {
         super(time, 1, character);
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["c"] = DodgeEvent;
+/* harmony export (immutable) */ __webpack_exports__["d"] = DodgeEvent;
 
 class DeathEvent extends Event {
     constructor(time, character) {
         super(time, 2, character);
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["b"] = DeathEvent;
+/* harmony export (immutable) */ __webpack_exports__["c"] = DeathEvent;
 
 class HealingEvent extends Event {
     constructor(time, character, amount) {
@@ -106,7 +106,14 @@ class HealingEvent extends Event {
         this.amount = amount;
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["d"] = HealingEvent;
+/* harmony export (immutable) */ __webpack_exports__["e"] = HealingEvent;
+
+class CritEvent extends Event {
+    constructor(time, character, type) {
+        super(time, 4, character);
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = CritEvent;
 
 
 
@@ -225,22 +232,24 @@ module.exports = require("process");
 
 
 function buildFightReel(original) {
-    let combatants = [];
+    const combatants = [];
     Object.assign(combatants, original);
     let everyoneAlive = true;
-    let reel = [];
-    let c = combatants.map((combatant) => new __WEBPACK_IMPORTED_MODULE_1__Combatant__["a" /* Combatant */](combatant, caller => {
-        reel.push(new __WEBPACK_IMPORTED_MODULE_0__fightReel__["b" /* DeathEvent */](caller.time, c.indexOf(caller)));
+    const reel = [];
+    const c = combatants.map((combatant) => new __WEBPACK_IMPORTED_MODULE_1__Combatant__["a" /* Combatant */](combatant, caller => {
+        reel.push(new __WEBPACK_IMPORTED_MODULE_0__fightReel__["c" /* DeathEvent */](caller.time, c.indexOf(caller)));
         everyoneAlive = false;
-    }, (caller, damage, accuracy) => {
+    }, (caller, damage, accuracy, crit) => {
         let opponents = c.filter(c => c != caller);
-        opponents[0].takeHit(damage, accuracy);
+        opponents[0].takeHit(damage, accuracy, crit);
     }, caller => {
-        reel.push(new __WEBPACK_IMPORTED_MODULE_0__fightReel__["c" /* DodgeEvent */](caller.time, c.indexOf(caller)));
+        reel.push(new __WEBPACK_IMPORTED_MODULE_0__fightReel__["d" /* DodgeEvent */](caller.time, c.indexOf(caller)));
     }, (caller, damage) => {
-        reel.push(new __WEBPACK_IMPORTED_MODULE_0__fightReel__["a" /* DamageEvent */](caller.time, c.indexOf(caller), damage));
+        reel.push(new __WEBPACK_IMPORTED_MODULE_0__fightReel__["b" /* DamageEvent */](caller.time, c.indexOf(caller), damage));
     }, (caller, healing) => {
-        reel.push(new __WEBPACK_IMPORTED_MODULE_0__fightReel__["d" /* HealingEvent */](caller.time, c.indexOf(caller), healing));
+        reel.push(new __WEBPACK_IMPORTED_MODULE_0__fightReel__["e" /* HealingEvent */](caller.time, c.indexOf(caller), healing));
+    }, (caller, type) => {
+        reel.push(new __WEBPACK_IMPORTED_MODULE_0__fightReel__["a" /* CritEvent */](caller.time, c.indexOf(caller), type));
     }));
     if (combatants.length < 2) {
         console.error('not enough combatants to fight');
@@ -262,23 +271,23 @@ function buildFightReel(original) {
 
 "use strict";
 class Combatant {
-    constructor(status, deathEvent, attackEvent, dodgeEvent, damageEvent, healingEvent) {
+    constructor(status, deathEvent, attackEvent, dodgeEvent, damageEvent, healingEvent, critEvent) {
         this.status = status;
         this.deathEvent = deathEvent;
         this.attackEvent = attackEvent;
         this.dodgeEvent = dodgeEvent;
         this.damageEvent = damageEvent;
         this.healingEvent = healingEvent;
+        this.critEvent = critEvent;
         this.time = 0;
     }
-    getID() {
-        return this.status.id;
-    }
     attack() {
-        this.time += this.status.stats.attackSpeed;
-        this.attackEvent(this, this.status.stats.attackDamage, this.status.stats.accuracy);
+        let stats = this.status.stats;
+        this.time += Math.ceil(Math.random() * (stats.attackSpeed.max - stats.attackSpeed.min)) + stats.attackSpeed.min;
+        let damageRoll = Math.ceil(Math.random() * (stats.attackDamage.max - stats.attackDamage.min)) + stats.attackDamage.min;
+        this.attackEvent(this, damageRoll, stats.accuracy, stats.crit);
     }
-    takeHit(damage, accuracy) {
+    takeHit(damage, accuracy, crit) {
         let total;
         let roll;
         total = accuracy + this.status.stats.dodge;
@@ -321,58 +330,75 @@ class Combatant {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = pickCharacter;
-;
-;
 let characters = [
     {
-        hitPoints: { base: 1000, scaler: 0 },
-        accuracy: { base: 0, scaler: 1 },
-        dodge: { base: 10, scaler: 1 },
-        attackSpeed: { base: 1300, scaler: 0 },
-        attackDamage: { base: 100, scaler: 0 },
-        armor: { base: 40, scaler: 0 },
-        regeneration: { base: 0.2, scaler: 0 },
-        spriteUrl: 'images/characters/sword.png'
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
+    }
+];
+let rarityLevel = [
+    1,
+    3,
+    5,
+    7
+];
+;
+let levels = [
+    {
+        bits: 200,
+        accuracy: 0,
+        dodge: 0,
     },
     {
-        hitPoints: { base: 1000, scaler: 0 },
-        accuracy: { base: 0, scaler: 1 },
-        dodge: { base: 5, scaler: 1 },
-        attackSpeed: { base: 1750, scaler: 0 },
-        attackDamage: { base: 150, scaler: 0 },
-        armor: { base: 45, scaler: 0 },
-        regeneration: { base: 0.2, scaler: 0 },
-        spriteUrl: 'images/characters/daggers.png'
-    },
-    {
-        hitPoints: { base: 1000, scaler: 0 },
-        accuracy: { base: 0, scaler: 1 },
-        dodge: { base: 0, scaler: 1 },
-        attackSpeed: { base: 2250, scaler: 0 },
-        attackDamage: { base: 185, scaler: 0 },
-        armor: { base: 60, scaler: 0 },
-        regeneration: { base: 0.2, scaler: 0 },
-        spriteUrl: 'images/characters/axe.png'
+        bits: 500,
+        accuracy: 50,
+        dodge: 50,
     }
 ];
 function pickCharacter(donation) {
     let pick = donation.character % characters.length;
     let character = characters[pick];
+    let level = rarityLevel[characters[pick].rarity];
+    while (level < levels.length && donation.amount > levels[level].bits)
+        level++;
     return {
         id: donation.id,
         name: donation.name,
         donation: donation.amount,
-        hitPoints: character.hitPoints.base + character.hitPoints.scaler * donation.amount,
-        art: pick,
+        hitPoints: character.stats.maxHitPoints + donation.amount,
+        character: pick,
         stats: {
-            maxHitPoints: character.hitPoints.base + character.hitPoints.scaler * donation.amount,
-            accuracy: character.accuracy.base + character.accuracy.scaler * donation.amount,
-            dodge: character.dodge.base + character.dodge.scaler * donation.amount,
-            attackSpeed: character.attackSpeed.base + character.attackSpeed.scaler * donation.amount,
-            attackDamage: character.attackDamage.base + character.attackDamage.scaler * donation.amount,
-            armor: character.armor.base + character.armor.scaler * donation.amount,
-            regeneration: character.regeneration.base + character.regeneration.scaler * donation.amount
-        }
+            maxHitPoints: character.stats.maxHitPoints + donation.amount,
+            accuracy: character.stats.accuracy + levels[level - 1].accuracy,
+            dodge: character.stats.dodge + levels[level - 1].dodge,
+            attackSpeed: {
+                min: character.stats.attackSpeed.min,
+                max: character.stats.attackSpeed.max
+            },
+            attackDamage: {
+                min: character.stats.attackDamage.min,
+                max: character.stats.attackDamage.max
+            },
+            armor: character.stats.armor,
+            regeneration: character.stats.regeneration,
+            crit: character.stats.crit
+        },
+        level: level
     };
 }
 

@@ -63,7 +63,7 @@ export function pickCharacter(donation: {id: number, name: string, amount: numbe
     let pick = donation.character % characters.length;
     let character = characters[pick];
 
-    let level = rarityLevel[characters[donation.character].rarity]; // 1 indexed
+    let level = rarityLevel[characters[pick].rarity]; // 1 indexed
 
     // while we are not the highest level and we have the bits required to be the next level
     while (level < levels.length && donation.amount > levels[level].bits)
