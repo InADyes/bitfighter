@@ -16,11 +16,11 @@ export interface Stats {
 }
 
 export interface Status {
-    id: number,
-    name: string,
+    readonly id: number,
+    readonly name: string,
+    readonly character: number,
     donation: number,
     hitPoints: number,
-    character: number,
     stats: Stats,
     level: number
 }

@@ -4,7 +4,7 @@ export class Combatant {
     public time = 0;
 
     constructor(
-        public status: Status,
+        public readonly status: Status,
     
         private readonly deathEvent: (combatant: Combatant) => void,
         private readonly attackEvent: (combatant: Combatant, damage: number, accuracy: number, crit: number) => void,
@@ -14,11 +14,11 @@ export class Combatant {
         private readonly critEvent: (combatant: Combatant, type: number) => void
     ) {}
     public attack() {
-        let stats = this.status.stats;
+        const stats = this.status.stats;
     
         this.time += Math.ceil(Math.random() * (stats.attackSpeed.max - stats.attackSpeed.min)) + stats.attackSpeed.min;
 
-        let damageRoll = Math.ceil(Math.random() * (stats.attackDamage.max - stats.attackDamage.min)) + stats.attackDamage.min;
+        const damageRoll = Math.ceil(Math.random() * (stats.attackDamage.max - stats.attackDamage.min)) + stats.attackDamage.min;
 
         this.attackEvent(this, damageRoll, stats.accuracy, stats.crit);
     }
