@@ -7,19 +7,22 @@ export class Combatant {
         public status: Status,
     
         private readonly deathEvent: (combatant: Combatant) => void,
-        private readonly attackEvent: (combatant: Combatant, damage: number, accuracy: number) => void,
+        private readonly attackEvent: (combatant: Combatant, damage: number, accuracy: number, crit: number) => void,
         private readonly dodgeEvent: (combatant: Combatant) => void,
         private readonly damageEvent: (combatant: Combatant, damage: number) => void,
-        private readonly healingEvent: (combatant: Combatant, healing: number) => void
+        private readonly healingEvent: (combatant: Combatant, healing: number) => void,
+        private readonly critEvent: (combatant: Combatant, type: number) => void
     ) {}
-    public getID() {
-        return this.status.id;
-    }
     public attack() {
-        this.time += this.status.stats.attackSpeed;
-        this.attackEvent(this, this.status.stats.attackDamage, this.status.stats.accuracy);
+        let stats = this.status.stats;
+    
+        this.time += Math.ceil(Math.random() * (stats.attackSpeed.max - stats.attackSpeed.min)) + stats.attackSpeed.min;
+
+        let damageRoll = Math.ceil(Math.random() * (stats.attackDamage.max - stats.attackDamage.min)) + stats.attackDamage.min;
+
+        this.attackEvent(this, damageRoll, stats.accuracy, stats.crit);
     }
-    public takeHit(damage: number, accuracy: number) {
+    public takeHit(damage: number, accuracy: number, crit: number) {
         let total: number;
         let roll: number;
     
@@ -31,9 +34,9 @@ export class Combatant {
             return;
         }
 
-        // console.log(this.status.name + ' ' + this.status.id + ' was hit! Yikes!!! >_<');
+        // this.critEvent(this, 0);
 
-        //calculate damage
+        // console.log(this.status.name + ' ' + this.status.id + ' was hit! Yikes!!! >_<');
         damage -= this.status.stats.armor;
         if (damage < 0)
             damage = 0;

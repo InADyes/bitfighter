@@ -1,74 +1,96 @@
 import { Stats, Status } from 'statusTypes';
 
-interface Stat {
-    base: number;
-    scaler: number;
-};
-
 interface Character {
-    hitPoints: Stat,
-    accuracy: Stat,
-    dodge: Stat,
-    attackSpeed: Stat,
-    attackDamage: Stat,
-    armor: Stat,
-    regeneration: Stat,
-    spriteUrl: string
-};
+    stats: Stats,
+    rarity: number
+}
 
 // still thinking about this
 let characters: Character[] = [
-    { // sword
-        hitPoints: {base: 1000, scaler: 0},
-        accuracy: {base: 0, scaler: 1},
-        dodge: {base: 10, scaler: 1},
-        attackSpeed: {base: 1300, scaler: 0},
-        attackDamage: {base: 100, scaler: 0},
-        armor: {base: 40, scaler: 0},
-        regeneration: {base: 0.2, scaler: 0},
-        spriteUrl: 'images/characters/sword.png'
-    },
-    { // daggers
-        hitPoints: {base: 1000, scaler: 0},
-        accuracy: {base: 0, scaler: 1},
-        dodge: {base: 5, scaler: 1},
-        attackSpeed: {base: 1750, scaler: 0},
-        attackDamage: {base: 150, scaler: 0},
-        armor: {base: 45, scaler: 0},
-        regeneration: {base: 0.2, scaler: 0},
-        spriteUrl: 'images/characters/daggers.png'
-    },
-    { // big axe
-        hitPoints: {base: 1000, scaler: 0},
-        accuracy: {base: 0, scaler: 1},
-        dodge: {base: 0, scaler: 1},
-        attackSpeed: {base: 2250, scaler: 0},
-        attackDamage: {base: 185, scaler: 0},
-        armor: {base: 60, scaler: 0},
-        regeneration: {base: 0.2, scaler: 0},
-        spriteUrl: 'images/characters/axe.png'
+    {
+        stats: { 
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        }, // 0: scullary maid
+        rarity: 0
     }
 ];
 
+let rarityLevel = [
+    1, // common
+    3, // uncommon
+    5, // rare
+    7  // legendary
+]
+
+interface Level {
+    //level: number;
+    bits: number;
+    accuracy: number;
+    dodge: number;
+};
+
+let levels: Level[] = [
+    {
+        //level: 1,
+        bits: 200, //todo: change to let streamer options define starting bit values
+        accuracy: 0,
+        dodge: 0,
+    },
+    {
+        //level: 2,
+        bits: 500,
+        accuracy: 50,
+        dodge: 50,
+    }
+];
 
 // i'm going to fix this i swear
+// donation.amount is assumed to be in bits
 export function pickCharacter(donation: {id: number, name: string, amount: number, character: number}) : Status {
     let pick = donation.character % characters.length;
     let character = characters[pick];
+
+    let level = rarityLevel[characters[donation.character].rarity]; // 1 indexed
+
+    // while we are not the highest level and we have the bits required to be the next level
+    while (level < levels.length && donation.amount > levels[level].bits)
+        level++;
+
     return {
         id: donation.id,
         name: donation.name,
         donation: donation.amount,
-        hitPoints: character.hitPoints.base + character.hitPoints.scaler * donation.amount,
-        art: pick,
+        hitPoints: character.stats.maxHitPoints + donation.amount,
+        character: pick,
         stats: {
-            maxHitPoints: character.hitPoints.base + character.hitPoints.scaler * donation.amount,
-            accuracy: character.accuracy.base + character.accuracy.scaler * donation.amount,
-            dodge: character.dodge.base + character.dodge.scaler * donation.amount,
-            attackSpeed: character.attackSpeed.base + character.attackSpeed.scaler * donation.amount,
-            attackDamage: character.attackDamage.base + character.attackDamage.scaler * donation.amount,
-            armor: character.armor.base + character.armor.scaler * donation.amount,
-            regeneration: character.regeneration.base + character.regeneration.scaler * donation.amount
-        }
+            maxHitPoints: character.stats.maxHitPoints + donation.amount,
+            accuracy: character.stats.accuracy + levels[level - 1].accuracy,
+            dodge: character.stats.dodge + levels[level - 1].dodge,
+            attackSpeed: {
+                min: character.stats.attackSpeed.min,
+                max: character.stats.attackSpeed.max
+            },
+            attackDamage: {
+                min: character.stats.attackDamage.min,
+                max: character.stats.attackDamage.max
+            },
+            armor: character.stats.armor,
+            regeneration: character.stats.regeneration,
+            crit: character.stats.crit
+        },
+        level: level
     }
 }
