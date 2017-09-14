@@ -232,11 +232,16 @@ module.exports = require("process");
 
 
 function buildFightReel(original) {
-    let combatants = [];
+    const combatants = [];
     Object.assign(combatants, original);
     let everyoneAlive = true;
+<<<<<<< HEAD
     let reel = [];
     let c = combatants.map((combatant) => new __WEBPACK_IMPORTED_MODULE_1__Combatant__["a" /* Combatant */](combatant, caller => {
+=======
+    const reel = [];
+    const c = combatants.map((combatant) => new __WEBPACK_IMPORTED_MODULE_1__Combatant__["a" /* Combatant */](combatant, caller => {
+>>>>>>> 749208b46c45a386567f4471886ed0707e0caf8c
         reel.push(new __WEBPACK_IMPORTED_MODULE_0__fightReel__["c" /* DeathEvent */](caller.time, c.indexOf(caller)));
         everyoneAlive = false;
     }, (caller, damage, accuracy, crit) => {
@@ -373,7 +378,11 @@ let levels = [
 function pickCharacter(donation) {
     let pick = donation.character % characters.length;
     let character = characters[pick];
+<<<<<<< HEAD
     let level = rarityLevel[characters[donation.character].rarity];
+=======
+    let level = rarityLevel[characters[pick].rarity];
+>>>>>>> 749208b46c45a386567f4471886ed0707e0caf8c
     while (level < levels.length && donation.amount > levels[level].bits)
         level++;
     return {

@@ -1,4 +1,4 @@
-import * as Game from './buildDisplayReel';
+import * as Game from './Game';
 
 document.addEventListener('DOMContentLoaded', function() {
     let newDonationButton = document.getElementById('new-donation');
@@ -18,14 +18,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         idInputNode.value = String(id + 1);
 
-        //game.donate({id: id, name: name, amount: amount, art: art});
+        game.addCombatant({id: id, name: name, amount: amount, character: art});
     });
-    
-    // let game = new Game.Game(reel => {
-    //     localStorage.setItem('reel', JSON.stringify(reel));
-    // });
 
-    //game.tick(performance.now());
+    let game = new Game.Game();
 });
 
 

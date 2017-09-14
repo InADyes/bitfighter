@@ -3,12 +3,12 @@ import { Status } from './statusTypes';
 import { Combatant } from './Combatant';
 
 export function buildFightReel(original: Status[]) {
-    let combatants: Status[] = [];
-    Object.assign(combatants, original); // duplicates parameters
+    const combatants: Status[] = [];
+    Object.assign(combatants, original); // duplicates parameters todo: this isn't working??
 
     let everyoneAlive = true;
-    let reel: FightReel.Event[] = [];
-    let c = combatants.map((combatant) => new Combatant(
+    const reel: FightReel.Event[] = [];
+    const c = combatants.map((combatant) => new Combatant(
         combatant,
         caller => {
             reel.push(new FightReel.DeathEvent(
