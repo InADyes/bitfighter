@@ -19,7 +19,7 @@ class Results {
     ) {}
 
     get average_damage() {
-        return this.total_damage / ( this.wins + this.losses );
+        return this.total_damage / ( this.hits + this.miss );
     }
 }
 
@@ -87,6 +87,9 @@ for (let i = 0; i < fights; i++) {
             case FightReel.EventType.death:
                 results[event.character].losses++;
                 results[other(event.character)].wins++;
+                break;
+            case FightReel.EventType.crit:
+                results[other(event.character)].crits++;
                 break;
             default:
                 console.log('bad event type');

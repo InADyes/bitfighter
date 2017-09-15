@@ -144,7 +144,7 @@ class Results {
         this.losses = 0;
     }
     get average_damage() {
-        return this.total_damage / (this.wins + this.losses);
+        return this.total_damage / (this.hits + this.miss);
     }
 }
 let results = [
@@ -199,6 +199,9 @@ for (let i = 0; i < fights; i++) {
                 results[event.character].losses++;
                 results[other(event.character)].wins++;
                 break;
+            case 4:
+                results[other(event.character)].crits++;
+                break;
             default:
                 console.log('bad event type');
                 __WEBPACK_IMPORTED_MODULE_0_process__["exit"]();
@@ -235,13 +238,8 @@ function buildFightReel(original) {
     const combatants = [];
     Object.assign(combatants, original);
     let everyoneAlive = true;
-<<<<<<< HEAD
-    let reel = [];
-    let c = combatants.map((combatant) => new __WEBPACK_IMPORTED_MODULE_1__Combatant__["a" /* Combatant */](combatant, caller => {
-=======
     const reel = [];
     const c = combatants.map((combatant) => new __WEBPACK_IMPORTED_MODULE_1__Combatant__["a" /* Combatant */](combatant, caller => {
->>>>>>> 749208b46c45a386567f4471886ed0707e0caf8c
         reel.push(new __WEBPACK_IMPORTED_MODULE_0__fightReel__["c" /* DeathEvent */](caller.time, c.indexOf(caller)));
         everyoneAlive = false;
     }, (caller, damage, accuracy, crit) => {
@@ -301,6 +299,11 @@ class Combatant {
             this.dodgeEvent(this);
             return;
         }
+        roll = Math.ceil(Math.random() * 100);
+        if (roll <= crit) {
+            damage = damage * 5;
+            this.critEvent(this, 0);
+        }
         damage -= this.status.stats.armor;
         if (damage < 0)
             damage = 0;
@@ -354,6 +357,348 @@ let characters = [
             crit: 20,
         },
         rarity: 0
+    },
+    {
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
+    },
+    {
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
+    },
+    {
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
+    },
+    {
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
+    },
+    {
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
+    },
+    {
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
+    },
+    {
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
+    },
+    {
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
+    },
+    {
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
+    },
+    {
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
+    },
+    {
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
+    },
+    {
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
+    },
+    {
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
+    },
+    {
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
+    },
+    {
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
+    },
+    {
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
+    },
+    {
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
+    },
+    {
+        stats: {
+            maxHitPoints: 1000,
+            accuracy: 50,
+            dodge: 50,
+            attackSpeed: {
+                min: 1000,
+                max: 1750,
+            },
+            attackDamage: {
+                min: 25,
+                max: 50,
+            },
+            armor: 20,
+            regeneration: 200,
+            crit: 20,
+        },
+        rarity: 0
     }
 ];
 let rarityLevel = [
@@ -378,11 +723,7 @@ let levels = [
 function pickCharacter(donation) {
     let pick = donation.character % characters.length;
     let character = characters[pick];
-<<<<<<< HEAD
-    let level = rarityLevel[characters[donation.character].rarity];
-=======
     let level = rarityLevel[characters[pick].rarity];
->>>>>>> 749208b46c45a386567f4471886ed0707e0caf8c
     while (level < levels.length && donation.amount > levels[level].bits)
         level++;
     return {

@@ -35,28 +35,21 @@ export class Combatant {
         }
 
         roll = Math.ceil(Math.random() * 100);
-        if (roll >= crit) {
-            damage = damage * 3 - this.status.stats.armor
-            if (damage < 0)
-                damage = 0;
-            else if (damage > this.status.hitPoints)
-                damage = this.status.stats.maxHitPoints;
-            this.status.hitPoints -= damage;
+        if (roll <= crit) {
+            damage = damage * 5;
             this.critEvent(this, 0);
             // console.log(this.status.name + ' ' + this.status.id + ' took a crit! That looked painful! O_O');
         }
-        else {
             // console.log(this.status.name + ' ' + this.status.id + ' was hit! Yikes!!! >_<');
-            damage -= this.status.stats.armor;
-            if (damage < 0)
-                damage = 0;
-            else if (damage > this.status.hitPoints)
-                damage = this.status.stats.maxHitPoints;
-            this.status.hitPoints -= damage;
-            this.damageEvent(this, damage);
-        }
-            // console.log(this.status.name + ' ' + this.status.id + ' Has taken ' + damage + '! :(');
-            
+        damage -= this.status.stats.armor;
+        if (damage < 0)
+            damage = 0;
+        else if (damage > this.status.hitPoints)
+            damage = this.status.stats.maxHitPoints;
+        this.status.hitPoints -= damage;
+        this.damageEvent(this, damage);
+        // console.log(this.status.name + ' ' + this.status.id + ' Has taken ' + damage + '! :(');
+
         if (this.status.hitPoints <= 0) {
             // console.log(this.status.name + ' ' + this.status.id + ' Has been slain! Their body lies motionless on the floor... ;-;');
             this.deathEvent(this);
