@@ -13,9 +13,9 @@ export function buildFightReel(stats: Status[]) {
             if (event.type == FightReel.EventType.death)
                 everyoneAlive = false;
         },
-        (caller, damage, accuracy, crit) => {
+        (caller, damage, accuracy, crit, debuff) => {
             let opponents = combatants.filter(c => c != caller);
-            opponents[0].takeHit(damage, accuracy, crit);
+            opponents[0].takeHit(damage, accuracy, crit, debuff);
         }
     ));
 

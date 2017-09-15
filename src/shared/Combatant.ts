@@ -1,6 +1,7 @@
 import { Status, Stats } from './statusTypes';
 import * as fightReel from './fightReel';
 import * as buff from './buff';
+import * as characterPicker from './characterPicker';
 
 export class Combatant {
     public time: number = 0;
@@ -10,7 +11,7 @@ export class Combatant {
         public readonly status: Status,
         public readonly index: number,
         private readonly newEvent: (event: fightReel.Event) => void,
-        private readonly attackEvent: (combatant: Combatant, damage: number, accuracy: number, crit: number) => void
+        private readonly attackEvent: (combatant: Combatant, damage: number, accuracy: number, critChance: number, critDebuff: buff.Buff) => void
     ) {
         this.rollAttackSpeed();
         this.alias = new Alias(status.stats);
@@ -29,9 +30,10 @@ export class Combatant {
 
         const damageRoll = Math.ceil(Math.random() * (stats.attackDamage.max - stats.attackDamage.min)) + stats.attackDamage.min;
 
-        this.attackEvent(this, damageRoll, stats.accuracy, stats.crit);
+        this.attackEvent(this, damageRoll, stats.accuracy, stats.crit, characterPicker.characters[this.status.character].critDebuff
+        );
     }
-    public takeHit(damage: number, accuracy: number, crit: number) {
+    public takeHit(damage: number, accuracy: number, critChance: number, critDebuff: buff.Buff) {
         this.alias.clearBuffs(this.time);
 
         let total: number;
@@ -46,26 +48,25 @@ export class Combatant {
         }
 
         roll = Math.ceil(Math.random() * 100);
-        if (roll >= crit) {
-            damage = damage * 3 - this.alias.stats.armor
-            if (damage < 0)
-                damage = 0;
-            else if (damage > this.status.hitPoints)
-                damage = this.alias.stats.maxHitPoints;
-            this.status.hitPoints -= damage;
+        if (roll >= critChance) {
+            damage = damage * 3 - this.alias.stats.armor;
+            this.alias.addEffect(this.time, critDebuff);
             this.newEvent(new fightReel.CritEvent(this.time, this.index, 0));
+        } else
+            damage -= this.alias.stats.armor; //applied here so that armor is calculated before the buff is applied when there is a crit
+            // if (damage < 0)
+            //     damage = 0;
+            // else if (damage > this.status.hitPoints)
+            //     damage = this.alias.stats.maxHitPoints;
+            // this.status.hitPoints -= damage;
             // console.log(this.status.name + ' ' + this.status.id + ' took a crit! That looked painful! O_O');
-        }
-        else {
             // console.log(this.status.name + ' ' + this.status.id + ' was hit! Yikes!!! >_<');
-            damage -= this.alias.stats.armor;
-            if (damage < 0)
-                damage = 0;
-            else if (damage > this.status.hitPoints)
-                damage = this.alias.stats.maxHitPoints;
-            this.status.hitPoints -= damage;
-            this.newEvent(new fightReel.DamageEvent(this.time, this.index, damage));
-        }
+        if (damage < 0)
+            damage = 0;
+        else if (damage > this.status.hitPoints)
+            damage = this.alias.stats.maxHitPoints;
+        this.status.hitPoints -= damage;
+        this.newEvent(new fightReel.DamageEvent(this.time, this.index, damage));
             // console.log(this.status.name + ' ' + this.status.id + ' Has taken ' + damage + '! :(');
             
         if (this.status.hitPoints <= 0) {
