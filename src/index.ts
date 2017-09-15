@@ -1,6 +1,6 @@
-import {Canvas} from 'fabric'
-import {Rect} from 'fabric'
-//fabric.js
+import 'fabric'
+
+declare let fabric: any;
 
 /*document.addEventListener("DOMContentLoaded", function(){
     let arenaFront = <HTMLCanvasElement>document.getElementById("arena-front");
@@ -68,8 +68,8 @@ import {Rect} from 'fabric'
 });
 */
 document.addEventListener("DOMContentLoaded", function(){
-    let canvas = new Canvas("arena-front");
-    let rect = new Rect();
+    let canvas = new fabric.Canvas("arena-front");
+    let rect = new fabric.Rect();
     rect.set({ width: 10, height: 20, fill: '#f55', opacity: 0.7 });
     canvas.add(rect);
 
