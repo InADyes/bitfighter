@@ -5,7 +5,7 @@ export class Status {
     private buffs: {
         expires: number,
         buff: Buff.Buff
-    }[];
+    }[] = [];
 
     constructor(
         public readonly id: number,
@@ -14,7 +14,7 @@ export class Status {
         public donation: number,
         public hitPoints: number,
         public level: number,
-        private baseStats: Stats
+        public baseStats: Stats
     ) {}
     addEffect(expires: number, buff: Buff.Buff) {
         this.buffs.push({expires: expires, buff: buff});

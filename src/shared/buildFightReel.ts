@@ -7,8 +7,17 @@ import { Status } from '../shared/help';
 export function buildFightReel(stats: Status[]) {
     let everyoneAlive = true;
     const reel: FightReel.Event[] = [];
-    const combatants = stats.map((stat, index) => new Combatant(
-        Object.assign({}, stat), //pass as copy
+    const combatants = stats.map((s, index) => new Combatant(
+        //Object.assign({}, s), //pass as copy // why wasn't this working??
+        new Status(
+            s.id,
+            s.name,
+            s.character,
+            s.donation,
+            s.hitPoints,    
+            s.level,
+            s.baseStats
+        ),
         index,
         event => {
             reel.push(event);
