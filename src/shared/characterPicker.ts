@@ -1,5 +1,7 @@
-import { Stats, Status } from 'Status';
+import { Stats } from 'Status';
 import * as buff from './buff';
+
+import { Status } from '../shared/help';
 
 interface Character {
     stats: Stats,

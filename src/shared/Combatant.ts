@@ -1,7 +1,9 @@
-import { Status, Stats } from './Status';
+//import * as Status from './Status';
 import * as fightReel from './fightReel';
 import * as buff from './buff';
 import * as characterPicker from './characterPicker';
+
+import { Status } from '../shared/help';
 
 export class Combatant {
     public time: number = 0;

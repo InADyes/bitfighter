@@ -1,11 +1,13 @@
 import * as buildDisplayReel from './buildDisplayReel';
 import { buildFightReel } from '../shared/buildFightReel';
 import { pickCharacter } from '../shared/characterPicker';
-import { Status, Stats } from '../shared/Status';
+import { Stats } from '../shared/Status';
 import * as fightReel from '../shared/fightReel';
 import * as displayReel from '../shared/displayReel';
 import * as frontEndMessage from '../shared/frontEndMessage';
 import { Settings } from './backendSettings'
+
+import { Status } from '../shared/help';
 
 export class Game {
     private timeout: NodeJS.Timer | null = null; // null if no timeout
