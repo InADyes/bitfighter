@@ -88,6 +88,9 @@ for (let i = 0; i < fights; i++) {
                 results[event.character].losses++;
                 results[other(event.character)].wins++;
                 break;
+            case FightReel.EventType.crit:
+                results[other(event.character)].crits++;
+                break;
             default:
                 console.log('bad event type');
                 process.exit();
