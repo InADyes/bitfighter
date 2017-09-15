@@ -1,5 +1,5 @@
 export const enum types {
-    replaceMeShawn
+    replaceMeShawn = 0
 }
 
 export interface Buff {
