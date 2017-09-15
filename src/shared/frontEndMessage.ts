@@ -4,6 +4,9 @@ import { Status } from './statusTypes';
 // what gets sent to the front end
 
 export interface Message {
-    characters: Status[];
+    characters: {
+        name: string;
+        hitPoints: number;
+    }[];
     reel:  displayReel.Event[];
 }

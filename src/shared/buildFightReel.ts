@@ -2,68 +2,34 @@ import * as FightReel from './fightReel';
 import { Status } from './statusTypes';
 import { Combatant } from './Combatant';
 
-export function buildFightReel(original: Status[]) {
-    const combatants: Status[] = [];
-    //Object.assign(combatants, original); // duplicates parameters todo: this isn't working??
-    for (let char of original) {
-        combatants.push(Object.assign({}, char));
-    }
-
+export function buildFightReel(stats: Status[]) {
     let everyoneAlive = true;
     const reel: FightReel.Event[] = [];
-    const c = combatants.map((combatant) => new Combatant(
-        combatant,
-        caller => {
-            reel.push(new FightReel.DeathEvent(
-                caller.time,
-                c.indexOf(caller)
-            ));
-            everyoneAlive = false;
+    const combatants = stats.map((stat, index) => new Combatant(
+        Object.assign({}, stat), //pass as copy
+        index,
+        event => {
+            reel.push(event);
+            if (event.type == FightReel.EventType.death)
+                everyoneAlive = false;
         },
         (caller, damage, accuracy, crit) => {
-            let opponents = c.filter(c => c != caller);
+            let opponents = combatants.filter(c => c != caller);
             opponents[0].takeHit(damage, accuracy, crit);
-        },
-        caller => {
-            reel.push(new FightReel.DodgeEvent(
-                caller.time,
-                c.indexOf(caller)
-            ));
-        },
-        (caller, damage) => {
-            reel.push(new FightReel.DamageEvent(
-                caller.time,
-                c.indexOf(caller),
-                damage
-            ));
-        },
-        (caller, healing) => {
-            reel.push(new FightReel.HealingEvent(
-                caller.time,
-                c.indexOf(caller),
-                healing
-            ));
-        },
-        (caller, type) => {
-            reel.push(new FightReel.CritEvent(
-                caller.time,
-                c.indexOf(caller),
-                type
-            ));
         }
     ));
 
     if (combatants.length < 2) {
         console.error('not enough combatants to fight');
-        return { combatants: c.map(c => c.status), reel};
+        return { combatants: combatants.map(c => c.status), reel};
     }
 
     while (everyoneAlive) {
-        if (c[0].time <= c[1].time)
-            c[0].attack();
+        if (combatants[0].time <= combatants[1].time)
+            combatants[0].attack();
         else
-            c[1].attack();
+            combatants[1].attack();
     }
 
-    return { combatants: c.filter(c => c.isDead() == false).map(c => c.status), reel }
+    return { combatants: combatants.filter(c => c.isDead() == false).map(c => c.status), reel }
 }

@@ -1,18 +1,18 @@
 export interface Stats {
-    readonly maxHitPoints: number;
-    readonly accuracy: number;
-    readonly dodge: number;
-    readonly attackSpeed: {
+    maxHitPoints: number;
+    accuracy: number;
+    dodge: number;
+    attackSpeed: {
         min: number;
         max: number;
     }; // in milliseconds
-    readonly attackDamage: {
+    attackDamage: {
         min: number;
         max: number;
     };
-    readonly armor: number;
-    readonly regeneration: number;
-    readonly crit: number;
+    armor: number;
+    regeneration: number;
+    crit: number;
 }
 
 export interface Status {

@@ -6,16 +6,15 @@ import * as fightReel from '../shared/fightReel';
 import * as displayReel from '../shared/displayReel';
 import * as frontEndMessage from '../shared/frontEndMessage';
 
-function pushToFrontEnd(message: frontEndMessage.Message) {
-    let str = JSON.stringify(message);
-    localStorage.setItem('fight', str);
-}
-
 export class Game {
     timeout: NodeJS.Timer | null = null; // null if no timeout
     lastCombatants: Status[] = [];
     lastResults: Status[] = [];
     queue: Status[] = [];
+
+    constructor(
+        private sendFightMessage: (message: frontEndMessage.Message) => void
+    ) {}
 
     addCombatant(donation: {id: number, name: string, amount: number, character: number}) {
         this.queue.push(pickCharacter(donation))
@@ -43,7 +42,19 @@ export class Game {
 
         display = buildDisplayReel.build(result.reel);
 
-        pushToFrontEnd({characters: this.lastCombatants, reel: display});
+        let frontCharacterInfo: {
+            name: string,
+            hitPoints: number
+        }[] = [];
+
+        for (let c of this.lastCombatants) {
+            frontCharacterInfo.push({
+                   name: c.name,
+                   hitPoints: c.hitPoints
+            });
+        }
+
+        this.sendFightMessage({characters: frontCharacterInfo, reel: display});
 
         console.log('new fight: ', this);
 

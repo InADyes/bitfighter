@@ -1,12 +1,13 @@
 import { Stats, Status } from 'statusTypes';
+import * as Buff from './buff';
 
 interface Character {
     stats: Stats,
-    rarity: number
+    rarity: number,
+    critDebuff: number
 }
 
-// still thinking about this
-let characters: Character[] = [
+export let characters: Character[] = [
     {
         stats: { 
             maxHitPoints: 1000,
@@ -24,7 +25,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     }, // 0: scullary maid
     {
         stats: { 
@@ -43,7 +45,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     }, // 1: Farmer
     {
         stats: { 
@@ -62,7 +65,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     }, // 2: Barkeep
     {
         stats: { 
@@ -81,7 +85,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     }, // 3: Street Urchin
     {
         stats: { 
@@ -100,7 +105,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     }, // 4: Aristocrat
     {
         stats: { 
@@ -119,7 +125,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     }, // 5: Minstrel
     {
         stats: { 
@@ -138,7 +145,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     }, // 6: Mage
     {
         stats: { 
@@ -157,7 +165,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     }, // 7: Rogue
     {
         stats: { 
@@ -176,7 +185,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     }, // 8: Gladiator
     {
         stats: { 
@@ -195,7 +205,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     }, // 9: Barbarian
     {
         stats: { 
@@ -214,7 +225,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     }, // 10: War Priest
     {
         stats: { 
@@ -233,7 +245,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     }, // 11: Werewolf
     {
         stats: { 
@@ -252,7 +265,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     }, // 12: Warlock
     {
         stats: { 
@@ -271,7 +285,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     }, // 13: Paladin
     {
         stats: { 
@@ -290,7 +305,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     }, // 14: Swashbuckler
     {
         stats: { 
@@ -309,7 +325,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     }, //15: Dragon
     {
         stats: { 
@@ -328,7 +345,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     }, //16: Angel
     {
         stats: { 
@@ -347,7 +365,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     }, // 17: Lich
     {
         stats: { 
@@ -366,7 +385,8 @@ let characters: Character[] = [
             regeneration: 200,
             crit: 20,
         }, 
-        rarity: 0
+        rarity: 0,
+        critDebuff: Buff.types.replaceMeShawn
     } // 18: Phoenix
 ];
 

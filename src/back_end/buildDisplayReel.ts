@@ -17,7 +17,6 @@ function otherCharacter(char: number) {
 
 export function build(fight: FightReel.Event[]) {
     let display: DisplayReel.Event[] = [];
-
     
     for (let event of fight) {
         switch (event.type) {
@@ -43,7 +42,7 @@ export function build(fight: FightReel.Event[]) {
                     event.time,
                     event.character,
                     'dodge',
-                    'red'
+                    'orange'
                 ));
                 display.push(new DisplayReel.Attack(
                     event.time - 150,
@@ -71,6 +70,14 @@ export function build(fight: FightReel.Event[]) {
                 display.push(new DisplayReel.Clear(
                     event.time,
                     event.character
+                ));
+                break;
+            case FightReel.EventType.crit:
+                display.push(new DisplayReel.Text(
+                    event.time,
+                    event.character,
+                    'crit',
+                    'red'
                 ));
                 break;
             default:

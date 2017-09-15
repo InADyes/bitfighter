@@ -21,8 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         game.addCombatant({id: id, name: name, amount: amount, character: art});
     });
 
-    let game = new Game.Game();
+    let game = new Game.Game(message => {
+        localStorage.setItem('fight', JSON.stringify(message));
+    });
 });
-
-
- 

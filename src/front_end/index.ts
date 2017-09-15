@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     console.error('bad storage event value');
                     break;
                 }
+                console.log(str);
                 display.newReel(<Message>JSON.parse(str));
                 break;
             default:
