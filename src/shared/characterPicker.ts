@@ -1,4 +1,4 @@
-import { Stats, Status } from 'statusTypes';
+import { Stats, Status } from 'Status';
 import * as buff from './buff';
 
 interface Character {
@@ -431,13 +431,14 @@ export function pickCharacter(donation: {id: number, name: string, amount: numbe
     while (level < levels.length && donation.amount > levels[level].bits)
         level++;
 
-    return {
-        id: donation.id,
-        name: donation.name,
-        donation: donation.amount,
-        hitPoints: character.stats.maxHitPoints + donation.amount,
-        character: pick,
-        stats: {
+    return new Status(
+        donation.id,
+        donation.name,
+        pick,
+        donation.amount,
+        character.stats.maxHitPoints + donation.amount,
+        level,
+        {
             maxHitPoints: character.stats.maxHitPoints + donation.amount,
             accuracy: character.stats.accuracy + levels[level - 1].accuracy,
             dodge: character.stats.dodge + levels[level - 1].dodge,
@@ -452,7 +453,6 @@ export function pickCharacter(donation: {id: number, name: string, amount: numbe
             armor: character.stats.armor,
             regeneration: character.stats.regeneration,
             crit: character.stats.crit
-        },
-        level: level
-    }
+        }
+    )
 }

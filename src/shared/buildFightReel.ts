@@ -1,5 +1,5 @@
 import * as FightReel from './fightReel';
-import { Status } from './statusTypes';
+import { Status } from './Status';
 import { Combatant } from './Combatant';
 
 export function buildFightReel(stats: Status[]) {
@@ -30,6 +30,8 @@ export function buildFightReel(stats: Status[]) {
         else
             combatants[1].attack();
     }
+    
+    combatants.forEach(c => c.status.clearBuffs());
 
     return { combatants: combatants.filter(c => c.isDead() == false).map(c => c.status), reel }
 }

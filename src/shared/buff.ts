@@ -1,7 +1,7 @@
-export const enum types {
-    replaceMeShawn = 0
-}
-
+/*
+    Each buff is multiplied agaisnt a stat to create a new that is then used.
+    See Combatant for implementation.
+*/
 export interface Buff {
     readonly accuracy?: number,
     readonly dodge?: number,
@@ -10,6 +10,10 @@ export interface Buff {
     readonly armor?: number,
     readonly regeneration?: number,
     readonly crit?: number
+}
+
+export const enum types {
+    replaceMeShawn = 0
 }
 
 export const buffs: Buff[] = [

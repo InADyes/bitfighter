@@ -1,7 +1,7 @@
 import * as buildDisplayReel from './buildDisplayReel';
 import { buildFightReel } from '../shared/buildFightReel';
 import { pickCharacter } from '../shared/characterPicker';
-import { Status, Stats } from '../shared/statusTypes';
+import { Status, Stats } from '../shared/Status';
 import * as fightReel from '../shared/fightReel';
 import * as displayReel from '../shared/displayReel';
 import * as frontEndMessage from '../shared/frontEndMessage';
