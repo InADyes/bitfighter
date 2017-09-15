@@ -1,7 +1,7 @@
 import { Status } from './statusTypes';
 
 export class Combatant {
-    public time = 0;
+    public time: number;
 
     constructor(
         public readonly status: Status,
@@ -12,11 +12,18 @@ export class Combatant {
         private readonly damageEvent: (combatant: Combatant, damage: number) => void,
         private readonly healingEvent: (combatant: Combatant, healing: number) => void,
         private readonly critEvent: (combatant: Combatant, type: number) => void
-    ) {}
+    ) {
+        this.rollAttackSpeed();
+    }
+    // increase internal timer by attack speed;
+    private rollAttackSpeed() {
+        this.time += Math.ceil(Math.random() * (this.status.stats.attackSpeed.max - this.status.stats.attackSpeed.min)) + this.status.stats.attackSpeed.min;
+    }
+
     public attack() {
         const stats = this.status.stats;
     
-        this.time += Math.ceil(Math.random() * (stats.attackSpeed.max - stats.attackSpeed.min)) + stats.attackSpeed.min;
+        this.rollAttackSpeed();
 
         const damageRoll = Math.ceil(Math.random() * (stats.attackDamage.max - stats.attackDamage.min)) + stats.attackDamage.min;
 

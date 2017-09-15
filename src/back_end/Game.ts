@@ -1,5 +1,5 @@
 import * as buildDisplayReel from './buildDisplayReel';
-import { buildFightReel } from '../shared/fight';
+import { buildFightReel } from '../shared/buildFightReel';
 import { pickCharacter } from '../shared/characterPicker';
 import { Status, Stats } from '../shared/statusTypes';
 import * as fightReel from '../shared/fightReel';

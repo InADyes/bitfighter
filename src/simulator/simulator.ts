@@ -1,7 +1,7 @@
 // node
 import * as process from 'process';
 // internal
-import * as Fight from '../shared/fight';
+import * as Fight from '../shared/buildFightReel';
 import { pickCharacter } from '../shared/characterPicker';
 import * as FightReel from '../shared/fightReel';
 
