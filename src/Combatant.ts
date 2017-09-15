@@ -173,14 +173,14 @@ export class Combatant extends Actor.Actor {
         if (roll > accuracy) {
             console.log(this.name + " " + this.id + " dodged the attack! =D");
             this.textOut.add('dodge', 'orange');
-            dodgesound.volume = 0.01;
+            dodgesound.volume = 0.1;
             dodgesound.play();
             return;
         }
 
         console.log(this.name + " " + this.id + " was hit! Yikes!!! >_<");
 
-        normalhitsound.volume = 0.01;
+        normalhitsound.volume = 0.1;
         normalhitsound.play();
 
         damage -= this.stats.armor;
@@ -194,7 +194,7 @@ export class Combatant extends Actor.Actor {
         this.textOut.add(String(damage), 'red');
         if (this.stats.hitPoints <= 0) {
             console.log(this.name + " " + this.id + " Has been slain! Their body lies motionless on the floor... ;-;");
-            deathsound.volume = 0.01;
+            deathsound.volume = 0.1;
             deathsound.play();
             this.deathEvent(this);
         }
