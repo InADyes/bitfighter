@@ -5,16 +5,25 @@ import { Status, Stats } from '../shared/statusTypes';
 import * as fightReel from '../shared/fightReel';
 import * as displayReel from '../shared/displayReel';
 import * as frontEndMessage from '../shared/frontEndMessage';
+import { Settings } from './backendSettings'
 
 export class Game {
-    timeout: NodeJS.Timer | null = null; // null if no timeout
-    lastCombatants: Status[] = [];
-    lastResults: Status[] = [];
-    queue: Status[] = [];
+    private timeout: NodeJS.Timer | null = null; // null if no timeout
+    private lastCombatants: Status[] = [];
+    private lastResults: Status[] = [];
+    private queue: Status[] = [];
+    public settings: Settings = {
+        delayBetweenFights: 3000,
+        gameSpeedMultipier: 1
+    };
 
     constructor(
-        private sendFightMessage: (message: frontEndMessage.Message) => void
-    ) {}
+        private sendFightMessage: (message: frontEndMessage.Message) => void,
+        settings?: Settings
+    ) {
+        if (settings)
+            this.settings = settings;
+    }
 
     addCombatant(donation: {id: number, name: string, amount: number, character: number}) {
         this.queue.push(pickCharacter(donation))
@@ -38,6 +47,7 @@ export class Game {
 
         this.lastCombatants = this.lastResults.concat(this.queue.splice(0, 2 - this.lastResults.length));
         let result = buildFightReel(this.lastCombatants);
+        result.reel.forEach(e => e.time *= this.settings.gameSpeedMultipier);
         this.lastResults = result.combatants;
 
         display = buildDisplayReel.build(result.reel);
@@ -63,7 +73,7 @@ export class Game {
                 this.timeout = null;
                 this.nextFight();
             },
-            display[display.length - 1].time + 5000
+            display[display.length - 1].time + this.settings.delayBetweenFights
         );
     }
 }

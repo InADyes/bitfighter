@@ -8,7 +8,7 @@ export const enum EventType {
 
 export abstract class Event {
     constructor (
-        public readonly time: number,
+        public time: number,
         public readonly type: EventType,
         public readonly character: number
     ) {};
