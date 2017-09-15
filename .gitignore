@@ -12,3 +12,6 @@
 
 # macos
 .DS_Store
+
+/simulator.js
+/simulator.js.map
