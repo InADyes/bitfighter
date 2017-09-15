@@ -3,6 +3,8 @@
     See Combatant for implementation.
 */
 export interface Buff {
+    readonly duration: number, // milliseconds
+    readonly art: number,
     readonly accuracy?: number,
     readonly dodge?: number,
     readonly attackSpeed?: number,
@@ -18,6 +20,8 @@ export const enum types {
 
 export const buffs: Buff[] = [
     {
+        duration: 3000,
+        art: 0,
         accuracy: 0.25,
         dodge: 0.25,
         attackSpeed: 0.25,
