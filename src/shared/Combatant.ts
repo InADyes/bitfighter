@@ -51,7 +51,7 @@ export class Combatant {
         if (roll >= critChance) {
             damage = damage * 3 - this.status.stats.armor;
             this.status.addEffect(this.time + critDebuff.duration, critDebuff);
-            this.newEvent(new fightReel.CritEvent(this.time, this.index, critDebuff.art));
+            this.newEvent(new fightReel.CritEvent(this.time, this.index, critDebuff));
         } else
             damage -= this.status.stats.armor; //applied here so that armor is calculated before the buff is applied when there is a crit
 

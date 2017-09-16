@@ -2,7 +2,8 @@ export const enum EventType {
     Health,
     Attack, // animation only
     Clear,
-    Text
+    Text,
+    Buff
 }
 
 export class Event {
@@ -49,5 +50,16 @@ export class Text extends Event {
         readonly color: string //should this be a string?
     ) {
         super(time, EventType.Text, character);
+    }
+}
+
+export class Buff extends Event {
+    constructor (
+        time: number,
+        character: number,
+        readonly art: number,
+        readonly duration: number
+    ) {
+        super(time, EventType.Buff, character);
     }
 }

@@ -1,3 +1,5 @@
+import * as Buff from './buff';
+
 export const enum EventType {
     damage,
     dodge,
@@ -55,8 +57,8 @@ export class HealingEvent extends Event {
 export class CritEvent extends Event {
     constructor (
         time: number,
-        character: number,
-        type: number
+        public readonly character: number,
+        public readonly debuff: Buff.Buff
     ) {
         super(time, EventType.crit, character);
     }

@@ -78,6 +78,12 @@ export function build(fight: FightReel.Event[]) {
                     'crit',
                     'red'
                 ));
+                display.push(new DisplayReel.Buff(
+                    event.time,
+                    event.character,
+                    (<FightReel.CritEvent>event).debuff.art,
+                    (<FightReel.CritEvent>event).debuff.duration
+                ));
                 break;
             default:
                 console.error('bad event type');

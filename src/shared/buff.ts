@@ -7,7 +7,7 @@ export interface Buff {
     readonly art: number,
     readonly accuracy?: number,
     readonly dodge?: number,
-    readonly attackSpeed?: number,
+    readonly attackSpeed?: number, // doesn't work very well right now
     readonly attackDamage?: number,
     readonly armor?: number,
     readonly regeneration?: number,
