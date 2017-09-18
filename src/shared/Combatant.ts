@@ -49,7 +49,7 @@ export class Combatant {
 
         roll = Math.ceil(Math.random() * 100);
         if (roll >= critChance) {
-            damage = damage * 3 - this.status.stats.armor;
+            damage = damage * 5 - this.status.stats.armor;
             this.status.addEffect(this.time + critDebuff.duration, critDebuff);
             this.newEvent(new fightReel.CritEvent(this.time, this.index, critDebuff));
         } else

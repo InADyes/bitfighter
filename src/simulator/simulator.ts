@@ -19,7 +19,7 @@ class Results {
     ) {}
 
     get average_damage() {
-        return this.total_damage / ( this.wins + this.losses );
+        return this.total_damage / ( this.hits + this.miss );
     }
 }
 
