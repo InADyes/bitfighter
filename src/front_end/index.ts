@@ -56,7 +56,24 @@ function eventListeners(g: Display.gameState) {
             top: 100,
         });
         g.p1.scaleToWidth(200);
+        let healthbar1Curr = new fabric.Rect({
+            left: 50,
+            top: 350,
+            fill: 'green',
+            height: 10,
+            width: player1.hitPoints/10,
+        });
+        g.healthbar = healthbar1Curr;
+        let healthbar1Mis = new fabric.Rect({
+            left: 50,
+            top: 350,
+            fill: 'red',
+            height: 10,
+            width: player1.hitPoints/10,
+        });
         g.canvas.add(g.p1);
+        g.canvas.add(healthbar1Mis);
+        g.canvas.add(healthbar1Curr);
     });
     let draw2 = <HTMLButtonElement>document.getElementById("draw2");
     draw2.addEventListener("click", function() {
@@ -76,6 +93,10 @@ function eventListeners(g: Display.gameState) {
     let health = <HTMLButtonElement>document.getElementById("health");
     health.addEventListener("click", function() {
         console.log("change a player's health");
+        g.healthbar.animate('width','-=10', {
+            duration: 200,
+            onChange: g.canvas.renderAll.bind(g.canvas),
+        });
     });
 
     let attack = <HTMLButtonElement>document.getElementById("attack");
