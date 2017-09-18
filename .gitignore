@@ -4,7 +4,7 @@
 *.log
 
 # compiled
-/index/**/*.js
+/dist/**/*.js
 *.map
 
 # visual studio code settings
@@ -12,3 +12,6 @@
 
 # macos
 .DS_Store
+
+/simulator.js
+/simulator.js.map

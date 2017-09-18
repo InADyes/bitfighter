@@ -1,5 +1,2 @@
-# Bitboss Next
+# BitFighter
 
-## using:
-* https://github.com/creationix/nvm
-* https://babeljs.io

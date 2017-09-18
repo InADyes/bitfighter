@@ -19,13 +19,26 @@
   },
   "homepage": "https://github.com/the-opera-house/bitfighter#readme",
   "dependencies": {
+<<<<<<< HEAD
     "@types/chance": "^0.7.35",
     "@types/fabric": "^1.5.26",
     "chance": "^1.0.11",
     "express": "^4.15.4",
     "fabric": "^1.7.18",
     "ts-loader": "^2.3.4",
+=======
+    "@types/fabric": "^1.5.26",
+    "@types/webpack": "^3.0.10",
+    "express": "^4.15.4",
+    "fabric": "^1.7.19",
+    "process": "^0.11.10",
+    "ts-loader": "^2.3.7",
+>>>>>>> The-Tao-Dynasty
     "typescript": "^2.5.2",
-    "webpack": "^3.5.5"
+    "webpack": "^3.6.0"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^2.6.0",
+    "@types/node": "^8.0.28"
   }
 }

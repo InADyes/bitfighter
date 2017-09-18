@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 21);
+/******/ 	return __webpack_require__(__webpack_require__.s = 20);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -105,9 +105,9 @@ module.exports = g;
 
 
 
-var base64 = __webpack_require__(23)
-var ieee754 = __webpack_require__(24)
-var isArray = __webpack_require__(9)
+var base64 = __webpack_require__(22)
+var ieee754 = __webpack_require__(23)
+var isArray = __webpack_require__(24)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -2160,8 +2160,8 @@ var util = __webpack_require__(5);
 util.inherits = __webpack_require__(3);
 /*</replacement>*/
 
-var Readable = __webpack_require__(14);
-var Writable = __webpack_require__(18);
+var Readable = __webpack_require__(13);
+var Writable = __webpack_require__(17);
 
 util.inherits(Duplex, Readable);
 
@@ -2477,17 +2477,6 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 
 /***/ }),
 /* 9 */
-/***/ (function(module, exports) {
-
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-
-/***/ }),
-/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3226,13 +3215,13 @@ Url.prototype.parseHost = function() {
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var ClientRequest = __webpack_require__(33)
-var extend = __webpack_require__(42)
-var statusCodes = __webpack_require__(43)
-var url = __webpack_require__(10)
+var extend = __webpack_require__(43)
+var statusCodes = __webpack_require__(44)
+var url = __webpack_require__(9)
 
 var http = exports
 
@@ -3311,7 +3300,7 @@ http.METHODS = [
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {exports.fetch = isFunction(global.fetch) && isFunction(global.ReadableStream)
@@ -3387,20 +3376,20 @@ xhr = null // Help gc
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(14);
+exports = module.exports = __webpack_require__(13);
 exports.Stream = exports;
 exports.Readable = exports;
-exports.Writable = __webpack_require__(18);
+exports.Writable = __webpack_require__(17);
 exports.Duplex = __webpack_require__(4);
-exports.Transform = __webpack_require__(20);
-exports.PassThrough = __webpack_require__(40);
+exports.Transform = __webpack_require__(19);
+exports.PassThrough = __webpack_require__(41);
 
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3435,7 +3424,7 @@ var processNextTick = __webpack_require__(6);
 module.exports = Readable;
 
 /*<replacement>*/
-var isArray = __webpack_require__(9);
+var isArray = __webpack_require__(35);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -3445,7 +3434,7 @@ var Duplex;
 Readable.ReadableState = ReadableState;
 
 /*<replacement>*/
-var EE = __webpack_require__(15).EventEmitter;
+var EE = __webpack_require__(14).EventEmitter;
 
 var EElistenerCount = function (emitter, type) {
   return emitter.listeners(type).length;
@@ -3453,7 +3442,7 @@ var EElistenerCount = function (emitter, type) {
 /*</replacement>*/
 
 /*<replacement>*/
-var Stream = __webpack_require__(16);
+var Stream = __webpack_require__(15);
 /*</replacement>*/
 
 // TODO(bmeurer): Change this back to const once hole checks are
@@ -3475,7 +3464,7 @@ util.inherits = __webpack_require__(3);
 /*</replacement>*/
 
 /*<replacement>*/
-var debugUtil = __webpack_require__(35);
+var debugUtil = __webpack_require__(36);
 var debug = void 0;
 if (debugUtil && debugUtil.debuglog) {
   debug = debugUtil.debuglog('stream');
@@ -3484,8 +3473,8 @@ if (debugUtil && debugUtil.debuglog) {
 }
 /*</replacement>*/
 
-var BufferList = __webpack_require__(36);
-var destroyImpl = __webpack_require__(17);
+var BufferList = __webpack_require__(37);
+var destroyImpl = __webpack_require__(16);
 var StringDecoder;
 
 util.inherits(Readable, Stream);
@@ -3568,7 +3557,7 @@ function ReadableState(options, stream) {
   this.decoder = null;
   this.encoding = null;
   if (options.encoding) {
-    if (!StringDecoder) StringDecoder = __webpack_require__(19).StringDecoder;
+    if (!StringDecoder) StringDecoder = __webpack_require__(18).StringDecoder;
     this.decoder = new StringDecoder(options.encoding);
     this.encoding = options.encoding;
   }
@@ -3724,7 +3713,7 @@ Readable.prototype.isPaused = function () {
 
 // backwards compatibility.
 Readable.prototype.setEncoding = function (enc) {
-  if (!StringDecoder) StringDecoder = __webpack_require__(19).StringDecoder;
+  if (!StringDecoder) StringDecoder = __webpack_require__(18).StringDecoder;
   this._readableState.decoder = new StringDecoder(enc);
   this._readableState.encoding = enc;
   return this;
@@ -4414,7 +4403,7 @@ function indexOf(xs, x) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(2)))
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -4722,14 +4711,14 @@ function isUndefined(arg) {
 
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(15).EventEmitter;
+module.exports = __webpack_require__(14).EventEmitter;
 
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4807,7 +4796,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4883,12 +4872,12 @@ util.inherits = __webpack_require__(3);
 
 /*<replacement>*/
 var internalUtil = {
-  deprecate: __webpack_require__(39)
+  deprecate: __webpack_require__(40)
 };
 /*</replacement>*/
 
 /*<replacement>*/
-var Stream = __webpack_require__(16);
+var Stream = __webpack_require__(15);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -4902,7 +4891,7 @@ function _isUint8Array(obj) {
 }
 /*</replacement>*/
 
-var destroyImpl = __webpack_require__(17);
+var destroyImpl = __webpack_require__(16);
 
 util.inherits(Writable, Stream);
 
@@ -5475,10 +5464,10 @@ Writable.prototype._destroy = function (err, cb) {
   this.end();
   cb(err);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(37).setImmediate, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(38).setImmediate, __webpack_require__(0)))
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -5705,7 +5694,7 @@ function base64DetectIncompleteChar(buffer) {
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5925,71 +5914,166 @@ function done(stream, er, data) {
 }
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_fabric__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_fabric__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_fabric___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_fabric__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Display__ = __webpack_require__(47);
 
+
+let player1 = {
+    name: "hao",
+    hitPoints: 1000,
+    art: "images/characters/sword.png",
+    side: 0,
+}, player2 = {
+    name: "max",
+    hitPoints: 1000,
+    art: "images/characters/axe.png",
+    side: 1,
+};
 document.addEventListener("DOMContentLoaded", function () {
-    var canvas = new fabric.Canvas("arena-front");
-    var moveleftButton = document.getElementById('left');
-    var moverightButton = document.getElementById('right');
-    var rect = new fabric.Rect();
-    if (moveleftButton == null || moverightButton == null) {
-        console.log('f**k u');
-    }
-    var imgElement1 = document.getElementById('my-image');
-    var imgElement2 = document.getElementById('your-image');
-    var imgInstance1 = new fabric.Image(imgElement1, {
-        left: 200,
-        top: 100,
-        angle: 0,
-        opacity: 0.85,
-        flipX: true
-    });
-    var imgInstance2 = new fabric.Image(imgElement1, {
-        left: 50,
-        top: 100,
-        angle: 0,
-        opacity: 0.85
-    });
-    canvas.add(imgInstance1);
-    canvas.add(imgInstance2);
-    function animateleftcharacter(obj) {
-        obj.animate('left', '-=10', {});
-    }
-    moveleftButton.addEventListener('click', function (element) {
-        imgInstance1.animate('left', '-=10', {
-            onChange: canvas.renderAll.bind(canvas),
-            duration: 1000,
-            easing: fabric.util.ease.easeOutBounce
-        });
-        imgInstance2.animate('left', '+=10', {
-            onChange: canvas.renderAll.bind(canvas),
-            duration: 1000,
-            easing: fabric.util.ease.easeOutBounce
-        });
-        setTimeout(function () {
-        }, 1000);
-        imgInstance1.animate('left', '+=10', {
-            onChange: canvas.renderAll.bind(canvas),
-            duration: 1000,
-            easing: fabric.util.ease.easeOutBounce
-        });
-        imgInstance2.animate('left', '-=10', {
-            onChange: canvas.renderAll.bind(canvas),
-            duration: 1000,
-            easing: fabric.util.ease.easeOutBounce
-        });
+    let gameState = new __WEBPACK_IMPORTED_MODULE_1__Display__["b" /* gameState */];
+    eventListeners(gameState);
+    let textOut = document.getElementById('text-out');
+    let display = new __WEBPACK_IMPORTED_MODULE_1__Display__["a" /* Display */];
+    window.addEventListener('storage', (e) => {
+        console.log(e);
+        switch (e.key) {
+            case 'fight':
+                let str = e.newValue;
+                if (str == undefined) {
+                    console.error('bad storage event value');
+                    break;
+                }
+                console.log(str);
+                display.newReel(JSON.parse(str));
+                break;
+            default:
+                console.error('unidentified storage event');
+        }
     });
 });
+function eventListeners(g) {
+    let draw1 = document.getElementById("draw1");
+    draw1.addEventListener("click", function () {
+        console.log("draw player 1");
+        if (g.p1)
+            g.canvas.remove(g.p1);
+        g.img1.src = player1.art;
+        g.p1 = new fabric.Image(g.img1, {
+            left: 30,
+            top: 100,
+        });
+        g.p1.scaleToWidth(200);
+        let healthbar1Curr = new fabric.Rect({
+            left: 50,
+            top: 350,
+            fill: 'green',
+            height: 10,
+            width: player1.hitPoints / 10,
+        });
+        g.healthbar = healthbar1Curr;
+        let healthbar1Mis = new fabric.Rect({
+            left: 50,
+            top: 350,
+            fill: 'red',
+            height: 10,
+            width: player1.hitPoints / 10,
+        });
+        g.canvas.add(g.p1);
+        g.canvas.add(healthbar1Mis);
+        g.canvas.add(healthbar1Curr);
+    });
+    let draw2 = document.getElementById("draw2");
+    draw2.addEventListener("click", function () {
+        console.log("draw player 2");
+        if (g.p2)
+            g.canvas.remove(g.p2);
+        g.img2.src = player2.art;
+        g.p2 = new fabric.Image(g.img2, {
+            left: 350,
+            top: 100,
+            flipX: true,
+        });
+        g.p2.scaleToWidth(200);
+        g.canvas.add(g.p2);
+    });
+    let health = document.getElementById("health");
+    health.addEventListener("click", function () {
+        console.log("change a player's health");
+        g.healthbar.animate('width', '-=10', {
+            duration: 200,
+            onChange: g.canvas.renderAll.bind(g.canvas),
+        });
+    });
+    let attack = document.getElementById("attack");
+    attack.addEventListener("click", function () {
+        let left = document.getElementById("left");
+        console.log((left.checked ? "p1" : "p2") + " attacks");
+        if (left.checked)
+            p1Attacks(g);
+        else
+            p2Attacks(g);
+    });
+    let clear = document.getElementById("clear");
+    clear.addEventListener("click", function () {
+        console.log("remove a player from the screen");
+    });
+    let text = document.getElementById("text");
+    text.addEventListener("click", function () {
+        console.log("display text over a player's head");
+    });
+}
+function p1Attacks(g) {
+    g.p1.animate('left', '-=20', {
+        duration: 250,
+        onChange: g.canvas.renderAll.bind(g.canvas),
+        easing: fabric.util.ease['easeOutQuad'],
+        onComplete: function () {
+            g.p1.animate('left', '+=120', {
+                duration: 100,
+                easing: fabric.util.ease['easeInQuint'],
+                onChange: g.canvas.renderAll.bind(g.canvas),
+                onComplete: function () {
+                    g.p1.animate('left', 30, {
+                        duration: 200,
+                        onChange: g.canvas.renderAll.bind(g.canvas),
+                        easing: fabric.util.ease['easeOutQuint'],
+                    });
+                }
+            });
+        }
+    });
+}
+function p2Attacks(g) {
+    g.p2.animate('left', '+=20', {
+        duration: 250,
+        onChange: g.canvas.renderAll.bind(g.canvas),
+        easing: fabric.util.ease['easeOutQuad'],
+        onComplete: function () {
+            g.p2.animate('left', '-=120', {
+                duration: 100,
+                easing: fabric.util.ease['easeInQuint'],
+                onChange: g.canvas.renderAll.bind(g.canvas),
+                onComplete: function () {
+                    g.p2.animate('left', 350, {
+                        duration: 200,
+                        onChange: g.canvas.renderAll.bind(g.canvas),
+                        easing: fabric.util.ease['easeOutQuint'],
+                    });
+                }
+            });
+        }
+    });
+}
 
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer, process) {/* build: `node build.js modules=ALL exclude=json,gestures minifier=uglifyjs` */
@@ -32865,9 +32949,9 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
   }
 
   var DOMParser = __webpack_require__(26).DOMParser,
-      URL = __webpack_require__(10),
-      HTTP = __webpack_require__(11),
-      HTTPS = __webpack_require__(44),
+      URL = __webpack_require__(9),
+      HTTP = __webpack_require__(10),
+      HTTPS = __webpack_require__(45),
 
       Canvas = __webpack_require__(7),
       Image = __webpack_require__(7).Image;
@@ -32918,7 +33002,7 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
 
   /** @private */
   function requestFs(path, callback) {
-    var fs = __webpack_require__(45);
+    var fs = __webpack_require__(46);
     fs.readFile(path, function (err, data) {
       if (err) {
         fabric.log(err);
@@ -33077,7 +33161,7 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer, __webpack_require__(2)))
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33198,7 +33282,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -33285,6 +33369,17 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
   buffer[offset + i - d] |= s * 128
 }
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports) {
+
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
 
 
 /***/ }),
@@ -34087,11 +34182,11 @@ var objectKeys = Object.keys || function (obj) {
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(Buffer, global, process) {var capability = __webpack_require__(12)
+/* WEBPACK VAR INJECTION */(function(Buffer, global, process) {var capability = __webpack_require__(11)
 var inherits = __webpack_require__(3)
 var response = __webpack_require__(34)
-var stream = __webpack_require__(13)
-var toArrayBuffer = __webpack_require__(41)
+var stream = __webpack_require__(12)
+var toArrayBuffer = __webpack_require__(42)
 
 var IncomingMessage = response.IncomingMessage
 var rStates = response.readyStates
@@ -34400,9 +34495,9 @@ var unsafeHeaders = [
 /* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(process, Buffer, global) {var capability = __webpack_require__(12)
+/* WEBPACK VAR INJECTION */(function(process, Buffer, global) {var capability = __webpack_require__(11)
 var inherits = __webpack_require__(3)
-var stream = __webpack_require__(13)
+var stream = __webpack_require__(12)
 
 var rStates = exports.readyStates = {
 	UNSENT: 0,
@@ -34589,10 +34684,21 @@ IncomingMessage.prototype._onXHRProgress = function () {
 /* 35 */
 /***/ (function(module, exports) {
 
-/* (ignored) */
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
 
 /***/ }),
 /* 36 */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34672,7 +34778,7 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var apply = Function.prototype.apply;
@@ -34725,13 +34831,13 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(38);
+__webpack_require__(39);
 exports.setImmediate = setImmediate;
 exports.clearImmediate = clearImmediate;
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -34924,7 +35030,7 @@ exports.clearImmediate = clearImmediate;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(2)))
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -34998,7 +35104,7 @@ function config (name) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35031,7 +35137,7 @@ function config (name) {
 
 module.exports = PassThrough;
 
-var Transform = __webpack_require__(20);
+var Transform = __webpack_require__(19);
 
 /*<replacement>*/
 var util = __webpack_require__(5);
@@ -35051,7 +35157,7 @@ PassThrough.prototype._transform = function (chunk, encoding, cb) {
 };
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Buffer = __webpack_require__(1).Buffer
@@ -35084,7 +35190,7 @@ module.exports = function (buf) {
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports) {
 
 module.exports = extend
@@ -35109,7 +35215,7 @@ function extend() {
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -35179,10 +35285,10 @@ module.exports = {
 
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var http = __webpack_require__(11);
+var http = __webpack_require__(10);
 
 var https = module.exports;
 
@@ -35199,10 +35305,36 @@ https.request = function (params, cb) {
 
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
+
+/***/ }),
+/* 47 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_fabric__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_fabric___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_fabric__);
+
+class Display {
+    newReel(message) {
+        console.log('new reel:', message);
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Display;
+
+class gameState {
+    constructor() {
+        this.canvas = new fabric.Canvas('arena');
+        this.img1 = new Image();
+        this.img2 = new Image();
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["b"] = gameState;
+
+
 
 /***/ })
 /******/ ]);
