@@ -5944,22 +5944,46 @@ document.addEventListener("DOMContentLoaded", function () {
     var imgElement1 = document.getElementById('my-image');
     var imgElement2 = document.getElementById('your-image');
     var imgInstance1 = new fabric.Image(imgElement1, {
-        left: 100,
+        left: 200,
         top: 100,
         angle: 0,
         opacity: 0.85,
         flipX: true
     });
-    var imgInstance2 = new fabric.Image(imgElement2, {
-        left: 300,
+    var imgInstance2 = new fabric.Image(imgElement1, {
+        left: 50,
         top: 100,
         angle: 0,
         opacity: 0.85
     });
     canvas.add(imgInstance1);
+    canvas.add(imgInstance2);
+    function animateleftcharacter(obj) {
+        obj.animate('left', '-=10', {});
+    }
     moveleftButton.addEventListener('click', function (element) {
-        imgInstance1.getFlipY();
-        canvas.add(imgInstance1);
+        imgInstance1.animate('left', '-=10', {
+            onChange: canvas.renderAll.bind(canvas),
+            duration: 1000,
+            easing: fabric.util.ease.easeOutBounce
+        });
+        imgInstance2.animate('left', '+=10', {
+            onChange: canvas.renderAll.bind(canvas),
+            duration: 1000,
+            easing: fabric.util.ease.easeOutBounce
+        });
+        setTimeout(function () {
+        }, 1000);
+        imgInstance1.animate('left', '+=10', {
+            onChange: canvas.renderAll.bind(canvas),
+            duration: 1000,
+            easing: fabric.util.ease.easeOutBounce
+        });
+        imgInstance2.animate('left', '-=10', {
+            onChange: canvas.renderAll.bind(canvas),
+            duration: 1000,
+            easing: fabric.util.ease.easeOutBounce
+        });
     });
 });
 

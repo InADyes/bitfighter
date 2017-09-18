@@ -67,52 +67,80 @@ declare let fabric: any;
     game.donate({id: 1, name: "bob", amount: 100, art:2});
 });
 */
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function () {
     let canvas = new fabric.Canvas("arena-front");
     let moveleftButton = <HTMLButtonElement>document.getElementById('left');
     let moverightButton = <HTMLButtonElement>document.getElementById('right');
     let rect = new fabric.Rect();
     //rect.set({ width: 10, height: 20, fill: '#f55', opacity: 0.7 });
     //canvas.add(rect);
-   // fabric.Image.fromURL('images/characters/axe.png', function(oImg:object){
-   //     oImg.animate
-   //     canvas.add(oImg);
-   // });
-   if(moveleftButton == null || moverightButton == null)
-    {
+    // fabric.Image.fromURL('images/characters/axe.png', function(oImg:object){
+    //     oImg.animate
+    //     canvas.add(oImg);
+    // });
+    if (moveleftButton == null || moverightButton == null) {
         console.log('f**k u');
     }
     let imgElement1 = document.getElementById('my-image');
     let imgElement2 = document.getElementById('your-image');
-    
+
 
     let imgInstance1 = new fabric.Image(imgElement1, {
-        left: 100,
+        left: 200,
         top: 100,
         angle: 0,
         opacity: 0.85,
         flipX: true
-      });
-    let imgInstance2 = new fabric.Image(imgElement2,{
-        left: 300,
+    });
+    let imgInstance2 = new fabric.Image(imgElement1, {
+        left: 50,
         top: 100,
         angle: 0,
         opacity: 0.85
     })
 
     canvas.add(imgInstance1);
-   // canvas.add(imgInstance2);
-    moveleftButton.addEventListener('click', function(element){
-       // imgInstance1.animate('left', '-=50', {onChange: canvas.renderAll.bind(canvas)});
-        //imgInstance2.animate('left', '+=50', {onChange: canvas.renderAll.bind(canvas)});
-        imgInstance1.getFlipY();
-        canvas.add(imgInstance1);
-        //canvas.add(imgInstance2);
+    canvas.add(imgInstance2);
+
+    function animateleftcharacter(obj: fabric.Image){
+        obj.animate('left', '-=10',{
+
+        })
+
+    }
+
+    moveleftButton.addEventListener('click', function (element){
+
+        imgInstance1.animate('left', '-=10', {
+            onChange: canvas.renderAll.bind(canvas),
+            duration: 1000,
+            easing: fabric.util.ease.easeOutBounce
+        });
+        imgInstance2.animate('left', '+=10', {
+            onChange: canvas.renderAll.bind(canvas),
+            duration: 1000,
+            easing: fabric.util.ease.easeOutBounce
+        });
+
+        //   });
+        setTimeout(function() {
+            
+        }, 1000);
+
+        //moverightButton.addEventListener('click', function(element){
+        //imgInstance1.animate('left', '+=50', {onChange: canvas.renderAll.bind(canvas)});
+        //canvas.add(imgInstance1); 
+        imgInstance1.animate('left', '+=10', {
+            onChange: canvas.renderAll.bind(canvas),
+            duration: 1000,
+            easing: fabric.util.ease.easeOutBounce
+        });
+        imgInstance2.animate('left', '-=10', {
+            onChange: canvas.renderAll.bind(canvas),
+            duration: 1000,
+            easing: fabric.util.ease.easeOutBounce
+        });
+        // });
     });
-    
-  /*  moverightButton.addEventListener('click', function(element){
-        imgInstance1.animate('left', '+=50', {onChange: canvas.renderAll.bind(canvas)});
-        canvas.add(imgInstance1);      
-    });
-    */
+    //window.requestAnimationFrame(ani);
 });
