@@ -42,12 +42,12 @@ export class Game {
     donation(donation: {id: number, name: string, amount: number, character: number}) {
 
         // if the fight is ongoing
-        if (this.timeout != null) {
+        if (this.timeout !== null) {
             // and the donation matches a fighter
             let combatantIndex = this.lastCombatants.findIndex(s => {
-                return s.id == donation.id;
+                return s.id === donation.id;
             });
-            if (combatantIndex != undefined) {
+            if (combatantIndex !== undefined) {
                 let patchTime = performance.now() - this.fightStartTime;
 
                 this.insertEvents(
@@ -66,16 +66,34 @@ export class Game {
                     patchTime
                 );
                 return;
-            } // todo: fix this monstrosity
+            }
         }
 
-        //look for character in queue
-
-        if (donation.amount > this.settings.minimumDonation) {
-            // look buff/damage character in fight or queue?
+        if (this.queue.some(s => {return s.id === donation.id;}) === false
+            &&  donation.amount >= this.settings.minimumDonation) {
+            this.addCombatant(donation);
+            return;
         }
 
-        this.addCombatant(donation);
+
+        //damage current champion
+        let patchTime = performance.now() - this.fightStartTime;
+
+        this.insertEvents(
+            [
+                new FightReel.DonationEvent(
+                    patchTime,
+                    0,
+                    FightReel.DonationType.damage
+                ),
+                new FightReel.DamageEvent(
+                    patchTime,
+                    0,
+                    donation.amount * this.settings.donationToHPRatio
+                ),
+            ],
+            patchTime
+        );
     }
 
     //only works when all new events have the same time
@@ -156,7 +174,7 @@ export class Game {
         
         console.log('new fight: ', this);
 
-        if (this.timeout != null) 
+        if (this.timeout !== null) 
             clearTimeout(this.timeout);
 
         this.timeout = setTimeout(
