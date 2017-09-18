@@ -85,6 +85,25 @@ export function build(fight: FightReel.Event[]) {
                     (<FightReel.CritEvent>event).debuff.duration
                 ));
                 break;
+            case FightReel.EventType.donation:
+                let e = (<FightReel.DonationEvent>event);
+
+                if (e.donationType === FightReel.DonationType.damage) {
+                    display.push(new DisplayReel.Text(
+                        event.time,
+                        event.character,
+                        'donation',
+                        'green'
+                    ));
+                } else {
+                    display.push(new DisplayReel.Text(
+                        event.time,
+                        event.character,
+                        'donation',
+                        'red'
+                    ));
+                }
+                break;
             default:
                 console.error('bad event type');
                 process.exit();
