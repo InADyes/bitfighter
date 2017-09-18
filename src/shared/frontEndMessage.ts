@@ -6,6 +6,7 @@ export interface Message {
     characters: {
         name: string;
         hitPoints: number;
+        art: number;
     }[];
     reel:  displayReel.Event[];
     patch?: number; // if this is defined then the reel is a patch at the specified time

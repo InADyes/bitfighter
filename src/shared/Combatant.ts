@@ -3,7 +3,7 @@ import * as fightReel from './fightReel';
 import * as buff from './buff';
 import * as characterPicker from './characterPicker';
 
-import { Status } from '../shared/help';
+import { Status } from '../shared/Status';
 
 export class Combatant {
     public time: number = 0;
@@ -35,40 +35,31 @@ export class Combatant {
     }
     public takeHit(damage: number, accuracy: number, critChance: number, critDebuff: buff.Buff) {
         this.status.checkBuffs(this.time);
-
-        let total: number;
-        let roll: number;
     
-        total = accuracy + this.status.stats.dodge;
-        roll = Math.ceil(Math.random() * total);
-        if (roll > accuracy) {
-            // console.log(this.status.name + ' ' + this.status.id + ' dodged the attack! =D');
+        const total = accuracy + this.status.stats.dodge;
+        const damageRoll = Math.ceil(Math.random() * total);
+    
+        if (damageRoll > accuracy) {
             this.newEvent(new fightReel.DodgeEvent(this.time, this.index));
             return;
         }
 
-        roll = Math.ceil(Math.random() * 100);
-        if (roll >= critChance) {
+        if (Math.ceil(Math.random() * 100) >= critChance) {
             damage = damage * 5 - this.status.stats.armor;
             this.status.addEffect(this.time + critDebuff.duration, critDebuff);
             this.newEvent(new fightReel.CritEvent(this.time, this.index, critDebuff));
         } else
             damage -= this.status.stats.armor; //applied here so that armor is calculated before the buff is applied when there is a crit
 
-            // console.log(this.status.name + ' ' + this.status.id + ' took a crit! That looked painful! O_O');
-            // console.log(this.status.name + ' ' + this.status.id + ' was hit! Yikes!!! >_<');
         if (damage < 0)
             damage = 0;
         else if (damage > this.status.hitPoints)
             damage = this.status.stats.maxHitPoints;
         this.status.hitPoints -= damage;
         this.newEvent(new fightReel.DamageEvent(this.time, this.index, damage));
-            // console.log(this.status.name + ' ' + this.status.id + ' Has taken ' + damage + '! :(');
             
-        if (this.status.hitPoints <= 0) {
-            // console.log(this.status.name + ' ' + this.status.id + ' Has been slain! Their body lies motionless on the floor... ;-;');
+        if (this.status.hitPoints <= 0)
             this.newEvent(new fightReel.DeathEvent(this.time, this.index));
-        }
     }
     public heal() {
         this.status.checkBuffs(this.time);

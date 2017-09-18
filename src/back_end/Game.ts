@@ -8,14 +8,14 @@ import * as frontEndMessage from '../shared/frontEndMessage';
 import { Settings } from './backendSettings'
 import { applyFightReel } from './applyFightReel'
 
-import { Status } from '../shared/help';
+import { Status } from '../shared/Status';
 
 export class Game {
     private fightStartTime: number = 0;
     private timeout: NodeJS.Timer | null = null; // null if no timeout
     private lastCombatants: Status[] = [];
     private lastResults: Status[] = [];
-    private lastReel: FightReel.Event[];
+    private lastReel: FightReel.Event[] = [];
     private queue: Status[] = [];
     public settings: Settings = {
         delayBetweenFights: 3000,
@@ -32,23 +32,23 @@ export class Game {
             this.settings = settings;
     }
 
-    addCombatant(donation: {id: number, name: string, amount: number, character: number}) {
+    private addCombatant(donation: {id: number, name: string, amount: number, character: number}) {
         this.queue.push(pickCharacter(donation))
         console.log('new combatant added to queue');
 
         this.nextFight();
     }
 
-    donation(donation: {id: number, name: string, amount: number, character: number}) {
+    public donation(donation: {id: number, name: string, amount: number, character: number}) {
 
         // if the fight is ongoing
         if (this.timeout !== null) {
             // and the donation matches a fighter
-            let combatantIndex = this.lastCombatants.findIndex(s => {
+            const combatantIndex = this.lastCombatants.findIndex(s => {
                 return s.id === donation.id;
             });
             if (combatantIndex !== undefined) {
-                let patchTime = performance.now() - this.fightStartTime;
+                const patchTime = performance.now() - this.fightStartTime;
 
                 this.insertEvents(
                     [
@@ -70,34 +70,36 @@ export class Game {
         }
 
         if (this.queue.some(s => {return s.id === donation.id;}) === false
-            &&  donation.amount >= this.settings.minimumDonation) {
+            && donation.amount >= this.settings.minimumDonation) {
             this.addCombatant(donation);
             return;
         }
 
 
-        //damage current champion
-        let patchTime = performance.now() - this.fightStartTime;
+        //if there was a last fight, damage current champion
+        if (this.lastCombatants.length > 1) {
+            const patchTime = performance.now() - this.fightStartTime;
 
-        this.insertEvents(
-            [
-                new FightReel.DonationEvent(
-                    patchTime,
-                    0,
-                    FightReel.DonationType.damage
-                ),
-                new FightReel.DamageEvent(
-                    patchTime,
-                    0,
-                    donation.amount * this.settings.donationToHPRatio
-                ),
-            ],
-            patchTime
-        );
+            this.insertEvents(
+                [
+                    new FightReel.DonationEvent(
+                        patchTime,
+                        0,
+                        FightReel.DonationType.damage
+                    ),
+                    new FightReel.DamageEvent(
+                        patchTime,
+                        0,
+                        donation.amount * this.settings.donationToHPRatio
+                    ),
+                ],
+                patchTime
+            );
+        }
     }
 
     //only works when all new events have the same time
-    insertEvents(insert: FightReel.Event[], patchTime: number) {
+    private insertEvents(insert: FightReel.Event[], patchTime: number) {
         // set baseline to current timestamp
         applyFightReel(
             this.lastCombatants,
@@ -157,7 +159,7 @@ export class Game {
         this.pushLastResults();
     }
 
-    pushLastResults(patchTime?: number) {
+    private pushLastResults(patchTime?: number) {
         
         let displayReel = buildDisplayReel.build(this.lastReel);
 
@@ -165,7 +167,8 @@ export class Game {
             characters: this.lastCombatants.map(c => {
                 return {
                     name: c.name,
-                    hitPoints: c.hitPoints
+                    hitPoints: c.hitPoints,
+                    art: c.character
                 }
             }),
             reel: displayReel,
@@ -179,6 +182,7 @@ export class Game {
 
         this.timeout = setTimeout(
             () => {
+                console.log('fight over');
                 this.timeout = null;
                 this.nextFight();
             },

@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         idInputNode.value = String(id + 1);
 
-        game.addCombatant({id: id, name: name, amount: amount, character: art});
+        game.donation({id: id, name: name, amount: amount, character: art});
     });
 
     let game = new Game.Game(message => {

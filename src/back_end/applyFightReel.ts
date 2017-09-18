@@ -1,5 +1,5 @@
 import * as FightReel from '../shared/fightReel';
-import { Status } from '../shared/help';
+import { Status } from '../shared/Status';
 
 export function applyFightReel(
     status: Status[],
