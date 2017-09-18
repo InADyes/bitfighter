@@ -5935,9 +5935,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 document.addEventListener("DOMContentLoaded", function () {
     var canvas = new fabric.Canvas("arena-front");
+    var moveleftButton = document.getElementById('left');
+    var moverightButton = document.getElementById('right');
     var rect = new fabric.Rect();
-    rect.set({ width: 10, height: 20, fill: '#f55', opacity: 0.7 });
-    canvas.add(rect);
+    if (moveleftButton == null || moverightButton == null) {
+        console.log('f**k u');
+    }
+    var imgElement1 = document.getElementById('my-image');
+    var imgElement2 = document.getElementById('your-image');
+    var imgInstance1 = new fabric.Image(imgElement1, {
+        left: 100,
+        top: 100,
+        angle: 0,
+        opacity: 0.85,
+        flipX: true
+    });
+    var imgInstance2 = new fabric.Image(imgElement2, {
+        left: 300,
+        top: 100,
+        angle: 0,
+        opacity: 0.85
+    });
+    canvas.add(imgInstance1);
+    moveleftButton.addEventListener('click', function (element) {
+        imgInstance1.getFlipY();
+        canvas.add(imgInstance1);
+    });
 });
 
 
