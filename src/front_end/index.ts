@@ -48,7 +48,7 @@ function eventListeners(g: Display.gameState) {
     let draw1 = <HTMLButtonElement>document.getElementById("draw1");
     draw1.addEventListener("click", function() {
         console.log("draw player 1");
-        if (g.p1)
+        if (g.p1 != null)
             g.canvas.remove(g.p1);
         g.img1.src = player1.art;
         g.p1 = new fabric.Image(g.img1, {
@@ -77,6 +77,7 @@ function eventListeners(g: Display.gameState) {
         g.canvas.add(healthbar1Mis);
         g.canvas.add(healthbar1Curr);
     });
+
     let draw2 = <HTMLButtonElement>document.getElementById("draw2");
     draw2.addEventListener("click", function() {
         console.log("draw player 2");
@@ -118,12 +119,31 @@ function eventListeners(g: Display.gameState) {
             onChange: g.canvas.renderAll.bind(g.canvas),
             onComplete: function() {
                 g.canvas.remove(g.p1);
+                g.canvas.remove(g.healthbar);
+                //g.canvas.remove(healthbar1Mis);
             }
         })
     });
     let text = <HTMLDivElement>document.getElementById("text");
     text.addEventListener("click", function() {
         console.log("display text over a player's head");
+
+        let dmg = new fabric.Text('20',{
+            fontSize: 30,
+            fill: 'yellow',
+            top: 100,
+            left: 100
+        });
+        
+        g.canvas.add(dmg);
+        dmg.animate('top', '-=50',{
+            duration: 500,
+            onChange: g.canvas.renderAll.bind(g.canvas),
+            onComplete: function(){
+                g.canvas.remove(dmg);
+            }
+        });
+
     });
 }
 
