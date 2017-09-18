@@ -52,8 +52,10 @@ function eventListeners(g: Display.gameState) {
             g.canvas.remove(g.p1);
         g.img1.src = player1.art;
         g.p1 = new fabric.Image(g.img1, {
-            left: 30,
-            top: 100,
+            left: 100,
+            top: 200,
+            originX: 'center',
+            originY: 'center',
         });
         g.p1.scaleToWidth(200);
         let healthbar1Curr = new fabric.Rect({
@@ -111,6 +113,13 @@ function eventListeners(g: Display.gameState) {
     let clear = <HTMLDivElement>document.getElementById("clear");
     clear.addEventListener("click", function() {
         console.log("remove a player from the screen");
+        g.p1.animate('angle','90',{
+            duration: 1000,
+            onChange: g.canvas.renderAll.bind(g.canvas),
+            onComplete: function() {
+                g.canvas.remove(g.p1);
+            }
+        })
     });
     let text = <HTMLDivElement>document.getElementById("text");
     text.addEventListener("click", function() {
@@ -129,7 +138,7 @@ function p1Attacks (g: Display.gameState) {
                 easing: fabric.util.ease['easeInQuint'],
                 onChange: g.canvas.renderAll.bind(g.canvas),
                 onComplete: function () {
-                    g.p1.animate('left', 30, {
+                    g.p1.animate('left', 100, {
                         duration: 200,
                         onChange: g.canvas.renderAll.bind(g.canvas),
                         easing: fabric.util.ease['easeOutQuint'],
