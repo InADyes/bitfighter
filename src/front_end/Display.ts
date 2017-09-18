@@ -6,3 +6,5 @@ export class Display {
         console.log('new reel:', message);
     }
 }
+
+export class 
