@@ -48,7 +48,7 @@ export class GameState {
             this.canvas.remove(this.p2);
         this.setArt(message.characters[0].art, 1)
         this.p1 = new fabric.Image(this.img1, {
-            left: 100,
+            left: 150,
 			top: 300,
 			originX: 'center',
 			originY: 'bottom'
@@ -66,7 +66,15 @@ export class GameState {
         });
         this.p2.scaleToWidth(200);
         this.canvas.add(this.p2);
-    
+	
+		if (this.healthbar1Curr)
+            this.canvas.remove(this.healthbar1Curr);
+        if (this.healthbar2Curr)
+			this.canvas.remove(this.healthbar2Curr);
+		if (this.healthbar1Mis)
+            this.canvas.remove(this.healthbar1Mis);
+        if (this.healthbar2Mis)
+            this.canvas.remove(this.healthbar2Mis);
        this.healthbar1Curr = new fabric.Rect({
             left: 50,
             top: 350,
@@ -118,7 +126,7 @@ export class GameState {
 	                easing: fabric.util.ease['easeInQuint'],
 	                onChange: g.canvas.renderAll.bind(g.canvas),
 	                onComplete: function () {
-	                    g.p1.animate('left', 100, {
+	                    g.p1.animate('left', 150, {
 	                        duration: 200,
 	                        onChange: g.canvas.renderAll.bind(g.canvas),
 	                        easing: fabric.util.ease['easeOutQuint'],
