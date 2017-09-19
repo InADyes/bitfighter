@@ -72,21 +72,20 @@ function testPair(
 
         for (const event of reel) {
             switch (event.type) {
-                case FightEvents.EventType.damage:
-                    results[other(event.character)].total_damage += (<FightEvents.DamageEvent>event).amount;
+                case FightEvents.Types.damage:
+                    results[other(event.character)].total_damage += (<FightEvents.Damage>event).amount;
                     results[other(event.character)].hits++;
                     break;
-                case FightEvents.EventType.dodge:
+                case FightEvents.Types.dodge:
                     results[other(event.character)].miss++;
                     break;
-                case FightEvents.EventType.healing:
-
+                case FightEvents.Types.healing:
                     break;
-                case FightEvents.EventType.death:
+                case FightEvents.Types.death:
                     results[event.character].losses++;
                     results[other(event.character)].wins++;
                     break;
-                case FightEvents.EventType.crit:
+                case FightEvents.Types.crit:
                     results[other(event.character)].crits++;
                     break;
                 default:

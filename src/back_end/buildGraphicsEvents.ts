@@ -7,16 +7,16 @@ export function build(fight: FightEvents.Event[]) {
     
     for (let event of fight) {
         switch (event.type) {
-            case FightEvents.EventType.damage:
+            case FightEvents.Types.damage:
                 display.push(new GraphicsEvents.Health(
                     event.time,
                     event.character,
-                    -(<FightEvents.DamageEvent>event).amount
+                    -(<FightEvents.Damage>event).amount
                 ));
                 display.push(new GraphicsEvents.Text(
                     event.time,
                     event.character,
-                    String((<FightEvents.DamageEvent>event).amount),
+                    String((<FightEvents.Damage>event).amount),
                     'red'
                 ));
                 display.push(new GraphicsEvents.Attack(
@@ -24,7 +24,7 @@ export function build(fight: FightEvents.Event[]) {
                     otherCharacter(event.character)
                 ));
                 break;
-            case FightEvents.EventType.dodge:
+            case FightEvents.Types.dodge:
                 display.push(new GraphicsEvents.Text(
                     event.time,
                     event.character,
@@ -36,16 +36,16 @@ export function build(fight: FightEvents.Event[]) {
                     otherCharacter(event.character)
                 ));
                 break;
-            case FightEvents.EventType.healing:
+            case FightEvents.Types.healing:
                 display.push(new GraphicsEvents.Health(
                     event.time,
                     event.character,
-                    -(<FightEvents.DamageEvent>event).amount
+                    -(<FightEvents.Damage>event).amount
                 ));
                 display.push(new GraphicsEvents.Text(
                     event.time,
                     event.character,
-                    String((<FightEvents.DamageEvent>event).amount),
+                    String((<FightEvents.Damage>event).amount),
                     'red'
                 ));
                 display.push(new GraphicsEvents.Attack(
@@ -53,20 +53,26 @@ export function build(fight: FightEvents.Event[]) {
                     otherCharacter(event.character)
                 ));
                 break;
-            case FightEvents.EventType.death:
+            case FightEvents.Types.death:
                 display.push(new GraphicsEvents.Clear(
                     event.time,
                     event.character
                 ));
+                display.push(new GraphicsEvents.Text(
+                    event.time,
+                    0, //should this always be zero or be characterOther()?
+                    'Level Up!',
+                    'gold'
+                ));
                 break;
-            case FightEvents.EventType.crit:
+            case FightEvents.Types.crit:
                 display.push(new GraphicsEvents.Text(
                     event.time,
                     event.character,
                     'crit',
                     'red'
                 ));
-                const debuff = (<FightEvents.CritEvent>event).debuff;
+                const debuff = (<FightEvents.Crit>event).debuff;
                 if (debuff){
                     display.push(new GraphicsEvents.Buff(
                         event.time,
@@ -75,7 +81,7 @@ export function build(fight: FightEvents.Event[]) {
                         debuff.duration
                     ));
                 }
-                const buff = (<FightEvents.CritEvent>event).debuff;
+                const buff = (<FightEvents.Crit>event).debuff;
                 if (buff){
                     display.push(new GraphicsEvents.Buff(
                         event.time,
@@ -85,8 +91,8 @@ export function build(fight: FightEvents.Event[]) {
                     ));
                 }
                 break;
-            case FightEvents.EventType.donation:
-                const e = (<FightEvents.DonationEvent>event);
+            case FightEvents.Types.donation:
+                const e = (<FightEvents.Donation>event);
 
                 if (e.donationType === FightEvents.DonationType.damage) {
                     display.push(new GraphicsEvents.Text(
@@ -103,14 +109,6 @@ export function build(fight: FightEvents.Event[]) {
                         'red'
                     ));
                 }
-                break;
-            case FightEvents.EventType.levelUp:
-                display.push(new GraphicsEvents.Text(
-                    event.time,
-                    event.character,
-                    'Level Up!',
-                    'gold'
-                ));
                 break;
             default:
                 console.error('unidentified event type');

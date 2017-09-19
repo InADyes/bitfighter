@@ -2,7 +2,7 @@ import * as FightEvents from './fightEvents';
 import { Combatant } from './Combatant';
 import { Status } from '../shared/Status';
 import { applyFightEvents } from './applyFightEvents';
-import { otherCharacter } from './utility';
+import { otherCharacter  as other} from './utility';
 
 export function buildFightEvents(stats: Status[]) {
     let everyoneAlive = true;
@@ -19,21 +19,11 @@ export function buildFightEvents(stats: Status[]) {
     ));
 
     const combatants = newStats.map((s, index) => new Combatant(
-        //Object.assign({}, s), //pass as copy // why wasn't this working??
         s,
         index,
         event => {
             applyFightEvents(newStats, event);
             reel.push(event);
-            if (event.type == FightEvents.EventType.death) {
-                everyoneAlive = false;
-                let levelEvent = new FightEvents.LevelUpEvent(
-                    event.time,
-                    otherCharacter(event.character)
-                );
-                applyFightEvents(newStats, levelEvent);
-                reel.push(levelEvent);
-            }
         },
         (caller, damage, accuracy, crit, debuff) => {
             let opponents = combatants.filter(c => c != caller);
@@ -46,12 +36,15 @@ export function buildFightEvents(stats: Status[]) {
         return {combatants: stats, reel};
     }
 
-    while (everyoneAlive) {
+    while (newStats.length >= 2) {
         if (combatants[0].time <= combatants[1].time)
             combatants[0].attack();
         else
             combatants[1].attack();
     }
 
-    return { combatants: combatants.filter(c => c.isDead() == false).map(c => c.status), reel }
+    newStats.forEach(s => s.clearBuffs());
+    //combatants.forEach(c => c.heal());
+
+    return { combatants: newStats, reel }
 }

@@ -45,12 +45,12 @@ export class Game {
 
                 this.insertEvents(
                     [
-                        new FightEvents.DonationEvent(
+                        new FightEvents.Donation(
                             patchTime,
                             combatantIndex,
                             FightEvents.DonationType.healing
                         ),
-                        new FightEvents.HealingEvent(
+                        new FightEvents.Healing(
                             patchTime,
                             combatantIndex,
                             donation.amount * this.settings.donationToHPRatio
@@ -76,12 +76,12 @@ export class Game {
 
             this.insertEvents(
                 [
-                    new FightEvents.DonationEvent(
+                    new FightEvents.Donation(
                         patchTime,
                         0,
                         FightEvents.DonationType.damage
                     ),
-                    new FightEvents.DamageEvent(
+                    new FightEvents.Damage(
                         patchTime,
                         0,
                         donation.amount * this.settings.donationToHPRatio

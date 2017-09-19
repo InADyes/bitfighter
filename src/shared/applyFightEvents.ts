@@ -1,7 +1,7 @@
 import * as FightEvents from '../shared/fightEvents';
 import { Status } from '../shared/Status';
 import { otherCharacter } from '../shared/utility';
-import { buildStats } from '../shared/characterPicker';
+import { buildStats, levels } from '../shared/characterPicker';
 
 /*
     does not delete characters
@@ -12,21 +12,21 @@ export function applyFightEvents(
 ) {
     for (let event of reel) {
         switch (event.type) {
-            case FightEvents.EventType.damage:
-                status[event.character].hitPoints -= (<FightEvents.HealingEvent>event).amount;
+            case FightEvents.Types.damage:
+                status[event.character].hitPoints -= (<FightEvents.Healing>event).amount;
                 break;
-            case FightEvents.EventType.healing:
-                status[event.character].hitPoints += (<FightEvents.HealingEvent>event).amount;
+            case FightEvents.Types.healing:
+                status[event.character].hitPoints += (<FightEvents.Healing>event).amount;
                 break;
-            case FightEvents.EventType.crit:
-                const debuff = (<FightEvents.CritEvent>event).debuff;
+            case FightEvents.Types.crit:
+                const debuff = (<FightEvents.Crit>event).debuff;
                 if (debuff) {
                     status[event.character].addEffect(
                         event.time + debuff.duration,
                         debuff
                     );
                 }
-                const buff = (<FightEvents.CritEvent>event).buff;
+                const buff = (<FightEvents.Crit>event).buff;
                 if (buff) {
                     status[otherCharacter(event.character)].addEffect(
                         event.time + buff.duration,
@@ -34,10 +34,11 @@ export function applyFightEvents(
                     );
                 }
                 break;
-            case FightEvents.EventType.levelUp:
-                const c = status[event.character];
+            case FightEvents.Types.death: // level up also happens here
+                status.splice(event.character, 1);
+                const c = status[0];
                 c.level++;
-                c.stats = buildStats(c.character, c.donation, c.level);
+                c.baseStats = buildStats(c.character, c.donation, c.level);
                 break;
             default:
                 break;

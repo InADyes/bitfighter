@@ -1,88 +1,78 @@
 import * as Buff from './buff';
 
-export const enum EventType {
+export const enum Types {
     damage,
     dodge,
     death,
     healing,
     crit,
-    donation,
-    levelUp
+    donation
 }
 
 export abstract class Event {
     constructor (
         public time: number,
-        public readonly type: EventType,
+        public readonly type: Types,
         public readonly character: number
     ) {};
 }
 
-export class DamageEvent extends Event {
+export class Damage extends Event {
     constructor (
         time: number,
         character: number,
         public readonly amount: number
     ) {
-        super(time, EventType.damage, character);
+        super(time, Types.damage, character);
     }
 }
 
-export class DodgeEvent extends Event {
+export class Dodge extends Event {
     constructor (
         time: number,
         character: number,
     ) {
-        super(time, EventType.dodge, character);
+        super(time, Types.dodge, character);
     }
 }
 
-export class DeathEvent extends Event {
+export class Death extends Event {
     constructor (
         time: number,
         character: number,
     ) {
-        super(time, EventType.death, character);
+        super(time, Types.death, character);
     }
 }
 
-export class HealingEvent extends Event {
+export class Healing extends Event {
     constructor (
         time: number,
         character: number,
         public readonly amount: number
     ) {
-        super(time, EventType.healing, character);
+        super(time, Types.healing, character);
     }
 }
 
-export class CritEvent extends Event {
+export class Crit extends Event {
     constructor (
         time: number,
         character: number,
         public readonly debuff?: Buff.Buff,
         public readonly buff?: Buff.Buff
     ) {
-        super(time, EventType.crit, character);
+        super(time, Types.crit, character);
     }
 }
 
-export class DonationEvent extends Event {
+export class Donation extends Event {
     constructor (
         time: number,
         character: number,
         public readonly donationType: DonationType
     ) {
-        super(time, EventType.donation, character);
-    }
-}
-
-export class LevelUpEvent extends Event {
-    constructor (
-        time: number,
-        character: number
-    ) {
-        super(time, EventType.levelUp, character);
+        super(time, Types.donation, character);
     }
 }
 
