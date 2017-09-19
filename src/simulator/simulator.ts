@@ -140,11 +140,11 @@ if (process.argv.length >= 7)
 
     // top key
     for (let pair of pairs)
-        process.stdout.write(`, (${ pair.v1 }, ${ pair.v2 })`);
+        process.stdout.write(`, (${ characterPicker.characters[pair.v1].name }, ${ pair.v2 })`);
     process.stdout.write('\n');
 
     for (let character1 of pairs) {
-        process.stdout.write(`(${ character1.v1 }, ${ character1.v2 })`)
+        process.stdout.write(`(${ characterPicker.characters[character1.v1].name }, ${ character1.v2 })`)
         for (let character2 of pairs) {
             const results = testPair(
                 {
