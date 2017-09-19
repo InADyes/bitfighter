@@ -78,12 +78,24 @@ export function build(fight: FightReel.Event[]) {
                     'crit',
                     'red'
                 ));
-                display.push(new DisplayReel.Buff(
-                    event.time,
-                    event.character,
-                    (<FightReel.CritEvent>event).debuff.art,
-                    (<FightReel.CritEvent>event).debuff.duration
-                ));
+                const debuff = (<FightReel.CritEvent>event).debuff;
+                if (debuff){
+                    display.push(new DisplayReel.Buff(
+                        event.time,
+                        event.character,
+                        debuff.art,
+                        debuff.duration
+                    ));
+                }
+                const buff = (<FightReel.CritEvent>event).debuff;
+                if (buff){
+                    display.push(new DisplayReel.Buff(
+                        event.time,
+                        otherCharacter(event.character),
+                        buff.art,
+                        buff.duration
+                    ));
+                }
                 break;
             case FightReel.EventType.donation:
                 let e = (<FightReel.DonationEvent>event);

@@ -1,6 +1,6 @@
 //import * as Status from './Status';
 import * as fightReel from './fightReel';
-import * as buff from './buff';
+import * as Buff from './buff';
 import * as characterPicker from './characterPicker';
 
 import { Status } from '../shared/Status';
@@ -12,7 +12,7 @@ export class Combatant {
         public readonly status: Status,
         public readonly index: number,
         private readonly newEvent: (event: fightReel.Event) => void,
-        private readonly attackEvent: (combatant: Combatant, damage: number, accuracy: number, critChance: number, critDebuff: buff.Buff) => void
+        private readonly attackEvent: (combatant: Combatant, damage: number, accuracy: number, critChance: number, critDebuff?: Buff.Buff, critBuff?: Buff.Buff) => void
     ) {
         this.rollAttackSpeed();
     }
@@ -30,19 +30,14 @@ export class Combatant {
 
         const damageRoll = Math.ceil(Math.random() * (stats.attackDamage.max - stats.attackDamage.min)) + stats.attackDamage.min;
 
-        this.attackEvent(this, damageRoll, stats.accuracy, stats.crit, characterPicker.characters[this.status.character].critDebuff
+        this.attackEvent(this, damageRoll, stats.accuracy, stats.crit, characterPicker.characters[this.status.character].critDebuff, characterPicker.characters[this.status.character].critBuff
         );
     }
-    public takeHit(damage: number, accuracy: number, critChance: number, critDebuff: buff.Buff) {
+    public takeHit(damage: number, accuracy: number, critChance: number, critDebuff?: Buff.Buff, critBuff?: Buff.Buff) {
         this.status.checkBuffs(this.time);
     
         const total = accuracy + this.status.stats.dodge;
         const hitChangeRoll = Math.ceil(Math.random() * total);
-
-
-        // console.log(`total: ${ total }`);
-        // console.log(`hitChangeRoll: ${ hitChangeRoll }`);
-        // console.log();
     
         if (hitChangeRoll > accuracy) {
             this.newEvent(new fightReel.DodgeEvent(this.time, this.index));
@@ -51,8 +46,8 @@ export class Combatant {
 
         if (Math.ceil(Math.random() * 100) >= critChance) {
             damage = damage * 5 - this.status.stats.armor;
-            //this.status.addEffect(this.time + critDebuff.duration, critDebuff);
-            this.newEvent(new fightReel.CritEvent(this.time, this.index, critDebuff));
+            //this.status.addEffect(this.time + critDeBuff.duration, critDebuff);
+            this.newEvent(new fightReel.CritEvent(this.time, this.index, critDebuff, critBuff));
         } else
             damage -= this.status.stats.armor; //applied here so that armor is calculated before the buff is applied when there is a crit
 

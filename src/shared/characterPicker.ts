@@ -1,10 +1,11 @@
-import * as buff from './buff';
+import * as Buff from './buff';
 import { Status, Stats } from '../shared/Status';
 
 interface Character {
     stats: Stats,
     rarity: number,
-    critDebuff: buff.Buff
+    critDebuff?: Buff.Buff,
+    critBuff?: Buff.Buff
 }
 
 export let characters: Character[] = [
@@ -26,7 +27,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     }, // 0: scullary maid
     {
         stats: { 
@@ -46,7 +47,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     }, // 1: Farmer
     {
         stats: { 
@@ -66,7 +67,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     }, // 2: Barkeep
     {
         stats: { 
@@ -86,7 +87,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     }, // 3: Street Urchin
     {
         stats: { 
@@ -106,7 +107,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     }, // 4: Aristocrat
     {
         stats: { 
@@ -126,7 +127,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     }, // 5: Minstrel
     {
         stats: { 
@@ -146,7 +147,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     }, // 6: Mage
     {
         stats: { 
@@ -166,7 +167,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     }, // 7: Rogue
     {
         stats: { 
@@ -186,7 +187,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     }, // 8: Gladiator
     {
         stats: { 
@@ -206,7 +207,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     }, // 9: Barbarian
     {
         stats: { 
@@ -226,7 +227,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     }, // 10: War Priest
     {
         stats: { 
@@ -246,7 +247,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     }, // 11: Werewolf
     {
         stats: { 
@@ -266,7 +267,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     }, // 12: Warlock
     {
         stats: { 
@@ -286,7 +287,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     }, // 13: Paladin
     {
         stats: { 
@@ -306,7 +307,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     }, // 14: Swashbuckler
     {
         stats: { 
@@ -326,7 +327,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     }, //15: Dragon
     {
         stats: { 
@@ -346,7 +347,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     }, //16: Angel
     {
         stats: { 
@@ -366,7 +367,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     }, // 17: Lich
     {
         stats: { 
@@ -386,7 +387,7 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
     } // 18: Phoenix
 ];
 

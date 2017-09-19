@@ -59,7 +59,8 @@ export class CritEvent extends Event {
     constructor (
         time: number,
         character: number,
-        public readonly debuff: Buff.Buff
+        public readonly debuff?: Buff.Buff,
+        public readonly buff?: Buff.Buff
     ) {
         super(time, EventType.crit, character);
     }
