@@ -164,7 +164,7 @@ export class GameState {
 	public p2Death(){
 		this.p2.animate('angle','-90',{
             duration: 1000,
-            onChange: this.canvas.renderAll.bind(g.canvas),
+            onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 this.canvas.remove(this.p2);
 				this.canvas.remove(this.healthbar2Curr);

@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function(){
     function eventListeners(g: Display.GameState, message: any) {
         let draw = <HTMLButtonElement>document.getElementById("draw");
         draw.addEventListener("click", function() {
-             g.drawPlayers(message);
+             g.drawPlayers();
              
         });
 
