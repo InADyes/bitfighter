@@ -161,9 +161,15 @@ export class GameState {
             duration: 1000,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
-                this.canvas.remove(this.p1);
-				this.canvas.remove(this.healthbar1Curr);
-				this.canvas.remove(this.healthbar1Mis);
+				this.p1.animate('opacity', 0,{
+					duration: 200,
+					onChange: this.canvas.renderAll.bind(this.canvas),
+					onComplete: () => {
+						this.canvas.remove(this.p1);
+						this.canvas.remove(this.healthbar1Curr);
+						this.canvas.remove(this.healthbar1Mis);
+					} 
+				});
             }
         });
 	}
@@ -172,9 +178,15 @@ export class GameState {
             duration: 1000,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
-                this.canvas.remove(this.p2);
-				this.canvas.remove(this.healthbar2Curr);
-				this.canvas.remove(this.healthbar2Mis);
+                this.p2.animate('opacity', 0,{
+					duration: 200,
+					onChange: this.canvas.renderAll.bind(this.canvas),
+					onComplete: () => {
+						this.canvas.remove(this.p2);
+						this.canvas.remove(this.healthbar2Curr);
+						this.canvas.remove(this.healthbar2Mis);
+					} 
+				});
             }
         });
 	}

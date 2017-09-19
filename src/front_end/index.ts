@@ -6,7 +6,6 @@ import * as Reel from '../shared/displayReel'
 
 document.addEventListener("DOMContentLoaded", function(){
     let gameState = new Display.GameState;
-    /////////// DELETE LATER ////////////////////////
     let message = {
         characters: [{
                 name: "hao",
@@ -20,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function(){
     };
     eventListeners(gameState, message);
     let currentTarget = <HTMLInputElement>document.getElementById("left");
-    ////////////////////////////////////////////////////
 
     gameState.message = message;
     let display = new Display.Display;
@@ -48,11 +46,7 @@ document.addEventListener("DOMContentLoaded", function(){
     function eventListeners(g: Display.GameState, message: any) {
         let draw = <HTMLButtonElement>document.getElementById("draw");
         draw.addEventListener("click", function() {
-<<<<<<< HEAD
-             g.drawPlayers(message);
-=======
              g.drawPlayers();
->>>>>>> 5d4a1f54c52c1381be227f5490f5f365506674e6
              
         });
 
