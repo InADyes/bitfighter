@@ -8,22 +8,46 @@ export class Display {
         console.log('new reel:', message);
     }
 }
-
-export class GameState {
-	public	canvas:			fabric.Canvas;
-	public	message:		any;
-	private p1:				fabric.Object;
-	private p2:				fabric.Object;
-	private healthbar1Curr: fabric.Rect;
-	private healthbar1Mis:	fabric.Rect;
-	private healthbar2Curr: fabric.Rect;
-	private healthbar2Mis:	fabric.Rect;
+export class Combatant {
+	private img:				fabric.Object;
+	private healthbarCurr:	fabric.Rect;
+	private healthbarMis:	fabric.Rect;
 	private art = [
 	    "images/characters/axe.png",
  		"images/characters/sword.png",
 	   	"images/characters/daggers.png",
     	"images/characters/champion_alpha.png",
 	]
+
+	constructor() {
+
+	}
+
+	public draw() {
+
+	}
+
+	public attacks() {
+
+	}
+
+	public dies() {
+
+	}
+
+	public damage() {
+
+	}
+
+	public healthbar() {
+
+	}
+}
+
+export class GameState {
+	public	canvas:			fabric.Canvas;
+	public	message:		any;
+
 
 	constructor(message: any) {
 		console.log(message);
