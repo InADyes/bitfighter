@@ -441,11 +441,31 @@ export const levels: Level[] = [
     }
 ];
 
+export function buildStats(character: number, donation: number, level: number) : Stats {
+    const c = characters[character];
+
+    return {
+        maxHitPoints: c.stats.maxHitPoints + donation,
+        accuracy: c.stats.accuracy + levels[level - 1].accuracy,
+        dodge: c.stats.dodge + levels[level - 1].dodge,
+        attackSpeed: {
+            min: c.stats.attackSpeed.min,
+            max: c.stats.attackSpeed.max
+        },
+        attackDamage: {
+            min: c.stats.attackDamage.min,
+            max: c.stats.attackDamage.max
+        },
+        armor: c.stats.armor,
+        regeneration: c.stats.regeneration,
+        crit: c.stats.crit
+    }
+}
+
 // i'm going to fix this i swear
 // donation.amount is assumed to be in bits
 export function pickCharacter(donation: {id: number, name: string, amount: number, character: number}) : Status {
     let pick = donation.character % characters.length;
-    let character = characters[pick];
 
     let level = rarityLevel[characters[pick].rarity]; // 1 indexed
 
@@ -458,23 +478,8 @@ export function pickCharacter(donation: {id: number, name: string, amount: numbe
         donation.name,
         pick,
         donation.amount,
-        character.stats.maxHitPoints + donation.amount,
+        characters[pick].stats.maxHitPoints + donation.amount,
         level,
-        {
-            maxHitPoints: character.stats.maxHitPoints + donation.amount,
-            accuracy: character.stats.accuracy + levels[level - 1].accuracy,
-            dodge: character.stats.dodge + levels[level - 1].dodge,
-            attackSpeed: {
-                min: character.stats.attackSpeed.min,
-                max: character.stats.attackSpeed.max
-            },
-            attackDamage: {
-                min: character.stats.attackDamage.min,
-                max: character.stats.attackDamage.max
-            },
-            armor: character.stats.armor,
-            regeneration: character.stats.regeneration,
-            crit: character.stats.crit
-        }
+        buildStats(pick, donation.amount, level)
     )
 }

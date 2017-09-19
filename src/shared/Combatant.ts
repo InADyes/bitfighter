@@ -2,7 +2,6 @@
 import * as fightReel from './fightReel';
 import * as Buff from './buff';
 import * as characterPicker from './characterPicker';
-
 import { Status } from '../shared/Status';
 
 export class Combatant {

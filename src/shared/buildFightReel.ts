@@ -2,6 +2,7 @@ import * as FightReel from './fightReel';
 import { Combatant } from './Combatant';
 import { Status } from '../shared/Status';
 import { applyFightReel } from './applyFightReel';
+import { otherCharacter } from './utility';
 
 export function buildFightReel(stats: Status[]) {
     let everyoneAlive = true;
@@ -24,8 +25,15 @@ export function buildFightReel(stats: Status[]) {
         event => {
             applyFightReel(newStats, event);
             reel.push(event);
-            if (event.type == FightReel.EventType.death)
+            if (event.type == FightReel.EventType.death) {
                 everyoneAlive = false;
+                let levelEvent = new FightReel.LevelUpEvent(
+                    event.time,
+                    otherCharacter(event.character)
+                );
+                applyFightReel(newStats, levelEvent);
+                reel.push(levelEvent);
+            }
         },
         (caller, damage, accuracy, crit, debuff) => {
             let opponents = combatants.filter(c => c != caller);
@@ -35,7 +43,7 @@ export function buildFightReel(stats: Status[]) {
 
     if (combatants.length < 2) {
         console.error('not enough combatants to fight');
-        return { combatants: combatants.map(c => c.status), reel};
+        return {status, reel};
     }
 
     while (everyoneAlive) {

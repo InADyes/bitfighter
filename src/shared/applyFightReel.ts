@@ -1,19 +1,11 @@
 import * as FightReel from '../shared/fightReel';
 import { Status } from '../shared/Status';
+import { otherCharacter } from '../shared/utility';
+import { buildStats } from '../shared/characterPicker';
 
-function otherCharacter(char: number) {
-    switch (char) {
-        case 0:
-            return 1;
-        case 1:
-            return 0;
-        default:
-            console.error('bad character');
-            process.exit();
-            return -1; // typescript does not recognise exit
-    }
-}
-
+/*
+    does not delete characters
+*/
 export function applyFightReel(
     status: Status[],
     ...reel: FightReel.Event[]
@@ -41,7 +33,10 @@ export function applyFightReel(
                         buff
                     );
                 }
-
+                break;
+            case FightReel.EventType.levelUp:
+                const c = status[event.character];
+                c.stats = buildStats(c.character, c.donation, c.level);
                 break;
             default:
                 break;
