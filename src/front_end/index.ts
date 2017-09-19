@@ -45,9 +45,6 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 });
 
-
-
-
 function eventListeners(g: Display.GameState, message: any) {
     let draw = <HTMLButtonElement>document.getElementById("draw");
     draw.addEventListener("click", function() {
@@ -57,6 +54,12 @@ function eventListeners(g: Display.GameState, message: any) {
     let health = <HTMLButtonElement>document.getElementById("health");
     health.addEventListener("click", function() {
         console.log("change a player's health");
+        /* move this to Display.ts
+        Say something like "g.healthBar"
+         g.healthbar.animate('width','-=10', {
+            duration: 200,
+            onChange: g.canvas.renderAll.bind(g.canvas),
+        });*/
     });
 
     let attack = <HTMLButtonElement>document.getElementById("attack");
@@ -71,10 +74,38 @@ function eventListeners(g: Display.GameState, message: any) {
     let clear = <HTMLDivElement>document.getElementById("clear");
     clear.addEventListener("click", function() {
         console.log("remove a player from the screen");
+        /*move this to Display.ts
+        Say something like "g.p1Dies()" and "g.p2Dies()"
+        g.p1.animate('angle','90',{
+            duration: 1000,
+            onChange: g.canvas.renderAll.bind(g.canvas),
+            onComplete: function() {
+                g.canvas.remove(g.p1);
+                g.canvas.remove(g.healthbar);
+                //g.canvas.remove(healthbar1Mis);
+            }
+        })*/
     });
     let text = <HTMLDivElement>document.getElementById("text");
     text.addEventListener("click", function() {
         console.log("display text over a player's head");
+
+        /* move this to Display.ts
+        say something like "g.text()"
+        let dmg = new fabric.Text('20',{
+            fontSize: 30,
+            fill: 'yellow',
+            top: 100,
+            left: 100
+        });
+        
+        g.canvas.add(dmg);
+        dmg.animate('top', '-=50',{
+            duration: 500,
+            onChange: g.canvas.renderAll.bind(g.canvas),
+            onComplete: function(){
+                g.canvas.remove(dmg);
+            }
+        });*/
     });
 }
-

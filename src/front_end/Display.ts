@@ -15,6 +15,9 @@ export class GameState {
 	private img2:	HTMLImageElement;
 	private p1:		fabric.Image;
 	private p2:		fabric.Image;
+	private healthbar1Curr: fabric.Rect;
+	private healthbar2Curr: fabric.Rect;
+
 	private art = [
 	    "images/characters/axe.png",
  		"images/characters/sword.png",
@@ -48,6 +51,31 @@ export class GameState {
         });
         this.p1.scaleToWidth(200);
         this.canvas.add(this.p1);
+
+       this.healthbar1Curr = new fabric.Rect({
+            left: 50,
+            top: 350,
+            fill: 'green',
+            height: 10,
+            width: player1.hitPoints/10,
+        });
+        g.healthbar = healthbar1Curr;
+        let healthbar1Mis = new fabric.Rect({
+            left: 50,
+            top: 350,
+            fill: 'red',
+            height: 10,
+            width: player1.hitPoints/10,
+        });
+        g.canvas.add(g.p1);
+        g.canvas.add(healthbar1Mis);
+        g.canvas.add(healthbar1Curr);
+
+
+
+
+
+
         this.setArt(message.characters[1].art, 2);
         this.p2 = new fabric.Image(this.img2, {
             left: 350,
