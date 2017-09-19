@@ -5,7 +5,6 @@ import { Message } from '../shared/frontEndMessage';
 import * as Reel from '../shared/displayReel'
 
 
-let currentTarget = <HTMLInputElement>document.getElementById("left");
 
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -23,8 +22,9 @@ document.addEventListener("DOMContentLoaded", function(){
     };
     eventListeners(gameState, message);
 
-    let textOut = <HTMLDivElement><HTMLDivElement>document.getElementById('text-out');
+    let currentTarget = <HTMLInputElement>document.getElementById("left"); // DELETE LATER
 
+    let textOut = <HTMLDivElement><HTMLDivElement>document.getElementById('text-out');
     let display = new Display.Display;
 
     /*window.addEventListener('storage', (e) => {
@@ -43,48 +43,47 @@ document.addEventListener("DOMContentLoaded", function(){
                 console.error('unidentified storage event');
         }
     });*/
-});
 
-function eventListeners(g: Display.GameState, message: any) {
-    let draw = <HTMLButtonElement>document.getElementById("draw");
-    draw.addEventListener("click", function() {
-         g.drawPlayers(message);
-         
-    });
+    function eventListeners(g: Display.GameState, message: any) {
+        let draw = <HTMLButtonElement>document.getElementById("draw");
+        draw.addEventListener("click", function() {
+             g.drawPlayers(message);
+             
+        });
 
-    let health = <HTMLButtonElement>document.getElementById("health");
-    health.addEventListener("click", function() {
-        console.log("change a player's health");
-        if (currentTarget.checked)
-            g.p1healthbarChange();
-        else
-            g.p2healthbarChange();
-    });
+        let health = <HTMLButtonElement>document.getElementById("health");
+        health.addEventListener("click", function() {
+            console.log("change a player's health");
+            if (currentTarget.checked)
+                g.p1healthbarChange();
+            else
+                g.p2healthbarChange();
+        });
 
-    let attack = <HTMLButtonElement>document.getElementById("attack");
-    attack.addEventListener("click", function() {
-        //let left = <HTMLInputElement>document.getElementById("left");
-        console.log((currentTarget.checked ? "p1" : "p2") + " attacks");
-        if (currentTarget.checked)
-            g.p1Attacks();
-        else
-            g.p2Attacks();
-    });
-    let clear = <HTMLDivElement>document.getElementById("clear");
-    clear.addEventListener("click", function() {
-        console.log("remove a player from the screen");
-        if (currentTarget.checked)
-            g.p1Death();
-        else
-            g.p2Death();
-    });
-    let text = <HTMLDivElement>document.getElementById("text");
-    text.addEventListener("click", function() {
-        console.log("display text over a player's head");
-        if (currentTarget.checked)
-            g.p1Damage();
-        else
-            g.p2Damage();
-    });
-}
+        let attack = <HTMLButtonElement>document.getElementById("attack");
+        attack.addEventListener("click", function() {
+            //let left = <HTMLInputElement>document.getElementById("left");
+            console.log((currentTarget.checked ? "p1" : "p2") + " attacks");
+            if (currentTarget.checked)
+                g.p1Attacks();
+            else
+                g.p2Attacks();
+        });
+        let clear = <HTMLDivElement>document.getElementById("clear");
+        clear.addEventListener("click", function() {
+            console.log("remove a player from the screen");
+            if (currentTarget.checked)
+                g.p1Death();
+            else
+                g.p2Death();
+        });
+        let text = <HTMLDivElement>document.getElementById("text");
+        text.addEventListener("click", function() {
+            console.log("display text over a player's head");
+            if (currentTarget.checked)
+                g.p1Damage();
+            else
+                g.p2Damage();
+        });
+    }
 });
