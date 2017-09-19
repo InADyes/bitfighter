@@ -10,16 +10,16 @@ export class Display {
 }
 
 export class GameState {
-	public	canvas:	fabric.Canvas;
-	private img1:	HTMLImageElement;
-	private img2:	HTMLImageElement;
-	private p1:		fabric.Image;
-	private p2:		fabric.Image;
+	public	canvas:			fabric.Canvas;
+	public	message:		any;
+	private img1:			HTMLImageElement;
+	private img2:			HTMLImageElement;
+	private p1:				fabric.Image;
+	private p2:				fabric.Image;
 	private healthbar1Curr: fabric.Rect;
-	private healthbar1Mis: fabric.Rect;
+	private healthbar1Mis:	fabric.Rect;
 	private healthbar2Curr: fabric.Rect;
-	private healthbar2Mis: fabric.Rect;
-
+	private healthbar2Mis:	fabric.Rect;
 	private art = [
 	    "images/characters/axe.png",
  		"images/characters/sword.png",
@@ -68,10 +68,13 @@ export class GameState {
 			this.img2.src = this.art[i];
 	}
 
-	public drawPlayers (message: any) {
+	public drawPlayers () {
         console.log("drawing players");
-        //character
-        this.setArt(message.characters[0].art, 1)
+        if (this.p1)
+            this.canvas.remove(this.p1);
+        if (this.p2)
+            this.canvas.remove(this.p2);
+        this.setArt(this.message.characters[0].art, 1)
         this.p1 = new fabric.Image(this.img1, {
             left: 150,
 			top: 300,
@@ -83,7 +86,9 @@ export class GameState {
         if (this.p2)
             this.canvas.remove(this.p2);
         this.p1.scaleToWidth(200);
-		this.setArt(message.characters[1].art, 2);
+        this.canvas.add(this.p1);
+
+		this.setArt(this.message.characters[1].art, 2);
         this.p2 = new fabric.Image(this.img2, {
             left: 420,
             top: 300,
@@ -110,20 +115,19 @@ export class GameState {
 	}
 
 	public p1Attacks () {
-		let g = this;
-	    g.p1.animate('left', '-=20', {
+	    this.p1.animate('left', '-=20', {
 	        duration: 250,
-	        onChange: g.canvas.renderAll.bind(g.canvas),
+	        onChange: this.canvas.renderAll.bind(this.canvas),
 	        easing: fabric.util.ease['easeOutQuad'],
-	        onComplete: function() {
-        		g.p1.animate('left', '+=120', {
+	        onComplete: () => {
+        		this.p1.animate('left', '+=120', {
 	                duration: 100,
 	                easing: fabric.util.ease['easeInQuint'],
-	                onChange: g.canvas.renderAll.bind(g.canvas),
-	                onComplete: function () {
-	                    g.p1.animate('left', 150, {
+	                onChange: this.canvas.renderAll.bind(this.canvas),
+	                onComplete: () => {
+	                    this.p1.animate('left', 150, {
 	                        duration: 200,
-	                        onChange: g.canvas.renderAll.bind(g.canvas),
+	                        onChange: this.canvas.renderAll.bind(this.canvas),
 	                        easing: fabric.util.ease['easeOutQuint'],
 	                	})
 	                }
@@ -132,20 +136,19 @@ export class GameState {
 	    });
 	}
 	public p2Attacks () {
-		let g = this;
-	    g.p2.animate('left', '+=20', {
+	    this.p2.animate('left', '+=20', {
 	        duration: 250,
-	        onChange: g.canvas.renderAll.bind(g.canvas),
+	        onChange: this.canvas.renderAll.bind(this.canvas),
 	        easing: fabric.util.ease['easeOutQuad'],
-	        onComplete: function () {
-	            g.p2.animate('left', '-=120', {
+	        onComplete: () => {
+	            this.p2.animate('left', '-=120', {
 	                duration: 100,
 	                easing: fabric.util.ease['easeInQuint'],
-	                onChange: g.canvas.renderAll.bind(g.canvas),
-	                onComplete: function () {
-	                    g.p2.animate('left', 420, {
+	                onChange: this.canvas.renderAll.bind(this.canvas),
+	                onComplete: () => {
+	                    this.p2.animate('left', 420, {
 	                        duration: 200,
-	                        onChange: g.canvas.renderAll.bind(g.canvas),
+	                        onChange: this.canvas.renderAll.bind(this.canvas),
 	                        easing: fabric.util.ease['easeOutQuint'],
 	                    })
 	                }
@@ -154,33 +157,28 @@ export class GameState {
 	    });
 	}
 	public p1Death(){
-		let g = this;
-		g.p1.animate('angle','90',{
+		this.p1.animate('angle','90',{
             duration: 1000,
-            onChange: g.canvas.renderAll.bind(g.canvas),
-            onComplete: function() {
-                g.canvas.remove(g.p1);
-				g.canvas.remove(g.healthbar1Curr);
-				g.canvas.remove(g.healthbar1Mis);
-                //g.canvas.remove(healthbar1Mis);
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: () => {
+                this.canvas.remove(this.p1);
+				this.canvas.remove(this.healthbar1Curr);
+				this.canvas.remove(this.healthbar1Mis);
             }
         });
 	}
 	public p2Death(){
-		let g = this;
-		g.p2.animate('angle','-90',{
+		this.p2.animate('angle','-90',{
             duration: 1000,
-            onChange: g.canvas.renderAll.bind(g.canvas),
-            onComplete: function() {
-                g.canvas.remove(g.p2);
-				g.canvas.remove(g.healthbar2Curr);
-				g.canvas.remove(g.healthbar2Mis);
-                //g.canvas.remove(healthbar1Mis);
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: () => {
+                this.canvas.remove(this.p2);
+				this.canvas.remove(this.healthbar2Curr);
+				this.canvas.remove(this.healthbar2Mis);
             }
         });
 	}
 	public p1Damage(){
-		let g = this;
 		let dmg = new fabric.Text('20',{
             fontSize: 30,
             fill: 'red',
@@ -188,19 +186,18 @@ export class GameState {
             left: 100
         });
         
-        g.canvas.add(dmg);
+        this.canvas.add(dmg);
         dmg.animate('top', '-=50',{
             duration: 500,
-            onChange: g.canvas.renderAll.bind(g.canvas),
-            onComplete: function(){
-                g.canvas.remove(dmg);
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: () => {
+                this.canvas.remove(dmg);
             }
         });
 
 	}
 
 	public p2Damage(){
-		let g = this;
 		let dmg = new fabric.Text('20',{
             fontSize: 30,
             fill: 'red',
@@ -208,27 +205,25 @@ export class GameState {
             left: 420
         });
         
-        g.canvas.add(dmg);
+        this.canvas.add(dmg);
         dmg.animate('top', '-=50',{
             duration: 500,
-            onChange: g.canvas.renderAll.bind(g.canvas),
-            onComplete: function(){
-                g.canvas.remove(dmg);
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: () => {
+                this.canvas.remove(dmg);
             }
         });
 	}
 	public p1healthbarChange(){
-		let g = this;
-		g.healthbar1Curr.animate('width','-=10', {
+		this.healthbar1Curr.animate('width','-=10', {
             duration: 200,
-            onChange: g.canvas.renderAll.bind(g.canvas),
+            onChange: this.canvas.renderAll.bind(this.canvas),
         });
 	}
 	public p2healthbarChange(){
-		let g = this;
-		g.healthbar2Curr.animate('width','-=10', {
+		this.healthbar2Curr.animate('width','-=10', {
             duration: 200,
-            onChange: g.canvas.renderAll.bind(g.canvas),
+            onChange: this.canvas.renderAll.bind(this.canvas),
         });
 	}
 }
