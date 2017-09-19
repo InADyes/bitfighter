@@ -5,7 +5,8 @@ interface Character {
     stats: Stats,
     rarity: number,
     critDebuff?: Buff.Buff,
-    critBuff?: Buff.Buff
+    critBuff?: Buff.Buff,
+    character: string
 }
 
 export let characters: Character[] = [
@@ -27,7 +28,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Scullary Maid'
     }, // 0: scullary maid
     {
         stats: { 
@@ -47,7 +49,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Farmer'
     }, // 1: Farmer
     {
         stats: { 
@@ -67,7 +70,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Barkeep'
     }, // 2: Barkeep
     {
         stats: { 
@@ -87,7 +91,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Street Urchin'
     }, // 3: Street Urchin
     {
         stats: { 
@@ -107,7 +112,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Aristocrat'
     }, // 4: Aristocrat
     {
         stats: { 
@@ -127,7 +133,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Minstrel'
     }, // 5: Minstrel
     {
         stats: { 
@@ -147,7 +154,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Mage'
     }, // 6: Mage
     {
         stats: { 
@@ -167,7 +175,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Rogue'
     }, // 7: Rogue
     {
         stats: { 
@@ -187,7 +196,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Gladiator'
     }, // 8: Gladiator
     {
         stats: { 
@@ -207,7 +217,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Barbarian'
     }, // 9: Barbarian
     {
         stats: { 
@@ -227,7 +238,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Priest'
     }, // 10: War Priest
     {
         stats: { 
@@ -247,7 +259,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Werewolf'
     }, // 11: Werewolf
     {
         stats: { 
@@ -267,7 +280,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Warlock'
     }, // 12: Warlock
     {
         stats: { 
@@ -287,7 +301,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Paladin'
     }, // 13: Paladin
     {
         stats: { 
@@ -307,7 +322,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Swashbuckler'
     }, // 14: Swashbuckler
     {
         stats: { 
@@ -327,7 +343,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Dragon'
     }, //15: Dragon
     {
         stats: { 
@@ -347,7 +364,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Angel'
     }, //16: Angel
     {
         stats: { 
@@ -367,7 +385,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Lich'
     }, // 17: Lich
     {
         stats: { 
@@ -387,7 +406,8 @@ export let characters: Character[] = [
             crit: 20,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        character: 'Phoenix'
     } // 18: Phoenix
 ];
 
