@@ -86,7 +86,7 @@ export function build(fight: FightReel.Event[]) {
                 }
                 break;
             case FightReel.EventType.donation:
-                let e = (<FightReel.DonationEvent>event);
+                const e = (<FightReel.DonationEvent>event);
 
                 if (e.donationType === FightReel.DonationType.damage) {
                     display.push(new DisplayReel.Text(
@@ -104,9 +104,16 @@ export function build(fight: FightReel.Event[]) {
                     ));
                 }
                 break;
+            case FightReel.EventType.levelUp:
+                display.push(new DisplayReel.Text(
+                    event.time,
+                    event.character,
+                    'Level Up!',
+                    'gold'
+                ));
+                break;
             default:
-                console.error('bad event type');
-                process.exit();
+                console.error('unidentified event type');
         }
     }
 

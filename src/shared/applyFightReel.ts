@@ -36,6 +36,7 @@ export function applyFightReel(
                 break;
             case FightReel.EventType.levelUp:
                 const c = status[event.character];
+                c.level++;
                 c.stats = buildStats(c.character, c.donation, c.level);
                 break;
             default:
