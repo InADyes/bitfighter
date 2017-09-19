@@ -33012,176 +33012,63 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Display__ = __webpack_require__(47);
 
 
-let player1 = {
-    name: "hao",
-    hitPoints: 1000,
-    art: "images/characters/sword.png",
-    side: 0,
-}, player2 = {
-    name: "max",
-    hitPoints: 1000,
-    art: "images/characters/axe.png",
-    side: 1,
-};
 document.addEventListener("DOMContentLoaded", function () {
-    let gameState = new __WEBPACK_IMPORTED_MODULE_1__Display__["b" /* gameState */];
-    eventListeners(gameState);
-    let textOut = document.getElementById('text-out');
+    let gameState = new __WEBPACK_IMPORTED_MODULE_1__Display__["b" /* GameState */];
+    let message = {
+        characters: [{
+                name: "hao",
+                hitPoints: 1000,
+                art: 0,
+            }, {
+                name: "max",
+                hitPoints: 1000,
+                art: 2,
+            }]
+    };
+    eventListeners(gameState, message);
+    let currentTarget = document.getElementById("left");
+    gameState.message = message;
     let display = new __WEBPACK_IMPORTED_MODULE_1__Display__["a" /* Display */];
-    window.addEventListener('storage', (e) => {
-        console.log(e);
-        switch (e.key) {
-            case 'fight':
-                let str = e.newValue;
-                if (str == undefined) {
-                    console.error('bad storage event value');
-                    break;
-                }
-                console.log(str);
-                display.newReel(JSON.parse(str));
-                break;
-            default:
-                console.error('unidentified storage event');
-        }
-    });
+    gameState.drawPlayers();
+    function eventListeners(g, message) {
+        let draw = document.getElementById("draw");
+        draw.addEventListener("click", function () {
+            g.drawPlayers();
+        });
+        let health = document.getElementById("health");
+        health.addEventListener("click", function () {
+            console.log("change a player's health");
+            if (currentTarget.checked)
+                g.p1healthbarChange();
+            else
+                g.p2healthbarChange();
+        });
+        let attack = document.getElementById("attack");
+        attack.addEventListener("click", function () {
+            console.log((currentTarget.checked ? "p1" : "p2") + " attacks");
+            if (currentTarget.checked)
+                g.p1Attacks();
+            else
+                g.p2Attacks();
+        });
+        let clear = document.getElementById("clear");
+        clear.addEventListener("click", function () {
+            console.log("remove a player from the screen");
+            if (currentTarget.checked)
+                g.p1Death();
+            else
+                g.p2Death();
+        });
+        let text = document.getElementById("text");
+        text.addEventListener("click", function () {
+            console.log("display text over a player's head");
+            if (currentTarget.checked)
+                g.p1Damage();
+            else
+                g.p2Damage();
+        });
+    }
 });
-function eventListeners(g) {
-    let draw1 = document.getElementById("draw1");
-    draw1.addEventListener("click", function () {
-        console.log("draw player 1");
-        if (g.p1 != null)
-            g.canvas.remove(g.p1);
-        g.img1.src = player1.art;
-        g.p1 = new fabric.Image(g.img1, {
-            left: 100,
-            top: 300,
-            originX: 'center',
-            originY: 'bottom',
-        });
-        g.p1.scaleToWidth(200);
-        let healthbar1Curr = new fabric.Rect({
-            left: 50,
-            top: 350,
-            fill: 'green',
-            height: 10,
-            width: player1.hitPoints / 10,
-        });
-        g.healthbar = healthbar1Curr;
-        let healthbar1Mis = new fabric.Rect({
-            left: 50,
-            top: 350,
-            fill: 'red',
-            height: 10,
-            width: player1.hitPoints / 10,
-        });
-        g.canvas.add(g.p1);
-        g.canvas.add(healthbar1Mis);
-        g.canvas.add(healthbar1Curr);
-    });
-    let draw2 = document.getElementById("draw2");
-    draw2.addEventListener("click", function () {
-        console.log("draw player 2");
-        if (g.p2)
-            g.canvas.remove(g.p2);
-        g.img2.src = player2.art;
-        g.p2 = new fabric.Image(g.img2, {
-            left: 350,
-            top: 100,
-            flipX: true,
-        });
-        g.p2.scaleToWidth(200);
-        g.canvas.add(g.p2);
-    });
-    let health = document.getElementById("health");
-    health.addEventListener("click", function () {
-        console.log("change a player's health");
-        g.healthbar.animate('width', '-=10', {
-            duration: 200,
-            onChange: g.canvas.renderAll.bind(g.canvas),
-        });
-    });
-    let attack = document.getElementById("attack");
-    attack.addEventListener("click", function () {
-        let left = document.getElementById("left");
-        console.log((left.checked ? "p1" : "p2") + " attacks");
-        if (left.checked)
-            p1Attacks(g);
-        else
-            p2Attacks(g);
-    });
-    let clear = document.getElementById("clear");
-    clear.addEventListener("click", function () {
-        console.log("remove a player from the screen");
-        g.p1.animate('angle', '90', {
-            duration: 1000,
-            onChange: g.canvas.renderAll.bind(g.canvas),
-            onComplete: function () {
-                g.canvas.remove(g.p1);
-                g.canvas.remove(g.healthbar);
-            }
-        });
-    });
-    let text = document.getElementById("text");
-    text.addEventListener("click", function () {
-        console.log("display text over a player's head");
-        let dmg = new fabric.Text('20', {
-            fontSize: 30,
-            fill: 'red',
-            top: 100,
-            left: 100
-        });
-        g.canvas.add(dmg);
-        dmg.animate('top', '-=50', {
-            duration: 500,
-            onChange: g.canvas.renderAll.bind(g.canvas),
-            onComplete: function () {
-                g.canvas.remove(dmg);
-            }
-        });
-    });
-}
-function p1Attacks(g) {
-    g.p1.animate('left', '-=20', {
-        duration: 250,
-        onChange: g.canvas.renderAll.bind(g.canvas),
-        easing: fabric.util.ease['easeOutQuad'],
-        onComplete: function () {
-            g.p1.animate('left', '+=120', {
-                duration: 100,
-                easing: fabric.util.ease['easeInQuint'],
-                onChange: g.canvas.renderAll.bind(g.canvas),
-                onComplete: function () {
-                    g.p1.animate('left', 100, {
-                        duration: 200,
-                        onChange: g.canvas.renderAll.bind(g.canvas),
-                        easing: fabric.util.ease['easeOutQuint'],
-                    });
-                }
-            });
-        }
-    });
-}
-function p2Attacks(g) {
-    g.p2.animate('left', '+=20', {
-        duration: 250,
-        onChange: g.canvas.renderAll.bind(g.canvas),
-        easing: fabric.util.ease['easeOutQuad'],
-        onComplete: function () {
-            g.p2.animate('left', '-=120', {
-                duration: 100,
-                easing: fabric.util.ease['easeInQuint'],
-                onChange: g.canvas.renderAll.bind(g.canvas),
-                onComplete: function () {
-                    g.p2.animate('left', 350, {
-                        duration: 200,
-                        onChange: g.canvas.renderAll.bind(g.canvas),
-                        easing: fabric.util.ease['easeOutQuint'],
-                    });
-                }
-            });
-        }
-    });
-}
 
 
 /***/ }),
@@ -35349,14 +35236,217 @@ class Display {
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Display;
 
-class gameState {
+class GameState {
     constructor() {
+        this.art = [
+            "images/characters/axe.png",
+            "images/characters/sword.png",
+            "images/characters/daggers.png",
+            "images/characters/champion_alpha.png",
+        ];
         this.canvas = new fabric.Canvas('arena');
         this.img1 = new Image();
         this.img2 = new Image();
+        this.healthbar1Curr = new fabric.Rect({
+            left: 50,
+            top: 350,
+            fill: 'green',
+            height: 10,
+            width: 100
+        });
+        this.healthbar1Mis = new fabric.Rect({
+            left: 50,
+            top: 350,
+            fill: 'red',
+            height: 10,
+            width: 100
+        });
+        this.healthbar2Curr = new fabric.Rect({
+            left: 370,
+            top: 350,
+            fill: 'green',
+            height: 10,
+            width: 100
+        });
+        this.healthbar2Mis = new fabric.Rect({
+            left: 370,
+            top: 350,
+            fill: 'red',
+            height: 10,
+            width: 100
+        });
+    }
+    setArt(i, player) {
+        if (player == 1)
+            this.img1.src = this.art[i];
+        else
+            this.img2.src = this.art[i];
+    }
+    drawPlayers() {
+        console.log("drawing players");
+        if (this.p1)
+            this.canvas.remove(this.p1);
+        if (this.p2)
+            this.canvas.remove(this.p2);
+        this.setArt(this.message.characters[0].art, 1);
+        this.p1 = new fabric.Image(this.img1, {
+            left: 150,
+            top: 300,
+            originX: 'center',
+            originY: 'bottom'
+        });
+        if (this.p1)
+            this.canvas.remove(this.p1);
+        if (this.p2)
+            this.canvas.remove(this.p2);
+        this.p1.scaleToWidth(200);
+        this.canvas.add(this.p1);
+        this.setArt(this.message.characters[1].art, 2);
+        this.p2 = new fabric.Image(this.img2, {
+            left: 420,
+            top: 300,
+            flipX: true,
+            originX: 'center',
+            originY: 'bottom'
+        });
+        this.p2.scaleToWidth(200);
+        this.canvas.add(this.p2);
+        this.canvas.add(this.p1);
+        if (this.healthbar1Curr)
+            this.canvas.remove(this.healthbar1Curr);
+        if (this.healthbar2Curr)
+            this.canvas.remove(this.healthbar2Curr);
+        if (this.healthbar1Mis)
+            this.canvas.remove(this.healthbar1Mis);
+        if (this.healthbar2Mis)
+            this.canvas.remove(this.healthbar2Mis);
+        this.canvas.add(this.healthbar1Mis);
+        this.canvas.add(this.healthbar1Curr);
+        this.canvas.add(this.healthbar2Mis);
+        this.canvas.add(this.healthbar2Curr);
+    }
+    p1Attacks() {
+        this.p1.animate('left', '-=20', {
+            duration: 250,
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            easing: fabric.util.ease['easeOutQuad'],
+            onComplete: () => {
+                this.p1.animate('left', '+=120', {
+                    duration: 100,
+                    easing: fabric.util.ease['easeInQuint'],
+                    onChange: this.canvas.renderAll.bind(this.canvas),
+                    onComplete: () => {
+                        this.p1.animate('left', 150, {
+                            duration: 200,
+                            onChange: this.canvas.renderAll.bind(this.canvas),
+                            easing: fabric.util.ease['easeOutQuint'],
+                        });
+                    }
+                });
+            }
+        });
+    }
+    p2Attacks() {
+        this.p2.animate('left', '+=20', {
+            duration: 250,
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            easing: fabric.util.ease['easeOutQuad'],
+            onComplete: () => {
+                this.p2.animate('left', '-=120', {
+                    duration: 100,
+                    easing: fabric.util.ease['easeInQuint'],
+                    onChange: this.canvas.renderAll.bind(this.canvas),
+                    onComplete: () => {
+                        this.p2.animate('left', 420, {
+                            duration: 200,
+                            onChange: this.canvas.renderAll.bind(this.canvas),
+                            easing: fabric.util.ease['easeOutQuint'],
+                        });
+                    }
+                });
+            }
+        });
+    }
+    p1Death() {
+        this.p1.animate('angle', '90', {
+            duration: 800,
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: () => {
+                this.p1.animate('opacity', 0, {
+                    duration: 200,
+                    onChange: this.canvas.renderAll.bind(this.canvas),
+                    onComplete: () => {
+                        this.canvas.remove(this.p1);
+                        this.canvas.remove(this.healthbar1Curr);
+                        this.canvas.remove(this.healthbar1Mis);
+                    }
+                });
+            }
+        });
+    }
+    p2Death() {
+        this.p2.animate('angle', '-90', {
+            duration: 800,
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: () => {
+                this.p2.animate('opacity', 0, {
+                    duration: 200,
+                    onChange: this.canvas.renderAll.bind(this.canvas),
+                    onComplete: () => {
+                        this.canvas.remove(this.p2);
+                        this.canvas.remove(this.healthbar2Curr);
+                        this.canvas.remove(this.healthbar2Mis);
+                    }
+                });
+            }
+        });
+    }
+    p1Damage() {
+        let dmg = new fabric.Text('20', {
+            fontSize: 30,
+            fill: 'red',
+            top: 100,
+            left: 100
+        });
+        this.canvas.add(dmg);
+        dmg.animate('top', '-=50', {
+            duration: 500,
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: () => {
+                this.canvas.remove(dmg);
+            }
+        });
+    }
+    p2Damage() {
+        let dmg = new fabric.Text('20', {
+            fontSize: 30,
+            fill: 'red',
+            top: 100,
+            left: 420
+        });
+        this.canvas.add(dmg);
+        dmg.animate('top', '-=50', {
+            duration: 500,
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: () => {
+                this.canvas.remove(dmg);
+            }
+        });
+    }
+    p1healthbarChange() {
+        this.healthbar1Curr.animate('width', '-=10', {
+            duration: 200,
+            onChange: this.canvas.renderAll.bind(this.canvas),
+        });
+    }
+    p2healthbarChange() {
+        this.healthbar2Curr.animate('width', '-=10', {
+            duration: 200,
+            onChange: this.canvas.renderAll.bind(this.canvas),
+        });
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["b"] = gameState;
+/* harmony export (immutable) */ __webpack_exports__["b"] = GameState;
 
 
 
