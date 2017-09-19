@@ -130,7 +130,7 @@ function eventListeners(g: Display.gameState) {
 
         let dmg = new fabric.Text('20',{
             fontSize: 30,
-            fill: 'yellow',
+            fill: 'red',
             top: 100,
             left: 100
         });

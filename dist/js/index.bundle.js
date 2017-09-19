@@ -33126,7 +33126,7 @@ function eventListeners(g) {
         console.log("display text over a player's head");
         let dmg = new fabric.Text('20', {
             fontSize: 30,
-            fill: 'yellow',
+            fill: 'red',
             top: 100,
             left: 100
         });
