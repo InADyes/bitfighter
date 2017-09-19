@@ -33054,9 +33054,9 @@ function eventListeners(g) {
         g.img1.src = player1.art;
         g.p1 = new fabric.Image(g.img1, {
             left: 100,
-            top: 200,
+            top: 300,
             originX: 'center',
-            originY: 'center',
+            originY: 'bottom',
         });
         g.p1.scaleToWidth(200);
         let healthbar1Curr = new fabric.Rect({
