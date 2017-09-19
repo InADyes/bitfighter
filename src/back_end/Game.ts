@@ -1,12 +1,12 @@
-import * as buildDisplayReel from './buildDisplayReel';
-import { buildFightReel } from '../shared/buildFightReel';
+import * as buildGraphicsEvents from './buildGraphicsEvents';
+import { buildFightEvents } from '../shared/fight';
 import { pickCharacter } from '../shared/characterPicker';
 import { Stats } from '../shared/Status';
-import * as FightReel from '../shared/fightReel';
-import * as displayReel from '../shared/displayReel';
+import * as FightEvents from '../shared/fightEvents';
+import * as graphicsEvents from '../shared/graphicsEvents';
 import * as frontEndMessage from '../shared/frontEndMessage';
 import { Settings } from './backendSettings'
-import { applyFightReel } from '../shared/applyFightReel'
+import { applyFightEvents } from '../shared/applyFightEvents'
 
 import { Status } from '../shared/Status';
 
@@ -15,7 +15,7 @@ export class Game {
     private timeout: NodeJS.Timer | null = null; // null if no timeout
     private lastCombatants: Status[] = [];
     private lastResults: Status[] = [];
-    private lastReel: FightReel.Event[] = [];
+    private lastEvents: FightEvents.Event[] = [];
     private queue: Status[] = [];
     public settings: Settings = {
         delayBetweenFights: 3000,
@@ -45,12 +45,12 @@ export class Game {
 
                 this.insertEvents(
                     [
-                        new FightReel.DonationEvent(
+                        new FightEvents.DonationEvent(
                             patchTime,
                             combatantIndex,
-                            FightReel.DonationType.healing
+                            FightEvents.DonationType.healing
                         ),
-                        new FightReel.HealingEvent(
+                        new FightEvents.HealingEvent(
                             patchTime,
                             combatantIndex,
                             donation.amount * this.settings.donationToHPRatio
@@ -76,12 +76,12 @@ export class Game {
 
             this.insertEvents(
                 [
-                    new FightReel.DonationEvent(
+                    new FightEvents.DonationEvent(
                         patchTime,
                         0,
-                        FightReel.DonationType.damage
+                        FightEvents.DonationType.damage
                     ),
-                    new FightReel.DamageEvent(
+                    new FightEvents.DamageEvent(
                         patchTime,
                         0,
                         donation.amount * this.settings.donationToHPRatio
@@ -93,11 +93,11 @@ export class Game {
     }
 
     //only works when all new events have the same time
-    private insertEvents(insert: FightReel.Event[], patchTime: number) {
+    private insertEvents(insert: FightEvents.Event[], patchTime: number) {
         // set baseline to current timestamp
-        applyFightReel(
+        applyFightEvents(
             this.lastCombatants,
-            ...this.lastReel.filter(e => {
+            ...this.lastEvents.filter(e => {
                 return e.time < patchTime;
             })
         );
@@ -116,22 +116,22 @@ export class Game {
         });
 
         //apply new events
-        applyFightReel(tempStatus, ...insert);
+        applyFightEvents(tempStatus, ...insert);
 
         // caculate the rest of the events
-        let results = buildFightReel(tempStatus);
+        let results = buildFightEvents(tempStatus);
         results.reel.forEach(e => e.time += + 2000);
 
         // add the rest of the events to the old events
         insert.concat(results.reel);
-        this.lastReel = insert;
+        this.lastEvents = insert;
 
         this.pushLastResults(patchTime);
     }
 
     private nextFight() {
-        let fight: FightReel.Event[];
-        let display: displayReel.Event[];
+        let fight: FightEvents.Event[];
+        let display: graphicsEvents.Event[];
         
         if (this.timeout != null) {
             console.log('cannot start fight: fight already in progress');
@@ -144,18 +144,18 @@ export class Game {
         }
 
         this.lastCombatants = this.lastResults.concat(this.queue.splice(0, 2 - this.lastResults.length));
-        let result = buildFightReel(this.lastCombatants);
+        let result = buildFightEvents(this.lastCombatants);
         result.reel.forEach(e => e.time *= this.settings.gameSpeedMultipier);
         this.lastResults = result.combatants;
         this.fightStartTime = performance.now();
-        this.lastReel = result.reel;
+        this.lastEvents = result.reel;
 
         this.pushLastResults();
     }
 
     private pushLastResults(patchTime?: number) {
         
-        let displayReel = buildDisplayReel.build(this.lastReel);
+        let graphicsEvents = buildGraphicsEvents.build(this.lastEvents);
 
         this.sendFightMessage({
             characters: this.lastCombatants.map(c => {
@@ -165,7 +165,7 @@ export class Game {
                     art: c.character
                 }
             }),
-            reel: displayReel,
+            reel: graphicsEvents,
             patch: patchTime
         });
         
@@ -180,7 +180,7 @@ export class Game {
                 this.timeout = null;
                 this.nextFight();
             },
-            displayReel[displayReel.length - 1].time + this.settings.delayBetweenFights
+            graphicsEvents[graphicsEvents.length - 1].time + this.settings.delayBetweenFights
         );
     }
 }

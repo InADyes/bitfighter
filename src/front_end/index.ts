@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     break;
                 }
                 console.log(str);
-                display.newReel(<Message>JSON.parse(str));
+                display.newEvents(<Message>JSON.parse(str));
                 break;
             default:
                 console.error('unidentified storage event');

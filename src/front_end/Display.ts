@@ -1,8 +1,8 @@
-import * as Reel from '../shared/displayReel';
+import * as Events from '../shared/graphicsEvents';
 import { Message } from '../shared/frontEndMessage';
 
 export class Display {
-    public newReel(message: Message) {
+    public newEvents(message: Message) {
         console.log('new reel:', message);
     }
 }

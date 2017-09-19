@@ -1,12 +1,12 @@
-import * as FightReel from './fightReel';
+import * as FightEvents from './fightEvents';
 import { Combatant } from './Combatant';
 import { Status } from '../shared/Status';
-import { applyFightReel } from './applyFightReel';
+import { applyFightEvents } from './applyFightEvents';
 import { otherCharacter } from './utility';
 
-export function buildFightReel(stats: Status[]) {
+export function buildFightEvents(stats: Status[]) {
     let everyoneAlive = true;
-    const reel: FightReel.Event[] = [];
+    const reel: FightEvents.Event[] = [];
 
     const newStats = stats.map(s => new Status(
             s.id, //getto deep clone
@@ -23,15 +23,15 @@ export function buildFightReel(stats: Status[]) {
         s,
         index,
         event => {
-            applyFightReel(newStats, event);
+            applyFightEvents(newStats, event);
             reel.push(event);
-            if (event.type == FightReel.EventType.death) {
+            if (event.type == FightEvents.EventType.death) {
                 everyoneAlive = false;
-                let levelEvent = new FightReel.LevelUpEvent(
+                let levelEvent = new FightEvents.LevelUpEvent(
                     event.time,
                     otherCharacter(event.character)
                 );
-                applyFightReel(newStats, levelEvent);
+                applyFightEvents(newStats, levelEvent);
                 reel.push(levelEvent);
             }
         },
@@ -43,7 +43,7 @@ export function buildFightReel(stats: Status[]) {
 
     if (combatants.length < 2) {
         console.error('not enough combatants to fight');
-        return {status, reel};
+        return {combatants: stats, reel};
     }
 
     while (everyoneAlive) {

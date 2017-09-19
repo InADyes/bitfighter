@@ -1,4 +1,4 @@
-import * as displayReel from './displayReel';
+import * as graphicsEvents from './graphicsEvents';
 
 // what gets sent to the front end
 
@@ -8,6 +8,6 @@ export interface Message {
         hitPoints: number;
         art: number;
     }[];
-    reel:  displayReel.Event[];
+    reel:  graphicsEvents.Event[];
     patch?: number; // if this is defined then the reel is a patch at the specified time
 }

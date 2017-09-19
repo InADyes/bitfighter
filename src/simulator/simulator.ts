@@ -1,9 +1,9 @@
 // node
 import * as process from 'process';
 // internal
-import * as Fight from '../shared/buildFightReel';
+import * as Fight from '../shared/fight';
 import * as characterPicker from '../shared/characterPicker';
-import * as FightReel from '../shared/fightReel';
+import * as FightEvents from '../shared/fightEvents';
 
 class Results {
     hits = 0;
@@ -68,30 +68,29 @@ function testPair(
     ];
 
     for (let i = 0; i < fights; i++) {
-        const {reel} = Fight.buildFightReel([chars[0], chars[1]]);
+        const {reel} = Fight.buildFightEvents([chars[0], chars[1]]);
 
         for (const event of reel) {
             switch (event.type) {
-                case FightReel.EventType.damage:
-                    results[other(event.character)].total_damage += (<FightReel.DamageEvent>event).amount;
+                case FightEvents.EventType.damage:
+                    results[other(event.character)].total_damage += (<FightEvents.DamageEvent>event).amount;
                     results[other(event.character)].hits++;
                     break;
-                case FightReel.EventType.dodge:
+                case FightEvents.EventType.dodge:
                     results[other(event.character)].miss++;
                     break;
-                case FightReel.EventType.healing:
+                case FightEvents.EventType.healing:
 
                     break;
-                case FightReel.EventType.death:
+                case FightEvents.EventType.death:
                     results[event.character].losses++;
                     results[other(event.character)].wins++;
                     break;
-                case FightReel.EventType.crit:
+                case FightEvents.EventType.crit:
                     results[other(event.character)].crits++;
                     break;
                 default:
-                    console.log('bad event type');
-                    process.exit();
+                    break;
             }
         }
     }
