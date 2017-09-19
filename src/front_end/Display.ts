@@ -31,6 +31,34 @@ export class GameState {
 		this.canvas =	new fabric.Canvas('arena'); // USE StaticCanvas for noninteractive
 		this.img1 =		new Image();
 		this.img2 =		new Image();
+		this.healthbar1Curr = new fabric.Rect({
+            left: 50,
+            top: 350,
+            fill: 'green',
+            height: 10,
+            width: 100
+        });
+        this.healthbar1Mis = new fabric.Rect({
+            left: 50,
+            top: 350,
+            fill: 'red',
+            height: 10,
+            width: 100
+		});
+		this.healthbar2Curr = new fabric.Rect({
+            left: 370,
+            top: 350,
+            fill: 'green',
+            height: 10,
+            width: 100
+        });
+        this.healthbar2Mis = new fabric.Rect({
+            left: 370,
+            top: 350,
+            fill: 'red',
+            height: 10,
+            width: 100
+		});
 	}
 
 	public setArt(i: number, player: number) {
@@ -66,44 +94,10 @@ export class GameState {
         });
         this.p2.scaleToWidth(200);
         this.canvas.add(this.p2);
-    
-       this.healthbar1Curr = new fabric.Rect({
-            left: 50,
-            top: 350,
-            fill: 'green',
-            height: 10,
-            width: 100
-        });
-       
-        this.healthbar1Mis = new fabric.Rect({
-            left: 50,
-            top: 350,
-            fill: 'red',
-            height: 10,
-            width: 100
-		});
-		
-		this.healthbar2Curr = new fabric.Rect({
-            left: 370,
-            top: 350,
-            fill: 'green',
-            height: 10,
-            width: 100
-        });
-       
-        this.healthbar2Mis = new fabric.Rect({
-            left: 370,
-            top: 350,
-            fill: 'red',
-            height: 10,
-            width: 100
-		});
-		
         this.canvas.add(this.healthbar1Mis);
 		this.canvas.add(this.healthbar1Curr);
 		this.canvas.add(this.healthbar2Mis);
         this.canvas.add(this.healthbar2Curr);
-
 	}
 
 	public p1Attacks () {
