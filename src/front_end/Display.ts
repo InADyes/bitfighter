@@ -12,10 +12,8 @@ export class Display {
 export class GameState {
 	public	canvas:			fabric.Canvas;
 	public	message:		any;
-	private img1:			HTMLImageElement;
-	private img2:			HTMLImageElement;
-	private p1:				fabric.Image;
-	private p2:				fabric.Image;
+	private p1:				fabric.Object;
+	private p2:				fabric.Object;
 	private healthbar1Curr: fabric.Rect;
 	private healthbar1Mis:	fabric.Rect;
 	private healthbar2Curr: fabric.Rect;
@@ -27,45 +25,38 @@ export class GameState {
     	"images/characters/champion_alpha.png",
 	]
 
-	constructor() {
-		this.canvas =	new fabric.Canvas('arena'); // USE StaticCanvas for noninteractive
-		this.img1 =		new Image();
-		this.img2 =		new Image();
-		this.healthbar1Curr = new fabric.Rect({
+	constructor(message: any) {
+		console.log(message);
+		this.message =			message;
+		this.canvas =			new fabric.Canvas('arena'); // USE StaticCanvas for noninteractive
+		this.healthbar1Curr = 	new fabric.Rect({
             left: 50,
             top: 350,
             fill: 'green',
             height: 10,
             width: 100
         });
-        this.healthbar1Mis = new fabric.Rect({
+        this.healthbar1Mis = 	new fabric.Rect({
             left: 50,
             top: 350,
             fill: 'red',
             height: 10,
             width: 100
 		});
-		this.healthbar2Curr = new fabric.Rect({
+		this.healthbar2Curr = 	new fabric.Rect({
             left: 370,
             top: 350,
             fill: 'green',
             height: 10,
             width: 100
         });
-        this.healthbar2Mis = new fabric.Rect({
+        this.healthbar2Mis = 	new fabric.Rect({
             left: 370,
             top: 350,
             fill: 'red',
             height: 10,
             width: 100
 		});
-	}
-
-	public setArt(i: number, player: number) {
-		if (player == 1)
-			this.img1.src = this.art[i];
-		else
-			this.img2.src = this.art[i];
 	}
 
 	public drawPlayers () {
@@ -73,32 +64,30 @@ export class GameState {
 		if (this.p1)
             this.canvas.remove(this.p1);
         if (this.p2)
-			this.canvas.remove(this.p2);
-        this.setArt(this.message.characters[0].art, 1)
-        this.p1 = new fabric.Image(this.img1, {
-            left: 150,
-			top: 300,
-			originX: 'center',
-			originY: 'bottom'
+            this.canvas.remove(this.p2);
+		new fabric.Image.fromURL(this.art[this.message.characters[0].art], (oImg: fabric.Image) => {
+			this.p1 = oImg.set({
+				left: 150,
+				top: 300,
+				originX: 'center',
+				originY: 'bottom'
+			});
+			this.p1.scaleToWidth(200);
+			this.canvas.add(this.p1);
 		});
-		
-        this.p1.scaleToWidth(200);
+		new fabric.Image.fromURL(this.art[this.message.characters[1].art], (oImg: fabric.Image) => {
+			this.p2 = oImg.set({
+				left: 420,
+				top: 300,
+				originX: 'center',
+				originY: 'bottom',
+				flipX: true
+			});
+			this.p2.scaleToWidth(200);
+			this.canvas.add(this.p2);
+		});
 
-		this.setArt(this.message.characters[1].art, 2);
-        this.p2 = new fabric.Image(this.img2, {
-            left: 420,
-            top: 300,
-			flipX: true,
-			originX: 'center',
-			originY: 'bottom'
-        });
-		this.p2.scaleToWidth(200);
-		
-		
-		this.canvas.add(this.p1);
-		this.canvas.add(this.p2);
-		
-		//healthbar
+        // Draw the health bars
 		if (this.healthbar1Curr)
             this.canvas.remove(this.healthbar1Curr);
         if (this.healthbar2Curr)
@@ -111,6 +100,7 @@ export class GameState {
 		this.canvas.add(this.healthbar1Curr);
 		this.canvas.add(this.healthbar2Mis);
         this.canvas.add(this.healthbar2Curr);
+        this.canvas.renderAll();
 	}
 
 	public p1Attacks () {
@@ -157,7 +147,7 @@ export class GameState {
 	}
 	public p1Death(){
 		this.p1.animate('angle','90',{
-            duration: 800,
+            duration: 700,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
 				this.p1.animate('opacity', 0,{
@@ -174,7 +164,7 @@ export class GameState {
 	}
 	public p2Death(){
 		this.p2.animate('angle','-90',{
-            duration: 800,
+            duration: 700,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 this.p2.animate('opacity', 0,{
@@ -239,6 +229,12 @@ export class GameState {
 	}
 }
 
+function sleep(duration: number) {
+	return new Promise((resolve) => {
+		setTimeout(resolve, duration);
+	})
+}
+
 // until we get taras' art i guess
 export const enum Art {
 	axe,
@@ -248,6 +244,6 @@ export const enum Art {
 }
 
 export const enum Side {
-	left,
-	right,
+	player1,
+	player2,
 }

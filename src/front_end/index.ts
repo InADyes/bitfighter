@@ -5,7 +5,6 @@ import { Message } from '../shared/frontEndMessage';
 import * as Reel from '../shared/displayReel'
 
 document.addEventListener("DOMContentLoaded", function(){
-    let gameState = new Display.GameState;
     let message = {
         characters: [{
                 name: "hao",
@@ -17,12 +16,14 @@ document.addEventListener("DOMContentLoaded", function(){
                 art: Display.Art.daggers,
             }]
     };
+    let gameState = new Display.GameState(message);
+    
     eventListeners(gameState, message);
     let currentTarget = <HTMLInputElement>document.getElementById("left");
 
-    gameState.message = message;
+    //gameState.drawPlayers();
     let display = new Display.Display;
-
+    //gameState.setArt();
     //gameState.drawPlayers();
     /*window.addEventListener('storage', (e) => {
         console.log(e)
@@ -47,7 +48,6 @@ document.addEventListener("DOMContentLoaded", function(){
         let draw = <HTMLButtonElement>document.getElementById("draw");
         draw.addEventListener("click", function() {
              g.drawPlayers();
-             
         });
 
         let health = <HTMLButtonElement>document.getElementById("health");
