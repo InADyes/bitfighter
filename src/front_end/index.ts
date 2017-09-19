@@ -9,7 +9,7 @@ import * as Reel from '../shared/displayReel'
 
 document.addEventListener("DOMContentLoaded", function(){
     let gameState = new Display.GameState;
-
+    let currentTarget = <HTMLInputElement>document.getElementById("left");
     let message = {
         characters: [{
                 name: "hao",
@@ -43,17 +43,22 @@ document.addEventListener("DOMContentLoaded", function(){
                 console.error('unidentified storage event');
         }
     });
-});
+
 
 function eventListeners(g: Display.GameState, message: any) {
     let draw = <HTMLButtonElement>document.getElementById("draw");
     draw.addEventListener("click", function() {
          g.drawPlayers(message);
+         
     });
 
     let health = <HTMLButtonElement>document.getElementById("health");
     health.addEventListener("click", function() {
         console.log("change a player's health");
+        if (currentTarget.checked)
+            g.p1healthbarChange();
+        else
+            g.p2healthbarChange();
         /* move this to Display.ts
         Say something like "g.healthBar"
          g.healthbar.animate('width','-=10', {
@@ -64,9 +69,9 @@ function eventListeners(g: Display.GameState, message: any) {
 
     let attack = <HTMLButtonElement>document.getElementById("attack");
     attack.addEventListener("click", function() {
-        let left = <HTMLInputElement>document.getElementById("left");
-        console.log((left.checked ? "p1" : "p2") + " attacks");
-        if (left.checked)
+        //let left = <HTMLInputElement>document.getElementById("left");
+        console.log((currentTarget.checked ? "p1" : "p2") + " attacks");
+        if (currentTarget.checked)
             g.p1Attacks();
         else
             g.p2Attacks();
@@ -74,6 +79,10 @@ function eventListeners(g: Display.GameState, message: any) {
     let clear = <HTMLDivElement>document.getElementById("clear");
     clear.addEventListener("click", function() {
         console.log("remove a player from the screen");
+        if (currentTarget.checked)
+            g.p1Death();
+        else
+            g.p2Death();
         /*move this to Display.ts
         Say something like "g.p1Dies()" and "g.p2Dies()"
         g.p1.animate('angle','90',{
@@ -89,7 +98,10 @@ function eventListeners(g: Display.GameState, message: any) {
     let text = <HTMLDivElement>document.getElementById("text");
     text.addEventListener("click", function() {
         console.log("display text over a player's head");
-
+        if (currentTarget.checked)
+            g.p1Damage();
+        else
+            g.p2Damage();
         /* move this to Display.ts
         say something like "g.text()"
         let dmg = new fabric.Text('20',{
@@ -109,3 +121,4 @@ function eventListeners(g: Display.GameState, message: any) {
         });*/
     });
 }
+});
