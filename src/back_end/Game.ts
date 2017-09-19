@@ -6,7 +6,7 @@ import * as FightReel from '../shared/fightReel';
 import * as displayReel from '../shared/displayReel';
 import * as frontEndMessage from '../shared/frontEndMessage';
 import { Settings } from './backendSettings'
-import { applyFightReel } from './applyFightReel'
+import { applyFightReel } from '../shared/applyFightReel'
 
 import { Status } from '../shared/Status';
 
@@ -30,13 +30,6 @@ export class Game {
     ) {
         if (settings)
             this.settings = settings;
-    }
-
-    private addCombatant(donation: {id: number, name: string, amount: number, character: number}) {
-        this.queue.push(pickCharacter(donation))
-        console.log('new combatant added to queue');
-
-        this.nextFight();
     }
 
     public donation(donation: {id: number, name: string, amount: number, character: number}) {
@@ -71,7 +64,8 @@ export class Game {
 
         if (this.queue.some(s => {return s.id === donation.id;}) === false
             && donation.amount >= this.settings.minimumDonation) {
-            this.addCombatant(donation);
+            this.queue.push(pickCharacter(donation))
+            this.nextFight();
             return;
         }
 
@@ -103,7 +97,7 @@ export class Game {
         // set baseline to current timestamp
         applyFightReel(
             this.lastCombatants,
-            this.lastReel.filter(e => {
+            ...this.lastReel.filter(e => {
                 return e.time < patchTime;
             })
         );
@@ -122,7 +116,7 @@ export class Game {
         });
 
         //apply new events
-        applyFightReel(tempStatus, insert);
+        applyFightReel(tempStatus, ...insert);
 
         // caculate the rest of the events
         let results = buildFightReel(tempStatus);

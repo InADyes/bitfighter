@@ -37,16 +37,21 @@ export class Combatant {
         this.status.checkBuffs(this.time);
     
         const total = accuracy + this.status.stats.dodge;
-        const damageRoll = Math.ceil(Math.random() * total);
+        const hitChangeRoll = Math.ceil(Math.random() * total);
+
+
+        // console.log(`total: ${ total }`);
+        // console.log(`hitChangeRoll: ${ hitChangeRoll }`);
+        // console.log();
     
-        if (damageRoll > accuracy) {
+        if (hitChangeRoll > accuracy) {
             this.newEvent(new fightReel.DodgeEvent(this.time, this.index));
             return;
         }
 
         if (Math.ceil(Math.random() * 100) >= critChance) {
             damage = damage * 5 - this.status.stats.armor;
-            this.status.addEffect(this.time + critDebuff.duration, critDebuff);
+            //this.status.addEffect(this.time + critDebuff.duration, critDebuff);
             this.newEvent(new fightReel.CritEvent(this.time, this.index, critDebuff));
         } else
             damage -= this.status.stats.armor; //applied here so that armor is calculated before the buff is applied when there is a crit
@@ -55,7 +60,7 @@ export class Combatant {
             damage = 0;
         else if (damage > this.status.hitPoints)
             damage = this.status.stats.maxHitPoints;
-        this.status.hitPoints -= damage;
+        //this.status.hitPoints -= damage;
         this.newEvent(new fightReel.DamageEvent(this.time, this.index, damage));
             
         if (this.status.hitPoints <= 0)
@@ -69,7 +74,7 @@ export class Combatant {
         if (healingAmount + this.status.hitPoints > 1000)
             healingAmount = 1000 - this.status.hitPoints;
 
-        this.status.hitPoints += this.status.stats.regeneration * 1000;
+        //this.status.hitPoints += this.status.stats.regeneration;
         this.newEvent(new fightReel.HealingEvent(this.time, this.index, healingAmount));
     }
     public isDead() {

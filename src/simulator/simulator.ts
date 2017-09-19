@@ -65,14 +65,9 @@ function other(char: number) {
 }
 
 for (let i = 0; i < fights; i++) {
-    let reel = Fight.buildFightReel([chars[0], chars[1]]);
+    const {reel} = Fight.buildFightReel([chars[0], chars[1]]);
 
-    if (reel == undefined) {
-        process.exit();
-        break; //typescript does not recognise process.exit()
-    }
-
-    for (let event of reel.reel) {
+    for (const event of reel) {
         switch (event.type) {
             case FightReel.EventType.damage:
                 results[other(event.character)].total_damage += (<FightReel.DamageEvent>event).amount;

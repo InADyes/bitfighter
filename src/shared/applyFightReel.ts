@@ -3,7 +3,7 @@ import { Status } from '../shared/Status';
 
 export function applyFightReel(
     status: Status[],
-    reel: FightReel.Event[]
+    ...reel: FightReel.Event[]
 ) {
     for (let event of reel) {
         switch (event.type) {
