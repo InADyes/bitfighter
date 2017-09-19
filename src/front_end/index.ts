@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function(){
     gameState.message = message;
     let display = new Display.Display;
 
+    gameState.drawPlayers();
     /*window.addEventListener('storage', (e) => {
         console.log(e)
         switch(e.key) {
