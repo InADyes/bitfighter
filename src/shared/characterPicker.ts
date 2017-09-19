@@ -9,7 +9,7 @@ interface Character {
     character: string
 }
 
-export let characters: Character[] = [
+export const characters: Character[] = [
     {
         stats: { 
             maxHitPoints: 1000,
@@ -411,7 +411,8 @@ export let characters: Character[] = [
     } // 18: Phoenix
 ];
 
-let rarityLevel = [
+// starting level of rarities
+const rarityLevel = [
     1, // common
     3, // uncommon
     5, // rare
@@ -420,12 +421,12 @@ let rarityLevel = [
 
 interface Level {
     //level: number;
-    bits: number;
-    accuracy: number;
-    dodge: number;
+    readonly bits: number;
+    readonly accuracy: number;
+    readonly dodge: number;
 };
 
-let levels: Level[] = [
+export const levels: Level[] = [
     {
         //level: 1,
         bits: 200, //todo: change to let streamer options define starting bit values
