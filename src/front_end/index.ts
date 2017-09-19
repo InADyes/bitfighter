@@ -24,8 +24,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
     gameState.message = message;
     let display = new Display.Display;
-
-    gameState.drawPlayers();
+    //gameState.setArt();
+    //gameState.drawPlayers();
     /*window.addEventListener('storage', (e) => {
         console.log(e)
         switch(e.key) {
@@ -49,7 +49,6 @@ document.addEventListener("DOMContentLoaded", function(){
         let draw = <HTMLButtonElement>document.getElementById("draw");
         draw.addEventListener("click", function() {
              g.drawPlayers();
-             
         });
 
         let health = <HTMLButtonElement>document.getElementById("health");

@@ -61,11 +61,28 @@ export class GameState {
 		});
 	}
 
-	public setArt(i: number, player: number) {
-		if (player == 1)
-			this.img1.src = this.art[i];
-		else
-			this.img2.src = this.art[i];
+	private setArt() {
+		this.img1.src = this.art[this.message.characters[0].art];
+		this.img2.src = this.art[this.message.characters[1].art];
+		this.p1 = new fabric.Image(this.img1, {
+	            left: 150,
+				top: 300,
+				originX: 'center',
+				originY: 'bottom'
+	        });
+        this.p2 = new fabric.Image(this.img2, {
+            left: 420,
+            top: 300,
+			flipX: true,
+			originX: 'center',
+			originY: 'bottom'
+        });
+        // Wait 1.1 milliseconds for the image to load
+        // Some stupid async stuff. setTimeout(10) doesn't load the images in time.
+		return (new Promise((resolve)=>{
+			setTimeout(resolve, 11);
+		}));
+
 	}
 
 	public drawPlayers () {
@@ -74,38 +91,28 @@ export class GameState {
             this.canvas.remove(this.p1);
         if (this.p2)
             this.canvas.remove(this.p2);
-        this.setArt(this.message.characters[0].art, 1)
-        this.p1 = new fabric.Image(this.img1, {
-            left: 150,
-			top: 300,
-			originX: 'center',
-			originY: 'bottom'
-        });
-        this.p1.scaleToWidth(200);
-        this.canvas.add(this.p1);
-
-		this.setArt(this.message.characters[1].art, 2);
-        this.p2 = new fabric.Image(this.img2, {
-            left: 420,
-            top: 300,
-			flipX: true,
-			originX: 'center',
-			originY: 'bottom'
-        });
-        this.p2.scaleToWidth(200);
-        this.canvas.add(this.p2);
-		if (this.healthbar1Curr)
-            this.canvas.remove(this.healthbar1Curr);
-        if (this.healthbar2Curr)
-			this.canvas.remove(this.healthbar2Curr);
-		if (this.healthbar1Mis)
-            this.canvas.remove(this.healthbar1Mis);
-        if (this.healthbar2Mis)
-            this.canvas.remove(this.healthbar2Mis);
-        this.canvas.add(this.healthbar1Mis);
-		this.canvas.add(this.healthbar1Curr);
-		this.canvas.add(this.healthbar2Mis);
-        this.canvas.add(this.healthbar2Curr);
+        // Load the images first.then draw them
+        this.setArt().then( () => {
+            this.p1.scaleToWidth(200);
+	        this.p2.scaleToWidth(200);
+	        this.canvas.add(this.p1);
+	        this.canvas.add(this.p2);
+	        
+	        // Draw the health bars
+			if (this.healthbar1Curr)
+	            this.canvas.remove(this.healthbar1Curr);
+	        if (this.healthbar2Curr)
+				this.canvas.remove(this.healthbar2Curr);
+			if (this.healthbar1Mis)
+	            this.canvas.remove(this.healthbar1Mis);
+	        if (this.healthbar2Mis)
+	            this.canvas.remove(this.healthbar2Mis);
+	        this.canvas.add(this.healthbar1Mis);
+			this.canvas.add(this.healthbar1Curr);
+			this.canvas.add(this.healthbar2Mis);
+	        this.canvas.add(this.healthbar2Curr);
+	        this.canvas.renderAll();
+		})
 	}
 
 	public p1Attacks () {
@@ -231,6 +238,6 @@ export const enum Art {
 }
 
 export const enum Side {
-	left,
-	right,
+	player1,
+	player2,
 }
