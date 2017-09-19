@@ -6,7 +6,7 @@ interface Character {
     rarity: number,
     critDebuff?: Buff.Buff,
     critBuff?: Buff.Buff,
-    character: string
+    name: string
 }
 
 export const characters: Character[] = [
@@ -29,7 +29,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Scullary Maid'
+        name: 'Scullary Maid'
     }, // 0: scullary maid
     {
         stats: { 
@@ -50,7 +50,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Farmer'
+        name: 'Farmer'
     }, // 1: Farmer
     {
         stats: { 
@@ -71,7 +71,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Barkeep'
+        name: 'Barkeep'
     }, // 2: Barkeep
     {
         stats: { 
@@ -92,7 +92,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Street Urchin'
+        name: 'Street Urchin'
     }, // 3: Street Urchin
     {
         stats: { 
@@ -113,7 +113,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Aristocrat'
+        name: 'Aristocrat'
     }, // 4: Aristocrat
     {
         stats: { 
@@ -134,7 +134,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Minstrel'
+        name: 'Minstrel'
     }, // 5: Minstrel
     {
         stats: { 
@@ -155,7 +155,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Mage'
+        name: 'Mage'
     }, // 6: Mage
     {
         stats: { 
@@ -176,7 +176,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Rogue'
+        name: 'Rogue'
     }, // 7: Rogue
     {
         stats: { 
@@ -197,7 +197,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Gladiator'
+        name: 'Gladiator'
     }, // 8: Gladiator
     {
         stats: { 
@@ -218,7 +218,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Barbarian'
+        name: 'Barbarian'
     }, // 9: Barbarian
     {
         stats: { 
@@ -239,7 +239,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Priest'
+        name: 'Priest'
     }, // 10: War Priest
     {
         stats: { 
@@ -260,7 +260,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Werewolf'
+        name: 'Werewolf'
     }, // 11: Werewolf
     {
         stats: { 
@@ -281,7 +281,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Warlock'
+        name: 'Warlock'
     }, // 12: Warlock
     {
         stats: { 
@@ -302,7 +302,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Paladin'
+        name: 'Paladin'
     }, // 13: Paladin
     {
         stats: { 
@@ -323,7 +323,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Swashbuckler'
+        name: 'Swashbuckler'
     }, // 14: Swashbuckler
     {
         stats: { 
@@ -344,7 +344,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Dragon'
+        name: 'Dragon'
     }, //15: Dragon
     {
         stats: { 
@@ -365,7 +365,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Angel'
+        name: 'Angel'
     }, //16: Angel
     {
         stats: { 
@@ -386,7 +386,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Lich'
+        name: 'Lich'
     }, // 17: Lich
     {
         stats: { 
@@ -407,7 +407,7 @@ export const characters: Character[] = [
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        character: 'Phoenix'
+        name: 'Phoenix'
     } // 18: Phoenix
 ];
 
