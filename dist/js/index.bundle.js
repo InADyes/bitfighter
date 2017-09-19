@@ -33013,7 +33013,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    let gameState = new __WEBPACK_IMPORTED_MODULE_1__Display__["b" /* GameState */];
     let message = {
         characters: [{
                 name: "hao",
@@ -33025,11 +33024,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 art: 2,
             }]
     };
+    let gameState = new __WEBPACK_IMPORTED_MODULE_1__Display__["b" /* GameState */](message);
     eventListeners(gameState, message);
     let currentTarget = document.getElementById("left");
-    gameState.message = message;
     let display = new __WEBPACK_IMPORTED_MODULE_1__Display__["a" /* Display */];
-    gameState.drawPlayers();
     function eventListeners(g, message) {
         let draw = document.getElementById("draw");
         draw.addEventListener("click", function () {
@@ -35237,16 +35235,16 @@ class Display {
 /* harmony export (immutable) */ __webpack_exports__["a"] = Display;
 
 class GameState {
-    constructor() {
+    constructor(message) {
         this.art = [
             "images/characters/axe.png",
             "images/characters/sword.png",
             "images/characters/daggers.png",
             "images/characters/champion_alpha.png",
         ];
+        console.log(message);
+        this.message = message;
         this.canvas = new fabric.Canvas('arena');
-        this.img1 = new Image();
-        this.img2 = new Image();
         this.healthbar1Curr = new fabric.Rect({
             left: 50,
             top: 350,
@@ -35276,42 +35274,33 @@ class GameState {
             width: 100
         });
     }
-    setArt(i, player) {
-        if (player == 1)
-            this.img1.src = this.art[i];
-        else
-            this.img2.src = this.art[i];
-    }
     drawPlayers() {
         console.log("drawing players");
         if (this.p1)
             this.canvas.remove(this.p1);
         if (this.p2)
             this.canvas.remove(this.p2);
-        this.setArt(this.message.characters[0].art, 1);
-        this.p1 = new fabric.Image(this.img1, {
-            left: 150,
-            top: 300,
-            originX: 'center',
-            originY: 'bottom'
+        new fabric.Image.fromURL(this.art[this.message.characters[0].art], (oImg) => {
+            this.p1 = oImg.set({
+                left: 150,
+                top: 300,
+                originX: 'center',
+                originY: 'bottom'
+            });
+            this.p1.scaleToWidth(200);
+            this.canvas.add(this.p1);
         });
-        if (this.p1)
-            this.canvas.remove(this.p1);
-        if (this.p2)
-            this.canvas.remove(this.p2);
-        this.p1.scaleToWidth(200);
-        this.canvas.add(this.p1);
-        this.setArt(this.message.characters[1].art, 2);
-        this.p2 = new fabric.Image(this.img2, {
-            left: 420,
-            top: 300,
-            flipX: true,
-            originX: 'center',
-            originY: 'bottom'
+        new fabric.Image.fromURL(this.art[this.message.characters[1].art], (oImg) => {
+            this.p2 = oImg.set({
+                left: 420,
+                top: 300,
+                originX: 'center',
+                originY: 'bottom',
+                flipX: true
+            });
+            this.p2.scaleToWidth(200);
+            this.canvas.add(this.p2);
         });
-        this.p2.scaleToWidth(200);
-        this.canvas.add(this.p2);
-        this.canvas.add(this.p1);
         if (this.healthbar1Curr)
             this.canvas.remove(this.healthbar1Curr);
         if (this.healthbar2Curr)
@@ -35324,6 +35313,7 @@ class GameState {
         this.canvas.add(this.healthbar1Curr);
         this.canvas.add(this.healthbar2Mis);
         this.canvas.add(this.healthbar2Curr);
+        this.canvas.renderAll();
     }
     p1Attacks() {
         this.p1.animate('left', '-=20', {
@@ -35369,7 +35359,7 @@ class GameState {
     }
     p1Death() {
         this.p1.animate('angle', '90', {
-            duration: 800,
+            duration: 700,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 this.p1.animate('opacity', 0, {
@@ -35386,7 +35376,7 @@ class GameState {
     }
     p2Death() {
         this.p2.animate('angle', '-90', {
-            duration: 800,
+            duration: 700,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 this.p2.animate('opacity', 0, {
@@ -35448,6 +35438,11 @@ class GameState {
 }
 /* harmony export (immutable) */ __webpack_exports__["b"] = GameState;
 
+function sleep(duration) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, duration);
+    });
+}
 
 
 /***/ })
