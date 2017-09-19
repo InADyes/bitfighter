@@ -5,6 +5,9 @@ import { Message } from '../shared/frontEndMessage';
 import * as Reel from '../shared/displayReel'
 
 document.addEventListener("DOMContentLoaded", function(){
+    let gameState = new Display.GameState();
+
+    //////////////// TEMPORARY STUFF /////////////////
     let message = {
         characters: [{
                 name: "hao",
@@ -16,13 +19,16 @@ document.addEventListener("DOMContentLoaded", function(){
                 art: Display.Art.daggers,
             }]
     };
-    let gameState = new Display.GameState(message);
-    
-    eventListeners(gameState, message);
+    gameState.message = message;
+    eventListeners(gameState, gameState.message);
     let currentTarget = <HTMLInputElement>document.getElementById("left");
+    //////////////////////////////////////////////////
 
     gameState.drawPlayers();
     let display = new Display.Display;
+
+    // 
+
     //gameState.setArt();
     //gameState.drawPlayers();
     /*window.addEventListener('storage', (e) => {
@@ -43,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function(){
     });*/
 
 
-    // TEMPORARY BUTTONS. DELETE ALL THIS LATER ////////
+    // TEMPORARY BUTTONS. DELETE ALL THIS LATER ///////////////////////
     function eventListeners(g: Display.GameState, message: any) {
         let draw = <HTMLButtonElement>document.getElementById("draw");
         draw.addEventListener("click", function() {
@@ -83,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function(){
             else
                 g.p2Damage();
         });
-   }
-    ///////////////////////////////////////////////////
+    }
+    /////////////////////////////////////////////////////////////////
 });
 

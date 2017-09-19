@@ -49,8 +49,7 @@ export class GameState {
 	public	message:		any;
 
 
-	constructor(message: any) {
-		console.log(message);
+	constructor() {
 		this.message =			message;
 		this.canvas =			new fabric.Canvas('arena'); // USE StaticCanvas for noninteractive
 		this.healthbar1Curr = 	new fabric.Rect({
