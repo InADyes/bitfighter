@@ -10,16 +10,16 @@ export class Display {
 }
 
 export class GameState {
-	public	canvas:	fabric.Canvas;
-	private img1:	HTMLImageElement;
-	private img2:	HTMLImageElement;
-	private p1:		fabric.Image;
-	private p2:		fabric.Image;
+	public	canvas:			fabric.Canvas;
+	public	message:		object;
+	private img1:			HTMLImageElement;
+	private img2:			HTMLImageElement;
+	private p1:				fabric.Image;
+	private p2:				fabric.Image;
 	private healthbar1Curr: fabric.Rect;
-	private healthbar1Mis: fabric.Rect;
+	private healthbar1Mis:	fabric.Rect;
 	private healthbar2Curr: fabric.Rect;
-	private healthbar2Mis: fabric.Rect;
-
+	private healthbar2Mis:	fabric.Rect;
 	private art = [
 	    "images/characters/axe.png",
  		"images/characters/sword.png",
@@ -109,20 +109,19 @@ export class GameState {
 	}
 
 	public p1Attacks () {
-		let g = this;
-	    g.p1.animate('left', '-=20', {
+	    this.p1.animate('left', '-=20', {
 	        duration: 250,
-	        onChange: g.canvas.renderAll.bind(g.canvas),
+	        onChange: this.canvas.renderAll.bind(this.canvas),
 	        easing: fabric.util.ease['easeOutQuad'],
-	        onComplete: function() {
-        		g.p1.animate('left', '+=120', {
+	        onComplete: () => {
+        		this.p1.animate('left', '+=120', {
 	                duration: 100,
 	                easing: fabric.util.ease['easeInQuint'],
-	                onChange: g.canvas.renderAll.bind(g.canvas),
-	                onComplete: function () {
-	                    g.p1.animate('left', 150, {
+	                onChange: this.canvas.renderAll.bind(this.canvas),
+	                onComplete: () => {
+	                    this.p1.animate('left', 150, {
 	                        duration: 200,
-	                        onChange: g.canvas.renderAll.bind(g.canvas),
+	                        onChange: this.canvas.renderAll.bind(this.canvas),
 	                        easing: fabric.util.ease['easeOutQuint'],
 	                	})
 	                }
@@ -131,20 +130,19 @@ export class GameState {
 	    });
 	}
 	public p2Attacks () {
-		let g = this;
-	    g.p2.animate('left', '+=20', {
+	    this.p2.animate('left', '+=20', {
 	        duration: 250,
-	        onChange: g.canvas.renderAll.bind(g.canvas),
+	        onChange: this.canvas.renderAll.bind(this.canvas),
 	        easing: fabric.util.ease['easeOutQuad'],
-	        onComplete: function () {
-	            g.p2.animate('left', '-=120', {
+	        onComplete: () => {
+	            this.p2.animate('left', '-=120', {
 	                duration: 100,
 	                easing: fabric.util.ease['easeInQuint'],
-	                onChange: g.canvas.renderAll.bind(g.canvas),
-	                onComplete: function () {
-	                    g.p2.animate('left', 420, {
+	                onChange: this.canvas.renderAll.bind(this.canvas),
+	                onComplete: () => {
+	                    this.p2.animate('left', 420, {
 	                        duration: 200,
-	                        onChange: g.canvas.renderAll.bind(g.canvas),
+	                        onChange: this.canvas.renderAll.bind(this.canvas),
 	                        easing: fabric.util.ease['easeOutQuint'],
 	                    })
 	                }

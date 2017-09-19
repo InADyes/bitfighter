@@ -4,11 +4,9 @@ import * as Display from './Display';
 import { Message } from '../shared/frontEndMessage';
 import * as Reel from '../shared/displayReel'
 
-
-
-
 document.addEventListener("DOMContentLoaded", function(){
     let gameState = new Display.GameState;
+    /////////// DELETE LATER ////////////////////////
     let message = {
         characters: [{
                 name: "hao",
@@ -21,10 +19,10 @@ document.addEventListener("DOMContentLoaded", function(){
             }]
     };
     eventListeners(gameState, message);
+    let currentTarget = <HTMLInputElement>document.getElementById("left");
+    ////////////////////////////////////////////////////
 
-    let currentTarget = <HTMLInputElement>document.getElementById("left"); // DELETE LATER
-
-    let textOut = <HTMLDivElement><HTMLDivElement>document.getElementById('text-out');
+    gameState.message = message;
     let display = new Display.Display;
 
     /*window.addEventListener('storage', (e) => {
@@ -44,6 +42,8 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     });*/
 
+
+    // TEMPORARY BUTTONS. DELETE ALL THIS LATER ////////
     function eventListeners(g: Display.GameState, message: any) {
         let draw = <HTMLButtonElement>document.getElementById("draw");
         draw.addEventListener("click", function() {
@@ -62,7 +62,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
         let attack = <HTMLButtonElement>document.getElementById("attack");
         attack.addEventListener("click", function() {
-            //let left = <HTMLInputElement>document.getElementById("left");
             console.log((currentTarget.checked ? "p1" : "p2") + " attacks");
             if (currentTarget.checked)
                 g.p1Attacks();
@@ -86,4 +85,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 g.p2Damage();
         });
     }
+    ///////////////////////////////////////////////////
 });
+
