@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
         let health = <HTMLButtonElement>document.getElementById("health");
         health.addEventListener("click", function() {
+
             console.log("change a player's health");
             if (currentTarget.checked)
                 g.p1healthbarChange();

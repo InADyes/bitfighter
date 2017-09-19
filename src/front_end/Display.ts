@@ -219,13 +219,13 @@ export class GameState {
 		this.healthbar1Curr.animate('width','-=10', {
             duration: 200,
             onChange: this.canvas.renderAll.bind(this.canvas),
-        });
+		});
 	}
 	public p2healthbarChange(){
 		this.healthbar2Curr.animate('width','-=10', {
             duration: 200,
             onChange: this.canvas.renderAll.bind(this.canvas),
-        });
+		});
 	}
 }
 
