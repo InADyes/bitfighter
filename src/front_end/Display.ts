@@ -158,7 +158,7 @@ export class GameState {
 	}
 	public p1Death(){
 		this.p1.animate('angle','90',{
-            duration: 1000,
+            duration: 800,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
 				this.p1.animate('opacity', 0,{
@@ -175,7 +175,7 @@ export class GameState {
 	}
 	public p2Death(){
 		this.p2.animate('angle','-90',{
-            duration: 1000,
+            duration: 800,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 this.p2.animate('opacity', 0,{
@@ -246,4 +246,9 @@ export const enum Art {
 	sword,
 	daggers,
 	champion,
+}
+
+export const enum Side {
+	left,
+	right,
 }
