@@ -5,10 +5,11 @@ import { Message } from '../shared/frontEndMessage';
 import * as Reel from '../shared/displayReel'
 
 
-let currentTarget = <HTMLInputElement>document.getElementById("left");
+
 
 
 document.addEventListener("DOMContentLoaded", function(){
+    let currentTarget = <HTMLInputElement>document.getElementById("left");
     let gameState = new Display.GameState;
     let message = {
         characters: [{
@@ -43,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 console.error('unidentified storage event');
         }
     });*/
-});
 
 function eventListeners(g: Display.GameState, message: any) {
     let draw = <HTMLButtonElement>document.getElementById("draw");
