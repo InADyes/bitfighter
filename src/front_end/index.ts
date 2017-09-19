@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function(){
     eventListeners(gameState, message);
     let currentTarget = <HTMLInputElement>document.getElementById("left");
 
-    //gameState.drawPlayers();
+    gameState.drawPlayers();
     let display = new Display.Display;
     //gameState.setArt();
     //gameState.drawPlayers();
