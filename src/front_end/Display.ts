@@ -70,10 +70,10 @@ export class GameState {
 
 	public drawPlayers () {
         console.log("drawing players");
-        if (this.p1)
+		if (this.p1)
             this.canvas.remove(this.p1);
         if (this.p2)
-            this.canvas.remove(this.p2);
+			this.canvas.remove(this.p2);
         this.setArt(this.message.characters[0].art, 1)
         this.p1 = new fabric.Image(this.img1, {
             left: 150,
@@ -81,12 +81,8 @@ export class GameState {
 			originX: 'center',
 			originY: 'bottom'
 		});
-		if (this.p1)
-            this.canvas.remove(this.p1);
-        if (this.p2)
-            this.canvas.remove(this.p2);
+		
         this.p1.scaleToWidth(200);
-        this.canvas.add(this.p1);
 
 		this.setArt(this.message.characters[1].art, 2);
         this.p2 = new fabric.Image(this.img2, {
@@ -96,9 +92,12 @@ export class GameState {
 			originX: 'center',
 			originY: 'bottom'
         });
-        this.p2.scaleToWidth(200);
-		this.canvas.add(this.p2);
+		this.p2.scaleToWidth(200);
+		
+		
 		this.canvas.add(this.p1);
+		this.canvas.add(this.p2);
+		
 		//healthbar
 		if (this.healthbar1Curr)
             this.canvas.remove(this.healthbar1Curr);
