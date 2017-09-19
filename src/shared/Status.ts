@@ -22,6 +22,7 @@ export class Status {
         expires: number,
         buff: Buff.Buff
     }[] = [];
+    public stats: Stats;
 
     constructor(
         public readonly id: number,
@@ -31,7 +32,11 @@ export class Status {
         public hitPoints: number,
         public level: number,
         public baseStats: Stats
-    ) {}
+    ) {
+        this.stats = Object.assign({}, this.baseStats);
+        this.stats.attackDamage = Object.assign({}, this.baseStats.attackDamage);
+        this.stats.attackSpeed = Object.assign({}, this.baseStats.attackSpeed);
+    }
     addEffect(expires: number, buff: Buff.Buff) {
         this.buffs.push({expires: expires, buff: buff});
     }
@@ -42,35 +47,34 @@ export class Status {
     }
     clearBuffs() {
         this.buffs = [];
+        this.recalc();
     }
-    get stats() { //dumb slow method
-        let stats = Object.assign({}, this.baseStats);
+    private recalc() { //dumb slow method
+        Object.assign(this.stats, this.baseStats);
+        Object.assign(this.stats.attackDamage, this.baseStats.attackDamage);
+        Object.assign(this.stats.attackSpeed, this.baseStats.attackSpeed);
 
         for (let buff of this.buffs) {
             let b = buff.buff;
 
             if (b.accuracy) 
-                stats.accuracy *= b.accuracy;
+                this.stats.accuracy *= b.accuracy;
             if (b.dodge) 
-                stats.dodge *= b.dodge;
+                this.stats.dodge *= b.dodge;
             if (b.attackSpeed) {
-                stats.attackSpeed.min *= b.attackSpeed;
-                stats.attackSpeed.max *= b.attackSpeed;
+                this.stats.attackSpeed.min *= b.attackSpeed;
+                this.stats.attackSpeed.max *= b.attackSpeed;
             }
             if (b.attackDamage) {
-                stats.attackDamage.min *= b.attackDamage;
-                stats.attackDamage.max *= b.attackDamage;
+                this.stats.attackDamage.min *= b.attackDamage;
+                this.stats.attackDamage.max *= b.attackDamage;
             }
             if (b.armor)
-                stats.armor *= b.armor;
+                this.stats.armor *= b.armor;
             if (b.regeneration) 
-                stats.regeneration *= b.regeneration;
+                this.stats.regeneration *= b.regeneration;
             if (b.crit) 
-                stats.crit *= b.crit;
+                this.stats.crit *= b.crit;
         }
-        return stats;
-    }
-    set stats(stats: Stats) {
-        this.baseStats = stats;
     }
 }
