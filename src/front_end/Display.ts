@@ -85,7 +85,7 @@ export class GameState {
 
 	public drawPlayers () {
         console.log("drawing players");
-        if (this.p1)
+		if (this.p1)
             this.canvas.remove(this.p1);
         if (this.p2)
             this.canvas.remove(this.p2);

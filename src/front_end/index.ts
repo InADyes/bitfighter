@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function(){
             else
                 g.p2Damage();
         });
-    }
+   }
     ///////////////////////////////////////////////////
 });
 
