@@ -3,7 +3,7 @@ import { Message } from '../shared/frontEndMessage';
 import 'fabric'
 declare let fabric: any;
 
-export class Combatant {
+export class Player {
 	private	name:			string;
 	private	health:			number;
 	private	right:			number;
@@ -136,10 +136,10 @@ export class Combatant {
 export class GameState {
 	public canvas:	fabric.Canvas;
 	public message: any;
-	public player1: Combatant;
-	public player2: Combatant;
+	public player1: Player;
+	public player2: Player;
 
-	//public players: Combatant[] = []; Eventually do this
+	//public players: Player[] = []; Eventually do this
 
 
 	constructor() {
@@ -148,8 +148,8 @@ export class GameState {
 	}
 
 	public initPlayers() {
-		this.player1 = new Combatant(this.message.characters[0], 0, this.canvas);
-		this.player2 = new Combatant(this.message.characters[1], 1, this.canvas);
+		this.player1 = new Player(this.message.characters[0], 0, this.canvas);
+		this.player2 = new Player(this.message.characters[1], 1, this.canvas);
 		this.drawPlayers();
 	}
 
