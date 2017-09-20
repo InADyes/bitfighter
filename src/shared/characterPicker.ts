@@ -12,422 +12,424 @@ interface Character {
 export const characters: Character[] = [
     {
         stats: { 
-            maxHitPoints: 1000,
-            accuracy: 50,
-            dodge: 50,
+            maxHitPoints: 400,
+            accuracy: 75,
+            dodge: 75,
             attackSpeed: {
-                min: 1000,
-                max: 1750,
+                min: 750,
+                max: 1500,
             },
             attackDamage: {
-                min: 25,
-                max: 50,
+                min: 90,
+                max: 130,
             },
-            armor: 20,
+            armor: 15,
             regeneration: 200,
             critChance: 20,
-            critMultiplier: 0,
+            critMultiplier: 7,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        name: 'Scullary Maid'
-    }, // 0: scullary maid
-    {
-        stats: { 
-            maxHitPoints: 1000,
-            accuracy: 50,
-            dodge: 50,
-            attackSpeed: {
-                min: 1000,
-                max: 1750,
-            },
-            attackDamage: {
-                min: 25,
-                max: 50,
-            },
-            armor: 20,
-            regeneration: 200,
-            critChance: 20,
-            critMultiplier: 0,
-        }, 
-        rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        name: 'Farmer'
-    }, // 1: Farmer
-    {
-        stats: { 
-            maxHitPoints: 1000,
-            accuracy: 50,
-            dodge: 50,
-            attackSpeed: {
-                min: 1000,
-                max: 1750,
-            },
-            attackDamage: {
-                min: 25,
-                max: 50,
-            },
-            armor: 20,
-            regeneration: 200,
-            critChance: 20,
-            critMultiplier: 0,
-        }, 
-        rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        name: 'Barkeep'
-    }, // 2: Barkeep
-    {
-        stats: { 
-            maxHitPoints: 1000,
-            accuracy: 50,
-            dodge: 50,
-            attackSpeed: {
-                min: 1000,
-                max: 1750,
-            },
-            attackDamage: {
-                min: 25,
-                max: 50,
-            },
-            armor: 20,
-            regeneration: 200,
-            critChance: 20,
-            critMultiplier: 0,
-        }, 
-        rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        critBuff: Buff.buffs[Buff.types.streetUrchin],
         name: 'Street Urchin'
-    }, // 3: Street Urchin
+    }, // 0: Street Urchin
     {
         stats: { 
-            maxHitPoints: 1000,
+            maxHitPoints: 400,
+            accuracy: 100,
+            dodge: 75,
+            attackSpeed: {
+                min: 1100,
+                max: 2200,
+            },
+            attackDamage: {
+                min: 100,
+                max: 150,
+            },
+            armor: 30,
+            regeneration: 400,
+            critChance: 10,
+            critMultiplier: 3,
+        }, 
+        rarity: 0,
+        critDebuff: Buff.buffs[Buff.types.sculleryMaid],
+        name: 'Scullary Maid'
+    }, // 1: scullary maid
+    {
+        stats: { 
+            maxHitPoints: 550,
+            accuracy: 50,
+            dodge: 75,
+            attackSpeed: {
+                min: 1250,
+                max: 2500,
+            },
+            attackDamage: {
+                min: 120,
+                max: 180,
+            },
+            armor: 25,
+            regeneration: 300,
+            critChance: 15,
+            critMultiplier: 3,
+        }, 
+        rarity: 0,
+        critDebuff: Buff.buffs[Buff.types.farmer],
+        name: 'Farmer'
+    }, // 2: Farmer
+    {
+        stats: { 
+            maxHitPoints: 700,
             accuracy: 50,
             dodge: 50,
             attackSpeed: {
-                min: 1000,
-                max: 1750,
+                min: 1100,
+                max: 2200,
             },
             attackDamage: {
-                min: 25,
-                max: 50,
+                min: 100,
+                max: 130,
             },
-            armor: 20,
+            armor: 45,
             regeneration: 200,
-            critChance: 20,
-            critMultiplier: 0,
+            critChance: 12,
+            critMultiplier: 2,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        critDebuff: Buff.buffs[Buff.types.barkeep],
+        name: 'Barkeep'
+    }, // 3: Barkeep
+    {
+        stats: { 
+            maxHitPoints: 300,
+            accuracy: 100,
+            dodge: 150,
+            attackSpeed: {
+                min: 1300,
+                max: 2600,
+            },
+            attackDamage: {
+                min: 80,
+                max: 120,
+            },
+            armor: 0,
+            regeneration: 100,
+            critChance: 10,
+            critMultiplier: 2,
+        }, 
+        rarity: 0,
+        critDebuff: Buff.buffs[Buff.types.aristocrat],
         name: 'Aristocrat'
     }, // 4: Aristocrat
     {
         stats: { 
-            maxHitPoints: 1000,
-            accuracy: 50,
-            dodge: 50,
+            maxHitPoints: 400,
+            accuracy: 100,
+            dodge: 75,
             attackSpeed: {
-                min: 1000,
-                max: 1750,
+                min: 1300,
+                max: 2600,
             },
             attackDamage: {
-                min: 25,
-                max: 50,
+                min: 90,
+                max: 130,
             },
-            armor: 20,
+            armor: 25,
             regeneration: 200,
-            critChance: 20,
-            critMultiplier: 0,
+            critChance: 8,
+            critMultiplier: 2,
         }, 
         rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        critDebuff: Buff.buffs[Buff.types.minstrel],
         name: 'Minstrel'
     }, // 5: Minstrel
     {
         stats: { 
-            maxHitPoints: 1000,
+            maxHitPoints: 400,
             accuracy: 50,
-            dodge: 50,
+            dodge: 125,
             attackSpeed: {
-                min: 1000,
-                max: 1750,
+                min: 500,
+                max: 1000,
             },
             attackDamage: {
-                min: 25,
-                max: 50,
+                min: 50,
+                max: 60,
             },
-            armor: 20,
+            armor: 25,
             regeneration: 200,
-            critChance: 20,
-            critMultiplier: 0,
+            critChance: 35,
+            critMultiplier: 1.5,
         }, 
-        rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        rarity: 1,
+        critDebuff: Buff.buffs[Buff.types.mage],
         name: 'Mage'
     }, // 6: Mage
     {
         stats: { 
-            maxHitPoints: 1000,
-            accuracy: 50,
-            dodge: 50,
+            maxHitPoints: 600,
+            accuracy: 125,
+            dodge: 90,
             attackSpeed: {
-                min: 1000,
-                max: 1750,
+                min: 800,
+                max: 1600,
             },
             attackDamage: {
-                min: 25,
-                max: 50,
+                min: 75,
+                max: 175,
             },
-            armor: 20,
+            armor: 30,
             regeneration: 200,
-            critChance: 20,
-            critMultiplier: 0,
+            critChance: 12,
+            critMultiplier: 10,
         }, 
-        rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        rarity: 1,
+        critBuff: Buff.buffs[Buff.types.rogue],
         name: 'Rogue'
     }, // 7: Rogue
     {
         stats: { 
-            maxHitPoints: 1000,
-            accuracy: 50,
-            dodge: 50,
+            maxHitPoints: 900,
+            accuracy: 100,
+            dodge: 150,
             attackSpeed: {
-                min: 1000,
-                max: 1750,
+                min: 1500,
+                max: 3000,
             },
             attackDamage: {
-                min: 25,
-                max: 50,
+                min: 100,
+                max: 200,
             },
-            armor: 20,
+            armor: 50,
             regeneration: 200,
-            critChance: 20,
-            critMultiplier: 0,
+            critChance: 15,
+            critMultiplier: 3,
         }, 
-        rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        rarity: 1,
+        critDebuff: Buff.buffs[Buff.types.gladiator],
         name: 'Gladiator'
     }, // 8: Gladiator
     {
         stats: { 
-            maxHitPoints: 1000,
-            accuracy: 50,
-            dodge: 50,
+            maxHitPoints: 1400,
+            accuracy: 25,
+            dodge: 100,
             attackSpeed: {
-                min: 1000,
-                max: 1750,
+                min: 1700,
+                max: 3400,
             },
             attackDamage: {
-                min: 25,
-                max: 50,
+                min: 145,
+                max: 290,
             },
-            armor: 20,
+            armor: 10,
             regeneration: 200,
-            critChance: 20,
-            critMultiplier: 0,
+            critChance: 5,
+            critMultiplier: 4,
         }, 
-        rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        rarity: 1,
+        critBuff: Buff.buffs[Buff.types.barbarian],
         name: 'Barbarian'
     }, // 9: Barbarian
     {
         stats: { 
-            maxHitPoints: 1000,
-            accuracy: 50,
-            dodge: 50,
+            maxHitPoints: 600,
+            accuracy: 100,
+            dodge: 100,
             attackSpeed: {
-                min: 1000,
-                max: 1750,
+                min: 1400,
+                max: 2800,
             },
             attackDamage: {
-                min: 25,
-                max: 50,
+                min: 110,
+                max: 165,
             },
-            armor: 20,
-            regeneration: 200,
-            critChance: 20,
-            critMultiplier: 0,
+            armor: 45,
+            regeneration: 1000,
+            critChance: 8,
+            critMultiplier: 1,
         }, 
-        rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        name: 'Priest'
+        rarity: 1,
+        critDebuff: Buff.buffs[Buff.types.warpriest],
+        name: 'War Priest'
     }, // 10: War Priest
     {
         stats: { 
-            maxHitPoints: 1000,
-            accuracy: 50,
-            dodge: 50,
+            maxHitPoints: 600,
+            accuracy: 250,
+            dodge: 125,
             attackSpeed: {
-                min: 1000,
-                max: 1750,
+                min: 1500,
+                max: 3000,
             },
             attackDamage: {
-                min: 25,
-                max: 50,
+                min: 80,
+                max: 120,
             },
-            armor: 20,
-            regeneration: 200,
-            critChance: 20,
-            critMultiplier: 0,
+            armor: 45,
+            regeneration: 600,
+            critChance: 25,
+            critMultiplier: 3,
         }, 
-        rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        rarity: 2,
+        critDebuff: Buff.buffs[Buff.types.werewolfDebuff],
+        critBuff: Buff.buffs[Buff.types.werewolfDebuff],
         name: 'Werewolf'
     }, // 11: Werewolf
     {
         stats: { 
-            maxHitPoints: 1000,
+            maxHitPoints: 600,
             accuracy: 50,
-            dodge: 50,
+            dodge: 400,
             attackSpeed: {
-                min: 1000,
-                max: 1750,
+                min: 3000,
+                max: 6000,
             },
             attackDamage: {
-                min: 25,
-                max: 50,
+                min: 200,
+                max: 300,
             },
-            armor: 20,
-            regeneration: 200,
-            critChance: 20,
-            critMultiplier: 0,
+            armor: 15,
+            regeneration: -200,
+            critChance: 10,
+            critMultiplier: 1,
         }, 
-        rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        rarity: 2,
+        critDebuff: Buff.buffs[Buff.types.warlockDebuff],
         name: 'Warlock'
     }, // 12: Warlock
     {
         stats: { 
             maxHitPoints: 1000,
             accuracy: 50,
-            dodge: 50,
+            dodge: 200,
             attackSpeed: {
-                min: 1000,
-                max: 1750,
+                min: 1300,
+                max: 2600,
             },
             attackDamage: {
-                min: 25,
-                max: 50,
+                min: 95,
+                max: 165,
             },
-            armor: 20,
-            regeneration: 200,
-            critChance: 20,
-            critMultiplier: 0,
+            armor: 65,
+            regeneration: 400,
+            critChance: 15,
+            critMultiplier: 5,
         }, 
-        rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        rarity: 2,
+        critBuff: Buff.buffs[Buff.types.paladin],
         name: 'Paladin'
     }, // 13: Paladin
     {
         stats: { 
-            maxHitPoints: 1000,
-            accuracy: 50,
-            dodge: 50,
+            maxHitPoints: 900,
+            accuracy: 100,
+            dodge: 100,
             attackSpeed: {
-                min: 1000,
-                max: 1750,
+                min: 1300,
+                max: 2600,
             },
             attackDamage: {
-                min: 25,
-                max: 50,
+                min: 110,
+                max: 170,
             },
-            armor: 20,
+            armor: 55,
             regeneration: 200,
-            critChance: 20,
-            critMultiplier: 0,
+            critChance: 15,
+            critMultiplier: 4,
         }, 
-        rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        rarity: 2,
+        critDebuff: Buff.buffs[Buff.types.swashbucklerDebuff],
+        critBuff: Buff.buffs[Buff.types.swashbucklerBuff],
         name: 'Swashbuckler'
     }, // 14: Swashbuckler
     {
         stats: { 
-            maxHitPoints: 1000,
-            accuracy: 50,
-            dodge: 50,
+            maxHitPoints: 3000,
+            accuracy: 10,
+            dodge: 150,
             attackSpeed: {
-                min: 1000,
-                max: 1750,
+                min: 5000,
+                max: 7000,
             },
             attackDamage: {
-                min: 25,
-                max: 50,
+                min: 550,
+                max: 1100,
             },
-            armor: 20,
-            regeneration: 200,
-            critChance: 20,
-            critMultiplier: 0,
+            armor: 85,
+            regeneration: 0,
+            critChance: 25,
+            critMultiplier: 20,
         }, 
-        rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        rarity: 3,
+        critDebuff: Buff.buffs[Buff.types.dragon],
         name: 'Dragon'
     }, //15: Dragon
-    {
-        stats: { 
-            maxHitPoints: 1000,
-            accuracy: 50,
-            dodge: 50,
-            attackSpeed: {
-                min: 1000,
-                max: 1750,
-            },
-            attackDamage: {
-                min: 25,
-                max: 50,
-            },
-            armor: 20,
-            regeneration: 200,
-            critChance: 20,
-            critMultiplier: 0,
-        }, 
-        rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        name: 'Angel'
-    }, //16: Angel
-    {
-        stats: { 
-            maxHitPoints: 1000,
-            accuracy: 50,
-            dodge: 50,
-            attackSpeed: {
-                min: 1000,
-                max: 1750,
-            },
-            attackDamage: {
-                min: 25,
-                max: 50,
-            },
-            armor: 20,
-            regeneration: 200,
-            critChance: 20,
-            critMultiplier: 0,
-        }, 
-        rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        name: 'Lich'
-    }, // 17: Lich
-    {
-        stats: { 
-            maxHitPoints: 1000,
-            accuracy: 50,
-            dodge: 50,
-            attackSpeed: {
-                min: 1000,
-                max: 1750,
-            },
-            attackDamage: {
-                min: 25,
-                max: 50,
-            },
-            armor: 20,
-            regeneration: 200,
-            critChance: 20,
-            critMultiplier: 0
-        }, 
-        rarity: 0,
-        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
-        name: 'Phoenix'
-    } // 18: Phoenix
+    // {
+    //     stats: { 
+    //         maxHitPoints: 1000,
+    //         accuracy: 50,
+    //         dodge: 50,
+    //         attackSpeed: {
+    //             min: 1000,
+    //             max: 1750,
+    //         },
+    //         attackDamage: {
+    //             min: 25,
+    //             max: 50,
+    //         },
+    //         armor: 20,
+    //         regeneration: 200,
+    //         critChance: 20,
+    //         critMultiplier: 0,
+    //     }, 
+    //     rarity: 0,
+    //     critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+    //     name: 'Angel'
+    // }, //16: Angel
+    // {
+    //     stats: { 
+    //         maxHitPoints: 1000,
+    //         accuracy: 50,
+    //         dodge: 50,
+    //         attackSpeed: {
+    //             min: 1000,
+    //             max: 1750,
+    //         },
+    //         attackDamage: {
+    //             min: 25,
+    //             max: 50,
+    //         },
+    //         armor: 20,
+    //         regeneration: 200,
+    //         critChance: 20,
+    //         critMultiplier: 0,
+    //     }, 
+    //     rarity: 0,
+    //     critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+    //     name: 'Lich'
+    // }, // 17: Lich
+    // {
+    //     stats: { 
+    //         maxHitPoints: 1000,
+    //         accuracy: 50,
+    //         dodge: 50,
+    //         attackSpeed: {
+    //             min: 1000,
+    //             max: 1750,
+    //         },
+    //         attackDamage: {
+    //             min: 25,
+    //             max: 50,
+    //         },
+    //         armor: 20,
+    //         regeneration: 200,
+    //         critChance: 20,
+    //         critMultiplier: 0
+    //     }, 
+    //     rarity: 0,
+    //     critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+    //     name: 'Phoenix'
+    // } // 18: Phoenix
 ];
 
 // starting level of rarities
