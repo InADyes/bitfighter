@@ -6,27 +6,8 @@ import * as Reel from '../shared/displayReel'
 
 document.addEventListener("DOMContentLoaded", function(){
     let gameState = new Display.GameState();
-
-    //////////////// TEMPORARY STUFF /////////////////
-    let message = {
-        characters: [{
-            name: "hao",
-            hitPoints: 1000,
-            art: Display.Art.axe,
-        },{
-            name: "max",
-            hitPoints: 1000,
-            art: Display.Art.daggers,
-        }],
-    }
-    gameState.message = message;
-    eventListeners(gameState, gameState.message);
-    let currentTarget = <HTMLInputElement>document.getElementById("left");
-    //////////////////////////////////////////////////
-
-    gameState.initPlayers();
-
-    /*window.addEventListener('storage', (e) => {
+    
+    window.addEventListener('storage', (e) => {
         console.log(e)
         switch(e.key) {
             case 'fight':
@@ -36,12 +17,23 @@ document.addEventListener("DOMContentLoaded", function(){
                     break;
                 }
                 console.log(str);
-                display.newReel(<Message>JSON.parse(str));
+                let message = <Message>JSON.parse(str);
+                console.log(message);
+                gameState.message = message;
+                gameState.initPlayers();
                 break;
             default:
                 console.error('unidentified storage event');
         }
-    });*/
+    });
+    //////////////// TEMPORARY STUFF /////////////////
+    
+    eventListeners(gameState, gameState.message); // wont work
+    let currentTarget = <HTMLInputElement>document.getElementById("left");
+    //////////////////////////////////////////////////
+
+
+
 
 
     // TEMPORARY BUTTONS. DELETE ALL THIS LATER ///////////////////////
