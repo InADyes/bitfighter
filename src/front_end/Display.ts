@@ -3,20 +3,37 @@ import { Message } from '../shared/frontEndMessage';
 import 'fabric'
 declare let fabric: any;
 import * as Player from './Player';
+import { fireEvent } from './fireEvent';
 
 export class GameState {
 	private eventLoopTimeout: NodeJS.Timer | null;
 	private lastTime: number;
 
-	private canvas:	fabric.Canvas;
+	private canvas = new fabric.Canvas('arena'); // USE StaticCanvas for noninteractive
 	private reel:	Events.Event[];
 	private player1: Player.Player;
 	private player2: Player.Player;
 	//public players: Player[] = []; Eventually do this
 
+	constructor() {}
 
-	constructor() {
-		this.canvas = new fabric.Canvas('arena'); // USE StaticCanvas for noninteractive
+	public newMessage(reel: Events.Event[], patch?: number) {
+		if (patch) {
+			//do the patching
+		}
+		else {
+			//clear message
+			this.clearMessage();
+			// new reel
+			this.reel = reel;
+			this.initReel();
+		}
+	}
+
+	private clearMessage() {
+		this.reel = [];
+		if (this.eventLoopTimeout)
+			clearTimeout(this.eventLoopTimeout);
 	}
 
 	private initReel() {
@@ -27,7 +44,7 @@ export class GameState {
 		this.lastTime = 0;
 		this.eventLoopTimeout = setTimeout(
 			() => {
-				this.fireEvent();
+				this.getEvent();
 			},
 			this.reel[0].time
 		);
@@ -40,18 +57,20 @@ export class GameState {
 	// 	this.fireEvent(current);
 	// }
 
-	private fireEvent() {
+	private getEvent() {
 		let event = this.reel.shift();
 		if (event == undefined) {
 			this.eventLoopTimeout = null;
 			return;
 		}
 
-		console.log(`do this event ${ event }`);
+		console.log(`do this event`, event);
+			fireEvent(event, this);
+		(event);
 
 		this.eventLoopTimeout = setTimeout(
 			() => {
-				this.fireEvent();
+				this.getEvent();
 			},
 			event.time -  this.lastTime
 		);
@@ -68,5 +87,12 @@ export class GameState {
 		this.player1.draw();
 		if (this.player2)
 			this.player2.draw();
+	}
+
+	public attack(p2: number) {
+		if (p2)
+			this.player2.attacks();
+		else
+			this.player1.attacks();
 	}
 }

@@ -2,7 +2,7 @@ import 'fabric'
 declare let fabric: any;
 import * as Display from './Display';
 import { Message } from '../shared/frontEndMessage';
-import * as Reel from '../shared/graphicsEvents'
+//import * as Reel from '../shared/graphicsEvents'
 
 document.addEventListener("DOMContentLoaded", function(){
     let gameState = new Display.GameState();
@@ -16,10 +16,9 @@ document.addEventListener("DOMContentLoaded", function(){
                     console.error('bad storage event value');
                     break;
                 }
-                console.log(str);
                 let message = <Message>JSON.parse(str);
                 console.log(message);
-                gameState.reel = message.reel;
+                gameState.newMessage(message.reel, message.patch);
                 gameState.initPlayers(message.characters);
 
                 break;
@@ -41,35 +40,35 @@ document.addEventListener("DOMContentLoaded", function(){
         health.addEventListener("click", function() {
 
             console.log("change a player's health");
-            if (currentTarget.checked)
-                g.player1.healthbar();
-            else
-                g.player2.healthbar();
+            //if (currentTarget.checked)
+                //g.player1.healthbar();
+            //else
+                //g.player2.healthbar();
         });
 
         let attack = <HTMLButtonElement>document.getElementById("attack");
         attack.addEventListener("click", function() {
             console.log((currentTarget.checked ? "p1" : "p2") + " attacks");
             if (currentTarget.checked)
-                g.player1.attacks();
+                g.attack(0);
             else
-                g.player2.attacks();
+                g.attack(1);
         });
         let clear = <HTMLDivElement>document.getElementById("clear");
         clear.addEventListener("click", function() {
             console.log("remove a player from the screen");
-            if (currentTarget.checked)
-                g.player1.dies();
-            else
-                g.player2.dies();
+            // if (currentTarget.checked)
+            //     g.player1.dies();
+            // else
+            //     g.player2.dies();
         });
         let text = <HTMLDivElement>document.getElementById("text");
         text.addEventListener("click", function() {
             console.log("display text over a player's head");
-            if (currentTarget.checked)
-                g.player1.damage();
-            else
-                g.player2.damage();
+            // if (currentTarget.checked)
+            //     g.player1.damage();
+            // else
+            //     g.player2.damage();
         });
     }
     /////////////////////////////////////////////////////////////////
