@@ -477,7 +477,8 @@ export function buildStats(character: number, donation: number, level: number) :
         },
         armor: c.stats.armor,
         regeneration: c.stats.regeneration,
-        crit: c.stats.crit
+        critChance: c.stats.critChance,
+        critMultiplier: c.stats.critMultiplier || 1
     }
 }
 

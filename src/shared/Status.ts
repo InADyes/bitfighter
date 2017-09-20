@@ -74,8 +74,10 @@ export class Status {
                 this.calculatedStats.armor *= b.armor;
             if (b.regeneration) 
                 this.calculatedStats.regeneration *= b.regeneration;
-            if (b.crit) 
-                this.calculatedStats.crit *= b.crit;
+            if (b.critChance) 
+                this.calculatedStats.critChance *= b.critChance;
+            if (b.critMultiplier) 
+                this.calculatedStats.critMultiplier *= b.critMultiplier;
         }
     }
     public get stats() {

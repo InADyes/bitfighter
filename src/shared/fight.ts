@@ -24,9 +24,9 @@ export function buildFightEvents(stats: Status[]) {
             applyFightEvents(newStats, event);
             reel.push(event);
         },
-        (caller, damage, accuracy, crit, debuff) => {
-            let opponents = combatants.filter(c => c != caller);
-            opponents[0].takeHit(damage, accuracy, crit, debuff);
+        (attack) => {
+            let opponents = combatants.filter(c => c != attack.attacker);
+            opponents[0].takeHit(attack);
         }
     ));
 
