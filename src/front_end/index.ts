@@ -40,10 +40,10 @@ document.addEventListener("DOMContentLoaded", function(){
         health.addEventListener("click", function() {
 
             console.log("change a player's health");
-            if (currentTarget.checked)
-                g.player1.healthbar();
-            else
-                g.player2.healthbar();
+            //if (currentTarget.checked)
+                //g.player1.healthbar();
+            //else
+                //g.player2.healthbar();
         });
 
         let attack = <HTMLButtonElement>document.getElementById("attack");
@@ -57,18 +57,18 @@ document.addEventListener("DOMContentLoaded", function(){
         let clear = <HTMLDivElement>document.getElementById("clear");
         clear.addEventListener("click", function() {
             console.log("remove a player from the screen");
-            if (currentTarget.checked)
-                g.player1.dies();
-            else
-                g.player2.dies();
+            // if (currentTarget.checked)
+            //     g.player1.dies();
+            // else
+            //     g.player2.dies();
         });
         let text = <HTMLDivElement>document.getElementById("text");
         text.addEventListener("click", function() {
             console.log("display text over a player's head");
-            if (currentTarget.checked)
-                g.player1.damage();
-            else
-                g.player2.damage();
+            // if (currentTarget.checked)
+            //     g.player1.damage();
+            // else
+            //     g.player2.damage();
         });
     }
     /////////////////////////////////////////////////////////////////
