@@ -17,7 +17,10 @@ export class GameState {
 	}
 
 	public displayReel() {
+		let current: Event | undefined;
+		while (current = this.reel.shift()){
 
+		}
 	}
 
 	public initPlayers(characters: {name: string, hitPoints: number, art: number}[]) {

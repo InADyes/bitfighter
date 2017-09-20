@@ -31,13 +31,6 @@ document.addEventListener("DOMContentLoaded", function(){
     
     eventListeners(gameState); // wont work
     let currentTarget = <HTMLInputElement>document.getElementById("left");
-    //////////////////////////////////////////////////
-
-
-
-
-
-    // TEMPORARY BUTTONS. DELETE ALL THIS LATER ///////////////////////
     function eventListeners(g: Display.GameState) {
         let draw = <HTMLButtonElement>document.getElementById("draw");
         draw.addEventListener("click", function() {
