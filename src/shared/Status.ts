@@ -14,7 +14,8 @@ export interface Stats {
     };
     armor: number;
     regeneration: number;
-    crit: number;
+    critChance: number;
+    critMultiplier: number;
 }
 
 export class Status {
