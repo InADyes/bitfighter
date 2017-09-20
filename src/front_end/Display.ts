@@ -135,21 +135,25 @@ export class Combatant {
 
 export class GameState {
 	public canvas:	fabric.Canvas;
-	public message: any;
 	public player1: Combatant;
 	public player2: Combatant;
+	public reel:	Reel.Event[];
+
 
 	//public players: Combatant[] = []; Eventually do this
 
 
 	constructor() {
 		this.canvas = new fabric.Canvas('arena'); // USE StaticCanvas for noninteractive
+	}
+
+	public displayReel() {
 
 	}
 
-	public initPlayers() {
-		this.player1 = new Combatant(this.message.characters[0], 0, this.canvas);
-		this.player2 = new Combatant(this.message.characters[1], 1, this.canvas);
+	public initPlayers(characters: {name: string, hitPoints: number, art: number}[]) {
+		this.player1 = new Combatant(characters[0], 0, this.canvas);
+		this.player2 = new Combatant(characters[1], 1, this.canvas);
 		this.drawPlayers();
 	}
 

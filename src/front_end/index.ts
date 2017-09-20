@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 console.log(str);
                 let message = <Message>JSON.parse(str);
                 console.log(message);
-                gameState.message = message;
-                gameState.initPlayers();
+                gameState.reel = message.reel;
+                gameState.initPlayers(message.characters);
                 break;
             default:
                 console.error('unidentified storage event');
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function(){
     });
     //////////////// TEMPORARY STUFF /////////////////
     
-    eventListeners(gameState, gameState.message); // wont work
+    eventListeners(gameState); // wont work
     let currentTarget = <HTMLInputElement>document.getElementById("left");
     //////////////////////////////////////////////////
 
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
     // TEMPORARY BUTTONS. DELETE ALL THIS LATER ///////////////////////
-    function eventListeners(g: Display.GameState, message: any) {
+    function eventListeners(g: Display.GameState) {
         let draw = <HTMLButtonElement>document.getElementById("draw");
         draw.addEventListener("click", function() {
              g.drawPlayers();

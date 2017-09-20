@@ -6,6 +6,7 @@ export interface Message {
     characters: {
         name: string;
         hitPoints: number;
+        art: number;
     }[];
     reel:  displayReel.Event[];
 }
