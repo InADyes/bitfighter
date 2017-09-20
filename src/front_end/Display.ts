@@ -3,11 +3,6 @@ import { Message } from '../shared/frontEndMessage';
 import 'fabric'
 declare let fabric: any;
 
-export class Display {
-	public newReel(message: Message) {
-		console.log('new reel:', message);
-	}
-}
 export class Combatant {
 	private	name:			string;
 	private	health:			number;
@@ -144,22 +139,17 @@ export class GameState {
 	public player1: Combatant;
 	public player2: Combatant;
 
+	//public players: Combatant[] = []; Eventually do this
+
 
 	constructor() {
 		this.canvas = new fabric.Canvas('arena'); // USE StaticCanvas for noninteractive
+
 	}
 
 	public initPlayers() {
-		console.log(this.message);
-		//if (this.players[0])
-			//this.players[0] = new Combatant(this.message.characters[0], 0);
-		//else
-			this.player1 = new Combatant(this.message.characters[0], 0, this.canvas);
-		//if (this.players[1] && this.message.characters[1])*/
-			//this.players[1] = new Combatant(this.message.characters[1], 1);
-		//else if (this.message.characters[1])
-			this.player2 = new Combatant(this.message.characters[1], 1, this.canvas);
-
+		this.player1 = new Combatant(this.message.characters[0], 0, this.canvas);
+		this.player2 = new Combatant(this.message.characters[1], 1, this.canvas);
 		this.drawPlayers();
 	}
 
@@ -168,17 +158,4 @@ export class GameState {
 		if (this.player2)
 			this.player2.draw();
 	}
-}
-
-// until we get taras' art i guess
-export const enum Art {
-	axe,
-	sword,
-	daggers,
-	champion,
-}
-
-export const enum Side {
-	player1,
-	player2,
 }
