@@ -3,9 +3,6 @@ import { Status } from '../shared/Status';
 import { otherCharacter } from '../shared/utility';
 import { buildStats, levels } from '../shared/characterPicker';
 
-/*
-    does not delete characters
-*/
 export function applyFightEvents(
     status: Status[],
     ...reel: FightEvents.Event[]

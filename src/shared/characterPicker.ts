@@ -1,7 +1,7 @@
 import * as Buff from './buff';
 import { Status, Stats } from '../shared/Status';
 
-interface Character {
+export interface Character {
     stats: Stats,
     rarity: number,
     critDebuff?: Buff.Buff,
