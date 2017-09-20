@@ -180,6 +180,7 @@ export class GameState {
 	public message: any;
 
 
+<<<<<<< HEAD
 	constructor(message: any) {
 		console.log(message);
 		this.message = message;
@@ -191,6 +192,24 @@ export class GameState {
 			fill: 'green',
 			height: 10,
 			width: 100
+=======
+	constructor() {
+		this.message =			message;
+		this.canvas =			new fabric.Canvas('arena'); // USE StaticCanvas for noninteractive
+		this.healthbar1Curr = 	new fabric.Rect({
+            left: 50,
+            top: 350,
+            fill: 'green',
+            height: 10,
+            width: 100
+        });
+        this.healthbar1Mis = 	new fabric.Rect({
+            left: 50,
+            top: 350,
+            fill: 'red',
+            height: 10,
+            width: 100
+>>>>>>> ebffa0796854c0eebc53d2bf961ba0e25ac3b289
 		});
 		this.healthbar2Mis = new fabric.Rect({
 			left: 370,
