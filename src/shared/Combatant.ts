@@ -1,4 +1,3 @@
-//import * as Status from './Status';
 import * as fightEvents from './fightEvents';
 import * as Buff from './buff';
 import * as characterPicker from './characterPicker';
@@ -45,7 +44,6 @@ export class Combatant {
 
         if (Math.ceil(Math.random() * 100) >= critChance) {
             damage = damage * 5 - this.status.stats.armor;
-            //this.status.addEffect(this.time + critDeBuff.duration, critDebuff);
             this.newEvent(new fightEvents.Crit(this.time, this.index, critDebuff, critBuff));
         } else
             damage -= this.status.stats.armor; //applied here so that armor is calculated before the buff is applied when there is a crit
@@ -54,7 +52,6 @@ export class Combatant {
             damage = 0;
         else if (damage > this.status.hitPoints)
             damage = this.status.stats.maxHitPoints;
-        //this.status.hitPoints -= damage;
         this.newEvent(new fightEvents.Damage(this.time, this.index, damage));
             
         if (this.status.hitPoints <= 0)
@@ -62,18 +59,13 @@ export class Combatant {
     }
     public heal() {
         this.status.checkBuffs(this.time);
+        const maxHitPoints = this.status.stats.maxHitPoints;
 
-        let healingAmount = this.status.stats.regeneration * 1000;
+        let healingAmount = this.status.stats.regeneration * maxHitPoints;
 
-        if (healingAmount + this.status.hitPoints > 1000)
-            healingAmount = 1000 - this.status.hitPoints;
+        if (healingAmount + this.status.hitPoints > maxHitPoints)
+            healingAmount = maxHitPoints - this.status.hitPoints;
 
-        //this.status.hitPoints += this.status.stats.regeneration;
         this.newEvent(new fightEvents.Healing(this.time, this.index, healingAmount));
-    }
-    public isDead() {
-        if (this.status.hitPoints <= 0)
-            return true;
-        return false;
     }
 }

@@ -22,20 +22,20 @@ export class Status {
         expires: number,
         buff: Buff.Buff
     }[] = [];
-    public stats: Stats;
+    private calculatedStats: Stats;
 
     constructor(
         public readonly id: number,
         public readonly name: string,
         public readonly character: number,
-        public donation: number,
+        public readonly initialDonation: number,
         public hitPoints: number,
         public level: number,
         public baseStats: Stats
     ) {
-        this.stats = Object.assign({}, this.baseStats);
-        this.stats.attackDamage = Object.assign({}, this.baseStats.attackDamage);
-        this.stats.attackSpeed = Object.assign({}, this.baseStats.attackSpeed);
+        this.calculatedStats = Object.assign({}, this.baseStats);
+        this.calculatedStats.attackDamage = Object.assign({}, this.baseStats.attackDamage);
+        this.calculatedStats.attackSpeed = Object.assign({}, this.baseStats.attackSpeed);
     }
     addEffect(expires: number, buff: Buff.Buff) {
         this.buffs.push({expires: expires, buff: buff});
@@ -50,31 +50,34 @@ export class Status {
         this.recalc();
     }
     private recalc() { //dumb slow method
-        Object.assign(this.stats, this.baseStats);
-        Object.assign(this.stats.attackDamage, this.baseStats.attackDamage);
-        Object.assign(this.stats.attackSpeed, this.baseStats.attackSpeed);
+        Object.assign(this.calculatedStats, this.baseStats);
+        Object.assign(this.calculatedStats.attackDamage, this.baseStats.attackDamage);
+        Object.assign(this.calculatedStats.attackSpeed, this.baseStats.attackSpeed);
 
         for (let buff of this.buffs) {
             let b = buff.buff;
 
             if (b.accuracy) 
-                this.stats.accuracy *= b.accuracy;
+                this.calculatedStats.accuracy *= b.accuracy;
             if (b.dodge) 
-                this.stats.dodge *= b.dodge;
+                this.calculatedStats.dodge *= b.dodge;
             if (b.attackSpeed) {
-                this.stats.attackSpeed.min *= b.attackSpeed;
-                this.stats.attackSpeed.max *= b.attackSpeed;
+                this.calculatedStats.attackSpeed.min *= b.attackSpeed;
+                this.calculatedStats.attackSpeed.max *= b.attackSpeed;
             }
             if (b.attackDamage) {
-                this.stats.attackDamage.min *= b.attackDamage;
-                this.stats.attackDamage.max *= b.attackDamage;
+                this.calculatedStats.attackDamage.min *= b.attackDamage;
+                this.calculatedStats.attackDamage.max *= b.attackDamage;
             }
             if (b.armor)
-                this.stats.armor *= b.armor;
+                this.calculatedStats.armor *= b.armor;
             if (b.regeneration) 
-                this.stats.regeneration *= b.regeneration;
+                this.calculatedStats.regeneration *= b.regeneration;
             if (b.crit) 
-                this.stats.crit *= b.crit;
+                this.calculatedStats.crit *= b.crit;
         }
+    }
+    public get stats() {
+        return this.calculatedStats;
     }
 }

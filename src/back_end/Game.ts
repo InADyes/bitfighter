@@ -108,7 +108,7 @@ export class Game {
                 s.id,
                 s.name,
                 s.character,
-                s.donation,
+                s.initialDonation,
                 s.hitPoints,
                 s.level,
                 s.baseStats

@@ -38,9 +38,7 @@ export function applyFightEvents(
                 status.splice(event.character, 1);
                 const c = status[0];
                 c.level++;
-                c.baseStats = buildStats(c.character, c.donation, c.level);
-                break;
-            default:
+                c.baseStats = buildStats(c.character, c.initialDonation, c.level);
                 break;
         }
     };

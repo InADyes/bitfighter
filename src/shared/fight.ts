@@ -5,14 +5,13 @@ import { applyFightEvents } from './applyFightEvents';
 import { otherCharacter  as other} from './utility';
 
 export function buildFightEvents(stats: Status[]) {
-    let everyoneAlive = true;
     const reel: FightEvents.Event[] = [];
 
     const newStats = stats.map(s => new Status(
             s.id, //getto deep clone
             s.name,
             s.character,
-            s.donation,
+            s.initialDonation,
             s.hitPoints,
             s.level,
             s.baseStats
