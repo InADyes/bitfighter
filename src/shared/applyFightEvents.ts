@@ -37,9 +37,10 @@ export function applyFightEvents(
             case FightEvents.Types.death: // level up also happens here
                 status.splice(event.character, 1);
                 const c = status[0];
-                c.level++;
-                c.baseStats = buildStats(c.character, c.initialDonation, c.level);
-                break;
+                if (levels.length > c.level) {
+                    c.level++;
+                    c.baseStats = buildStats(c.character, c.initialDonation, c.level);
+                }
         }
     };
 }
