@@ -1,15 +1,15 @@
-import { Stats } from 'Status';
-import * as buff from './buff';
-
-import { Status } from '../shared/help';
+import * as Buff from './buff';
+import { Status, Stats } from '../shared/Status';
 
 interface Character {
     stats: Stats,
     rarity: number,
-    critDebuff: buff.Buff
+    critDebuff?: Buff.Buff,
+    critBuff?: Buff.Buff,
+    name: string
 }
 
-export let characters: Character[] = [
+export const characters: Character[] = [
     {
         stats: { 
             maxHitPoints: 1000,
@@ -25,10 +25,12 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Scullary Maid'
     }, // 0: scullary maid
     {
         stats: { 
@@ -45,10 +47,12 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Farmer'
     }, // 1: Farmer
     {
         stats: { 
@@ -65,10 +69,12 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Barkeep'
     }, // 2: Barkeep
     {
         stats: { 
@@ -85,10 +91,12 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Street Urchin'
     }, // 3: Street Urchin
     {
         stats: { 
@@ -105,10 +113,12 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Aristocrat'
     }, // 4: Aristocrat
     {
         stats: { 
@@ -125,10 +135,12 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Minstrel'
     }, // 5: Minstrel
     {
         stats: { 
@@ -145,10 +157,12 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Mage'
     }, // 6: Mage
     {
         stats: { 
@@ -165,10 +179,12 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Rogue'
     }, // 7: Rogue
     {
         stats: { 
@@ -185,10 +201,12 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Gladiator'
     }, // 8: Gladiator
     {
         stats: { 
@@ -205,10 +223,12 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Barbarian'
     }, // 9: Barbarian
     {
         stats: { 
@@ -225,10 +245,12 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Priest'
     }, // 10: War Priest
     {
         stats: { 
@@ -245,10 +267,12 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Werewolf'
     }, // 11: Werewolf
     {
         stats: { 
@@ -265,10 +289,12 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Warlock'
     }, // 12: Warlock
     {
         stats: { 
@@ -285,10 +311,12 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Paladin'
     }, // 13: Paladin
     {
         stats: { 
@@ -305,10 +333,12 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Swashbuckler'
     }, // 14: Swashbuckler
     {
         stats: { 
@@ -325,10 +355,12 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Dragon'
     }, //15: Dragon
     {
         stats: { 
@@ -345,10 +377,12 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Angel'
     }, //16: Angel
     {
         stats: { 
@@ -365,10 +399,12 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0,
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Lich'
     }, // 17: Lich
     {
         stats: { 
@@ -385,14 +421,17 @@ export let characters: Character[] = [
             },
             armor: 20,
             regeneration: 200,
-            crit: 20,
+            critChance: 20,
+            critMultiplier: 0
         }, 
         rarity: 0,
-        critDebuff: buff.buffs[buff.types.replaceMeShawn]
+        critDebuff: Buff.buffs[Buff.types.replaceMeShawn],
+        name: 'Phoenix'
     } // 18: Phoenix
 ];
 
-let rarityLevel = [
+// starting level of rarities
+const rarityLevel = [
     1, // common
     3, // uncommon
     5, // rare
@@ -401,12 +440,12 @@ let rarityLevel = [
 
 interface Level {
     //level: number;
-    bits: number;
-    accuracy: number;
-    dodge: number;
+    readonly bits: number;
+    readonly accuracy: number;
+    readonly dodge: number;
 };
 
-let levels: Level[] = [
+export const levels: Level[] = [
     {
         //level: 1,
         bits: 200, //todo: change to let streamer options define starting bit values
@@ -421,11 +460,31 @@ let levels: Level[] = [
     }
 ];
 
+export function buildStats(character: number, donation: number, level: number) : Stats {
+    const c = characters[character];
+
+    return {
+        maxHitPoints: c.stats.maxHitPoints + (donation < 2000 ? donation / 4 : 500 + (donation - 2000) / 16),
+        accuracy: c.stats.accuracy + levels[level - 1].accuracy,
+        dodge: c.stats.dodge + levels[level - 1].dodge,
+        attackSpeed: {
+            min: c.stats.attackSpeed.min,
+            max: c.stats.attackSpeed.max
+        },
+        attackDamage: {
+            min: c.stats.attackDamage.min,
+            max: c.stats.attackDamage.max
+        },
+        armor: c.stats.armor,
+        regeneration: c.stats.regeneration,
+        crit: c.stats.crit
+    }
+}
+
 // i'm going to fix this i swear
 // donation.amount is assumed to be in bits
 export function pickCharacter(donation: {id: number, name: string, amount: number, character: number}) : Status {
     let pick = donation.character % characters.length;
-    let character = characters[pick];
 
     let level = rarityLevel[characters[pick].rarity]; // 1 indexed
 
@@ -438,23 +497,8 @@ export function pickCharacter(donation: {id: number, name: string, amount: numbe
         donation.name,
         pick,
         donation.amount,
-        character.stats.maxHitPoints + donation.amount,
+        characters[pick].stats.maxHitPoints + donation.amount,
         level,
-        {
-            maxHitPoints: character.stats.maxHitPoints + donation.amount,
-            accuracy: character.stats.accuracy + levels[level - 1].accuracy,
-            dodge: character.stats.dodge + levels[level - 1].dodge,
-            attackSpeed: {
-                min: character.stats.attackSpeed.min,
-                max: character.stats.attackSpeed.max
-            },
-            attackDamage: {
-                min: character.stats.attackDamage.min,
-                max: character.stats.attackDamage.max
-            },
-            armor: character.stats.armor,
-            regeneration: character.stats.regeneration,
-            crit: character.stats.crit
-        }
+        buildStats(pick, donation.amount, level)
     )
 }

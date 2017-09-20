@@ -21,7 +21,7 @@ module.exports = [{
     },   
     {
         entry: {
-            settings: './src/back_end/settings.ts'
+            backend: './src/back_end/backend.ts'
         },
         output: {
             filename: './dist/js/[name].bundle.js'

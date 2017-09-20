@@ -1,5 +1,3 @@
-import * as Reel from '../shared/displayReel';
-import { Message } from '../shared/frontEndMessage';
 import 'fabric'
 declare let fabric: any;
 

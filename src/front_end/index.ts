@@ -2,7 +2,7 @@ import 'fabric'
 declare let fabric: any;
 import * as Display from './Display';
 import { Message } from '../shared/frontEndMessage';
-import * as Reel from '../shared/displayReel'
+import * as Reel from '../shared/graphicsEvents'
 
 document.addEventListener("DOMContentLoaded", function(){
     let gameState = new Display.GameState();
@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 console.log(message);
                 gameState.reel = message.reel;
                 gameState.initPlayers(message.characters);
+
                 break;
             default:
                 console.error('unidentified storage event');

@@ -1,4 +1,4 @@
-import * as Reel from '../shared/displayReel';
+import * as Events from '../shared/graphicsEvents';
 import { Message } from '../shared/frontEndMessage';
 import 'fabric'
 declare let fabric: any;
@@ -6,7 +6,7 @@ import * as Player from './Player';
 
 export class GameState {
 	public canvas:	fabric.Canvas;
-	public reel:	Reel.Event[];
+	public reel:	Events.Event[];
 	public player1: Player.Player;
 	public player2: Player.Player;
 	//public players: Player[] = []; Eventually do this
