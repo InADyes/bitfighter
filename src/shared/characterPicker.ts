@@ -445,7 +445,7 @@ export function buildStats(character: number, donation: number, level: number) :
     const c = characters[character];
 
     return {
-        maxHitPoints: c.stats.maxHitPoints + donation,
+        maxHitPoints: c.stats.maxHitPoints + (donation < 2000 ? donation / 4 : 500 + (donation - 2000) / 16),
         accuracy: c.stats.accuracy + levels[level - 1].accuracy,
         dodge: c.stats.dodge + levels[level - 1].dodge,
         attackSpeed: {

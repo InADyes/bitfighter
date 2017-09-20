@@ -15,3 +15,5 @@
 
 /simulator.js
 /simulator.js.map
+
+*.csv
