@@ -35424,12 +35424,20 @@ class GameState {
         });
     }
     p1healthbarChange() {
+        if (!this.healthbar1Curr.width)
+            return;
+        if (this.healthbar1Curr.width <= 0)
+            this.healthbar1Curr.width = 0;
         this.healthbar1Curr.animate('width', '-=10', {
             duration: 200,
-            onChange: this.canvas.renderAll.bind(this.canvas),
+            onChange: this.canvas.renderAll.bind(this.canvas)
         });
     }
     p2healthbarChange() {
+        if (!this.healthbar2Curr.width)
+            return;
+        if (this.healthbar2Curr.width <= 0)
+            this.healthbar2Curr.width = 0;
         this.healthbar2Curr.animate('width', '-=10', {
             duration: 200,
             onChange: this.canvas.renderAll.bind(this.canvas),
