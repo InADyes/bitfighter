@@ -2,7 +2,7 @@ import 'fabric'
 declare let fabric: any;
 import * as Display from './Display';
 import { Message } from '../shared/frontEndMessage';
-import * as Reel from '../shared/graphicsEvents'
+//import * as Reel from '../shared/graphicsEvents'
 
 document.addEventListener("DOMContentLoaded", function(){
     let gameState = new Display.GameState();
@@ -16,10 +16,9 @@ document.addEventListener("DOMContentLoaded", function(){
                     console.error('bad storage event value');
                     break;
                 }
-                console.log(str);
                 let message = <Message>JSON.parse(str);
                 console.log(message);
-                gameState.reel = message.reel;
+                gameState.newMessage(message.reel, message.patch);
                 gameState.initPlayers(message.characters);
 
                 break;
@@ -31,13 +30,6 @@ document.addEventListener("DOMContentLoaded", function(){
     
     eventListeners(gameState); // wont work
     let currentTarget = <HTMLInputElement>document.getElementById("left");
-    //////////////////////////////////////////////////
-
-
-
-
-
-    // TEMPORARY BUTTONS. DELETE ALL THIS LATER ///////////////////////
     function eventListeners(g: Display.GameState) {
         let draw = <HTMLButtonElement>document.getElementById("draw");
         draw.addEventListener("click", function() {
@@ -58,9 +50,9 @@ document.addEventListener("DOMContentLoaded", function(){
         attack.addEventListener("click", function() {
             console.log((currentTarget.checked ? "p1" : "p2") + " attacks");
             if (currentTarget.checked)
-                g.player1.attacks();
+                g.attack(0);
             else
-                g.player2.attacks();
+                g.attack(1);
         });
         let clear = <HTMLDivElement>document.getElementById("clear");
         clear.addEventListener("click", function() {
