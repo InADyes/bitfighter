@@ -174,25 +174,12 @@ export class Combatant {
 		});
 	}
 }
-
+/*
 export class GameState {
 	public canvas: fabric.Canvas;
 	public message: any;
 
 
-<<<<<<< HEAD
-	constructor(message: any) {
-		console.log(message);
-		this.message = message;
-		this.canvas = new fabric.Canvas('arena'); // USE StaticCanvas for noninteractive
-
-		this.healthbar2Curr = new fabric.Rect({
-			left: 370,
-			top: 350,
-			fill: 'green',
-			height: 10,
-			width: 100
-=======
 	constructor() {
 		this.message =			message;
 		this.canvas =			new fabric.Canvas('arena'); // USE StaticCanvas for noninteractive
@@ -209,7 +196,6 @@ export class GameState {
             fill: 'red',
             height: 10,
             width: 100
->>>>>>> ebffa0796854c0eebc53d2bf961ba0e25ac3b289
 		});
 		this.healthbar2Mis = new fabric.Rect({
 			left: 370,
@@ -382,7 +368,7 @@ function sleep(duration: number) {
 		setTimeout(resolve, duration);
 	})
 }
-
+*/
 // until we get taras' art i guess
 export const enum Art {
 	axe,
