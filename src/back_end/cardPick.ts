@@ -1,4 +1,4 @@
-import * as CharacterPicker from '../shared/characterPicker'
+import { Character, characters } from '../shared/characterPicker'
 
 interface DonationTier {
     donation: number,
@@ -34,13 +34,34 @@ export function cardPick(
         name: string,
         amount: number
     },
-    requestPick: (fanID: number, charcter: CharacterPicker.Character[]) => number
+    requestPick: (fanID: number, character: Character[]) => number
 ) {
     //find last tier that we can achive or use the first one
     const odds = (tiers.reverse().find(t => t.donation >= donation.amount) || tiers[0]).odds;
 
-    let total = rarities.map(r => odds[r] * CharacterPicker.characters
-        .filter(c => c.rarity == r).length)
-        .reduce((previous, current) => previous + current);
+    const totals = rarities.map(r => odds[r] * characters.filter(c => c.rarity == r).length);
+    
+    const total = totals.reduce((previous, current) => previous + current);
+
+    let choices: Character[] = [];
+
+
     console.log('total: ', total);
+
+    // for every choice to be given
+    for (let _ = 0; _ < 3; _++) {
+        let roll = Math.floor((total + 1) * Math.random());
+
+        //reduce roll by total rarity odds untill rarity is found
+        for (let i in totals) {
+            if (roll < totals[i]) {
+                roll /= odds[i];
+                choices.push(characters[i]);
+                break;
+            }
+            roll -= odds[i];
+        }
+    }
+
+    return choices[requestPick(donation.id, choices)];
 }
