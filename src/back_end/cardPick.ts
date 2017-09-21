@@ -63,5 +63,5 @@ export function cardPick(
         }
     }
 
-    return choices[requestPick(donation.id, choices)];
+    return requestPick(donation.id, choices);
 }

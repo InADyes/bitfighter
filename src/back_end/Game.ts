@@ -40,7 +40,7 @@ export class Game {
             const combatantIndex = this.lastCombatants.findIndex(s => {
                 return s.id === donation.id;
             });
-            if (combatantIndex !== undefined) {
+            if (combatantIndex !== -1) {
                 const patchTime = performance.now() - this.fightStartTime;
 
                 this.insertEvents(
@@ -65,7 +65,8 @@ export class Game {
         // if the donation is enough for a character and they aren't already in the queue
         if (this.queue.some(s => {return s.id === donation.id;}) === false
             && donation.amount >= this.settings.minimumDonation) {
-            cardPick(donation, (id, chars) => Math.floor(chars.length * Math.random())); // todo
+            donation.character = cardPick(donation, (id, chars) => Math.floor(chars.length * Math.random())); // todo
+            console.log(donation.character);
             this.queue.push(pickCharacter(donation))
             this.nextFight();
             return;
