@@ -26,7 +26,7 @@ export const characters: Character[] = [
             armor: 15,
             regeneration: 200,
             critChance: 20,
-            critMultiplier: 7,
+            critMultiplier: 5,
         }, 
         rarity: 0,
         critBuff: Buff.buffs[Buff.types.streetUrchin],
@@ -449,17 +449,55 @@ interface Level {
 
 export const levels: Level[] = [
     {
-        //level: 1,
         bits: 200, //todo: change to let streamer options define starting bit values
         accuracy: 0,
         dodge: 0,
-    },
+    },// level 1
     {
-        //level: 2,
         bits: 500,
-        accuracy: 50,
-        dodge: 50,
-    }
+        accuracy: 20,
+        dodge: 20,
+    },// level 2
+    {
+        bits: 2000,
+        accuracy: 15,
+        dodge: 15,
+    },// level 3
+    {
+        bits: 3500,
+        accuracy: 10,
+        dodge: 10,
+    },// level 4
+    {
+        bits: 5000,
+        accuracy: 10,
+        dodge: 10,
+    },// level 5
+    {
+        bits: 7500,
+        accuracy: 10,
+        dodge: 10,
+    },// level 6
+    {
+        bits: 10000,
+        accuracy: 10,
+        dodge: 10,
+    },// level 7
+    {
+        bits: 20000,
+        accuracy: 5,
+        dodge: 5,
+    },// level 8
+    {
+        bits: 30000,
+        accuracy: 5,
+        dodge: 5,
+    },// level 9
+    {
+        bits: 40000,
+        accuracy: 5,
+        dodge: 5,
+    },// level 10
 ];
 
 export function buildStats(character: number, donation: number, level: number) : Stats {
