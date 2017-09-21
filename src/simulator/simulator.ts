@@ -2,99 +2,9 @@
 import * as process from 'process';
 // internal
 import * as Fight from '../shared/fight';
-import * as characterPicker from '../shared/characterPicker';
 import * as FightEvents from '../shared/fightEvents';
-
-class Results {
-    hits = 0;
-    miss = 0;
-    total_damage = 0;
-    crits = 0;
-    wins = 0;
-    losses = 0;
-
-    constructor(
-        public readonly classType: number,
-        public readonly bits: number
-    ) {}
-
-    get average_damage() {
-        return this.total_damage / ( this.hits + this.miss );
-    }
-}
-
-function other(char: number) {
-    switch (char) {
-        case 0:
-            return 1;
-        case 1:
-            return 0;
-        default:
-            console.error('bad character');
-            process.exit();
-            return -1; // typescript does not recognise exit
-    }
-}
-
-function testPair(
-    character1: {classType: number, bits: number},
-    character2: {classType: number, bits: number},
-    fights: number
-) {
-    let results = [
-        new Results(
-            Number(character1.classType),
-            Number(character1.bits)
-        ),
-        new Results(
-            Number(character2.classType),
-            Number(character2.bits)
-        )
-    ];
-
-    let chars = [
-        characterPicker.pickCharacter({
-            id: 0,
-            name: 'shawn',
-            amount: results[0].bits,
-            character: results[0].classType
-        }),
-        characterPicker.pickCharacter({
-            id: 1,
-            name: 'hao',
-            amount: results[1].bits,
-            character: results[1].classType
-        })
-    ];
-
-    for (let i = 0; i < fights; i++) {
-        const {reel} = Fight.buildFightEvents([chars[0], chars[1]]);
-
-        for (const event of reel) {
-            switch (event.type) {
-                case FightEvents.Types.damage:
-                    results[other(event.character)].total_damage += (<FightEvents.Damage>event).amount;
-                    results[other(event.character)].hits++;
-                    break;
-                case FightEvents.Types.dodge:
-                    results[other(event.character)].miss++;
-                    break;
-                case FightEvents.Types.healing:
-                    break;
-                case FightEvents.Types.death:
-                    results[event.character].losses++;
-                    results[other(event.character)].wins++;
-                    break;
-                case FightEvents.Types.crit:
-                    results[other(event.character)].crits++;
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-    return results;
-}
+import { testPair } from './testPair';
+import * as characterPicker from '../shared/characterPicker';
 
 function buildPairs<T, Y>(arr1: T[], arr2: Y[]) : {v1: number, v2: number}[] {
     let pairs: {v1: number, v2: number}[] = [];
@@ -113,14 +23,28 @@ function buildPairs<T, Y>(arr1: T[], arr2: Y[]) : {v1: number, v2: number}[] {
 if (process.argv.length >= 7)
 {
     const results = testPair(
-        {
-            classType: Number(process.argv[2]),
-            bits: Number(process.argv[3])
-        },
-        {
-            classType: Number(process.argv[4]),
-            bits: Number(process.argv[5])
-        },
+        // {
+        //     classType: Number(process.argv[2]),
+        //     bits: Number(process.argv[3])
+        // },
+        // {
+        //     classType: Number(process.argv[4]),
+        //     bits: Number(process.argv[5])
+        // },
+        [
+            characterPicker.pickCharacter({
+                id: 0,
+                name: 'shawn',
+                amount: Number(process.argv[3]),
+                character: Number(process.argv[2])
+            }),
+            characterPicker.pickCharacter({
+                id: 1,
+                name: 'hao',
+                amount: Number(process.argv[5]),
+                character: Number(process.argv[4])
+            })
+        ],
         Number(process.argv[6])
     )
 
@@ -145,14 +69,20 @@ if (process.argv.length >= 7)
         process.stdout.write(`${ characterPicker.characters[character1.v1].name }: ${ character1.v2 }`)
         for (let character2 of pairs) {
             const results = testPair(
-                {
-                    classType: character2.v1,
-                    bits: characterPicker.levels[character2.v2].bits
-                },
-                {
-                    classType: character1.v1,
-                    bits: characterPicker.levels[character1.v2].bits
-                },
+                [
+                    characterPicker.pickCharacter({
+                        id: 0,
+                        name: 'shawn',
+                        amount: characterPicker.levels[character2.v2].bits,
+                        character: character2.v1
+                    }),
+                    characterPicker.pickCharacter({
+                        id: 1,
+                        name: 'hao',
+                        amount: characterPicker.levels[character1.v2].bits,
+                        character: character1.v1
+                    })
+                ],
                 testCount
             );
             process.stdout.write(`, ${ results[1].wins / testCount }`)
