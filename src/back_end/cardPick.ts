@@ -12,6 +12,8 @@ const enum e_rarity {
     legendary
 }
 
+const rarities = [0, 1, 2, 3];
+
 e_rarity.common
 
 const tiers: DonationTier[] = [
@@ -36,4 +38,9 @@ export function cardPick(
 ) {
     //find last tier that we can achive or use the first one
     const odds = (tiers.reverse().find(t => t.donation >= donation.amount) || tiers[0]).odds;
+
+    let total = rarities.map(r => odds[r] * CharacterPicker.characters
+        .filter(c => c.rarity == r).length)
+        .reduce((previous, current) => previous + current);
+    console.log('total: ', total);
 }
