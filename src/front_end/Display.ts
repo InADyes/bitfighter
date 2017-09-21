@@ -10,9 +10,10 @@ export class GameState {
 	private lastTime: number;
 
 	private canvas = new fabric.Canvas('arena'); // USE StaticCanvas for noninteractive
-	private reel:	Events.Event[];
-	private player1: Player.Player;
-	private player2: Player.Player;
+	private center = this.canvas.getWidth() / 2;
+	private reel:		Events.Event[];
+	private player1:	Player.Player;
+	private player2:	Player.Player;
 	//public players: Player[] = []; Eventually do this
 
 	constructor() {}
@@ -22,9 +23,7 @@ export class GameState {
 			//do the patching
 		}
 		else {
-			//clear message
 			this.clearMessage();
-			// new reel
 			this.reel = reel;
 			this.initReel();
 		}
@@ -50,13 +49,6 @@ export class GameState {
 		);
 	}
 
-	// private displayReel() {
-	// 	let current = this.reel.shift();
-	// 	if (current === undefined)
-	// 		return; 
-	// 	this.fireEvent(current);
-	// }
-
 	private getEvent() {
 		let event = this.reel.shift();
 		if (event == undefined) {
@@ -64,8 +56,7 @@ export class GameState {
 			return;
 		}
 
-		console.log(`do this event`, event);
-			fireEvent(event, this);
+		fireEvent(event, this);
 		(event);
 
 		this.eventLoopTimeout = setTimeout(
@@ -77,16 +68,17 @@ export class GameState {
 		this.lastTime = event.time;
 	}
 
-	public initPlayers(characters: {name: string, hitPoints: number, art: number}[]) {
+	public initPlayers(characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[]) {
 		this.player1 = new Player.Player(characters[0], 0, this.canvas);
-		this.player2 = new Player.Player(characters[1], 1, this.canvas);
+		if (characters[1])
+			this.player2 = new Player.Player(characters[1], 1, this.canvas);
 		this.drawPlayers();
 	}
 
 	public drawPlayers() {
-		this.player1.draw();
+		this.player1.draw(this.center);
 		if (this.player2)
-			this.player2.draw();
+			this.player2.draw(this.center);
 	}
 
 	public attack(p2: number) {
@@ -94,5 +86,26 @@ export class GameState {
 			this.player2.attacks();
 		else
 			this.player1.attacks();
+	}
+	
+	public changeHealth(p2: number, amount: number) {
+		if (p2)
+			this.player2.healthbar(amount);
+		else
+			this.player1.healthbar(amount);
+	}
+
+	public slay(p2: number) {
+		if (p2)
+			this.player2.dies();
+		else
+			this.player1.dies();
+	}
+
+	public displayText(p2: number, str: string, color: string) {
+		if (p2)
+			this.player2.text(str, color);
+		else
+			this.player1.text(str, color);
 	}
 }

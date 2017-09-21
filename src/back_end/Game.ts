@@ -1,14 +1,14 @@
 import * as buildGraphicsEvents from './buildGraphicsEvents';
 import { buildFightEvents } from '../shared/fight';
-import { pickCharacter } from '../shared/characterPicker';
-import { Stats } from '../shared/Status';
+import { Character, pickCharacter } from '../shared/characterPicker';
+import { Stats, Status } from '../shared/Status';
 import * as FightEvents from '../shared/fightEvents';
 import * as graphicsEvents from '../shared/graphicsEvents';
 import * as frontEndMessage from '../shared/frontEndMessage';
 import { Settings } from './backendSettings'
 import { applyFightEvents } from '../shared/applyFightEvents'
 
-import { Status } from '../shared/Status';
+import { } from './characterChoiceHandler';
 
 export class Game {
     private fightStartTime: number = 0;
@@ -26,6 +26,7 @@ export class Game {
 
     constructor(
         private sendFightMessage: (message: frontEndMessage.Message) => void,
+        private requestCharacterChoice: (fanID: number, character: Character[]) => number,
         settings?: Settings
     ) {
         if (settings)
@@ -40,7 +41,7 @@ export class Game {
             const combatantIndex = this.lastCombatants.findIndex(s => {
                 return s.id === donation.id;
             });
-            if (combatantIndex !== undefined) {
+            if (combatantIndex !== -1) {
                 const patchTime = performance.now() - this.fightStartTime;
 
                 this.insertEvents(
@@ -62,15 +63,20 @@ export class Game {
             }
         }
 
+        // if the donation is enough for a character and they aren't already in the queue
         if (this.queue.some(s => {return s.id === donation.id;}) === false
             && donation.amount >= this.settings.minimumDonation) {
+            // if (donation.character == -1) {
+            //     donation.character = cardPick(donation, this.requestCharacterChoice); // todo
+            // }
+            console.log(donation.character);
             this.queue.push(pickCharacter(donation))
             this.nextFight();
             return;
         }
 
 
-        //if there was a last fight, damage current champion
+        // if there was a last fight, damage current champion
         if (this.lastCombatants.length > 1) {
             const patchTime = performance.now() - this.fightStartTime;
 
@@ -92,7 +98,7 @@ export class Game {
         }
     }
 
-    //only works when all new events have the same time
+    // only works when all new events have the same time
     private insertEvents(insert: FightEvents.Event[], patchTime: number) {
         // set baseline to current timestamp
         applyFightEvents(
@@ -102,7 +108,7 @@ export class Game {
             })
         );
         
-        //create a temporary copy of status
+        // create a temporary copy of status
         let tempStatus = this.lastCombatants.map( s => {
             return new Status(
                 s.id,
@@ -115,7 +121,7 @@ export class Game {
             );
         });
 
-        //apply new events
+        // apply new events
         applyFightEvents(tempStatus, ...insert);
 
         // caculate the rest of the events
@@ -158,8 +164,7 @@ export class Game {
         let graphicsEvents = buildGraphicsEvents.build(this.lastEvents);
 
         this.sendFightMessage({
-            characters: this.lastCombatants.map(c => {
-                return {
+            characters: this.lastCombatants.map(c => {return {
                     name: c.name,
                     maxHitPoints: c.baseStats.maxHitPoints,
                     currentHitPoints: c.hitPoints,

@@ -21,7 +21,12 @@ document.addEventListener('DOMContentLoaded', function() {
         game.donation({id: id, name: name, amount: amount, character: art});
     });
 
-    let game = new Game.Game(message => {
-        localStorage.setItem('fight', JSON.stringify(message));
-    });
+    let game = new Game.Game(
+        message => {
+            localStorage.setItem('fight', JSON.stringify(message));
+        },
+        (id, chars) => {
+            return Math.floor(chars.length * Math.random());
+        }
+    );
 });

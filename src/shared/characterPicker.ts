@@ -533,13 +533,15 @@ export function pickCharacter(donation: {id: number, name: string, amount: numbe
     while (level < levels.length && donation.amount > levels[level].bits)
         level++;
 
+    const stats = buildStats(pick, donation.amount, level);
+
     return new Status(
         donation.id,
         donation.name,
         pick,
         donation.amount,
-        characters[pick].stats.maxHitPoints + donation.amount,
+        stats.maxHitPoints,
         level,
-        buildStats(pick, donation.amount, level)
+        stats
     )
 }

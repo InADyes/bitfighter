@@ -87,6 +87,7 @@ export class Combatant {
         if (healingAmount + this.status.hitPoints > maxHitPoints)
             healingAmount = maxHitPoints - this.status.hitPoints;
 
-        this.newEvent(new fightEvents.Healing(this.time, this.index, healingAmount));
+        // allways heals the first character in the future, needs to be changed
+        this.newEvent(new fightEvents.Healing(this.time + 200, 0, healingAmount));
     }
 }
