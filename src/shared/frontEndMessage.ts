@@ -5,7 +5,8 @@ import * as graphicsEvents from './graphicsEvents';
 export interface Message {
     characters: {
         name: string;
-        hitPoints: number;
+        currentHitPoints: number;
+        maxHitPoints: number;
         art: number;
     }[];
     reel:  graphicsEvents.Event[];

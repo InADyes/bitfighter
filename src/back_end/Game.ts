@@ -161,7 +161,8 @@ export class Game {
             characters: this.lastCombatants.map(c => {
                 return {
                     name: c.name,
-                    hitPoints: c.hitPoints,
+                    maxHitPoints: c.baseStats.maxHitPoints,
+                    currentHitPoints: c.hitPoints,
                     art: c.character
                 }
             }),
