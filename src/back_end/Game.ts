@@ -8,7 +8,7 @@ import * as frontEndMessage from '../shared/frontEndMessage';
 import { Settings } from './backendSettings'
 import { applyFightEvents } from '../shared/applyFightEvents'
 
-import { } from './characterChoiceHandler';
+import { CharacterChoiceHandler } from './characterChoiceHandler';
 
 export class Game {
     private fightStartTime: number = 0;
@@ -23,6 +23,12 @@ export class Game {
         minimumDonation: 1000,
         donationToHPRatio: 1
     };
+
+    // private characterChoiceHandler = new CharacterChoiceHandler(
+    //     () = {
+
+    //     }
+    // );
 
     constructor(
         private sendFightMessage: (message: frontEndMessage.Message) => void,

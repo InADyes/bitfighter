@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('fight', JSON.stringify(message));
         },
         (id, chars) => {
-            return Math.floor(chars.length * Math.random());
+            return Math.floor((chars.length + 1) * Math.random());
         }
     );
 });

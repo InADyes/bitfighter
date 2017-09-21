@@ -28,11 +28,17 @@ const tiers: DonationTier[] = [
     }
 ];
 
-export class characterChoiceHandler {
+export class CharacterChoiceHandler {
     private pendingCharacterChoices: {
         id: number,
-        characters: number[]
+        characters: number[],
+        timeout: NodeJS.Timer
     }[];
+
+    constructor(
+        public readonly newCombatant: (id: number, character: number, donation: number) => void
+    ) {}
+
     public requestChoice(
         donation: {
             id: number,
@@ -70,14 +76,33 @@ export class characterChoiceHandler {
             }
         }
         
+        const timeout = setTimeout(
+            () => {
+                this.completeChoice(donation.id, Math.floor((choices.length + 1) * Math.random()))
+            },
+            60000 // one minute
+        );
+
         this.pendingCharacterChoices.push({
             id: donation.id,
-            characters: choices.map(c => characters.indexOf(c))
+            characters: choices.map(c => characters.indexOf(c)),
+            timeout
         });
 
         return requestPick(donation.id, choices);
     }
-    public completeChoice() {
+    public completeChoice(id: number, pick: number) {
+        const index = this.pendingCharacterChoices.findIndex(c => c.id === id);
 
+        if (index === -1) {
+            console.error('no pending choice for this pick');
+            return;
+        }
+
+        const pendingChoice = this.pendingCharacterChoices.splice(index, 1)[0];
+        const characters = pendingChoice.characters;
+
+        const character = characters[pick % characters.length];
+        this.newCombatant(id, character, pendingChoice.id);
     }
 }
