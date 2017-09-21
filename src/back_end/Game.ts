@@ -8,7 +8,7 @@ import * as frontEndMessage from '../shared/frontEndMessage';
 import { Settings } from './backendSettings'
 import { applyFightEvents } from '../shared/applyFightEvents'
 
-import { cardPick } from './cardPick';
+import { } from './characterChoiceHandler';
 
 export class Game {
     private fightStartTime: number = 0;
@@ -66,9 +66,9 @@ export class Game {
         // if the donation is enough for a character and they aren't already in the queue
         if (this.queue.some(s => {return s.id === donation.id;}) === false
             && donation.amount >= this.settings.minimumDonation) {
-            if (donation.character == -1) {
-                donation.character = cardPick(donation, this.requestCharacterChoice); // todo
-            }
+            // if (donation.character == -1) {
+            //     donation.character = cardPick(donation, this.requestCharacterChoice); // todo
+            // }
             console.log(donation.character);
             this.queue.push(pickCharacter(donation))
             this.nextFight();
