@@ -64,7 +64,7 @@ export class Combatant {
         }
 
         if (Math.ceil(Math.random() * 100) >= attack.critChance) {
-            attack.damage = attack.damage * attack.critMultiplier - this.status.stats.armor;
+            attack.damage = (attack.damage - this.status.stats.armor) * attack.critMultiplier;
             this.newEvent(new fightEvents.Crit(this.time, this.index, attack.critDebuff, attack.critBuff));
         } else
             attack.damage -= this.status.stats.armor; //applied here so that armor is calculated before the buff is applied when there is a crit
