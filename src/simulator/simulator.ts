@@ -6,6 +6,8 @@ import * as FightEvents from '../shared/fightEvents';
 import { testPair } from './testPair';
 import * as characterPicker from '../shared/characterPicker';
 
+import { resultStats } from './resultStats';
+
 function buildPairs<T, Y>(arr1: T[], arr2: Y[]) : {v1: number, v2: number}[] {
     let pairs: {v1: number, v2: number}[] = [];
 
@@ -20,43 +22,10 @@ function buildPairs<T, Y>(arr1: T[], arr2: Y[]) : {v1: number, v2: number}[] {
     return pairs;
 }
 
-if (process.argv.length >= 7)
-{
-    const results = testPair(
-        // {
-        //     classType: Number(process.argv[2]),
-        //     bits: Number(process.argv[3])
-        // },
-        // {
-        //     classType: Number(process.argv[4]),
-        //     bits: Number(process.argv[5])
-        // },
-        [
-            characterPicker.pickCharacter({
-                id: 0,
-                name: 'shawn',
-                amount: Number(process.argv[3]),
-                character: Number(process.argv[2])
-            }),
-            characterPicker.pickCharacter({
-                id: 1,
-                name: 'hao',
-                amount: Number(process.argv[5]),
-                character: Number(process.argv[4])
-            })
-        ],
-        Number(process.argv[6])
-    )
-
-    console.log(`classType, ${ results[0].classType }, ${ results[1].classType }`);
-    console.log(`hits, ${ results[0].hits }, ${ results[1].hits }`);
-    console.log(`miss, ${ results[0].miss }, ${ results[1].miss }`);
-    console.log(`total_damage, ${ results[0].total_damage }, ${ results[1].total_damage }`);
-    console.log(`crits, ${ results[0].crits }, ${ results[1].crits }`);
-    console.log(`wins, ${ results[0].wins }, ${ results[1].wins }`);
-    console.log(`losses, ${ results[0].losses }, ${ results[1].losses }`);
-    console.log(`average_damage, ${ results[0].average_damage }, ${ results[1].average_damage }`);
-} else if (process.argv.length >= 3){
+if (process.argv.length == 7 && process.argv[6] === 'reel') {
+} else if (process.argv.length == 7) {
+    resultStats()
+} else if (process.argv.length === 3) {
     const pairs = buildPairs(characterPicker.characters, characterPicker.levels);
     const testCount = Number(process.argv[2]);
 
