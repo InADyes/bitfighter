@@ -51,6 +51,7 @@ export class GameState {
 
 	private getEvent() {
 		let event = this.reel.shift();
+		let nextTime = this.reel[0] ? this.reel[0].time : 0;
 		if (event == undefined) {
 			this.eventLoopTimeout = null;
 			return;
@@ -63,7 +64,7 @@ export class GameState {
 			() => {
 				this.getEvent();
 			},
-			event.time -  this.lastTime
+			nextTime - event.time
 		);
 		this.lastTime = event.time;
 	}

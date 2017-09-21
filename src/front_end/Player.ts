@@ -32,7 +32,6 @@ export class Player {
     }
 
     public draw(center: number) {
-
         if (this.img)
             this.canvas.remove(this.img);
         new fabric.Image.fromURL(this.art[this.artIndex], (oImg: fabric.Image) => {
@@ -51,10 +50,10 @@ export class Player {
         //health text
         if (this.healthtext)
             this.canvas.remove(this.healthtext);
-        this.healthtext = new fabric.Text(this.health.toString(), {
-            fontSize: 5,
+        this.healthtext = new fabric.Text(`${ this.health.toString() }/${ this.baseHealth.toString() }`, {
+            fontSize: 9,
             fill: 'black',
-            top: 20,
+            top: 10,
             left: !this.right ? 4 : 283
         });
         //health bar
@@ -116,24 +115,24 @@ export class Player {
     }
 
 	public dies() {
-    this.img.animate('angle', this.right ? '-90' : '90', {
-        duration: 700,
-        onChange: this.canvas.renderAll.bind(this.canvas),
-        onComplete: () => {
-            this.img.animate('opacity', 0, {
-                duration: 200,
-                onChange: this.canvas.renderAll.bind(this.canvas),
-                onComplete: () => {
-                    this.canvas.remove(this.img);
-                    this.canvas.remove(this.healthtext);
-                    this.canvas.remove(this.healthbarCurr);
-                    this.canvas.remove(this.healthbarDec);
-                    this.canvas.remove(this.healthbarMis);
-                }
-            });
-        }
-    });
-}
+        this.img.animate('angle', this.right ? '-90' : '90', {
+            duration: 700,
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: () => {
+                this.img.animate('opacity', 0, {
+                    duration: 200,
+                    onChange: this.canvas.renderAll.bind(this.canvas),
+                    onComplete: () => {
+                        this.canvas.remove(this.img);
+                        this.canvas.remove(this.healthtext);
+                        this.canvas.remove(this.healthbarCurr);
+                        this.canvas.remove(this.healthbarDec);
+                        this.canvas.remove(this.healthbarMis);
+                    }
+                });
+            }
+        });
+    }
 
 	public text(str: string, color: string) {
         let dmg = new fabric.Text(`${ str }`, {
@@ -144,52 +143,70 @@ export class Player {
     });
 
     this.canvas.add(dmg);
-    dmg.animate('top', '-=20', {
-        duration: 500,
-        onChange: this.canvas.renderAll.bind(this.canvas),
-        onComplete: () => {
-            this.canvas.remove(dmg);
-        }
-    });
+        dmg.animate('top', '-=20', {
+            duration: 500,
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: () => {
+                this.canvas.remove(dmg);
+            }
+        });
 
-}
+    }
 
 	public healthbar(adjustment: number) {
-    if (!this.healthbarCurr.height)
-        return;
-    /*this.health += adjustment;
-    if (this.health > this.baseHealth) {
-        this.health = this.baseHealth;
-        // then draw or keep bar at max
-    }*/
-    // calculate amount to decrease height of bar by
-    let percent = adjustment / this.baseHealth;
-    let barChange = this.hpHeight * percent;
+        if (!this.healthbarCurr.height)
+            return;
 
-    // stop bars from going over 100 or under 0
-    if (barChange + this.healthbarCurr.height > this.hpHeight)
-        barChange = this.hpHeight - this.healthbarCurr.height;
-    else if (barChange + this.healthbarCurr.height < 0)
-        barChange = -this.healthbarCurr.height;
-    console.log(`CHANGE HEALTH BY = ${ barChange }`);
+        // adjust actual health values
+        this.health += adjustment;
+        /*if (this.health > this.baseHealth)
+            this.health = this.baseHealth;
+        else if (this.health < 0)
+            this.health = 0;*/
+        this.redrawHealth();
+            
+        // calculate amount to decrease height of bar by
+        console.log(`adjust: ${ adjustment }`);
+        let percent = adjustment / this.baseHealth;
+        console.log(`baseHealth: ${ this.health }`);
+        let barChange = this.hpHeight * percent;
 
-    if (this.healthbarCurr.height <= 0)
-        this.healthbarCurr.height = 0;
-    // Drop the green bar
-    this.healthbarCurr.animate('height', barChange >= 0 ? `+=${ barChange }` : `-=${ -barChange }` , {
-        duration: 1,
-        onChange: this.canvas.renderAll.bind(this.canvas),
-        onComplete: () => {
-            // Have the yellow bar catch up to the green bar
-            if (this.healthbarCurr.height && this.healthbarDec.height)
-                barChange = this.healthbarCurr.height - this.healthbarDec.height;
-            else if (this.healthbarCurr.height == 0 && this.healthbarDec.height)
-                barChange = -this.healthbarDec.height
-            this.healthbarDec.animate('height', barChange >= 0 ? `+=${ barChange }` : `-=${ -barChange }`, {
-                duration: 400,
-                onChange: this.canvas.renderAll.bind(this.canvas),
-            });
-        }
-    });
-}
+        // stop bars from going over 100 or under 0
+        if (barChange + this.healthbarCurr.height > this.hpHeight)
+            barChange = this.hpHeight - this.healthbarCurr.height;
+        else if (barChange + this.healthbarCurr.height < 0)
+            barChange = -this.healthbarCurr.height;
+        console.log(`CHANGE HEALTH BY = ${ barChange }`);
+
+        if (this.healthbarCurr.height <= 0)
+            this.healthbarCurr.height = 0;
+        // Drop the green bar
+        this.healthbarCurr.animate('height', barChange >= 0 ? `+=${ barChange }` : `-=${ -barChange }` , {
+            duration: 1,
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: () => {
+                // Have the yellow bar catch up to the green bar
+                if (this.healthbarCurr.height && this.healthbarDec.height)
+                    barChange = this.healthbarCurr.height - this.healthbarDec.height;
+                else if (this.healthbarCurr.height == 0 && this.healthbarDec.height)
+                    barChange = -this.healthbarDec.height
+                this.healthbarDec.animate('height', barChange >= 0 ? `+=${ barChange }` : `-=${ -barChange }`, {
+                    duration: 400,
+                    onChange: this.canvas.renderAll.bind(this.canvas),
+                });
+            }
+        });
+    }
+
+    private redrawHealth() {
+        if (this.healthtext)
+             this.canvas.remove(this.healthtext);
+        this.healthtext = new fabric.Text(`${ this.health.toString() }/${ this.baseHealth.toString() }`, {
+            fontSize: 9,
+            fill: 'black',
+            top: 10,
+            left: !this.right ? 4 : 283
+        }); 
+        this.canvas.add(this.healthtext);
+    }
 }
