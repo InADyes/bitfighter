@@ -2,48 +2,56 @@ import 'fabric'
 declare let fabric: any;
 
 export class Player {
-    private name: string;
-    private health: number;
-    private right: number;
-    private img: fabric.Object;
-    private healthtext: fabric.Text;
-    private healthbarCurr: fabric.Rect;
-    private healthbarMis: fabric.Rect;
-    private healthbarDec: fabric.Rect;
-    private canvas: fabric.Canvas;
+    private name:           string;
+    private baseHealth:     number;
+    private health:         number;
+    private right:          number;
+    private img:            fabric.Object;
+    private healthtext:     fabric.Text;
+    private healthbarCurr:  fabric.Rect;
+    private healthbarMis:   fabric.Rect;
+    private healthbarDec:   fabric.Rect;
+    private canvas:         fabric.Canvas;
+    private artIndex:       number;
     private art = [
         "images/characters/axe.png",
         "images/characters/sword.png",
         "images/characters/daggers.png",
         "images/characters/champion_alpha.png",
     ]
+    private hpHeight =  70;
+    private hpWidth =   10;
 
     constructor(data: any, side: number, canvas: fabric.Canvas) {
         this.name = data.name;
-        this.health = data.health;
+        this.health = data.currentHitPoints;
+        this.artIndex = data.art;
+        this.baseHealth = data.maxHitPoints;
         this.right = side;
         this.canvas = canvas;
     }
 
-    public draw() {
+    public draw(center: number) {
 
         if (this.img)
             this.canvas.remove(this.img);
-        new fabric.Image.fromURL(this.art[1], (oImg: fabric.Image) => {
+        new fabric.Image.fromURL(this.art[this.artIndex], (oImg: fabric.Image) => {
+            if (oImg.width)
             this.img = oImg.set({
-                left: !this.right ? 50 : 250,
+                left: !this.right ? center - 50 - oImg.width/2 : center + 50
+                + oImg.width/2,
                 top: 110,
                 originX: 'center',
                 originY: 'bottom',
                 flipX: !this.right ? false : true
             });
-            //this.img.scaleToWidth(200);
             this.canvas.add(this.img);
+
         });
         //health text
         if (this.healthtext)
             this.canvas.remove(this.healthtext);
-       this.healthtext = new fabric.Text('70',{
+        this.healthtext = new fabric.Text(this.health.toString(), {
             fontSize: 5,
             fill: 'black',
             top: 20,
@@ -60,8 +68,8 @@ export class Player {
             left: !this.right ? 10 : 290,
             top: 100,
             fill: '#1eedce',
-            height: 70,
-            width: 10,
+            height: this.hpHeight,
+            width: this.hpWidth,
             flipY: true,
             originX: 'center',
             originY: 'bottom'
@@ -70,8 +78,8 @@ export class Player {
             left: !this.right ? 10 : 290,
             top: 100,
             fill: '#ed1e1e',
-            height: 70,
-            width: 10,
+            height: this.hpHeight,
+            width: this.hpWidth,
             flipY: true,
             originX: 'center',
             originY: 'bottom'
@@ -80,8 +88,8 @@ export class Player {
             left: !this.right ? 10 : 290,
             top: 100,
             fill: '#edd11e',
-            height: 70,
-            width: 10,
+            height: this.hpHeight,
+            width: this.hpWidth,
             flipY: true,
             originX: 'center',
             originY: 'bottom'
@@ -94,20 +102,18 @@ export class Player {
 
     public attacks() {
         this.img.animate('left', this.right ? '-=70' : '+=70', {
-            duration: 100,
+            duration: 200,
             easing: fabric.util.ease['easeInQuint'],
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 this.img.animate('left', this.right ? 250 : 50, {
-                    duration: 200,
+                    duration: 300,
                     onChange: this.canvas.renderAll.bind(this.canvas),
                     easing: fabric.util.ease['easeOutQuint'],
                 })
             }
         });
     }
-
-
 
 	public dies() {
     this.img.animate('angle', this.right ? '-90' : '90', {
@@ -129,12 +135,12 @@ export class Player {
     });
 }
 
-	public damage() {
-    let dmg = new fabric.Text('20', {
-        fontSize: 15,
-        fill: 'red',
-        top: 20,
-        left: !this.right ? 40 : 260
+	public text(str: string, color: string) {
+        let dmg = new fabric.Text(`${ str }`, {
+            fontSize: 15,
+            fill: color,
+            top: 20,
+            left: !this.right ? 40 : 260
     });
 
     this.canvas.add(dmg);
@@ -148,16 +154,38 @@ export class Player {
 
 }
 
-	public healthbar() {
+	public healthbar(adjustment: number) {
     if (!this.healthbarCurr.height)
         return;
+    /*this.health += adjustment;
+    if (this.health > this.baseHealth) {
+        this.health = this.baseHealth;
+        // then draw or keep bar at max
+    }*/
+    // calculate amount to decrease height of bar by
+    let percent = adjustment / this.baseHealth;
+    let barChange = this.hpHeight * percent;
+
+    // stop bars from going over 100 or under 0
+    if (barChange + this.healthbarCurr.height > this.hpHeight)
+        barChange = this.hpHeight - this.healthbarCurr.height;
+    else if (barChange + this.healthbarCurr.height < 0)
+        barChange = -this.healthbarCurr.height;
+    console.log(`CHANGE HEALTH BY = ${ barChange }`);
+
     if (this.healthbarCurr.height <= 0)
         this.healthbarCurr.height = 0;
-    this.healthbarCurr.animate('height', '-=10', {
-        duration: 0,
-        // onChange: this.canvas.renderAll.bind(this.canvas),
+    // Drop the green bar
+    this.healthbarCurr.animate('height', barChange >= 0 ? `+=${ barChange }` : `-=${ -barChange }` , {
+        duration: 1,
+        onChange: this.canvas.renderAll.bind(this.canvas),
         onComplete: () => {
-            this.healthbarDec.animate('height', '-=10', {
+            // Have the yellow bar catch up to the green bar
+            if (this.healthbarCurr.height && this.healthbarDec.height)
+                barChange = this.healthbarCurr.height - this.healthbarDec.height;
+            else if (this.healthbarCurr.height == 0 && this.healthbarDec.height)
+                barChange = -this.healthbarDec.height
+            this.healthbarDec.animate('height', barChange >= 0 ? `+=${ barChange }` : `-=${ -barChange }`, {
                 duration: 400,
                 onChange: this.canvas.renderAll.bind(this.canvas),
             });
