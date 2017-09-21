@@ -155,7 +155,7 @@ if (process.argv.length >= 7)
                 },
                 testCount
             );
-            process.stdout.write(`, ${ results[0].wins / testCount }`)
+            process.stdout.write(`, ${ results[1].wins / testCount }`)
         }
         process.stdout.write('\n');
     }
