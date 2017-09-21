@@ -5,7 +5,7 @@ export function fireEvent(event: GraphicsEvents.Event, gameState: GameState){
     let char = event.character;
     switch(event.type) {
         case GraphicsEvents.EventType.Health:
-            gameState.changeHealth(char, (<GraphicsEvents.Health>event).health)
+            gameState.changeHealth(char, (<GraphicsEvents.Health>event).maxHitPoints)
             break;
         case GraphicsEvents.EventType.Attack:
             console.log(`CHARACTER ${ char } ATTACKS`)

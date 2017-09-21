@@ -68,9 +68,10 @@ export class GameState {
 		this.lastTime = event.time;
 	}
 
-	public initPlayers(characters: {name: string, hitPoints: number, art: number}[]) {
+	public initPlayers(characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[]) {
 		this.player1 = new Player.Player(characters[0], 0, this.canvas);
-		this.player2 = new Player.Player(characters[1], 1, this.canvas);
+		if (characters[1])
+			this.player2 = new Player.Player(characters[1], 1, this.canvas);
 		this.drawPlayers();
 	}
 

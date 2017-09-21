@@ -24,9 +24,9 @@ export class Player {
 
     constructor(data: any, side: number, canvas: fabric.Canvas) {
         this.name = data.name;
-        this.health = data.hitPoints;
+        this.health = data.currentHitPoints;
         this.artIndex = data.art;
-        this.baseHealth = data.hitPoints;
+        this.baseHealth = data.maxHitPoints;
         this.right = side;
         this.canvas = canvas;
     }
@@ -46,6 +46,7 @@ export class Player {
                 flipX: !this.right ? false : true
             });
             this.canvas.add(this.img);
+
         });
         //health text
         if (this.healthtext)
@@ -156,11 +157,11 @@ export class Player {
 	public healthbar(adjustment: number) {
     if (!this.healthbarCurr.height)
         return;
-    this.health += adjustment;
+    /*this.health += adjustment;
     if (this.health > this.baseHealth) {
         this.health = this.baseHealth;
         // then draw or keep bar at max
-    }
+    }*/
     // calculate amount to decrease height of bar by
     let percent = adjustment / this.baseHealth;
     let barChange = this.hpHeight * percent;
