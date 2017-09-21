@@ -1,9 +1,9 @@
-import { reelToResults } from './testPair';
 import { pickCharacter } from '../shared/characterPicker';
 import { buildFightEvents } from '../shared/fight';
 import * as FightEvents from '../shared/fightEvents';
 import { stdout } from 'process';
 import { buffs } from '../shared/buff';
+import { Results, reelToResults, printResults } from './testPair';
 
 function printReel(reel: FightEvents.Event[]) {
 
@@ -61,4 +61,14 @@ export function resultEvents() {
 
     const { reel } = buildFightEvents(chars);
     printReel(reel);
+
+    const results = reelToResults(
+        chars.map(s => new Results(
+            s.character,
+            s.initialDonation
+        )),
+        reel
+    )
+
+    printResults(results);
 }

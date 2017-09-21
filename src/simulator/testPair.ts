@@ -3,7 +3,7 @@ import * as FightEvents from '../shared/fightEvents';
 import { otherCharacter as other } from '../shared/utility';
 import { Status } from '../shared/Status';
 
-class Results {
+export class Results {
     hits = 0;
     miss = 0;
     total_damage = 0;
