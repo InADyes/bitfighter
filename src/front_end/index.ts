@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     break;
                 }
                 let message = <Message>JSON.parse(str);
-                console.log(message);
+                console.log(message.reel);
                 gameState.newMessage(message.reel, message.patch);
                 gameState.initPlayers(message.characters);
 
@@ -37,13 +37,14 @@ document.addEventListener("DOMContentLoaded", function(){
         });
 
         let health = <HTMLButtonElement>document.getElementById("health");
+        let amount = <HTMLInputElement>document.getElementById("damage");
         health.addEventListener("click", function() {
 
             console.log("change a player's health");
-            //if (currentTarget.checked)
-                //g.player1.healthbar();
-            //else
-                //g.player2.healthbar();
+            if (currentTarget.checked)
+                g.changeHealth(0, Number(amount.value));
+            else
+                g.changeHealth(1, Number(amount.value));
         });
 
         let attack = <HTMLButtonElement>document.getElementById("attack");
@@ -57,18 +58,19 @@ document.addEventListener("DOMContentLoaded", function(){
         let clear = <HTMLDivElement>document.getElementById("clear");
         clear.addEventListener("click", function() {
             console.log("remove a player from the screen");
-            // if (currentTarget.checked)
-            //     g.player1.dies();
-            // else
-            //     g.player2.dies();
+            if (currentTarget.checked)
+                g.slay(0)
+            else
+                g.slay(1);
         });
         let text = <HTMLDivElement>document.getElementById("text");
+        let t = text.innerText;
         text.addEventListener("click", function() {
             console.log("display text over a player's head");
-            // if (currentTarget.checked)
-            //     g.player1.damage();
-            // else
-            //     g.player2.damage();
+            if (currentTarget.checked)
+                g.displayText(0, t, `red`);
+            else
+                g.displayText(1, t, `red`);
         });
     }
     /////////////////////////////////////////////////////////////////

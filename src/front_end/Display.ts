@@ -22,9 +22,7 @@ export class GameState {
 			//do the patching
 		}
 		else {
-			//clear message
 			this.clearMessage();
-			// new reel
 			this.reel = reel;
 			this.initReel();
 		}
@@ -50,13 +48,6 @@ export class GameState {
 		);
 	}
 
-	// private displayReel() {
-	// 	let current = this.reel.shift();
-	// 	if (current === undefined)
-	// 		return; 
-	// 	this.fireEvent(current);
-	// }
-
 	private getEvent() {
 		let event = this.reel.shift();
 		if (event == undefined) {
@@ -64,8 +55,7 @@ export class GameState {
 			return;
 		}
 
-		console.log(`do this event`, event);
-			fireEvent(event, this);
+		fireEvent(event, this);
 		(event);
 
 		this.eventLoopTimeout = setTimeout(
@@ -94,5 +84,26 @@ export class GameState {
 			this.player2.attacks();
 		else
 			this.player1.attacks();
+	}
+	
+	public changeHealth(p2: number, amount: number) {
+		if (p2)
+			this.player2.healthbar(amount);
+		else
+			this.player1.healthbar(amount);
+	}
+
+	public slay(p2: number) {
+		if (p2)
+			this.player2.dies();
+		else
+			this.player1.dies();
+	}
+
+	public displayText(p2: number, str: string, color: string) {
+		if (p2)
+			this.player2.text(str, color);
+		else
+			this.player1.text(str, color);
 	}
 }
