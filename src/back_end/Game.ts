@@ -26,6 +26,7 @@ export class Game {
 
     constructor(
         private sendFightMessage: (message: frontEndMessage.Message) => void,
+        private requestCharacterChoice: (fanID: number, character: Character[]) => number,
         settings?: Settings
     ) {
         if (settings)
@@ -65,7 +66,9 @@ export class Game {
         // if the donation is enough for a character and they aren't already in the queue
         if (this.queue.some(s => {return s.id === donation.id;}) === false
             && donation.amount >= this.settings.minimumDonation) {
-            donation.character = cardPick(donation, (id, chars) => Math.floor(chars.length * Math.random())); // todo
+            if (donation.character == -1) {
+                donation.character = cardPick(donation, this.requestCharacterChoice); // todo
+            }
             console.log(donation.character);
             this.queue.push(pickCharacter(donation))
             this.nextFight();

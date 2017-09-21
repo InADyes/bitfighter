@@ -43,7 +43,7 @@ export function buildFightEvents(stats: Status[]) {
     }
 
     newStats.forEach(s => s.clearBuffs());
-    combatants.filter(c => c.status == newStats[0])[0].heal();
+    //combatants.filter(c => c.status == newStats[0])[0].heal();
 
     return { combatants: newStats, reel }
 }
