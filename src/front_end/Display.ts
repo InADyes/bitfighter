@@ -10,7 +10,7 @@ export class GameState {
 	private lastTime: number;
 
 	private canvas = new fabric.Canvas('arena'); // USE StaticCanvas for noninteractive
-	private center = this.canvas.getWidth() / 2;
+	//
 	private reel:		Events.Event[];
 	private player1:	Player.Player;
 	private player2:	Player.Player;
@@ -77,9 +77,9 @@ export class GameState {
 	}
 
 	public drawPlayers() {
-		this.player1.draw(this.center);
+		this.player1.draw();
 		if (this.player2)
-			this.player2.draw(this.center);
+			this.player2.draw();
 	}
 
 	public attack(p2: number) {
