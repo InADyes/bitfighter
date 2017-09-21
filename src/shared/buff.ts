@@ -39,105 +39,103 @@ export const enum types {
 
 export const buffs: Buff[] = [
     {
-        duration: 10000,
+        duration: 15000,
         art: 0,
-        dodge: 2,
+        dodge: 3,
     },// Street Urchin
     {
-        duration: 10000,
-        art: 0,
-        accuracy: 0.5,
-        dodge: 0.5,
+        duration: 15000,
+        art: 1,
+        accuracy: .25,
+        dodge: .25,
     },// Scullery Maid
     {
-        duration: 10000,
-        art: 0,
-        armor: 0.5,
+        duration: 15000,
+        art: 2,
+        armor: 0.25,
     },// Farmer
     {
-        duration: 10000,
-        art: 0,
+        duration: 15000,
+        art: 3,
         accuracy: 0.2,
     },// Barkeep
     {
-        duration: 10000,
-        art: 0,
+        duration: 15000,
+        art: 4,
         dodge: 0.2,
-        armor: 0.75,
+        armor: 0.5,
     },// Aristocrat
     {
-        duration: 10000,
-        art: 0,
+        duration: 15000,
+        art: 5,
         accuracy: 0,
     },// Minstrel
     {
-        duration: 10000,
-        art: 0,
+        duration: 15000,
+        art: 6,
         armor: 0,
     },// Mage
     {
-        duration: 10000,
-        art: 0,
+        duration: 15000,
+        art: 7,
         dodge: 1.5,
     },// Rogue
     {
-        duration: 10000,
-        art: 0,
-        attackDamage: 0.75,
-        armor: .5,
+        duration: 15000,
+        art: 8,
+        attackDamage: 0.5,
+        armor: .25,
     },// Gladiator
     {
-        duration: 10000,
-        art: 0,
-        attackDamage: 4,
+        duration: 15000,
+        art: 9,
+        attackDamage: 8,
     },// Barbarian
     {
         duration: 15000,
-        art: 0,
-        accuracy: 0.75,
-        dodge: 0.75,
-        attackDamage: 0.75,
+        art: 10,
+        accuracy: 0.25,
+        dodge: 0.25,
+        attackDamage: 0.25,
         critChance: .5,
     },// Warpriest
     {
-        duration: 10000,
-        art: 0,
-        attackSpeed: 2,
+        duration: 15000,
+        art: 11,
+        attackSpeed: 4,
     },// Werewolf Buff
     {
-        duration: 10000,
-        art: 0,
-        dodge: 0.7,
+        duration: 15000,
+        art: 12,
+        dodge: 0.4,
     },// Werewolf Debuff
     {
-        duration: 10000,
-        art: 0,
+        duration: 15000,
+        art: 13,
         dodge: 0,
         attackDamage: 0.5,
         armor: 0,
     },// Warlock Debuff
     {
-        duration: 5000,
-        art: 0,
-        armor: 3,
+        duration: 15000,
+        art: 14,
+        armor: 6,
     },// Paladin
     {
-        duration: 10000,
-        art: 0,
-        attackSpeed: 1.25,
-        armor: 0.7,
+        duration: 15000,
+        art: 15,
+        attackSpeed: 2,
+        accuracy: 1.25,
         critChance: 2,
     },// Swashbuckler Buff
     {
-        duration: 10000,
-        art: 0,
-        attackSpeed: 1.25,
+        duration: 15000,
+        art: 16,
         armor: 0.7,
-        critChance: 2,
     },// Swashbuckler Debuff
     {
-        duration: 10000,
-        art: 0,
+        duration: 15000,
+        art: 17,
     },// Dragon
     // {
     //     duration: 3000,

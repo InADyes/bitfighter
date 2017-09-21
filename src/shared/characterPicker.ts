@@ -25,8 +25,8 @@ export const characters: Character[] = [
             },
             armor: 15,
             regeneration: 200,
-            critChance: 20,
-            critMultiplier: 5,
+            critChance: 10,
+            critMultiplier: 10,
         }, 
         rarity: 0,
         critBuff: Buff.buffs[Buff.types.streetUrchin],
@@ -48,7 +48,7 @@ export const characters: Character[] = [
             armor: 30,
             regeneration: 400,
             critChance: 10,
-            critMultiplier: 3,
+            critMultiplier: 6,
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.sculleryMaid],
@@ -69,8 +69,8 @@ export const characters: Character[] = [
             },
             armor: 25,
             regeneration: 300,
-            critChance: 15,
-            critMultiplier: 3,
+            critChance: 10,
+            critMultiplier: 6,
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.farmer],
@@ -91,8 +91,8 @@ export const characters: Character[] = [
             },
             armor: 45,
             regeneration: 200,
-            critChance: 12,
-            critMultiplier: 2,
+            critChance: 10,
+            critMultiplier: 4,
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.barkeep],
@@ -114,7 +114,7 @@ export const characters: Character[] = [
             armor: 0,
             regeneration: 100,
             critChance: 10,
-            critMultiplier: 2,
+            critMultiplier: 4,
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.aristocrat],
@@ -135,8 +135,8 @@ export const characters: Character[] = [
             },
             armor: 25,
             regeneration: 200,
-            critChance: 8,
-            critMultiplier: 2,
+            critChance: 10,
+            critMultiplier: 4,
         }, 
         rarity: 0,
         critDebuff: Buff.buffs[Buff.types.minstrel],
@@ -157,8 +157,8 @@ export const characters: Character[] = [
             },
             armor: 25,
             regeneration: 200,
-            critChance: 35,
-            critMultiplier: 1.5,
+            critChance: 10,
+            critMultiplier: 3,
         }, 
         rarity: 1,
         critDebuff: Buff.buffs[Buff.types.mage],
@@ -179,8 +179,8 @@ export const characters: Character[] = [
             },
             armor: 30,
             regeneration: 200,
-            critChance: 12,
-            critMultiplier: 10,
+            critChance: 10,
+            critMultiplier: 20,
         }, 
         rarity: 1,
         critBuff: Buff.buffs[Buff.types.rogue],
@@ -201,8 +201,8 @@ export const characters: Character[] = [
             },
             armor: 50,
             regeneration: 200,
-            critChance: 15,
-            critMultiplier: 3,
+            critChance: 10,
+            critMultiplier: 6,
         }, 
         rarity: 1,
         critDebuff: Buff.buffs[Buff.types.gladiator],
@@ -223,8 +223,8 @@ export const characters: Character[] = [
             },
             armor: 10,
             regeneration: 200,
-            critChance: 5,
-            critMultiplier: 4,
+            critChance: 10,
+            critMultiplier: 8,
         }, 
         rarity: 1,
         critBuff: Buff.buffs[Buff.types.barbarian],
@@ -245,8 +245,8 @@ export const characters: Character[] = [
             },
             armor: 45,
             regeneration: 1000,
-            critChance: 8,
-            critMultiplier: 1,
+            critChance: 10,
+            critMultiplier: 2,
         }, 
         rarity: 1,
         critDebuff: Buff.buffs[Buff.types.warpriest],
@@ -267,8 +267,8 @@ export const characters: Character[] = [
             },
             armor: 45,
             regeneration: 600,
-            critChance: 25,
-            critMultiplier: 3,
+            critChance: 10,
+            critMultiplier: 6,
         }, 
         rarity: 2,
         critDebuff: Buff.buffs[Buff.types.werewolfDebuff],
@@ -291,7 +291,7 @@ export const characters: Character[] = [
             armor: 15,
             regeneration: -200,
             critChance: 10,
-            critMultiplier: 1,
+            critMultiplier: 2,
         }, 
         rarity: 2,
         critDebuff: Buff.buffs[Buff.types.warlockDebuff],
@@ -312,8 +312,8 @@ export const characters: Character[] = [
             },
             armor: 65,
             regeneration: 400,
-            critChance: 15,
-            critMultiplier: 5,
+            critChance: 10,
+            critMultiplier: 10,
         }, 
         rarity: 2,
         critBuff: Buff.buffs[Buff.types.paladin],
@@ -334,8 +334,8 @@ export const characters: Character[] = [
             },
             armor: 55,
             regeneration: 200,
-            critChance: 15,
-            critMultiplier: 4,
+            critChance: 10,
+            critMultiplier: 8,
         }, 
         rarity: 2,
         critDebuff: Buff.buffs[Buff.types.swashbucklerDebuff],
@@ -357,7 +357,7 @@ export const characters: Character[] = [
             },
             armor: 85,
             regeneration: 0,
-            critChance: 25,
+            critChance: 10,
             critMultiplier: 20,
         }, 
         rarity: 3,
@@ -443,60 +443,60 @@ const rarityLevel = [
 interface Level {
     //level: number;
     readonly bits: number;
-    readonly accuracy: number;
-    readonly dodge: number;
+    readonly damage: number;
+    readonly health: number;
 };
 
 export const levels: Level[] = [
     {
         bits: 200, //todo: change to let streamer options define starting bit values
-        accuracy: 0,
-        dodge: 0,
+        damage: 5,
+        health: 50,
     },// level 1
     {
         bits: 500,
-        accuracy: 20,
-        dodge: 20,
+        damage: 5,
+        health: 50,
     },// level 2
     {
         bits: 2000,
-        accuracy: 15,
-        dodge: 15,
+        damage: 5,
+        health: 50,
     },// level 3
     {
         bits: 3500,
-        accuracy: 10,
-        dodge: 10,
+        damage: 5,
+        health: 50,
     },// level 4
     {
         bits: 5000,
-        accuracy: 10,
-        dodge: 10,
+        damage: 5,
+        health: 50,
     },// level 5
     {
         bits: 7500,
-        accuracy: 10,
-        dodge: 10,
+        damage: 5,
+        health: 50,
     },// level 6
     {
         bits: 10000,
-        accuracy: 10,
-        dodge: 10,
+        damage: 5,
+        health: 50,
     },// level 7
     {
         bits: 20000,
-        accuracy: 5,
-        dodge: 5,
+        damage: 5,
+        health: 50,
     },// level 8
     {
         bits: 30000,
-        accuracy: 5,
-        dodge: 5,
+        damage: 5,
+        health: 50,
     },// level 9
     {
         bits: 40000,
-        accuracy: 5,
-        dodge: 5,
+        damage: 5,
+        health: 50,
     },// level 10
 ];
 
@@ -505,8 +505,8 @@ export function buildStats(character: number, donation: number, level: number) :
 
     return {
         maxHitPoints: c.stats.maxHitPoints + (donation < 2000 ? donation / 4 : 500 + (donation - 2000) / 16),
-        accuracy: c.stats.accuracy + levels[level - 1].accuracy,
-        dodge: c.stats.dodge + levels[level - 1].dodge,
+        accuracy: c.stats.accuracy,
+        dodge: c.stats.dodge,
         attackSpeed: {
             min: c.stats.attackSpeed.min,
             max: c.stats.attackSpeed.max
