@@ -31,19 +31,20 @@ export class Player {
         this.canvas = canvas;
     }
 
-    public draw() {
+    public draw(center: number) {
 
         if (this.img)
             this.canvas.remove(this.img);
         new fabric.Image.fromURL(this.art[this.artIndex], (oImg: fabric.Image) => {
+            if (oImg.width)
             this.img = oImg.set({
-                left: !this.right ? 50 : 250,
+                left: !this.right ? center - 50 - oImg.width/2 : center + 50
+                + oImg.width/2,
                 top: 110,
                 originX: 'center',
                 originY: 'bottom',
                 flipX: !this.right ? false : true
             });
-            //this.img.scaleToWidth(200);
             this.canvas.add(this.img);
         });
         //health text
