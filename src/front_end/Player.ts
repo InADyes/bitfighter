@@ -60,7 +60,7 @@ export class Player {
                 originY: 'bottom',
                 flipX: !this.right ? false : true
             });
-            this.img.scaleToHeight(70);
+            this.img.scaleToHeight(90);
             this.canvas.add(this.img);
             
             // health text
