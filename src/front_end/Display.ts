@@ -9,8 +9,7 @@ export class GameState {
 	private eventLoopTimeout: NodeJS.Timer | null;
 	private lastTime: number;
 
-	private canvas = new fabric.Canvas('arena'); // USE StaticCanvas for noninteractive
-	//
+	private canvas = new fabric.StaticCanvas('arena'); // USE StaticCanvas for noninteractive
 	private reel:		Events.Event[];
 	private player1:	Player.Player;
 	private player2:	Player.Player;
@@ -23,6 +22,7 @@ export class GameState {
 			//do the patching
 		}
 		else {
+			this.canvas.clear();
 			this.clearMessage();
 			this.reel = reel;
 			this.initReel();
@@ -99,8 +99,10 @@ export class GameState {
 	public slay(p2: number) {
 		if (p2)
 			this.player2.dies();
-		else
+		else {
 			this.player1.dies();
+			this.player2.moves();
+		}
 	}
 
 	public displayText(p2: number, str: string, color: string) {

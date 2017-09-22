@@ -28,6 +28,24 @@ export class Player {
         "images/characters/old/sTroll.png",
         "images/characters/old/sWarlock.png"
     ]
+    /*
+    Street Urchin	
+    Scullery Maid			
+    Farmer		
+    Barkeep				
+    Aristocrat	
+    Minstrel		
+    Mage		
+    Rogue		
+    Gladiator		
+    Barbarian		
+    Warpriest			
+    Werewolf	
+    Warlock			
+    Paladin	
+    Swashbuckler
+    Dragon
+    */
     private hpHeight =      70;
     private hpWidth =       5;
 
@@ -47,7 +65,6 @@ export class Player {
     }
 
     public draw() {
-
         if (this.img)
             this.canvas.remove(this.img);
         new fabric.Image.fromURL(this.art[this.artIndex], (oImg: fabric.Image) => {
@@ -63,58 +80,67 @@ export class Player {
             this.img.scaleToHeight(70);
             this.canvas.add(this.img);
             
-            // health text
-            if (this.healthtext)
-                this.canvas.remove(this.healthtext);
-            this.healthtext = new fabric.Text(`${ this.health.toString() }/${ this.baseHealth.toString() }`, {
-                fontSize: 9,
-                fill: 'black',
-                top: 8,
-                left: !this.right ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
-                originX: 'center'
-            });
-            //health bar
-            if (this.healthbarCurr)
-                this.canvas.remove(this.healthbarCurr);
-            if (this.healthbarMis)
-                this.canvas.remove(this.healthbarMis);
-            if (this.healthbarDec)
-                this.canvas.remove(this.healthbarDec);
-            this.healthbarCurr = new fabric.Rect({
-                left: !this.right ? this.center - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
-                top: 90,
-                fill: '#1eedce',
-                height: this.hpHeight,
-                width: this.hpWidth,
-                flipY: true,
-                originX: 'center',
-                originY: 'bottom'
-            });
-            this.healthbarMis = new fabric.Rect({
-                left: !this.right ? this.center - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
-                top: 90,
-                fill: '#ed1e1e',
-                height: this.hpHeight,
-                width: this.hpWidth,
-                flipY: true,
-                originX: 'center',
-                originY: 'bottom'
-            });
-            this.healthbarDec = new fabric.Rect({
-                left: !this.right ? this.center - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
-                top: 90,
-                fill: '#edd11e',
-                height: this.hpHeight,
-                width: this.hpWidth,
-                flipY: true,
-                originX: 'center',
-                originY: 'bottom'
-            });
-            this.canvas.add(this.healthtext);
-            this.canvas.add(this.healthbarMis);
-            this.canvas.add(this.healthbarDec);
-            this.canvas.add(this.healthbarCurr);
+            this.drawHealthText();
+            this.drawHpBar();
         });
+    }
+
+    private drawHpBar() {
+        let missingHeight = this.hpHeight * (this.health / this.baseHealth);
+        console.log(missingHeight);
+
+        if (this.healthbarCurr)
+            this.canvas.remove(this.healthbarCurr);
+        if (this.healthbarMis)
+            this.canvas.remove(this.healthbarMis);
+        if (this.healthbarDec)
+            this.canvas.remove(this.healthbarDec);
+        this.healthbarCurr = new fabric.Rect({
+            left: !this.right ? this.center - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
+            top: 90,
+            fill: '#1eedce',
+            height: missingHeight,
+            width: this.hpWidth,
+            flipY: true,
+            originX: 'center',
+            originY: 'bottom'
+        });
+        this.healthbarMis = new fabric.Rect({
+            left: !this.right ? this.center - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
+            top: 90,
+            fill: '#ed1e1e',
+            height: this.hpHeight,
+            width: this.hpWidth,
+            flipY: true,
+            originX: 'center',
+            originY: 'bottom'
+        });
+        this.healthbarDec = new fabric.Rect({
+            left: !this.right ? this.center - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
+            top: 90,
+            fill: '#edd11e',
+            height: missingHeight,
+            width: this.hpWidth,
+            flipY: true,
+            originX: 'center',
+            originY: 'bottom'
+        });
+        this.canvas.add(this.healthbarMis);
+        this.canvas.add(this.healthbarDec);
+        this.canvas.add(this.healthbarCurr);
+    }
+
+    private drawHealthText() {
+        if (this.healthtext)
+             this.canvas.remove(this.healthtext);
+        this.healthtext = new fabric.Text(`${ this.health.toString() }/${ this.baseHealth.toString() }`, {
+            fontSize: 9,
+            fill: 'black',
+            top: 8,
+            left: !this.right ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
+            originX: 'center',
+        }); 
+        this.canvas.add(this.healthtext);
     }
 
     public attacks() {
@@ -179,7 +205,7 @@ export class Player {
         this.health += adjustment;
         if (this.health > this.baseHealth)
             this.health = this.baseHealth;
-        this.redrawHealth();
+        this.drawHealthText();
             
         // calculate amount to decrease height of bar by
         console.log(`adjust: ${ adjustment }`);
@@ -214,16 +240,19 @@ export class Player {
         });
     }
 
-    private redrawHealth() {
-        if (this.healthtext)
-             this.canvas.remove(this.healthtext);
-        this.healthtext = new fabric.Text(`${ this.health.toString() }/${ this.baseHealth.toString() }`, {
-            fontSize: 9,
-            fill: 'black',
-            top: 8,
-            left: !this.right ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
-            originX: 'center',
-        }); 
-        this.canvas.add(this.healthtext);
+    public moves(){
+        // this.img.animate('left', this.right ? '-=10' : '+=10', {
+        //     duration: 200,
+        //     easing: fabric.util.ease['easeInQuint'],
+        //     onChange: this.canvas.renderAll.bind(this.canvas),
+        //     onComplete: () => {
+        //         this.img.animate('left', this.right ? this.center + this.artAdjust + this.trueWidth / 2 : this.center - this.artAdjust - this.trueWidth / 2, {
+        //             duration: 300,
+        //             onChange: this.canvas.renderAll.bind(this.canvas),
+        //             easing: fabric.util.ease['easeOutQuint'],
+        //         })
+        //     }
+        // });
+        // this.right = 0;
     }
 }
