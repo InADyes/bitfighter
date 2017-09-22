@@ -5,6 +5,7 @@ import { Status } from '../shared/Status';
 
 
 interface attackProps {
+    time: number,
     attacker: Combatant,
     damage: number,
     accuracy: number,
@@ -39,9 +40,8 @@ export class Combatant {
 
         const damageRoll = Math.ceil(Math.random() * (stats.attackDamage.max - stats.attackDamage.min)) + stats.attackDamage.min;
 
-        // this.attackCallback(this, damageRoll, stats.accuracy, stats.critChance, stats.critMultiplier, characterPicker.characters[this.status.character].critDebuff, characterPicker.characters[this.status.character].critBuff
-        // );
         this.attackCallback({
+            time: this.time,
             attacker: this,
             damage: damageRoll,
             accuracy: stats.accuracy,
@@ -51,21 +51,19 @@ export class Combatant {
             critBuff: characterPicker.characters[this.status.character].critBuff
         });
     }
-    // public takeHit(damage: number, accuracy: number, critChance: number, critDebuff?: Buff.Buff, critBuff?: Buff.Buff) {
-    //     this.status.checkBuffs(this.time);
     public takeHit(attack: attackProps) {
     
         const total = attack.accuracy + this.status.stats.dodge;
         const hitChangeRoll = Math.ceil(Math.random() * total);
     
         if (hitChangeRoll > attack.accuracy) {
-            this.newEvent(new fightEvents.Dodge(this.time, this.index));
+            this.newEvent(new fightEvents.Dodge(attack.time, this.index));
             return;
         }
 
         if (Math.ceil(Math.random() * 100) <= attack.critChance) {
             attack.damage = (attack.damage - this.status.stats.armor) * attack.critMultiplier;
-            this.newEvent(new fightEvents.Crit(this.time, this.index, attack.critDebuff, attack.critBuff));
+            this.newEvent(new fightEvents.Crit(attack.time, this.index, attack.critDebuff, attack.critBuff));
         } else
             attack.damage -= this.status.stats.armor; //applied here so that armor is calculated before the buff is applied when there is a crit
 
@@ -73,10 +71,10 @@ export class Combatant {
             attack.damage = 0;
         else if (attack.damage > this.status.hitPoints)
             attack.damage = this.status.stats.maxHitPoints;
-        this.newEvent(new fightEvents.Damage(this.time, this.index, attack.damage));
+        this.newEvent(new fightEvents.Damage(attack.time, this.index, attack.damage));
             
         if (this.status.hitPoints <= 0)
-            this.newEvent(new fightEvents.Death(this.time, this.index));
+            this.newEvent(new fightEvents.Death(attack.time, this.index));
     }
     public heal() {
         this.status.checkBuffs(this.time);
