@@ -15,6 +15,7 @@ export class Player {
     private center:         number;
     private trueWidth:      number;
     private artIndex:       number;
+    private textQueue:      any[];
     private art = [
         "images/characters/stickFigures/0StreetUrchin.png",
         "images/characters/stickFigures/1SculleryMaid.png",
@@ -38,11 +39,12 @@ export class Player {
     ]
     private hpHeight =      70;
     private hpWidth =       5;
+    private textLock =      0;
 
     // Adjust these to move elements around
     private artAdjust =     0;
     private hpAdjust =      10;
-    private textAdjust =    10;
+    //private textAdjust =    10;
     private artTop =        120;
     private hpTextTop =     35;
     private textTop =       30;
@@ -55,6 +57,7 @@ export class Player {
         this.right = side;
         this.canvas = canvas;
         this.center = this.canvas.getWidth() / 2;
+        this.textQueue = [];
     }
 
     public draw() {
@@ -128,7 +131,6 @@ export class Player {
              this.canvas.remove(this.healthtext);
         this.healthtext = new fabric.Text(`${ this.health.toString() }`, {
             fontSize: 17,
-            font: 'verdana',
             fill: 'white',
             stroke: 'black',
             top: this.hpTextTop,
@@ -176,22 +178,39 @@ export class Player {
     }
 
 	public text(str: string, color: string) {
-        let dmg = new fabric.Text(`${ str }`, {
+        let txt = {
+            str: str,
+            color: color
+        };
+        this.textQueue.push(txt);
+        if (!this.textLock) {
+            this.textLock = 1;
+            this.displayText();
+        }
+    }
+
+    private displayText() {
+        if (!this.textQueue[0]) {
+            this.textLock = 0;
+            return;
+        }
+        let txtObj = this.textQueue.shift();
+        let txt = new fabric.Text(`${ txtObj.str }`, {
             fontSize: 15,
-            fill: color,
+            fill: txtObj.color,
             top: this.textTop,
-            left: !this.right ? this.center - this.textAdjust - this.trueWidth / 2 : this.center + this.textAdjust + this.trueWidth / 2,
+            left: !this.right ? this.center - this.artAdjust - this.trueWidth / 2 : this.center + this.artAdjust + this.trueWidth / 2,
             originX: 'center'
         });
-
-        this.canvas.add(dmg);
-        dmg.animate('top', '-=20', {
+        this.canvas.add(txt);
+        txt.animate('top', '-=20', {
             duration: 700,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
-                this.canvas.remove(dmg);
+                this.canvas.remove(txt);
             }
         });
+        setTimeout(() => {this.displayText()}, 300);
     }
 
 	public healthbar(adjustment: number) {
@@ -238,6 +257,10 @@ export class Player {
     }
 
     public moves(){
+        this.canvas.remove(this.healthtext);
+        this.canvas.remove(this.healthbarCurr);
+        this.canvas.remove(this.healthbarDec);
+        this.canvas.remove(this.healthbarMis);
         this.img.animate(`left`, this.center - this.artAdjust - this.trueWidth / 2, {
             duration:800,
             onChange: this.canvas.renderAll.bind(this.canvas),
@@ -245,10 +268,6 @@ export class Player {
                 this.canvas.remove(this.img);
                 this.img.setFlipX(false);
                 this.canvas.add(this.img);
-                this.canvas.remove(this.healthtext);
-                this.canvas.remove(this.healthbarCurr);
-                this.canvas.remove(this.healthbarDec);
-                this.canvas.remove(this.healthbarMis);
                 this.right = 0;
                 this.drawHealthText();
                 this.drawHpBar();
