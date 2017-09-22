@@ -75,7 +75,8 @@ export function reelToResults(
 }
 
 export function printResults(results: Results[]) {
-    console.log('averageTime, %.1f', results[0].averageTime / 1000);
+    
+    console.log('averageTime, ', (results[0].averageTime / 1000).toFixed(2));
     console.log(`classType, ${ results[0].classType }, ${ results[1].classType }`);
     console.log(`hits, ${ results[0].hits }, ${ results[1].hits }`);
     console.log(`miss, ${ results[0].miss }, ${ results[1].miss }`);
