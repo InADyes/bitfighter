@@ -4,7 +4,7 @@ import * as Display from './modules/Gamestate';
 import { Message } from '../shared/frontEndMessage';
 
 document.addEventListener("DOMContentLoaded", function(){
-    let gameState = new Display.GameState();
+    let gameState = new Display.GameState(`arena`);
     
     window.addEventListener('storage', (e) => {
         console.log(e)

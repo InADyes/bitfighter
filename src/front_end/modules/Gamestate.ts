@@ -6,16 +6,17 @@ import * as Player from './Player';
 import { fireEvent } from './fireEvent';
 
 export class GameState {
-	private eventLoopTimeout: NodeJS.Timer | null;
-	private lastTime: number;
+	private eventLoopTimeout:	NodeJS.Timer | null;
+	private lastTime: 			number;
+	private canvas:				fabric.Canvas; 
+	private reel:				Events.Event[];
+	private player1:			Player.Player;
+	private player2:			Player.Player;
+	//public players: 			Player[] = []; Eventually do this
 
-	private canvas = new fabric.StaticCanvas('arena'); // USE StaticCanvas for noninteractive
-	private reel:		Events.Event[];
-	private player1:	Player.Player;
-	private player2:	Player.Player;
-	//public players: Player[] = []; Eventually do this
-
-	constructor() {}
+	constructor(canvasId: string) {
+		this.canvas = new fabric.StaticCanvas(canvasId); // USE StaticCanvas for noninteractive 
+	}
 
 	public newMessage(reel: Events.Event[], patch?: number) {
 		if (patch) {
