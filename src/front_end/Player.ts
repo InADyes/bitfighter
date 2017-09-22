@@ -12,6 +12,7 @@ export class Player {
     private healthbarMis:   fabric.Rect;
     private healthbarDec:   fabric.Rect;
     private canvas:         fabric.Canvas;
+   // private anicanvas:      fabric.Canvas;
     private center:         number;
     private trueWidth:      number;
     private artIndex:       number;
@@ -61,6 +62,7 @@ export class Player {
         this.baseHealth = data.maxHitPoints;
         this.right = side;
         this.canvas = canvas;
+        //this.anicanvas = anicanvas;
         this.center = this.canvas.getWidth() / 2;
     }
 
@@ -77,7 +79,7 @@ export class Player {
                 originY: 'bottom',
                 flipX: !this.right ? false : true
             });
-            this.img.scaleToHeight(70);
+            this.img.scaleToHeight(90);
             this.canvas.add(this.img);
             
             this.drawHealthText();
@@ -255,4 +257,22 @@ export class Player {
         // });
         // this.right = 0;
     }
+
+    public move(){
+    
+        this.canvas.remove(this.healthtext);
+        this.canvas.remove(this.healthbarCurr);
+        this.canvas.remove(this.healthbarDec);
+        this.canvas.remove(this.healthbarMis);
+    
+        this.img.animate('left', this.center - this.artAdjust - this.trueWidth, {
+            duration:800,
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: () => {
+                this.canvas.remove(this.img);
+                this.img.setFlipX(false);
+                this.canvas.add(this.img);
+                }
+        });
+        }
 }

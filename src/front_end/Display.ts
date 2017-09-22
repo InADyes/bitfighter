@@ -99,9 +99,9 @@ export class GameState {
 	public slay(p2: number) {
 		if (p2)
 			this.player2.dies();
-		else {
+		else{
 			this.player1.dies();
-			this.player2.moves();
+			this.player2.move();
 		}
 	}
 
