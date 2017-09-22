@@ -1,8 +1,7 @@
 import 'fabric'
 declare let fabric: any;
-import * as Display from './Display';
+import * as Display from './modules/Gamestate';
 import { Message } from '../shared/frontEndMessage';
-//import * as Reel from '../shared/graphicsEvents'
 
 document.addEventListener("DOMContentLoaded", function(){
     let gameState = new Display.GameState();
