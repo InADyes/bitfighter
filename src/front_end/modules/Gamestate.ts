@@ -1,28 +1,29 @@
-import * as Events from '../shared/graphicsEvents';
-import { Message } from '../shared/frontEndMessage';
+import * as Events from '../../shared/graphicsEvents';
+import { Message } from '../../shared/frontEndMessage';
 import 'fabric'
 declare let fabric: any;
 import * as Player from './Player';
 import { fireEvent } from './fireEvent';
 
 export class GameState {
-	private eventLoopTimeout: NodeJS.Timer | null;
-	private lastTime: number;
+	private eventLoopTimeout:	NodeJS.Timer | null;
+	private lastTime: 			number;
+	private canvas:				fabric.Canvas; 
+	private reel:				Events.Event[];
+	private player1:			Player.Player;
+	private player2:			Player.Player;
+	//public players: 			Player[] = []; Eventually do this
 
-	private canvas = new fabric.Canvas('arena'); // USE StaticCanvas for noninteractive
-	private center = this.canvas.getWidth() / 2;
-	private reel:		Events.Event[];
-	private player1:	Player.Player;
-	private player2:	Player.Player;
-	//public players: Player[] = []; Eventually do this
-
-	constructor() {}
+	constructor(canvasId: string) {
+		this.canvas = new fabric.StaticCanvas(canvasId); // USE StaticCanvas for noninteractive 
+	}
 
 	public newMessage(reel: Events.Event[], patch?: number) {
 		if (patch) {
 			//do the patching
 		}
 		else {
+			this.canvas.clear();
 			this.clearMessage();
 			this.reel = reel;
 			this.initReel();
@@ -51,6 +52,7 @@ export class GameState {
 
 	private getEvent() {
 		let event = this.reel.shift();
+		let nextTime = this.reel[0] ? this.reel[0].time : 0;
 		if (event == undefined) {
 			this.eventLoopTimeout = null;
 			return;
@@ -63,7 +65,7 @@ export class GameState {
 			() => {
 				this.getEvent();
 			},
-			event.time -  this.lastTime
+			nextTime - event.time
 		);
 		this.lastTime = event.time;
 	}
@@ -76,9 +78,9 @@ export class GameState {
 	}
 
 	public drawPlayers() {
-		this.player1.draw(this.center);
+		this.player1.draw();
 		if (this.player2)
-			this.player2.draw(this.center);
+			this.player2.draw();
 	}
 
 	public attack(p2: number) {
@@ -97,9 +99,10 @@ export class GameState {
 
 	public slay(p2: number) {
 		if (p2)
-			this.player2.dies();
-		else
-			this.player1.dies();
+			this.player2.dies(null);
+		else{
+			this.player1.dies(this.player2)
+		}
 	}
 
 	public displayText(p2: number, str: string, color: string) {

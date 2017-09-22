@@ -1,5 +1,5 @@
-import * as GraphicsEvents from '../shared/graphicsEvents';
-import { GameState } from './Display'
+import * as GraphicsEvents from '../../shared/graphicsEvents';
+import { GameState } from './Gamestate'
 
 export function fireEvent(event: GraphicsEvents.Event, gameState: GameState){
     let char = event.character;
