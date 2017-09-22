@@ -40,12 +40,12 @@ export class Player {
     private hpWidth =       5;
 
     // Adjust these to move elements around
-    private artAdjust =     10;
-    private hpAdjust =      20;
-    private textAdjust =    20;
-    private artTop =        100;
-    private hpTextTop =     18;
-    private textTop =       30;
+    private artAdjust =     0;
+    private hpAdjust =      10;
+    private textAdjust =    15;
+    private artTop =        120;
+    private hpTextTop =     35;
+    private textTop =       20;
 
     constructor(data: any, side: number, canvas: fabric.Canvas) {
         this.name = data.name;
@@ -184,7 +184,7 @@ export class Player {
 
         this.canvas.add(dmg);
         dmg.animate('top', '-=20', {
-            duration: 500,
+            duration: 800,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 this.canvas.remove(dmg);
