@@ -24,19 +24,24 @@ export class Game {
         donationToHPRatio: 1
     };
 
-    // private characterChoiceHandler = new CharacterChoiceHandler(
-    //     () = {
-
-    //     }
-    // );
+    private characterChoiceHandler = new CharacterChoiceHandler(
+        (donation) => {
+            this.newCombatant(donation);
+        },
+        this.requestCharacterChoice
+    );
 
     constructor(
         private sendFightMessage: (message: frontEndMessage.Message) => void,
-        private requestCharacterChoice: (fanID: number, character: Character[]) => number,
+        private requestCharacterChoice: (fanID: number, character: Character[]) => void,
         settings?: Settings
     ) {
         if (settings)
             this.settings = settings;
+    }
+
+    public frontEndSelection(id: number, choice: number) {
+        this.characterChoiceHandler.completeChoice(id, choice);
     }
 
     public donation(donation: {id: number, name: string, amount: number, character: number}) {
@@ -72,12 +77,10 @@ export class Game {
         // if the donation is enough for a character and they aren't already in the queue
         if (this.queue.some(s => {return s.id === donation.id;}) === false
             && donation.amount >= this.settings.minimumDonation) {
-            // if (donation.character == -1) {
-            //     donation.character = cardPick(donation, this.requestCharacterChoice); // todo
-            // }
-            console.log(donation.character);
-            this.queue.push(pickCharacter(donation))
-            this.nextFight();
+            if (donation.character == -1)
+                this.characterChoiceHandler.requestChoice(donation);
+            else
+                this.newCombatant(donation);
             return;
         }
 
@@ -102,6 +105,16 @@ export class Game {
                 patchTime
             );
         }
+    }
+    
+    private newCombatant(donation: {
+        id: number,
+        name: string,
+        amount: number,
+        character: number
+    }) {
+        this.queue.push(pickCharacter(donation))
+        this.nextFight();
     }
 
     // only works when all new events have the same time

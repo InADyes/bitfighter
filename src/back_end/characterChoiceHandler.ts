@@ -32,11 +32,19 @@ export class CharacterChoiceHandler {
     private pendingCharacterChoices: {
         id: number,
         characters: number[],
-        timeout: NodeJS.Timer
+        timeout: NodeJS.Timer,
+        name: string,
+        donationAmount: number
     }[];
 
     constructor(
-        public readonly newCombatant: (id: number, character: number, donation: number) => void
+        private readonly newCombatant: (donation: {
+            id: number,
+            name: string,
+            amount: number,
+            character: number
+        }) => void,
+        private readonly requestPick: (id: number, character: Character[]) => void
     ) {}
 
     public requestChoice(
@@ -44,8 +52,7 @@ export class CharacterChoiceHandler {
             id: number,
             name: string,
             amount: number
-        },
-        requestPick: (id: number, character: Character[]) => number
+        }
     ) {
         //find last tier that we can achive or use the first one
         const odds = (tiers.reverse().find(t => t.donation >= donation.amount) || tiers[0]).odds;
@@ -86,10 +93,12 @@ export class CharacterChoiceHandler {
         this.pendingCharacterChoices.push({
             id: donation.id,
             characters: choices.map(c => characters.indexOf(c)),
-            timeout
+            timeout,
+            name: donation.name,
+            donationAmount: donation.amount
         });
 
-        return requestPick(donation.id, choices);
+        this.requestPick(donation.id, choices);
     }
     public completeChoice(id: number, pick: number) {
         const index = this.pendingCharacterChoices.findIndex(c => c.id === id);
@@ -103,6 +112,11 @@ export class CharacterChoiceHandler {
         const characters = pendingChoice.characters;
 
         const character = characters[pick % characters.length];
-        this.newCombatant(id, character, pendingChoice.id);
+        this.newCombatant({
+            id,
+            character,
+            amount: pendingChoice.donationAmount,
+            name: pendingChoice.name
+        });
     }
 }
