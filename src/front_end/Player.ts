@@ -115,11 +115,6 @@ export class Player {
             this.canvas.add(this.healthbarDec);
             this.canvas.add(this.healthbarCurr);
         });
-        //console.log(this.ImageTruewidth);
-       // console.log(this.ImageTruewidth);
-        //health text
-       
-       
     }
 
     public attacks() {
@@ -174,7 +169,6 @@ export class Player {
                 this.canvas.remove(dmg);
             }
         });
-
     }
 
 	public healthbar(adjustment: number) {
@@ -183,10 +177,8 @@ export class Player {
 
         // adjust actual health values
         this.health += adjustment;
-        /*if (this.health > this.baseHealth)
+        if (this.health > this.baseHealth)
             this.health = this.baseHealth;
-        else if (this.health < 0)
-            this.health = 0;*/
         this.redrawHealth();
             
         // calculate amount to decrease height of bar by
