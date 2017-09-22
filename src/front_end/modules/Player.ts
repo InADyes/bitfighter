@@ -42,10 +42,10 @@ export class Player {
     // Adjust these to move elements around
     private artAdjust =     0;
     private hpAdjust =      10;
-    private textAdjust =    15;
+    private textAdjust =    10;
     private artTop =        120;
     private hpTextTop =     35;
-    private textTop =       20;
+    private textTop =       30;
 
     constructor(data: any, side: number, canvas: fabric.Canvas) {
         this.name = data.name;
@@ -126,9 +126,11 @@ export class Player {
     private drawHealthText() {
         if (this.healthtext)
              this.canvas.remove(this.healthtext);
-        this.healthtext = new fabric.Text(`${ this.health.toString() }/${ this.baseHealth.toString() }`, {
-            fontSize: 9,
-            fill: 'black',
+        this.healthtext = new fabric.Text(`${ this.health.toString() }`, {
+            fontSize: 17,
+            font: 'verdana',
+            fill: 'white',
+            stroke: 'black',
             top: this.hpTextTop,
             left: !this.right ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
             originX: 'center',
@@ -184,7 +186,7 @@ export class Player {
 
         this.canvas.add(dmg);
         dmg.animate('top', '-=20', {
-            duration: 800,
+            duration: 700,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 this.canvas.remove(dmg);
