@@ -12,15 +12,48 @@ export class Player {
     private healthbarMis:   fabric.Rect;
     private healthbarDec:   fabric.Rect;
     private canvas:         fabric.Canvas;
+   // private anicanvas:      fabric.Canvas;
+    private center:         number;
+    private trueWidth:      number;
     private artIndex:       number;
     private art = [
-        "images/characters/axe.png",
-        "images/characters/sword.png",
-        "images/characters/daggers.png",
-        "images/characters/champion_alpha.png",
+        "images/characters/old/sBarbarian.png",
+        "images/characters/old/sFarmer.png",
+        "images/characters/old/sDragon.png",
+        "images/characters/old/sDruid.png",
+        "images/characters/old/sFighter.png",
+        "images/characters/old/sFighter-2.png",
+        "images/characters/old/sMage.png",
+        "images/characters/old/sRogue.png",
+        "images/characters/old/sRogue-2.png",
+        "images/characters/old/sTroll.png",
+        "images/characters/old/sWarlock.png"
     ]
-    private hpHeight =  70;
-    private hpWidth =   10;
+    /*
+    Street Urchin	
+    Scullery Maid			
+    Farmer		
+    Barkeep				
+    Aristocrat	
+    Minstrel		
+    Mage		
+    Rogue		
+    Gladiator		
+    Barbarian		
+    Warpriest			
+    Werewolf	
+    Warlock			
+    Paladin	
+    Swashbuckler
+    Dragon
+    */
+    private hpHeight =      70;
+    private hpWidth =       5;
+
+    // Adjust these to move elements around
+    private artAdjust =     30;
+    private hpAdjust =      50;
+    private textAdjust =    40;
 
     constructor(data: any, side: number, canvas: fabric.Canvas) {
         this.name = data.name;
@@ -29,35 +62,35 @@ export class Player {
         this.baseHealth = data.maxHitPoints;
         this.right = side;
         this.canvas = canvas;
+        //this.anicanvas = anicanvas;
+        this.center = this.canvas.getWidth() / 2;
     }
 
-    public draw(center: number) {
-
+    public draw() {
         if (this.img)
             this.canvas.remove(this.img);
         new fabric.Image.fromURL(this.art[this.artIndex], (oImg: fabric.Image) => {
-            if (oImg.width)
+            if(oImg.width && oImg.height)
+                this.trueWidth = oImg.width/oImg.height * 70;
             this.img = oImg.set({
-                left: !this.right ? center - 50 - oImg.width/2 : center + 50
-                + oImg.width/2,
-                top: 110,
+                left: !this.right ? this.center - this.artAdjust - this.trueWidth / 2  : this.center + this.artAdjust + this.trueWidth / 2,
+                top: 90,
                 originX: 'center',
                 originY: 'bottom',
                 flipX: !this.right ? false : true
             });
+            this.img.scaleToHeight(90);
             this.canvas.add(this.img);
+            
+            this.drawHealthText();
+            this.drawHpBar();
+        });
+    }
 
-        });
-        //health text
-        if (this.healthtext)
-            this.canvas.remove(this.healthtext);
-        this.healthtext = new fabric.Text(this.health.toString(), {
-            fontSize: 5,
-            fill: 'black',
-            top: 20,
-            left: !this.right ? 4 : 283
-        });
-        //health bar
+    private drawHpBar() {
+        let missingHeight = this.hpHeight * (this.health / this.baseHealth);
+        console.log(missingHeight);
+
         if (this.healthbarCurr)
             this.canvas.remove(this.healthbarCurr);
         if (this.healthbarMis)
@@ -65,18 +98,18 @@ export class Player {
         if (this.healthbarDec)
             this.canvas.remove(this.healthbarDec);
         this.healthbarCurr = new fabric.Rect({
-            left: !this.right ? 10 : 290,
-            top: 100,
+            left: !this.right ? this.center - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
+            top: 90,
             fill: '#1eedce',
-            height: this.hpHeight,
+            height: missingHeight,
             width: this.hpWidth,
             flipY: true,
             originX: 'center',
             originY: 'bottom'
         });
         this.healthbarMis = new fabric.Rect({
-            left: !this.right ? 10 : 290,
-            top: 100,
+            left: !this.right ? this.center - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
+            top: 90,
             fill: '#ed1e1e',
             height: this.hpHeight,
             width: this.hpWidth,
@@ -85,28 +118,40 @@ export class Player {
             originY: 'bottom'
         });
         this.healthbarDec = new fabric.Rect({
-            left: !this.right ? 10 : 290,
-            top: 100,
+            left: !this.right ? this.center - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
+            top: 90,
             fill: '#edd11e',
-            height: this.hpHeight,
+            height: missingHeight,
             width: this.hpWidth,
             flipY: true,
             originX: 'center',
             originY: 'bottom'
         });
-        this.canvas.add(this.healthtext);
         this.canvas.add(this.healthbarMis);
         this.canvas.add(this.healthbarDec);
         this.canvas.add(this.healthbarCurr);
     }
 
+    private drawHealthText() {
+        if (this.healthtext)
+             this.canvas.remove(this.healthtext);
+        this.healthtext = new fabric.Text(`${ this.health.toString() }/${ this.baseHealth.toString() }`, {
+            fontSize: 9,
+            fill: 'black',
+            top: 8,
+            left: !this.right ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
+            originX: 'center',
+        }); 
+        this.canvas.add(this.healthtext);
+    }
+
     public attacks() {
-        this.img.animate('left', this.right ? '-=70' : '+=70', {
+        this.img.animate('left', this.right ? '-=10' : '+=10', {
             duration: 200,
             easing: fabric.util.ease['easeInQuint'],
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
-                this.img.animate('left', this.right ? 250 : 50, {
+                this.img.animate('left', this.right ? this.center + this.artAdjust + this.trueWidth / 2 : this.center - this.artAdjust - this.trueWidth / 2, {
                     duration: 300,
                     onChange: this.canvas.renderAll.bind(this.canvas),
                     easing: fabric.util.ease['easeOutQuint'],
@@ -116,80 +161,118 @@ export class Player {
     }
 
 	public dies() {
-    this.img.animate('angle', this.right ? '-90' : '90', {
-        duration: 700,
-        onChange: this.canvas.renderAll.bind(this.canvas),
-        onComplete: () => {
-            this.img.animate('opacity', 0, {
-                duration: 200,
-                onChange: this.canvas.renderAll.bind(this.canvas),
-                onComplete: () => {
-                    this.canvas.remove(this.img);
-                    this.canvas.remove(this.healthtext);
-                    this.canvas.remove(this.healthbarCurr);
-                    this.canvas.remove(this.healthbarDec);
-                    this.canvas.remove(this.healthbarMis);
-                }
-            });
-        }
-    });
-}
+        this.img.animate('angle', this.right ? '-90' : '90', {
+            duration: 500,
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: () => {
+                this.img.animate('opacity', 0, {
+                    duration: 200,
+                    onChange: this.canvas.renderAll.bind(this.canvas),
+                    onComplete: () => {
+                        this.canvas.remove(this.img);
+                        this.canvas.remove(this.healthtext);
+                        this.canvas.remove(this.healthbarCurr);
+                        this.canvas.remove(this.healthbarDec);
+                        this.canvas.remove(this.healthbarMis);
+                    }
+                });
+            }
+        });
+    }
 
 	public text(str: string, color: string) {
         let dmg = new fabric.Text(`${ str }`, {
             fontSize: 15,
             fill: color,
             top: 20,
-            left: !this.right ? 40 : 260
-    });
+            left: !this.right ? this.center - this.textAdjust - this.trueWidth / 2 : this.center + this.textAdjust + this.trueWidth / 2,
+            originX: 'center'
+        });
 
-    this.canvas.add(dmg);
-    dmg.animate('top', '-=20', {
-        duration: 500,
-        onChange: this.canvas.renderAll.bind(this.canvas),
-        onComplete: () => {
-            this.canvas.remove(dmg);
-        }
-    });
-
-}
+        this.canvas.add(dmg);
+        dmg.animate('top', '-=20', {
+            duration: 500,
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: () => {
+                this.canvas.remove(dmg);
+            }
+        });
+    }
 
 	public healthbar(adjustment: number) {
-    if (!this.healthbarCurr.height)
-        return;
-    /*this.health += adjustment;
-    if (this.health > this.baseHealth) {
-        this.health = this.baseHealth;
-        // then draw or keep bar at max
-    }*/
-    // calculate amount to decrease height of bar by
-    let percent = adjustment / this.baseHealth;
-    let barChange = this.hpHeight * percent;
+        if (!this.healthbarCurr.height)
+            return;
 
-    // stop bars from going over 100 or under 0
-    if (barChange + this.healthbarCurr.height > this.hpHeight)
-        barChange = this.hpHeight - this.healthbarCurr.height;
-    else if (barChange + this.healthbarCurr.height < 0)
-        barChange = -this.healthbarCurr.height;
-    console.log(`CHANGE HEALTH BY = ${ barChange }`);
+        // adjust actual health values
+        this.health += adjustment;
+        if (this.health > this.baseHealth)
+            this.health = this.baseHealth;
+        this.drawHealthText();
+            
+        // calculate amount to decrease height of bar by
+        console.log(`adjust: ${ adjustment }`);
+        let percent = adjustment / this.baseHealth;
+        console.log(`baseHealth: ${ this.health }`);
+        let barChange = this.hpHeight * percent;
 
-    if (this.healthbarCurr.height <= 0)
-        this.healthbarCurr.height = 0;
-    // Drop the green bar
-    this.healthbarCurr.animate('height', barChange >= 0 ? `+=${ barChange }` : `-=${ -barChange }` , {
-        duration: 1,
-        onChange: this.canvas.renderAll.bind(this.canvas),
-        onComplete: () => {
-            // Have the yellow bar catch up to the green bar
-            if (this.healthbarCurr.height && this.healthbarDec.height)
-                barChange = this.healthbarCurr.height - this.healthbarDec.height;
-            else if (this.healthbarCurr.height == 0 && this.healthbarDec.height)
-                barChange = -this.healthbarDec.height
-            this.healthbarDec.animate('height', barChange >= 0 ? `+=${ barChange }` : `-=${ -barChange }`, {
-                duration: 400,
-                onChange: this.canvas.renderAll.bind(this.canvas),
-            });
+        // stop bars from going over 100 or under 0
+        if (barChange + this.healthbarCurr.height > this.hpHeight)
+            barChange = this.hpHeight - this.healthbarCurr.height;
+        else if (barChange + this.healthbarCurr.height < 0)
+            barChange = -this.healthbarCurr.height;
+        console.log(`CHANGE HEALTH BY = ${ barChange }`);
+
+        if (this.healthbarCurr.height <= 0)
+            this.healthbarCurr.height = 0;
+        // Drop the green bar
+        this.healthbarCurr.animate('height', barChange >= 0 ? `+=${ barChange }` : `-=${ -barChange }` , {
+            duration: 1,
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: () => {
+                // Have the yellow bar catch up to the green bar
+                if (this.healthbarCurr.height && this.healthbarDec.height)
+                    barChange = this.healthbarCurr.height - this.healthbarDec.height;
+                else if (this.healthbarCurr.height == 0 && this.healthbarDec.height)
+                    barChange = -this.healthbarDec.height
+                this.healthbarDec.animate('height', barChange >= 0 ? `+=${ barChange }` : `-=${ -barChange }`, {
+                    duration: 800,
+                    onChange: this.canvas.renderAll.bind(this.canvas),
+                });
+            }
+        });
+    }
+
+    public moves(){
+        // this.img.animate('left', this.right ? '-=10' : '+=10', {
+        //     duration: 200,
+        //     easing: fabric.util.ease['easeInQuint'],
+        //     onChange: this.canvas.renderAll.bind(this.canvas),
+        //     onComplete: () => {
+        //         this.img.animate('left', this.right ? this.center + this.artAdjust + this.trueWidth / 2 : this.center - this.artAdjust - this.trueWidth / 2, {
+        //             duration: 300,
+        //             onChange: this.canvas.renderAll.bind(this.canvas),
+        //             easing: fabric.util.ease['easeOutQuint'],
+        //         })
+        //     }
+        // });
+        // this.right = 0;
+    }
+
+    public move(){
+    
+        this.canvas.remove(this.healthtext);
+        this.canvas.remove(this.healthbarCurr);
+        this.canvas.remove(this.healthbarDec);
+        this.canvas.remove(this.healthbarMis);
+    
+        this.img.animate('left', this.center - this.artAdjust - this.trueWidth, {
+            duration:800,
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: () => {
+                this.canvas.remove(this.img);
+                this.img.setFlipX(false);
+                this.canvas.add(this.img);
+                }
+        });
         }
-    });
-}
 }
