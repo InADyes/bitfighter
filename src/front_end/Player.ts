@@ -16,13 +16,25 @@ export class Player {
     private trueWidth:      number;
     private artIndex:       number;
     private art = [
-        "images/characters/axe.png",
-        "images/characters/Skullery_Maid.png",
-        "images/characters/daggers.png",
-        "images/characters/champion_alpha.png",
+        "images/characters/sBarbarian.png",
+        "images/characters/sFarmer.png",
+        "images/characters/sDragon.png",
+        "images/characters/sDruid.png",
+        "images/characters/sFighter.png",
+        "images/characters/sFighter-2.png",
+        "images/characters/sMage.png",
+        "images/characters/sRogue.png",
+        "images/characters/sRogue-2.png",
+        "images/characters/sTroll.png",
+        "images/characters/sWarlock.png"
     ]
-    private hpHeight =  70;
-    private hpWidth =   10;
+    private hpHeight =      70;
+    private hpWidth =       5;
+
+    // Adjust these to move elements around
+    private artAdjust =     30;
+    private hpAdjust =      50;
+    private textAdjust =    40;
 
     constructor(data: any, side: number, canvas: fabric.Canvas) {
         this.name = data.name;
@@ -42,7 +54,7 @@ export class Player {
             if(oImg.width && oImg.height)
                 this.trueWidth = oImg.width/oImg.height * 70;
             this.img = oImg.set({
-                left: !this.right ? this.center - this.trueWidth / 2  : this.center + this.trueWidth / 2,
+                left: !this.right ? this.center - this.artAdjust - this.trueWidth / 2  : this.center + this.artAdjust + this.trueWidth / 2,
                 top: 90,
                 originX: 'center',
                 originY: 'bottom',
@@ -51,13 +63,15 @@ export class Player {
             this.img.scaleToHeight(70);
             this.canvas.add(this.img);
             
+            // health text
             if (this.healthtext)
                 this.canvas.remove(this.healthtext);
-            this.healthtext = new fabric.Text(this.health.toString(), {
-                fontSize: 3,
+            this.healthtext = new fabric.Text(`${ this.health.toString() }/${ this.baseHealth.toString() }`, {
+                fontSize: 9,
                 fill: 'black',
-                top: 10,
-                left: !this.right ? this.center  - this.trueWidth  -12 : this.center +  this.trueWidth -7 
+                top: 8,
+                left: !this.right ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
+                originX: 'center'
             });
             //health bar
             if (this.healthbarCurr)
@@ -67,7 +81,7 @@ export class Player {
             if (this.healthbarDec)
                 this.canvas.remove(this.healthbarDec);
             this.healthbarCurr = new fabric.Rect({
-                left: !this.right ? this.center - this.trueWidth  -3 : this.center  + this.trueWidth  + 3,
+                left: !this.right ? this.center - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
                 top: 90,
                 fill: '#1eedce',
                 height: this.hpHeight,
@@ -77,7 +91,7 @@ export class Player {
                 originY: 'bottom'
             });
             this.healthbarMis = new fabric.Rect({
-                left: !this.right ? this.center  - this.trueWidth  -3 : this.center + this.trueWidth  + 3,
+                left: !this.right ? this.center - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
                 top: 90,
                 fill: '#ed1e1e',
                 height: this.hpHeight,
@@ -87,7 +101,7 @@ export class Player {
                 originY: 'bottom'
             });
             this.healthbarDec = new fabric.Rect({
-                left: !this.right ? this.center - this.trueWidth  -3 : this.center  + this.trueWidth  + 3,
+                left: !this.right ? this.center - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
                 top: 90,
                 fill: '#edd11e',
                 height: this.hpHeight,
@@ -114,7 +128,7 @@ export class Player {
             easing: fabric.util.ease['easeInQuint'],
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
-                this.img.animate('left', this.right ? this.center + this.trueWidth / 2 : this.center - this.trueWidth / 2, {
+                this.img.animate('left', this.right ? this.center + this.artAdjust + this.trueWidth / 2 : this.center - this.artAdjust - this.trueWidth / 2, {
                     duration: 300,
                     onChange: this.canvas.renderAll.bind(this.canvas),
                     easing: fabric.util.ease['easeOutQuint'],
@@ -125,7 +139,7 @@ export class Player {
 
 	public dies() {
         this.img.animate('angle', this.right ? '-90' : '90', {
-            duration: 700,
+            duration: 500,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 this.img.animate('opacity', 0, {
@@ -148,7 +162,8 @@ export class Player {
             fontSize: 15,
             fill: color,
             top: 20,
-            left: !this.right ? this.center - this.trueWidth / 2 : this.center + this.trueWidth / 2 
+            left: !this.right ? this.center - this.textAdjust - this.trueWidth / 2 : this.center + this.textAdjust + this.trueWidth / 2,
+            originX: 'center'
         });
 
         this.canvas.add(dmg);
@@ -200,7 +215,7 @@ export class Player {
                 else if (this.healthbarCurr.height == 0 && this.healthbarDec.height)
                     barChange = -this.healthbarDec.height
                 this.healthbarDec.animate('height', barChange >= 0 ? `+=${ barChange }` : `-=${ -barChange }`, {
-                    duration: 400,
+                    duration: 800,
                     onChange: this.canvas.renderAll.bind(this.canvas),
                 });
             }
@@ -213,8 +228,9 @@ export class Player {
         this.healthtext = new fabric.Text(`${ this.health.toString() }/${ this.baseHealth.toString() }`, {
             fontSize: 9,
             fill: 'black',
-            top: 10,
-            left: !this.right ? 4 : 283
+            top: 8,
+            left: !this.right ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
+            originX: 'center',
         }); 
         this.canvas.add(this.healthtext);
     }
