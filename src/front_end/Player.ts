@@ -16,17 +16,17 @@ export class Player {
     private trueWidth:      number;
     private artIndex:       number;
     private art = [
-        "images/characters/sBarbarian.png",
-        "images/characters/sFarmer.png",
-        "images/characters/sDragon.png",
-        "images/characters/sDruid.png",
-        "images/characters/sFighter.png",
-        "images/characters/sFighter-2.png",
-        "images/characters/sMage.png",
-        "images/characters/sRogue.png",
-        "images/characters/sRogue-2.png",
-        "images/characters/sTroll.png",
-        "images/characters/sWarlock.png"
+        "images/characters/old/sBarbarian.png",
+        "images/characters/old/sFarmer.png",
+        "images/characters/old/sDragon.png",
+        "images/characters/old/sDruid.png",
+        "images/characters/old/sFighter.png",
+        "images/characters/old/sFighter-2.png",
+        "images/characters/old/sMage.png",
+        "images/characters/old/sRogue.png",
+        "images/characters/old/sRogue-2.png",
+        "images/characters/old/sTroll.png",
+        "images/characters/old/sWarlock.png"
     ]
     private hpHeight =      70;
     private hpWidth =       5;
