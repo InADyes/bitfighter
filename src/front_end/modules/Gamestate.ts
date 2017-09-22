@@ -1,21 +1,22 @@
-import * as Events from '../shared/graphicsEvents';
-import { Message } from '../shared/frontEndMessage';
+import * as Events from '../../shared/graphicsEvents';
+import { Message } from '../../shared/frontEndMessage';
 import 'fabric'
 declare let fabric: any;
 import * as Player from './Player';
 import { fireEvent } from './fireEvent';
 
 export class GameState {
-	private eventLoopTimeout: NodeJS.Timer | null;
-	private lastTime: number;
+	private eventLoopTimeout:	NodeJS.Timer | null;
+	private lastTime: 			number;
+	private canvas:				fabric.Canvas; 
+	private reel:				Events.Event[];
+	private player1:			Player.Player;
+	private player2:			Player.Player;
+	//public players: 			Player[] = []; Eventually do this
 
-	private canvas = new fabric.StaticCanvas('arena'); // USE StaticCanvas for noninteractive
-	private reel:		Events.Event[];
-	private player1:	Player.Player;
-	private player2:	Player.Player;
-	//public players: Player[] = []; Eventually do this
-
-	constructor() {}
+	constructor(canvasId: string) {
+		this.canvas = new fabric.StaticCanvas(canvasId); // USE StaticCanvas for noninteractive 
+	}
 
 	public newMessage(reel: Events.Event[], patch?: number) {
 		if (patch) {
@@ -98,10 +99,9 @@ export class GameState {
 
 	public slay(p2: number) {
 		if (p2)
-			this.player2.dies();
+			this.player2.dies(null);
 		else{
-			this.player1.dies();
-			this.player2.move();
+			this.player1.dies(this.player2)
 		}
 	}
 

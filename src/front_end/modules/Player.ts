@@ -12,48 +12,40 @@ export class Player {
     private healthbarMis:   fabric.Rect;
     private healthbarDec:   fabric.Rect;
     private canvas:         fabric.Canvas;
-   // private anicanvas:      fabric.Canvas;
     private center:         number;
     private trueWidth:      number;
     private artIndex:       number;
     private art = [
-        "images/characters/old/sBarbarian.png",
-        "images/characters/old/sFarmer.png",
-        "images/characters/old/sDragon.png",
-        "images/characters/old/sDruid.png",
-        "images/characters/old/sFighter.png",
-        "images/characters/old/sFighter-2.png",
-        "images/characters/old/sMage.png",
-        "images/characters/old/sRogue.png",
-        "images/characters/old/sRogue-2.png",
-        "images/characters/old/sTroll.png",
-        "images/characters/old/sWarlock.png"
+        "images/characters/stickFigures/0StreetUrchin.png",
+        "images/characters/stickFigures/1SculleryMaid.png",
+        "images/characters/stickFigures/2Farmer.png",
+        "images/characters/stickFigures/3Barkeep.png",				
+        "images/characters/stickFigures/4Aristocrat.png",	
+        "images/characters/stickFigures/5Minstrel.png",
+        "images/characters/stickFigures/6Mage.png",
+        "images/characters/stickFigures/7Rogue.png",	
+        "images/characters/stickFigures/8Gladiator.png",		
+        "images/characters/stickFigures/9Barbarian.png",	
+        "images/characters/stickFigures/10Warpriest.png",		
+        "images/characters/stickFigures/11Werewolf.png",
+        "images/characters/stickFigures/12Warlock.png",	
+        "images/characters/stickFigures/13Paladin.png",
+        "images/characters/stickFigures/14Swashbuckler.png",
+        "images/characters/stickFigures/15Dragon.png",
+        "images/characters/stickFigures/16Phoenix.png",
+        "images/characters/stickFigures/17Lich.png",
+        "images/characters/stickFigures/18Angel.png"
     ]
-    /*
-    Street Urchin	
-    Scullery Maid			
-    Farmer		
-    Barkeep				
-    Aristocrat	
-    Minstrel		
-    Mage		
-    Rogue		
-    Gladiator		
-    Barbarian		
-    Warpriest			
-    Werewolf	
-    Warlock			
-    Paladin	
-    Swashbuckler
-    Dragon
-    */
     private hpHeight =      70;
     private hpWidth =       5;
 
     // Adjust these to move elements around
-    private artAdjust =     30;
-    private hpAdjust =      50;
-    private textAdjust =    40;
+    private artAdjust =     10;
+    private hpAdjust =      20;
+    private textAdjust =    20;
+    private artTop =        100;
+    private hpTextTop =     18;
+    private textTop =       30;
 
     constructor(data: any, side: number, canvas: fabric.Canvas) {
         this.name = data.name;
@@ -62,7 +54,6 @@ export class Player {
         this.baseHealth = data.maxHitPoints;
         this.right = side;
         this.canvas = canvas;
-        //this.anicanvas = anicanvas;
         this.center = this.canvas.getWidth() / 2;
     }
 
@@ -74,12 +65,12 @@ export class Player {
                 this.trueWidth = oImg.width/oImg.height * 70;
             this.img = oImg.set({
                 left: !this.right ? this.center - this.artAdjust - this.trueWidth / 2  : this.center + this.artAdjust + this.trueWidth / 2,
-                top: 90,
+                top: this.artTop,
                 originX: 'center',
                 originY: 'bottom',
                 flipX: !this.right ? false : true
             });
-            this.img.scaleToHeight(90);
+            this.img.scaleToHeight(70);
             this.canvas.add(this.img);
             
             this.drawHealthText();
@@ -99,7 +90,7 @@ export class Player {
             this.canvas.remove(this.healthbarDec);
         this.healthbarCurr = new fabric.Rect({
             left: !this.right ? this.center - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
-            top: 90,
+            top: this.artTop,
             fill: '#1eedce',
             height: missingHeight,
             width: this.hpWidth,
@@ -109,7 +100,7 @@ export class Player {
         });
         this.healthbarMis = new fabric.Rect({
             left: !this.right ? this.center - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
-            top: 90,
+            top: this.artTop,
             fill: '#ed1e1e',
             height: this.hpHeight,
             width: this.hpWidth,
@@ -119,7 +110,7 @@ export class Player {
         });
         this.healthbarDec = new fabric.Rect({
             left: !this.right ? this.center - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
-            top: 90,
+            top: this.artTop,
             fill: '#edd11e',
             height: missingHeight,
             width: this.hpWidth,
@@ -138,7 +129,7 @@ export class Player {
         this.healthtext = new fabric.Text(`${ this.health.toString() }/${ this.baseHealth.toString() }`, {
             fontSize: 9,
             fill: 'black',
-            top: 8,
+            top: this.hpTextTop,
             left: !this.right ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
             originX: 'center',
         }); 
@@ -160,7 +151,7 @@ export class Player {
         });
     }
 
-	public dies() {
+	public dies(player2: Player | null) {
         this.img.animate('angle', this.right ? '-90' : '90', {
             duration: 500,
             onChange: this.canvas.renderAll.bind(this.canvas),
@@ -174,6 +165,8 @@ export class Player {
                         this.canvas.remove(this.healthbarCurr);
                         this.canvas.remove(this.healthbarDec);
                         this.canvas.remove(this.healthbarMis);
+                        if (player2)
+                            player2.moves();
                     }
                 });
             }
@@ -184,7 +177,7 @@ export class Player {
         let dmg = new fabric.Text(`${ str }`, {
             fontSize: 15,
             fill: color,
-            top: 20,
+            top: this.textTop,
             left: !this.right ? this.center - this.textAdjust - this.trueWidth / 2 : this.center + this.textAdjust + this.trueWidth / 2,
             originX: 'center'
         });
@@ -243,36 +236,21 @@ export class Player {
     }
 
     public moves(){
-        // this.img.animate('left', this.right ? '-=10' : '+=10', {
-        //     duration: 200,
-        //     easing: fabric.util.ease['easeInQuint'],
-        //     onChange: this.canvas.renderAll.bind(this.canvas),
-        //     onComplete: () => {
-        //         this.img.animate('left', this.right ? this.center + this.artAdjust + this.trueWidth / 2 : this.center - this.artAdjust - this.trueWidth / 2, {
-        //             duration: 300,
-        //             onChange: this.canvas.renderAll.bind(this.canvas),
-        //             easing: fabric.util.ease['easeOutQuint'],
-        //         })
-        //     }
-        // });
-        // this.right = 0;
-    }
-
-    public move(){
-    
-        this.canvas.remove(this.healthtext);
-        this.canvas.remove(this.healthbarCurr);
-        this.canvas.remove(this.healthbarDec);
-        this.canvas.remove(this.healthbarMis);
-    
-        this.img.animate('left', this.center - this.artAdjust - this.trueWidth, {
+        this.img.animate(`left`, this.center - this.artAdjust - this.trueWidth / 2, {
             duration:800,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 this.canvas.remove(this.img);
                 this.img.setFlipX(false);
                 this.canvas.add(this.img);
-                }
-        });
-        }
+                this.canvas.remove(this.healthtext);
+                this.canvas.remove(this.healthbarCurr);
+                this.canvas.remove(this.healthbarDec);
+                this.canvas.remove(this.healthbarMis);
+                this.right = 0;
+                this.drawHealthText();
+                this.drawHpBar();
+            }
+        });        
+    }
 }
