@@ -8,17 +8,22 @@ document.addEventListener("DOMContentLoaded", function(){
     
     window.addEventListener('storage', (e) => {
         console.log(e)
+        const str = e.newValue;
+        if (str == undefined) {
+            console.error('bad storage event value');
+            return;
+        }
         switch(e.key) {
             case 'fight':
-                let str = e.newValue;
-                if (str == undefined) {
-                    console.error('bad storage event value');
-                    break;
-                }
                 let message = <Message>JSON.parse(str);
                 console.log(message.reel);
                 gameState.newMessage(message.reel, message.patch);
                 gameState.initPlayers(message.characters);
+                break;
+            case 'characterChoice':
+                //console.log(JSON.parse())
+                break;
+            case 'choiceResult':
                 break;
             default:
                 console.error('unidentified storage event');

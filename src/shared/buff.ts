@@ -12,8 +12,8 @@ export interface Buff {
     readonly attackDamage?: number,
     readonly armor?: number,
     readonly regeneration?: number,
-    readonly critChance?: number
-    readonly critMultiplier?: 1
+    readonly critChance?: number // does not do anything right now
+    readonly critMultiplier?: number // also doesn't do anything
 }
 
 export const enum types {
