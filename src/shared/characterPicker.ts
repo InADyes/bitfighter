@@ -29,12 +29,13 @@ export const characters: Character[] = [
             },
             armor: 15,
             regeneration: 200,
-            //critChance: 10,
+            critChanceModifier: 1,
+            critDamageModifier: 1,
         }, 
         rarity: 0,
         crits: [{
             damageMultiplier: 10,
-            odds: 1,
+            odds: 10,
             buff: Buff.buffs[Buff.types.streetUrchin],
         }],
         name: 'Street Urchin'
@@ -54,12 +55,13 @@ export const characters: Character[] = [
             },
             armor: 30,
             regeneration: 400,
-            //critChance: 10,
+            critChanceModifier: 1,
+            critDamageModifier: 1,
         }, 
         rarity: 0,
         crits: [{
             damageMultiplier: 6,
-            odds: 1,
+            odds: 10,
             debuff: Buff.buffs[Buff.types.sculleryMaid],
         }],
         name: 'Scullary Maid'
@@ -79,12 +81,13 @@ export const characters: Character[] = [
             },
             armor: 25,
             regeneration: 300,
-            //critChance: 10,
+            critChanceModifier: 1,
+            critDamageModifier: 1,
         }, 
         rarity: 0,
         crits: [{
             damageMultiplier: 6,
-            odds: 1,
+            odds: 10,
             debuff: Buff.buffs[Buff.types.farmer],
         }],
         name: 'Farmer'
@@ -104,12 +107,13 @@ export const characters: Character[] = [
             },
             armor: 45,
             regeneration: 200,
-            //critChance: 10,
+            critChanceModifier: 1,
+            critDamageModifier: 1,
         }, 
         rarity: 0,
         crits: [{
             damageMultiplier: 4,
-            odds: 1,
+            odds: 10,
             debuff: Buff.buffs[Buff.types.barkeep],
         }],
         name: 'Barkeep'
@@ -129,12 +133,13 @@ export const characters: Character[] = [
             },
             armor: 0,
             regeneration: 100,
-            //critChance: 10,
+            critChanceModifier: 1,
+            critDamageModifier: 1,
         }, 
         rarity: 0,
         crits: [{
             damageMultiplier: 4,
-            odds: 1,
+            odds: 10,
             debuff: Buff.buffs[Buff.types.aristocrat],
         }],
         name: 'Aristocrat'
@@ -154,12 +159,13 @@ export const characters: Character[] = [
             },
             armor: 25,
             regeneration: 200,
-            //critChance: 10,
+            critChanceModifier: 1,
+            critDamageModifier: 1,
         }, 
         rarity: 0,
         crits: [{
             damageMultiplier: 4,
-            odds: 1,
+            odds: 10,
             debuff: Buff.buffs[Buff.types.minstrel],
         }],
         name: 'Minstrel'
@@ -179,12 +185,13 @@ export const characters: Character[] = [
             },
             armor: 25,
             regeneration: 200,
-            //critChance: 10,
+            critChanceModifier: 1,
+            critDamageModifier: 1,
         }, 
         rarity: 1,
         crits: [{
             damageMultiplier: 3,
-            odds: 1,
+            odds: 10,
             debuff: Buff.buffs[Buff.types.mage],
         }],
         name: 'Mage'
@@ -204,12 +211,13 @@ export const characters: Character[] = [
             },
             armor: 30,
             regeneration: 200,
-            //critChance: 10,
+            critChanceModifier: 1,
+            critDamageModifier: 1,
         }, 
         rarity: 1,
         crits: [{
             damageMultiplier: 20,
-            odds: 1,
+            odds: 10,
             buff: Buff.buffs[Buff.types.rogue],
         }],
         name: 'Rogue'
@@ -229,12 +237,13 @@ export const characters: Character[] = [
             },
             armor: 50,
             regeneration: 200,
-            //critChance: 10,
+            critChanceModifier: 1,
+            critDamageModifier: 1,
         }, 
         rarity: 1,
         crits: [{
             damageMultiplier: 6,
-            odds: 1,
+            odds: 10,
             debuff: Buff.buffs[Buff.types.gladiator],
         }],
         name: 'Gladiator'
@@ -254,12 +263,13 @@ export const characters: Character[] = [
             },
             armor: 10,
             regeneration: 200,
-            //critChance: 10,
+            critChanceModifier: 1,
+            critDamageModifier: 1,
         }, 
         rarity: 1,
         crits: [{
             damageMultiplier: 8,
-            odds: 1,
+            odds: 10,
             buff: Buff.buffs[Buff.types.barbarian],
         }],
         name: 'Barbarian'
@@ -279,12 +289,13 @@ export const characters: Character[] = [
             },
             armor: 45,
             regeneration: 1000,
-            //critChance: 10,
+            critChanceModifier: 1,
+            critDamageModifier: 1,
         }, 
         rarity: 1,
         crits: [{
             damageMultiplier: 2,
-            odds: 1,
+            odds: 10,
             debuff: Buff.buffs[Buff.types.warpriest]
         }],
         name: 'War Priest'
@@ -304,12 +315,13 @@ export const characters: Character[] = [
             },
             armor: 45,
             regeneration: 600,
-            //critChance: 10,
+            critChanceModifier: 1,
+            critDamageModifier: 1,
         }, 
         rarity: 2,
         crits: [{
             damageMultiplier: 6,
-            odds: 1,
+            odds: 10,
             debuff: Buff.buffs[Buff.types.werewolfDebuff],
             buff: Buff.buffs[Buff.types.werewolfDebuff],
         }],
@@ -330,12 +342,13 @@ export const characters: Character[] = [
             },
             armor: 15,
             regeneration: -200,
-            //critChance: 10,
+            critChanceModifier: 1,
+            critDamageModifier: 1,
         }, 
         rarity: 2,
         crits: [{
             damageMultiplier: 2,
-            odds: 1,
+            odds: 10,
             debuff: Buff.buffs[Buff.types.warlockDebuff],
         }],
         name: 'Warlock'
@@ -355,12 +368,13 @@ export const characters: Character[] = [
             },
             armor: 65,
             regeneration: 400,
-            //critChance: 10,
+            critChanceModifier: 1,
+            critDamageModifier: 1,
         }, 
         rarity: 2,
         crits: [{
             damageMultiplier: 10,
-            odds: 1,
+            odds: 10,
             buff: Buff.buffs[Buff.types.paladin],
         }],
         name: 'Paladin'
@@ -380,12 +394,13 @@ export const characters: Character[] = [
             },
             armor: 55,
             regeneration: 200,
-            //critChance: 10,
+            critChanceModifier: 1,
+            critDamageModifier: 1,
         }, 
         rarity: 2,
         crits: [{
             damageMultiplier: 8,
-            odds: 1,
+            odds: 10,
             debuff: Buff.buffs[Buff.types.swashbucklerDebuff],
             buff: Buff.buffs[Buff.types.swashbucklerBuff],
         }],
@@ -406,12 +421,13 @@ export const characters: Character[] = [
             },
             armor: 85,
             regeneration: 0,
-            //critChance: 10,
+            critChanceModifier: 1,
+            critDamageModifier: 1,
         }, 
         rarity: 3,
         crits: [{
             damageMultiplier: 20,
-            odds: 1,
+            odds: 10,
             debuff: Buff.buffs[Buff.types.dragon],
         }],
         name: 'Dragon'
@@ -571,8 +587,8 @@ export function buildStats(character: number, donation: number, level: number) :
         },
         armor: c.stats.armor,
         regeneration: c.stats.regeneration,
-        //critChance: c.stats.//critChance,
-        //critDamage: c.stats.critMultiplier || 1
+        critChanceModifier: c.stats.critChanceModifier,
+        critDamageModifier: c.stats.critDamageModifier
     }
 }
 

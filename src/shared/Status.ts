@@ -14,8 +14,8 @@ export interface Stats {
     };
     armor: number;
     regeneration: number;
-    //critChance: number;
-    //critMultiplier: number;
+    critChanceModifier: number;
+    critDamageModifier: number;
 }
 
 export class Status {
@@ -74,10 +74,10 @@ export class Status {
                 this.calculatedStats.armor *= b.armor;
             if (b.regeneration) 
                 this.calculatedStats.regeneration *= b.regeneration;
-            // if (b.critChance) 
-            //     this.calculatedStats.critChance *= b.critChance;
-            // if (b.critMultiplier) 
-            //     this.calculatedStats.critMultiplier *= b.critMultiplier;
+            if (b.critChanceModifier) 
+                this.calculatedStats.critChanceModifier *= b.critChanceModifier;
+            if (b.critDamageModifier) 
+                this.calculatedStats.critDamageModifier *= b.critDamageModifier;
         }
     }
     public get stats() {

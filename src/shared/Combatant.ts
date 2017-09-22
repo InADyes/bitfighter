@@ -9,8 +9,8 @@ interface attackProps {
     attacker: Combatant,
     damage: number,
     accuracy: number,
-    // critChance: number,
-    // critMultiplier: number
+    critChanceModifier: number,
+    critDamageModifier: number
     crits: {
         odds: number,
         debuff?: Buff.Buff,
@@ -49,6 +49,8 @@ export class Combatant {
             attacker: this,
             damage: damageRoll,
             accuracy: stats.accuracy,
+            critDamageModifier: stats.critDamageModifier,
+            critChanceModifier: stats.critChanceModifier,
             crits: characterPicker.characters[this.status.character].crits
         });
     }
@@ -65,9 +67,9 @@ export class Combatant {
         attack.damage -= this.status.stats.armor // applied before crit multipliers
 
         for (let crit of attack.crits) {
-            if (Math.ceil(Math.random() * 100) <= crit.odds) {
+            if (Math.ceil(Math.random() * 100) <= crit.odds * attack.critChanceModifier) {
                 if (crit.damageMultiplier)
-                    attack.damage = (attack.damage - this.status.stats.armor) * crit.damageMultiplier;
+                    attack.damage = (attack.damage - this.status.stats.armor) * crit.damageMultiplier * attack.critDamageModifier;
                 this.newEvent(new fightEvents.Crit(attack.time, this.index, crit.debuff, crit.buff));
             }
         }

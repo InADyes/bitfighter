@@ -12,8 +12,8 @@ export interface Buff {
     readonly attackDamage?: number,
     readonly armor?: number,
     readonly regeneration?: number,
-    readonly critChance?: number // does not do anything right now
-    readonly critMultiplier?: number // also doesn't do anything
+    readonly critChanceModifier?: number // does not do anything right now
+    readonly critDamageModifier?: number // also doesn't do anything
 }
 
 export const enum types {
@@ -97,7 +97,7 @@ export const buffs: Buff[] = [
         accuracy: 0.25,
         dodge: 0.25,
         attackDamage: 0.25,
-        critChance: .5,
+        critChanceModifier: .5,
     },// Warpriest
     {
         duration: 15000,
@@ -126,7 +126,7 @@ export const buffs: Buff[] = [
         art: 15,
         attackSpeed: 2,
         accuracy: 1.25,
-        critChance: 2,
+        critChanceModifier: 2,
     },// Swashbuckler Buff
     {
         duration: 15000,
