@@ -63,7 +63,7 @@ export class Combatant {
             return;
         }
 
-        if (Math.ceil(Math.random() * 100) >= attack.critChance) {
+        if (Math.ceil(Math.random() * 100) <= attack.critChance) {
             attack.damage = (attack.damage - this.status.stats.armor) * attack.critMultiplier;
             this.newEvent(new fightEvents.Crit(this.time, this.index, attack.critDebuff, attack.critBuff));
         } else
