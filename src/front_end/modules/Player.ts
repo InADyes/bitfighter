@@ -127,9 +127,9 @@ export class Player {
         if (this.healthtext)
              this.canvas.remove(this.healthtext);
         this.healthtext = new fabric.Text(`${ this.health.toString() }`, {
-            fontSize: 20,
+            fontSize: 15,
             fontFamily: 'Trebuchet MS',
-            fill: 'blue',
+            fill: 'white',
             stroke: 'black',
             top: this.hpTextTop,
             left: !this.right ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
