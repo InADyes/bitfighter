@@ -43,10 +43,9 @@ export class Player {
 
     // Adjust these to move elements around
     private artAdjust =     0;
-    private hpAdjust =      10;
-    //private textAdjust =    10;
+    private hpAdjust =      12;
     private artTop =        120;
-    private hpTextTop =     35;
+    private hpTextTop =     25;
     private textTop =       30;
 
     constructor(data: any, side: number, canvas: fabric.Canvas) {
@@ -130,8 +129,10 @@ export class Player {
         if (this.healthtext)
              this.canvas.remove(this.healthtext);
         this.healthtext = new fabric.Text(`${ this.health.toString() }`, {
-            fontSize: 17,
-            fill: 'white',
+            fontSize: 20,
+            fontFamily: 'Trebuchet MS',
+            fill: '#49b5d8',
+            fontWeight: 'bold',
             stroke: 'black',
             top: this.hpTextTop,
             left: !this.right ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
@@ -197,6 +198,7 @@ export class Player {
         let txtObj = this.textQueue.shift();
         let txt = new fabric.Text(`${ txtObj.str }`, {
             fontSize: 15,
+            fontFamily: 'Trebuchet MS',
             fill: txtObj.color,
             top: this.textTop,
             left: !this.right ? this.center - this.artAdjust - this.trueWidth / 2 : this.center + this.artAdjust + this.trueWidth / 2,
