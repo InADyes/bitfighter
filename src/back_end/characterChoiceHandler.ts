@@ -35,7 +35,7 @@ export class CharacterChoiceHandler {
         timeout: NodeJS.Timer,
         name: string,
         donationAmount: number
-    }[];
+    }[] = [];
 
     constructor(
         private readonly newCombatant: (donation: {
@@ -68,6 +68,8 @@ export class CharacterChoiceHandler {
     
         console.log('total: ', total);
     
+        //todo: validate math
+
         // for every choice to be given
         for (let _ = 0; _ < 3; _++) {
             let roll = Math.floor((total + 1) * Math.random());
@@ -76,7 +78,7 @@ export class CharacterChoiceHandler {
             for (let rarity = 0; rarity < totals.length; rarity++) {
                 if (roll < totals[rarity]) {
                     roll /= odds[rarity];
-                    choices.push(characters.filter(c => c.rarity === rarity)[roll]);
+                    choices.push(characters.filter(c => c.rarity === rarity)[Math.floor(roll)]);
                     break;
                 }
                 roll -= totals[rarity];

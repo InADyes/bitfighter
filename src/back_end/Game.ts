@@ -1,7 +1,7 @@
 import * as buildGraphicsEvents from './buildGraphicsEvents';
 import { buildFightEvents } from '../shared/fight';
-import { Character, pickCharacter } from '../shared/characterPicker';
 import { Stats, Status } from '../shared/Status';
+import { Character, pickCharacter } from '../shared/characterPicker';
 import * as FightEvents from '../shared/fightEvents';
 import * as graphicsEvents from '../shared/graphicsEvents';
 import * as frontEndMessage from '../shared/frontEndMessage';
