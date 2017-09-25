@@ -35,21 +35,15 @@ export function buildFightEvents(stats: Status[]) {
         return {combatants: stats, reel};
     }
 
-    let lastTime = 0;
-
     while (newStats.length >= 2) {
-        if (combatants[0].time <= combatants[1].time) {
-            lastTime = combatants[0].time;
+        if (combatants[0].time <= combatants[1].time)
             combatants[0].attack();
-        }
-        else {
-            lastTime = combatants[1].time;
+        else
             combatants[1].attack();
-        }
     }
 
     newStats.forEach(s => s.clearBuffs());
-    //combatants.filter(c => c.status == newStats[0])[0].heal();
+    combatants.filter(c => c.status == newStats[0])[0].heal();
 
     return { combatants: newStats, reel }
 }
