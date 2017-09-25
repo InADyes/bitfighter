@@ -7,10 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const idInputNode = <HTMLInputElement>document.getElementById('donation-id');
     const bitsInputNode = <HTMLInputElement>document.getElementById('donation-bits');
     const artInputNode = <HTMLInputElement>document.getElementById('donation-art');
-    if (newDonationButton == null || nameInputNode == null || bitsInputNode == null) {
-        console.error('missing DOM hook');
-        return;
-    }
     newDonationButton.addEventListener('click', element => {
         const id = Number(idInputNode.value);
         const name = nameInputNode.value;
@@ -19,7 +15,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         idInputNode.value = String(id + 1);
 
-        game.donation({id: id, name: name, amount: amount, character: art});
+        if (art <= -1)
+            game.donation(id, name, amount);
+        else
+            game.newCombatant({id, name, amount, character: art});
     });
 
     let requestIDs: number[] = [];

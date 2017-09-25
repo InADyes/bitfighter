@@ -1,5 +1,5 @@
 import { GameState } from './gamestate/Gamestate';
-import {    BackToFrontMessage, FrontToBackMessage, CharacterChoice, FrontEndSettings as Settings } from '../shared/frontEndMessage';
+import { BackToFrontMessage, FrontToBackMessage, CharacterChoice, FrontEndSettings as Settings } from '../shared/frontEndMessage';
 
 export class BitFighter {
     private readonly game: GameState;
@@ -46,7 +46,6 @@ export class BitFighter {
                     choice: 2
             }});
         });
-
     }
     public recievedViewerGameState(data: BackToFrontMessage) {
         if (data.newReel) {
