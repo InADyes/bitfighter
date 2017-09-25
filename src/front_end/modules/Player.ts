@@ -45,7 +45,7 @@ export class Player {
     private artAdjust =     0;
     private hpAdjust =      12;
     private artTop =        120;
-    private hpTextTop =     25;
+    private hpTextTop =     35;
     private textTop =       30;
 
     constructor(data: any, side: number, canvas: fabric.Canvas) {
@@ -129,9 +129,9 @@ export class Player {
         if (this.healthtext)
              this.canvas.remove(this.healthtext);
         this.healthtext = new fabric.Text(`${ this.health.toString() }`, {
-            fontSize: 20,
+            fontSize: 15,
             fontFamily: 'Trebuchet MS',
-            fill: '#49b5d8',
+            fill: 'white',
             fontWeight: 'bold',
             stroke: 'black',
             top: this.hpTextTop,
@@ -199,6 +199,8 @@ export class Player {
         let txt = new fabric.Text(`${ txtObj.str }`, {
             fontSize: 15,
             fontFamily: 'Trebuchet MS',
+            fontWeight: 'bold',
+            stroke: 'white',
             fill: txtObj.color,
             top: this.textTop,
             left: !this.right ? this.center - this.artAdjust - this.trueWidth / 2 : this.center + this.artAdjust + this.trueWidth / 2,
