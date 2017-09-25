@@ -3,7 +3,7 @@ import { Character } from './characterPicker';
 
 // what gets sent to the front end
 
-export interface Message {
+export interface Message { // needs name change
     characters: {
         name: string;
         currentHitPoints: number;
@@ -20,4 +20,21 @@ export interface CharacterChoices {
 
 export interface CharacterChoice {
     choice: number
+}
+
+export interface FrontEndSettings {
+    position: {
+        x: number,
+        y: number
+    },
+    size: number
+}
+
+export interface BackToFrontMessage {
+    newReel?: Message;
+    characterChoices?: CharacterChoices;
+}
+
+export interface FrontToBackMessage {
+    characterChoice: CharacterChoice;
 }
