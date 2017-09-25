@@ -11,6 +11,7 @@ export class Player {
     private healthbarCurr:  fabric.Rect;
     private healthbarMis:   fabric.Rect;
     private healthbarDec:   fabric.Rect;
+    private displayname:    fabric.Text;
     private canvas:         fabric.Canvas;
     private center:         number;
     private trueWidth:      number;
@@ -40,6 +41,7 @@ export class Player {
     private hpHeight =      70;
     private hpWidth =       5;
     private textLock =      0;
+    private nameheight =    130;
 
     // Adjust these to move elements around
     private artAdjust =     0;
@@ -74,12 +76,24 @@ export class Player {
             });
             this.img.scaleToHeight(70);
             this.canvas.add(this.img);
-            
             this.drawHealthText();
             this.drawHpBar();
+            this.drawname();
         });
     }
-
+    private drawname() {
+         this.displayname = new fabric.Text(this.name, {
+            fontSize: 15,
+            fontFamily: 'Trebuchet MS',
+            fill: 'white',
+            fontWeight: 'bold',
+            stroke: 'black',
+            top: this.nameheight,
+            left: !this.right ? this.center  - this.trueWidth/2 : this.center + this.trueWidth/2,
+            originX: 'center'
+        });
+        this.canvas.add(this.displayname);
+    }
     private drawHpBar() {
         let missingHeight = this.hpHeight * (this.health / this.baseHealth);
         console.log(missingHeight);
@@ -170,6 +184,7 @@ export class Player {
                         this.canvas.remove(this.healthbarCurr);
                         this.canvas.remove(this.healthbarDec);
                         this.canvas.remove(this.healthbarMis);
+                        this.canvas.remove(this.displayname);
                         if (player2)
                             player2.moves();
                     }
@@ -272,6 +287,7 @@ export class Player {
         this.canvas.remove(this.healthbarCurr);
         this.canvas.remove(this.healthbarDec);
         this.canvas.remove(this.healthbarMis);
+        this.canvas.remove(this.displayname);
         this.img.animate(`left`, this.center - this.artAdjust - this.trueWidth / 2, {
             duration:800,
             onChange: this.canvas.renderAll.bind(this.canvas),
@@ -282,6 +298,7 @@ export class Player {
                 this.right = 0;
                 this.drawHealthText();
                 this.drawHpBar();
+                this.drawname();
             }
         });        
     }
