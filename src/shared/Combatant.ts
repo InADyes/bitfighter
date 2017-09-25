@@ -9,10 +9,14 @@ interface attackProps {
     attacker: Combatant,
     damage: number,
     accuracy: number,
-    critChance: number,
-    critMultiplier: number,
-    critDebuff?: Buff.Buff,
-    critBuff?: Buff.Buff
+    critChanceModifier: number,
+    critDamageModifier: number
+    crits: {
+        odds: number,
+        debuff?: Buff.Buff,
+        buff?: Buff.Buff,
+        damageMultiplier?: number
+    }[]
 }
 
 export class Combatant {
@@ -45,10 +49,9 @@ export class Combatant {
             attacker: this,
             damage: damageRoll,
             accuracy: stats.accuracy,
-            critChance: stats.critChance,
-            critMultiplier: stats.critMultiplier,
-            critDebuff: characterPicker.characters[this.status.character].critDebuff,
-            critBuff: characterPicker.characters[this.status.character].critBuff
+            critDamageModifier: stats.critDamageModifier,
+            critChanceModifier: stats.critChanceModifier,
+            crits: characterPicker.characters[this.status.character].crits
         });
     }
     public takeHit(attack: attackProps) {
@@ -61,11 +64,15 @@ export class Combatant {
             return;
         }
 
-        if (Math.ceil(Math.random() * 100) <= attack.critChance) {
-            attack.damage = (attack.damage - this.status.stats.armor) * attack.critMultiplier;
-            this.newEvent(new fightEvents.Crit(attack.time, this.index, attack.critDebuff, attack.critBuff));
-        } else
-            attack.damage -= this.status.stats.armor; //applied here so that armor is calculated before the buff is applied when there is a crit
+        attack.damage -= this.status.stats.armor // applied before crit multipliers
+
+        for (let crit of attack.crits) {
+            if (Math.ceil(Math.random() * 100) <= crit.odds * attack.critChanceModifier) {
+                if (crit.damageMultiplier)
+                    attack.damage = (attack.damage - this.status.stats.armor) * crit.damageMultiplier * attack.critDamageModifier;
+                this.newEvent(new fightEvents.Crit(attack.time, this.index, crit.debuff, crit.buff));
+            }
+        }
 
         if (attack.damage < 0)
             attack.damage = 0;

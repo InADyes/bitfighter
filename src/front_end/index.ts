@@ -1,4 +1,4 @@
-import { GameState } from './modules/Gamestate';
+import { GameState } from './gamestate/Gamestate';
 import { Message, CharacterChoice } from '../shared/frontEndMessage';
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -19,7 +19,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 gameState.initPlayers(message.characters);
                 break;
             case 'characterChoice':
-                console.log(JSON.parse(str))
+                console.log(JSON.parse(str));
+                // characterSelect
                 break;
             case 'choiceResult':
                 break;
