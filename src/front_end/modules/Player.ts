@@ -246,12 +246,19 @@ export class Player {
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 // Have the yellow bar catch up to the green bar
-                if (this.healthbarCurr.height && this.healthbarDec.height)
-                    barChange = this.healthbarCurr.height - this.healthbarDec.height;
-                else if (this.healthbarCurr.height == 0 && this.healthbarDec.height)
-                    barChange = -this.healthbarDec.height
+                //let catchUpPercent = 1;
+                if (this.healthbarCurr.height && this.healthbarDec.height){
+                    barChange = this.healthbarDec.height - this.healthbarCurr.height;
+                    //catchUpPercent = (this.healthbarDec.height - this.healthbarCurr.height) / this.hpHeight * 200;
+                }
+                else if (this.healthbarCurr.height == 0 && this.healthbarDec.height){
+                    barChange = -this.healthbarDec.height;
+                    //catchUpPercent = this.healthbarDec.height / this.hpHeight * 200;
+                }
+                //let yellowDuration = catchUpPercent * 10;
+                //console.log("catchUpPercent:", catchUpPercent, "duration:",yellowDuration);
                 this.healthbarDec.animate('height', barChange >= 0 ? `+=${ barChange }` : `-=${ -barChange }`, {
-                    duration: 800,
+                    duration: 800, //yellowDuration,
                     onChange: this.canvas.renderAll.bind(this.canvas),
                 });
             }
