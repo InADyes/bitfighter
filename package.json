@@ -20,10 +20,12 @@
   "homepage": "https://github.com/the-opera-house/bitfighter#readme",
   "dependencies": {
     "@types/fabric": "^1.5.26",
+    "@types/socket.io": "^1.4.30",
     "@types/webpack": "^3.0.10",
     "express": "^4.15.4",
     "fabric": "^1.7.19",
     "process": "^0.11.10",
+    "socket.io": "^2.0.3",
     "ts-loader": "^2.3.7",
     "typescript": "^2.5.2",
     "webpack": "^3.6.0"

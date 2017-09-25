@@ -1,27 +1,49 @@
-import 'fabric'
-declare let fabric: any;
-import * as Display from './modules/Gamestate';
-import { Message } from '../shared/frontEndMessage';
+import { GameState } from './modules/Gamestate';
+import { Message, CharacterChoice } from '../shared/frontEndMessage';
 
 document.addEventListener("DOMContentLoaded", function(){
-    let gameState = new Display.GameState(`arena`);
+    const gameState = new GameState(`arena`);
     
     window.addEventListener('storage', (e) => {
         console.log(e)
+        const str = e.newValue;
+        if (str == undefined) {
+            console.error('bad storage event value');
+            return;
+        }
         switch(e.key) {
             case 'fight':
-                let str = e.newValue;
-                if (str == undefined) {
-                    console.error('bad storage event value');
-                    break;
-                }
-                let message = <Message>JSON.parse(str);
+                const message = <Message>JSON.parse(str);
                 console.log(message.reel);
                 gameState.newMessage(message.reel, message.patch);
                 gameState.initPlayers(message.characters);
+                break;
+            case 'characterChoice':
+                console.log(JSON.parse(str))
+                break;
+            case 'choiceResult':
                 break;
             default:
                 console.error('unidentified storage event');
         }
     });
+
+    const button0 = <HTMLButtonElement>document.getElementById('button-0');
+    const button1 = <HTMLButtonElement>document.getElementById('button-1');
+    const button2 = <HTMLButtonElement>document.getElementById('button-2');
+
+    button0.addEventListener('click', () => {
+        characterChoice(0);
+    });
+    button1.addEventListener('click', () => {
+        characterChoice(1);
+    });
+    button2.addEventListener('click', () => {
+        characterChoice(2);
+    });
+
+    function characterChoice(choice: number) {
+        const characterChoice: CharacterChoice = { choice };
+        localStorage.setItem('choiceResult', JSON.stringify(characterChoice));
+    }
 });
