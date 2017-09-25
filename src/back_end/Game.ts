@@ -44,13 +44,13 @@ export class Game {
         this.characterChoiceHandler.completeChoice(id, choice);
     }
 
-    public donation(donation: {id: number, name: string, amount: number, character: number}) {
+    public donation(id: number, name: string, amount: number) {
 
         // if the fight is ongoing
         if (this.timeout !== null) {
             // and the donation matches a fighter
             const combatantIndex = this.lastCombatants.findIndex(s => {
-                return s.id === donation.id;
+                return s.id === id;
             });
             if (combatantIndex !== -1) {
                 const patchTime = performance.now() - this.fightStartTime;
@@ -65,7 +65,7 @@ export class Game {
                         new FightEvents.Healing(
                             patchTime,
                             combatantIndex,
-                            donation.amount * this.settings.donationToHPRatio
+                            amount * this.settings.donationToHPRatio
                         ),
                     ],
                     patchTime
@@ -75,12 +75,9 @@ export class Game {
         }
 
         // if the donation is enough for a character and they aren't already in the queue
-        if (this.queue.some(s => {return s.id === donation.id;}) === false
-            && donation.amount >= this.settings.minimumDonation) {
-            if (donation.character == -1)
-                this.characterChoiceHandler.requestChoice(donation);
-            else
-                this.newCombatant(donation);
+        if (this.queue.some(s => {return s.id === id;}) === false
+            && amount >= this.settings.minimumDonation) {
+            this.characterChoiceHandler.requestChoice({id, name, amount});
             return;
         }
 
@@ -99,7 +96,7 @@ export class Game {
                     new FightEvents.Damage(
                         patchTime,
                         0,
-                        donation.amount * this.settings.donationToHPRatio
+                        amount * this.settings.donationToHPRatio
                     ),
                 ],
                 patchTime
@@ -107,7 +104,7 @@ export class Game {
         }
     }
     
-    private newCombatant(donation: {
+    public newCombatant(donation: {
         id: number,
         name: string,
         amount: number,

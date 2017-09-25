@@ -1,9 +1,24 @@
-import { GameState } from './gamestate/Gamestate';
-import { Message, CharacterChoice } from '../shared/frontEndMessage';
+import { BitFighter } from './BitFighter';
+import {BackToFrontMessage, FrontToBackMessage, CharacterChoice, FrontEndSettings as Settings } from '../shared/frontEndMessage';
 
 document.addEventListener("DOMContentLoaded", function(){
-    const gameState = new GameState(`arena`);
-    
+    const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
+
+    const bifFighter = new BitFighter(
+        wrapperDiv,
+        {
+            position: {
+                x: 10,
+                y: 40
+            },
+            size: 1,
+        },
+        (slug, message) => {
+            localStorage.setItem('frontToBack', JSON.stringify(message));
+        }
+    );
+
+
     window.addEventListener('storage', (e) => {
         console.log(e)
         const str = e.newValue;
@@ -12,38 +27,14 @@ document.addEventListener("DOMContentLoaded", function(){
             return;
         }
         switch(e.key) {
-            case 'fight':
-                const message = <Message>JSON.parse(str);
-                console.log(message.reel);
-                gameState.newMessage(message.reel, message.patch);
-                gameState.initPlayers(message.characters);
-                break;
-            case 'characterChoice':
-                console.log(JSON.parse(str))
-                break;
-            case 'choiceResult':
+            case 'backToFront':
+                const data = <BackToFrontMessage>JSON.parse(str);
+                console.log(data);
+                bifFighter.recievedViewerGameState(data);
+            case 'frontToBack':
                 break;
             default:
                 console.error('unidentified storage event');
         }
     });
-
-    const button0 = <HTMLButtonElement>document.getElementById('button-0');
-    const button1 = <HTMLButtonElement>document.getElementById('button-1');
-    const button2 = <HTMLButtonElement>document.getElementById('button-2');
-
-    button0.addEventListener('click', () => {
-        characterChoice(0);
-    });
-    button1.addEventListener('click', () => {
-        characterChoice(1);
-    });
-    button2.addEventListener('click', () => {
-        characterChoice(2);
-    });
-
-    function characterChoice(choice: number) {
-        const characterChoice: CharacterChoice = { choice };
-        localStorage.setItem('choiceResult', JSON.stringify(characterChoice));
-    }
 });
