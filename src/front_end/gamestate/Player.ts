@@ -7,11 +7,13 @@ export class Player {
     private health:         number;
     private right:          number;
     private img:            fabric.Object;
-    private healthtext:     fabric.Text;
+    private healthtext:     fabric.Group;
     private greenBar:  fabric.Rect;
     private redBar:   fabric.Rect;
     private yellowBar:   fabric.Rect;
+    private whiteBar:    fabric.Rect;
     private displayname:    fabric.Text;
+    private displaynametop: fabric.Text;
     private canvas:         fabric.Canvas;
     private center:         number;
     private trueWidth:      number;
@@ -44,7 +46,7 @@ export class Player {
     private textLock =      0;
     private animationLock = 0;
     private nameheight =    130;
-    private strokeWidith =  .1;
+    private strokeWidith =  1.5;
 
     // Adjust these to move elements around
     private artAdjust =     0;
@@ -89,18 +91,30 @@ export class Player {
     private drawname() {
         if (this.displayname)
             this.canvas.remove(this.displayname);
+        if (this.displaynametop)
+            this.canvas.remove(this.displaynametop);
         this.displayname = new fabric.Text(this.name, {
             fontSize: 15 * this.scale,
             fontFamily: 'Concert One',
-            strokeWidth: this.strokeWidith,
+            strokeWidth: this.strokeWidith * this.scale,
             fill: 'white',
             fontWeight: 'bold',
-            stroke: 'black',
+            stroke: 'white',
+            top: this.nameheight * this.scale,
+            left: !this.right ? this.center  - this.trueWidth / 2:this.center + this.trueWidth / 2,
+            originX: 'center'
+        });
+        this.displaynametop = new fabric.Text(this.name, {
+            fontSize: 15 * this.scale,
+            fontFamily: 'Concert One',
+            fill: 'black',
+            fontWeight: 'bold',
             top: this.nameheight * this.scale,
             left: !this.right ? this.center  - this.trueWidth / 2:this.center + this.trueWidth / 2,
             originX: 'center'
         });
         this.canvas.add(this.displayname);
+        this.canvas.add(this.displaynametop);
     }
     private drawHpBar() {
         let missingHeight = this.height * (this.health / this.baseHealth);
@@ -113,6 +127,8 @@ export class Player {
             this.canvas.remove(this.redBar);
         if (this.yellowBar)
             this.canvas.remove(this.yellowBar);
+        if (this.whiteBar)
+            this.canvas.remove(this.whiteBar);
         this.greenBar = new fabric.Rect({
             left: !this.right ? leftOffset : rightOffset,
             top: this.artTop * this.scale,
@@ -143,25 +159,48 @@ export class Player {
             originX: 'center',
             originY: 'bottom'
         });
+        this.whiteBar = new fabric.Rect({
+            left: !this.right ? leftOffset : rightOffset,
+            top: this.artTop * this.scale,
+            fill: 'white',
+            height: this.height * this.scale,
+            width: this.hpWidth * this.scale,
+            strokeWidth: this.strokeWidith * this.scale,
+            stroke: 'white',
+            flipY: true,
+            originX: 'center',
+            originY: 'bottom'
+        });
+        this.canvas.add(this.whiteBar);
         this.canvas.add(this.redBar);
         this.canvas.add(this.yellowBar);
         this.canvas.add(this.greenBar);
+        
     }
 
     private drawHealthText() {
         if (this.healthtext)
              this.canvas.remove(this.healthtext);
-        this.healthtext = new fabric.Text(`${ this.health.toString() }`, {
+        let healthtextbot = new fabric.Text(`${ this.health.toString() }`, {
             fontSize: 15 * this.scale,
             fontFamily: 'Concert One',
-            strokeWidth: this.strokeWidith,
+            strokeWidth: this.strokeWidith * this.scale,
             fill: 'white',
             fontWeight: 'bold',
-            stroke: 'black',
+            stroke: 'white',
+            originX: 'center'
+        }); 
+        let healthtexttop = new fabric.Text(`${ this.health.toString() }`, {
+            fontSize: 15 * this.scale,
+            fontFamily: 'Concert One',
+            fill: 'black',
+            originX: 'center',
+        }); 
+        this.healthtext = new fabric.Group([healthtextbot,healthtexttop],{
             top: this.hpTextTop * this.scale,
             left: !this.right ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
             originX: 'center',
-        }); 
+        });
         this.canvas.add(this.healthtext);
     }
 
@@ -196,7 +235,9 @@ export class Player {
                         this.canvas.remove(this.greenBar);
                         this.canvas.remove(this.yellowBar);
                         this.canvas.remove(this.redBar);
+                        this.canvas.remove(this.whiteBar);
                         this.canvas.remove(this.displayname);
+                        this.canvas.remove(this.displaynametop);
                         if (player2)
                             player2.moves();
                     }
@@ -223,23 +264,33 @@ export class Player {
             return;
         }
         let txtObj = this.textQueue.shift();
-        let txt = new fabric.Text(`${ txtObj.str }`, {
+        let txtbot = new fabric.Text(`${ txtObj.str }`, {
             fontSize: 15 * this.scale,
-            strokeWidth: this.strokeWidith,
+            strokeWidth: this.strokeWidith *this.scale,
             fontFamily: 'Concert One',
             fontWeight: 'bold',
-            stroke: 'black',
+            stroke: 'white',
+            fill: 'white',
+            originX: 'center'
+        });
+        let txttop = new fabric.Text(`${ txtObj.str }`, {
+            fontSize: 15 * this.scale,
+            fontFamily: 'Concert One',
+            fontWeight: 'bold',
             fill: txtObj.color,
+            originX: 'center'
+        });
+        let textgroup = new fabric.Group([txtbot,txttop],{
             top: this.textTop * this.scale,
             left: !this.right ? this.center - this.artAdjust - this.trueWidth / 2 : this.center + this.artAdjust + this.trueWidth / 2,
             originX: 'center'
         });
-        this.canvas.add(txt);
-        txt.animate('top', `-=${ 20 * this.scale }`, {
+        this.canvas.add(textgroup);
+        textgroup.animate('top', `-=${ 20 * this.scale }`, {
             duration: 700,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
-                this.canvas.remove(txt);
+                this.canvas.remove(textgroup);
             }
         });
         setTimeout(() => {this.displayText()}, 300);
@@ -297,7 +348,9 @@ export class Player {
         this.canvas.remove(this.greenBar);
         this.canvas.remove(this.yellowBar);
         this.canvas.remove(this.redBar);
+        this.canvas.remove(this.whiteBar);
         this.canvas.remove(this.displayname);
+        this.canvas.remove(this.displaynametop);
         this.img.animate(`left`, this.center - this.artAdjust - this.trueWidth / 2, {
             duration:800,
             onChange: this.canvas.renderAll.bind(this.canvas),
