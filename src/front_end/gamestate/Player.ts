@@ -8,9 +8,9 @@ export class Player {
     private right:          number;
     private img:            fabric.Object;
     private healthtext:     fabric.Text;
-    private healthbarCurr:  fabric.Rect;
-    private healthbarMis:   fabric.Rect;
-    private healthbarDec:   fabric.Rect;
+    private greenBar:  fabric.Rect;
+    private redBar:   fabric.Rect;
+    private yellowBar:   fabric.Rect;
     private displayname:    fabric.Text;
     private canvas:         fabric.Canvas;
     private center:         number;
@@ -39,17 +39,18 @@ export class Player {
         "images/characters/stickFigures/17Lich.png",
         "images/characters/stickFigures/18Angel.png"
     ];
-    private hpHeight =      70;
+    private height =      70;
     private hpWidth =       5;
     private textLock =      0;
     private animationLock = 0;
     private nameheight =    130;
+    private strokeWidith =  .1;
 
     // Adjust these to move elements around
     private artAdjust =     0;
     private hpAdjust =      12;
     private artTop =        120;
-    private hpTextTop =     35;
+    private hpTextTop =     33;
     private textTop =       30;
 
     constructor(data: any, side: number, canvas: fabric.Canvas, scale: number) {
@@ -60,21 +61,19 @@ export class Player {
         this.right = side;
         this.canvas = canvas;
         this.scale = scale;
-        this.center = this.canvas.getWidth() / 2 / this.scale;
+        this.center = this.canvas.getWidth() / 2;
         this.textQueue = [];
         this.animationLock = 0;
     }
 
     public draw() {
-        console.log(`THIS.center = ${ this.center }`);
-
         if (this.img)
             this.canvas.remove(this.img);
         new fabric.Image.fromURL(this.art[this.artIndex], (oImg: fabric.Image) => {
             if(oImg.width && oImg.height)
                 this.trueWidth = oImg.width/oImg.height * 70 * this.scale;
             this.img = oImg.set({
-                left: !this.right ? (this.center - this.artAdjust - this.trueWidth / 2) * this.scale  : (this.center + this.artAdjust + this.trueWidth / 2) * this.scale,
+                left: !this.right ? (this.center - this.trueWidth / 2) - this.artAdjust : (this.center + this.trueWidth / 2) + this.artAdjust,
                 top: this.artTop * this.scale,
                 originX: 'center',
                 originY: 'bottom',
@@ -92,28 +91,30 @@ export class Player {
             this.canvas.remove(this.displayname);
         this.displayname = new fabric.Text(this.name, {
             fontSize: 15 * this.scale,
-            fontFamily: 'fantasy',
+            fontFamily: 'Concert One',
+            strokeWidth: this.strokeWidith,
             fill: 'white',
             fontWeight: 'bold',
             stroke: 'black',
             top: this.nameheight * this.scale,
-            left: !this.right ? (this.center  - this.trueWidth/2) * this.scale : (this.center + this.trueWidth/2) * this.scale,
+            left: !this.right ? this.center  - this.trueWidth / 2:this.center + this.trueWidth / 2,
             originX: 'center'
         });
         this.canvas.add(this.displayname);
     }
     private drawHpBar() {
-        let missingHeight = this.hpHeight * (this.health / this.baseHealth);
-        console.log(missingHeight);
+        let missingHeight = this.height * (this.health / this.baseHealth);
+        let leftOffset = this.center - this.trueWidth - this.hpAdjust;
+        let rightOffset = this.center + this.trueWidth + this.hpAdjust;
 
-        if (this.healthbarCurr)
-            this.canvas.remove(this.healthbarCurr);
-        if (this.healthbarMis)
-            this.canvas.remove(this.healthbarMis);
-        if (this.healthbarDec)
-            this.canvas.remove(this.healthbarDec);
-        this.healthbarCurr = new fabric.Rect({
-            left: !this.right ? (this.center - this.trueWidth - this.hpAdjust) * this.scale : (this.center + this.trueWidth + this.hpAdjust) * this.scale,
+        if (this.greenBar)
+            this.canvas.remove(this.greenBar);
+        if (this.redBar)
+            this.canvas.remove(this.redBar);
+        if (this.yellowBar)
+            this.canvas.remove(this.yellowBar);
+        this.greenBar = new fabric.Rect({
+            left: !this.right ? leftOffset : rightOffset,
             top: this.artTop * this.scale,
             fill: '#1eedce',
             height: missingHeight * this.scale,
@@ -122,18 +123,18 @@ export class Player {
             originX: 'center',
             originY: 'bottom'
         });
-        this.healthbarMis = new fabric.Rect({
-            left: !this.right ? (this.center - this.trueWidth - this.hpAdjust) * this.scale : (this.center + this.trueWidth + this.hpAdjust) * this.scale,
+        this.redBar = new fabric.Rect({
+            left: !this.right ? leftOffset : rightOffset,
             top: this.artTop * this.scale,
             fill: '#ed1e1e',
-            height: this.hpHeight * this.scale,
+            height: this.height * this.scale,
             width: this.hpWidth * this.scale,
             flipY: true,
             originX: 'center',
             originY: 'bottom'
         });
-        this.healthbarDec = new fabric.Rect({
-            left: !this.right ? (this.center - this.trueWidth - this.hpAdjust) * this.scale : (this.center + this.trueWidth + this.hpAdjust) * this.scale,
+        this.yellowBar = new fabric.Rect({
+            left: !this.right ? leftOffset : rightOffset,
             top: this.artTop * this.scale,
             fill: '#edd11e',
             height: missingHeight * this.scale,
@@ -142,9 +143,9 @@ export class Player {
             originX: 'center',
             originY: 'bottom'
         });
-        this.canvas.add(this.healthbarMis);
-        this.canvas.add(this.healthbarDec);
-        this.canvas.add(this.healthbarCurr);
+        this.canvas.add(this.redBar);
+        this.canvas.add(this.yellowBar);
+        this.canvas.add(this.greenBar);
     }
 
     private drawHealthText() {
@@ -152,12 +153,13 @@ export class Player {
              this.canvas.remove(this.healthtext);
         this.healthtext = new fabric.Text(`${ this.health.toString() }`, {
             fontSize: 15 * this.scale,
-            fontFamily: 'fantasy',
+            fontFamily: 'Concert One',
+            strokeWidth: this.strokeWidith,
             fill: 'white',
             fontWeight: 'bold',
             stroke: 'black',
             top: this.hpTextTop * this.scale,
-            left: !this.right ? (this.center  - this.trueWidth - this.hpAdjust) * this.scale : (this.center + this.trueWidth + this.hpAdjust) * this.scale,
+            left: !this.right ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
             originX: 'center',
         }); 
         this.canvas.add(this.healthtext);
@@ -169,7 +171,7 @@ export class Player {
             easing: fabric.util.ease['easeInQuint'],
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
-                this.img.animate('left', this.right ? (this.center + this.artAdjust + this.trueWidth / 2) * this.scale : (this.center - this.artAdjust - this.trueWidth / 2) * this.scale, {
+                this.img.animate('left', this.right ? this.center + this.artAdjust + this.trueWidth / 2 : this.center - this.artAdjust - this.trueWidth / 2, {
                     duration: 300,
                     onChange: this.canvas.renderAll.bind(this.canvas),
                     easing: fabric.util.ease['easeOutQuint'],
@@ -191,9 +193,9 @@ export class Player {
                     onComplete: () => {
                         this.canvas.remove(this.img);
                         this.canvas.remove(this.healthtext);
-                        this.canvas.remove(this.healthbarCurr);
-                        this.canvas.remove(this.healthbarDec);
-                        this.canvas.remove(this.healthbarMis);
+                        this.canvas.remove(this.greenBar);
+                        this.canvas.remove(this.yellowBar);
+                        this.canvas.remove(this.redBar);
                         this.canvas.remove(this.displayname);
                         if (player2)
                             player2.moves();
@@ -223,12 +225,13 @@ export class Player {
         let txtObj = this.textQueue.shift();
         let txt = new fabric.Text(`${ txtObj.str }`, {
             fontSize: 15 * this.scale,
-            fontFamily: 'fantasy',
+            strokeWidth: this.strokeWidith,
+            fontFamily: 'Concert One',
             fontWeight: 'bold',
             stroke: 'black',
             fill: txtObj.color,
             top: this.textTop * this.scale,
-            left: !this.right ? (this.center - this.artAdjust - this.trueWidth / 2) * this.scale : (this.center + this.artAdjust + this.trueWidth / 2) * this.scale,
+            left: !this.right ? this.center - this.artAdjust - this.trueWidth / 2 : this.center + this.artAdjust + this.trueWidth / 2,
             originX: 'center'
         });
         this.canvas.add(txt);
@@ -243,7 +246,7 @@ export class Player {
     }
 
 	public healthbar(adjustment: number) {
-        if (!this.healthbarCurr.height)
+        if (!this.greenBar.height)
             return;
 
         // adjust actual health values
@@ -253,38 +256,35 @@ export class Player {
         this.drawHealthText();
             
         // calculate amount to decrease height of bar by
-        console.log(`adjust: ${ adjustment }`);
         let percent = adjustment / this.baseHealth;
-        console.log(`baseHealth: ${ this.health }`);
-        let barChange = this.hpHeight * percent;
+        let barChange = this.height * percent;
 
         // stop bars from going over 100 or under 0
-        if (barChange + this.healthbarCurr.height > this.hpHeight)
-            barChange = this.hpHeight - this.healthbarCurr.height;
-        else if (barChange + this.healthbarCurr.height < 0)
-            barChange = -this.healthbarCurr.height;
+        if (barChange + this.greenBar.height > this.height)
+            barChange = this.height - this.greenBar.height;
+        else if (barChange + this.greenBar.height < 0)
+            barChange = -this.greenBar.height;
         console.log(`CHANGE HEALTH BY = ${ barChange }`);
 
-        if (this.healthbarCurr.height <= 0)
-            this.healthbarCurr.height = 0;
+        if (this.greenBar.height <= 0)
+            this.greenBar.height = 0;
         // Drop the green bar
-        this.healthbarCurr.animate('height', barChange >= 0 ? `+=${ barChange }` : `-=${ -barChange }` , {
+        this.greenBar.animate('height', barChange >= 0 ? `+=${ barChange }` : `-=${ -barChange }` , {
             duration: 1,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 // Have the yellow bar catch up to the green bar
                 let catchUpPercent = 80;
-                if (this.healthbarCurr.height && this.healthbarDec.height){
-                    barChange = this.healthbarDec.height - this.healthbarCurr.height;
-                    catchUpPercent = (this.healthbarDec.height - this.healthbarCurr.height) / this.hpHeight * 100;
+                if (this.greenBar.height && this.yellowBar.height){
+                    barChange = this.yellowBar.height - this.greenBar.height;
+                    catchUpPercent = (this.yellowBar.height - this.greenBar.height) / this.height * 100;
                 }
-                else if (this.healthbarCurr.height == 0 && this.healthbarDec.height){
-                    barChange = -this.healthbarDec.height;
-                    catchUpPercent = this.healthbarDec.height / this.hpHeight * 100;
+                else if (this.greenBar.height == 0 && this.yellowBar.height){
+                    barChange = -this.yellowBar.height;
+                    catchUpPercent = this.yellowBar.height / this.height * 100;
                 }
                 let yellowDuration = this.health > 0 ? 700 + catchUpPercent * 10 : 500 - (500 - catchUpPercent * 5);
-                console.log("catchUpPercent:", catchUpPercent, "duration:",yellowDuration);
-                this.healthbarDec.animate('height', `-=${ barChange >= 0 ? barChange : -barChange }`, {
+                this.yellowBar.animate('height', `-=${ barChange >= 0 ? barChange : -barChange }`, {
                     duration: yellowDuration,
                     onChange: this.canvas.renderAll.bind(this.canvas),
                 });
@@ -294,11 +294,11 @@ export class Player {
 
     public moves(){
         this.canvas.remove(this.healthtext);
-        this.canvas.remove(this.healthbarCurr);
-        this.canvas.remove(this.healthbarDec);
-        this.canvas.remove(this.healthbarMis);
+        this.canvas.remove(this.greenBar);
+        this.canvas.remove(this.yellowBar);
+        this.canvas.remove(this.redBar);
         this.canvas.remove(this.displayname);
-        this.img.animate(`left`, (this.center - this.artAdjust - this.trueWidth / 2) * this.scale, {
+        this.img.animate(`left`, this.center - this.artAdjust - this.trueWidth / 2, {
             duration:800,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
@@ -316,18 +316,16 @@ export class Player {
 
     public setScale(scale: number) {
         this.scale = scale;
+        this.center = this.canvas.getWidth() / 2;
+        if (this.health > 0)
+            this.draw();
     }
 
     public animates() {
         this.animationLock = 1;
     }
 
-    public isAlive() {
-        return (this.health > 0 ? true : false);
-    }
-
     public isAnimated() {
         return (this.animationLock ? true : false);
     }
-
 }

@@ -135,14 +135,10 @@ export class GameState {
 		else {
 			let oldScale = this.scale;
 			this.scale = this.scaleWait;
-			this.player1.setScale(this.scaleWait);
-			this.player2.setScale(this.scaleWait);
-			if (this.player1.isAlive())
-				this.player1.draw();
-			if (this.player2.isAlive())
-				this.player2.draw();
 			this.canvas.setWidth(this.canvas.getWidth() * this.scaleWait / oldScale);
 			this.canvas.setHeight(this.canvas.getHeight() * this.scaleWait / oldScale);
+			this.player1.setScale(this.scaleWait);
+			this.player2.setScale(this.scaleWait);
 			this.scaleWait = 0;
 		}
 	}
