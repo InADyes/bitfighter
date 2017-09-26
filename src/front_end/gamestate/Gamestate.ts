@@ -28,15 +28,21 @@ export class GameState {
 		this.isWaiting = 0;
 	}
 
-	public newMessage(reel: Events.Event[], patch?: number) {
+	public newMessage(reel: Events.Event[], characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[], patch?: number) {
 		if (patch) {
-			//do the patching
+			this.applyPatch(reel);
 		}
 		else {
 			this.canvas.clear();
 			this.clearMessage();
 			this.reel = reel;
 			this.initReel();
+
+			// init players
+			this.player1 = new Player.Player(characters[0], 0, this.canvas, this.scale);
+			if (characters[1])
+				this.player2 = new Player.Player(characters[1], 1, this.canvas, this.scale);
+			this.drawPlayers();
 		}
 	}
 
@@ -80,11 +86,10 @@ export class GameState {
 		this.lastTime = event.time;
 	}
 
-	public initPlayers(characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[]) {
-		this.player1 = new Player.Player(characters[0], 0, this.canvas, this.scale);
-		if (characters[1])
-			this.player2 = new Player.Player(characters[1], 1, this.canvas, this.scale);
-		this.drawPlayers();
+	private applyPatch(reel: Events.Event[]) {
+		// for (let i = 0; i < reel.length; i++) {
+		// 	if (reel[i] < )
+		// }
 	}
 
 	public drawPlayers() {

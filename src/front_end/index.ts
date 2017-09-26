@@ -15,8 +15,7 @@ document.addEventListener("DOMContentLoaded", function(){
             case 'fight':
                 const message = <Message>JSON.parse(str);
                 console.log(message.reel);
-                gameState.newMessage(message.reel, message.patch);
-                gameState.initPlayers(message.characters);
+                gameState.newMessage(message.reel, message.characters, message.patch);
                 break;
             case 'characterChoice':
                 console.log(JSON.parse(str));
@@ -56,4 +55,34 @@ document.addEventListener("DOMContentLoaded", function(){
         const characterChoice: CharacterChoice = { choice };
         localStorage.setItem('choiceResult', JSON.stringify(characterChoice));
     }
+  
+    changeImage();
 });
+
+
+// TEMP
+function changeImage(){
+    let imageID = 0;
+    
+    setInterval(function(){
+        //change the image
+        let x = <HTMLImageElement>document.getElementById("myimage");
+        if(!imageID){
+            x.src="./temp/sample.png";
+            imageID++;
+        }else if(imageID==1){
+            x.src="./temp/sample3.png";
+            imageID++;
+        }else if(imageID==2){
+            x.src="./temp/sample4.png";
+            imageID++;
+        }else if(imageID==3){
+            x.src="./temp/sample5.png";
+            imageID++;
+        }else{if(imageID==4){
+            x.src="./temp/sample6.png";
+            imageID=0;
+        }}
+    },
+    10000);
+}
