@@ -25,6 +25,7 @@ export class GameState {
 		//htmlCanvas.style.width = String(width) + 'px';
 		this.scale = 1;
 		this.scaleWait = 0;
+		this.isWaiting = 0;
 	}
 
 	public newMessage(reel: Events.Event[], patch?: number) {
@@ -122,21 +123,18 @@ export class GameState {
 	}
 
 	public setNewScale(scale: number | null) {
-		if (this.scaleWait && (this.player1.isAnimated() || this.player2.isAnimated())) {
-			if (scale)
-				this.scaleWait = scale;
+		if (this.scaleWait && scale != null) {
+			this.scaleWait = scale;
 			return;
 		}
 		if (scale)
-		this.scaleWait = scale;
+			this.scaleWait = scale;
 		if (this.player1.isAnimated() || this.player2.isAnimated()) {
-			console.log(this.scaleWait);
 			setTimeout(() => {this.setNewScale(null)}, 1);
 		}
 		else {
 			let oldScale = this.scale;
-			if (scale)
-				this.scale = scale;
+			this.scale = this.scaleWait;
 			this.player1.setScale(this.scaleWait);
 			this.player2.setScale(this.scaleWait);
 			if (this.player1.isAlive())
