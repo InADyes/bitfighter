@@ -92,7 +92,7 @@ export class Player {
             this.canvas.remove(this.displayname);
         this.displayname = new fabric.Text(this.name, {
             fontSize: 15 * this.scale,
-            fontFamily: 'Trebuchet MS',
+            fontFamily: 'fantasy',
             fill: 'white',
             fontWeight: 'bold',
             stroke: 'black',
@@ -152,7 +152,7 @@ export class Player {
              this.canvas.remove(this.healthtext);
         this.healthtext = new fabric.Text(`${ this.health.toString() }`, {
             fontSize: 15 * this.scale,
-            fontFamily: 'Trebuchet MS',
+            fontFamily: 'fantasy',
             fill: 'white',
             fontWeight: 'bold',
             stroke: 'black',
@@ -223,7 +223,7 @@ export class Player {
         let txtObj = this.textQueue.shift();
         let txt = new fabric.Text(`${ txtObj.str }`, {
             fontSize: 15 * this.scale,
-            fontFamily: 'Trebuchet MS',
+            fontFamily: 'fantasy',
             fontWeight: 'bold',
             stroke: 'black',
             fill: txtObj.color,
@@ -299,7 +299,7 @@ export class Player {
         this.canvas.remove(this.healthbarMis);
         this.canvas.remove(this.displayname);
         this.img.animate(`left`, (this.center - this.artAdjust - this.trueWidth / 2) * this.scale, {
-            duration:5000,
+            duration:800,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 this.canvas.remove(this.img);
