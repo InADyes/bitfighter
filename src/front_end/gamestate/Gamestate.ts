@@ -12,10 +12,19 @@ export class GameState {
 	private reel:				Events.Event[];
 	private player1:			Player.Player;
 	private player2:			Player.Player;
+	private scale:				number;
+	private scaleWait:			number;
+	private isWaiting:			number;
 	//public players: 			Player[] = []; Eventually do this
 
 	constructor(canvasId: string) {
-		this.canvas = new fabric.StaticCanvas(canvasId); // USE StaticCanvas for noninteractive 
+		this.canvas = new fabric.StaticCanvas(canvasId); // USE StaticCanvas for noninteractive
+		//const htmlCanvas = <HTMLCanvasElement>document.getElementById(canvasId);
+		
+		//let width = 100;
+		//htmlCanvas.style.width = String(width) + 'px';
+		this.scale = 1;
+		this.scaleWait = 0;
 	}
 
 	public newMessage(reel: Events.Event[], patch?: number) {
@@ -71,9 +80,9 @@ export class GameState {
 	}
 
 	public initPlayers(characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[]) {
-		this.player1 = new Player.Player(characters[0], 0, this.canvas);
+		this.player1 = new Player.Player(characters[0], 0, this.canvas, this.scale);
 		if (characters[1])
-			this.player2 = new Player.Player(characters[1], 1, this.canvas);
+			this.player2 = new Player.Player(characters[1], 1, this.canvas, this.scale);
 		this.drawPlayers();
 	}
 
@@ -110,5 +119,33 @@ export class GameState {
 			this.player2.text(str, color);
 		else
 			this.player1.text(str, color);
+	}
+
+	public setNewScale(scale: number | null) {
+		if (this.scaleWait && (this.player1.isAnimated() || this.player2.isAnimated())) {
+			if (scale)
+				this.scaleWait = scale;
+			return;
+		}
+		if (scale)
+		this.scaleWait = scale;
+		if (this.player1.isAnimated() || this.player2.isAnimated()) {
+			console.log(this.scaleWait);
+			setTimeout(() => {this.setNewScale(null)}, 1);
+		}
+		else {
+			let oldScale = this.scale;
+			if (scale)
+				this.scale = scale;
+			this.player1.setScale(this.scaleWait);
+			this.player2.setScale(this.scaleWait);
+			if (this.player1.isAlive())
+				this.player1.draw();
+			if (this.player2.isAlive())
+				this.player2.draw();
+			this.canvas.setWidth(this.canvas.getWidth() * this.scaleWait / oldScale);
+			this.canvas.setHeight(this.canvas.getHeight() * this.scaleWait / oldScale);
+			this.scaleWait = 0;
+		}
 	}
 }
