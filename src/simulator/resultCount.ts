@@ -16,7 +16,7 @@ export function countPairStats(
     ));
     
     for (let _ = 0; _ < count; _++) {
-        while(true) {
+        for (let __ = 0; __ < 1000; __++){
             const { reel } = buildFightEvents(chars);
             reelToResults(results, reel);
             if (reel.find(e =>
@@ -51,5 +51,5 @@ export function resultCount() {
     let results = countPairStats(chars, count);
 
     printResults(results);
-    console.log(`average kills, ${ results[1].losses / count }`)
+    console.log(`average kills, ${ results[1].losses / results[0].losses }`)
 }
