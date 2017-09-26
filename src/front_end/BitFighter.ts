@@ -4,48 +4,21 @@ import { BackToFrontMessage, FrontToBackMessage, CharacterChoice, FrontEndSettin
 export class BitFighter {
     private readonly game: GameState;
     private canvas: HTMLCanvasElement = document.createElement('canvas');
+    private cards: HTMLButtonElement[] = [];
 
     constructor(
-        wrapperDiv: HTMLDivElement,
+        private readonly wrapperDiv: HTMLDivElement,
         settings: Settings,
+        // todo: find out what gameslug is for
         private readonly emitGameEvent: (gameSlug: any, message: FrontToBackMessage) => void
     ) {
         // build arena
         this.canvas.id = 'arena';
         this.canvas.style.position = 'absolute';
         this.updateSettings(settings);
-        wrapperDiv.appendChild(this.canvas);
+        this.wrapperDiv.appendChild(this.canvas);
         this.game = new GameState('arena');
 
-        // build buttons
-        const button0 = document.createElement('button');
-        const button1 = document.createElement('button');
-        const button2 = document.createElement('button');
-        wrapperDiv.appendChild(button0);
-        wrapperDiv.appendChild(button1);
-        wrapperDiv.appendChild(button2);
-        button0.innerText = '0';
-        button1.innerText = '1';
-        button2.innerText = '2';
-
-        button0.addEventListener('click', () => {
-            this.emitGameEvent(null, {
-                characterChoice: {
-                    choice: 0
-            }});
-        });
-        button1.addEventListener('click', () => {
-            this.emitGameEvent(null, {
-                characterChoice: {
-                    choice: 1
-            }});
-        });
-        button2.addEventListener('click', () => {
-            this.emitGameEvent(null, {
-                characterChoice: {
-                    choice: 2
-            }});
-        });
     }
     public recievedViewerGameState(data: BackToFrontMessage) {
         if (data.newReel) {
@@ -53,8 +26,28 @@ export class BitFighter {
             this.game.initPlayers(data.newReel.characters);
         }
         if (data.characterChoices) {
-
+            const characters = data.characterChoices.characters;
+            for (let i = 0; i < characters.length; i++) {
+                let button = document.createElement('button');
+                button.innerText = String(characters[i].name);
+                button.className = 'character-card';
+                button.addEventListener('click', () => {
+                    this.emitGameEvent(null, {
+                        characterChoice: {
+                            choice: i
+                    }});
+                    this.clearCards();
+                });
+                this.wrapperDiv.appendChild(button);
+                this.cards.push(button);
+            }
         }
+    }
+    private clearCards() {
+        for (let card of this.cards) {
+            this.wrapperDiv.removeChild(card);
+        }
+        this.cards = [];
     }
     private updateSettings(settings: Settings) {
         this.canvas.width = 500 * settings.size;
