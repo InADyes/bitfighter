@@ -1,3 +1,8 @@
+@font-face {
+	font-family: 'Concert One';
+	src: url('fonts/ConcertOne-Regular.ttf');
+}
+
 #arena {
 	position: relative;
 	top: 60%;
@@ -6,7 +11,8 @@
 }
 
 body {
-	font-family: verdana;
+	font-family: 'Concert One';
+	
 }
 
 #picker {
