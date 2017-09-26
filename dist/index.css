@@ -1,4 +1,7 @@
 #arena {
+	position: relative;
+	top: 60%;
+	left: 2%;
 	border: 1px solid black;
 }
 
