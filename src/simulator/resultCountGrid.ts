@@ -45,7 +45,7 @@ export function resultCountGrid() {
                 ],
                 testCount
             );
-            stdout.write(`, ${ results[1].losses / results[0].losses }`)
+            stdout.write(`, ${ results[0].losses / results[1].losses }`)
         }
         stdout.write('\n');
     }
