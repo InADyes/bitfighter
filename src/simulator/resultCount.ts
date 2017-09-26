@@ -4,6 +4,31 @@ import * as FightEvents from '../shared/fightEvents';
 import { stdout } from 'process';
 import { buffs } from '../shared/buff';
 import { Results, reelToResults, printResults } from './testPair';
+import { Status } from '../shared/Status';
+
+export function countPairStats(
+    chars: Status[],
+    count: number
+) {
+    const results = chars.map(s => new Results(
+        s.character,
+        s.initialDonation
+    ));
+    
+    for (let _ = 0; _ < count; _++) {
+        while(true) {
+            const { reel } = buildFightEvents(chars);
+            reelToResults(results, reel);
+            if (reel.find(e =>
+                e.type === FightEvents.Types.death
+                && e.character === 0
+            ) !== undefined)
+                break;
+        }
+    }
+
+    return results;
+}
 
 export function resultCount() {
     const chars = [
@@ -21,24 +46,10 @@ export function resultCount() {
         })
     ];
 
-    const results = chars.map(s => new Results(
-        s.character,
-        s.initialDonation
-    ));
+    const count = Number(process.argv[7])
 
-    const count = Number(process.argv[7]);
+    let results = countPairStats(chars, count);
 
-    for (let _ = 0; _ < count; _++) {
-        while(true) {
-            const { reel } = buildFightEvents(chars);
-            reelToResults(results, reel);
-            if (reel.find(e =>
-                e.type === FightEvents.Types.death
-                && e.character === 0
-            ) !== undefined)
-                break;
-        }
-    }
     printResults(results);
     console.log(`average kills, ${ results[1].losses / count }`)
 }
