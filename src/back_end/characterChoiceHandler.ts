@@ -54,6 +54,9 @@ export class CharacterChoiceHandler {
             amount: number
         }
     ) {
+        if (this.pendingCharacterChoices.find(c => c.id === donation.id) !== undefined)
+            return; // todo: what should happen if they donate while they still have cards?
+
         //find last tier that we can achive or use the first one
         const odds = (tiers.reverse().find(t => t.donation >= donation.amount) || tiers[0]).odds;
     

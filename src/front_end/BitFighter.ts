@@ -9,6 +9,7 @@ export class BitFighter {
     constructor(
         private readonly wrapperDiv: HTMLDivElement,
         settings: Settings,
+        // todo: find out what gameslug is for
         private readonly emitGameEvent: (gameSlug: any, message: FrontToBackMessage) => void
     ) {
         // build arena
@@ -25,9 +26,11 @@ export class BitFighter {
             this.game.initPlayers(data.newReel.characters);
         }
         if (data.characterChoices) {
-            for (let i = 0; i < 3; i++) {
+            const characters = data.characterChoices.characters;
+            for (let i = 0; i < characters.length; i++) {
                 let button = document.createElement('button');
-                button.innerText = String(i);
+                button.innerText = String(characters[i].name);
+                button.className = 'character-card';
                 button.addEventListener('click', () => {
                     this.emitGameEvent(null, {
                         characterChoice: {

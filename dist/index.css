@@ -6,8 +6,15 @@ body {
 	font-family: verdana;
 }
 
-#picker {
-	border: 1px solid black;
-	width: 200px;
-	height: 200px;
+#bitfighter {
+	display: flex;
+	flex-direction: row;
+	position: relative;
+	justify-content: center;
+	align-items: center;
+	width: 500px;
+	height: 500px;
+}
+
+.character-card {
 }
