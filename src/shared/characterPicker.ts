@@ -13,6 +13,11 @@ export interface Character {
     name: string
 }
 
+export const enum characterTypes {
+    streetUrchin = 0,
+    scullaryMaid = 1
+}
+
 export const characters: Character[] = [
     {
         stats: { 
@@ -30,7 +35,7 @@ export const characters: Character[] = [
             armor: 15,
             regeneration: 200,
             critChanceModifier: 1,
-            critDamageModifier: 1,
+            critDamageModifier: 1
         }, 
         rarity: 0,
         crits: [{

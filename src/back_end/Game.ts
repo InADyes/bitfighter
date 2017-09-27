@@ -25,7 +25,7 @@ export class Game {
     };
 
     private characterChoiceHandler = new CharacterChoiceHandler(
-        (status) => {
+        status => {
             this.newCombatant(status);
         },
         (characterChoices, id) => {
@@ -42,7 +42,7 @@ export class Game {
     }
 
     public frontEndSelection(id: number, choice: number) {
-        this.characterChoiceHandler.completeChoice(id, choice);
+        this.characterChoiceHandler.completeChoice(id, choice, true);
     }
 
     public donation(id: number, name: string, amount: number) {

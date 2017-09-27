@@ -1,5 +1,5 @@
 import { pickCharacter } from '../shared/characterPicker';
-import { BackToFrontMessage, CharacterChoice, CharacterChoices, FrontToBackMessage } from '../shared/frontEndMessage';
+import { BackToFrontMessage, CharacterChoice, CharacterCard, FrontToBackMessage } from '../shared/frontEndMessage';
 import { Game } from './Game';
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             delayBetweenFights: 1000,
-            gameSpeedMultipier: 0.1,
+            gameSpeedMultipier: 1,
             minimumDonation: 1000,
             donationToHPRatio: 1
         }

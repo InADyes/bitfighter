@@ -12,6 +12,7 @@ window.addEventListener('load', function(){
                 y: 40
             },
             size: 1,
+            cardsTimeout: 60000
         },
         (slug, message) => {
             localStorage.setItem('frontToBack', JSON.stringify(message));
