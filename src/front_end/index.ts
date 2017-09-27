@@ -37,21 +37,4 @@ window.addEventListener('load', function(){
                 console.error('unidentified storage event');
         }
     });
-<<<<<<< HEAD
-
-    const test = <HTMLButtonElement>document.getElementById('test');
-    test.addEventListener('click', () => {
-        let x = <HTMLInputElement>document.getElementById('scale');
-        if (x.value)
-            gameState.setNewScale(Number(x.value));
-    });
-
-    function characterChoice(choice: number) {
-        const characterChoice: CharacterChoice = { choice };
-        localStorage.setItem('choiceResult', JSON.stringify(characterChoice));
-    }
-  
-    changeImage();
-=======
->>>>>>> 3e14c7ff835919784c301ce7756545d801d45b4a
 });
