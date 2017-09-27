@@ -140,7 +140,7 @@ export class GameState {
 		}
 		if (scale)
 			this.scaleWait = scale;
-		if (this.player1.isAnimated() || this.player2.isAnimated()) {
+		if ((this.player1 || this.player2) && (this.player1.isAnimated() || this.player2.isAnimated())) {
 			setTimeout(() => {this.setNewScale(null)}, 1);
 		}
 		else {
@@ -148,8 +148,10 @@ export class GameState {
 			this.scale = this.scaleWait;
 			this.canvas.setWidth(this.canvas.getWidth() * this.scaleWait / oldScale);
 			this.canvas.setHeight(this.canvas.getHeight() * this.scaleWait / oldScale);
-			this.player1.setScale(this.scaleWait);
-			this.player2.setScale(this.scaleWait);
+			if (this.player1)
+				this.player1.setScale(this.scaleWait);
+			if (this.player2)
+				this.player2.setScale(this.scaleWait);
 			this.scaleWait = 0;
 		}
 	}
