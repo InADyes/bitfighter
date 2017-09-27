@@ -9,7 +9,7 @@ export class BitFighter {
 
     constructor(
         private readonly wrapperDiv: HTMLDivElement,
-        settings: Settings,
+        private settings: Settings,
         // todo: find out what gameslug is for
         private readonly emitGameEvent: (gameSlug: string, message: FrontToBackMessage) => void,
         private timeout: number | null = null
@@ -17,10 +17,9 @@ export class BitFighter {
         // build arena
         this.canvas.id = 'arena';
         this.canvas.style.position = 'absolute';
-        this.updateSettings(settings);
         this.wrapperDiv.appendChild(this.canvas);
         this.game = new GameState('arena');
-        this.updateScale();
+        this.updateSettings(settings);
         window.addEventListener('resize', () => {
             this.updateScale();
         })
@@ -64,17 +63,18 @@ export class BitFighter {
             this.timeout = null;
         }
     }
-    private updateSettings(settings: Settings) {
-        this.canvas.width = 500 * settings.size;
-        this.canvas.height = 130 * settings.size;
-        this.canvas.style.left = `${ settings.position.x }px`;
-        this.canvas.style.top = `${ settings.position.y }px`;
-        // todo: update gamestate scaler here
+    public updateSettings(settings: Settings) {
+        this.settings = settings;
+        this.updateScale();
     }
-    updateScale() {
+    private updateScale() {
         const scale = this.wrapperDiv.offsetHeight / 400;
         this.wrapperDiv.style.fontSize = 12 * scale + 'px';
-        // update gamestate scale here
+        this.canvas.width = 500 * this.settings.size * scale;
+        this.canvas.height = 130 * this.settings.size * scale;
+        this.canvas.style.left = `${ this.settings.position.x  * scale}px`;
+        this.canvas.style.top = `${ this.settings.position.y  * scale}px`;
+        this.game.setNewScale(scale);
     }
 }
 
