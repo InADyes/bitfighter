@@ -28,28 +28,12 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     });
 
-    const button0 = <HTMLButtonElement>document.getElementById('button-0');
-    const button1 = <HTMLButtonElement>document.getElementById('button-1');
-    const button2 = <HTMLButtonElement>document.getElementById('button-2');
     const test = <HTMLButtonElement>document.getElementById('test');
     test.addEventListener('click', () => {
         let x = <HTMLInputElement>document.getElementById('scale');
         if (x.value)
             gameState.setNewScale(Number(x.value));
     });
-
-
-    button0.addEventListener('click', () => {
-        characterChoice(0);
-    });
-    button1.addEventListener('click', () => {
-        characterChoice(1);
-    });
-    button2.addEventListener('click', () => {
-        characterChoice(2);
-    });
-
-
 
     function characterChoice(choice: number) {
         const characterChoice: CharacterChoice = { choice };

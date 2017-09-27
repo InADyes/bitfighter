@@ -36,7 +36,7 @@ export class Player {
         "images/characters/stickFigures/12Warlock.png",	
         "images/characters/stickFigures/13Paladin.png",
         "images/characters/stickFigures/14Swashbuckler.png",
-        "images/characters/stickFigures/15Dragon.png",
+        "images/characters/stickFigures/this.fontSizeDragon.png",
         "images/characters/stickFigures/16Phoenix.png",
         "images/characters/stickFigures/17Lich.png",
         "images/characters/stickFigures/18Angel.png"
@@ -47,6 +47,8 @@ export class Player {
     private animationLock = 0;
     private nameheight =    120;
     private strokeWidith =  2;
+    private fontSize =      15;
+    private font =          'LemonMilklight'
 
     // Adjust these to move elements around
     private artAdjust =     0;
@@ -94,8 +96,8 @@ export class Player {
         if (this.displaynametop)
             this.canvas.remove(this.displaynametop);
         this.displayname = new fabric.Text(this.name, {
-            fontSize: 15 * this.scale,
-            fontFamily: 'Concert One',
+            fontSize: this.fontSize * this.scale,
+            fontFamily: this.font,
             strokeWidth: this.strokeWidith * this.scale,
             fill: 'white',
             fontWeight: 'bold',
@@ -105,8 +107,8 @@ export class Player {
             originX: 'center'
         });
         this.displaynametop = new fabric.Text(this.name, {
-            fontSize: 15 * this.scale,
-            fontFamily: 'Concert One',
+            fontSize: this.fontSize * this.scale,
+            fontFamily: this.font,
             fill: 'black',
             fontWeight: 'bold',
             top: this.nameheight * this.scale,
@@ -182,8 +184,8 @@ export class Player {
         if (this.healthtext)
              this.canvas.remove(this.healthtext);
         let healthtextbot = new fabric.Text(`${ this.health.toString() }`, {
-            fontSize: 15 * this.scale,
-            fontFamily: 'Concert One',
+            fontSize: this.fontSize * this.scale,
+            fontFamily: this.font,
             strokeWidth: this.strokeWidith * this.scale,
             fill: 'white',
             fontWeight: 'bold',
@@ -191,8 +193,8 @@ export class Player {
             originX: 'center'
         }); 
         let healthtexttop = new fabric.Text(`${ this.health.toString() }`, {
-            fontSize: 15 * this.scale,
-            fontFamily: 'Concert One',
+            fontSize: this.fontSize * this.scale,
+            fontFamily: this.font,
             fill: 'black',
             originX: 'center',
         }); 
@@ -265,17 +267,17 @@ export class Player {
         }
         let txtObj = this.textQueue.shift();
         let txtbot = new fabric.Text(`${ txtObj.str }`, {
-            fontSize: 15 * this.scale,
+            fontSize: this.fontSize * this.scale,
             strokeWidth: this.strokeWidith *this.scale,
-            fontFamily: 'Concert One',
+            fontFamily: this.font,
             fontWeight: 'bold',
             stroke: 'white',
             fill: 'white',
             originX: 'center'
         });
         let txttop = new fabric.Text(`${ txtObj.str }`, {
-            fontSize: 15 * this.scale,
-            fontFamily: 'Concert One',
+            fontSize: this.fontSize * this.scale,
+            fontFamily: this.font,
             fontWeight: 'bold',
             fill: txtObj.color,
             originX: 'center'

@@ -3,6 +3,16 @@
 	src: url('fonts/ConcertOne-Regular.ttf');
 }
 
+@font-face {
+	font-family: 'LemonMilk';
+	src: url('fonts/LemonMilk.otf');
+}
+
+@font-face {
+	font-family: 'LemonMilklight';
+	src: url('fonts/LemonMilklight.otf');
+}
+
 #arena {
 	position: relative;
 	top: 50%;
@@ -11,7 +21,7 @@
 }
 
 body {
-	font-family: 'Concert One';
+	font-family: 'LemonMilklight';
 	
 }
 
