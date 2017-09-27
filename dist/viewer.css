@@ -13,17 +13,6 @@
 	src: url('fonts/LemonMilklight.otf');
 }
 
-#arena {
-	position: relative;
-	top: 50%;
-	left: 2%;
-	border: 1px solid black;
-}
-
-body {
-	margin: 0px;
-}
-
 #bitfighter {
 	display: flex;
 	flex-direction: row;

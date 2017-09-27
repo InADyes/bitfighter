@@ -1,6 +1,6 @@
 import { pickCharacter } from '../shared/characterPicker';
 import { BackToFrontMessage, CharacterChoice, CharacterCard, FrontToBackMessage } from '../shared/frontEndMessage';
-import { Game } from '../back_end/Game';
+import { BitFighter } from '../back_end/BitFighter';
 
 document.addEventListener('DOMContentLoaded', function() {
     const newDonationButton = <HTMLButtonElement>document.getElementById('new-donation');
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let requestIDs: number[] = [];
 
-    const game = new Game(
+    const game = new BitFighter(
         message => {
             if (message.characterChoices) {
                 if (message.id === undefined) {

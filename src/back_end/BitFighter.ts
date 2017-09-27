@@ -10,7 +10,7 @@ import { applyFightEvents } from '../shared/applyFightEvents'
 
 import { CharacterChoiceHandler } from './characterChoiceHandler';
 
-export class Game {
+export class BitFighter {
     private fightStartTime: number = 0;
     private timeout: number | null = null; // null if no timeout
     private lastCombatants: Status[] = [];
