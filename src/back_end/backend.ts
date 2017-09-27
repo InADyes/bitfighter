@@ -1,3 +1,4 @@
+import { pickCharacter } from '../shared/characterPicker';
 import { BackToFrontMessage, CharacterChoice, CharacterChoices, FrontToBackMessage } from '../shared/frontEndMessage';
 import { Game } from './Game';
 
@@ -18,26 +19,27 @@ document.addEventListener('DOMContentLoaded', function() {
         if (art <= -1)
             game.donation(id, name, amount);
         else
-            game.newCombatant({id, name, amount, character: art});
+            game.newCombatant(pickCharacter({id, name, amount, character: art}));
     });
 
     let requestIDs: number[] = [];
 
     const game = new Game(
         message => {
-            const m: BackToFrontMessage = {
-                newReel: message
-            }
-            localStorage.setItem('backToFront', JSON.stringify(m));
-        },
-        (id, chars) => {
-            requestIDs.push(id);
-            const m: BackToFrontMessage = {
-                characterChoices: {
-                    characters: chars
+            if (message.characterChoices) {
+                if (message.id === undefined) {
+                    console.error('shouldn\'t push character choice to everyone');
+                    return;
                 }
+                requestIDs.push(message.id);
             }
-            localStorage.setItem('backToFront', JSON.stringify(m));
+            localStorage.setItem('backToFront', JSON.stringify(message));
+        },
+        {
+            delayBetweenFights: 1000,
+            gameSpeedMultipier: 0.1,
+            minimumDonation: 1000,
+            donationToHPRatio: 1
         }
     );
     

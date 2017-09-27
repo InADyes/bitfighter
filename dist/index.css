@@ -4,6 +4,7 @@
 
 body {
 	font-family: verdana;
+	margin: 0px;
 }
 
 #bitfighter {
@@ -12,6 +13,25 @@ body {
 	position: relative;
 	justify-content: center;
 	align-items: center;
-	width: 500px;
-	height: 500px;
+	width: 100vw;
+	height: 56.24vw;
+}
+
+.character-card {
+	background-color: white;
+	border-radius: 2%;
+	margin: 0.7vw;
+	padding: 0.8vw;
+	height: 50%;
+	width: 23%;
+	box-shadow: 0.05vw 0.05vw 0.7vw rgba(1, 1, 1, 0.5);
+	position: relative;
+	z-index: 1;
+	cursor: pointer;
+}
+
+.character-card > img {
+	float: left;
+	max-height: 40%;
+	max-width: 60%;
 }

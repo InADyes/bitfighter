@@ -1,7 +1,7 @@
 import { BitFighter } from './BitFighter';
 import {BackToFrontMessage, FrontToBackMessage, CharacterChoice, FrontEndSettings as Settings } from '../shared/frontEndMessage';
 
-document.addEventListener("DOMContentLoaded", function(){
+window.addEventListener('load', function(){
     const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
 
     const bifFighter = new BitFighter(
