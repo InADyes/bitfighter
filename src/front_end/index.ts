@@ -37,8 +37,4 @@ window.addEventListener('load', function(){
                 console.error('unidentified storage event');
         }
     });
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> 40dbbbb13e4acd4052b1a0368fde193cbc7dcd47
