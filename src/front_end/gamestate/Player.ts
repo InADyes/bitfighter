@@ -36,12 +36,12 @@ export class Player {
         "images/characters/stickFigures/12Warlock.png",	
         "images/characters/stickFigures/13Paladin.png",
         "images/characters/stickFigures/14Swashbuckler.png",
-        "images/characters/stickFigures/this.fontSizeDragon.png",
+        "images/characters/stickFigures/15Dragon.png",
         "images/characters/stickFigures/16Phoenix.png",
         "images/characters/stickFigures/17Lich.png",
         "images/characters/stickFigures/18Angel.png"
     ];
-    private height =      70;
+    private height =        70;
     private hpWidth =       5;
     private textLock =      0;
     private animationLock = 0;
@@ -52,7 +52,7 @@ export class Player {
 
     // Adjust these to move elements around
     private artAdjust =     0;
-    private hpAdjust =      12;
+    private hpAdjust =      5;
     private artTop =        120;
     private hpTextTop =     33;
     private textTop =       30;

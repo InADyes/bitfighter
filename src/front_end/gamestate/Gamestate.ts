@@ -15,11 +15,13 @@ export class GameState {
 	private scale:				number;
 	private scaleWait:			number;
 	private isWaiting:			number;
-	//public players: 			Player[] = []; Eventually do this
+	private baseWidth = 		500;
+	private baseHeight = 		180;
 
 	constructor(canvasId: string) {
 		this.canvas = new fabric.StaticCanvas(canvasId); // USE StaticCanvas for noninteractive
-		
+		this.canvas.setWidth(this.baseWidth);
+		this.canvas.setWidth(this.baseHeight);
 		this.scale = 1;
 		this.scaleWait = 0;
 		this.isWaiting = 0;
@@ -146,8 +148,8 @@ export class GameState {
 		else {
 			let oldScale = this.scale;
 			this.scale = this.scaleWait;
-			this.canvas.setWidth(this.canvas.getWidth() * this.scaleWait / oldScale);
-			this.canvas.setHeight(this.canvas.getHeight() * this.scaleWait / oldScale);
+			this.canvas.setWidth(this.scaleWait * this.baseWidth);
+			this.canvas.setHeight(this.scaleWait * this.baseHeight);
 			if (this.player1)
 				this.player1.setScale(this.scaleWait);
 			if (this.player2)
