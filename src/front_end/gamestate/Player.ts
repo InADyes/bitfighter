@@ -87,6 +87,7 @@ export class Player {
             if (i > -1)
                 this.buffs.splice(i, 1);
             console.log(`removed! ${ this.buffs }`);
+            this.drawBuffs();
         }, duration);
     }
 
