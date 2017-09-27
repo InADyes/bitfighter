@@ -48,7 +48,7 @@ export class Player {
     private nameheight =    120;
     private strokeWidith =  2;
     private fontSize =      15;
-    private font =          'LemonMilklight'
+    private font =          'Concert One'
 
     // Adjust these to move elements around
     private artAdjust =     0;
