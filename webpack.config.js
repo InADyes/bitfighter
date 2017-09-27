@@ -22,7 +22,8 @@ module.exports = [
     // },   
     {
         entry: {
-            controls: './src/back_end/backend.ts'
+            index: './src/testbed/index.ts',
+            controls: './src/testbed/controls.ts'
         },
         output: {
             filename: './dist/js/[name].bundle.js'
