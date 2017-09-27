@@ -57,7 +57,7 @@ export class Player {
     private fontSize =      15;
     private font =          'Concert One'
     private iconwidth =     10;
-    private icontop =       125;
+    private icontop =       133;
 
     // Adjust these to move elements around
     private artAdjust =     0;
@@ -96,30 +96,25 @@ export class Player {
     }
 
     private drawBuffs() {
-        this.canvas.remove(this.buffGroup);
+        if (this.buffGroup)
+            this.canvas.remove(this.buffGroup);
         this.buffGroup = new fabric.Group([],{
             left:0,
             top:0
         });
-        
-        for (let i = 0; i < this.buffs.length; i++)
-            {
-                new fabric.Image.fromURL(this.buffArt[this.buffs[i]], (oImg: fabric.Image) => {
-                    let currentbuff = oImg.set({
-                    left: !this.right ? (this.center - this.trueWidth + this.iconwidth * i) * this.scale  : (this.center+ this.iconwidth *i)*this.scale ,
+        this.canvas.add(this.buffGroup);
+        for (let i = 0; i < this.buffs.length; i++) {
+            new fabric.Image.fromURL(this.buffArt[this.buffs[i]], (oImg: fabric.Image) => {
+                let currentbuff = oImg.set({
+                    left: !this.right ? this.center - this.trueWidth + this.iconwidth * i  : this.center  + this.iconwidth *(i+1) ,
                     top: this.icontop * this.scale,
                     height: 10,
                     width: 10
                 });
-                this.canvas.add(currentbuff);
-                this.buffGroup.add(currentbuff);
+                this.buffGroup.addWithUpdate(currentbuff);
+                this.canvas.renderAll();
             });
-                
-                
-            }
-        console.log(this.buffGroup);
-        // draw the buffs here
-        this.canvas.add(this.buffGroup);
+        }
     }
 
     public draw() {
