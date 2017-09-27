@@ -145,7 +145,8 @@ export class CharacterChoiceHandler {
                 bonusHealth: s.baseStats.maxHitPoints - characters[s.character].stats.maxHitPoints,
                 className: characters[s.character].name,
                 art: s.character,
-                level: s.level
+                level: s.level,
+                rarity: characters[s.character].rarity
             })),
             donation.id
         );
