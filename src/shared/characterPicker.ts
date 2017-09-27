@@ -428,18 +428,18 @@ export const characters: Character[] = [
     // }, // Paladin
     {
         stats: { 
-            maxHitPoints: 1250,
-            accuracy: 175,
-            dodge: 175,
+            maxHitPoints: 1000,
+            accuracy: 90,
+            dodge: 130,
             attackSpeed: {
-                min: 1000,
-                max: 2000,
+                min: 1100,
+                max: 2200,
             },
             attackDamage: {
-                min: 100,
-                max: 140,
+                min: 60,
+                max: 80,
             },
-            armor: 15,
+            armor: 10,
             regeneration: 300,
             critChanceModifier: 1,
             critDamageModifier: 1,
@@ -450,7 +450,7 @@ export const characters: Character[] = [
             odds: 6,
         },
         {
-            odds: 15,
+            odds: 8,
             buff: Buff.buffs[Buff.types.swashbucklerBuff],
         }],
         name: 'Swashbuckler'

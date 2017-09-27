@@ -37,7 +37,7 @@ export const enum types {
     warlockDebuff       = 14,
     paladin             = 15,
     swashbucklerBuff    = 16,
-    swashbucklerDebuff  = 17,
+//    swashbucklerDebuff  = 17,
     dragon              = 18,
     angel               = 19,
     phoenix             = 20,
@@ -139,9 +139,7 @@ export const buffs: Buff[] = [
     {
         duration: 10000,
         art: 15,
-        attackSpeed: .3,
-        attackDamage: 1.25,
-        accuracy: 2,
+        attackSpeed: .9,
     },// Swashbuckler Buff
     {
         duration: 10000,        // NOT IN USE
