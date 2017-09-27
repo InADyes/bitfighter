@@ -70,8 +70,8 @@ export class BitFighter {
     private updateScale() {
         const scale = this.wrapperDiv.offsetHeight / 400;
         this.wrapperDiv.style.fontSize = 12 * scale + 'px';
-        this.canvas.width = 500 * this.settings.size * scale;
-        this.canvas.height = 130 * this.settings.size * scale;
+        //this.canvas.width = 500 * this.settings.size * scale;
+        //this.canvas.height = 130 * this.settings.size * scale;
         this.canvas.style.left = `${ this.settings.position.x  * scale}px`;
         this.canvas.style.top = `${ this.settings.position.y  * scale}px`;
         this.game.setNewScale(scale);
