@@ -27,8 +27,7 @@ export class BitFighter {
     }
     public recievedViewerGameState(data: BackToFrontMessage) {
         if (data.newReel) {
-            this.game.newMessage(data.newReel.reel, data.newReel.patch);
-            this.game.initPlayers(data.newReel.characters);
+            this.game.newMessage(data.newReel.reel, data.newReel.characters, data.newReel.patch);
         }
         if (data.characterChoices) {
             const characters = data.characterChoices.characters;

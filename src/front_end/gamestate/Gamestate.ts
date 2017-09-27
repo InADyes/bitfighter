@@ -12,21 +12,40 @@ export class GameState {
 	private reel:				Events.Event[];
 	private player1:			Player.Player;
 	private player2:			Player.Player;
+	private scale:				number;
+	private scaleWait:			number;
+	private isWaiting:			number;
 	//public players: 			Player[] = []; Eventually do this
 
 	constructor(canvasId: string) {
-		this.canvas = new fabric.StaticCanvas(canvasId); // USE StaticCanvas for noninteractive 
+		this.canvas = new fabric.StaticCanvas(canvasId); // USE StaticCanvas for noninteractive
+		
+		this.scale = 1;
+		this.scaleWait = 0;
+		this.isWaiting = 0;
 	}
 
-	public newMessage(reel: Events.Event[], patch?: number) {
-		if (patch) {
-			//do the patching
+	public newMessage(reel: Events.Event[], characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[], patch?: number) {
+		// if there's a patch in the middle of a reel
+		if (patch && this.reel[0]) {
+			this.applyPatch(reel);
 		}
 		else {
-			this.canvas.clear();
 			this.clearMessage();
 			this.reel = reel;
-			this.initReel();
+
+			// if there's a patch immediately fire next event, otherwise start new reel
+			if (patch)
+				this.getEvent();
+			else {
+				this.canvas.clear();
+				this.initReel();
+				// init players
+				this.player1 = new Player.Player(characters[0], 0, this.canvas, this.scale);
+				if (characters[1])
+					this.player2 = new Player.Player(characters[1], 1, this.canvas, this.scale);
+				this.drawPlayers();
+			}
 		}
 	}
 
@@ -40,8 +59,6 @@ export class GameState {
 		if (this.reel.length < 1) {
 			return;
 		}
-
-		this.lastTime = 0;
 		this.eventLoopTimeout = setTimeout(
 			() => {
 				this.getEvent();
@@ -52,15 +69,15 @@ export class GameState {
 
 	private getEvent() {
 		let event = this.reel.shift();
-		let nextTime = this.reel[0] ? this.reel[0].time : 0;
 		if (event == undefined) {
 			this.eventLoopTimeout = null;
 			return;
 		}
+		let nextTime = this.reel[0] ? this.reel[0].time : 0;
 
 		fireEvent(event, this);
 		(event);
-
+		console.log(`nextTime: ${ nextTime }, event.time: ${ event.time }`);
 		this.eventLoopTimeout = setTimeout(
 			() => {
 				this.getEvent();
@@ -70,11 +87,15 @@ export class GameState {
 		this.lastTime = event.time;
 	}
 
-	public initPlayers(characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[]) {
-		this.player1 = new Player.Player(characters[0], 0, this.canvas);
-		if (characters[1])
-			this.player2 = new Player.Player(characters[1], 1, this.canvas);
-		this.drawPlayers();
+	private applyPatch(reel: Events.Event[]) {
+		for (let i = 0; i < this.reel.length; i++) {
+			if (reel[0].time < this.reel[i].time) {
+				console.log(reel[0].time, i, this.reel[i].time);
+				this.reel.splice(i);
+				this.reel.push(...reel);
+				break;
+			}
+		}
 	}
 
 	public drawPlayers() {
@@ -110,5 +131,26 @@ export class GameState {
 			this.player2.text(str, color);
 		else
 			this.player1.text(str, color);
+	}
+
+	public setNewScale(scale: number | null) {
+		if (this.scaleWait && scale != null) {
+			this.scaleWait = scale;
+			return;
+		}
+		if (scale)
+			this.scaleWait = scale;
+		if (this.player1.isAnimated() || this.player2.isAnimated()) {
+			setTimeout(() => {this.setNewScale(null)}, 1);
+		}
+		else {
+			let oldScale = this.scale;
+			this.scale = this.scaleWait;
+			this.canvas.setWidth(this.canvas.getWidth() * this.scaleWait / oldScale);
+			this.canvas.setHeight(this.canvas.getHeight() * this.scaleWait / oldScale);
+			this.player1.setScale(this.scaleWait);
+			this.player2.setScale(this.scaleWait);
+			this.scaleWait = 0;
+		}
 	}
 }

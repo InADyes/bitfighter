@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             delayBetweenFights: 1000,
-            gameSpeedMultipier: 0.1,
+            gameSpeedMultipier: 0.5,
             minimumDonation: 1000,
             donationToHPRatio: 1
         }
