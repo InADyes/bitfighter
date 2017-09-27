@@ -79,7 +79,6 @@ export class GameState {
 
 		fireEvent(event, this);
 		(event);
-		console.log(`nextTime: ${ nextTime }, event.time: ${ event.time }`);
 		this.eventLoopTimeout = setTimeout(
 			() => {
 				this.getEvent();
@@ -92,7 +91,6 @@ export class GameState {
 	private applyPatch(reel: Events.Event[]) {
 		for (let i = 0; i < this.reel.length; i++) {
 			if (reel[0].time < this.reel[i].time) {
-				console.log(reel[0].time, i, this.reel[i].time);
 				this.reel.splice(i);
 				this.reel.push(...reel);
 				break;
@@ -135,26 +133,26 @@ export class GameState {
 			this.player1.text(str, color);
 	}
 
-	public setNewScale(scale: number | null) {
-		if (this.scaleWait && scale != null) {
+	public setNewScale(scale: number) {
+		/*if (this.scaleWait && scale != null) {
 			this.scaleWait = scale;
 			return;
 		}
-		if (scale)
-			this.scaleWait = scale;
+		
 		if ((this.player1 || this.player2) && (this.player1.isAnimated() || this.player2.isAnimated())) {
 			setTimeout(() => {this.setNewScale(null)}, 1);
 		}
-		else {
-			let oldScale = this.scale;
-			this.scale = this.scaleWait;
-			this.canvas.setWidth(this.scaleWait * this.baseWidth);
-			this.canvas.setHeight(this.scaleWait * this.baseHeight);
-			if (this.player1)
-				this.player1.setScale(this.scaleWait);
-			if (this.player2)
-				this.player2.setScale(this.scaleWait);
-			this.scaleWait = 0;
-		}
+		else {*/
+		this.scaleWait = scale;
+		let oldScale = this.scale;
+		this.scale = this.scaleWait;
+		this.canvas.setWidth(this.scaleWait * this.baseWidth);
+		this.canvas.setHeight(this.scaleWait * this.baseHeight);
+		this.canvas.clear();
+		if (this.player1)
+			this.player1.setScale(this.scaleWait);
+		if (this.player2)
+			this.player2.setScale(this.scaleWait);
+		this.scaleWait = 0;
 	}
 }
