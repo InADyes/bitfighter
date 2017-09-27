@@ -1,4 +1,6 @@
-import { Character, characters } from '../shared/characterPicker';
+import { CharacterChoices } from '../shared/frontEndMessage';
+import { Character, characters, pickCharacter } from '../shared/characterPicker';
+import { Status } from '../shared/Status';
 
 interface DonationTier {
     donation: number,
@@ -31,20 +33,13 @@ const tiers: DonationTier[] = [
 export class CharacterChoiceHandler {
     private pendingCharacterChoices: {
         id: number,
-        characters: number[],
-        timeout: NodeJS.Timer,
-        name: string,
-        donationAmount: number
+        characters: Status[],
+        timeout: number
     }[] = [];
 
     constructor(
-        private readonly newCombatant: (donation: {
-            id: number,
-            name: string,
-            amount: number,
-            character: number
-        }) => void,
-        private readonly requestPick: (id: number, character: Character[]) => void
+        private readonly newCombatant: (status: Status) => void,
+        private readonly requestPick: (choices: CharacterChoices, id: number) => void
     ) {}
 
     public requestChoice(
@@ -54,6 +49,9 @@ export class CharacterChoiceHandler {
             amount: number
         }
     ) {
+        if (this.pendingCharacterChoices.find(c => c.id === donation.id) !== undefined)
+            return; // todo: what should happen if they donate while they still have cards?
+
         //find last tier that we can achive or use the first one
         const odds = (tiers.reverse().find(t => t.donation >= donation.amount) || tiers[0]).odds;
     
@@ -84,23 +82,38 @@ export class CharacterChoiceHandler {
                 roll -= totals[rarity];
             }
         }
+
+        let statusChoices = choices.map(c => pickCharacter({
+            id: donation.id,
+            name: donation.name,
+            amount: donation.amount,
+            character: characters.indexOf(c)
+        }));
         
-        const timeout = setTimeout(
+        const timeout = window.setTimeout(
             () => {
-                this.completeChoice(donation.id, Math.floor((choices.length + 1) * Math.random()))
+                this.completeChoice(donation.id, Math.floor(choices.length * Math.random()))
             },
             60000 // one minute
         );
 
         this.pendingCharacterChoices.push({
             id: donation.id,
-            characters: choices.map(c => characters.indexOf(c)),
-            timeout,
-            name: donation.name,
-            donationAmount: donation.amount
+            characters: statusChoices,
+            timeout
         });
 
-        this.requestPick(donation.id, choices);
+        this.requestPick(
+            {
+                characters: statusChoices.map(s => ({
+                    stats: s.baseStats,
+                    className: characters[s.character].name,
+                    art: s.character,
+                    level: s.level
+                }))
+            },
+            donation.id
+        );
     }
     public completeChoice(id: number, pick: number) {
         const index = this.pendingCharacterChoices.findIndex(c => c.id === id);
@@ -111,14 +124,7 @@ export class CharacterChoiceHandler {
         }
 
         const pendingChoice = this.pendingCharacterChoices.splice(index, 1)[0];
-        const characters = pendingChoice.characters;
 
-        const character = characters[pick % characters.length];
-        this.newCombatant({
-            id,
-            character,
-            amount: pendingChoice.donationAmount,
-            name: pendingChoice.name
-        });
+        this.newCombatant(pendingChoice.characters[pick % pendingChoice.characters.length]);
     }
 }

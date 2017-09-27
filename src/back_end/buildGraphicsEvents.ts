@@ -51,17 +51,13 @@ export function build(fight: FightEvents.Event[]) {
                 display.push(new GraphicsEvents.Health(
                     event.time,
                     event.character,
-                    -(<FightEvents.Damage>event).amount
+                    (<FightEvents.Damage>event).amount
                 ));
                 display.push(new GraphicsEvents.Text(
                     event.time,
                     event.character,
                     String((<FightEvents.Damage>event).amount),
-                    'red'
-                ));
-                display.push(new GraphicsEvents.Attack(
-                    event.time - 150,
-                    otherCharacter(event.character)
+                    'green'
                 ));
                 break;
             case FightEvents.Types.death:

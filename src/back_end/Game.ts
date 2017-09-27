@@ -12,7 +12,7 @@ import { CharacterChoiceHandler } from './characterChoiceHandler';
 
 export class Game {
     private fightStartTime: number = 0;
-    private timeout: NodeJS.Timer | null = null; // null if no timeout
+    private timeout: number | null = null; // null if no timeout
     private lastCombatants: Status[] = [];
     private lastResults: Status[] = [];
     private lastEvents: FightEvents.Event[] = [];
@@ -25,15 +25,16 @@ export class Game {
     };
 
     private characterChoiceHandler = new CharacterChoiceHandler(
-        (donation) => {
-            this.newCombatant(donation);
+        (status) => {
+            this.newCombatant(status);
         },
-        this.requestCharacterChoice
+        (characterChoices, id) => {
+            this.sendMessageToFont({characterChoices, id});
+        }
     );
 
     constructor(
-        private sendFightMessage: (message: frontEndMessage.Message) => void,
-        private requestCharacterChoice: (fanID: number, character: Character[]) => void,
+        private sendMessageToFont: (message: frontEndMessage.BackToFrontMessage) => void,
         settings?: Settings
     ) {
         if (settings)
@@ -44,13 +45,13 @@ export class Game {
         this.characterChoiceHandler.completeChoice(id, choice);
     }
 
-    public donation(donation: {id: number, name: string, amount: number, character: number}) {
+    public donation(id: number, name: string, amount: number) {
 
         // if the fight is ongoing
         if (this.timeout !== null) {
             // and the donation matches a fighter
             const combatantIndex = this.lastCombatants.findIndex(s => {
-                return s.id === donation.id;
+                return s.id === id;
             });
             if (combatantIndex !== -1) {
                 const patchTime = performance.now() - this.fightStartTime;
@@ -65,7 +66,7 @@ export class Game {
                         new FightEvents.Healing(
                             patchTime,
                             combatantIndex,
-                            donation.amount * this.settings.donationToHPRatio
+                            amount * this.settings.donationToHPRatio
                         ),
                     ],
                     patchTime
@@ -75,12 +76,9 @@ export class Game {
         }
 
         // if the donation is enough for a character and they aren't already in the queue
-        if (this.queue.some(s => {return s.id === donation.id;}) === false
-            && donation.amount >= this.settings.minimumDonation) {
-            if (donation.character == -1)
-                this.characterChoiceHandler.requestChoice(donation);
-            else
-                this.newCombatant(donation);
+        if (this.queue.some(s => {return s.id === id;}) === false
+            && amount >= this.settings.minimumDonation) {
+            this.characterChoiceHandler.requestChoice({id, name, amount});
             return;
         }
 
@@ -99,7 +97,7 @@ export class Game {
                     new FightEvents.Damage(
                         patchTime,
                         0,
-                        donation.amount * this.settings.donationToHPRatio
+                        amount * this.settings.donationToHPRatio
                     ),
                 ],
                 patchTime
@@ -107,13 +105,8 @@ export class Game {
         }
     }
     
-    private newCombatant(donation: {
-        id: number,
-        name: string,
-        amount: number,
-        character: number
-    }) {
-        this.queue.push(pickCharacter(donation))
+    public newCombatant(status: Status) {
+        this.queue.push(status)
         this.nextFight();
     }
 
@@ -182,24 +175,27 @@ export class Game {
         
         let graphicsEvents = buildGraphicsEvents.build(this.lastEvents);
 
-        this.sendFightMessage({
-            characters: this.lastCombatants.map(c => {return {
-                    name: c.name,
-                    maxHitPoints: c.baseStats.maxHitPoints,
-                    currentHitPoints: c.hitPoints,
-                    art: c.character
-                }
-            }),
-            reel: graphicsEvents,
-            patch: patchTime
+        this.sendMessageToFont({
+            newReel: {
+                    characters: this.lastCombatants.map(c => {return {
+                            name: c.name,
+                            maxHitPoints: c.baseStats.maxHitPoints,
+                            currentHitPoints: c.hitPoints,
+                            art: c.character
+                        }
+                    }
+                ),
+                reel: graphicsEvents,
+                patch: patchTime
+            }
         });
         
         console.log('new fight: ', this);
 
         if (this.timeout !== null) 
-            clearTimeout(this.timeout);
+            window.clearTimeout(this.timeout);
 
-        this.timeout = setTimeout(
+        this.timeout = window.setTimeout(
             () => {
                 console.log('fight over');
                 this.timeout = null;
