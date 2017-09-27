@@ -1,4 +1,4 @@
-import { BitFighter } from './BitFighter';
+import { BitFighter } from '../front_end/BitFighter';
 import {BackToFrontMessage, FrontToBackMessage, CharacterChoice, FrontEndSettings as Settings } from '../shared/frontEndMessage';
 
 window.addEventListener('load', function(){

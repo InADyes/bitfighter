@@ -1,6 +1,6 @@
 import { pickCharacter } from '../shared/characterPicker';
 import { BackToFrontMessage, CharacterChoice, CharacterCard, FrontToBackMessage } from '../shared/frontEndMessage';
-import { Game } from './Game';
+import { Game } from '../back_end/Game';
 
 document.addEventListener('DOMContentLoaded', function() {
     const newDonationButton = <HTMLButtonElement>document.getElementById('new-donation');

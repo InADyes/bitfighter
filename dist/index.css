@@ -34,7 +34,7 @@ body {
 	height: 56.24vw;
 }
 
-.character-card {
+#bitfigher > .character-card {
 	background-color: white;
 	border-radius: 2%;
 	margin: 0.7vw;
@@ -47,7 +47,7 @@ body {
 	cursor: pointer;
 }
 
-.character-card > img {
+#bitfigher > .character-card > img {
 	float: left;
 	max-height: 40%;
 	max-width: 60%;
