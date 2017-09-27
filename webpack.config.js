@@ -26,7 +26,7 @@ module.exports = [
             controls: './src/testbed/controls.ts'
         },
         output: {
-            filename: './dist/js/[name].bundle.js'
+            filename: './testbed/js/[name].bundle.js'
         },
         resolve: {
             extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']
