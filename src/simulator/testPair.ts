@@ -18,11 +18,11 @@ export class Results {
     ) {}
 
     get average_damage() {
-        return this.total_damage / this.hits + this.miss;
+        return this.total_damage / (this.hits + this.miss);
     }
 
     get averageTime() {
-        return this.totalTime / this.wins + this.losses;
+        return this.totalTime / (this.wins + this.losses);
     }
 }
 

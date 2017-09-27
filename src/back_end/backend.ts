@@ -1,4 +1,5 @@
-import { CharacterChoice, CharacterChoices } from '../shared/frontEndMessage';
+import { pickCharacter } from '../shared/characterPicker';
+import { BackToFrontMessage, CharacterChoice, CharacterChoices, FrontToBackMessage } from '../shared/frontEndMessage';
 import { Game } from './Game';
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -7,10 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const idInputNode = <HTMLInputElement>document.getElementById('donation-id');
     const bitsInputNode = <HTMLInputElement>document.getElementById('donation-bits');
     const artInputNode = <HTMLInputElement>document.getElementById('donation-art');
-    if (newDonationButton == null || nameInputNode == null || bitsInputNode == null) {
-        console.error('missing DOM hook');
-        return;
-    }
     newDonationButton.addEventListener('click', element => {
         const id = Number(idInputNode.value);
         const name = nameInputNode.value;
@@ -19,21 +16,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
         idInputNode.value = String(id + 1);
 
-        game.donation({id: id, name: name, amount: amount, character: art});
+        if (art <= -1)
+            game.donation(id, name, amount);
+        else
+            game.newCombatant(pickCharacter({id, name, amount, character: art}));
     });
 
     let requestIDs: number[] = [];
 
     const game = new Game(
         message => {
-            localStorage.setItem('fight', JSON.stringify(message));
-        },
-        (id, chars) => {
-            requestIDs.push(id);
-            const characterChoices: CharacterChoices = {
-                characters: chars
+            if (message.characterChoices) {
+                if (message.id === undefined) {
+                    console.error('shouldn\'t push character choice to everyone');
+                    return;
+                }
+                requestIDs.push(message.id);
             }
-            localStorage.setItem('characterChoice', JSON.stringify(characterChoices));
+            localStorage.setItem('backToFront', JSON.stringify(message));
+        },
+        {
+            delayBetweenFights: 1000,
+            gameSpeedMultipier: 0.5,
+            minimumDonation: 1000,
+            donationToHPRatio: 1
         }
     );
     
@@ -44,17 +50,16 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         switch(e.key) {
-            case 'choiceResult':
+            case 'frontToBack':
                 const id = requestIDs.shift();
                 if (id === undefined) {
                     console.log('no id\s');
                     break;
                 }
-                const characterChoice = <CharacterChoice>JSON.parse(str);
-                game.frontEndSelection(id, characterChoice.choice)
+                const message = <FrontToBackMessage>JSON.parse(str);
+                game.frontEndSelection(id, message.characterChoice.choice);
                 break;
-            case 'characterChoice':
-            case 'fight':
+            case 'backToFront':
                 break;
             default:
                 console.error('unidentified storage event');

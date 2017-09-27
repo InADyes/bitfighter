@@ -1,9 +1,24 @@
-import { GameState } from './gamestate/Gamestate';
-import { Message, CharacterChoice } from '../shared/frontEndMessage';
+import { BitFighter } from './BitFighter';
+import {BackToFrontMessage, FrontToBackMessage, CharacterChoice, FrontEndSettings as Settings } from '../shared/frontEndMessage';
 
-document.addEventListener("DOMContentLoaded", function(){
-    const gameState = new GameState(`arena`);
-    
+window.addEventListener('load', function(){
+    const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
+
+    const bifFighter = new BitFighter(
+        wrapperDiv,
+        {
+            position: {
+                x: 10,
+                y: 40
+            },
+            size: 1,
+        },
+        (slug, message) => {
+            localStorage.setItem('frontToBack', JSON.stringify(message));
+        }
+    );
+
+
     window.addEventListener('storage', (e) => {
         console.log(e)
         const str = e.newValue;
@@ -12,21 +27,17 @@ document.addEventListener("DOMContentLoaded", function(){
             return;
         }
         switch(e.key) {
-            case 'fight':
-                const message = <Message>JSON.parse(str);
-                console.log(message.reel);
-                gameState.newMessage(message.reel, message.characters, message.patch);
-                break;
-            case 'characterChoice':
-                console.log(JSON.parse(str));
-                // characterSelect
-                break;
-            case 'choiceResult':
+            case 'backToFront':
+                const data = <BackToFrontMessage>JSON.parse(str);
+                console.log(data);
+                bifFighter.recievedViewerGameState(data);
+            case 'frontToBack':
                 break;
             default:
                 console.error('unidentified storage event');
         }
     });
+<<<<<<< HEAD
 
     const test = <HTMLButtonElement>document.getElementById('test');
     test.addEventListener('click', () => {
@@ -41,32 +52,6 @@ document.addEventListener("DOMContentLoaded", function(){
     }
   
     changeImage();
+=======
+>>>>>>> 3e14c7ff835919784c301ce7756545d801d45b4a
 });
-
-
-// TEMP
-function changeImage(){
-    let imageID = 0;
-    
-    setInterval(function(){
-        //change the image
-        let x = <HTMLImageElement>document.getElementById("myimage");
-        if(!imageID){
-            x.src="./temp/sample.png";
-            imageID++;
-        }else if(imageID==1){
-            x.src="./temp/sample3.png";
-            imageID++;
-        }else if(imageID==2){
-            x.src="./temp/sample4.png";
-            imageID++;
-        }else if(imageID==3){
-            x.src="./temp/sample5.png";
-            imageID++;
-        }else{if(imageID==4){
-            x.src="./temp/sample6.png";
-            imageID=0;
-        }}
-    },
-    10000);
-}

@@ -29,7 +29,7 @@ function printReel(reel: FightEvents.Event[]) {
                 const buff = crit.buff ? buffs.indexOf(crit.buff) : -1;
                 const debuff = crit.debuff ? buffs.indexOf(crit.debuff) : -1;
 
-                stdout.write(`crit: (buff: ${ buff }, debuff: ${ debuff }\n`)
+                stdout.write(`crit: (buff: ${ buff }, debuff: ${ debuff })\n`)
                 break;
             case FightEvents.Types.donation:
                 stdout.write(`donation: (type: ${ (<FightEvents.Donation>event).donationType })\n`)
