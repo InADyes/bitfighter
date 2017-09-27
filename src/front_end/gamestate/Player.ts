@@ -386,4 +386,6 @@ export class Player {
     public isAnimated() {
         return (this.animationLock ? true : false);
     }
+
+   
 }
