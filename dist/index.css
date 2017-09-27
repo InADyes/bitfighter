@@ -18,11 +18,13 @@
 	top: 50%;
 	left: 2%;
 	border: 1px solid black;
+	font-family: "LemonMilklight";
 }
 
 body {
+	font-family: "LemonMilklight";
+
 	margin: 0px;
-	font-family: 'Concert One';
 }
 
 #bitfighter {
