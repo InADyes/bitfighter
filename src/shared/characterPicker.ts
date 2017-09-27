@@ -14,35 +14,35 @@ export interface Character {
 }
 
 export const characters: Character[] = [
-    {
-        stats: { 
-            maxHitPoints: 900,
-            accuracy: 100,
-            dodge: 100,
-            attackSpeed: {
-                min: 750,
-                max: 1500,
-            },
-            attackDamage: {
-                min: 90,
-                max: 130,
-            },
-            armor: 10,
-            regeneration: 200,
-            critChanceModifier: 1,
-            critDamageModifier: 1,
-        }, 
-        rarity: 0,
-        crits: [{
-            damageMultiplier: 4,
-            odds: 8,
-        },
-        {
-            odds: 5,
-            buff: Buff.buffs[Buff.types.streetUrchin],
-        }],
-        name: 'Street Urchin'
-    },
+    // {
+    //     stats: { 
+    //         maxHitPoints: 900,
+    //         accuracy: 100,
+    //         dodge: 100,
+    //         attackSpeed: {
+    //             min: 750,
+    //             max: 1500,
+    //         },
+    //         attackDamage: {
+    //             min: 90,
+    //             max: 130,
+    //         },
+    //         armor: 10,
+    //         regeneration: 300,
+    //         critChanceModifier: 1,
+    //         critDamageModifier: 1,
+    //     }, 
+    //     rarity: 0,
+    //     crits: [{
+    //         damageMultiplier: 4,
+    //         odds: 8,
+    //     },
+    //     {
+    //         odds: 5,
+    //         buff: Buff.buffs[Buff.types.streetUrchin],
+    //     }],
+    //     name: 'Street Urchin'
+    // },
     {
         stats: { 
             maxHitPoints: 1000,
@@ -57,7 +57,7 @@ export const characters: Character[] = [
                 max: 130,
             },
             armor: 25,
-            regeneration: 200,
+            regeneration: 300,
             critChanceModifier: 1,
             critDamageModifier: 1,
         }, 
@@ -76,36 +76,36 @@ export const characters: Character[] = [
         }
     ],
         name: 'Scullery Maid'
-    },
-    {
-        stats: { 
-            maxHitPoints: 1100,
-            accuracy: 100,
-            dodge: 75,
-            attackSpeed: {
-                min: 1000,
-                max: 2000,
-            },
-            attackDamage: {
-                min: 100,
-                max: 150,
-            },
-            armor: 35,
-            regeneration: 200,
-            critChanceModifier: 1,
-            critDamageModifier: 1,
-        }, 
-        rarity: 0,
-        crits: [{
-            damageMultiplier: 4,
-            odds: 6,
-        },
-        {
-            odds: 6,
-            debuff: Buff.buffs[Buff.types.farmer],
-        }],
-        name: 'Farmer'
-    },
+    }, // Scullery Maid
+    // {
+    //     stats: { 
+    //         maxHitPoints: 1100,
+    //         accuracy: 100,
+    //         dodge: 75,
+    //         attackSpeed: {
+    //             min: 1000,
+    //             max: 2000,
+    //         },
+    //         attackDamage: {
+    //             min: 100,
+    //             max: 150,
+    //         },
+    //         armor: 35,
+    //         regeneration: 300,
+    //         critChanceModifier: 1,
+    //         critDamageModifier: 1,
+    //     }, 
+    //     rarity: 0,
+    //     crits: [{
+    //         damageMultiplier: 4,
+    //         odds: 6,
+    //     },
+    //     {
+    //         odds: 6,
+    //         debuff: Buff.buffs[Buff.types.farmer],
+    //     }],
+    //     name: 'Farmer'
+    // },
     {
         stats: { 
             maxHitPoints: 1200,
@@ -119,8 +119,8 @@ export const characters: Character[] = [
                 min: 90,
                 max: 130,
             },
-            armor: 50,
-            regeneration: 200,
+            armor: 30,
+            regeneration: 300,
             critChanceModifier: 1,
             critDamageModifier: 1,
         }, 
@@ -134,7 +134,7 @@ export const characters: Character[] = [
             debuff: Buff.buffs[Buff.types.barkeep],
         }],
         name: 'Barkeep'
-    },
+    }, // Barkeep
     {
         stats: { 
             maxHitPoints: 975,
@@ -149,11 +149,11 @@ export const characters: Character[] = [
                 max: 110,
             },
             armor: 0,
-            regeneration: 200,
+            regeneration: 300,
             critChanceModifier: 1,
             critDamageModifier: 1,
         }, 
-        rarity: 0,
+        rarity: 15,
         crits: [{
             damageMultiplier: 4,
             odds: 20,
@@ -162,8 +162,8 @@ export const characters: Character[] = [
             odds: 6,
             buff: Buff.buffs[Buff.types.streetUrchin],
         }],
-        name: 'Aristocrat'
-    },
+        name: 'Medium'
+    }, // Medium
     {
         stats: { 
             maxHitPoints: 950,
@@ -203,10 +203,10 @@ export const characters: Character[] = [
                 max: 1000,
             },
             attackDamage: {
-                min: 60,
-                max: 90,
+                min: 70,
+                max: 100,
             },
-            armor: 0,
+            armor: 15,
             regeneration: 300,
             critChanceModifier: 1,
             critDamageModifier: 1,
@@ -217,8 +217,8 @@ export const characters: Character[] = [
             odds: 6,
         },
         {
-            odds: 25,
-            buff: Buff.buffs[Buff.types.mage],
+            odds: 45,
+            debuff: Buff.buffs[Buff.types.mage],
         }],
         name: 'Mage'
     }, // Mage
@@ -235,7 +235,7 @@ export const characters: Character[] = [
                 min: 40,
                 max: 80,
             },
-            armor: 25,
+            armor: 20,
             regeneration: 300,
             critChanceModifier: 1,
             critDamageModifier: 1,
@@ -251,166 +251,196 @@ export const characters: Character[] = [
         }],
         name: 'Rogue'
     }, // Rogue
+    // {
+    //     stats: { 
+    //         maxHitPoints: 1000,
+    //         accuracy: 125,
+    //         dodge: 175,
+    //         attackSpeed: {
+    //             min: 1250,
+    //             max: 2500,
+    //         },
+    //         attackDamage: {
+    //             min: 105,
+    //             max: 155,
+    //         },
+    //         armor: 65,
+    //         regeneration: 300,
+    //         critChanceModifier: 1,
+    //         critDamageModifier: 1,
+    //     }, 
+    //     rarity: 0,
+    //     crits: [{
+    //         damageMultiplier: 9,
+    //         odds: 3,
+    //     },
+    //     {
+    //         odds: 10,
+    //         buff: Buff.buffs[Buff.types.gladiator],
+    //     }],
+    //     name: 'Gladiator'
+    // }, // Gladiator
+    // {
+    //     stats: { 
+    //         maxHitPoints: 1800,
+    //         accuracy: 100,
+    //         dodge: 40,
+    //         attackSpeed: {
+    //             min: 1500,
+    //             max: 3000,
+    //         },
+    //         attackDamage: {
+    //             min: 150,
+    //             max: 300,
+    //         },
+    //         armor: 10,
+    //         regeneration: 500,
+    //         critChanceModifier: 1,
+    //         critDamageModifier: 1,
+    //     }, 
+    //     rarity: 0,
+    //     crits: [{
+    //         damageMultiplier: 7,
+    //         odds: 4,
+    //     },
+    //     {
+    //         odds: 4,
+    //         buff: Buff.buffs[Buff.types.barbarian],
+    //     }],
+    //     name: 'Barbarian'
+    // }, // Barbarian
     {
         stats: { 
-            maxHitPoints: 1000,
-            accuracy: 125,
-            dodge: 175,
+            maxHitPoints: 1400,
+            accuracy: 75,
+            dodge: 150,
             attackSpeed: {
-                min: 1250,
-                max: 2500,
+                min: 1000,
+                max: 2000,
             },
             attackDamage: {
-                min: 105,
-                max: 155,
+                min: 100,
+                max: 140,
             },
-            armor: 65,
+            armor: 40,
+            regeneration: 600,
+            critChanceModifier: 1,
+            critDamageModifier: 1,
+        }, 
+        rarity: 0,
+        crits: [{
+            damageMultiplier: 4,
+            odds: 3,
+        },
+        {
+            odds: 6,
+            buff: Buff.buffs[Buff.types.warpriest],
+        }],
+        name: 'Warpriest'
+    }, // Warpriest
+    // {
+    //     stats: { 
+    //         maxHitPoints: 1600,
+    //         accuracy: 175,
+    //         dodge: 75,
+    //         attackSpeed: {
+    //             min: 500,
+    //             max: 1000,
+    //         },
+    //         attackDamage: {
+    //             min: 90,
+    //             max: 130,
+    //         },
+    //         armor: 35,
+    //         regeneration: 800,
+    //         critChanceModifier: 1,
+    //         critDamageModifier: 1,
+    //     }, 
+    //     rarity: 0,
+    //     crits: [{
+    //         damageMultiplier: 2,
+    //         odds: 10,
+    //     },
+    //     {
+    //         odds: 7,
+    //         buff: Buff.buffs[Buff.types.werewolfBuff],
+    //     }],
+    //     name: 'Werewolf'
+    // }, // Werewolf
+    {
+        stats: { 
+            maxHitPoints: 1350,
+            accuracy: 75,
+            dodge: 75,
+            attackSpeed: {
+                min: 2000,
+                max: 3000,
+            },
+            attackDamage: {
+                min: 200,
+                max: 350,
+            },
+            armor: 20,
             regeneration: 300,
             critChanceModifier: 1,
             critDamageModifier: 1,
         }, 
         rarity: 0,
         crits: [{
-            damageMultiplier: 9,
-            odds: 3,
-        },
-        {
-            odds: 10,
-            buff: Buff.buffs[Buff.types.gladiator],
-        }],
-        name: 'Gladiator'
-    }, // Gladiator
-    {
-        stats: { 
-            maxHitPoints: 1800,
-            accuracy: 100,
-            dodge: 40,
-            attackSpeed: {
-                min: 1500,
-                max: 3000,
-            },
-            attackDamage: {
-                min: 150,
-                max: 300,
-            },
-            armor: 10,
-            regeneration: 500,
-            critChanceModifier: 1,
-            critDamageModifier: 1,
-        }, 
-        rarity: 0,
-        crits: [{
-            damageMultiplier: 7,
-            odds: 4,
-        },
-        {
-            odds: 4,
-            buff: Buff.buffs[Buff.types.barbarian],
-        }],
-        name: 'Barbarian'
-    }, // Barbarian
-    {
-        stats: { 
-            maxHitPoints: 950,
-            accuracy: 150,
-            dodge: 150,
-            attackSpeed: {
-                min: 750,
-                max: 1500,
-            },
-            attackDamage: {
-                min: 90,
-                max: 130,
-            },
-            armor: 15,
-            regeneration: 200,
-            critChanceModifier: 1,
-            critDamageModifier: 1,
-        }, 
-        rarity: 0,
-        crits: [{
             damageMultiplier: 4,
-            odds: 6,
+            odds: 8,
         },
         {
-            odds: 6,
-            buff: Buff.buffs[Buff.types.minstrel],
-        }],
-        name: 'Warpriest'
-    }, // Warpriest
-    {
-        stats: { 
-            maxHitPoints: 950,
-            accuracy: 150,
-            dodge: 150,
-            attackSpeed: {
-                min: 750,
-                max: 1500,
-            },
-            attackDamage: {
-                min: 90,
-                max: 130,
-            },
-            armor: 15,
-            regeneration: 200,
-            critChanceModifier: 1,
-            critDamageModifier: 1,
-        }, 
-        rarity: 0,
-        crits: [{
-            damageMultiplier: 4,
-            odds: 6,
-        },
-        {
-            odds: 6,
-            buff: Buff.buffs[Buff.types.minstrel],
-        }],
-        name: 'Werewolf'
-    }, // Werewolf
-    {
-        stats: { 
-            maxHitPoints: 950,
-            accuracy: 150,
-            dodge: 150,
-            attackSpeed: {
-                min: 750,
-                max: 1500,
-            },
-            attackDamage: {
-                min: 90,
-                max: 130,
-            },
-            armor: 15,
-            regeneration: 200,
-            critChanceModifier: 1,
-            critDamageModifier: 1,
-        }, 
-        rarity: 0,
-        crits: [{
-            damageMultiplier: 4,
-            odds: 6,
-        },
-        {
-            odds: 6,
-            buff: Buff.buffs[Buff.types.minstrel],
+            odds: 25,
+            buff: Buff.buffs[Buff.types.warlockBuff],
+            debuff: Buff.buffs[Buff.types.warlockDebuff],
         }],
         name: 'Warlock'
     }, // Warlock
+    // {
+    //     stats: { 
+    //         maxHitPoints: 1700,
+    //         accuracy: 125,
+    //         dodge: 150,
+    //         attackSpeed: {
+    //             min: 1250,
+    //             max: 2500,
+    //         },
+    //         attackDamage: {
+    //             min: 120,
+    //             max: 160,
+    //         },
+    //         armor: 80,
+    //         regeneration: 300,
+    //         critChanceModifier: 1,
+    //         critDamageModifier: 1,
+    //     }, 
+    //     rarity: 0,
+    //     crits: [{
+    //         damageMultiplier: 2,
+    //         odds: 15,
+    //     },
+    //     {
+    //         odds: 5,
+    //         buff: Buff.buffs[Buff.types.paladin],
+    //     }],
+    //     name: 'Paladin'
+    // }, // Paladin
     {
         stats: { 
-            maxHitPoints: 950,
-            accuracy: 150,
-            dodge: 150,
+            maxHitPoints: 1250,
+            accuracy: 175,
+            dodge: 175,
             attackSpeed: {
-                min: 750,
-                max: 1500,
+                min: 1000,
+                max: 2000,
             },
             attackDamage: {
-                min: 90,
-                max: 130,
+                min: 100,
+                max: 140,
             },
             armor: 15,
-            regeneration: 200,
+            regeneration: 300,
             critChanceModifier: 1,
             critDamageModifier: 1,
         }, 
@@ -420,156 +450,132 @@ export const characters: Character[] = [
             odds: 6,
         },
         {
-            odds: 6,
-            buff: Buff.buffs[Buff.types.minstrel],
-        }],
-        name: 'Paladin'
-    }, // Paladin
-    {
-        stats: { 
-            maxHitPoints: 950,
-            accuracy: 150,
-            dodge: 150,
-            attackSpeed: {
-                min: 750,
-                max: 1500,
-            },
-            attackDamage: {
-                min: 90,
-                max: 130,
-            },
-            armor: 15,
-            regeneration: 200,
-            critChanceModifier: 1,
-            critDamageModifier: 1,
-        }, 
-        rarity: 0,
-        crits: [{
-            damageMultiplier: 4,
-            odds: 6,
-        },
-        {
-            odds: 6,
-            buff: Buff.buffs[Buff.types.minstrel],
+            odds: 15,
+            buff: Buff.buffs[Buff.types.swashbucklerBuff],
         }],
         name: 'Swashbuckler'
     }, // Swashbuckler
     {
         stats: { 
-            maxHitPoints: 950,
-            accuracy: 150,
-            dodge: 150,
+            maxHitPoints: 2500,
+            accuracy: 50,
+            dodge: 50,
             attackSpeed: {
-                min: 750,
-                max: 1500,
+                min: 3000,
+                max: 6000,
             },
             attackDamage: {
-                min: 90,
-                max: 130,
+                min: 400,
+                max: 1200,
             },
-            armor: 15,
-            regeneration: 200,
+            armor: 50,
+            regeneration: 400,
             critChanceModifier: 1,
             critDamageModifier: 1,
         }, 
         rarity: 0,
         crits: [{
-            damageMultiplier: 4,
-            odds: 6,
+            damageMultiplier: 2,
+            odds: 25,
         },
         {
-            odds: 6,
-            buff: Buff.buffs[Buff.types.minstrel],
+            odds: 25,
+            debuff: Buff.buffs[Buff.types.dragon],
         }],
         name: 'Dragon'
     }, // Dragon
-    {
-        stats: { 
-            maxHitPoints: 950,
-            accuracy: 150,
-            dodge: 150,
-            attackSpeed: {
-                min: 750,
-                max: 1500,
-            },
-            attackDamage: {
-                min: 90,
-                max: 130,
-            },
-            armor: 15,
-            regeneration: 200,
-            critChanceModifier: 1,
-            critDamageModifier: 1,
-        }, 
-        rarity: 0,
-        crits: [{
-            damageMultiplier: 4,
-            odds: 6,
-        },
-        {
-            odds: 6,
-            buff: Buff.buffs[Buff.types.minstrel],
-        }],
-        name: 'Angel'
-    }, // Angel
-    {
-        stats: { 
-            maxHitPoints: 950,
-            accuracy: 150,
-            dodge: 150,
-            attackSpeed: {
-                min: 750,
-                max: 1500,
-            },
-            attackDamage: {
-                min: 90,
-                max: 130,
-            },
-            armor: 15,
-            regeneration: 200,
-            critChanceModifier: 1,
-            critDamageModifier: 1,
-        }, 
-        rarity: 0,
-        crits: [{
-            damageMultiplier: 4,
-            odds: 6,
-        },
-        {
-            odds: 6,
-            buff: Buff.buffs[Buff.types.minstrel],
-        }],
-        name: 'Phoenix'
-    }, // Phoenix
-    {
-        stats: { 
-            maxHitPoints: 950,
-            accuracy: 150,
-            dodge: 150,
-            attackSpeed: {
-                min: 750,
-                max: 1500,
-            },
-            attackDamage: {
-                min: 90,
-                max: 130,
-            },
-            armor: 15,
-            regeneration: 200,
-            critChanceModifier: 1,
-            critDamageModifier: 1,
-        }, 
-        rarity: 0,
-        crits: [{
-            damageMultiplier: 4,
-            odds: 6,
-        },
-        {
-            odds: 6,
-            buff: Buff.buffs[Buff.types.minstrel],
-        }],
-        name: 'Lich'
-    }, // Lich
+    // {
+    //     stats: { 
+    //         maxHitPoints: 2000,
+    //         accuracy: 100,
+    //         dodge: 250,
+    //         attackSpeed: {
+    //             min: 3000,
+    //             max: 6000,
+    //         },
+    //         attackDamage: {
+    //             min: 200,
+    //             max: 600,
+    //         },
+    //         armor: 0,
+    //         regeneration: 600,
+    //         critChanceModifier: 1,
+    //         critDamageModifier: 1,
+    //     }, 
+    //     rarity: 0,
+    //     crits: [{
+    //         damageMultiplier: 6,
+    //         odds: 4,
+    //     },
+    //     {
+    //         odds: 20,
+    //         buff: Buff.buffs[Buff.types.angel],
+    //     }],
+    //     name: 'Angel'
+    // }, // Angel
+    // {
+    //     stats: { 
+    //         maxHitPoints: 2000,
+    //         accuracy: 150,
+    //         dodge: 75,
+    //         attackSpeed: {
+    //             min: 500,
+    //             max: 1000,
+    //         },
+    //         attackDamage: {
+    //             min: 70,
+    //             max: 120,
+    //         },
+    //         armor: 30,
+    //         regeneration: 300,
+    //         critChanceModifier: 1,
+    //         critDamageModifier: 1,
+    //     }, 
+    //     rarity: 0,
+    //     crits: [{
+    //         damageMultiplier: 4,
+    //         odds: 6,
+    //     },
+    //     {
+    //         odds: 1,
+    //         buff: Buff.buffs[Buff.types.phoenix],
+    //     },
+    //     {
+    //         odds: 20,
+    //         debuff: Buff.buffs[Buff.types.phoenix1],
+    //     }],
+    //     name: 'Phoenix'
+    // }, // Phoenix
+    // {
+    //     stats: { 
+    //         maxHitPoints: 1000,
+    //         accuracy: 200,
+    //         dodge: 200,
+    //         attackSpeed: {
+    //             min: 1000,
+    //             max: 2000,
+    //         },
+    //         attackDamage: {
+    //             min: 90,
+    //             max: 130,
+    //         },
+    //         armor: 70,
+    //         regeneration: 300,
+    //         critChanceModifier: 1,
+    //         critDamageModifier: 1,
+    //     }, 
+    //     rarity: 0,
+    //     crits: [{
+    //         damageMultiplier: 6,
+    //         odds: 10,
+    //     },
+    //     {
+    //         odds: 10,
+    //         buff: Buff.buffs[Buff.types.lichBuff],
+    //         debuff: Buff.buffs[Buff.types.lichDebuff]
+    //     }],
+    //     name: 'Lich'
+    // }, // Lich
 ];
 
 // starting level of rarities

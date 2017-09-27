@@ -1,3 +1,4 @@
+import { SSL_OP_COOKIE_EXCHANGE } from 'constants';
 import { Damage, Dodge } from './fightEvents';
 import { Health } from './graphicsEvents';
 import { Message } from './frontEndMessage';
@@ -19,14 +20,6 @@ export interface Buff {
 }
 
 export const enum types {
-    // speedCritBuff       = 0,
-    // dodgeCritdeBuff     = 1,
-    // accuracyCritDebuff  = 2,
-    // armorCritDebuff     = 3,
-    // accuracyCritBuff    = 4,
-    // speedCritDebuff     = 5,
-    // damageCritDebuff    = 6,
-
     streetUrchin        = 0,
     sculleryMaid        = 1,
     sculleryMaid1       = 2,
@@ -40,12 +33,18 @@ export const enum types {
     barbarian           = 10,
     warpriest           = 11,
     werewolfBuff        = 12,
-    werewolfDebuff      = 13,
+    warlockBuff         = 13,
     warlockDebuff       = 14,
     paladin             = 15,
     swashbucklerBuff    = 16,
     swashbucklerDebuff  = 17,
-    dragon              = 18
+    dragon              = 18,
+    angel               = 19,
+    phoenix             = 20,
+    phoenix1            = 21,
+    lichBuff            = 22,
+    lichDebuff          = 23,
+    armorBonus          = 24
 }
 
 export const buffs: Buff[] = [
@@ -84,104 +83,105 @@ export const buffs: Buff[] = [
         art: 5,
         accuracy: 0,
     },// Minstrel
-    // {
-    //     duration: 15000,
-    //     art: 6,
-    //     armor: 0,
-    // },// Mage
-    // {
-    //     duration: 15000,
-    //     art: 7,
-    //     dodge: 1.5,
-    // },// Rogue
-    // {
-    //     duration: 15000,
-    //     art: 8,
-    //     attackDamage: 0.5,
-    //     armor: .25,
-    // },// Gladiator
-    // {
-    //     duration: 15000,
-    //     art: 9,
-    //     attackDamage: 8,
-    // },// Barbarian
-    // {
-    //     duration: 15000,
-    //     art: 10,
-    //     accuracy: 0.25,
-    //     dodge: 0.25,
-    //     attackDamage: 0.25,
-    //     critChanceModifier: .5,
-    // },// Warpriest
-    // {
-    //     duration: 15000,
-    //     art: 11,
-    //     attackSpeed: 4,
-    // },// Werewolf Buff
-    // {
-    //     duration: 15000,
-    //     art: 12,
-    //     dodge: 0.4,
-    // },// Werewolf Debuff
-    // {
-    //     duration: 15000,
-    //     art: 13,
-    //     dodge: 0,
-    //     attackDamage: 0.5,
-    //     armor: 0,
-    // },// Warlock Debuff
-    // {
-    //     duration: 15000,
-    //     art: 14,
-    //     armor: 6,
-    // },// Paladin
-    // {
-    //     duration: 15000,
-    //     art: 15,
-    //     attackSpeed: 2,
-    //     accuracy: 1.25,
-    //     critChanceModifier: 2,
-    // },// Swashbuckler Buff
-    // {
-    //     duration: 15000,
-    //     art: 16,
-    //     armor: 0.7,
-    // },// Swashbuckler Debuff
-    // {
-    //     duration: 15000,
-    //     art: 17,
-    // },// Dragon
-    // {
-    //     duration: 3000,
-    //     art: 0,
-    //     accuracy: 0.25,
-    //     dodge: 0.25,
-    //     attackSpeed: 0.25,
-    //     attackDamage: 0.25,
-    //     armor: 0.25,
-    //     regeneration: 0.25,
-    //     crit: 0.25
-    // },
-    // {
-    //     duration: 3000,
-    //     art: 0,
-    //     accuracy: 0.25,
-    //     dodge: 0.25,
-    //     attackSpeed: 0.25,
-    //     attackDamage: 0.25,
-    //     armor: 0.25,
-    //     regeneration: 0.25,
-    //     crit: 0.25
-    // },
-    // {
-    //     duration: 3000,
-    //     art: 0,
-    //     accuracy: 0.25,
-    //     dodge: 0.25,
-    //     attackSpeed: 0.25,
-    //     attackDamage: 0.25,
-    //     armor: 0.25,
-    //     regeneration: 0.25,
-    //     crit: 0.25
-    //}
+    {
+        duration: 10000,
+        art: 6,
+        armor: 0,
+    },// Mage
+    {
+        duration: 10000,
+        art: 7,
+        critDamageModifier: 4,
+    },// Rogue
+    {
+        duration: 10000,
+        art: 8,
+        dodge: 1.5,
+        armor: 1.5,
+    },// Gladiator
+    {
+        duration: 10000,
+        art: 9,
+        attackDamage: 2,
+    },// Barbarian
+    {
+        duration: 10000,
+        art: 10,
+        regeneration: 400,
+        armor: 2,
+    },// Warpriest
+    {
+        duration: 10000,
+        art: 11,
+        attackSpeed: .5,
+        attackDamage: 1.3,
+    },// Werewolf Buff
+    {
+        duration: 10000,
+        art: 12,
+        regeneration: 500,
+        accuracy: 2,
+        dodge: 2,
+        critDamageModifier: 4,
+    },// Warlock buff
+    {
+        duration: 10000,
+        art: 13,
+        accuracy: .25,
+        dodge: .25,
+    },// Warlock Debuff
+    {
+        duration: 10000,
+        art: 14,
+        dodge: 1.7,
+        armor: 1.9,
+    },// Paladin
+    {
+        duration: 10000,
+        art: 15,
+        attackSpeed: .3,
+        attackDamage: 1.25,
+        accuracy: 2,
+    },// Swashbuckler Buff
+    {
+        duration: 10000,        // NOT IN USE
+        art: 16,                // NOT IN USE
+        armor: 0.7,             // NOT IN USE
+    },// Swashbuckler Debuff       NOT IN USE
+    {
+        duration: 10000,
+        art: 17,
+        dodge: 0,
+    },// Dragon
+    {
+        duration: 10000,
+        art: 18,
+        regeneration: 400,
+    },// Angel
+    {
+        duration: 10000,
+        art: 19,
+        regeneration: 2000,
+    },// Phoenix
+    {
+        duration: 10000,
+        art: 20,
+        armor: 0,
+    },// Phoenix1
+    {
+        duration: 10000,
+        art: 21,
+        dodge: 2,
+        critDamageModifier: 2,
+    },// LichBuff
+    {
+        duration: 10000,
+        art: 21,
+        accuracy: .25,
+    },// LichDebuff
+    {
+        duration: 10000000,
+        art: 22,
+        armor: 1.5
+    },// ArmorBonus
 ];
