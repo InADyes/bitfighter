@@ -21,7 +21,6 @@ export class Player {
     private textQueue:      any[];
     private buffs:          number[];
     private buffGroup:      fabric.Group;
-    private currentbuff:    fabric.Image;
     private scale:          number; 
     private art = [
         "images/characters/stickFigures/0StreetUrchin.png",
@@ -97,25 +96,25 @@ export class Player {
     }
 
     private drawBuffs() {
-        this.canvas.remove(this.buffGroup);
+        if (this.buffGroup)
+            this.canvas.remove(this.buffGroup);
         this.buffGroup = new fabric.Group([],{
             left:0,
             top:0
         });
-        
-        for (let i = 0; i < this.buffs.length; i++)
-            {
-                this.currentbuff = new fabric.Image(this.buffArt[this.buffs[i]], {
+        this.canvas.add(this.buffGroup);
+        for (let i = 0; i < this.buffs.length; i++) {
+            new fabric.Image.fromURL(this.buffArt[this.buffs[i]], (oImg: fabric.Image) => {
+                let currentbuff = oImg.set({
                     left: !this.right ? (this.center - this.trueWidth + this.iconwidth * i) * this.scale  : (this.center+ this.iconwidth *i)*this.scale ,
                     top: this.icontop * this.scale,
                     height: 10,
                     width: 10
                 });
-                this.buffGroup.add(this.currentbuff);
-            }
-        console.log(this.buffGroup);
-        // draw the buffs here
-        this.canvas.add(this.buffGroup);
+                this.buffGroup.addWithUpdate(currentbuff);
+                this.canvas.renderAll();
+            });
+        }
     }
 
     public draw() {
