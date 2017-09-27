@@ -19,6 +19,7 @@ export class Player {
     private trueWidth:      number;
     private artIndex:       number;
     private textQueue:      any[];
+    private buffs:          number[];
     private scale:          number; 
     private art = [
         "images/characters/stickFigures/0StreetUrchin.png",
@@ -40,6 +41,11 @@ export class Player {
         "images/characters/stickFigures/16Phoenix.png",
         "images/characters/stickFigures/17Lich.png",
         "images/characters/stickFigures/18Angel.png"
+    ];
+    private buffArt = [
+        "images/icons/shield.png",
+        "images/icons/shield.png",
+        "images/icons/shield.png"
     ];
     private height =        70;
     private hpWidth =       5;
@@ -67,7 +73,25 @@ export class Player {
         this.scale = scale;
         this.center = this.canvas.getWidth() / 2;
         this.textQueue = [];
+        this.buffs = [];
         this.animationLock = 0;
+    }
+
+    public addBuff(buff: number, duration: number) {
+        this.buffs.push(buff);
+        console.log(`added! ${this.buffs}`);
+        this.drawBuffs();
+        setTimeout(() => {
+            // remove this particular buff from the array
+            let i = this.buffs.indexOf(buff);
+            if (i > -1)
+                this.buffs.splice(i, 1);
+            console.log(`removed! ${ this.buffs }`);
+        }, duration);
+    }
+
+    private drawBuffs() {
+        // draw the buffs here
     }
 
     public draw() {

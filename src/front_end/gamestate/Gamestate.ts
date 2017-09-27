@@ -155,4 +155,11 @@ export class GameState {
 			this.player2.setScale(this.scaleWait);
 		this.scaleWait = 0;
 	}
+
+	addBuff(art: number, duration: number, player2: number) {
+		if (player2)
+			this.player2.addBuff(art, duration);
+		else
+			this.player1.addBuff(art, duration);
+	}
 }
