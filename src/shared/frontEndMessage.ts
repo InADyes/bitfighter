@@ -1,6 +1,7 @@
 import { Event as GraphicsEvent } from './graphicsEvents';
 import { Character } from './characterPicker';
 import { Stats } from './Status';
+import { choiceStats } from '../back_end/characterChoiceHandler';
 
 // what gets sent to the front end
 
@@ -15,13 +16,13 @@ export interface Message { // needs name change
     patch?: number; // if this is defined then the reel is a patch at the specified time
 }
 
-export interface CharacterChoices {
-    characters: {
-        stats: Stats;
-        className: string;
-        art: number;
-        level: number;
-    }[]
+export interface CharacterCard {
+    stats: choiceStats;
+    baseHealth: number;
+    bonusHealth: number;
+    className: string;
+    art: number;
+    level: number;
 }
 
 export interface CharacterChoice {
@@ -34,11 +35,12 @@ export interface FrontEndSettings {
         y: number;
     };
     size: number;
+    cardsTimeout: number;
 }
 
 export interface BackToFrontMessage {
     newReel?: Message;
-    characterChoices?: CharacterChoices;
+    characterChoices?: CharacterCard[];
     id?: number;
 }
 

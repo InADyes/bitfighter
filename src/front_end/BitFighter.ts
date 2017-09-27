@@ -1,18 +1,25 @@
+import { characters } from '../shared/characterPicker';
 import { GameState } from './gamestate/Gamestate';
-import { BackToFrontMessage, FrontToBackMessage, CharacterChoice, FrontEndSettings as Settings } from '../shared/frontEndMessage';
-import { Stats } from '../shared/Status';
+import {
+    BackToFrontMessage,
+    CharacterCard,
+    CharacterChoice,
+    FrontEndSettings as Settings,
+    FrontToBackMessage,
+} from '../shared/frontEndMessage';
+import { choiceStats } from '../back_end/characterChoiceHandler';
 
 export class BitFighter {
     private readonly game: GameState;
     private canvas: HTMLCanvasElement = document.createElement('canvas');
     private cards: HTMLDivElement[] = [];
+    private timeout: number | null = null;
 
     constructor(
         private readonly wrapperDiv: HTMLDivElement,
         private settings: Settings,
         // todo: find out what gameslug is for
-        private readonly emitGameEvent: (gameSlug: string, message: FrontToBackMessage) => void,
-        private timeout: number | null = null
+        private readonly emitGameEvent: (gameSlug: string, message: FrontToBackMessage) => void
     ) {
         // build arena
         this.canvas.id = 'arena';
@@ -29,11 +36,10 @@ export class BitFighter {
             this.game.newMessage(data.newReel.reel, data.newReel.characters, data.newReel.patch);
         }
         if (data.characterChoices) {
-            const characters = data.characterChoices.characters;
             if (this.timeout) {
                 this.clearCards();
             }
-            this.cards = data.characterChoices.characters.map(c => buildCard(c.stats, c.className, c.art, c.level));
+            this.cards = data.characterChoices.map(c => buildCard(c));
             for (let i = 0; i < this.cards.length; i++) {
                 this.wrapperDiv.appendChild(this.cards[i]);
                 this.cards[i].addEventListener('click', () => {
@@ -49,7 +55,7 @@ export class BitFighter {
                 () => {
                     this.clearCards();
                 },
-                60000 // one minute
+                this.settings.cardsTimeout // one minute
             );
         }
     }
@@ -70,15 +76,15 @@ export class BitFighter {
     private updateScale() {
         const scale = this.wrapperDiv.offsetHeight / 400;
         this.wrapperDiv.style.fontSize = 12 * scale + 'px';
-        this.canvas.width = 500 * this.settings.size * scale;
-        this.canvas.height = 130 * this.settings.size * scale;
+        //this.canvas.width = 500 * this.settings.size * scale;
+        //this.canvas.height = 130 * this.settings.size * scale;
         this.canvas.style.left = `${ this.settings.position.x  * scale}px`;
         this.canvas.style.top = `${ this.settings.position.y  * scale}px`;
         this.game.setNewScale(scale);
     }
 }
 
-function buildCard(stats: Stats, className: string, art: number, level: number) {
+function buildCard(character: CharacterCard) {
     let card = document.createElement('div');
     let text = document.createElement('span');
     card.appendChild(text);
@@ -87,15 +93,16 @@ function buildCard(stats: Stats, className: string, art: number, level: number) 
     img.onload = () => {
         card.insertBefore(img, text);
     }
-    img.src = artURLs[art];
-    img.alt = className;
-    text.innerHTML = `${ className }
-    <br>Accuracy: ${ stats.accuracy }
-    <br>Dodge: ${ stats.dodge }
-    <br>Armor: ${ stats.armor }
-    <br>Damage: ${ stats.attackDamage.min } - ${ stats.attackDamage.max }
-    <br>Level: ${ level }
-    <br>Health: ${ stats.maxHitPoints }`;
+    img.src = artURLs[character.art];
+    img.alt = character.className;
+    text.innerHTML = `${ character.className }
+    <br>Accuracy: ${ character.stats.accuracy }
+    <br>Dodge: ${ character.stats.dodge }
+    <br>Armor: ${ character.stats.armor }
+    <br>Damage: ${ character.stats.damage }
+    <br>Level: ${ character.level }
+    <br>Health: ${ character.baseHealth }
+    <br>Bonus Health: ${ character.bonusHealth }`;
     card.className = 'character-card';
     return card;
 }
