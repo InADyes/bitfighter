@@ -20,6 +20,8 @@ export class Player {
     private artIndex:       number;
     private textQueue:      any[];
     private buffs:          number[];
+    private buffGroup:      fabric.Group;
+    private currentbuff:    fabric.Image;
     private scale:          number; 
     private art = [
         "images/characters/stickFigures/0StreetUrchin.png",
@@ -43,10 +45,10 @@ export class Player {
         "images/characters/stickFigures/18Angel.png"
     ];
     private buffArt = [
-        "images/icons/shield.png",
-        "images/icons/shield.png",
-        "images/icons/shield.png"
-    ];
+        "images/icons/buff1.png",
+        "images/icons/buff2.png",
+        "images/icons/buff3.png"
+    ]
     private height =        70;
     private hpWidth =       5;
     private textLock =      0;
@@ -55,6 +57,8 @@ export class Player {
     private strokeWidith =  2;
     private fontSize =      15;
     private font =          'Concert One'
+    private iconwidth =     10;
+    private icontop =       125;
 
     // Adjust these to move elements around
     private artAdjust =     0;
@@ -88,10 +92,29 @@ export class Player {
                 this.buffs.splice(i, 1);
             console.log(`removed! ${ this.buffs }`);
         }, duration);
+        this.drawBuffs();
     }
 
     private drawBuffs() {
+        this.canvas.remove(this.buffGroup);
+        this.buffGroup = new fabric.Group([],{
+            left:0,
+            top:0
+        });
+        
+        for (let i = 0; i < this.buffs.length; i++)
+            {
+                this.currentbuff = new fabric.Image(this.buffArt[this.buffs[i]], {
+                    left: !this.right ? (this.center - this.trueWidth + this.iconwidth * i) * this.scale  : (this.center+ this.iconwidth *i)*this.scale ,
+                    top: this.icontop * this.scale,
+                    height: 10,
+                    width: 10
+                });
+                this.buffGroup.add(this.currentbuff);
+            }
+        console.log(this.buffGroup);
         // draw the buffs here
+        this.canvas.add(this.buffGroup);
     }
 
     public draw() {
