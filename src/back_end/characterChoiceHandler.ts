@@ -80,7 +80,9 @@ export class CharacterChoiceHandler {
         donation: {
             id: number,
             name: string,
-            amount: number
+            amount: number,
+            profileImageURL: string,
+            chatMessage: string
         }
     ) {
         if (this.pendingCharacterChoices.find(c => c.id === donation.id) !== undefined)
@@ -121,7 +123,9 @@ export class CharacterChoiceHandler {
             id: donation.id,
             name: donation.name,
             amount: donation.amount,
-            character: characters.indexOf(c)
+            character: characters.indexOf(c),
+            profileImageURL: donation.profileImageURL,
+            chatMessage: donation.profileImageURL
         }));
         
         const timeout = window.setTimeout(

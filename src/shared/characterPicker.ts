@@ -599,8 +599,14 @@ export function buildStats(character: number, donation: number, level: number) :
 
 // i'm going to fix this i swear
 // donation.amount is assumed to be in bits
-export function pickCharacter(donation: {id: number, 
-    name: string, amount: number, character: number}) : Status {
+export function pickCharacter(donation: {
+    id: number, 
+    name: string,
+    amount: number,
+    character: number,
+    profileImageURL: string,
+    chatMessage: string
+}) : Status {
     let pick = donation.character % characters.length;
 
     let level = rarityLevel[characters[pick].rarity]; // 1 indexed
@@ -618,6 +624,8 @@ export function pickCharacter(donation: {id: number,
         donation.amount,
         stats.maxHitPoints,
         level,
-        stats
+        stats,
+        donation.profileImageURL,
+        donation.chatMessage
     )
 }

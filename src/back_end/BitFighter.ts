@@ -45,7 +45,7 @@ export class BitFighter {
         this.characterChoiceHandler.completeChoice(id, choice, true);
     }
 
-    public donation(id: number, name: string, amount: number) {
+    public donation(id: number, name: string, amount: number, profileImageURL: string, chatMessage: string) {
 
         // if the fight is ongoing
         if (this.timeout !== null) {
@@ -78,7 +78,7 @@ export class BitFighter {
         // if the donation is enough for a character and they aren't already in the queue
         if (this.queue.some(s => {return s.id === id;}) === false
             && amount >= this.settings.minimumDonation) {
-            this.characterChoiceHandler.requestChoice({id, name, amount});
+            this.characterChoiceHandler.requestChoice({id, name, amount, profileImageURL, chatMessage});
             return;
         }
 
@@ -129,7 +129,9 @@ export class BitFighter {
                 s.initialDonation,
                 s.hitPoints,
                 s.level,
-                s.baseStats
+                s.baseStats,
+                s.profileImageURL,
+                s.chatMessage
             );
         });
 
@@ -181,7 +183,9 @@ export class BitFighter {
                             name: c.name,
                             maxHitPoints: c.baseStats.maxHitPoints,
                             currentHitPoints: c.hitPoints,
-                            art: c.character
+                            art: c.character,
+                            profileImageURL: c.profileImageURL,
+                            chatMessage: c.chatMessage
                         }
                     }
                 ),

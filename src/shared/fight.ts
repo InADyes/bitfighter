@@ -14,7 +14,9 @@ export function buildFightEvents(stats: Status[]) {
             s.initialDonation,
             s.hitPoints,
             s.level,
-            s.baseStats
+            s.baseStats,
+            s.profileImageURL,
+            s.chatMessage
     ));
 
     const combatants = newStats.map((s, index) => new Combatant(
