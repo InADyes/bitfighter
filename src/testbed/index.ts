@@ -24,7 +24,7 @@ window.addEventListener('load', function(){
                 return;
             }
 
-            backend.frontEndSelection(id, message.characterChoice.choice);
+            backend.receivedFanGameState(id, message);
         }
     );
 

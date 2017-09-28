@@ -40,8 +40,8 @@ export class BitFighter {
             this.settings = settings;
     }
 
-    public frontEndSelection(id: number, choice: number) {
-        this.characterChoiceHandler.completeChoice(id, choice, true);
+    public receivedFanGameState(id: number, choice: frontEndMessage.FrontToBackMessage) {
+        this.characterChoiceHandler.completeChoice(id, choice.characterChoice.choice, true);
     }
     public donation(id: number, name: string, amount: number, profileImageURL: string, chatMessage: string) {
 
@@ -104,6 +104,7 @@ export class BitFighter {
         }
     }
     
+    // public for testing purposes (bypasses front end character choice)
     public newCombatant(status: Status) {
         this.queue.push(status)
         this.nextFight();
