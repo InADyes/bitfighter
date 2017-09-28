@@ -51,12 +51,12 @@ export function build(fight: FightEvents.Event[]) {
                 display.push(new GraphicsEvents.Health(
                     event.time,
                     event.character,
-                    (<FightEvents.Damage>event).amount
+                    (<FightEvents.Healing>event).amount
                 ));
                 display.push(new GraphicsEvents.Text(
                     event.time,
                     event.character,
-                    String((<FightEvents.Damage>event).amount),
+                    String((<FightEvents.Healing>event).amount),
                     'green'
                 ));
                 break;
@@ -106,14 +106,14 @@ export function build(fight: FightEvents.Event[]) {
                         event.time,
                         event.character,
                         'donation',
-                        'green'
+                        'yellow'
                     ));
                 } else {
                     display.push(new GraphicsEvents.Text(
                         event.time,
                         event.character,
                         'donation',
-                        'red'
+                        'yellow'
                     ));
                 }
                 break;
