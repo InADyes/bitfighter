@@ -305,6 +305,7 @@ export class Player {
                         this.canvas.remove(this.whiteBar);
                         this.canvas.remove(this.displayname);
                         this.canvas.remove(this.displaynametop);
+                        this.canvas.remove(this.buffGroup);
                         if (player2)
                             player2.moves();
                     }
