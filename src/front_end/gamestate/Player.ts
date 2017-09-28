@@ -419,6 +419,7 @@ export class Player {
         this.canvas.remove(this.whiteBar);
         this.canvas.remove(this.displayname);
         this.canvas.remove(this.displaynametop);
+        this.canvas.remove(this.buffGroup);
         this.img.animate(`left`, this.center - this.artAdjust - this.trueWidth / 2, {
             duration:800,
             onChange: this.canvas.renderAll.bind(this.canvas),
@@ -450,5 +451,7 @@ export class Player {
         return (this.animationLock ? true : false);
     }
 
-   
+   public clearBuffs(){
+       this.canvas.remove(this.buffGroup);
+   }
 }
