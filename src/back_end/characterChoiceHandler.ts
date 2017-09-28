@@ -12,11 +12,11 @@ export interface choiceStats {
 
 const cardStats: {[details: number]: choiceStats} = {
     [-1]: {
-        accuracy: 0,
-        dodge: 0,
-        armor: 0,
-        damage: 0,
-        attackSpeed: 0
+        accuracy: 5,
+        dodge: 4,
+        armor: 3,
+        damage: 10,
+        attackSpeed: 2
     },
     [characterTypes.scullaryMaid]: {
         accuracy: 5,

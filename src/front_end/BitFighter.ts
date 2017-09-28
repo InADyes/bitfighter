@@ -6,6 +6,7 @@ import {
     CharacterChoice,
     FrontEndSettings as Settings,
     FrontToBackMessage,
+    StatBarAmount
 } from '../shared/frontEndMessage';
 import { choiceStats } from '../back_end/characterChoiceHandler';
 
@@ -86,24 +87,62 @@ export class BitFighter {
 
 function buildCard(character: CharacterCard) {
     let card = document.createElement('div');
-    let text = document.createElement('span');
-    card.appendChild(text);
-    
-    let img = new Image();
-    img.onload = () => {
-        card.insertBefore(img, text);
-    }
-    img.src = artURLs[character.art];
-    img.alt = character.className;
-    text.innerHTML = `${ character.className }
-    <br>Accuracy: ${ character.stats.accuracy }
-    <br>Dodge: ${ character.stats.dodge }
-    <br>Armor: ${ character.stats.armor }
-    <br>Damage: ${ character.stats.damage }
-    <br>Level: ${ character.level }
-    <br>Health: ${ character.baseHealth }
-    <br>Bonus Health: ${ character.bonusHealth }
-    <br>Rarity: ${ character.rarity }`;
+    let stats = document.createElement('div');
+    stats.className = 'character-card-stats';
+    card.appendChild(stats);
+    // let img = new Image();
+    // img.onload = () => {
+        // card.insertBefore(img, stats);
+    // }
+    // img.src = artURLs[character.art];
+    // img.alt = character.className;
+
+    let charStats = Object.keys(character.stats).map(function(key, index){
+        let x = `
+        <div class="stat">
+            <div class="title">${key}:</div>
+            <div class="amount">
+                <div class="amount-int">  ${ character.stats[key] }</div>
+                ${healthBarSVG(   {amount: character.stats[key], factor:  10} )}
+            </div>
+        </div>`
+        return x;
+    }) 
+
+    stats.innerHTML = `
+    <div class="avatar">
+        <img src="${artURLs[character.art]}" alt="${character.className}">
+    </div>
+    <div class="stats-container">
+        <div class="header"> ${ character.className } </div>
+        ${charStats.join(' ')}
+        <div class="stat">
+            <div class="title">Level:</div>  
+            <div class="amount">
+                 <div class="amount-int">  ${ character.level }</div>
+            </div>
+        </div>
+        <div class="stat">
+            <div class="title">Health:</div> 
+            <div class="amount">
+                <div class="amount-int">  ${ character.baseHealth }    </div>
+                ${healthBarSVG({amount: character.baseHealth, factor: 0.1} )}
+            </div>
+        </div>
+        <div class="stat bonus">
+            <div class="title">Bonus Health:</div>
+            <div class="amount">
+                <div class="amount-int"> ${ character.bonusHealth } </div>
+                 ${healthBarSVG({amount: character.bonusHealth, factor: 0.1} )}
+            </div>
+        </div>
+        <div class="stat">
+            <div class="title">Rarity:</div>
+            <div class="amount">
+                <div class="amount-int">${ character.rarity } </div>
+            </div>
+        </div>
+    </div>`;
     card.className = 'character-card';
     return card;
 }
@@ -130,3 +169,38 @@ const artURLs = [
     "images/characters/stickFigures/17Lich.png",
     "images/characters/stickFigures/18Angel.png"
 ];
+
+
+function healthBarSVG(amount: StatBarAmount) {
+    return `
+    <svg class="stat-svg" 
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 300 50">
+        <defs>
+        <mask id="healthBarCutout">
+            <rect x="144.72" y="5" width="8" height="40" rx="2" ry="2"/>
+            
+            <rect x="130.25" y="5" width="8" height="40" rx="2" ry="2"/>
+            
+            <rect x="115.77" y="5" width="8" height="40" rx="2" ry="2"/>
+            
+            <rect x="101.3" y="5" width="8" height="40" rx="2" ry="2"/>
+            
+            <rect x="86.83" y="5" width="8" height="40" rx="2" ry="2"/>
+            
+            <rect x="72.36" y="5" width="8" height="40" rx="2" ry="2"/>
+            
+            <rect x="57.89" y="5" width="8" height="40" rx="2" ry="2"/>
+            
+            <rect x="43.42" y="5" width="8" height="40" rx="2" ry="2"/>
+            
+            <rect x="28.94" y="5" width="8" height="40" rx="2" ry="2"/>
+            
+            <rect x="14.47" y="5" width="8" height="40" rx="2" ry="2"/>
+            
+            <rect x="0" y="5" width="8" height="40" rx="2" ry="2"/>
+        </mask>
+        </defs>
+        <rect width="${ amount.amount * amount.factor }%" height="100%" mask="url(#healthBarCutout)" onLoad:(console.log('load rect'))/>
+    </svg>`;
+}

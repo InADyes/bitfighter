@@ -30,6 +30,7 @@ export interface CharacterChoice {
     choice: number;
 }
 
+
 export interface FrontEndSettings {
     position: {
         x: number;
@@ -47,4 +48,9 @@ export interface BackToFrontMessage {
 
 export interface FrontToBackMessage {
     characterChoice: CharacterChoice;
+}
+
+export interface StatBarAmount {
+    amount: number;
+    factor: number;
 }
