@@ -99,7 +99,7 @@ export class Player {
         this.buffs.push(buff);
         console.log(`added! ${this.buffs}`);
         this.drawBuffs();
-        setTimeout(() => {
+        window.setTimeout(() => {
             // remove this particular buff from the array
             let i = this.buffs.indexOf(buff);
             if (i > -1)
@@ -360,7 +360,7 @@ export class Player {
                 this.canvas.remove(textgroup);
             }
         });
-        setTimeout(() => {this.displayText()}, 300);
+        window.setTimeout(() => {this.displayText()}, 300);
     }
 
 	public healthbar(adjustment: number) {
@@ -382,13 +382,13 @@ export class Player {
             barChange = this.height - this.greenBar.height;
         else if (barChange + this.greenBar.height < 0)
             barChange = -this.greenBar.height;
-        console.log(`CHANGE HEALTH BY = ${ barChange }`);
+        //console.log(`CHANGE HEALTH BY = ${ barChange }`);
 
         if (this.greenBar.height <= 0)
             this.greenBar.height = 0;
         // Drop the green bar
         this.greenBar.animate('height', barChange >= 0 ? `+=${ barChange }` : `-=${ -barChange }` , {
-            duration: 1,
+            duration: barChange > 0 ? 500 : 1,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 // Have the yellow bar catch up to the green bar
@@ -449,5 +449,8 @@ export class Player {
         return (this.animationLock ? true : false);
     }
 
-   
+   public clearBuffs(){
+       this.canvas.remove(this.buffGroup);
+       this.buffs = [];
+   }
 }
