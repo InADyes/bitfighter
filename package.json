@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch",
-    "express": "node index.js"
+    "express": "node testbed.js"
   },
   "repository": {
     "type": "git",
