@@ -34,7 +34,7 @@ export class GameState {
 		if (patch && this.reel[0]) {
 			this.applyPatch(reel);
 		}
-		else {
+		else  {
 			this.clearMessage();
 			this.reel = reel;
 
