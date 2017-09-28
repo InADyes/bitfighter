@@ -44,24 +44,24 @@ export class Player {
         "images/characters/stickFigures/18Angel.png"
     ];
     private buffArt = [
-        "dist/images/icons/buff1.png",
-        "dist/images/icons/buff2.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
+        "images/icons/buff1.png",
+        "images/icons/buff2.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
     ]
     private height =        70;
     private hpWidth =       5;
@@ -305,6 +305,7 @@ export class Player {
                         this.canvas.remove(this.whiteBar);
                         this.canvas.remove(this.displayname);
                         this.canvas.remove(this.displaynametop);
+                        this.canvas.remove(this.buffGroup);
                         if (player2)
                             player2.moves();
                     }
