@@ -44,24 +44,24 @@ export class Player {
         "images/characters/stickFigures/18Angel.png"
     ];
     private buffArt = [
-        "dist/images/icons/buff1.png",
-        "dist/images/icons/buff2.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
-        "dist/images/icons/buff3.png",
+        "images/icons/buff1.png",
+        "images/icons/buff2.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
     ]
     private height =        70;
     private hpWidth =       5;
@@ -382,13 +382,13 @@ export class Player {
             barChange = this.height - this.greenBar.height;
         else if (barChange + this.greenBar.height < 0)
             barChange = -this.greenBar.height;
-        console.log(`CHANGE HEALTH BY = ${ barChange }`);
+        //console.log(`CHANGE HEALTH BY = ${ barChange }`);
 
         if (this.greenBar.height <= 0)
             this.greenBar.height = 0;
         // Drop the green bar
         this.greenBar.animate('height', barChange >= 0 ? `+=${ barChange }` : `-=${ -barChange }` , {
-            duration: 1,
+            duration: barChange > 0 ? 500 : 1,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 // Have the yellow bar catch up to the green bar
