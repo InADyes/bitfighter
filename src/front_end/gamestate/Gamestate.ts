@@ -15,10 +15,10 @@ export class GameState {
 	private reel:				Events.Event[];
 	private player1:			Player.Player;
 	private player2:			Player.Player;
-	private scale:				number;
-	private scaleWait:			number;
-	private isWaiting:			number;
 	private idleId:				number;
+	private scale =				1;
+	private scaleWait =			0;
+	private isWaiting =			0;
 	private baseWidth = 		500;
 	private baseHeight = 		180;
 
@@ -26,17 +26,6 @@ export class GameState {
 		this.canvas = new fabric.StaticCanvas(canvasId); // USE StaticCanvas for noninteractive
 		this.canvas.setWidth(this.baseWidth);
 		this.canvas.setWidth(this.baseHeight);
-		this.scale = 1;
-		this.scaleWait = 0;
-		this.isWaiting = 0;
-	}
-
-	private idleCheck() {
-		this.idleId = window.setTimeout(() => {this.switchToBitBoss()}, 30000);
-	}
-
-	private switchToBitBoss() {
-		console.log("SWITCH TO BIT BOSS");
 	}
 
 	public newMessage(reel: Events.Event[], characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[], patch?: number) {
@@ -141,6 +130,8 @@ export class GameState {
 		}
 		this.player1.clearBuffs();
 		this.player2.clearBuffs();
+
+		// Start checking if a fight idles too long to switch to bitboss
 		this.idleCheck();
 	}
 
@@ -174,10 +165,20 @@ export class GameState {
 		this.scaleWait = 0;
 	}
 
-	addBuff(art: number, duration: number, player2: number) {
+	public addBuff(art: number, duration: number, player2: number) {
 		if (player2)
 			this.player2.addBuff(art, duration);
 		else
 			this.player1.addBuff(art, duration);
+	}
+
+	private idleCheck() {
+		this.idleId = window.setTimeout(() => {this.switchToBitBoss()}, 30000);
+	}
+
+	private switchToBitBoss() {
+		console.log("SWITCH TO BIT BOSS");
+		//recalcHp(damageAmount: number, newHp: number, maxHp: number);
+		//flip('front');
 	}
 }
