@@ -19,6 +19,8 @@ export class Player {
     private trueWidth:      number;
     private artIndex:       number;
     private textQueue:      any[];
+    private buffs:          number[];
+    private buffGroup:      fabric.Group;
     private scale:          number; 
     private art = [
         "images/characters/stickFigures/0StreetUrchin.png",
@@ -41,6 +43,26 @@ export class Player {
         "images/characters/stickFigures/17Lich.png",
         "images/characters/stickFigures/18Angel.png"
     ];
+    private buffArt = [
+        "images/icons/buff1.png",
+        "images/icons/buff2.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+    ]
     private height =        70;
     private hpWidth =       5;
     private textLock =      0;
@@ -49,6 +71,8 @@ export class Player {
     private strokeWidith =  2;
     private fontSize =      15;
     private font =          'Concert One'
+    private iconwidth =     10;
+    private icontop =       135;
 
     // Adjust these to move elements around
     private artAdjust =     0;
@@ -67,7 +91,45 @@ export class Player {
         this.scale = scale;
         this.center = this.canvas.getWidth() / 2;
         this.textQueue = [];
+        this.buffs = [];
         this.animationLock = 0;
+    }
+
+    public addBuff(buff: number, duration: number) {
+        this.buffs.push(buff);
+        console.log(`added! ${this.buffs}`);
+        this.drawBuffs();
+        setTimeout(() => {
+            // remove this particular buff from the array
+            let i = this.buffs.indexOf(buff);
+            if (i > -1)
+                this.buffs.splice(i, 1);
+            console.log(`removed! ${ this.buffs }`);
+            this.drawBuffs();
+        }, duration);
+        this.drawBuffs();
+    }
+
+    private drawBuffs() {
+        if (this.buffGroup)
+            this.canvas.remove(this.buffGroup);
+        this.buffGroup = new fabric.Group([],{
+            left:0,
+            top:0
+        });
+        this.canvas.add(this.buffGroup);
+        for (let i = 0; i < this.buffs.length; i++) {
+            new fabric.Image.fromURL(this.buffArt[this.buffs[i]], (oImg: fabric.Image) => {
+                let currentbuff = oImg.set({
+                    left: !this.right ? this.center - this.trueWidth + this.iconwidth * i  : this.center  + this.iconwidth *(i+1) ,
+                    top: this.icontop * this.scale,
+                    height: 10,
+                    width: 10
+                });
+                this.buffGroup.addWithUpdate(currentbuff);
+                this.canvas.renderAll();
+            });
+        }
     }
 
     public draw() {
@@ -386,4 +448,6 @@ export class Player {
     public isAnimated() {
         return (this.animationLock ? true : false);
     }
+
+   
 }

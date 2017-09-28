@@ -38,4 +38,16 @@ window.addEventListener('load', function(){
                 console.error('unidentified storage event');
         }
     });
+
+    let x = <HTMLButtonElement>document.getElementById('addBuff');
+    x.addEventListener("click", ()=> {
+        let a = <HTMLInputElement>document.getElementById("duration");
+        let b = <HTMLInputElement>document.getElementById("art");
+        let c = <HTMLInputElement>document.getElementById("player");
+        let duration = Number(a.value);
+        let art = Number(b.value);
+        let player = Number(c.value);
+    
+        bifFighter.addBuff(art, duration, player);
+    });
 });

@@ -82,6 +82,11 @@ export class BitFighter {
         this.canvas.style.top = `${ this.settings.position.y  * scale}px`;
         this.game.setNewScale(scale);
     }
+
+    //TEMP
+    public addBuff(art: number, duration: number, player: number) {
+        this.game.addBuff(art, duration, player);
+    }
 }
 
 function buildCard(character: CharacterCard) {
@@ -130,3 +135,4 @@ const artURLs = [
     "images/characters/stickFigures/17Lich.png",
     "images/characters/stickFigures/18Angel.png"
 ];
+
