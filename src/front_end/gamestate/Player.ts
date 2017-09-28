@@ -46,7 +46,22 @@ export class Player {
     private buffArt = [
         "images/icons/buff1.png",
         "images/icons/buff2.png",
-        "images/icons/buff3.png"
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
+        "images/icons/buff3.png",
     ]
     private height =        70;
     private hpWidth =       5;
@@ -57,7 +72,7 @@ export class Player {
     private fontSize =      15;
     private font =          'Concert One'
     private iconwidth =     10;
-    private icontop =       133;
+    private icontop =       135;
 
     // Adjust these to move elements around
     private artAdjust =     0;
