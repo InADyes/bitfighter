@@ -193,7 +193,7 @@ export class BitFighter {
             }
         });
         
-        console.log('new fight: ', this);
+        console.log('new fight');
 
         if (this.timeout !== null) 
             window.clearTimeout(this.timeout);

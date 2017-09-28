@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('bad storage event value');
             return;
         }
+        console.log('storage event: ', e);
         switch(e.key) {
             case 'frontToBack':
                 const id = requestIDs.shift();
@@ -64,5 +65,6 @@ document.addEventListener('DOMContentLoaded', function() {
             default:
                 console.error('unidentified storage event');
         }
+        console.log('result state: ', game);
     });
 });
