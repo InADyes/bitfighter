@@ -17,12 +17,6 @@ export class BitFighter {
     private lastResults: Status[] = [];
     private lastEvents: FightEvents.Event[] = [];
     private queue: Status[] = [];
-    public settings: Settings = {
-        delayBetweenFights: 3000,
-        gameSpeedMultipier: 1,
-        minimumDonation: 1000,
-        donationToHPRatio: 1
-    };
 
     private characterChoiceHandler = new CharacterChoiceHandler(
         status => {
@@ -35,7 +29,12 @@ export class BitFighter {
 
     constructor(
         private sendMessageToFont: (message: frontEndMessage.BackToFrontMessage) => void,
-        settings?: Settings
+        public settings: Settings = {
+            delayBetweenFights: 3000,
+            gameSpeedMultipier: 1,
+            minimumDonation: 1000,
+            donationToHPRatio: 1
+        }
     ) {
         if (settings)
             this.settings = settings;
@@ -44,8 +43,8 @@ export class BitFighter {
     public frontEndSelection(id: number, choice: number) {
         this.characterChoiceHandler.completeChoice(id, choice, true);
     }
+    public donation(id: number, name: string, amount: number, profileImageURL: string, chatMessage: string) {
 
-    public donation(id: number, name: string, amount: number) {
 
         // if the fight is ongoing
         if (this.timeout !== null) {
@@ -78,7 +77,7 @@ export class BitFighter {
         // if the donation is enough for a character and they aren't already in the queue
         if (this.queue.some(s => {return s.id === id;}) === false
             && amount >= this.settings.minimumDonation) {
-            this.characterChoiceHandler.requestChoice({id, name, amount});
+            this.characterChoiceHandler.requestChoice({id, name, amount, profileImageURL, chatMessage});
             return;
         }
 
@@ -129,7 +128,9 @@ export class BitFighter {
                 s.initialDonation,
                 s.hitPoints,
                 s.level,
-                s.baseStats
+                s.baseStats,
+                s.profileImageURL,
+                s.chatMessage
             );
         });
 
@@ -141,7 +142,7 @@ export class BitFighter {
         results.reel.forEach(e => e.time += + 2000);
 
         // add the rest of the events to the old events
-        insert.concat(results.reel);
+        insert = insert.concat(results.reel);
         this.lastEvents = insert;
 
         this.pushLastResults(patchTime);
@@ -181,7 +182,9 @@ export class BitFighter {
                             name: c.name,
                             maxHitPoints: c.baseStats.maxHitPoints,
                             currentHitPoints: c.hitPoints,
-                            art: c.character
+                            art: c.character,
+                            profileImageURL: c.profileImageURL,
+                            chatMessage: c.chatMessage
                         }
                     }
                 ),

@@ -3,6 +3,7 @@ import { Status } from '../shared/Status';
 import { otherCharacter } from '../shared/utility';
 import { buildStats, levels } from '../shared/characterPicker';
 
+// also modifies events that would take health too high or low
 export function applyFightEvents(
     status: Status[],
     ...reel: FightEvents.Event[]
@@ -10,10 +11,20 @@ export function applyFightEvents(
     for (let event of reel) {
         switch (event.type) {
             case FightEvents.Types.damage:
+
+                // modification, todo: remove
+                if (status[event.character].hitPoints < (<FightEvents.Healing>event).amount)
+                    (<FightEvents.Healing>event).amount = status[event.character].hitPoints
                 status[event.character].hitPoints -= (<FightEvents.Healing>event).amount;
                 break;
             case FightEvents.Types.healing:
-                status[event.character].hitPoints += (<FightEvents.Healing>event).amount;
+                const char = status[event.character];
+                const healing = <FightEvents.Healing>event;
+
+                //modification: todo: remove
+                if (char.baseStats.maxHitPoints < char.hitPoints + healing.amount)
+                     healing.amount = char.baseStats.maxHitPoints - char.hitPoints;
+                char.hitPoints += (<FightEvents.Healing>event).amount;
                 break;
             case FightEvents.Types.crit:
                 const debuff = (<FightEvents.Crit>event).debuff;

@@ -11,6 +11,8 @@ export interface Message { // needs name change
         currentHitPoints: number;
         maxHitPoints: number;
         art: number;
+        profileImageURL: string;
+        chatMessage: string;
     }[];
     reel: GraphicsEvent[];
     patch?: number; // if this is defined then the reel is a patch at the specified time

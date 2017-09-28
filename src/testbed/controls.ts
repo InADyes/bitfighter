@@ -17,9 +17,9 @@ document.addEventListener('DOMContentLoaded', function() {
         idInputNode.value = String(id + 1);
 
         if (art <= -1)
-            game.donation(id, name, amount);
+            game.donation(id, name, amount, 'todo: url goes here', 'how\'re you doin\'?');
         else
-            game.newCombatant(pickCharacter({id, name, amount, character: art}));
+            game.newCombatant(pickCharacter({id, name, amount, character: art, profileImageURL: 'todo: url goes here', chatMessage: 'how\'re you doin\'?'}));
     });
 
     let requestIDs: number[] = [];
