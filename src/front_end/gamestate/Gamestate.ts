@@ -124,6 +124,8 @@ export class GameState {
 		else{
 			this.player1.dies(this.player2)
 		}
+		this.player1.clearBuffs();
+		this.player2.clearBuffs();
 	}
 
 	public displayText(p2: number, str: string, color: string) {
