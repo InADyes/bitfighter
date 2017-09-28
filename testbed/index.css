@@ -35,7 +35,7 @@ body {
 	height: 56.24vw;
 }
 
-.character-card {
+#bitfighter > .character-card {
 	background-color: white;
 	border-radius: 2%;
 	margin: 0.7vw;
@@ -48,22 +48,8 @@ body {
 	cursor: pointer;
 }
 
-.character-card > img {
+#bitfighter > .character-card > img {
 	float: left;
 	max-height: 40%;
 	max-width: 60%;
-}
-
-#wrapper {
-	border: 2px solid red;
-	width: 610px;
-	height: 410px;
-	left: 0px;
-	top: 0px;
-}
-
-#myimage {
-	position: absolute;
-	top: 7px;
-	left: 7px;
 }

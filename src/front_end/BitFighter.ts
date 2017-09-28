@@ -107,7 +107,8 @@ function buildCard(character: CharacterCard) {
     <br>Damage: ${ character.stats.damage }
     <br>Level: ${ character.level }
     <br>Health: ${ character.baseHealth }
-    <br>Bonus Health: ${ character.bonusHealth }`;
+    <br>Bonus Health: ${ character.bonusHealth }
+    <br>Rarity: ${ character.rarity }`;
     card.className = 'character-card';
     return card;
 }

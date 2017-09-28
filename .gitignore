@@ -5,6 +5,7 @@
 
 # compiled
 /dist/**/*.js
+/testbed/**/*.js
 *.map
 
 # visual studio code settings

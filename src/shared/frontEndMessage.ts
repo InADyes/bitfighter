@@ -23,6 +23,7 @@ export interface CharacterCard {
     className: string;
     art: number;
     level: number;
+    rarity: number;
 }
 
 export interface CharacterChoice {
