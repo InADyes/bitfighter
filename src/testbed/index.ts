@@ -1,10 +1,12 @@
-import { BitFighter } from '../front_end/BitFighter';
+import { pickCharacter } from '../shared/characterPicker';
+import { BitFighter as BitFighterBack } from '../back_end/BitFighter';
+import { BitFighter as BitFighterFront } from '../front_end/BitFighter';
 import { BackToFrontMessage, FrontToBackMessage, CharacterChoice, FrontEndSettings as Settings } from '../shared/frontEndMessage';
 
 window.addEventListener('load', function(){
     const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
 
-    const bifFighter = new BitFighter(
+    const frontend = new BitFighterFront(
         wrapperDiv,
         {
             position: {
@@ -15,29 +17,37 @@ window.addEventListener('load', function(){
             cardsTimeout: 60000
         },
         (slug, message) => {
-            localStorage.setItem('frontToBack', JSON.stringify(message));
+            const id = requestIDs.shift()
+
+            if (id == undefined) {
+                console.log('no id in queue');
+                return;
+            }
+
+            backend.frontEndSelection(id, message.characterChoice.choice);
         }
     );
 
-
-    window.addEventListener('storage', (e) => {
-        console.log(e)
-        const str = e.newValue;
-        if (str == undefined) {
-            console.error('bad storage event value');
-            return;
+    let requestIDs: number[] = [];
+    
+    const backend = new BitFighterBack(
+        message => {
+            if (message.characterChoices) {
+                if (message.id === undefined) {
+                    console.error('shouldn\'t push character choice to everyone');
+                    return;
+                }
+                requestIDs.push(message.id);
+            }
+            frontend.recievedViewerGameState(message);
+        },
+        {
+            delayBetweenFights: 3000,
+            gameSpeedMultipier: 1,
+            minimumDonation: 1000,
+            donationToHPRatio: 1
         }
-        switch(e.key) {
-            case 'backToFront':
-                const data = <BackToFrontMessage>JSON.parse(str);
-                console.log(data);
-                bifFighter.recievedViewerGameState(data);
-            case 'frontToBack':
-                break;
-            default:
-                console.error('unidentified storage event');
-        }
-    });
+    );
 
     let x = <HTMLButtonElement>document.getElementById('addBuff');
     x.addEventListener("click", ()=> {
@@ -48,6 +58,25 @@ window.addEventListener('load', function(){
         let art = Number(b.value);
         let player = Number(c.value);
     
-        bifFighter.addBuff(art, duration, player);
+        frontend.addBuff(art, duration, player);
+    });
+    const newDonationButton = <HTMLButtonElement>document.getElementById('new-donation');
+    const nameInputNode = <HTMLInputElement>document.getElementById('donation-name');
+    const idInputNode = <HTMLInputElement>document.getElementById('donation-id');
+    const bitsInputNode = <HTMLInputElement>document.getElementById('donation-bits');
+    const artInputNode = <HTMLInputElement>document.getElementById('donation-art');
+    newDonationButton.addEventListener('click', element => {
+        const id = Number(idInputNode.value);
+        const name = nameInputNode.value;
+        const amount = Number(bitsInputNode.value);
+        const art = Number(artInputNode.value);
+
+        idInputNode.value = String(id + 1);
+
+        if (art <= -1)
+            backend.donation(id, name, amount, 'todo: url goes here', 'how\'re you doin\'?');
+        else
+            backend.newCombatant(pickCharacter({id, name, amount, character: art, profileImageURL: 'todo: url goes here', chatMessage: 'how\'re you doin\'?'}));
     });
 });
+
