@@ -45,7 +45,9 @@ export function buildFightEvents(stats: Status[]) {
     }
 
     newStats.forEach(s => s.clearBuffs());
-    combatants.filter(c => c.status == newStats[0])[0].heal();
+    let winner = combatants.filter(c => c.status == newStats[0])[0];
+    winner.time += 1000;
+    winner.heal(); //todo: maybe should be done in front end
 
     return { combatants: newStats, reel }
 }
