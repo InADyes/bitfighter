@@ -83,7 +83,7 @@ export class BitFighter {
 
 
         // if there was a last fight, damage current champion
-        if (this.lastCombatants.length > 1) {
+        if (this.lastCombatants.length > 0) {
             const patchTime = performance.now() - this.fightStartTime;
 
             this.insertEvents(
@@ -121,19 +121,17 @@ export class BitFighter {
         );
         
         // create a temporary copy of status
-        let tempStatus = this.lastCombatants.map( s => {
-            return new Status(
-                s.id,
-                s.name,
-                s.character,
-                s.initialDonation,
-                s.hitPoints,
-                s.level,
-                s.baseStats,
-                s.profileImageURL,
-                s.chatMessage
-            );
-        });
+        let tempStatus = this.lastCombatants.map(s => new Status(
+            s.id,
+            s.name,
+            s.character,
+            s.initialDonation,
+            s.hitPoints,
+            s.level,
+            s.baseStats,
+            s.profileImageURL,
+            s.chatMessage
+        ));
 
         // apply new events
         applyFightEvents(tempStatus, ...insert);
@@ -155,11 +153,6 @@ export class BitFighter {
         
         if (this.timeout != null) {
             console.log('cannot start fight: fight already in progress');
-            return ;
-        }
-
-        if (this.lastResults.length + this.queue.length < 2) {
-            console.log('cannot start fight: not enough combatants');
             return ;
         }
 
@@ -198,13 +191,15 @@ export class BitFighter {
         if (this.timeout !== null) 
             window.clearTimeout(this.timeout);
 
-        this.timeout = window.setTimeout(
-            () => {
-                console.log('fight over');
-                this.timeout = null;
-                this.nextFight();
-            },
-            graphicsEvents[graphicsEvents.length - 1].time + this.settings.delayBetweenFights
-        );
+        if (this.lastCombatants.length > 1) {
+            this.timeout = window.setTimeout(
+                () => {
+                    console.log('fight over');
+                    this.timeout = null;
+                    this.nextFight();
+                },
+                graphicsEvents[0] ? graphicsEvents[graphicsEvents.length - 1].time : + this.settings.delayBetweenFights
+            );
+        }
     }
 }

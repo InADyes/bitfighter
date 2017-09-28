@@ -33,7 +33,7 @@ export function buildFightEvents(stats: Status[]) {
     ));
 
     if (combatants.length < 2) {
-        console.error('not enough combatants to fight');
+        console.log('not enough combatants to fight');
         return {combatants: stats, reel};
     }
 
