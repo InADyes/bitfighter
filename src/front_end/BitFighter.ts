@@ -30,7 +30,7 @@ export class BitFighter {
         this.updateSettings(settings);
         window.addEventListener('resize', () => {
             this.updateScale();
-        })
+        });
     }
     public recievedViewerGameState(data: BackToFrontMessage) {
         if (data.newReel) {
