@@ -99,7 +99,7 @@ export class Player {
         this.buffs.push(buff);
         console.log(`added! ${this.buffs}`);
         this.drawBuffs();
-        setTimeout(() => {
+        window.setTimeout(() => {
             // remove this particular buff from the array
             let i = this.buffs.indexOf(buff);
             if (i > -1)
@@ -305,7 +305,6 @@ export class Player {
                         this.canvas.remove(this.whiteBar);
                         this.canvas.remove(this.displayname);
                         this.canvas.remove(this.displaynametop);
-                        this.canvas.remove(this.buffGroup);
                         if (player2)
                             player2.moves();
                     }
@@ -361,7 +360,7 @@ export class Player {
                 this.canvas.remove(textgroup);
             }
         });
-        setTimeout(() => {this.displayText()}, 300);
+        window.setTimeout(() => {this.displayText()}, 300);
     }
 
 	public healthbar(adjustment: number) {
@@ -419,7 +418,6 @@ export class Player {
         this.canvas.remove(this.whiteBar);
         this.canvas.remove(this.displayname);
         this.canvas.remove(this.displaynametop);
-        this.canvas.remove(this.buffGroup);
         this.img.animate(`left`, this.center - this.artAdjust - this.trueWidth / 2, {
             duration:800,
             onChange: this.canvas.renderAll.bind(this.canvas),
@@ -453,5 +451,6 @@ export class Player {
 
    public clearBuffs(){
        this.canvas.remove(this.buffGroup);
+       this.buffs = [];
    }
 }

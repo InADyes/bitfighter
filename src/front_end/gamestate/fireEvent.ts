@@ -13,7 +13,7 @@ export function fireEvent(event: GraphicsEvents.Event, gameState: GameState){
             gameState.attack(char);
             break;
         case GraphicsEvents.EventType.Clear:
-            //console.log(`CHARACTER ${ char } DIES`);
+            console.log(`CHARACTER ${ char } DIES`);
             gameState.slay(char);
             break;
         case GraphicsEvents.EventType.Text:
