@@ -70,9 +70,9 @@ export class Player {
     private strokeWidith =  2;
     private fontSize =      15;
     private font =          'Concert One'
-    private iconwidth =     10;
+    private iconwidth =     15;
     private icontop =       135;
-    private iconsize =      10;
+    private iconsize =      15;
 
     // Adjust these to move elements around
     private artAdjust =     0;
@@ -119,7 +119,7 @@ export class Player {
         for (let i = 0; i < this.buffs.length; i++) {
             new fabric.Image.fromURL(this.buffArt[this.buffs[i]], (oImg: fabric.Image) => {
                 let currentbuff = oImg.set({
-                    left: !this.right ? this.center - this.trueWidth + this.iconwidth * (i % 8)  : this.center  + this.iconwidth *(i%8+1) ,
+                    left: !this.right ? this.center - this.trueWidth + this.iconwidth * (i % 8)  : this.center  + this.iconwidth *(i%8+1),
                     top: i < 8? this.icontop * this.scale: (this.icontop + this.iconsize * Math.floor(i/8)) *this.scale,
                     height: this.iconsize * this.scale,
                     width: this.iconsize * this.scale
