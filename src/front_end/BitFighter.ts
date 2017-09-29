@@ -139,7 +139,7 @@ function buildCard(character: CharacterCard) {
         <div class="stat">
             <div class="title">Rarity:</div>
             <div class="amount">
-                ${ formatRarity(character.rarity) }
+                ${ formatRarity[character.rarity] }
             </div>
         </div>
     </div>`;
@@ -194,25 +194,9 @@ function healthBarSVG(amount: StatBarAmount) {
     </svg>`;
 }
 
-function formatRarity(rarityIndex: RarityIndex) {
-    switch(rarityIndex) {
-        case 0:
-            return 'Common';
-            break;
-        case 1:
-            return 'Uncommon';
-            break;
-        case 2:
-            return 'Rare'
-            break;
-        case 3:
-            return 'Mythic'
-            break;
-        default:
-         return   rarityIndex
-    }
-}
-
-export interface RarityIndex {
-    rarityIndex: number;
-}
+const formatRarity  = {
+    '0': 'Common',
+    '1': 'Uncommon',
+    '2': 'Rare',
+    '3': 'Mythic'
+} 
