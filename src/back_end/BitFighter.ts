@@ -179,15 +179,14 @@ export class BitFighter {
 
         this.sendMessageToFont({
             newReel: {
-                    characters: this.lastCombatants.map(c => {return {
-                            name: c.name,
-                            maxHitPoints: c.baseStats.maxHitPoints,
-                            currentHitPoints: c.hitPoints,
-                            art: c.character,
-                            profileImageURL: c.profileImageURL,
-                            chatMessage: c.chatMessage
-                        }
-                    }
+                    characters: this.lastCombatants.map(c => ({
+                        name: c.name,
+                        maxHitPoints: c.baseStats.maxHitPoints,
+                        currentHitPoints: c.hitPoints,
+                        art: c.character,
+                        profileImageURL: c.profileImageURL,
+                        chatMessage: c.chatMessage
+                    })
                 ),
                 reel: graphicsEvents,
                 patch: patchTime

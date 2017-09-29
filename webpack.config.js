@@ -23,8 +23,7 @@ module.exports = [
     },   
     {
         entry: {
-            index: './src/testbed/index.ts',
-            controls: './src/testbed/controls.ts'
+            index: './src/testbed/index.ts'
         },
         output: {
             filename: './testbed/js/[name].bundle.js'
