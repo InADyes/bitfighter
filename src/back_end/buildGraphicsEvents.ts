@@ -8,7 +8,7 @@ import { otherCharacter } from '../shared/utility';
 const eventOrder = {
     [GraphicsEvents.EventType.Attack]: 1,
     [GraphicsEvents.EventType.Buff]: 1,
-    [GraphicsEvents.EventType.Clear]: 0,
+    [GraphicsEvents.EventType.Clear]: 2,
     [GraphicsEvents.EventType.Health]: 1,
     [GraphicsEvents.EventType.Text]: 1
 }

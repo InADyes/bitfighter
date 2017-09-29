@@ -39,13 +39,8 @@ window.addEventListener('load', function(){
                 }
                 requestIDs.push(message.id);
             }
+            console.log('message, back to front:', message);
             frontend.recievedViewerGameState(message);
-        },
-        {
-            delayBetweenFights: 3000,
-            gameSpeedMultipier: 1,
-            minimumDonation: 1000,
-            donationToHPRatio: 1
         }
     );
 
@@ -61,6 +56,7 @@ window.addEventListener('load', function(){
     
         frontend.addBuff(art, duration, player);
     });
+
     const newDonationButton = <HTMLButtonElement>document.getElementById('new-donation');
     const nameInputNode = <HTMLInputElement>document.getElementById('donation-name');
     const idInputNode = <HTMLInputElement>document.getElementById('donation-id');
