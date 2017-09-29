@@ -402,8 +402,7 @@ export class Player {
                         this.canvas.remove(this.displaynametop);
                         if (player2)
                             player2.moves();
-                        else
-                            this.animationLock = 0;
+                        this.animationLock = 0;
                     }
                 });
             }
@@ -411,7 +410,6 @@ export class Player {
     }
 
     public moves(){
-        this.animates();
         this.canvas.remove(this.healthtext);
         this.canvas.remove(this.greenBar);
         this.canvas.remove(this.yellowBar);

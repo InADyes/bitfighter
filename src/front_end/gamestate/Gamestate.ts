@@ -34,6 +34,7 @@ export class GameState {
 		// Don't do anything if a character is animated
 		if ((this.player1 && this.player1.isAnimated()) || (this.player2 && this.player2.isAnimated())) {
 			window.setTimeout(() => {this.newMessage(reel, characters, patch)}, 1);
+			console.log("waiting");
 			return;
 		}
 
@@ -143,8 +144,8 @@ export class GameState {
 			this.player1.clearBuffs();
 			if (this.player2)
 				this.player2.clearBuffs();
-			this.player1 = this.player2;
-			this.player1 = null;
+			//this.player1 = this.player2;
+			//this.player2 = null;
 		}
 
 		// Start checking if a fight idles too long to switch to bitboss
