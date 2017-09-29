@@ -8,30 +8,80 @@ export interface choiceStats {
     armor: number;
     damage: number;
     attackSpeed: number;
+    //TODO: Add Weapon Type variable to Cards. - SHAWN
 }
 
 const cardStats: {[details: number]: choiceStats} = {
-    [-1]: {
-        accuracy: 5,
+    [characterTypes.scullaryMaid]: {
+        accuracy: 6,
+        dodge: 6,
+        armor: 5,
+        damage: 5,
+        attackSpeed: 5
+    },
+    [characterTypes.barkeep]: {
+        accuracy: 3,
         dodge: 4,
+        armor: 8,
+        damage: 6,
+        attackSpeed: 3
+    },
+    [characterTypes.medium]: {
+        accuracy: 5,
+        dodge: 6,
+        armor: 1,
+        damage: 3,
+        attackSpeed: 7
+    },
+    [characterTypes.minstrel]: {
+        accuracy: 5,
+        dodge: 6,
+        armor: 2,
+        damage: 5,
+        attackSpeed: 8
+    },
+    [characterTypes.mage]: {
+        accuracy: 10,
+        dodge: 4,
+        armor: 5,
+        damage: 2,
+        attackSpeed: 10
+    },
+    [characterTypes.rogue]: {
+        accuracy: 8,
+        dodge: 8,
         armor: 3,
-        damage: 10,
+        damage: 1,
+        attackSpeed: 9
+    },
+    [characterTypes.warpriest]: {
+        accuracy: 3,
+        dodge: 3,
+        armor: 10,
+        damage: 3,
+        attackSpeed: 4
+    },
+    [characterTypes.warlock]: {
+        accuracy: 2,
+        dodge: 2,
+        armor: 5,
+        damage: 9,
         attackSpeed: 2
     },
-    [characterTypes.scullaryMaid]: {
-        accuracy: 5,
-        dodge: 4,
+    [characterTypes.swashbuckler]: {
+        accuracy: 7,
+        dodge: 8,
         armor: 3,
-        damage: 2,
+        damage: 6,
+        attackSpeed: 6
+    },
+    [characterTypes.dragon]: {
+        accuracy: 1,
+        dodge: 1,
+        armor: 8,
+        damage: 10,
         attackSpeed: 1
     },
-    [characterTypes.streetUrchin]: {
-        accuracy: 5,
-        dodge: 4,
-        armor: 3,
-        damage: 2,
-        attackSpeed: 1
-    }
 }
 
 interface DonationTier {
@@ -49,8 +99,6 @@ const enum e_rarity {
 
 const rarities = [0, 1, 2, 3];
 
-e_rarity.common
-
 const tiers: DonationTier[] = [
     {
         donation: 200,
@@ -61,6 +109,46 @@ const tiers: DonationTier[] = [
             [e_rarity.legendary]: 0.5
         },
         cards: 3
+    },
+    {
+        donation: 500,
+        odds: {
+            [e_rarity.common]: 5,
+            [e_rarity.rare]: 6,
+            [e_rarity.epic]: 7.5,
+            [e_rarity.legendary]: 2.5
+        },
+        cards: 4
+    },
+    {
+        donation: 1000,
+        odds: {
+            [e_rarity.common]: 0,
+            [e_rarity.rare]: 9,
+            [e_rarity.epic]: 8.75,
+            [e_rarity.legendary]: 5
+        },
+        cards: 5
+    },
+    {
+        donation: 5000,
+        odds: {
+            [e_rarity.common]: 0,
+            [e_rarity.rare]: 6,
+            [e_rarity.epic]: 10,
+            [e_rarity.legendary]: 7.5
+        },
+        cards: 6
+    },
+    {
+        donation: 1000,
+        odds: {
+            [e_rarity.common]: 0,
+            [e_rarity.rare]: 0,
+            [e_rarity.epic]: 15,
+            [e_rarity.legendary]: 10
+        },
+        cards: 7
     }
 ];
 

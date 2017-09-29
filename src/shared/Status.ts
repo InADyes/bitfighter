@@ -42,11 +42,16 @@ export class Status {
     }
     addEffect(expires: number, buff: Buff.Buff) {
         this.buffs.push({expires: expires, buff: buff});
+        this.recalc();
     }
     checkBuffs(time: number) {
+        let change = false;
         this.buffs = this.buffs.filter(buff => {
             buff.expires > time;
+            change = true;
         });
+        if (change)
+            this.recalc();
     }
     clearBuffs() {
         this.buffs = [];
