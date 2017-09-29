@@ -97,14 +97,12 @@ export class Player {
 
     public addBuff(buff: number, duration: number) {
         this.buffs.push(buff);
-        console.log(`added! ${this.buffs}`);
         this.drawBuffs();
         window.setTimeout(() => {
             // remove this particular buff from the array
             let i = this.buffs.indexOf(buff);
             if (i > -1)
                 this.buffs.splice(i, 1);
-            console.log(`removed! ${ this.buffs }`);
             this.drawBuffs();
         }, duration);
         this.drawBuffs();
@@ -429,7 +427,7 @@ export class Player {
                 this.drawHealthText();
                 this.drawHpBar();
                 this.drawname();
-                this.animationLock = 0;
+                //this.animationLock = 0;
             }
         });        
     }
