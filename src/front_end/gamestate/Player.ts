@@ -73,6 +73,7 @@ export class Player {
     private font =          'Concert One'
     private iconwidth =     10;
     private icontop =       135;
+    private iconsize =      10;
 
     // Adjust these to move elements around
     private artAdjust =     0;
@@ -121,8 +122,8 @@ export class Player {
                 let currentbuff = oImg.set({
                     left: !this.right ? this.center - this.trueWidth + this.iconwidth * i  : this.center  + this.iconwidth *(i+1) ,
                     top: this.icontop * this.scale,
-                    height: 10,
-                    width: 10
+                    height: this.iconsize * this.scale,
+                    width: this.iconsize * this.scale
                 });
                 this.buffGroup.addWithUpdate(currentbuff);
                 this.canvas.renderAll();
