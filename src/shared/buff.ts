@@ -79,7 +79,7 @@ export const buffs: Buff[] = [
         attackDamage: 2,
     },// Aristocrat
     {
-        duration: 10000,
+        duration: 3000,
         art: 5,
         accuracy: 0,
     },// Minstrel
@@ -139,7 +139,8 @@ export const buffs: Buff[] = [
     {
         duration: 10000,
         art: 15,
-        attackSpeed: .9,
+        dodge: 1.10,
+        accuracy: 1.10
     },// Swashbuckler Buff
     {
         duration: 10000,        // NOT IN USE
