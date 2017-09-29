@@ -39,6 +39,7 @@ window.addEventListener('load', function(){
                 }
                 requestIDs.push(message.id);
             }
+            console.log('message, back to front:', message);
             frontend.recievedViewerGameState(message);
         }
     );

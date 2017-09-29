@@ -119,6 +119,11 @@ export class BitFighter {
             );
         }
     }
+
+    public checkQueue() {
+        if (this.queue.length > 0)
+            this.nextFight();
+    }
     
     // public for testing purposes (bypasses front end character choice)
     public newCombatant(status: Status) {
@@ -204,15 +209,15 @@ export class BitFighter {
         
         console.log('new fight');
 
-        if (this.timeout !== null) 
-            window.clearTimeout(this.timeout);
-
         if (this.lastCombatants.length > 1) {
+            if (this.timeout !== null) 
+                window.clearTimeout(this.timeout);
+
             this.timeout = window.setTimeout(
                 () => {
                     console.log('fight over');
                     this.timeout = null;
-                    this.nextFight();
+                    this.checkQueue();
                 },
                 graphicsEvents[0] ? graphicsEvents[graphicsEvents.length - 1].time : + this.settings.delayBetweenFights
             );
