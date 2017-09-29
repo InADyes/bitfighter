@@ -10,48 +10,43 @@ import { applyFightEvents } from '../shared/applyFightEvents'
 
 import { CharacterChoiceHandler } from './characterChoiceHandler';
 
-export class Game {
+export class BitFighter {
     private fightStartTime: number = 0;
-    private timeout: NodeJS.Timer | null = null; // null if no timeout
+    private timeout: number | null = null; // null if no timeout
     private lastCombatants: Status[] = [];
     private lastResults: Status[] = [];
     private lastEvents: FightEvents.Event[] = [];
     private queue: Status[] = [];
-    public settings: Settings = {
-        delayBetweenFights: 3000,
-        gameSpeedMultipier: 1,
-        minimumDonation: 1000,
-        donationToHPRatio: 1
-    };
 
     private characterChoiceHandler = new CharacterChoiceHandler(
-        (donation) => {
-            this.newCombatant(donation);
+        status => {
+            this.newCombatant(status);
         },
-        this.requestCharacterChoice
+        (characterChoices, id) => {
+            this.sendMessageToFont({characterChoices, id});
+        }
     );
 
     constructor(
-        private sendFightMessage: (message: frontEndMessage.Message) => void,
-        private requestCharacterChoice: (fanID: number, character: Character[]) => void,
-        settings?: Settings
-    ) {
-        if (settings)
-            this.settings = settings;
+        private sendMessageToFont: (message: frontEndMessage.BackToFrontMessage) => void,
+        public settings: Settings = {
+            delayBetweenFights: 3000,
+            gameSpeedMultipier: 1,
+            minimumDonation: 1000,
+            donationToHPRatio: 1
+        }
+    ) {}
+
+    public receivedFanGameState(id: number, choice: frontEndMessage.FrontToBackMessage) {
+        this.characterChoiceHandler.completeChoice(id, choice.characterChoice.choice, true);
     }
+    public donation(id: number, name: string, amount: number, profileImageURL: string, chatMessage: string) {
 
-    public frontEndSelection(id: number, choice: number) {
-        this.characterChoiceHandler.completeChoice(id, choice);
-    }
-
-    public donation(id: number, name: string, amount: number) {
-
+        let combatantIndex: number;
         // if the fight is ongoing
         if (this.timeout !== null) {
             // and the donation matches a fighter
-            const combatantIndex = this.lastCombatants.findIndex(s => {
-                return s.id === id;
-            });
+            combatantIndex = this.lastCombatants.findIndex(s => s.id === id);
             if (combatantIndex !== -1) {
                 const patchTime = performance.now() - this.fightStartTime;
 
@@ -73,17 +68,38 @@ export class Game {
                 return;
             }
         }
+        combatantIndex = this.lastResults.findIndex(s => s.id === id);
+        if (combatantIndex !== -1) {
+            const patchTime = performance.now() - this.fightStartTime;
+
+            this.insertEvents(
+                [
+                    new FightEvents.Donation(
+                        combatantIndex,
+                        patchTime,
+                        FightEvents.DonationType.healing
+                    ),
+                    new FightEvents.Healing(
+                        patchTime,
+                        combatantIndex,
+                        amount * this.settings.donationToHPRatio
+                    ),
+                ],
+                patchTime
+            );
+            return;
+        }
 
         // if the donation is enough for a character and they aren't already in the queue
         if (this.queue.some(s => {return s.id === id;}) === false
             && amount >= this.settings.minimumDonation) {
-            this.characterChoiceHandler.requestChoice({id, name, amount});
+            this.characterChoiceHandler.requestChoice({id, name, amount, profileImageURL, chatMessage});
             return;
         }
 
 
         // if there was a last fight, damage current champion
-        if (this.lastCombatants.length > 1) {
+        if (this.lastCombatants.length > 0) {
             const patchTime = performance.now() - this.fightStartTime;
 
             this.insertEvents(
@@ -104,13 +120,9 @@ export class Game {
         }
     }
     
-    public newCombatant(donation: {
-        id: number,
-        name: string,
-        amount: number,
-        character: number
-    }) {
-        this.queue.push(pickCharacter(donation))
+    // public for testing purposes (bypasses front end character choice)
+    public newCombatant(status: Status) {
+        this.queue.push(status)
         this.nextFight();
     }
 
@@ -125,17 +137,17 @@ export class Game {
         );
         
         // create a temporary copy of status
-        let tempStatus = this.lastCombatants.map( s => {
-            return new Status(
-                s.id,
-                s.name,
-                s.character,
-                s.initialDonation,
-                s.hitPoints,
-                s.level,
-                s.baseStats
-            );
-        });
+        let tempStatus = this.lastCombatants.map(s => new Status(
+            s.id,
+            s.name,
+            s.character,
+            s.initialDonation,
+            s.hitPoints,
+            s.level,
+            s.baseStats,
+            s.profileImageURL,
+            s.chatMessage
+        ));
 
         // apply new events
         applyFightEvents(tempStatus, ...insert);
@@ -145,7 +157,7 @@ export class Game {
         results.reel.forEach(e => e.time += + 2000);
 
         // add the rest of the events to the old events
-        insert.concat(results.reel);
+        insert = insert.concat(results.reel);
         this.lastEvents = insert;
 
         this.pushLastResults(patchTime);
@@ -157,11 +169,6 @@ export class Game {
         
         if (this.timeout != null) {
             console.log('cannot start fight: fight already in progress');
-            return ;
-        }
-
-        if (this.lastResults.length + this.queue.length < 2) {
-            console.log('cannot start fight: not enough combatants');
             return ;
         }
 
@@ -179,30 +186,36 @@ export class Game {
         
         let graphicsEvents = buildGraphicsEvents.build(this.lastEvents);
 
-        this.sendFightMessage({
-            characters: this.lastCombatants.map(c => {return {
-                    name: c.name,
-                    maxHitPoints: c.baseStats.maxHitPoints,
-                    currentHitPoints: c.hitPoints,
-                    art: c.character
-                }
-            }),
-            reel: graphicsEvents,
-            patch: patchTime
+        this.sendMessageToFont({
+            newReel: {
+                    characters: this.lastCombatants.map(c => ({
+                        name: c.name,
+                        maxHitPoints: c.baseStats.maxHitPoints,
+                        currentHitPoints: c.hitPoints,
+                        art: c.character,
+                        profileImageURL: c.profileImageURL,
+                        chatMessage: c.chatMessage
+                    })
+                ),
+                reel: graphicsEvents,
+                patch: patchTime
+            }
         });
         
-        console.log('new fight: ', this);
+        console.log('new fight');
 
         if (this.timeout !== null) 
-            clearTimeout(this.timeout);
+            window.clearTimeout(this.timeout);
 
-        this.timeout = setTimeout(
-            () => {
-                console.log('fight over');
-                this.timeout = null;
-                this.nextFight();
-            },
-            graphicsEvents[graphicsEvents.length - 1].time + this.settings.delayBetweenFights
-        );
+        if (this.lastCombatants.length > 1) {
+            this.timeout = window.setTimeout(
+                () => {
+                    console.log('fight over');
+                    this.timeout = null;
+                    this.nextFight();
+                },
+                graphicsEvents[0] ? graphicsEvents[graphicsEvents.length - 1].time : + this.settings.delayBetweenFights
+            );
+        }
     }
 }

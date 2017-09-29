@@ -1,12 +1,14 @@
 const path = require('path');
 const webpack = require('webpack');
 
-module.exports = [{
+module.exports = [
+    {
         entry: {
-            index: './src/front_end/index.ts'
+            viewer: './src/front_end/viewer.ts',
+            BitFighter: './src/back_end/BitFighter.ts'
         },
         output: {
-            filename: './dist/js/[name].bundle.js'
+            filename: './dist/[name].js'
         },
         resolve: {
             extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']
@@ -21,10 +23,10 @@ module.exports = [{
     },   
     {
         entry: {
-            backend: './src/back_end/backend.ts'
+            index: './src/testbed/index.ts'
         },
         output: {
-            filename: './dist/js/[name].bundle.js'
+            filename: './testbed/js/[name].bundle.js'
         },
         resolve: {
             extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']

@@ -32,7 +32,9 @@ export class Status {
         public readonly initialDonation: number,
         public hitPoints: number,
         public level: number,
-        public baseStats: Stats
+        public baseStats: Stats,
+        public readonly profileImageURL: string,
+        public readonly chatMessage: string
     ) {
         this.calculatedStats = Object.assign({}, this.baseStats);
         this.calculatedStats.attackDamage = Object.assign({}, this.baseStats.attackDamage);

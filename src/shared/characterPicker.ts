@@ -13,6 +13,11 @@ export interface Character {
     name: string
 }
 
+export const enum characterTypes {
+    streetUrchin = 0,
+    scullaryMaid = 1
+}
+
 export const characters: Character[] = [
     // {
     //     stats: { 
@@ -56,8 +61,39 @@ export const characters: Character[] = [
                 min: 90,
                 max: 130,
             },
+<<<<<<< HEAD
             armor: 25,
             regeneration: 300,
+=======
+            armor: 15,
+            regeneration: 200,
+            critChanceModifier: 1,
+            critDamageModifier: 1
+        }, 
+        rarity: 0,
+        crits: [{
+            damageMultiplier: 10,
+            odds: 10,
+            buff: Buff.buffs[Buff.types.streetUrchin],
+        }],
+        name: 'Street Urchin'
+    }, // 0: Street Urchin
+    {
+        stats: { 
+            maxHitPoints: 400,
+            accuracy: 100,
+            dodge: 75,
+            attackSpeed: {
+                min: 1100,
+                max: 2200,
+            },
+            attackDamage: {
+                min: 100,
+                max: 150,
+            },
+            armor: 30,
+            regeneration: 400,
+>>>>>>> origin
             critChanceModifier: 1,
             critDamageModifier: 1,
         }, 
@@ -670,8 +706,14 @@ export function buildStats(character: number, donation: number, level: number) :
 
 // i'm going to fix this i swear
 // donation.amount is assumed to be in bits
-export function pickCharacter(donation: {id: number, 
-    name: string, amount: number, character: number}) : Status {
+export function pickCharacter(donation: {
+    id: number, 
+    name: string,
+    amount: number,
+    character: number,
+    profileImageURL: string,
+    chatMessage: string
+}) : Status {
     let pick = donation.character % characters.length;
 
     let level = rarityLevel[characters[pick].rarity]; // 1 indexed
@@ -689,6 +731,8 @@ export function pickCharacter(donation: {id: number,
         donation.amount,
         stats.maxHitPoints,
         level,
-        stats
+        stats,
+        donation.profileImageURL,
+        donation.chatMessage
     )
 }

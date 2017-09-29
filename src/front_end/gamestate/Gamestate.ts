@@ -5,28 +5,54 @@ declare let fabric: any;
 import * as Player from './Player';
 import { fireEvent } from './fireEvent';
 
+declare function recalcHp(damageAmount: number, newHp: number, maxHp: number): void;
+declare function flip(side: 'front' | 'back'): void;
+
 export class GameState {
-	private eventLoopTimeout:	NodeJS.Timer | null;
+	private eventLoopTimeout:	number | null;
 	private lastTime: 			number;
 	private canvas:				fabric.Canvas; 
 	private reel:				Events.Event[];
 	private player1:			Player.Player;
 	private player2:			Player.Player;
-	//public players: 			Player[] = []; Eventually do this
+	private idleId:				number;
+	private scale =				1;
+	private scaleWait =			0;
+	private isWaiting =			0;
+	private baseWidth = 		500;
+	private baseHeight = 		180;
 
 	constructor(canvasId: string) {
-		this.canvas = new fabric.StaticCanvas(canvasId); // USE StaticCanvas for noninteractive 
+		this.canvas = new fabric.StaticCanvas(canvasId); // USE StaticCanvas for noninteractive
+		this.canvas.setWidth(this.baseWidth);
+		this.canvas.setWidth(this.baseHeight);
 	}
 
-	public newMessage(reel: Events.Event[], patch?: number) {
-		if (patch) {
-			//do the patching
+	public newMessage(reel: Events.Event[], characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[], patch?: number) {
+		console.log(`REEL:`, reel);
+		// if there's a patch in the middle of a reel
+		clearTimeout(this.idleId);
+		if (patch && this.reel[0]) {
+			this.applyPatch(reel);
 		}
-		else {
-			this.canvas.clear();
+		else  {
 			this.clearMessage();
 			this.reel = reel;
-			this.initReel();
+
+			// if there's a patch immediately fire next event, otherwise start new reel
+			if (patch)
+				this.getEvent();
+			else {
+				this.canvas.clear();
+				this.initReel();
+				// init players
+				this.player1 = new Player.Player(characters[0], 0, this.canvas, this.scale);
+				if (!characters[1])
+					this.idleCheck();
+				if (characters[1])
+					this.player2 = new Player.Player(characters[1], 1, this.canvas, this.scale);
+				this.drawPlayers();
+			}
 		}
 	}
 
@@ -40,9 +66,7 @@ export class GameState {
 		if (this.reel.length < 1) {
 			return;
 		}
-
-		this.lastTime = 0;
-		this.eventLoopTimeout = setTimeout(
+		this.eventLoopTimeout = window.setTimeout(
 			() => {
 				this.getEvent();
 			},
@@ -52,16 +76,15 @@ export class GameState {
 
 	private getEvent() {
 		let event = this.reel.shift();
-		let nextTime = this.reel[0] ? this.reel[0].time : 0;
 		if (event == undefined) {
 			this.eventLoopTimeout = null;
 			return;
 		}
+		let nextTime = this.reel[0] ? this.reel[0].time : 0;
 
 		fireEvent(event, this);
 		(event);
-
-		this.eventLoopTimeout = setTimeout(
+		this.eventLoopTimeout = window.setTimeout(
 			() => {
 				this.getEvent();
 			},
@@ -70,11 +93,14 @@ export class GameState {
 		this.lastTime = event.time;
 	}
 
-	public initPlayers(characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[]) {
-		this.player1 = new Player.Player(characters[0], 0, this.canvas);
-		if (characters[1])
-			this.player2 = new Player.Player(characters[1], 1, this.canvas);
-		this.drawPlayers();
+	private applyPatch(reel: Events.Event[]) {
+		for (let i = 0; i < this.reel.length; i++) {
+			if (reel[0].time < this.reel[i].time) {
+				this.reel.splice(i);
+				this.reel.push(...reel);
+				break;
+			}
+		}
 	}
 
 	public drawPlayers() {
@@ -103,6 +129,11 @@ export class GameState {
 		else{
 			this.player1.dies(this.player2)
 		}
+		this.player1.clearBuffs();
+		this.player2.clearBuffs();
+
+		// Start checking if a fight idles too long to switch to bitboss
+		this.idleCheck();
 	}
 
 	public displayText(p2: number, str: string, color: string) {
@@ -110,5 +141,45 @@ export class GameState {
 			this.player2.text(str, color);
 		else
 			this.player1.text(str, color);
+	}
+
+	public setNewScale(scale: number) {
+		/*if (this.scaleWait && scale != null) {
+			this.scaleWait = scale;
+			return;
+		}
+		
+		if ((this.player1 || this.player2) && (this.player1.isAnimated() || this.player2.isAnimated())) {
+			setTimeout(() => {this.setNewScale(null)}, 1);
+		}
+		else {*/
+		this.scaleWait = scale;
+		let oldScale = this.scale;
+		this.scale = this.scaleWait;
+		this.canvas.setWidth(this.scaleWait * this.baseWidth);
+		this.canvas.setHeight(this.scaleWait * this.baseHeight);
+		this.canvas.clear();
+		if (this.player1)
+			this.player1.setScale(this.scaleWait);
+		if (this.player2)
+			this.player2.setScale(this.scaleWait);
+		this.scaleWait = 0;
+	}
+
+	public addBuff(art: number, duration: number, player2: number) {
+		if (player2)
+			this.player2.addBuff(art, duration);
+		else
+			this.player1.addBuff(art, duration);
+	}
+
+	private idleCheck() {
+		this.idleId = window.setTimeout(() => {this.switchToBitBoss()}, 30000);
+	}
+
+	private switchToBitBoss() {
+		console.log("SWITCH TO BIT BOSS");
+		//this.mode = 'bitboss';
+		//flip('front');
 	}
 }

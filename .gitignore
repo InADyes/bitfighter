@@ -5,6 +5,7 @@
 
 # compiled
 /dist/**/*.js
+/testbed/**/*.js
 *.map
 
 # visual studio code settings
@@ -17,3 +18,6 @@
 /simulator.js.map
 
 *.csv
+
+# for maxes tsc check task
+/src/**/*.js

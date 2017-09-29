@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch",
-    "express": "node index.js"
+    "express": "node testbed.js"
   },
   "repository": {
     "type": "git",
@@ -27,7 +27,6 @@
     "ts-loader": "^2.3.7",
     "typescript": "^2.5.2",
     "webpack": "^3.6.0",
-    "@types/jasmine": "^2.6.0",
     "@types/node": "^8.0.28"
   }
 }
