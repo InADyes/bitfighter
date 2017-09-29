@@ -34,11 +34,12 @@ export class GameState {
 		// Don't do anything if a character is animated
 		if ((this.player1 && this.player1.isAnimated()) || (this.player2 && this.player2.isAnimated())) {
 			window.setTimeout(() => {this.newMessage(reel, characters, patch)}, 1);
+			console.log("waiting");
 			return;
 		}
 
 		// if there's a patch in the middle of a reel
-		console.log(reel);
+		//console.log(reel);
 		clearTimeout(this.idleId);
 		if (patch && this.reel[0]) {
 			this.applyPatch(reel);
@@ -121,7 +122,7 @@ export class GameState {
 	public attack(p2: number) {
 		if (p2 && this.player2)
 			this.player2.attacks();
-		else if (this.player1)
+		else if (!p2 && this.player1)
 			this.player1.attacks();
 	}
 	
@@ -143,8 +144,8 @@ export class GameState {
 			this.player1.clearBuffs();
 			if (this.player2)
 				this.player2.clearBuffs();
-			this.player1 = this.player2;
-			this.player1 = null;
+			//this.player1 = this.player2;
+			//this.player2 = null;
 		}
 
 		// Start checking if a fight idles too long to switch to bitboss
@@ -152,8 +153,7 @@ export class GameState {
 	}
 
 	public displayText(p2: number, str: string, color: string) {
-		console.log(`PLAYER: ${p2}`);
-		if (p2 && this.player2)
+	if (p2 && this.player2)
 			this.player2.text(str, color);
 		else if (this.player1)
 			this.player1.text(str, color);
