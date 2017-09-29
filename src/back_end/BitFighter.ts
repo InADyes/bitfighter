@@ -35,23 +35,18 @@ export class BitFighter {
             minimumDonation: 1000,
             donationToHPRatio: 1
         }
-    ) {
-        if (settings)
-            this.settings = settings;
-    }
+    ) {}
 
     public receivedFanGameState(id: number, choice: frontEndMessage.FrontToBackMessage) {
         this.characterChoiceHandler.completeChoice(id, choice.characterChoice.choice, true);
     }
     public donation(id: number, name: string, amount: number, profileImageURL: string, chatMessage: string) {
 
-
+        let combatantIndex: number;
         // if the fight is ongoing
         if (this.timeout !== null) {
             // and the donation matches a fighter
-            const combatantIndex = this.lastCombatants.findIndex(s => {
-                return s.id === id;
-            });
+            combatantIndex = this.lastCombatants.findIndex(s => s.id === id);
             if (combatantIndex !== -1) {
                 const patchTime = performance.now() - this.fightStartTime;
 
@@ -72,6 +67,27 @@ export class BitFighter {
                 );
                 return;
             }
+        }
+        combatantIndex = this.lastResults.findIndex(s => s.id === id);
+        if (combatantIndex !== -1) {
+            const patchTime = performance.now() - this.fightStartTime;
+
+            this.insertEvents(
+                [
+                    new FightEvents.Donation(
+                        combatantIndex,
+                        patchTime,
+                        FightEvents.DonationType.healing
+                    ),
+                    new FightEvents.Healing(
+                        patchTime,
+                        combatantIndex,
+                        amount * this.settings.donationToHPRatio
+                    ),
+                ],
+                patchTime
+            );
+            return;
         }
 
         // if the donation is enough for a character and they aren't already in the queue
