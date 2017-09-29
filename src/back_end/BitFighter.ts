@@ -32,7 +32,7 @@ export class BitFighter {
         public settings: Settings = {
             delayBetweenFights: 3000,
             gameSpeedMultipier: 1,
-            minimumDonation: 1000,
+            minimumDonation: 200,
             donationToHPRatio: 1
         }
     ) {}

@@ -40,12 +40,6 @@ window.addEventListener('load', function(){
                 requestIDs.push(message.id);
             }
             frontend.recievedViewerGameState(message);
-        },
-        {
-            delayBetweenFights: 3000,
-            gameSpeedMultipier: 1,
-            minimumDonation: 1000,
-            donationToHPRatio: 1
         }
     );
 
