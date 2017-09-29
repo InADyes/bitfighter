@@ -49,6 +49,7 @@ window.addEventListener('load', function(){
         }
     );
 
+    // temp
     let x = <HTMLButtonElement>document.getElementById('addBuff');
     x.addEventListener("click", ()=> {
         let a = <HTMLInputElement>document.getElementById("duration");

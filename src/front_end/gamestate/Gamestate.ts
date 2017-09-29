@@ -178,7 +178,7 @@ export class GameState {
 
 	private switchToBitBoss() {
 		console.log("SWITCH TO BIT BOSS");
-		//recalcHp(damageAmount: number, newHp: number, maxHp: number);
+		//this.mode = 'bitboss';
 		//flip('front');
 	}
 }
