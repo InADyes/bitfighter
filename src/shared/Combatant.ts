@@ -77,7 +77,7 @@ export class Combatant {
         if (attack.damage < 0)
             attack.damage = 0;
         else if (attack.damage > this.status.hitPoints)
-            attack.damage = this.status.stats.maxHitPoints;
+            attack.damage = this.status.hitPoints;
         this.newEvent(new fightEvents.Damage(attack.time, this.index, attack.damage));
             
         if (this.status.hitPoints <= 0)
