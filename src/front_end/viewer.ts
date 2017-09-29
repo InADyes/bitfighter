@@ -3,24 +3,24 @@ import {BackToFrontMessage, FrontToBackMessage, CharacterChoice, FrontEndSetting
 
 // keith stuff goes here
 declare function emitGameEvent(slug: string, data: FrontToBackMessage) : void;
+declare let window: any;
 
-let bitFighter: BitFighter;
+document.addEventListener('DOMContentLoaded', ()=>{
+const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
 
-document.addEventListener('DOMContentLoaded', function(){
-    const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
-
-     bitFighter = new BitFighter(
-        wrapperDiv,
-        {
-            position: {
-                x: 10,
-                y: 40
-            },
-            size: 1,
-            cardsTimeout: 60000
+window.bitFighter = new BitFighter(
+    wrapperDiv,
+    {
+        position: {
+            x: 10,
+            y: 40
         },
-        (slug, message) => {
-            emitGameEvent(slug, message);
-        }
-    );
-});
+        size: 1,
+        cardsTimeout: 60000
+    },
+    (slug, message) => {
+        emitGameEvent(slug, message);
+    }
+);
+
+})
