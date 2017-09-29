@@ -23,7 +23,6 @@ window.addEventListener('load', function(){
                 console.log('no id in queue');
                 return;
             }
-
             backend.receivedFanGameState(id, message);
         }
     );
@@ -39,6 +38,7 @@ window.addEventListener('load', function(){
                 }
                 requestIDs.push(message.id);
             }
+            console.log('new back to front message: ', message);
             frontend.recievedViewerGameState(message);
         },
         {
