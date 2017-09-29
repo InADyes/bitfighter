@@ -34,7 +34,7 @@ export class GameState {
 		// Don't do anything if a character is animated
 		if ((this.player1 && this.player1.isAnimated())
 			|| (this.player2 && this.player2.isAnimated())
-			|| (!patch && this.reel && this.reel[0])
+			//|| (!patch && this.reel && this.reel[0])
 		) {
 			window.setTimeout(() => {this.newMessage(reel, characters, patch)}, 1);
 			console.log("waiting");
