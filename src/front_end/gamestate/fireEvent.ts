@@ -17,7 +17,7 @@ export function fireEvent(event: GraphicsEvents.Event, gameState: GameState){
             gameState.slay(char);
             break;
         case GraphicsEvents.EventType.Text:
-            //console.log(`CHARACTER ${ char } SAYS ${ (<GraphicsEvents.Text>event).text }`);
+            console.log(`CHARACTER ${ char } SAYS ${ (<GraphicsEvents.Text>event).text }`);
             gameState.displayText(char, (<GraphicsEvents.Text>event).text, (<GraphicsEvents.Text>event).color)
             break;
         case GraphicsEvents.EventType.Buff:

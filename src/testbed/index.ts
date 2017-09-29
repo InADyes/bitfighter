@@ -43,7 +43,7 @@ window.addEventListener('load', function(){
         },
         {
             delayBetweenFights: 3000,
-            gameSpeedMultipier: .7,
+            gameSpeedMultipier: .9,
             minimumDonation: 1000,
             donationToHPRatio: 1
         }

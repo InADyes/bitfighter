@@ -285,8 +285,8 @@ export class Player {
     }
 
 	public dies(player2: Player | null) {
-        if (player2)
-            player2.animates();
+        /*if (player2)
+            player2.animates();*/
         this.img.animate('angle', this.right ? '-90' : '90', {
             duration: 500,
             onChange: this.canvas.renderAll.bind(this.canvas),
@@ -373,23 +373,22 @@ export class Player {
             
         // calculate amount to decrease height of bar by
         let percent = adjustment / this.baseHealth;
-        let barChange = this.height * percent;
+        let barChange = this.height * this.scale * percent;
 
         // stop bars from going over 100 or under 0
-        if (barChange + this.greenBar.height > this.height)
-            barChange = this.height - this.greenBar.height;
-        else if (barChange + this.greenBar.height < 0)
+        if (barChange + this.greenBar.height > this.height * this.scale)
+            barChange = this.height * this.scale - this.greenBar.height;
+        else if (barChange + this.greenBar.height <= 0)
             barChange = -this.greenBar.height;
-        //console.log(`CHANGE HEALTH BY = ${ barChange }`);
 
         if (this.greenBar.height <= 0)
             this.greenBar.height = 0;
         // Drop the green bar
-        this.greenBar.animate('height', barChange >= 0 ? `+=${ barChange }` : `-=${ -barChange }` , {
+        this.greenBar.animate('height', barChange > 0 ? `+=${ barChange }` : `-=${ -barChange }` , {
             duration: barChange > 0 ? 500 : 1,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
-                // Have the yellow bar catch up to the green bar
+                // Calculate how much to move the yellow bar by
                 let catchUpPercent = 80;
                 if (this.greenBar.height && this.yellowBar.height){
                     barChange = this.yellowBar.height - this.greenBar.height;
@@ -400,6 +399,7 @@ export class Player {
                     catchUpPercent = this.yellowBar.height / this.height * 100;
                 }
                 let yellowDuration = this.health > 0 ? 700 + catchUpPercent * 10 : 500 - (500 - catchUpPercent * 5);
+                // Have the yellow bar catch up to the green bar
                 this.yellowBar.animate('height', barChange < 0 ? `+=${ -barChange }` : `-=${ barChange }`, {
                     duration: barChange < 0 ? 1 : yellowDuration,
                     onChange: this.canvas.renderAll.bind(this.canvas),
@@ -439,13 +439,13 @@ export class Player {
             this.draw();
     }
 
-    public animates() {
+    /*public animates() {
         this.animationLock = 1;
     }
 
     public isAnimated() {
         return (this.animationLock ? true : false);
-    }
+    }*/
 
    public clearBuffs(){
        this.canvas.remove(this.buffGroup);

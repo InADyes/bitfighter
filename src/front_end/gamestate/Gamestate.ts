@@ -32,6 +32,7 @@ export class GameState {
 
 	public newMessage(reel: Events.Event[], characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[], patch?: number) {
 		// if there's a patch in the middle of a reel
+		console.log(reel);
 		clearTimeout(this.idleId);
 		if (patch && this.reel[0]) {
 			this.applyPatch(reel);
@@ -130,18 +131,21 @@ export class GameState {
 			if (p2)
 				this.player2.dies(null);
 			this.player2.clearBuffs();
+			this.player2 = null;
 		}
 		else if (this.player1) {
 			this.player1.dies(this.player2);
 			this.player1.clearBuffs();
+			this.player1 = this.player2;
+			this.player1 = null;
 		}
-		this.player1 = this.player2;
-		this.player2 = null;
+
 		// Start checking if a fight idles too long to switch to bitboss
 		this.idleCheck();
 	}
 
 	public displayText(p2: number, str: string, color: string) {
+		console.log(`PLAYER: ${p2}`);
 		if (p2 && this.player2)
 			this.player2.text(str, color);
 		else if (this.player1)
