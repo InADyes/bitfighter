@@ -5,10 +5,29 @@ module.exports = [
     {
         entry: {
             viewer: './src/front_end/viewer.ts',
-            BitFighter: './src/back_end/BitFighter.ts'
         },
         output: {
             filename: './dist/[name].js'
+        },
+        resolve: {
+            extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']
+        },
+        module: {
+            loaders: [
+                // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
+                { test: /\.tsx?$/, loader: 'ts-loader' }
+            ]
+        },
+        devtool: 'source-map'
+    },
+    {
+        target: 'node',
+        entry: {
+            BitFighter: './src/back_end/BitFighter.ts'
+        },
+        output: {
+            filename: './dist/[name].js',
+            libraryTarget: 'commonjs2',
         },
         resolve: {
             extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']
