@@ -29,6 +29,7 @@ export class GameState {
 	}
 
 	public newMessage(reel: Events.Event[], characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[], patch?: number) {
+		console.log(`REEL:`, reel);
 		// if there's a patch in the middle of a reel
 		clearTimeout(this.idleId);
 		if (patch && this.reel[0]) {
