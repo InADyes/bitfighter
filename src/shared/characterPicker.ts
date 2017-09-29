@@ -29,35 +29,9 @@ export const enum characterTypes {
 export const characters: Character[] = [
     {
         stats: { 
-            maxHitPoints: 900,
-            accuracy: 125,
-            dodge: 125,
-            attackSpeed: {
-                min: 500,
-                max: 1000,
-            },
-            attackDamage: {
-                min: 45,
-                max: 65,
-            },
-            regeneration: 300,
-            armor: 15,
-            critChanceModifier: 1,
-            critDamageModifier: 1
-        }, 
-        rarity: 0,
-        crits: [{
-            damageMultiplier: 10,
-            odds: 10,
-            buff: Buff.buffs[Buff.types.streetUrchin],
-        }],
-        name: 'Street Urchin'
-    }, // 0: Street Urchin
-    {
-        stats: { 
             maxHitPoints: 400,
             accuracy: 100,
-            dodge: 75,
+            dodge: 100,
             attackSpeed: {
                 min: 1100,
                 max: 2200,
@@ -100,7 +74,7 @@ export const characters: Character[] = [
                 min: 50,
                 max: 75,
             },
-            armor: 15,
+            armor: 10,
             regeneration: 300,
             critChanceModifier: 1,
             critDamageModifier: 1,

@@ -39,22 +39,22 @@ export function buildFightEvents(stats: Status[]) {
     }
     // ------------- type hack starts here
 
-    if (typeMap[newStats[0].character] === 2 && typeMap[newStats[1].character] === 1)
+    if (typeMap[newStats[0].character] === 0 && typeMap[newStats[1].character] === 2)
         newStats[0].addEffect(10000000, buffs[buffTypes.armorBonus]);
         
     if (typeMap[newStats[0].character] === 1 && typeMap[newStats[1].character] === 0)
         newStats[0].addEffect(10000000, buffs[buffTypes.armorBonus]);
 
-    if (typeMap[newStats[0].character] === 0 && typeMap[newStats[1].character] === 2)
+    if (typeMap[newStats[0].character] === 2 && typeMap[newStats[1].character] === 1)
         newStats[0].addEffect(10000000, buffs[buffTypes.armorBonus]);
 
-    if (typeMap[newStats[1].character] === 2 && typeMap[newStats[0].character] === 1)
+    if (typeMap[newStats[1].character] === 0 && typeMap[newStats[0].character] === 2)
         newStats[1].addEffect(10000000, buffs[buffTypes.armorBonus]);
 
     if (typeMap[newStats[1].character] === 1 && typeMap[newStats[0].character] === 0)
         newStats[1].addEffect(10000000, buffs[buffTypes.armorBonus]);
 
-    if (typeMap[newStats[1].character] === 0 && typeMap[newStats[0].character] === 2)
+    if (typeMap[newStats[1].character] === 2 && typeMap[newStats[0].character] === 1)
         newStats[1].addEffect(10000000, buffs[buffTypes.armorBonus]);
 
 
@@ -81,14 +81,14 @@ const enum types {
 }
 
 const typeMap = [
-    types.holy,
-    types.magic,
-    types.physical,
-    types.physical,
-    types.magic,
-    types.physical,
-    types.holy,
-    types.magic,
-    types.physical,
-    types.magic
+    types.physical, // Scullery Maid
+    types.physical, // Barkeep
+    types.holy,     // Medium
+    types.magic,    // Minstrel
+    types.magic,    // Mage
+    types.physical, // Rogue
+    types.holy,     // Warpriest
+    types.magic,    // Warlock
+    types.physical, // Swashbuckler
+    types.magic,    // Dragon
 ]
