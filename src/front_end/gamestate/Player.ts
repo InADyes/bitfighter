@@ -334,6 +334,7 @@ export class Player {
     }
 
 	public healthbar(adjustment: number) {
+        this.animates();
         if (!this.greenBar.height)
             return;
 
@@ -375,6 +376,7 @@ export class Player {
                 this.yellowBar.animate('height', barChange < 0 ? `+=${ -barChange }` : `-=${ barChange }`, {
                     duration: barChange < 0 ? 1 : yellowDuration,
                     onChange: this.canvas.renderAll.bind(this.canvas),
+                    onComplete: () => {this.animationLock = 0},
                 });
             }
         });

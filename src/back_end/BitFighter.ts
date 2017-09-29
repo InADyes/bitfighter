@@ -30,7 +30,7 @@ export class BitFighter {
     constructor(
         private sendMessageToFont: (message: frontEndMessage.BackToFrontMessage) => void,
         public settings: Settings = {
-            delayBetweenFights: 5000,
+            delayBetweenFights: 8000,
             gameSpeedMultipier: 1,
             minimumDonation: 200,
             donationToHPRatio: 1
