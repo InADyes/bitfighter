@@ -39,7 +39,7 @@ export class GameState {
 		}
 
 		// if there's a patch in the middle of a reel
-		console.log(reel);
+		//console.log(reel);
 		clearTimeout(this.idleId);
 		if (patch && this.reel[0]) {
 			this.applyPatch(reel);
