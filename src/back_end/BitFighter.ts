@@ -30,7 +30,7 @@ export class BitFighter {
     constructor(
         private sendMessageToFont: (message: frontEndMessage.BackToFrontMessage) => void,
         public settings: Settings = {
-            delayBetweenFights: 3000,
+            delayBetweenFights: 5000,
             gameSpeedMultipier: 1,
             minimumDonation: 200,
             donationToHPRatio: 1
@@ -206,7 +206,6 @@ export class BitFighter {
                 patch: patchTime
             }
         });
-        
         console.log('new fight');
 
         if (this.lastCombatants.length > 1) {
