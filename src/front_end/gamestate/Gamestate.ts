@@ -37,9 +37,8 @@ export class GameState {
 			console.log("waiting");
 			return;
 		}
-
+		console.log(reel);
 		// if there's a patch in the middle of a reel
-		//console.log(reel);
 		clearTimeout(this.idleId);
 		if (patch && this.reel[0]) {
 			this.applyPatch(reel);
@@ -144,14 +143,21 @@ export class GameState {
 			this.player1.clearBuffs();
 			if (this.player2)
 				this.player2.clearBuffs();
-			//this.player1 = this.player2;
-			//this.player2 = null;
+			this.newChampion();
 		}
 
 		// Start checking if a fight idles too long to switch to bitboss
 		this.idleCheck();
 	}
-
+	newChampion() {
+		if ((this.player1 && this.player1.isAnimated()) || (this.player2 && this.player2.isAnimated())) {
+			window.setTimeout(() => {this.newChampion()}, 1);
+			console.log("waiting");
+			return;
+		}
+		this.player1 = this.player2;
+		this.player2 = null;
+	}
 	public displayText(p2: number, str: string, color: string) {
 	if (p2 && this.player2)
 			this.player2.text(str, color);
