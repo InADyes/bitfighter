@@ -30,7 +30,7 @@ export class BitFighter {
     constructor(
         private sendMessageToFont: (message: frontEndMessage.BackToFrontMessage) => void,
         public settings: Settings = {
-            delayBetweenFights: 8000,
+            delayBetweenFights: 3000,
             gameSpeedMultipier: 1,
             minimumDonation: 200,
             donationToHPRatio: 1
@@ -212,13 +212,15 @@ export class BitFighter {
             if (this.timeout !== null) 
                 window.clearTimeout(this.timeout);
 
+            const fightLength = graphicsEvents[0] ? graphicsEvents[graphicsEvents.length - 1].time : 0;
+
             this.timeout = window.setTimeout(
                 () => {
                     console.log('fight over');
                     this.timeout = null;
                     this.checkQueue();
                 },
-                graphicsEvents[0] ? graphicsEvents[graphicsEvents.length - 1].time : + this.settings.delayBetweenFights
+                fightLength + this.settings.delayBetweenFights
             );
         }
     }
