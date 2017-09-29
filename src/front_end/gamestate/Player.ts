@@ -398,11 +398,11 @@ export class Player {
                     catchUpPercent = (this.yellowBar.height - this.greenBar.height) / this.height * 100;
                 }
                 else if (this.greenBar.height == 0 && this.yellowBar.height){
-                    barChange = -this.yellowBar.height;
+                    barChange = this.yellowBar.height;
                     catchUpPercent = this.yellowBar.height / this.height * 100;
                 }
                 let yellowDuration = this.health > 0 ? 700 + catchUpPercent * 10 : 500 - (500 - catchUpPercent * 5);
-                this.yellowBar.animate('height', `-=${ barChange >= 0 ? barChange : -barChange }`, {
+                this.yellowBar.animate('height', barChange < 0 ? `+=${ -barChange }` : `-=${ barChange }`, {
                     duration: yellowDuration,
                     onChange: this.canvas.renderAll.bind(this.canvas),
                 });
