@@ -1,6 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
 
+// for exporting into the global scope
+// output: {
+//     libraryTarget: 'var',
+//     library: 'foo'
+// }
+
 module.exports = [
     {
         entry: {
