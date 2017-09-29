@@ -284,33 +284,6 @@ export class Player {
         });
     }
 
-	public dies(player2: Player | null) {
-        /*if (player2)
-            player2.animates();*/
-        this.img.animate('angle', this.right ? '-90' : '90', {
-            duration: 500,
-            onChange: this.canvas.renderAll.bind(this.canvas),
-            onComplete: () => {
-                this.img.animate('opacity', 0, {
-                    duration: 200,
-                    onChange: this.canvas.renderAll.bind(this.canvas),
-                    onComplete: () => {
-                        this.canvas.remove(this.img);
-                        this.canvas.remove(this.healthtext);
-                        this.canvas.remove(this.greenBar);
-                        this.canvas.remove(this.yellowBar);
-                        this.canvas.remove(this.redBar);
-                        this.canvas.remove(this.whiteBar);
-                        this.canvas.remove(this.displayname);
-                        this.canvas.remove(this.displaynametop);
-                        if (player2)
-                            player2.moves();
-                    }
-                });
-            }
-        });
-    }
-
 	public text(str: string, color: string) {
         let txt = {
             str: str,
@@ -408,7 +381,37 @@ export class Player {
         });
     }
 
+	public dies(player2: Player | null) {
+        this.animates();
+        console.log(`ANiMATING`);
+        this.img.animate('angle', this.right ? '-90' : '90', {
+            duration: 500,
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: () => {
+                this.img.animate('opacity', 0, {
+                    duration: 200,
+                    onChange: this.canvas.renderAll.bind(this.canvas),
+                    onComplete: () => {
+                        this.canvas.remove(this.img);
+                        this.canvas.remove(this.healthtext);
+                        this.canvas.remove(this.greenBar);
+                        this.canvas.remove(this.yellowBar);
+                        this.canvas.remove(this.redBar);
+                        this.canvas.remove(this.whiteBar);
+                        this.canvas.remove(this.displayname);
+                        this.canvas.remove(this.displaynametop);
+                        if (player2)
+                            player2.moves();
+                        else
+                            this.animationLock = 0;
+                    }
+                });
+            }
+        });
+    }
+
     public moves(){
+        this.animates();
         this.canvas.remove(this.healthtext);
         this.canvas.remove(this.greenBar);
         this.canvas.remove(this.yellowBar);
@@ -427,7 +430,7 @@ export class Player {
                 this.drawHealthText();
                 this.drawHpBar();
                 this.drawname();
-                //this.animationLock = 0;
+                this.animationLock = 0;
             }
         });        
     }
@@ -439,13 +442,13 @@ export class Player {
             this.draw();
     }
 
-    /*public animates() {
+    public animates() {
         this.animationLock = 1;
     }
 
     public isAnimated() {
         return (this.animationLock ? true : false);
-    }*/
+    }
 
    public clearBuffs(){
        this.canvas.remove(this.buffGroup);

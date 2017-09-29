@@ -31,6 +31,12 @@ export class GameState {
 	}
 
 	public newMessage(reel: Events.Event[], characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[], patch?: number) {
+		// Don't do anything if a character is animated
+		if ((this.player1 && this.player1.isAnimated()) || (this.player2 && this.player2.isAnimated())) {
+			window.setTimeout(() => {this.newMessage(reel, characters, patch)}, 1);
+			return;
+		}
+
 		// if there's a patch in the middle of a reel
 		console.log(reel);
 		clearTimeout(this.idleId);
@@ -127,15 +133,16 @@ export class GameState {
 	}
 
 	public slay(p2: number) {
-		if (this.player2) {
-			if (p2)
-				this.player2.dies(null);
+		if (this.player2 && p2) {
+			this.player2.dies(null);
 			this.player2.clearBuffs();
 			this.player2 = null;
 		}
 		else if (this.player1) {
 			this.player1.dies(this.player2);
 			this.player1.clearBuffs();
+			if (this.player2)
+				this.player2.clearBuffs();
 			this.player1 = this.player2;
 			this.player1 = null;
 		}
