@@ -49,32 +49,32 @@ export const enum types {
 
 export const buffs: Buff[] = [
     {
-        duration: 10000,
+        duration: 6000,
         art: 0,
         critChanceModifier: 3,
     },// Street Urchin
     {
-        duration: 10000,
+        duration: 6000,
         art: 1,
         accuracy: .5,
     },// Scullery Maid
     {
-        duration: 10000,
+        duration: 6000,
         art: 1,
         dodge: .5,
     },// Scullery Maid 1
     {
-        duration: 10000,
+        duration: 6000,
         art: 2,
         armor: 0.25,
     },// Farmer
     {
-        duration: 10000,
+        duration: 6000,
         art: 3,
         accuracy: 0.2,
     },// Barkeep
     {
-        duration: 10000,
+        duration: 6000,
         art: 4,
         attackDamage: 2,
     },// Aristocrat
@@ -84,40 +84,40 @@ export const buffs: Buff[] = [
         accuracy: 0,
     },// Minstrel
     {
-        duration: 10000,
+        duration: 6000,
         art: 6,
         armor: 0,
     },// Mage
     {
-        duration: 10000,
+        duration: 6000,
         art: 7,
         critDamageModifier: 4,
     },// Rogue
     {
-        duration: 10000,
+        duration: 6000,
         art: 8,
         dodge: 1.5,
         armor: 1.5,
     },// Gladiator
     {
-        duration: 10000,
+        duration: 6000,
         art: 9,
         attackDamage: 2,
     },// Barbarian
     {
-        duration: 10000,
+        duration: 6000,
         art: 10,
         regeneration: 400,
         armor: 2,
     },// Warpriest
     {
-        duration: 10000,
+        duration: 6000,
         art: 11,
         attackSpeed: .5,
         attackDamage: 1.3,
     },// Werewolf Buff
     {
-        duration: 10000,
+        duration: 6000,
         art: 12,
         regeneration: 500,
         accuracy: 2,
@@ -125,19 +125,19 @@ export const buffs: Buff[] = [
         critDamageModifier: 4,
     },// Warlock buff
     {
-        duration: 10000,
+        duration: 6000,
         art: 13,
         accuracy: .25,
         dodge: .25,
     },// Warlock Debuff
     {
-        duration: 10000,
+        duration: 6000,
         art: 14,
         dodge: 1.7,
         armor: 1.9,
     },// Paladin
     {
-        duration: 10000,
+        duration: 6000,
         art: 15,
         dodge: 1.10,
         accuracy: 1.10
@@ -148,33 +148,33 @@ export const buffs: Buff[] = [
         armor: 0.7,             // NOT IN USE
     },// Swashbuckler Debuff       NOT IN USE
     {
-        duration: 10000,
+        duration: 6000,
         art: 17,
         dodge: 0,
     },// Dragon
     {
-        duration: 10000,
+        duration: 6000,
         art: 18,
         regeneration: 400,
     },// Angel
     {
-        duration: 10000,
+        duration: 6000,
         art: 19,
         regeneration: 2000,
     },// Phoenix
     {
-        duration: 10000,
+        duration: 6000,
         art: 20,
         armor: 0,
     },// Phoenix1
     {
-        duration: 10000,
+        duration: 6000,
         art: 21,
         dodge: 2,
         critDamageModifier: 2,
     },// LichBuff
     {
-        duration: 10000,
+        duration: 6000,
         art: 21,
         accuracy: .25,
     },// LichDebuff
