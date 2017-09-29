@@ -122,7 +122,7 @@ export class GameState {
 	public attack(p2: number) {
 		if (p2 && this.player2)
 			this.player2.attacks();
-		else if (this.player1)
+		else if (!p2 && this.player1)
 			this.player1.attacks();
 	}
 	
@@ -153,8 +153,7 @@ export class GameState {
 	}
 
 	public displayText(p2: number, str: string, color: string) {
-		console.log(`PLAYER: ${p2}`);
-		if (p2 && this.player2)
+	if (p2 && this.player2)
 			this.player2.text(str, color);
 		else if (this.player1)
 			this.player1.text(str, color);
