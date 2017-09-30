@@ -216,7 +216,7 @@ export class CharacterChoiceHandler {
             chatMessage: donation.profileImageURL
         }));
         
-        const timeout = window.setTimeout(
+        const timeout = <any>setTimeout(
             () => {
                 // clear timeout somehow
                 this.completeChoice(donation.id, Math.floor(choices.length * Math.random()))
@@ -254,7 +254,7 @@ export class CharacterChoiceHandler {
         const pendingChoice = this.pendingCharacterChoices.splice(index, 1)[0];
         
         if (clear && clear === true)
-            window.clearTimeout(pendingChoice.timeout);
+            <any>clearTimeout(pendingChoice.timeout);
 
         this.newCombatant(pendingChoice.characters[pick % pendingChoice.characters.length]);
     }

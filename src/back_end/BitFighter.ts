@@ -210,9 +210,9 @@ export class BitFighter {
 
         if (this.lastCombatants.length > 1) {
             if (this.timeout !== null) 
-                window.clearTimeout(this.timeout);
+                <any>clearTimeout(this.timeout);
 
-            this.timeout = window.setTimeout(
+            this.timeout = <any>setTimeout(
                 () => {
                     console.log('fight over');
                     this.timeout = null;
