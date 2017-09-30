@@ -1,16 +1,16 @@
 @font-face {
 	font-family: 'Concert One';
-	src: url('fonts/ConcertOne-Regular.ttf');
+	src: url('mini-games/bitFighter/fonts/ConcertOne-Regular.ttf');
 }
 
 @font-face {
 	font-family: 'LemonMilk';
-	src: url('fonts/LemonMilk.otf');
+	src: url('mini-games/bitFighter/fonts/LemonMilk.otf');
 }
 
 @font-face {
 	font-family: 'LemonMilklight';
-	src: url('fonts/LemonMilklight.otf');
+	src: url('mini-games/bitFighter/fonts/LemonMilklight.otf');
 }
 
 #arena {

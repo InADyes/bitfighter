@@ -40,6 +40,7 @@ export interface FrontEndSettings {
     };
     size: number;
     cardsTimeout: number;
+    assetsShim: string;
 }
 
 export interface BackToFrontMessage {

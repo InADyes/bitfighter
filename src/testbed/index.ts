@@ -14,7 +14,8 @@ window.addEventListener('load', function(){
                 y: 40
             },
             size: 1,
-            cardsTimeout: 60000
+            cardsTimeout: 60000,
+            assetsShim: './'
         },
         (slug, message) => {
             const id = requestIDs.shift()
