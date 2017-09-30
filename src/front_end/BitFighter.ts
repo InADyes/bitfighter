@@ -15,6 +15,8 @@ export class BitFighter {
     private canvas: HTMLCanvasElement = document.createElement('canvas');
     private cards: HTMLDivElement[] = [];
     private timeout: number | null = null;
+    private artURLs: string[];
+    private iconURLs: string[];
 
     constructor(
         private readonly wrapperDiv: HTMLDivElement,
@@ -31,6 +33,9 @@ export class BitFighter {
         window.addEventListener('resize', () => {
             this.updateScale();
         });
+
+        this.artURLs = artURLs.map(url => this.settings.assetsShim + url);
+        this.iconURLs = iconURLs.map(url => this.settings.assetsShim + url);
     }
     public recievedViewerGameState(data: BackToFrontMessage) {
         if (data.newReel) {
