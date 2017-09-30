@@ -152,28 +152,47 @@ function buildCard(character: CharacterCard) {
     return card;
 }
 
-
 const artURLs = [
-    "images/characters/stickFigures/0StreetUrchin.png",
     "images/characters/stickFigures/1SculleryMaid.png",
-    "images/characters/stickFigures/2Farmer.png",
     "images/characters/stickFigures/3Barkeep.png",				
     "images/characters/stickFigures/4Aristocrat.png",	
     "images/characters/stickFigures/5Minstrel.png",
     "images/characters/stickFigures/6Mage.png",
     "images/characters/stickFigures/7Rogue.png",	
-    "images/characters/stickFigures/8Gladiator.png",		
-    "images/characters/stickFigures/9Barbarian.png",	
     "images/characters/stickFigures/10Warpriest.png",		
-    "images/characters/stickFigures/11Werewolf.png",
     "images/characters/stickFigures/12Warlock.png",	
-    "images/characters/stickFigures/13Paladin.png",
     "images/characters/stickFigures/14Swashbuckler.png",
     "images/characters/stickFigures/15Dragon.png",
+    "images/characters/stickFigures/2Farmer.png",
+    "images/characters/stickFigures/8Gladiator.png",		
+    "images/characters/stickFigures/9Barbarian.png",	
+    "images/characters/stickFigures/11Werewolf.png",
+    "images/characters/stickFigures/13Paladin.png",
     "images/characters/stickFigures/16Phoenix.png",
     "images/characters/stickFigures/17Lich.png",
     "images/characters/stickFigures/18Angel.png"
 ];
+const buffArt = [
+    "images/icons/buff1.png",
+    "images/icons/buff2.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+];
+
 
 function healthBarSVG(amount: StatBarAmount) {
     return `
