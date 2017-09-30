@@ -22,7 +22,11 @@ export class GameState {
 	private baseWidth = 		500;
 	private baseHeight = 		180;
 
-	constructor(canvasId: string) {
+	constructor(
+		canvasId: string,
+		private readonly charArt: string[],
+		private readonly buffArt: string[]
+	) {
 		this.canvas = new fabric.StaticCanvas(canvasId); // USE StaticCanvas for noninteractive
 		this.canvas.setWidth(this.baseWidth);
 		this.canvas.setWidth(this.baseHeight);
@@ -31,15 +35,18 @@ export class GameState {
 	}
 
 	public newMessage(reel: Events.Event[], characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[], patch?: number) {
-		// Don't do anything if a character is animated
-		if ((this.player1 && this.player1.isAnimated()) || (this.player2 && this.player2.isAnimated())) {
+		// Don't do anything if a character is dying or moving over
+		if ((this.player1 && this.player1.isAnimated())
+			|| (this.player2 && this.player2.isAnimated())) {
 			window.setTimeout(() => {this.newMessage(reel, characters, patch)}, 1);
 			console.log("waiting");
 			return;
 		}
-
+		console.log(`PATCH: ${patch}`);
+		if (this.reel)
+			console.log(this.reel[0]);
+		console.log(reel);
 		// if there's a patch in the middle of a reel
-		//console.log(reel);
 		clearTimeout(this.idleId);
 		if (patch && this.reel[0]) {
 			this.applyPatch(reel);
@@ -55,11 +62,11 @@ export class GameState {
 				this.canvas.clear();
 				this.initReel();
 				// init players
-				this.player1 = new Player.Player(characters[0], 0, this.canvas, this.scale);
+				this.player1 = new Player.Player(characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt);
 				if (!characters[1])
 					this.idleCheck();
 				if (characters[1])
-					this.player2 = new Player.Player(characters[1], 1, this.canvas, this.scale);
+					this.player2 = new Player.Player(characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt);
 				this.drawPlayers();
 			}
 		}
@@ -122,7 +129,7 @@ export class GameState {
 	public attack(p2: number) {
 		if (p2 && this.player2)
 			this.player2.attacks();
-		else if (this.player1)
+		else if (!p2 && this.player1)
 			this.player1.attacks();
 	}
 	
@@ -144,17 +151,23 @@ export class GameState {
 			this.player1.clearBuffs();
 			if (this.player2)
 				this.player2.clearBuffs();
-			//this.player1 = this.player2;
-			//this.player2 = null;
+			this.newChampion();
 		}
 
 		// Start checking if a fight idles too long to switch to bitboss
 		this.idleCheck();
 	}
-
+	newChampion() {
+		if ((this.player1 && this.player1.isAnimated()) || (this.player2 && this.player2.isAnimated())) {
+			window.setTimeout(() => {this.newChampion()}, 1);
+			console.log("waiting");
+			return;
+		}
+		this.player1 = this.player2;
+		this.player2 = null;
+	}
 	public displayText(p2: number, str: string, color: string) {
-		console.log(`PLAYER: ${p2}`);
-		if (p2 && this.player2)
+	if (p2 && this.player2)
 			this.player2.text(str, color);
 		else if (this.player1)
 			this.player1.text(str, color);
