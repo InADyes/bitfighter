@@ -28,14 +28,13 @@ export class BitFighter {
         this.canvas.id = 'arena';
         this.canvas.style.position = 'absolute';
         this.wrapperDiv.appendChild(this.canvas);
+        this.artURLs = artURLs.map(url => this.settings.assetsShim + url);
+        this.iconURLs = buffArt.map(url => this.settings.assetsShim + url);
+        this.game = new GameState('arena', this.artURLs, this.iconURLs);
         this.updateSettings(settings);
         window.addEventListener('resize', () => {
             this.updateScale();
         });
-
-        this.artURLs = artURLs.map(url => this.settings.assetsShim + url);
-        this.iconURLs = buffArt.map(url => this.settings.assetsShim + url);
-        this.game = new GameState('arena', this.artURLs, this.iconURLs);
     }
     public recievedViewerGameState(data: BackToFrontMessage) {
         if (data.newReel) {
