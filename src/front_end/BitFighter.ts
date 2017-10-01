@@ -40,7 +40,9 @@ export class BitFighter {
         if (data.newReel) {
             this.game.newMessage(data.newReel.reel, data.newReel.characters, data.newReel.patch);
         }
-        if (data.characterChoices) {
+        // temp hack to be replaced by using proper socket events for each emit type
+        // only shows card if fan id matches
+        if (data.characterChoices && data.id === parseInt(achievements.fan_platform_id, 10)) {
             if (this.timeout) {
                 this.clearCards();
             }
