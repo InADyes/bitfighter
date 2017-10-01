@@ -159,24 +159,24 @@ function buildCard(character: CharacterCard) {
 }
 
 const artURLs = [
-    "images/characters/stickFigures/1SculleryMaid.png",
-    "images/characters/stickFigures/3Barkeep.png",				
-    "images/characters/stickFigures/4Aristocrat.png",	
-    "images/characters/stickFigures/5Minstrel.png",
-    "images/characters/stickFigures/6Mage.png",
-    "images/characters/stickFigures/7Rogue.png",	
-    "images/characters/stickFigures/10Warpriest.png",		
-    "images/characters/stickFigures/12Warlock.png",	
-    "images/characters/stickFigures/14Swashbuckler.png",
-    "images/characters/stickFigures/15Dragon.png",
-    "images/characters/stickFigures/2Farmer.png",
-    "images/characters/stickFigures/8Gladiator.png",		
-    "images/characters/stickFigures/9Barbarian.png",	
-    "images/characters/stickFigures/11Werewolf.png",
-    "images/characters/stickFigures/13Paladin.png",
-    "images/characters/stickFigures/16Phoenix.png",
-    "images/characters/stickFigures/17Lich.png",
-    "images/characters/stickFigures/18Angel.png"
+    "images/characters/stickFigureFighters/1SculleryMaid.png",
+    "images/characters/stickFigureFighters/3Barkeep.png",				
+    "images/characters/stickFigureFighters/4Aristocrat.png",	
+    "images/characters/stickFigureFighters/5Minstrel.png",
+    "images/characters/stickFigureFighters/6Mage.png",
+    "images/characters/stickFigureFighters/7Rogue.png",	
+    "images/characters/stickFigureFighters/10Warpriest.png",		
+    "images/characters/stickFigureFighters/12Warlock.png",	
+    "images/characters/stickFigureFighters/14Swashbuckler.png",
+    "images/characters/stickFigureFighters/15Dragon.png",
+    "images/characters/stickFigureFighters/2Farmer.png",
+    "images/characters/stickFigureFighters/8Gladiator.png",		
+    "images/characters/stickFigureFighters/9Barbarian.png",	
+    "images/characters/stickFigureFighters/11Werewolf.png",
+    "images/characters/stickFigureFighters/13Paladin.png",
+    "images/characters/stickFigureFighters/16Phoenix.png",
+    "images/characters/stickFigureFighters/17Lich.png",
+    "images/characters/stickFigureFighters/18Angel.png"
 ];
 const buffArt = [
     "images/icons/buff1.png",
