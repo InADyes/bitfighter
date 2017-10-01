@@ -36,7 +36,7 @@ export class BitFighter {
             this.updateScale();
         });
     }
-    public recievedViewerGameState(data: BackToFrontMessage) {
+    public receivedViewerGameState(data: BackToFrontMessage) {
         if (data.newReel) {
             this.game.newMessage(data.newReel.reel, data.newReel.characters, data.newReel.patch);
         }
