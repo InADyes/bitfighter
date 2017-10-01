@@ -6,7 +6,10 @@
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch",
-    "express": "node testbed.js"
+    "express": "node testbed.js",
+    "rmcp": "npm run rm && npm run cp",
+    "cp": "cp dist/BitFighter.js ../gather-ebs/BitFighter.js && cp dist/viewer.js ../gather-ebs/frontend/mini-games/bitFighter/viewer.js",
+    "rm": "rm ../gather-ebs/BitFighter.js && rm ../gather-ebs/frontend/mini-games/bitFighter/viewer.js"
   },
   "repository": {
     "type": "git",
@@ -20,13 +23,14 @@
   "homepage": "https://github.com/the-opera-house/bitfighter#readme",
   "dependencies": {
     "@types/fabric": "^1.5.26",
+    "@types/node": "^8.0.28",
     "@types/webpack": "^3.0.10",
     "express": "^4.15.4",
     "fabric": "^1.7.19",
+    "performance-now": "^2.1.0",
     "process": "^0.11.10",
     "ts-loader": "^2.3.7",
     "typescript": "^2.5.2",
-    "webpack": "^3.6.0",
-    "@types/node": "^8.0.28"
+    "webpack": "^3.6.0"
   }
 }
