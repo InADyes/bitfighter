@@ -10,10 +10,6 @@ import {
 } from '../shared/frontEndMessage';
 import { choiceStats } from '../back_end/characterChoiceHandler';
 
-// declare const achievements: {
-//     fan_platform_id: string;
-// };
-
 export class BitFighter {
     private readonly game: GameState;
     private canvas: HTMLCanvasElement = document.createElement('canvas');
@@ -45,9 +41,7 @@ export class BitFighter {
         if (data.newReel) {
             this.game.newMessage(data.newReel.reel, data.newReel.characters, data.newReel.patch);
         }
-        // temp hack to be replaced by using proper socket events for each emit type
-        // only shows card if fan id matches
-        if (data.characterChoices /* && data.id === parseInt(achievements.fan_platform_id, 10)*/) {
+        if (data.characterChoices) {
             if (this.timeout) {
                 this.clearCards();
             }
@@ -88,8 +82,6 @@ export class BitFighter {
     private updateScale() {
         const scale = this.wrapperDiv.offsetHeight / 400;
         this.wrapperDiv.style.fontSize = 12 * scale + 'px';
-        //this.canvas.width = 500 * this.settings.size * scale;
-        //this.canvas.height = 130 * this.settings.size * scale;
         this.canvas.style.left = `${ this.settings.position.x  * scale}px`;
         this.canvas.style.top = `${ this.settings.position.y  * scale}px`;
         this.game.setNewScale(scale);
@@ -227,9 +219,9 @@ function healthBarSVG(amount: StatBarAmount) {
     </svg>`;
 }
 
-const formatRarity  = {
-    '0': 'Common',
-    '1': 'Uncommon',
-    '2': 'Rare',
-    '3': 'Mythic'
+const formatRarity: {[details: number]: string} = {
+    0: 'Common',
+    1: 'Uncommon',
+    2: 'Rare',
+    3: 'Mythic'
 } 

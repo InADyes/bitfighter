@@ -2,7 +2,6 @@ import * as GraphicsEvents from '../shared/graphicsEvents';
 import * as FightEvents from '../shared/fightEvents';
 import { otherCharacter } from '../shared/utility';
 
-
 // could be programatically genrated in a cleaner way if we end up with a lot
 // used to determine order of events when the timestamp is the same
 const eventOrder = {
@@ -79,8 +78,8 @@ export function build(fight: FightEvents.Event[]) {
                     'crit',
                     'red'
                 ));
-                const debuff = (<FightEvents.Crit>event).debuff;
-                if (debuff){
+                const { buff, debuff } = <FightEvents.Crit>event;
+                if (debuff) {
                     display.push(new GraphicsEvents.Buff(
                         event.time,
                         event.character,
@@ -88,8 +87,7 @@ export function build(fight: FightEvents.Event[]) {
                         debuff.duration
                     ));
                 }
-                const buff = (<FightEvents.Crit>event).debuff;
-                if (buff){
+                if (buff) {
                     display.push(new GraphicsEvents.Buff(
                         event.time,
                         otherCharacter(event.character),
