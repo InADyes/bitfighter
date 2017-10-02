@@ -1,4 +1,3 @@
-/// <reference path="../lib/performance-now.d.ts" />
 import * as buildGraphicsEvents from './buildGraphicsEvents';
 import { buildFightEvents } from '../shared/fight';
 import { Stats, Status } from '../shared/Status';
@@ -9,7 +8,15 @@ import * as frontEndMessage from '../shared/frontEndMessage';
 import { Settings } from './backendSettings'
 import { applyFightEvents } from '../shared/applyFightEvents'
 import { CharacterChoiceHandler } from './characterChoiceHandler';
-let performance = require('performance-now');
+import { hrtime } from 'process';
+
+function nodePerformanceNow() {
+    if (hrtime) {
+        const time = hrtime();
+        return time[0] * 1e3 + time[1] / 1e6;
+    }
+    return performance.now();
+};
 
 export class BitFighter {
     private fightStartTime: number = 0;
@@ -49,7 +56,7 @@ export class BitFighter {
             // and the donation matches a fighter
             combatantIndex = this.lastCombatants.findIndex(s => s.id === id);
             if (combatantIndex !== -1) {
-                const patchTime = performance() - this.fightStartTime;
+                const patchTime = nodePerformanceNow() - this.fightStartTime;
 
                 this.insertEvents(
                     [
@@ -71,7 +78,7 @@ export class BitFighter {
         }
         combatantIndex = this.lastResults.findIndex(s => s.id === id);
         if (combatantIndex !== -1) {
-            const patchTime = performance() - this.fightStartTime;
+            const patchTime = nodePerformanceNow() - this.fightStartTime;
 
             this.insertEvents(
                 [
@@ -101,7 +108,7 @@ export class BitFighter {
 
         // if there was a last fight, damage current champion
         if (this.lastCombatants.length > 0) {
-            const patchTime = performance() - this.fightStartTime;
+            const patchTime = nodePerformanceNow() - this.fightStartTime;
 
             this.insertEvents(
                 [
@@ -182,7 +189,7 @@ export class BitFighter {
         let result = buildFightEvents(this.lastCombatants);
         result.reel.forEach(e => e.time *= this.settings.gameSpeedMultipier);
         this.lastResults = result.combatants;
-        this.fightStartTime = performance();
+        this.fightStartTime = nodePerformanceNow();
         this.lastEvents = result.reel;
 
         this.pushLastResults();
