@@ -8,10 +8,10 @@ export class Player {
     private right:          number;
     private img:            fabric.Object;
     private healthtext:     fabric.Group;
-    private greenBar:  fabric.Rect;
-    private redBar:   fabric.Rect;
-    private yellowBar:   fabric.Rect;
-    private whiteBar:    fabric.Rect;
+    private greenBar:       fabric.Rect;
+    private redBar:         fabric.Rect;
+    private yellowBar:      fabric.Rect;
+    private whiteBar:       fabric.Rect;
     private displayname:    fabric.Text;
     private displaynametop: fabric.Text;
     private canvas:         fabric.Canvas;
@@ -22,46 +22,6 @@ export class Player {
     private buffs:          number[];
     private buffGroup:      fabric.Group;
     private scale:          number; 
-    private art = [
-        "images/characters/stickFigures/1SculleryMaid.png",
-        "images/characters/stickFigures/3Barkeep.png",				
-        "images/characters/stickFigures/4Aristocrat.png",	
-        "images/characters/stickFigures/5Minstrel.png",
-        "images/characters/stickFigures/6Mage.png",
-        "images/characters/stickFigures/7Rogue.png",	
-        "images/characters/stickFigures/10Warpriest.png",		
-        "images/characters/stickFigures/12Warlock.png",	
-        "images/characters/stickFigures/14Swashbuckler.png",
-        "images/characters/stickFigures/15Dragon.png",
-        "images/characters/stickFigures/2Farmer.png",
-        "images/characters/stickFigures/8Gladiator.png",		
-        "images/characters/stickFigures/9Barbarian.png",	
-        "images/characters/stickFigures/11Werewolf.png",
-        "images/characters/stickFigures/13Paladin.png",
-        "images/characters/stickFigures/16Phoenix.png",
-        "images/characters/stickFigures/17Lich.png",
-        "images/characters/stickFigures/18Angel.png"
-    ];
-    private buffArt = [
-        "images/icons/buff1.png",
-        "images/icons/buff2.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-    ]
     private height =        70;
     private hpWidth =       5;
     private textLock =      0;
@@ -81,7 +41,26 @@ export class Player {
     private hpTextTop =     33;
     private textTop =       30;
 
-    constructor(data: any, side: number, canvas: fabric.Canvas, scale: number) {
+    private charStrings = [
+        "Scullary Maid",
+        "Barkeep",
+        "Medium",
+        "Minstrel",
+        "Mage",
+        "Rogue",
+        "Warpriest",
+        "Warlock",
+        "Swashbuckler",
+        "Dragon",
+    ];
+
+    constructor(data: any,
+        side: number, 
+        canvas: fabric.Canvas, 
+        scale: number, 
+        private readonly charArt: string[], 
+        private readonly buffArt: string[]
+    ) {
         this.name = data.name;
         this.health = data.currentHitPoints;
         this.artIndex = data.art;
@@ -133,7 +112,7 @@ export class Player {
     public draw() {
         if (this.img)
             this.canvas.remove(this.img);
-        new fabric.Image.fromURL(this.art[this.artIndex], (oImg: fabric.Image) => {
+        new fabric.Image.fromURL(this.charArt[this.artIndex], (oImg: fabric.Image) => {
             if(oImg.width && oImg.height)
                 this.trueWidth = oImg.width/oImg.height * 70 * this.scale;
             this.img = oImg.set({
@@ -454,30 +433,13 @@ export class Player {
        this.buffs = [];
    }
 
-   public becomesBoss() {
-       let boss = {
+   public getBitBossInfo() {
+       return ({
            name: this.name,
            hp: this.health,
            maxHp: this.baseHealth,
-           img: this.art[this.artIndex],
-           character: 
-       }
+           img: this.charArt[this.artIndex],
+           character: this.charStrings[this.artIndex]
+       });
    }
 }
-/*
-{
-  boss: {
-    name: 'Boss123456789',
-    hp: 100,
-    maxHp: 100,
-    img: 'minigames/mini-bitboss/images/burger.jpeg',
-    character: 'Farmer',
-  },
-  attacker: {
-    name: 'attacker213431',
-    damage: '',
-    image: '',
-    character: 'Witch',
-  },
-};
-*/

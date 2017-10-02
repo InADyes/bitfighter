@@ -7,6 +7,7 @@ import { fireEvent } from './fireEvent';
 
 declare function recalcHp(damageAmount: number, newHp: number, maxHp: number): void;
 declare function flip(side: 'front' | 'back'): void;
+declare function updateBitBoss(bossData: Object): void;
 
 export class GameState {
 	private eventLoopTimeout:	number | null;
@@ -23,7 +24,11 @@ export class GameState {
 	private baseWidth = 		500;
 	private baseHeight = 		180;
 
-	constructor(canvasId: string) {
+	constructor(
+		canvasId: string,
+		private readonly charArt: string[],
+		private readonly buffArt: string[]
+	) {
 		this.canvas = new fabric.StaticCanvas(canvasId); // USE StaticCanvas for noninteractive
 		this.canvas.setWidth(this.baseWidth);
 		this.canvas.setWidth(this.baseHeight);
@@ -32,7 +37,7 @@ export class GameState {
 	}
 
 	public newMessage(reel: Events.Event[], characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[], patch?: number) {
-		// Don't do anything if a character is animated
+		// Don't do anything if a character is dying or moving over
 		if ((this.player1 && this.player1.isAnimated())
 			|| (this.player2 && this.player2.isAnimated())) {
 			window.setTimeout(() => {this.newMessage(reel, characters, patch)}, 1);
@@ -55,11 +60,13 @@ export class GameState {
 				this.canvas.clear();
 				this.initReel();
 				// init players
-				this.player1 = new Player.Player(characters[0], 0, this.canvas, this.scale);
-				if (!this.currentBoss)
-					this.bossify(this.player1);
-				if (characters[1])
-					this.player2 = new Player.Player(characters[1], 1, this.canvas, this.scale);
+				this.player1 = new Player.Player(characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt);
+				this.currentBoss = this.player1.getBitBossInfo();
+				//updateBitBoss({boss: this.currentBoss});
+				if (characters[1]) {
+					this.player2 = new Player.Player(characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt);
+					//flip('back');
+				}
 				else
 					this.idleCheck();
 				this.drawPlayers();
@@ -134,8 +141,11 @@ export class GameState {
 	public changeHealth(p2: number, amount: number) {
 		if (p2 && this.player2)
 			this.player2.healthbar(amount);
-		else if (this.player1)
+		else if (this.player1) {
 			this.player1.healthbar(amount);
+			let p = this.player1.getBitBossInfo();
+			//recalcHp(amount, p.hp, p.maxHp);
+		}
 	}
 
 	public slay(p2: number) {
@@ -147,8 +157,11 @@ export class GameState {
 		else if (this.player1) {
 			this.player1.dies(this.player2);
 			this.player1.clearBuffs();
-			if (this.player2)
+			if (this.player2) {
+				//updateBitBoss({boss: this.player1.getBitBossInfo(), attacker: this.player2.getBitBossInfo()});
+				this.currentBoss = this.player2.getBitBossInfo();
 				this.player2.clearBuffs();
+			}
 			this.newChampion();
 		}
 
@@ -202,12 +215,11 @@ export class GameState {
 	}
 
 	private idleCheck() {
-		this.idleId = window.setTimeout(() => {this.switchToBitBoss()}, 30000);
+		this.idleId = window.setTimeout(() => {this.switchToBitBoss()}, 10000);
 	}
 
 	private switchToBitBoss() {
 		console.log("SWITCH TO BIT BOSS");
-		//this.mode = 'bitboss';
 		//flip('front');
 	}
 }

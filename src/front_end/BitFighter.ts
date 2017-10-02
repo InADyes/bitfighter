@@ -10,11 +10,18 @@ import {
 } from '../shared/frontEndMessage';
 import { choiceStats } from '../back_end/characterChoiceHandler';
 
+// declare const achievements: {
+//     fan_platform_id: string;
+// };
+
 export class BitFighter {
     private readonly game: GameState;
     private canvas: HTMLCanvasElement = document.createElement('canvas');
     private cards: HTMLDivElement[] = [];
     private timeout: number | null = null;
+    private artURLs: string[];
+    private iconURLs: string[];
+    private chars: string[];
 
     constructor(
         private readonly wrapperDiv: HTMLDivElement,
@@ -26,17 +33,21 @@ export class BitFighter {
         this.canvas.id = 'arena';
         this.canvas.style.position = 'absolute';
         this.wrapperDiv.appendChild(this.canvas);
-        this.game = new GameState('arena');
+        this.artURLs = artURLs.map(url => this.settings.assetsShim + url);
+        this.iconURLs = buffArt.map(url => this.settings.assetsShim + url);
+        this.game = new GameState('arena', this.artURLs, this.iconURLs, this.char);
         this.updateSettings(settings);
         window.addEventListener('resize', () => {
             this.updateScale();
         });
     }
-    public recievedViewerGameState(data: BackToFrontMessage) {
+    public receivedViewerGameState(data: BackToFrontMessage) {
         if (data.newReel) {
             this.game.newMessage(data.newReel.reel, data.newReel.characters, data.newReel.patch);
         }
-        if (data.characterChoices) {
+        // temp hack to be replaced by using proper socket events for each emit type
+        // only shows card if fan id matches
+        if (data.characterChoices /* && data.id === parseInt(achievements.fan_platform_id, 10)*/) {
             if (this.timeout) {
                 this.clearCards();
             }
@@ -147,27 +158,49 @@ function buildCard(character: CharacterCard) {
     return card;
 }
 
-
 const artURLs = [
-    "images/characters/stickFigures/0StreetUrchin.png",
-    "images/characters/stickFigures/1SculleryMaid.png",
-    "images/characters/stickFigures/2Farmer.png",
-    "images/characters/stickFigures/3Barkeep.png",        
-    "images/characters/stickFigures/4Aristocrat.png", 
-    "images/characters/stickFigures/5Minstrel.png",
-    "images/characters/stickFigures/6Mage.png",
-    "images/characters/stickFigures/7Rogue.png",  
-    "images/characters/stickFigures/8Gladiator.png",    
-    "images/characters/stickFigures/9Barbarian.png",  
-    "images/characters/stickFigures/10Warpriest.png",   
-    "images/characters/stickFigures/11Werewolf.png",
-    "images/characters/stickFigures/12Warlock.png", 
-    "images/characters/stickFigures/13Paladin.png",
-    "images/characters/stickFigures/14Swashbuckler.png",
-    "images/characters/stickFigures/15Dragon.png",
-    "images/characters/stickFigures/16Phoenix.png",
-    "images/characters/stickFigures/17Lich.png",
-    "images/characters/stickFigures/18Angel.png"
+    "images/characters/stickFigures/0scullery_maid.png",
+    "images/characters/stickFigures/1barkeep.png",
+    "images/characters/stickFigures/2medium.png",
+    "images/characters/stickFigures/3minstrel.png",        
+    "images/characters/stickFigures/4mage.png", 
+    "images/characters/stickFigures/5rogue.png",
+    "images/characters/stickFigures/6warpriest.png",
+    "images/characters/stickFigures/7warlock.png",  
+    "images/characters/stickFigures/8swashbuckler.png",    
+    "images/characters/stickFigures/9dragon.png",  
+];
+const buffArt = [
+    "images/icons/buff1.png",
+    "images/icons/buff2.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+];
+const charStrings = [
+    "Scullary Maid",
+    "Barkeep",
+    "Medium",
+    "Minstrel",
+    "Mage",
+    "Rogue",
+    "Warpriest",
+    "Warlock",
+    "Swashbuckler",
+    "Dragon",
 ];
 
 function healthBarSVG(amount: StatBarAmount) {

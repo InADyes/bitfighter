@@ -16,7 +16,8 @@ window.bitFighter = new BitFighter(
             y: 40
         },
         size: 1,
-        cardsTimeout: 60000
+        cardsTimeout: 60000,
+        assetsShim: 'mini-games/bitFighter/'
     },
     (slug, message) => {
         emitGameEvent(slug, message);
