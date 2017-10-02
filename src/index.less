@@ -1,0 +1,210 @@
+@redBorder: 1px solid rgba(255, 0, 0, 0.55);
+// @import 
+@font-face {
+   font-family: 'Concert One';
+   src: url('https://fonts.googleapis.com/css?family=Reenie+Beanie');
+ }
+ @font-face {
+   font-family: 'Concert One';
+   src: url(~'./fonts/ConcertOne-Regular.ttf');
+ }
+
+ @font-face {
+   font-family: 'LemonMilk';
+   src: url(~'./fonts/LemonMilk.otf');
+ }
+
+ @font-face {
+   font-family: 'LemonMilklight';
+   src: url(~'./fonts/LemonMilklight.otf');
+   }
+ 
+  body {
+    margin: 0px;
+  }
+#bitfighter {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  justify-content: center;
+  height: 56.24vw;
+  padding: 1vw;
+  width: 100vw;
+  #arena {
+    background: rgba( 255, 255, 255, 0.8);
+    border: 1px solid rgba(0 ,0 ,0 , 0.8);
+    left: 2%;
+    position: relative;
+    top: 50%;
+  }
+  .character-card {
+    animation: .5s dropInFade both;
+    background-color: transparent;
+    background-color: #fff;
+    background-image: url(~'./images/lightpaperfibers.png');
+    background-size: cover;
+    box-shadow: 0.05vw 0.05vw 0.7vw rgba(1, 1, 1, 0.5);
+    border-radius: 2%;
+    cursor: pointer;
+    // filter: blur(1.5px) drop-shadow(0.15vw 0.15vw 0.05vw rgba(1, 1, 1, 0.5));
+    flex-basis: auto;
+    margin: 0.7vw;
+    opacity: 0;
+    padding: 0.8vw;
+    position: relative;
+    // width: 23%;
+    transition: 0.1s all;
+    transform: translateY(-200px) rotate(-10deg);
+    z-index: 1;
+    
+    &:hover {
+      box-shadow: 0.15vw 0.15vw 1.5vw rgba(1, 1, 1, 0.4);    
+      // filter: blur(0px) drop-shadow(0.25vw 0.25vw 0.15vw rgba(1, 1, 1, 0.3));
+    }
+  &:nth-of-type(2) {
+    animation-delay: 0.25s;
+  }
+  &:nth-of-type(3) {
+    animation-delay: 0.5s;
+  }
+  &:nth-of-type(4) {
+    animation-delay: 1s;
+  }
+
+  .character-card-stats {
+    align-items: center;
+    display: flex;
+    font-family: 'Reenie Beanie', 'Comic Sans MS', cursive;
+    flex-direction: column;
+    justify-content: space-evenly;
+    position: relative;
+    padding-top: 30%;
+    .header {
+      align-items: center;
+      color: red;
+      display: flex;
+      font-size: 2.2em;
+      font-weight: bolder;
+      justify-content: flex-end;
+      height: 20%;
+      line-height: 0.6em;
+      opacity: 0.8;
+      position: absolute;
+      right: 0;
+      text-align: right;
+      text-shadow: 0.1vw 0.1vw 0.2vw #000;
+      top: 1%;
+      width: 80%;
+      z-index: 100;
+    }
+    .avatar {
+      display: flex;
+      height: 30%;
+      left: 0;
+      justify-items: center;
+      position: absolute;
+      top: 0;
+      width: 40%;
+      & img {
+        box-sizing: border-box;
+        display: block;
+        height: auto;
+        margin: auto;
+        max-height: 100%;
+        max-width: 100%;
+        padding: 0;
+        position: relative;
+      }
+    }
+  
+    .stats-container {
+      display: flex;
+      flex-direction: column;
+      height: 70%;
+      width: 100%;
+    }
+    .stat {
+      align-items: center;
+      box-sizing: border-box;
+      border-bottom: 1px solid rgba(0, 255, 255, 0.68) ;
+      display: flex;
+      font-size: 1.3em;
+      line-height: 1em;
+      justify-content: space-between;
+      width: 100%;
+       &:nth-of-type(2) {
+        border-top: @redBorder;
+         .title {
+          // border-right: none;
+         }
+      }
+      & .title {
+        border-right: @redBorder;
+        font-size: 0.8em;
+        overflow: hidden;
+        padding-right: 0.3em;
+        text-align: right;
+        text-overflow: ellipsis;
+        text-transform: capitalize;
+        width: 35%;
+      }
+      & .amount {
+        align-items: center;
+        display: flex;
+        padding-left: 0.3em;
+        width: 65%;
+        & .amount-int {
+          height: 100%;
+          line-height: 0.8;
+          overflow: hidden;
+          text-align: center;
+          text-overflow: ellipsis;
+          width: 25%;
+        }
+      }
+      
+      & .stat-svg {
+        height: 0.8em;
+        width: 75%;
+        & rect {
+          fill: red;
+          transition: 0.3s all;
+        }
+        & .main {
+          fill: transparent;
+          fill: red;
+          transition: 0.3s all;
+        }
+      }
+    }
+
+  }
+}
+
+  @-webkit-keyframes dropInFade {
+    from {
+      opacity: 0;
+      transform: translateY(-200px) translatex(-200px) rotate(-10deg) skewY(0deg);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0px) translatex(0px) rotate(0deg) skewY(0deg);
+    }
+  }
+
+  #wrapper {
+    border: 2px solid red;
+    width: 610px;
+    height: 410px;
+    left: 0px;
+    top: 0px;
+  }
+  #myimage {
+    position: absolute;
+    top: 7px;
+    left: 7px;
+  }
+
+}

@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 // for exporting into the global scope
 // output: {
@@ -64,7 +65,37 @@ module.exports = [
         },
         devtool: 'source-map'//,
         //target: 'node'
-    }, 
+    },
+    {
+        entry: {
+            index: './src/index.less'
+        },
+        output: {
+            filename: './testbed/index.css'
+        },
+        resolve: {
+            extensions: ['.js', '.less'],
+        },
+        module: {
+
+            rules: [
+          {
+            test: /\.less$/,
+            use: ExtractTextPlugin.extract({
+              fallback: 'style-loader',
+              //resolve-url-loader may be chained before sass-loader if necessary 
+              use: ['css-loader?url=false', 'less-loader']
+            })
+          }
+        ]
+    
+        },
+        plugins: [
+            new ExtractTextPlugin("./testbed/index.css"),
+          ]
+        // devtool: 'source-map'//,
+        //target: 'node'
+    },
     {
         entry: {
             simulator: './src/simulator/simulator.ts'
