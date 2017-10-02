@@ -6,10 +6,7 @@
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch",
-    "express": "node testbed.js",
-    "rmcp": "npm run rm && npm run cp",
-    "cp": "cp dist/BitFighter.js ../gather-ebs/BitFighter.js && cp dist/viewer.js ../gather-ebs/frontend/mini-games/bitFighter/viewer.js",
-    "rm": "rm ../gather-ebs/BitFighter.js && rm ../gather-ebs/frontend/mini-games/bitFighter/viewer.js"
+    "express": "node testbed.js"
   },
   "repository": {
     "type": "git",
