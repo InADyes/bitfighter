@@ -173,7 +173,7 @@ const buffArt = [
     "images/icons/buffs/damnation_buff.png",
     "images/icons/buffs/damnation_debuff.png",
     "images/icons/buffs/whirling_blades.png",
-    "images/icons/buffs/fire_breathing.png"
+    "images/icons/buffs/firebreathing.png"
 ];
 const charStrings = [
     "Scullary Maid",
