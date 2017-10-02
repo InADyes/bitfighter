@@ -22,7 +22,11 @@ export class GameState {
 	private baseWidth = 		500;
 	private baseHeight = 		180;
 
-	constructor(canvasId: string) {
+	constructor(
+		canvasId: string,
+		private readonly charArt: string[],
+		private readonly buffArt: string[]
+	) {
 		this.canvas = new fabric.StaticCanvas(canvasId); // USE StaticCanvas for noninteractive
 		this.canvas.setWidth(this.baseWidth);
 		this.canvas.setWidth(this.baseHeight);
@@ -31,11 +35,9 @@ export class GameState {
 	}
 
 	public newMessage(reel: Events.Event[], characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[], patch?: number) {
-		// Don't do anything if a character is animated
+		// Don't do anything if a character is dying or moving over
 		if ((this.player1 && this.player1.isAnimated())
-			|| (this.player2 && this.player2.isAnimated())
-			//|| (!patch && this.reel && this.reel[0])
-		) {
+			|| (this.player2 && this.player2.isAnimated())) {
 			window.setTimeout(() => {this.newMessage(reel, characters, patch)}, 1);
 			console.log("waiting");
 			return;
@@ -58,11 +60,11 @@ export class GameState {
 				this.canvas.clear();
 				this.initReel();
 				// init players
-				this.player1 = new Player.Player(characters[0], 0, this.canvas, this.scale);
+				this.player1 = new Player.Player(characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt);
 				if (!characters[1])
 					this.idleCheck();
 				if (characters[1])
-					this.player2 = new Player.Player(characters[1], 1, this.canvas, this.scale);
+					this.player2 = new Player.Player(characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt);
 				this.drawPlayers();
 			}
 		}

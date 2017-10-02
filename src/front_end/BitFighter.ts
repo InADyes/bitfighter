@@ -10,11 +10,17 @@ import {
 } from '../shared/frontEndMessage';
 import { choiceStats } from '../back_end/characterChoiceHandler';
 
+// declare const achievements: {
+//     fan_platform_id: string;
+// };
+
 export class BitFighter {
     private readonly game: GameState;
     private canvas: HTMLCanvasElement = document.createElement('canvas');
     private cards: HTMLDivElement[] = [];
     private timeout: number | null = null;
+    private artURLs: string[];
+    private iconURLs: string[];
 
     constructor(
         private readonly wrapperDiv: HTMLDivElement,
@@ -26,17 +32,21 @@ export class BitFighter {
         this.canvas.id = 'arena';
         this.canvas.style.position = 'absolute';
         this.wrapperDiv.appendChild(this.canvas);
-        this.game = new GameState('arena');
+        this.artURLs = artURLs.map(url => this.settings.assetsShim + url);
+        this.iconURLs = buffArt.map(url => this.settings.assetsShim + url);
+        this.game = new GameState('arena', this.artURLs, this.iconURLs);
         this.updateSettings(settings);
         window.addEventListener('resize', () => {
             this.updateScale();
         });
     }
-    public recievedViewerGameState(data: BackToFrontMessage) {
+    public receivedViewerGameState(data: BackToFrontMessage) {
         if (data.newReel) {
             this.game.newMessage(data.newReel.reel, data.newReel.characters, data.newReel.patch);
         }
-        if (data.characterChoices) {
+        // temp hack to be replaced by using proper socket events for each emit type
+        // only shows card if fan id matches
+        if (data.characterChoices /* && data.id === parseInt(achievements.fan_platform_id, 10)*/) {
             if (this.timeout) {
                 this.clearCards();
             }
@@ -147,7 +157,6 @@ function buildCard(character: CharacterCard) {
     return card;
 }
 
-
 const artURLs = [
     "images/characters/stickFigures/0StreetUrchin.png",
     "images/characters/stickFigures/1SculleryMaid.png",
@@ -169,6 +178,27 @@ const artURLs = [
     "images/characters/stickFigures/17Lich.png",
     "images/characters/stickFigures/18Angel.png"
 ];
+const buffArt = [
+    "images/icons/buff1.png",
+    "images/icons/buff2.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+    "images/icons/buff3.png",
+];
+
 
 function healthBarSVG(amount: StatBarAmount) {
     return `

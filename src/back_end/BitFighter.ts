@@ -1,3 +1,4 @@
+/// <reference path="../lib/performance-now.d.ts" />
 import * as buildGraphicsEvents from './buildGraphicsEvents';
 import { buildFightEvents } from '../shared/fight';
 import { Stats, Status } from '../shared/Status';
@@ -7,12 +8,12 @@ import * as graphicsEvents from '../shared/graphicsEvents';
 import * as frontEndMessage from '../shared/frontEndMessage';
 import { Settings } from './backendSettings'
 import { applyFightEvents } from '../shared/applyFightEvents'
-
 import { CharacterChoiceHandler } from './characterChoiceHandler';
+let performance = require('performance-now');
 
 export class BitFighter {
     private fightStartTime: number = 0;
-    private timeout: number | null = null; // null if no timeout
+    private timeout: NodeJS.Timer | null = null; // null if no timeout
     private lastCombatants: Status[] = [];
     private lastResults: Status[] = [];
     private lastEvents: FightEvents.Event[] = [];
@@ -23,12 +24,12 @@ export class BitFighter {
             this.newCombatant(status);
         },
         (characterChoices, id) => {
-            this.sendMessageToFont({characterChoices, id});
+            this.sendMessageToFont({characterChoices}, id);
         }
     );
 
     constructor(
-        private sendMessageToFont: (message: frontEndMessage.BackToFrontMessage) => void,
+        private sendMessageToFont: (message: frontEndMessage.BackToFrontMessage, ...fan: number[]) => void,
         public settings: Settings = {
             delayBetweenFights: 3000,
             gameSpeedMultipier: 1,
@@ -48,7 +49,7 @@ export class BitFighter {
             // and the donation matches a fighter
             combatantIndex = this.lastCombatants.findIndex(s => s.id === id);
             if (combatantIndex !== -1) {
-                const patchTime = performance.now() - this.fightStartTime;
+                const patchTime = performance() - this.fightStartTime;
 
                 this.insertEvents(
                     [
@@ -70,7 +71,7 @@ export class BitFighter {
         }
         combatantIndex = this.lastResults.findIndex(s => s.id === id);
         if (combatantIndex !== -1) {
-            const patchTime = performance.now() - this.fightStartTime;
+            const patchTime = performance() - this.fightStartTime;
 
             this.insertEvents(
                 [
@@ -100,7 +101,7 @@ export class BitFighter {
 
         // if there was a last fight, damage current champion
         if (this.lastCombatants.length > 0) {
-            const patchTime = performance.now() - this.fightStartTime;
+            const patchTime = performance() - this.fightStartTime;
 
             this.insertEvents(
                 [
@@ -181,7 +182,7 @@ export class BitFighter {
         let result = buildFightEvents(this.lastCombatants);
         result.reel.forEach(e => e.time *= this.settings.gameSpeedMultipier);
         this.lastResults = result.combatants;
-        this.fightStartTime = performance.now();
+        this.fightStartTime = performance();
         this.lastEvents = result.reel;
 
         this.pushLastResults();
@@ -210,11 +211,11 @@ export class BitFighter {
 
         if (this.lastCombatants.length > 1) {
             if (this.timeout !== null) 
-                window.clearTimeout(this.timeout);
+                clearTimeout(this.timeout);
 
             const fightLength = graphicsEvents[0] ? graphicsEvents[graphicsEvents.length - 1].time : 0;
 
-            this.timeout = window.setTimeout(
+            this.timeout = setTimeout(
                 () => {
                     console.log('fight over');
                     this.timeout = null;

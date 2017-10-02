@@ -22,46 +22,6 @@ export class Player {
     private buffs:          number[];
     private buffGroup:      fabric.Group;
     private scale:          number; 
-    private art = [
-        "images/characters/stickFigures/1SculleryMaid.png",
-        "images/characters/stickFigures/3Barkeep.png",				
-        "images/characters/stickFigures/4Aristocrat.png",	
-        "images/characters/stickFigures/5Minstrel.png",
-        "images/characters/stickFigures/6Mage.png",
-        "images/characters/stickFigures/7Rogue.png",	
-        "images/characters/stickFigures/10Warpriest.png",		
-        "images/characters/stickFigures/12Warlock.png",	
-        "images/characters/stickFigures/14Swashbuckler.png",
-        "images/characters/stickFigures/15Dragon.png",
-        "images/characters/stickFigures/2Farmer.png",
-        "images/characters/stickFigures/8Gladiator.png",		
-        "images/characters/stickFigures/9Barbarian.png",	
-        "images/characters/stickFigures/11Werewolf.png",
-        "images/characters/stickFigures/13Paladin.png",
-        "images/characters/stickFigures/16Phoenix.png",
-        "images/characters/stickFigures/17Lich.png",
-        "images/characters/stickFigures/18Angel.png"
-    ];
-    private buffArt = [
-        "images/icons/buff1.png",
-        "images/icons/buff2.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-    ]
     private height =        70;
     private hpWidth =       5;
     private textLock =      0;
@@ -80,7 +40,13 @@ export class Player {
     private hpTextTop =     33;
     private textTop =       30;
 
-    constructor(data: any, side: number, canvas: fabric.Canvas, scale: number) {
+    constructor(data: any,
+        side: number, 
+        canvas: fabric.Canvas, 
+        scale: number, 
+        private readonly charArt: string[], 
+        private readonly buffArt: string[]
+    ) {
         this.name = data.name;
         this.health = data.currentHitPoints;
         this.artIndex = data.art;
@@ -132,7 +98,7 @@ export class Player {
     public draw() {
         if (this.img)
             this.canvas.remove(this.img);
-        new fabric.Image.fromURL(this.art[this.artIndex], (oImg: fabric.Image) => {
+        new fabric.Image.fromURL(this.charArt[this.artIndex], (oImg: fabric.Image) => {
             if(oImg.width && oImg.height)
                 this.trueWidth = oImg.width/oImg.height * 70 * this.scale;
             this.img = oImg.set({
