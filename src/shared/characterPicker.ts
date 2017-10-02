@@ -31,7 +31,7 @@ export const characters: Character[] = [
         stats: { 
             maxHitPoints: 400,
             accuracy: 100,
-            dodge: 100,
+            dodge: 50,
             attackSpeed: {
                 min: 1100,
                 max: 2200,
@@ -65,7 +65,7 @@ export const characters: Character[] = [
         stats: { 
             maxHitPoints: 1200,
             accuracy: 100,
-            dodge: 100,
+            dodge: 50,
             attackSpeed: {
                 min: 625,
                 max: 1250,
@@ -94,7 +94,7 @@ export const characters: Character[] = [
         stats: { 
             maxHitPoints: 975,
             accuracy: 110,
-            dodge: 110,
+            dodge: 55,
             attackSpeed: {
                 min: 400,
                 max: 800,
@@ -123,7 +123,7 @@ export const characters: Character[] = [
         stats: { 
             maxHitPoints: 1000,
             accuracy: 110,
-            dodge: 110,
+            dodge: 55,
             attackSpeed: {
                 min: 375,
                 max: 750,
@@ -152,7 +152,7 @@ export const characters: Character[] = [
         stats: { 
             maxHitPoints: 925,
             accuracy: 140,
-            dodge: 90,
+            dodge: 40,
             attackSpeed: {
                 min: 250,
                 max: 500,
@@ -181,7 +181,7 @@ export const characters: Character[] = [
         stats: { 
             maxHitPoints: 1250,
             accuracy: 120,
-            dodge: 120,
+            dodge: 60,
             attackSpeed: {
                 min: 300,
                 max: 600,
@@ -210,7 +210,7 @@ export const characters: Character[] = [
         stats: { 
             maxHitPoints: 1400,
             accuracy: 100,
-            dodge: 90,
+            dodge: 50,
             attackSpeed: {
                 min: 550,
                 max: 1150,
@@ -239,7 +239,7 @@ export const characters: Character[] = [
         stats: { 
             maxHitPoints: 1350,
             accuracy: 65,
-            dodge: 70,
+            dodge: 35,
             attackSpeed: {
                 min: 1000,
                 max: 1500,
@@ -269,7 +269,7 @@ export const characters: Character[] = [
         stats: { 
             maxHitPoints: 1250,
             accuracy: 110,
-            dodge: 130,
+            dodge: 65,
             attackSpeed: {
                 min: 450,
                 max: 900,
@@ -298,7 +298,7 @@ export const characters: Character[] = [
         stats: { 
             maxHitPoints: 2500,
             accuracy: 50,
-            dodge: 20,
+            dodge: 10,
             attackSpeed: {
                 min: 2000,
                 max: 4000,

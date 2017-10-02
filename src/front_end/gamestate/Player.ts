@@ -8,10 +8,10 @@ export class Player {
     private right:          number;
     private img:            fabric.Object;
     private healthtext:     fabric.Group;
-    private greenBar:  fabric.Rect;
-    private redBar:   fabric.Rect;
-    private yellowBar:   fabric.Rect;
-    private whiteBar:    fabric.Rect;
+    private greenBar:       fabric.Rect;
+    private redBar:         fabric.Rect;
+    private yellowBar:      fabric.Rect;
+    private whiteBar:       fabric.Rect;
     private displayname:    fabric.Text;
     private displaynametop: fabric.Text;
     private canvas:         fabric.Canvas;
@@ -30,8 +30,9 @@ export class Player {
     private strokeWidith =  2;
     private fontSize =      15;
     private font =          'Concert One'
-    private iconwidth =     10;
+    private iconwidth =     15;
     private icontop =       135;
+    private iconsize =      15;
 
     // Adjust these to move elements around
     private artAdjust =     0;
@@ -39,6 +40,19 @@ export class Player {
     private artTop =        120;
     private hpTextTop =     33;
     private textTop =       30;
+
+    private charStrings = [
+        "Scullary Maid",
+        "Barkeep",
+        "Medium",
+        "Minstrel",
+        "Mage",
+        "Rogue",
+        "Warpriest",
+        "Warlock",
+        "Swashbuckler",
+        "Dragon",
+    ];
 
     constructor(data: any,
         side: number, 
@@ -84,10 +98,10 @@ export class Player {
         for (let i = 0; i < this.buffs.length; i++) {
             new fabric.Image.fromURL(this.buffArt[this.buffs[i]], (oImg: fabric.Image) => {
                 let currentbuff = oImg.set({
-                    left: !this.right ? this.center - this.trueWidth + this.iconwidth * i  : this.center  + this.iconwidth *(i+1) ,
-                    top: this.icontop * this.scale,
-                    height: 10,
-                    width: 10
+                    left: !this.right ? this.center - this.trueWidth + this.iconwidth * (i % 8) * this.scale : this.center  + this.iconwidth *(i%8+1)*this.scale,
+                    top: i < 8? this.icontop * this.scale: (this.icontop + this.iconsize * Math.floor(i/8)) *this.scale,
+                    height: this.iconsize * this.scale,
+                    width: this.iconsize * this.scale
                 });
                 this.buffGroup.addWithUpdate(currentbuff);
                 this.canvas.renderAll();
@@ -300,7 +314,6 @@ export class Player {
     }
 
 	public healthbar(adjustment: number) {
-        this.animates();
         if (!this.greenBar.height)
             return;
 
@@ -342,7 +355,6 @@ export class Player {
                 this.yellowBar.animate('height', barChange < 0 ? `+=${ -barChange }` : `-=${ barChange }`, {
                     duration: barChange < 0 ? 1 : yellowDuration,
                     onChange: this.canvas.renderAll.bind(this.canvas),
-                    onComplete: () => {this.animationLock = 0},
                 });
             }
         });
@@ -419,5 +431,15 @@ export class Player {
    public clearBuffs(){
        this.canvas.remove(this.buffGroup);
        this.buffs = [];
+   }
+
+   public getBitBossInfo() {
+       return ({
+           name: this.name,
+           hp: this.health,
+           maxHp: this.baseHealth,
+           img: this.charArt[this.artIndex],
+           character: this.charStrings[this.artIndex]
+       });
    }
 }

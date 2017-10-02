@@ -17,6 +17,7 @@ export class BitFighter {
     private timeout: number | null = null;
     private artURLs: string[];
     private iconURLs: string[];
+    private chars: string[];
 
     constructor(
         private readonly wrapperDiv: HTMLDivElement,
@@ -150,25 +151,16 @@ function buildCard(character: CharacterCard) {
 }
 
 const artURLs = [
-    "images/characters/stickFigures/0StreetUrchin.png",
-    "images/characters/stickFigures/1SculleryMaid.png",
-    "images/characters/stickFigures/2Farmer.png",
-    "images/characters/stickFigures/3Barkeep.png",        
-    "images/characters/stickFigures/4Aristocrat.png", 
-    "images/characters/stickFigures/5Minstrel.png",
-    "images/characters/stickFigures/6Mage.png",
-    "images/characters/stickFigures/7Rogue.png",  
-    "images/characters/stickFigures/8Gladiator.png",    
-    "images/characters/stickFigures/9Barbarian.png",  
-    "images/characters/stickFigures/10Warpriest.png",   
-    "images/characters/stickFigures/11Werewolf.png",
-    "images/characters/stickFigures/12Warlock.png", 
-    "images/characters/stickFigures/13Paladin.png",
-    "images/characters/stickFigures/14Swashbuckler.png",
-    "images/characters/stickFigures/15Dragon.png",
-    "images/characters/stickFigures/16Phoenix.png",
-    "images/characters/stickFigures/17Lich.png",
-    "images/characters/stickFigures/18Angel.png"
+    "images/characters/stickFigures/0scullery_maid.png",
+    "images/characters/stickFigures/1barkeep.png",
+    "images/characters/stickFigures/2medium.png",
+    "images/characters/stickFigures/3minstrel.png",        
+    "images/characters/stickFigures/4mage.png", 
+    "images/characters/stickFigures/5rogue.png",
+    "images/characters/stickFigures/6warpriest.png",
+    "images/characters/stickFigures/7warlock.png",  
+    "images/characters/stickFigures/8swashbuckler.png",    
+    "images/characters/stickFigures/9dragon.png",  
 ];
 const buffArt = [
     "images/icons/buff1.png",
@@ -190,7 +182,18 @@ const buffArt = [
     "images/icons/buff3.png",
     "images/icons/buff3.png",
 ];
-
+const charStrings = [
+    "Scullary Maid",
+    "Barkeep",
+    "Medium",
+    "Minstrel",
+    "Mage",
+    "Rogue",
+    "Warpriest",
+    "Warlock",
+    "Swashbuckler",
+    "Dragon",
+];
 
 function healthBarSVG(amount: StatBarAmount) {
     return `
