@@ -19,6 +19,35 @@ export interface Buff {
     readonly critDamageModifier?: number // also doesn't do anything
 }
 
+
+export const enum types {
+    streetUrchin        = 0,
+    sculleryMaid        = 1,
+    sculleryMaid1       = 2,
+    farmer              = 3,
+    barkeep             = 4,
+    aristocrat          = 5,
+    minstrel            = 6,
+    mage                = 7,
+    rogue               = 8,
+    gladiator           = 9,
+    barbarian           = 10,
+    warpriest           = 11,
+    werewolfBuff        = 12,
+    warlockBuff         = 13,
+    warlockDebuff       = 14,
+    paladin             = 15,
+    swashbucklerBuff    = 16,
+//    swashbucklerDebuff  = 17,
+    dragon              = 18,
+    angel               = 19,
+    phoenix             = 20,
+    phoenix1            = 21,
+    lichBuff            = 22,
+    lichDebuff          = 23,
+    armorBonus          = 24
+}
+
 export const enum types {
     streetUrchin        = 0,
     sculleryMaid        = 1,
