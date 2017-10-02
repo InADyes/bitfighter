@@ -31,7 +31,7 @@ export class BitFighter {
         this.wrapperDiv.appendChild(this.canvas);
         this.artURLs = artURLs.map(url => this.settings.assetsShim + url);
         this.iconURLs = buffArt.map(url => this.settings.assetsShim + url);
-        this.game = new GameState('arena', this.artURLs, this.iconURLs, this.char);
+        this.game = new GameState('arena', this.artURLs, this.iconURLs);
         this.updateSettings(settings);
         window.addEventListener('resize', () => {
             this.updateScale();
