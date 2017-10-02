@@ -21,33 +21,25 @@ export interface Buff {
 
 
 export const enum types {
-    streetUrchin        = 0,
-    sculleryMaid        = 1,
-    sculleryMaid1       = 2,
-    farmer              = 3,
-    barkeep             = 4,
-    aristocrat          = 5,
-    minstrel            = 6,
-    mage                = 7,
-    rogue               = 8,
-    gladiator           = 9,
-    barbarian           = 10,
-    warpriest           = 11,
-    werewolfBuff        = 12,
-    warlockBuff         = 13,
-    warlockDebuff       = 14,
-    paladin             = 15,
-    swashbucklerBuff    = 16,
-//    swashbucklerDebuff  = 17,
-    dragon              = 18,
-    angel               = 19,
-    phoenix             = 20,
-    phoenix1            = 21,
-    lichBuff            = 22,
-    lichDebuff          = 23,
-    armorBonus          = 24
+    sculleryMaid,
+    barkeep,
+    medium,
+    minstrel,
+    mage,
+    rogue,
+    warpriest,
+    warlockBuff,
+    warlockDebuff,
+    swashbucklerBuff,
+    dragon,
+    angel,
+    phoenix,
+    phoenix1,
+    lichBuff,
+    lichDebuff,
+    armorBonus
 }
-
+/*
 export const enum types {
     streetUrchin        = 0,
     sculleryMaid        = 1,
@@ -74,7 +66,7 @@ export const enum types {
     lichBuff            = 22,
     lichDebuff          = 23,
     armorBonus          = 24
-}
+}*/
 /*
 Scullery Maid   -   Mop Up          -   debuff: Accuracy -50% Dodge -50%
 Barkeep         -   Last Call       -   debuff: Accuracy -80%
@@ -88,7 +80,7 @@ Warlock cont.   -   Damnation       -   buff: accuracy +100%, dodge +100%, crit 
 Swashbuckler    -   Whirling Blades -   buff: dodge +25%, accuracy +25%
 Dragon          -   Fire Breathing  -   Debuff: dodge - 100%
 */
-/*
+
 export const buffs: Buff[] = [
     {
         duration: 6000,
@@ -153,9 +145,8 @@ export const buffs: Buff[] = [
         dodge: 0,
     },// Dragon - Fire Breathing
 ];
-*/
 
-
+/*
 export const buffs: Buff[] = [
     {
         duration: 6000,
@@ -292,4 +283,4 @@ export const buffs: Buff[] = [
         art: 22,
         armor: 1.5
     },// ArmorBonus
-];
+];*/
