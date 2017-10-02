@@ -95,12 +95,6 @@ function buildCard(character: CharacterCard) {
     let stats = document.createElement('div');
     stats.className = 'character-card-stats';
     card.appendChild(stats);
-    // let img = new Image();
-    // img.onload = () => {
-        // card.insertBefore(img, stats);
-    // }
-    // img.src = artURLs[character.art];
-    // img.alt = character.className;
 
     let charStats = Object.keys(character.stats).map(function(key, index){
         let x = `
@@ -125,6 +119,7 @@ function buildCard(character: CharacterCard) {
             <div class="title">Level:</div>  
             <div class="amount">
                  <div class="amount-int">  ${ character.level }</div>
+                  ${healthBarSVG({amount: character.level, factor: 10} )}
             </div>
         </div>
         <div class="stat">
@@ -144,7 +139,7 @@ function buildCard(character: CharacterCard) {
         <div class="stat">
             <div class="title">Rarity:</div>
             <div class="amount">
-                <div class="amount-int">${ character.rarity } </div>
+                ${ formatRarity[character.rarity] }
             </div>
         </div>
     </div>`;
@@ -157,16 +152,16 @@ const artURLs = [
     "images/characters/stickFigures/0StreetUrchin.png",
     "images/characters/stickFigures/1SculleryMaid.png",
     "images/characters/stickFigures/2Farmer.png",
-    "images/characters/stickFigures/3Barkeep.png",				
-    "images/characters/stickFigures/4Aristocrat.png",	
+    "images/characters/stickFigures/3Barkeep.png",        
+    "images/characters/stickFigures/4Aristocrat.png", 
     "images/characters/stickFigures/5Minstrel.png",
     "images/characters/stickFigures/6Mage.png",
-    "images/characters/stickFigures/7Rogue.png",	
-    "images/characters/stickFigures/8Gladiator.png",		
-    "images/characters/stickFigures/9Barbarian.png",	
-    "images/characters/stickFigures/10Warpriest.png",		
+    "images/characters/stickFigures/7Rogue.png",  
+    "images/characters/stickFigures/8Gladiator.png",    
+    "images/characters/stickFigures/9Barbarian.png",  
+    "images/characters/stickFigures/10Warpriest.png",   
     "images/characters/stickFigures/11Werewolf.png",
-    "images/characters/stickFigures/12Warlock.png",	
+    "images/characters/stickFigures/12Warlock.png", 
     "images/characters/stickFigures/13Paladin.png",
     "images/characters/stickFigures/14Swashbuckler.png",
     "images/characters/stickFigures/15Dragon.png",
@@ -183,28 +178,25 @@ function healthBarSVG(amount: StatBarAmount) {
         <defs>
         <mask id="healthBarCutout">
             <rect x="144.72" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="130.25" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="115.77" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="101.3" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="86.83" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="72.36" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="57.89" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="43.42" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="28.94" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="14.47" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="0" y="5" width="8" height="40" rx="2" ry="2"/>
         </mask>
         </defs>
-        <rect width="${ amount.amount * amount.factor }%" height="100%" mask="url(#healthBarCutout)" onLoad:(console.log('load rect'))/>
+        <rect class="main" width="${ amount.amount * amount.factor }%" height="100%" mask="url(#healthBarCutout)"/>
     </svg>`;
 }
+
+const formatRarity  = {
+    '0': 'Common',
+    '1': 'Uncommon',
+    '2': 'Rare',
+    '3': 'Mythic'
+} 

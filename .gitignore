@@ -21,3 +21,4 @@
 
 # for maxes tsc check task
 /src/**/*.js
+yarn.lock
