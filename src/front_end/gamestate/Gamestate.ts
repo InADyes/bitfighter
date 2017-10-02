@@ -16,6 +16,7 @@ export class GameState {
 	private player1:			Player.Player | null;
 	private player2:			Player.Player | null;
 	private idleId:				number;
+	private currentBoss:		Object;
 	private scale =				1;
 	private scaleWait =			0;
 	private isWaiting =			0;
@@ -35,17 +36,13 @@ export class GameState {
 		if ((this.player1 && this.player1.isAnimated())
 			|| (this.player2 && this.player2.isAnimated())) {
 			window.setTimeout(() => {this.newMessage(reel, characters, patch)}, 1);
-			console.log("waiting");
 			return;
 		}
-		console.log(`PATCH: ${patch}`);
-		if (this.reel)
-			console.log(this.reel[0]);
 		console.log(reel);
 		// if there's a patch in the middle of a reel
 		clearTimeout(this.idleId);
 		if (patch && this.reel[0]) {
-			this.applyPatch(reel);
+			this.applyPatch(reel, patch);
 		}
 		else  {
 			this.clearMessage();
@@ -59,10 +56,12 @@ export class GameState {
 				this.initReel();
 				// init players
 				this.player1 = new Player.Player(characters[0], 0, this.canvas, this.scale);
-				if (!characters[1])
-					this.idleCheck();
+				if (!this.currentBoss)
+					this.bossify(this.player1);
 				if (characters[1])
 					this.player2 = new Player.Player(characters[1], 1, this.canvas, this.scale);
+				else
+					this.idleCheck();
 				this.drawPlayers();
 			}
 		}
@@ -105,15 +104,17 @@ export class GameState {
 		this.lastTime = event.time;
 	}
 
-	private applyPatch(reel: Events.Event[]) {
+	private applyPatch(reel: Events.Event[], patch: number) {
+		while (reel[0].time != patch)
+			reel.shift();
 		for (let i = 0; i < this.reel.length; i++) {
+			console.log(reel[0].time, this.reel[i].time);
 			if (reel[0].time < this.reel[i].time) {
 				this.reel.splice(i);
 				this.reel.push(...reel);
 				break;
 			}
 		}
-		console.log(`NEW REEL: ${this.reel}`);
 	}
 
 	public drawPlayers() {

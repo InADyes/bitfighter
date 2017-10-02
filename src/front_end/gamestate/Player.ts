@@ -453,4 +453,31 @@ export class Player {
        this.canvas.remove(this.buffGroup);
        this.buffs = [];
    }
+
+   public becomesBoss() {
+       let boss = {
+           name: this.name,
+           hp: this.health,
+           maxHp: this.baseHealth,
+           img: this.art[this.artIndex],
+           character: 
+       }
+   }
 }
+/*
+{
+  boss: {
+    name: 'Boss123456789',
+    hp: 100,
+    maxHp: 100,
+    img: 'minigames/mini-bitboss/images/burger.jpeg',
+    character: 'Farmer',
+  },
+  attacker: {
+    name: 'attacker213431',
+    damage: '',
+    image: '',
+    character: 'Witch',
+  },
+};
+*/
