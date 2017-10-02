@@ -163,17 +163,17 @@ const artURLs = [
     "images/characters/stickFigures/9dragon.png",  
 ];
 const buffArt = [
-    "images/icons/buffs/mop_up",
-    "images/icons/buffs/last_call",
-    "images/icons/buffs/medium_buff",
-    "images/icons/buffs/blinding_chord",
-    "images/icons/buffs/magic_missile",
-    "images/icons/buffs/backstab",
-    "images/icons/buffs/curse",
-    "images/icons/buffs/damnation_buff",
-    "images/icons/buffs/damnation_debuff",
-    "images/icons/buffs/whirling_blades",
-    "images/icons/buffs/fire_breathing"
+    "images/icons/buffs/mop_up.png",
+    "images/icons/buffs/last_call.png",
+    "images/icons/buffs/medium_buff.png",
+    "images/icons/buffs/blinding_chord.png",
+    "images/icons/buffs/magic_missile.png",
+    "images/icons/buffs/backstab.png",
+    "images/icons/buffs/curse.png",
+    "images/icons/buffs/damnation_buff.png",
+    "images/icons/buffs/damnation_debuff.png",
+    "images/icons/buffs/whirling_blades.png",
+    "images/icons/buffs/fire_breathing.png"
 ];
 const charStrings = [
     "Scullary Maid",
