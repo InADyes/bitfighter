@@ -155,7 +155,7 @@ export class BitFighter {
 
         // caculate the rest of the events
         let results = buildFightEvents(tempStatus);
-        results.reel.forEach(e => e.time += + 2000);
+        results.reel.forEach(e => e.time += 2000);
 
         // add the rest of the events to the old events
         insert = insert.concat(results.reel);
@@ -209,7 +209,7 @@ export class BitFighter {
             );
         } else {
             this.timeout = setTimeout(
-                () => this.nextFight(),
+                () => this.checkQueue(),
                 this.settings.delayBetweenFights
             );
         }
