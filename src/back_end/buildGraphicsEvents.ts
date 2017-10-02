@@ -79,7 +79,7 @@ export function build(fight: FightEvents.Event[]) {
                     'crit',
                     'red'
                 ));
-                const debuff = (<FightEvents.Crit>event).debuff;
+                const { buff, debuff } = <FightEvents.Crit>event;
                 if (debuff){
                     display.push(new GraphicsEvents.Buff(
                         event.time,
@@ -88,7 +88,6 @@ export function build(fight: FightEvents.Event[]) {
                         debuff.duration
                     ));
                 }
-                const buff = (<FightEvents.Crit>event).debuff;
                 if (buff){
                     display.push(new GraphicsEvents.Buff(
                         event.time,
