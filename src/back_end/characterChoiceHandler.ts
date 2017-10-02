@@ -2,14 +2,7 @@ import { CharacterCard } from '../shared/frontEndMessage';
 import { Character, characters, pickCharacter, characterTypes } from '../shared/characterPicker';
 import { Status } from '../shared/Status';
 
-export interface choiceStats {
-    accuracy: number;
-    dodge: number;
-    armor: number;
-    damage: number;
-    attackSpeed: number;
-    //TODO: Add Weapon Type variable to Cards. - SHAWN
-}
+export type choiceStats = {[detials: string]: number};
 
 const cardStats: {[details: number]: choiceStats} = {
     [characterTypes.scullaryMaid]: {
