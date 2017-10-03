@@ -45,7 +45,7 @@ export class BitFighter {
             if (this.timeout) {
                 this.clearCards();
             }
-            this.cards = data.characterChoices.map(c => buildCard(c));
+            this.cards = data.characterChoices.map(c => buildCard(c, this.artURLs));
             for (let i = 0; i < this.cards.length; i++) {
                 this.wrapperDiv.appendChild(this.cards[i]);
                 this.cards[i].addEventListener('click', () => {
@@ -93,7 +93,7 @@ export class BitFighter {
     }
 }
 
-function buildCard(character: CharacterCard) {
+function buildCard(character: CharacterCard, artURLs: string[]) {
     let card = document.createElement('div');
     let stats = document.createElement('div');
     stats.className = 'character-card-stats';
@@ -149,19 +149,6 @@ function buildCard(character: CharacterCard) {
     card.className = 'character-card';
     return card;
 }
-
-const charStrings = [
-    "Scullary Maid",
-    "Barkeep",
-    "Medium",
-    "Minstrel",
-    "Mage",
-    "Rogue",
-    "Warpriest",
-    "Warlock",
-    "Swashbuckler",
-    "Dragon",
-];
 
 function healthBarSVG(amount: StatBarAmount) {
     return `
