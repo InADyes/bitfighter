@@ -26,13 +26,13 @@ export class Player {
     private hpWidth =       5;
     private textLock =      0;
     private animationLock = 0;
-    private nameheight =    120;
+    private nameHeight =    120;
     private strokeWidith =  2;
     private fontSize =      15;
     private font =          'Concert One'
-    private iconwidth =     15;
-    private icontop =       135;
-    private iconsize =      15;
+    private buffWidth =     15;
+    private buffTop =       135;
+    private buffSize =      20;
 
     // Adjust these to move elements around
     private artAdjust =     0;
@@ -95,13 +95,16 @@ export class Player {
             top:0
         });
         this.canvas.add(this.buffGroup);
+
+        let numBuffsPerRow = Math.floor(this.trueWidth / this.buffWidth);
+        console.log(numBuffsPerRow);
         for (let i = 0; i < this.buffs.length; i++) {
             new fabric.Image.fromURL(this.buffArt[this.buffs[i]], (oImg: fabric.Image) => {
                 let currentbuff = oImg.set({
-                    left: !this.right ? this.center - this.trueWidth + this.iconwidth * (i % 8) * this.scale : this.center  + this.iconwidth *(i%8+1)*this.scale,
-                    top: i < 8? this.icontop * this.scale: (this.icontop + this.iconsize * Math.floor(i/8)) *this.scale,
-                    height: this.iconsize * this.scale,
-                    width: this.iconsize * this.scale
+                    left: !this.right ? this.center - this.trueWidth + this.buffWidth * (i % numBuffsPerRow) * this.scale : this.center  + this.buffWidth * (i % numBuffsPerRow) * this.scale,
+                    top: i < numBuffsPerRow? this.buffTop * this.scale: (this.buffTop + this.buffSize * Math.floor(i / numBuffsPerRow)) * this.scale,
+                    height: this.buffSize * this.scale,
+                    width: this.buffSize * this.scale
                 });
                 this.buffGroup.addWithUpdate(currentbuff);
                 this.canvas.renderAll();
@@ -141,7 +144,7 @@ export class Player {
             fill: 'white',
             fontWeight: 'bold',
             stroke: 'white',
-            top: this.nameheight * this.scale,
+            top: this.nameHeight * this.scale,
             left: !this.right ? this.center  - this.trueWidth / 2:this.center + this.trueWidth / 2,
             originX: 'center'
         });
@@ -150,7 +153,7 @@ export class Player {
             fontFamily: this.font,
             fill: 'black',
             fontWeight: 'bold',
-            top: this.nameheight * this.scale,
+            top: this.nameHeight * this.scale,
             left: !this.right ? this.center  - this.trueWidth / 2:this.center + this.trueWidth / 2,
             originX: 'center'
         });

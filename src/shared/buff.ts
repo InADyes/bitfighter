@@ -21,23 +21,18 @@ export interface Buff {
 
 
 export const enum types {
-    sculleryMaid,
-    barkeep,
-    medium,
-    minstrel,
-    mage,
-    rogue,
-    warpriest,
-    warlockBuff,
-    warlockDebuff,
-    swashbucklerBuff,
-    dragon,
-    angel,
-    phoenix,
-    phoenix1,
-    lichBuff,
-    lichDebuff,
-    armorBonus
+    sculleryMaid            = 0,
+    barkeep                 = 1,
+    medium                  = 2,
+    minstrel                = 3,
+    mage                    = 4,
+    rogue                   = 5,
+    warpriest               = 6,
+    warlockBuff             = 7,
+    warlockDebuff           = 8,
+    swashbucklerBuff        = 9,
+    dragon                  = 10,
+    armorBonus              = 11,
 }
 /*
 export const enum types {
@@ -144,6 +139,11 @@ export const buffs: Buff[] = [
         art: 10,
         dodge: 0,
     },// Dragon - Fire Breathing
+    {
+        duration: 10000000,
+        art: 22,
+        armor: 1.5
+    },// ArmorBonus
 ];
 
 /*
@@ -283,4 +283,5 @@ export const buffs: Buff[] = [
         art: 22,
         armor: 1.5
     },// ArmorBonus
-];*/
+];
+*/
