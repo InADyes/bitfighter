@@ -54,10 +54,10 @@ export const characters: Character[] = [
             odds: 15,
             debuff: Buff.buffs[Buff.types.sculleryMaid],
         },
-        {
+        /*{
             odds: 15,
             debuff: Buff.buffs[Buff.types.sculleryMaid1],
-        }
+        }*/
     ],
         name: 'Scullery Maid'
     }, // Scullery Maid
@@ -115,7 +115,7 @@ export const characters: Character[] = [
         },
         {
             odds: 6,
-            buff: Buff.buffs[Buff.types.streetUrchin],
+            buff: Buff.buffs[Buff.types.medium],
         }],
         name: 'Medium'
     }, // Medium

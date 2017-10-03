@@ -112,8 +112,8 @@ export class GameState {
 	}
 
 	private applyPatch(reel: Events.Event[], patch: number) {
-		while (reel[0].time != patch)
-			reel.shift();
+		//while (reel[0].time != patch)
+		//	reel.shift();
 		for (let i = 0; i < this.reel.length; i++) {
 			console.log(reel[0].time, this.reel[i].time);
 			if (reel[0].time < this.reel[i].time) {
