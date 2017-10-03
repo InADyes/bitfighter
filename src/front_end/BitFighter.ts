@@ -10,6 +10,8 @@ import {
 } from '../shared/frontEndMessage';
 import { choiceStats } from '../back_end/characterChoiceHandler';
 
+declare function flip(side: 'front' | 'back'): void;
+
 export class BitFighter {
     private readonly game: GameState;
     private canvas: HTMLCanvasElement = document.createElement('canvas');
@@ -41,6 +43,7 @@ export class BitFighter {
             this.game.newMessage(data.newReel.reel, data.newReel.characters, data.newReel.patch);
         }
         if (data.characterChoices) {
+            flip('back');
             if (this.timeout) {
                 this.clearCards();
             }
