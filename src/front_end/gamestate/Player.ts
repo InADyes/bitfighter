@@ -27,7 +27,7 @@ export class Player {
     private strokeWidith =  2;
     private fontSize =      15;
     private font =          'Concert One'
-    private buffWidth =     15;
+    private buffWidth =     25;
     private buffTop =       135;
     private buffSize =      25;
 
@@ -153,7 +153,7 @@ export class Player {
             fontFamily: this.font,
             fill: 'black',
             fontWeight: 'bold',
-            top: this.nameHeight * this.scale,
+            top: this.nameHeight * this.scale + 1,
             left: !this.right ? this.center  - this.trueWidth / 2:this.center + this.trueWidth / 2,
             originX: 'center'
         });
@@ -241,6 +241,7 @@ export class Player {
             fontSize: this.fontSize * this.scale,
             fontFamily: this.font,
             fill: 'black',
+            top: 1,
             originX: 'center',
         }); 
         this.healthtext = new fabric.Group([healthtextbot,healthtexttop],{
@@ -298,6 +299,7 @@ export class Player {
             fontFamily: this.font,
             fontWeight: 'bold',
             fill: txtObj.color,
+            top: 1,
             originX: 'center'
         });
         let textgroup = new fabric.Group([txtbot,txttop],{
