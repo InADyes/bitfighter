@@ -235,7 +235,7 @@ export class GameState {
 	}
 
 	private switchToBitBoss() {
-		("SWITCH TO BIT BOSS");
+		console.log("SWITCH TO BIT BOSS");
 		flip('front');
 	}
 }
