@@ -29,18 +29,18 @@ export const enum characterTypes {
 export const characters: Character[] = [
     {
         stats: { 
-            maxHitPoints: 400,
-            accuracy: 100,
+            maxHitPoints: 1000,
+            accuracy: 110,
             dodge: 50,
             attackSpeed: {
-                min: 1100,
-                max: 2200,
+                min: 500,
+                max: 1000,
             },
             attackDamage: {
-                min: 100,
-                max: 150,
+                min: 45,
+                max: 75,
             },
-            armor: 30,
+            armor: 12,
             regeneration: 400,
             critChanceModifier: 1,
             critDamageModifier: 1,
@@ -74,7 +74,7 @@ export const characters: Character[] = [
                 min: 50,
                 max: 75,
             },
-            armor: 10,
+            armor: 13,
             regeneration: 300,
             critChanceModifier: 1,
             critDamageModifier: 1,
@@ -92,7 +92,7 @@ export const characters: Character[] = [
     }, // Barkeep
     {
         stats: { 
-            maxHitPoints: 975,
+            maxHitPoints: 925,
             accuracy: 110,
             dodge: 55,
             attackSpeed: {
@@ -101,9 +101,9 @@ export const characters: Character[] = [
             },
             attackDamage: {
                 min: 40,
-                max: 55,
+                max: 65,
             },
-            armor: 5,
+            armor: 7,
             regeneration: 300,
             critChanceModifier: 1,
             critDamageModifier: 1,
@@ -114,8 +114,8 @@ export const characters: Character[] = [
             odds: 20,
         },
         {
-            odds: 6,
-            buff: Buff.buffs[Buff.types.streetUrchin],
+            odds: 10,
+            buff: Buff.buffs[Buff.types.aristocrat],
         }],
         name: 'Medium'
     }, // Medium
@@ -130,9 +130,9 @@ export const characters: Character[] = [
             },
             attackDamage: {
                 min: 40,
-                max: 60,
+                max: 70,
             },
-            armor: 7,
+            armor: 8,
             regeneration: 300,
             critChanceModifier: 1,
             critDamageModifier: 1,
@@ -187,10 +187,10 @@ export const characters: Character[] = [
                 max: 600,
             },
             attackDamage: {
-                min: 33,
-                max: 48,
+                min: 35,
+                max: 45,
             },
-            armor: 8,
+            armor: 6,
             regeneration: 300,
             critChanceModifier: 1,
             critDamageModifier: 1,
@@ -208,7 +208,7 @@ export const characters: Character[] = [
     }, // Rogue
     {
         stats: { 
-            maxHitPoints: 1400,
+            maxHitPoints: 1500,
             accuracy: 100,
             dodge: 50,
             attackSpeed: {
@@ -219,7 +219,7 @@ export const characters: Character[] = [
                 min: 40,
                 max: 55,
             },
-            armor: 20,
+            armor: 18,
             regeneration: 600,
             critChanceModifier: 1,
             critDamageModifier: 1,
@@ -239,7 +239,7 @@ export const characters: Character[] = [
         stats: { 
             maxHitPoints: 1350,
             accuracy: 65,
-            dodge: 35,
+            dodge: 30,
             attackSpeed: {
                 min: 1000,
                 max: 1500,
@@ -248,7 +248,7 @@ export const characters: Character[] = [
                 min: 95,
                 max: 150,
             },
-            armor: 13,
+            armor: 8,
             regeneration: 300,
             critChanceModifier: 1,
             critDamageModifier: 1,
@@ -259,7 +259,7 @@ export const characters: Character[] = [
             odds: 8,
         },
         {
-            odds: 20,
+            odds: 10,
             buff: Buff.buffs[Buff.types.warlockBuff],
             debuff: Buff.buffs[Buff.types.warlockDebuff],
         }],
@@ -268,7 +268,7 @@ export const characters: Character[] = [
     {
         stats: { 
             maxHitPoints: 1250,
-            accuracy: 110,
+            accuracy: 90,
             dodge: 65,
             attackSpeed: {
                 min: 450,
@@ -296,16 +296,16 @@ export const characters: Character[] = [
     }, // Swashbuckler
     {
         stats: { 
-            maxHitPoints: 2500,
-            accuracy: 50,
+            maxHitPoints: 2000,
+            accuracy: 70,
             dodge: 10,
             attackSpeed: {
-                min: 2000,
-                max: 4000,
+                min: 1600,
+                max: 2800,
             },
             attackDamage: {
-                min: 180,
-                max: 560,
+                min: 120,
+                max: 320,
             },
             armor: 10,
             regeneration: 400,

@@ -87,7 +87,7 @@ export class Combatant {
         this.status.checkBuffs(this.time);
         const maxHitPoints = this.status.stats.maxHitPoints;
 
-        let healingAmount = this.status.stats.regeneration * maxHitPoints;
+        let healingAmount = this.status.stats.regeneration + maxHitPoints;
 
         if (healingAmount + this.status.hitPoints > maxHitPoints)
             healingAmount = maxHitPoints - this.status.hitPoints;

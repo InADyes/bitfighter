@@ -76,7 +76,7 @@ export const buffs: Buff[] = [
     {
         duration: 6000,
         art: 4,
-        attackDamage: 2,
+        critDamageModifier: 2,
     },// Aristocrat
     {
         duration: 3000,
