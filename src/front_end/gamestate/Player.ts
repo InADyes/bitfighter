@@ -73,7 +73,6 @@ export class Player {
         this.center = this.canvas.getWidth() / 2;
         this.textQueue = [];
         this.buffs = [];
-        this.animationLock = 0;
     }
 
     public addBuff(buff: number, duration: number) {
