@@ -1,4 +1,4 @@
-import * as fightEvents from './fightEvents';
+import * as FightEvents from './fightEvents';
 import * as Buff from './buff';
 import * as characterPicker from './characterPicker';
 import { Status } from '../shared/Status';
@@ -25,7 +25,7 @@ export class Combatant {
     constructor(
         public readonly status: Status,
         public readonly index: number,
-        private readonly newEvent: (event: fightEvents.Event) => void,
+        private readonly newEvent: (event: FightEvents.Event) => void,
         private readonly attackCallback: (attack: attackProps) => void
     ) {
         this.rollAttackSpeed();
@@ -36,6 +36,11 @@ export class Combatant {
     }
 
     public attack() {
+        this.newEvent(new FightEvents.Attack(
+            this.time,
+            this.index
+        ));
+
         this.status.checkBuffs(this.time);
 
         const stats = this.status.stats;
@@ -60,7 +65,7 @@ export class Combatant {
         const hitChangeRoll = Math.ceil(Math.random() * total);
     
         if (hitChangeRoll > attack.accuracy) {
-            this.newEvent(new fightEvents.Dodge(attack.time, this.index));
+            this.newEvent(new FightEvents.Dodge(attack.time, this.index));
             return;
         }
 
@@ -70,7 +75,7 @@ export class Combatant {
             if (Math.ceil(Math.random() * 100) <= crit.odds * attack.critChanceModifier) {
                 if (crit.damageMultiplier)
                     attack.damage = (attack.damage - this.status.stats.armor) * crit.damageMultiplier * attack.critDamageModifier;
-                this.newEvent(new fightEvents.Crit(attack.time, this.index, crit.debuff, crit.buff));
+                this.newEvent(new FightEvents.Crit(attack.time, this.index, crit.debuff, crit.buff));
             }
         }
 
@@ -78,10 +83,10 @@ export class Combatant {
             attack.damage = 0;
         else if (attack.damage > this.status.hitPoints)
             attack.damage = this.status.hitPoints;
-        this.newEvent(new fightEvents.Damage(attack.time, this.index, attack.damage));
+        this.newEvent(new FightEvents.Damage(attack.time, this.index, attack.damage));
             
         if (this.status.hitPoints <= 0)
-            this.newEvent(new fightEvents.Death(attack.time, this.index));
+            this.newEvent(new FightEvents.Death(attack.time, this.index));
     }
     public heal() {
         this.status.checkBuffs(this.time);
@@ -93,6 +98,6 @@ export class Combatant {
             healingAmount = maxHitPoints - this.status.hitPoints;
 
         // allways heals the first character in the future, needs to be changed
-        this.newEvent(new fightEvents.Healing(this.time + 200, 0, healingAmount));
+        this.newEvent(new FightEvents.Healing(this.time + 200, 0, healingAmount));
     }
 }

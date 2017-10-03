@@ -151,16 +151,23 @@ function buildCard(character: CharacterCard) {
 }
 
 const artURLs = [
-    "images/characters/stickFigures/0scullery_maid.png",
-    "images/characters/stickFigures/1barkeep.png",
-    "images/characters/stickFigures/2medium.png",
-    "images/characters/stickFigures/3minstrel.png",        
-    "images/characters/stickFigures/4mage.png", 
-    "images/characters/stickFigures/5rogue.png",
-    "images/characters/stickFigures/6warpriest.png",
-    "images/characters/stickFigures/7warlock.png",  
-    "images/characters/stickFigures/8swashbuckler.png",    
-    "images/characters/stickFigures/9dragon.png",  
+    "images/characters/stickFigureFighters/0StreetUrchin.png",
+    "images/characters/stickFigureFighters/1SculleryMaid.png.png",
+    "images/characters/stickFigureFighters/2Farmer.png",
+    "images/characters/stickFigureFighters/3Barkeep.png",        
+    "images/characters/stickFigureFighters/4Aristocrat.png", 
+    "images/characters/stickFigureFighters/5Minstrel.png",
+    "images/characters/stickFigureFighters/6Mage.png",
+    "images/characters/stickFigureFighters/7Rogue.png",  
+    "images/characters/stickFigureFighters/8Gladiator.png",    
+    "images/characters/stickFigureFighters/9Barbarian.png",
+    "images/characters/stickFigureFighters/10Warpriest.png",
+    "images/characters/stickFigureFighters/11Werewolf.png",
+    "images/characters/stickFigureFighters/12Warlock.png",
+    "images/characters/stickFigureFighters/13Paladin.png",
+    "images/characters/stickFigureFighters/14Swashbuckler.png",
+    "images/characters/stickFigureFighters/15Dragon.png",
+    
 ];
 const buffArt = [
     "images/icons/buffs/mop_up.png",
