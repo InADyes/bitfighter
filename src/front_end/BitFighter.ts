@@ -151,16 +151,16 @@ function buildCard(character: CharacterCard) {
 }
 
 const artURLs = [
-    "images/characters/stickFiguresFighters/0scullery_maid.png",
-    "images/characters/stickFiguresFighters/1barkeep.png",
-    "images/characters/stickFiguresFighters/2medium.png",
-    "images/characters/stickFiguresFighters/3minstrel.png",        
-    "images/characters/stickFiguresFighters/4mage.png", 
-    "images/characters/stickFiguresFighters/5rogue.png",
-    "images/characters/stickFiguresFighters/6warpriest.png",
-    "images/characters/stickFiguresFighters/7warlock.png",  
-    "images/characters/stickFiguresFighters/8swashbuckler.png",    
-    "images/characters/stickFiguresFighters/9dragon.png",  
+    "images/characters/stickFigureFighters/0scullery_maid.png",
+    "images/characters/stickFigureFighters/1barkeep.png",
+    "images/characters/stickFigureFighters/2medium.png",
+    "images/characters/stickFigureFighters/3minstrel.png",        
+    "images/characters/stickFigureFighters/4mage.png", 
+    "images/characters/stickFigureFighters/5rogue.png",
+    "images/characters/stickFigureFighters/6warpriest.png",
+    "images/characters/stickFigureFighters/7warlock.png",  
+    "images/characters/stickFigureFighters/8swashbuckler.png",    
+    "images/characters/stickFigureFighters/9dragon.png",  
 ];
 const buffArt = [
     "images/icons/buffs/mop_up.png",
