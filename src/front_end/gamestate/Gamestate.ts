@@ -23,6 +23,7 @@ export class GameState {
 	private isWaiting =			0;
 	private baseWidth = 		500;
 	private baseHeight = 		180;
+	private messageQueue = 		[];
 
 	constructor(
 		canvasId: string,
@@ -37,6 +38,8 @@ export class GameState {
 	}
 
 	public newMessage(reel: Events.Event[], characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[], patch?: number) {
+		// Add received message to the queue
+		
 		// Don't do anything if a character is dying or moving over
 		if ((this.player1 && this.player1.isAnimated())
 			|| (this.player2 && this.player2.isAnimated())) {
