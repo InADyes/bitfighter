@@ -12,6 +12,7 @@ const eventOrder = {
     [GraphicsEvents.EventType.Text]: 1
 }
 
+
 export function build(fight: FightEvents.Event[]) {
     let display: GraphicsEvents.Event[] = [];
     
@@ -29,10 +30,6 @@ export function build(fight: FightEvents.Event[]) {
                     String((<FightEvents.Damage>event).amount),
                     'red'
                 ));
-                display.push(new GraphicsEvents.Attack(
-                    event.time - 150,
-                    otherCharacter(event.character)
-                ));
                 break;
             case FightEvents.Types.dodge:
                 display.push(new GraphicsEvents.Text(
@@ -40,10 +37,6 @@ export function build(fight: FightEvents.Event[]) {
                     event.character,
                     'dodge',
                     'orange'
-                ));
-                display.push(new GraphicsEvents.Attack(
-                    event.time - 150,
-                    otherCharacter(event.character)
                 ));
                 break;
             case FightEvents.Types.healing:
@@ -63,12 +56,6 @@ export function build(fight: FightEvents.Event[]) {
                 display.push(new GraphicsEvents.Clear(
                     event.time,
                     event.character
-                ));
-                display.push(new GraphicsEvents.Text(
-                    event.time,
-                    0, //should this always be zero or be characterOther()?
-                    'Level Up!',
-                    'gold'
                 ));
                 break;
             case FightEvents.Types.crit:
@@ -114,6 +101,20 @@ export function build(fight: FightEvents.Event[]) {
                         'yellow'
                     ));
                 }
+                break;
+            case FightEvents.Types.attack:
+                display.push(new GraphicsEvents.Attack(
+                    event.time - 150,
+                    event.character
+                ));
+                break;
+            case FightEvents.Types.levelUp:
+                display.push(new GraphicsEvents.Text(
+                    event.time,
+                    event.character, //should this always be zero or be characterOther()?
+                    'Level Up!',
+                    'gold'
+                ));
                 break;
             default:
                 console.error('unidentified event type');

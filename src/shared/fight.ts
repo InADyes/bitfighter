@@ -78,6 +78,12 @@ export function buildFightEvents(stats: Status[]) {
     let winner = combatants.filter(c => c.status == newStats[0])[0];
     winner.time += 2000;
     winner.heal(); //todo: maybe should be done in front end
+    const event = new FightEvents.LevelUp(
+        winner.time,
+        0
+    );
+    applyFightEvents(newStats, event);
+    reel.push(event);
 
     return { combatants: newStats, reel }
 }

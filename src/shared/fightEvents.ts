@@ -6,7 +6,9 @@ export const enum Types {
     death,
     healing,
     crit,
-    donation
+    donation,
+    levelUp,
+    attack
 }
 
 export abstract class Event {
@@ -73,6 +75,24 @@ export class Donation extends Event {
         public readonly donationType: DonationType
     ) {
         super(time, Types.donation, character);
+    }
+}
+
+export class LevelUp extends Event {
+    constructor (
+        time: number,
+        character: number
+    ) {
+        super(time, Types.levelUp, character);
+    }
+}
+
+export class Attack extends Event {
+    constructor (
+        time: number,
+        character: number
+    ) {
+        super(time, Types.attack, character);
     }
 }
 
