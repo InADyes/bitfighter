@@ -27,7 +27,7 @@ export class Player {
     private strokeWidith =  2;
     private fontSize =      15;
     private font =          'Concert One'
-    private buffWidth =     15;
+    private buffOffset =    18;
     private buffTop =       135;
     private buffSize =      25;
 
@@ -97,11 +97,11 @@ export class Player {
         });
         this.canvas.add(this.buffGroup);
 
-        let numBuffsPerRow = Math.floor(this.trueWidth / this.buffWidth);
+        let numBuffsPerRow = Math.floor(this.trueWidth / this.buffSize);
         for (let i = 0; i < this.buffs.length; i++) {
             new fabric.Image.fromURL(this.buffArt[this.buffs[i]], (oImg: fabric.Image) => {
                 let currentbuff = oImg.set({
-                    left: !this.right ? this.center - this.trueWidth + this.buffWidth * (i % numBuffsPerRow) * this.scale : this.center  + this.buffWidth * (i % numBuffsPerRow) * this.scale,
+                    left: !this.right ? this.center - this.trueWidth + this.buffOffset * (i % numBuffsPerRow) * this.scale : this.center  + this.buffOffset * (i % numBuffsPerRow) * this.scale,
                     top: i < numBuffsPerRow? this.buffTop * this.scale: (this.buffTop + this.buffSize * Math.floor(i / numBuffsPerRow)) * this.scale,
                     height: this.buffSize * this.scale,
                     width: this.buffSize * this.scale
