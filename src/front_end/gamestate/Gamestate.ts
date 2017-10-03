@@ -37,7 +37,8 @@ export class GameState {
 		this.player2 = null;
 	}
 
-	public newMessage(reel: Events.Event[], characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[], patch?: number) {
+	//public newMessage(reel: Events.Event[], characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[], patch?: number) {
+		public newMessage(msg: Message) {	
 		// Add received message to the queue
 		console.log(performance.now());
 		// Don't do anything if a character is dying or moving over
@@ -46,11 +47,11 @@ export class GameState {
 			window.setTimeout(() => {this.newMessage(reel, characters, patch)}, 1);
 			return;
 		}
-		console.log(reel);
+		console.log(msg.reel);
 		// if there's a patch in the middle of a reel
 		clearTimeout(this.idleId);
-		if (patch && this.reel[0]) {
-			this.applyPatch(reel, patch);
+		if (msg.patch && this.reel[0]) {
+			this.applyPatch(msg.reel, msg.patch);
 		}
 		else  {
 			this.clearMessage();
