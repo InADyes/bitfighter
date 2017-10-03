@@ -15,9 +15,8 @@ export class BitFighter {
     private canvas: HTMLCanvasElement = document.createElement('canvas');
     private cards: HTMLDivElement[] = [];
     private timeout: number | null = null;
-    private artURLs: string[];
-    private iconURLs: string[];
-    private chars: string[];
+    private readonly artURLs: string[];
+    private readonly iconURLs: string[];
 
     constructor(
         private readonly wrapperDiv: HTMLDivElement,
