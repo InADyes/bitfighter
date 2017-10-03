@@ -32,13 +32,13 @@ window.addEventListener('load', function(){
     let requestIDs: number[] = [];
     
     const backend = new BitFighterBack(
-        (message, ...id) => {
+        (message, id) => {
             if (message.characterChoices) {
-                if (id.length < 1) {
+                if (id === undefined) {
                     console.error('shouldn\'t push character choice to everyone');
                     return;
                 }
-                requestIDs.push(id[0]);
+                requestIDs.push(id);
             }
             console.log('message, back to front:', message);
             frontend.receivedViewerGameState(message);

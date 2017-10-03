@@ -36,7 +36,7 @@ export class BitFighter {
     );
 
     constructor(
-        private sendMessageToFont: (message: frontEndMessage.BackToFrontMessage, ...fan: number[]) => void,
+        private sendMessageToFont: (message: frontEndMessage.BackToFrontMessage, fan?: number) => void,
         public settings: Settings = {
             delayBetweenFights: 3000,
             gameSpeedMultipier: 1,
