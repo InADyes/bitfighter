@@ -38,46 +38,47 @@ export class GameState {
 		this.player2 = null;
 	}
 
-	public newMessage(
-		reel: Events.Event[],
-		characters: {
-			name: string,
-			currentHitPoints: number,
-			maxHitPoints: number,
-			art: number,
-			profileImageURL: string,
-			chatMessage: string
-		}[],
-		patch?: number
-	) {
+	// public newMessage(
+	// 	reel: Events.Event[],
+	// 	characters: {
+	// 		name: string,
+	// 		currentHitPoints: number,
+	// 		maxHitPoints: number,
+	// 		art: number,
+	// 		profileImageURL: string,
+	// 		chatMessage: string
+	// 	}[],
+	// 	patch?: number
+	// ) {
+		public newMessage(msg: Message) {
 		// Add received message to the queue
 		// Don't do anything if a character is dying or moving over
 		if ((this.player1 && this.player1.isAnimated())
 			|| (this.player2 && this.player2.isAnimated())) {
-			window.setTimeout(() => {this.newMessage(reel, characters, patch)}, 1);
+			window.setTimeout(() => {this.newMessage(msg)}, 1);
 			return;
 		}
-		console.log(reel);
+		console.log(msg.reel);
 		// if there's a patch in the middle of a reel
 		clearTimeout(this.idleId);
-		if (patch && this.reel[0]) {
-			this.applyPatch(reel, patch);
+		if (msg.patch && this.reel[0]) {
+			this.applyPatch(msg.reel, msg.patch);
 		}
 		else  {
 			this.clearMessage();
-			this.reel = reel;
+			this.reel = msg.reel;
 
 			// if there's a patch immediately fire next event, otherwise start new reel
-			if (patch)
+			if (msg.patch)
 				this.getEvent();
 			else {
 				this.canvas.clear();
 				// init players
-				this.player1 = new Player.Player(characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt);
+				this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt);
 				this.currentBoss = this.player1.getBitBossInfo();
 				updateBitBoss({boss: this.currentBoss});
-				if (characters[1]) {
-					this.player2 = new Player.Player(characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt);
+				if (msg.characters[1]) {
+					this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt);
 					flip('back');
 					this.ogTime = performance.now();
 				}
