@@ -1,4 +1,4 @@
-import { characters } from '../shared/characterPicker';
+import { characters, buffArt, artURLs } from '../shared/characterPicker';
 import { GameState } from './gamestate/Gamestate';
 import {
     BackToFrontMessage,
@@ -150,31 +150,6 @@ function buildCard(character: CharacterCard) {
     return card;
 }
 
-const artURLs = [
-    "images/characters/stickFigureFighters/0scullery_maid.png",
-    "images/characters/stickFigureFighters/1barkeep.png",
-    "images/characters/stickFigureFighters/2medium.png",
-    "images/characters/stickFigureFighters/3minstrel.png",        
-    "images/characters/stickFigureFighters/4mage.png", 
-    "images/characters/stickFigureFighters/5rogue.png",
-    "images/characters/stickFigureFighters/6warpriest.png",
-    "images/characters/stickFigureFighters/7warlock.png",  
-    "images/characters/stickFigureFighters/8swashbuckler.png",    
-    "images/characters/stickFigureFighters/9dragon.png",  
-];
-const buffArt = [
-    "images/icons/buffs/mop_up.png",
-    "images/icons/buffs/last_call.png",
-    "images/icons/buffs/medium_buff.png",
-    "images/icons/buffs/blinding_chord.png",
-    "images/icons/buffs/magic_missile.png",
-    "images/icons/buffs/backstabbing.png",
-    "images/icons/buffs/curse.png",
-    "images/icons/buffs/damnation_buff.png",
-    "images/icons/buffs/damnation_debuff.png",
-    "images/icons/buffs/whirling_blades.png",
-    "images/icons/buffs/firebreathing.png"
-];
 const charStrings = [
     "Scullary Maid",
     "Barkeep",
