@@ -102,7 +102,6 @@ export class GameState {
 			return;
 		}
 		let nextTime = this.reel[0] ? this.reel[0].time : 0;
-
 		fireEvent(event, this);
 		(event);
 		this.eventLoopTimeout = window.setTimeout(
@@ -154,6 +153,8 @@ export class GameState {
 	public slay(p2: number) {
 		if (this.player2 && p2) {
 			this.player2.dies(null);
+			if (this.player1)
+				this.player1.clearBuffs();
 			this.player2.clearBuffs();
 			this.player2 = null;
 		}
@@ -174,7 +175,6 @@ export class GameState {
 	newChampion() {
 		if ((this.player1 && this.player1.isAnimated()) || (this.player2 && this.player2.isAnimated())) {
 			window.setTimeout(() => {this.newChampion()}, 1);
-			console.log("waiting");
 			return;
 		}
 		this.player1 = this.player2;

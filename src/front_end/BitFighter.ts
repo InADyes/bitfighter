@@ -168,7 +168,7 @@ const buffArt = [
     "images/icons/buffs/medium_buff.png",
     "images/icons/buffs/blinding_chord.png",
     "images/icons/buffs/magic_missile.png",
-    "images/icons/buffs/backstab.png",
+    "images/icons/buffs/backstabbing.png",
     "images/icons/buffs/curse.png",
     "images/icons/buffs/damnation_buff.png",
     "images/icons/buffs/damnation_debuff.png",
