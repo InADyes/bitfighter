@@ -141,13 +141,8 @@ export const characters: Character[] = [
             odds: 20,
         },
         {
-<<<<<<< HEAD
-            odds: 10,
-            buff: Buff.buffs[Buff.types.aristocrat],
-=======
             odds: 6,
             buff: Buff.buffs[Buff.types.medium],
->>>>>>> eda67ccec2e6ef156ac51a67cf8cf5db2a26c862
         }],
         name: 'Medium'
     }, // Medium
