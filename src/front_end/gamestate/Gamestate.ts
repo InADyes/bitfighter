@@ -18,6 +18,7 @@ export class GameState {
 	private player2:			Player.Player | null;
 	private idleId:				number;
 	private currentBoss:		Object;
+	private ogTime:				number;
 	private scale =				1;
 	private scaleWait =			0;
 	private isWaiting =			0;
@@ -37,8 +38,18 @@ export class GameState {
 		this.player2 = null;
 	}
 
-	//public newMessage(reel: Events.Event[], characters: {name: string, currentHitPoints: number, maxHitPoints: number, art: number}[], patch?: number) {
-		public newMessage(msg: Message) {	
+	public newMessage(
+		reel: Events.Event[],
+		characters: {
+			name: string,
+			currentHitPoints: number,
+			maxHitPoints: number,
+			art: number,
+			profileImageURL: string,
+			chatMessage: string
+		}[],
+		patch?: number
+	) {
 		// Add received message to the queue
 		console.log(performance.now());
 		// Don't do anything if a character is dying or moving over
@@ -47,11 +58,11 @@ export class GameState {
 			window.setTimeout(() => {this.newMessage(reel, characters, patch)}, 1);
 			return;
 		}
-		console.log(msg.reel);
+		console.log(reel);
 		// if there's a patch in the middle of a reel
 		clearTimeout(this.idleId);
-		if (msg.patch && this.reel[0]) {
-			this.applyPatch(msg.reel, msg.patch);
+		if (patch && this.reel[0]) {
+			this.applyPatch(reel, patch);
 		}
 		else  {
 			this.clearMessage();
@@ -62,7 +73,6 @@ export class GameState {
 				this.getEvent();
 			else {
 				this.canvas.clear();
-				this.initReel();
 				// init players
 				this.player1 = new Player.Player(characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt);
 				this.currentBoss = this.player1.getBitBossInfo();
@@ -70,10 +80,12 @@ export class GameState {
 				if (characters[1]) {
 					this.player2 = new Player.Player(characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt);
 					flip('back');
+					this.ogTime = performance.now();
 				}
 				else
 					this.idleCheck();
 				this.drawPlayers();
+				this.initReel();
 			}
 		}
 	}
@@ -92,7 +104,7 @@ export class GameState {
 			() => {
 				this.getEvent();
 			},
-			this.reel[0].time
+			this.reel[0].time - (performance.now() - this.ogTime)
 		);
 	}
 
@@ -104,14 +116,17 @@ export class GameState {
 		}
 		let nextTime = this.reel[0] ? this.reel[0].time : 0;
 		fireEvent(event, this);
-		(event);
+		let delay = nextTime - (performance.now() - this.ogTime);
+		if (delay < 0)
+			delay = 0;
+		console.log(`times:`, nextTime, performance.now(), this.ogTime, delay);
 		this.eventLoopTimeout = window.setTimeout(
 			() => {
 				this.getEvent();
 			},
-			nextTime - event.time
+			delay //used to be nextTime - event.time
 		);
-		this.lastTime = event.time;
+		//this.lastTime = event.time;
 	}
 
 	private applyPatch(reel: Events.Event[], patch: number) {
