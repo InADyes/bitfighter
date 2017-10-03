@@ -65,10 +65,10 @@ export class GameState {
 				// init players
 				this.player1 = new Player.Player(characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt);
 				this.currentBoss = this.player1.getBitBossInfo();
-				//updateBitBoss({boss: this.currentBoss});
+				updateBitBoss({boss: this.currentBoss});
 				if (characters[1]) {
 					this.player2 = new Player.Player(characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt);
-					//flip('back');
+					flip('back');
 				}
 				else
 					this.idleCheck();
@@ -146,7 +146,7 @@ export class GameState {
 		else if (this.player1) {
 			this.player1.healthbar(amount);
 			let p = this.player1.getBitBossInfo();
-			//recalcHp(amount, p.hp, p.maxHp);
+			recalcHp(amount, p.hp, p.maxHp);
 		}
 	}
 
@@ -162,7 +162,7 @@ export class GameState {
 			this.player1.dies(this.player2);
 			this.player1.clearBuffs();
 			if (this.player2) {
-				//updateBitBoss({boss: this.player1.getBitBossInfo(), attacker: this.player2.getBitBossInfo()});
+				updateBitBoss({boss: this.player1.getBitBossInfo(), attacker: this.player2.getBitBossInfo()});
 				this.currentBoss = this.player2.getBitBossInfo();
 				this.player2.clearBuffs();
 			}
@@ -223,6 +223,6 @@ export class GameState {
 
 	private switchToBitBoss() {
 		console.log("SWITCH TO BIT BOSS");
-		//flip('front');
+		flip('front');
 	}
 }

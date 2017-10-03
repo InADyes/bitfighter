@@ -3,6 +3,21 @@ import { BitFighter as BitFighterBack } from '../back_end/BitFighter';
 import { BitFighter as BitFighterFront } from '../front_end/BitFighter';
 import { BackToFrontMessage, FrontToBackMessage, CharacterChoice, FrontEndSettings as Settings } from '../shared/frontEndMessage';
 
+// declare window: {
+//     recalcHp :(damageAmount: number, newHp: number, maxHp: number) => void;
+// };
+
+
+window.recalcHp = function (damageAmount: number, newHp: number, maxHp: number) {
+    console.log("called recalchp");
+}
+window.flip = function (side: 'front' | 'back') {
+    console.log("called flip");
+}
+window.updateBitBoss = function (bossData: Object) {
+    console.log("called updateBitBoss");
+}
+
 window.addEventListener('load', function(){
     const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
 
