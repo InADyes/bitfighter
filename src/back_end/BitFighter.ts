@@ -167,12 +167,7 @@ export class BitFighter {
         
         if (this.timeout)
             clearTimeout(this.timeout);
-        if (this.events.length > 0) {
-            this.timeout = setTimeout(
-                () => this.nextEvent(),
-                0
-            );
-        }
+        this.timeoutNextEvent();
     }
 
     // start a new fight
@@ -193,11 +188,20 @@ export class BitFighter {
         this.events = result.reel;
 
         this.pushLastResults();
-
+        this.timeoutNextEvent();
+    }
+    
+    private timeoutNextEvent() {
+        // if there is more left in the 
         if (this.events.length > 0) {
             this.timeout = setTimeout(
                 () => this.nextEvent(),
-                this.events[0].time
+                this.events[0].time - (nodePerformanceNow() - this.fightStartTime)
+            );
+        } else {
+            this.timeout = setTimeout(
+                () => this.checkQueue(),
+                this.settings.delayBetweenFights
             );
         }
     }
@@ -211,19 +215,7 @@ export class BitFighter {
             return;
         }
         applyFightEvents(this.combatants, event);
-
-        // if there is more left in the 
-        if (this.events.length > 0) {
-            this.timeout = setTimeout(
-                () => this.nextEvent(),
-                this.events[0].time - event.time
-            );
-        } else {
-            this.timeout = setTimeout(
-                () => this.checkQueue(),
-                this.settings.delayBetweenFights
-            );
-        }
+        this.timeoutNextEvent();
     }
 
     // push the current events to everyone
