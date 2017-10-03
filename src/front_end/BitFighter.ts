@@ -175,6 +175,7 @@ const buffArt = [
     "images/icons/buffs/whirling_blades.png",
     "images/icons/buffs/firebreathing.png"
 ];
+
 const charStrings = [
     "Scullary Maid",
     "Barkeep",
