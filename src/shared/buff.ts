@@ -19,6 +19,22 @@ export interface Buff {
     readonly critDamageModifier?: number // also doesn't do anything
 }
 
+
+export const enum types {
+    sculleryMaid            = 0,
+    barkeep                 = 1,
+    medium                  = 2,
+    minstrel                = 3,
+    mage                    = 4,
+    rogue                   = 5,
+    warpriest               = 6,
+    warlockBuff             = 7,
+    warlockDebuff           = 8,
+    swashbucklerBuff        = 9,
+    dragon                  = 10,
+    armorBonus              = 11,
+}
+/*
 export const enum types {
     streetUrchin        = 0,
     sculleryMaid        = 1,
@@ -45,8 +61,92 @@ export const enum types {
     lichBuff            = 22,
     lichDebuff          = 23,
     armorBonus          = 24
-}
+}*/
+/*
+Scullery Maid   -   Mop Up          -   debuff: Accuracy -50% Dodge -50%
+Barkeep         -   Last Call       -   debuff: Accuracy -80%
+Medium          -   TBD             -   buff: Damage x2
+Minstrel        -   Blinding Chord  -   debuff: Accuracy -100%
+Mage            -   Magic Missile   -   Debuff: Armor -100%
+Rogue           -   Backstab        -   buff: Crit Damage x4
+Warpriest       -   Curse           -   buff:x2 armor, 400 regen
+Warlock         -   Damnation       -   Debuff: accuracy -75%, dodge -75%
+Warlock cont.   -   Damnation       -   buff: accuracy +100%, dodge +100%, crit damage x4, regen 500
+Swashbuckler    -   Whirling Blades -   buff: dodge +25%, accuracy +25%
+Dragon          -   Fire Breathing  -   Debuff: dodge - 100%
+*/
 
+export const buffs: Buff[] = [
+    {
+        duration: 6000,
+        art: 0,
+        accuracy: .5,
+        dodge:.5
+    },// Scullery Maid - Mop Up
+    {
+        duration: 6000,
+        art: 1,
+        accuracy: 0.2,
+    },// Barkeep - Last Call
+    {
+        duration: 6000,
+        art: 2,
+        attackDamage: 2
+    },// Medium - TBD
+    {
+        duration: 3000,
+        art: 3,
+        accuracy: 0,
+    },// Minstrel - Blinding Chord
+    {
+        duration: 6000,
+        art: 4,
+        armor: 0,
+    },// Mage - Magic Missile
+    {
+        duration: 6000,
+        art: 5,
+        critDamageModifier: 4,
+    },// Rogue - Backstab
+    {
+        duration: 6000,
+        art: 6,
+        regeneration: 400,
+        armor: 2,
+    },// Warpriest - Curse
+    {
+        duration: 6000,
+        art: 7,
+        regeneration: 500,
+        accuracy: 2,
+        dodge: 2,
+        critDamageModifier: 4,
+    },// Warlock buff - Damnation
+    {
+        duration: 6000,
+        art: 8,
+        accuracy: .25,
+        dodge: .25,
+    },// Warlock Debuff - Damnation
+    {
+        duration: 6000,
+        art: 9,
+        dodge: 1.10,
+        accuracy: 1.10
+    },// Swashbuckler Buff - Whirling Blades
+    {
+        duration: 6000,
+        art: 10,
+        dodge: 0,
+    },// Dragon - Fire Breathing
+    {
+        duration: 10000000,
+        art: 22,
+        armor: 1.5
+    },// ArmorBonus
+];
+
+/*
 export const buffs: Buff[] = [
     {
         duration: 6000,
@@ -184,3 +284,4 @@ export const buffs: Buff[] = [
         armor: 1.5
     },// ArmorBonus
 ];
+*/

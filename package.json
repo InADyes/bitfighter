@@ -9,7 +9,7 @@
     "express": "node testbed.js"
   },
   "repository": {
-    "type": "git",
+    "type": "git",  
     "url": "git+https://github.com/the-opera-house/bitfighter.git"
   },
   "author": "",
@@ -20,13 +20,19 @@
   "homepage": "https://github.com/the-opera-house/bitfighter#readme",
   "dependencies": {
     "@types/fabric": "^1.5.26",
+    "@types/node": "^8.0.28",
     "@types/webpack": "^3.0.10",
     "express": "^4.15.4",
     "fabric": "^1.7.19",
-    "process": "^0.11.10",
     "ts-loader": "^2.3.7",
-    "typescript": "^2.5.2",
-    "webpack": "^3.6.0",
-    "@types/node": "^8.0.28"
+    "typescript": "^2.5.2"
+  },
+  "devDependencies": {
+    "extract-text-webpack-plugin": "^2.1.2",
+    "css-loader": "^0.28.7",
+    "less": "^2.7.2",
+    "less-loader": "^4.0.5",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.6.0"
   }
 }

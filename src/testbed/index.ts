@@ -14,7 +14,8 @@ window.addEventListener('load', function(){
                 y: 40
             },
             size: 1,
-            cardsTimeout: 60000
+            cardsTimeout: 60000,
+            assetsShim: './'
         },
         (slug, message) => {
             const id = requestIDs.shift()
@@ -31,16 +32,16 @@ window.addEventListener('load', function(){
     let requestIDs: number[] = [];
     
     const backend = new BitFighterBack(
-        message => {
+        (message, id) => {
             if (message.characterChoices) {
-                if (message.id === undefined) {
+                if (id === undefined) {
                     console.error('shouldn\'t push character choice to everyone');
                     return;
                 }
-                requestIDs.push(message.id);
+                requestIDs.push(id);
             }
             console.log('message, back to front:', message);
-            frontend.recievedViewerGameState(message);
+            frontend.receivedViewerGameState(message);
         }
     );
 

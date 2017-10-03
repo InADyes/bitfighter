@@ -35,7 +35,15 @@ export function buildFightEvents(stats: Status[]) {
 
     if (combatants.length < 2) {
         console.log('not enough combatants to fight');
-        return {combatants: stats, reel};
+        if (combatants[0] && combatants[0].status.hitPoints <= 0) {
+            const event = new FightEvents.Death(
+                combatants[0].time,
+                0
+            );
+            reel.push(event);
+            applyFightEvents(newStats, event);
+        }
+        return {combatants: newStats, reel};
     }
     // ------------- type hack starts here
 
@@ -68,8 +76,14 @@ export function buildFightEvents(stats: Status[]) {
 
     newStats.forEach(s => s.clearBuffs());
     let winner = combatants.filter(c => c.status == newStats[0])[0];
-    winner.time += 1000;
+    winner.time += 2000;
     winner.heal(); //todo: maybe should be done in front end
+    const event = new FightEvents.LevelUp(
+        winner.time,
+        0
+    );
+    applyFightEvents(newStats, event);
+    reel.push(event);
 
     return { combatants: newStats, reel }
 }

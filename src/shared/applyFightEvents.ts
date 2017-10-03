@@ -11,20 +11,10 @@ export function applyFightEvents(
     for (let event of reel) {
         switch (event.type) {
             case FightEvents.Types.damage:
-
-                // modification, todo: remove
-                if (status[event.character].hitPoints < (<FightEvents.Healing>event).amount)
-                    (<FightEvents.Healing>event).amount = status[event.character].hitPoints
-                status[event.character].hitPoints -= (<FightEvents.Healing>event).amount;
+                status[event.character].hitPoints -= (<FightEvents.Damage>event).amount;
                 break;
             case FightEvents.Types.healing:
-                const char = status[event.character];
-                const healing = <FightEvents.Healing>event;
-
-                //modification: todo: remove
-                if (char.baseStats.maxHitPoints < char.hitPoints + healing.amount)
-                     healing.amount = char.baseStats.maxHitPoints - char.hitPoints;
-                char.hitPoints += (<FightEvents.Healing>event).amount;
+                status[event.character].hitPoints += (<FightEvents.Healing>event).amount;
                 break;
             case FightEvents.Types.crit:
                 const debuff = (<FightEvents.Crit>event).debuff;
@@ -44,8 +34,9 @@ export function applyFightEvents(
                 break;
             case FightEvents.Types.death: // level up also happens here
                 status.splice(event.character, 1);
-                const c = status[0];
-                if (levels.length > c.level) {
+            case FightEvents.Types.levelUp:
+                const c = status[event.character];
+                if (c && levels.length > c.level) {
                     c.level++;
                     c.baseStats = buildStats(c.character, c.initialDonation, c.level);
                 }

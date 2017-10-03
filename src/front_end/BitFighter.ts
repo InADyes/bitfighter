@@ -1,4 +1,4 @@
-import { characters } from '../shared/characterPicker';
+import { characters, buffArt, artURLs } from '../shared/characterPicker';
 import { GameState } from './gamestate/Gamestate';
 import {
     BackToFrontMessage,
@@ -15,6 +15,9 @@ export class BitFighter {
     private canvas: HTMLCanvasElement = document.createElement('canvas');
     private cards: HTMLDivElement[] = [];
     private timeout: number | null = null;
+    private artURLs: string[];
+    private iconURLs: string[];
+    private chars: string[];
 
     constructor(
         private readonly wrapperDiv: HTMLDivElement,
@@ -26,13 +29,15 @@ export class BitFighter {
         this.canvas.id = 'arena';
         this.canvas.style.position = 'absolute';
         this.wrapperDiv.appendChild(this.canvas);
-        this.game = new GameState('arena');
+        this.artURLs = artURLs.map(url => this.settings.assetsShim + url);
+        this.iconURLs = buffArt.map(url => this.settings.assetsShim + url);
+        this.game = new GameState('arena', this.artURLs, this.iconURLs);
         this.updateSettings(settings);
         window.addEventListener('resize', () => {
             this.updateScale();
         });
     }
-    public recievedViewerGameState(data: BackToFrontMessage) {
+    public receivedViewerGameState(data: BackToFrontMessage) {
         if (data.newReel) {
             this.game.newMessage(data.newReel.reel, data.newReel.characters, data.newReel.patch);
         }
@@ -40,7 +45,7 @@ export class BitFighter {
             if (this.timeout) {
                 this.clearCards();
             }
-            this.cards = data.characterChoices.map(c => buildCard(c));
+            this.cards = data.characterChoices.map(c => buildCard(c, this.artURLs));
             for (let i = 0; i < this.cards.length; i++) {
                 this.wrapperDiv.appendChild(this.cards[i]);
                 this.cards[i].addEventListener('click', () => {
@@ -77,8 +82,6 @@ export class BitFighter {
     private updateScale() {
         const scale = this.wrapperDiv.offsetHeight / 400;
         this.wrapperDiv.style.fontSize = 12 * scale + 'px';
-        //this.canvas.width = 500 * this.settings.size * scale;
-        //this.canvas.height = 130 * this.settings.size * scale;
         this.canvas.style.left = `${ this.settings.position.x  * scale}px`;
         this.canvas.style.top = `${ this.settings.position.y  * scale}px`;
         this.game.setNewScale(scale);
@@ -90,17 +93,11 @@ export class BitFighter {
     }
 }
 
-function buildCard(character: CharacterCard) {
+function buildCard(character: CharacterCard, artURLs: string[]) {
     let card = document.createElement('div');
     let stats = document.createElement('div');
     stats.className = 'character-card-stats';
     card.appendChild(stats);
-    // let img = new Image();
-    // img.onload = () => {
-        // card.insertBefore(img, stats);
-    // }
-    // img.src = artURLs[character.art];
-    // img.alt = character.className;
 
     let charStats = Object.keys(character.stats).map(function(key, index){
         let x = `
@@ -125,6 +122,7 @@ function buildCard(character: CharacterCard) {
             <div class="title">Level:</div>  
             <div class="amount">
                  <div class="amount-int">  ${ character.level }</div>
+                  ${healthBarSVG({amount: character.level, factor: 10} )}
             </div>
         </div>
         <div class="stat">
@@ -144,36 +142,13 @@ function buildCard(character: CharacterCard) {
         <div class="stat">
             <div class="title">Rarity:</div>
             <div class="amount">
-                <div class="amount-int">${ character.rarity } </div>
+                ${ formatRarity[character.rarity] }
             </div>
         </div>
     </div>`;
     card.className = 'character-card';
     return card;
 }
-
-
-const artURLs = [
-    "images/characters/stickFigures/0StreetUrchin.png",
-    "images/characters/stickFigures/1SculleryMaid.png",
-    "images/characters/stickFigures/2Farmer.png",
-    "images/characters/stickFigures/3Barkeep.png",				
-    "images/characters/stickFigures/4Aristocrat.png",	
-    "images/characters/stickFigures/5Minstrel.png",
-    "images/characters/stickFigures/6Mage.png",
-    "images/characters/stickFigures/7Rogue.png",	
-    "images/characters/stickFigures/8Gladiator.png",		
-    "images/characters/stickFigures/9Barbarian.png",	
-    "images/characters/stickFigures/10Warpriest.png",		
-    "images/characters/stickFigures/11Werewolf.png",
-    "images/characters/stickFigures/12Warlock.png",	
-    "images/characters/stickFigures/13Paladin.png",
-    "images/characters/stickFigures/14Swashbuckler.png",
-    "images/characters/stickFigures/15Dragon.png",
-    "images/characters/stickFigures/16Phoenix.png",
-    "images/characters/stickFigures/17Lich.png",
-    "images/characters/stickFigures/18Angel.png"
-];
 
 function healthBarSVG(amount: StatBarAmount) {
     return `
@@ -183,28 +158,25 @@ function healthBarSVG(amount: StatBarAmount) {
         <defs>
         <mask id="healthBarCutout">
             <rect x="144.72" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="130.25" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="115.77" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="101.3" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="86.83" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="72.36" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="57.89" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="43.42" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="28.94" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="14.47" y="5" width="8" height="40" rx="2" ry="2"/>
-            
             <rect x="0" y="5" width="8" height="40" rx="2" ry="2"/>
         </mask>
         </defs>
-        <rect width="${ amount.amount * amount.factor }%" height="100%" mask="url(#healthBarCutout)" onLoad:(console.log('load rect'))/>
+        <rect class="main" width="${ amount.amount * amount.factor }%" height="100%" mask="url(#healthBarCutout)"/>
     </svg>`;
 }
+
+const formatRarity: {[details: number]: string} = {
+    0: 'Common',
+    1: 'Uncommon',
+    2: 'Rare',
+    3: 'Mythic'
+} 

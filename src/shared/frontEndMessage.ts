@@ -40,12 +40,12 @@ export interface FrontEndSettings {
     };
     size: number;
     cardsTimeout: number;
+    assetsShim: string;
 }
 
 export interface BackToFrontMessage {
     newReel?: Message;
     characterChoices?: CharacterCard[];
-    id?: number;
 }
 
 export interface FrontToBackMessage {

@@ -8,10 +8,10 @@ export class Player {
     private right:          number;
     private img:            fabric.Object;
     private healthtext:     fabric.Group;
-    private greenBar:  fabric.Rect;
-    private redBar:   fabric.Rect;
-    private yellowBar:   fabric.Rect;
-    private whiteBar:    fabric.Rect;
+    private greenBar:       fabric.Rect;
+    private redBar:         fabric.Rect;
+    private yellowBar:      fabric.Rect;
+    private whiteBar:       fabric.Rect;
     private displayname:    fabric.Text;
     private displaynametop: fabric.Text;
     private canvas:         fabric.Canvas;
@@ -22,56 +22,17 @@ export class Player {
     private buffs:          number[];
     private buffGroup:      fabric.Group;
     private scale:          number; 
-    private art = [
-        "images/characters/stickFigures/1SculleryMaid.png",
-        "images/characters/stickFigures/3Barkeep.png",				
-        "images/characters/stickFigures/4Aristocrat.png",	
-        "images/characters/stickFigures/5Minstrel.png",
-        "images/characters/stickFigures/6Mage.png",
-        "images/characters/stickFigures/7Rogue.png",	
-        "images/characters/stickFigures/10Warpriest.png",		
-        "images/characters/stickFigures/12Warlock.png",	
-        "images/characters/stickFigures/14Swashbuckler.png",
-        "images/characters/stickFigures/15Dragon.png",
-        "images/characters/stickFigures/2Farmer.png",
-        "images/characters/stickFigures/8Gladiator.png",		
-        "images/characters/stickFigures/9Barbarian.png",	
-        "images/characters/stickFigures/11Werewolf.png",
-        "images/characters/stickFigures/13Paladin.png",
-        "images/characters/stickFigures/16Phoenix.png",
-        "images/characters/stickFigures/17Lich.png",
-        "images/characters/stickFigures/18Angel.png"
-    ];
-    private buffArt = [
-        "images/icons/buff1.png",
-        "images/icons/buff2.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-        "images/icons/buff3.png",
-    ]
     private height =        70;
     private hpWidth =       5;
     private textLock =      0;
     private animationLock = 0;
-    private nameheight =    120;
+    private nameHeight =    120;
     private strokeWidith =  2;
     private fontSize =      15;
     private font =          'Concert One'
-    private iconwidth =     10;
-    private icontop =       135;
+    private buffWidth =     15;
+    private buffTop =       135;
+    private buffSize =      30;
 
     // Adjust these to move elements around
     private artAdjust =     0;
@@ -80,7 +41,26 @@ export class Player {
     private hpTextTop =     33;
     private textTop =       30;
 
-    constructor(data: any, side: number, canvas: fabric.Canvas, scale: number) {
+    private charStrings = [
+        "Scullary Maid",
+        "Barkeep",
+        "Medium",
+        "Minstrel",
+        "Mage",
+        "Rogue",
+        "Warpriest",
+        "Warlock",
+        "Swashbuckler",
+        "Dragon",
+    ];
+
+    constructor(data: any,
+        side: number, 
+        canvas: fabric.Canvas, 
+        scale: number, 
+        private readonly charArt: string[], 
+        private readonly buffArt: string[]
+    ) {
         this.name = data.name;
         this.health = data.currentHitPoints;
         this.artIndex = data.art;
@@ -115,13 +95,15 @@ export class Player {
             top:0
         });
         this.canvas.add(this.buffGroup);
+
+        let numBuffsPerRow = Math.floor(this.trueWidth / this.buffWidth);
         for (let i = 0; i < this.buffs.length; i++) {
             new fabric.Image.fromURL(this.buffArt[this.buffs[i]], (oImg: fabric.Image) => {
                 let currentbuff = oImg.set({
-                    left: !this.right ? this.center - this.trueWidth + this.iconwidth * i  : this.center  + this.iconwidth *(i+1) ,
-                    top: this.icontop * this.scale,
-                    height: 10,
-                    width: 10
+                    left: !this.right ? (this.center - this.trueWidth + this.buffWidth * (i % numBuffsPerRow)) * this.scale : this.center  + this.buffWidth * (i % numBuffsPerRow) * this.scale,
+                    top: i < numBuffsPerRow? this.buffTop * this.scale: (this.buffTop + this.buffSize * Math.floor(i / numBuffsPerRow)) * this.scale,
+                    height: this.buffSize * this.scale,
+                    width: this.buffSize * this.scale
                 });
                 this.buffGroup.addWithUpdate(currentbuff);
                 this.canvas.renderAll();
@@ -132,7 +114,7 @@ export class Player {
     public draw() {
         if (this.img)
             this.canvas.remove(this.img);
-        new fabric.Image.fromURL(this.art[this.artIndex], (oImg: fabric.Image) => {
+        new fabric.Image.fromURL(this.charArt[this.artIndex], (oImg: fabric.Image) => {
             if(oImg.width && oImg.height)
                 this.trueWidth = oImg.width/oImg.height * 70 * this.scale;
             this.img = oImg.set({
@@ -161,7 +143,7 @@ export class Player {
             fill: 'white',
             fontWeight: 'bold',
             stroke: 'white',
-            top: this.nameheight * this.scale,
+            top: this.nameHeight * this.scale,
             left: !this.right ? this.center  - this.trueWidth / 2:this.center + this.trueWidth / 2,
             originX: 'center'
         });
@@ -170,7 +152,7 @@ export class Player {
             fontFamily: this.font,
             fill: 'black',
             fontWeight: 'bold',
-            top: this.nameheight * this.scale,
+            top: this.nameHeight * this.scale,
             left: !this.right ? this.center  - this.trueWidth / 2:this.center + this.trueWidth / 2,
             originX: 'center'
         });
@@ -451,5 +433,15 @@ export class Player {
    public clearBuffs(){
        this.canvas.remove(this.buffGroup);
        this.buffs = [];
+   }
+
+   public getBitBossInfo() {
+       return ({
+           name: this.name,
+           hp: this.health,
+           maxHp: this.baseHealth,
+           img: this.charArt[this.artIndex],
+           character: this.charStrings[this.artIndex]
+       });
    }
 }

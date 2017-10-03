@@ -1,6 +1,33 @@
 import * as Buff from './buff';
 import { Status, Stats } from '../shared/Status';
 
+export const artURLs = [
+    "images/champions/0scullery_maid.png",
+    "images/champions/1barkeep.png",
+    "images/champions/2medium.png",
+    "images/champions/3minstrel.png",        
+    "images/champions/4mage.png", 
+    "images/champions/5rogue.png",
+    "images/champions/6warpriest.png",
+    "images/champions/7warlock.png",  
+    "images/champions/8swashbuckler.png",    
+    "images/champions/9dragon.png",  
+];
+
+export const buffArt = [
+    "images/icons/buffs/mop_up.png",
+    "images/icons/buffs/last_call.png",
+    "images/icons/buffs/medium_buff.png",
+    "images/icons/buffs/blinding_chord.png",
+    "images/icons/buffs/magic_missile.png",
+    "images/icons/buffs/backstabbing.png",
+    "images/icons/buffs/curse.png",
+    "images/icons/buffs/damnation_buff.png",
+    "images/icons/buffs/damnation_debuff.png",
+    "images/icons/buffs/whirling_blades.png",
+    "images/icons/buffs/firebreathing.png"
+];
+
 export interface Character {
     stats: Stats,
     rarity: number,
@@ -54,10 +81,10 @@ export const characters: Character[] = [
             odds: 15,
             debuff: Buff.buffs[Buff.types.sculleryMaid],
         },
-        {
+        /*{
             odds: 15,
             debuff: Buff.buffs[Buff.types.sculleryMaid1],
-        }
+        }*/
     ],
         name: 'Scullery Maid'
     }, // Scullery Maid
@@ -114,8 +141,13 @@ export const characters: Character[] = [
             odds: 20,
         },
         {
+<<<<<<< HEAD
             odds: 10,
             buff: Buff.buffs[Buff.types.aristocrat],
+=======
+            odds: 6,
+            buff: Buff.buffs[Buff.types.medium],
+>>>>>>> eda67ccec2e6ef156ac51a67cf8cf5db2a26c862
         }],
         name: 'Medium'
     }, // Medium

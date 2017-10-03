@@ -2,7 +2,6 @@ import * as GraphicsEvents from '../shared/graphicsEvents';
 import * as FightEvents from '../shared/fightEvents';
 import { otherCharacter } from '../shared/utility';
 
-
 // could be programatically genrated in a cleaner way if we end up with a lot
 // used to determine order of events when the timestamp is the same
 const eventOrder = {
@@ -12,6 +11,7 @@ const eventOrder = {
     [GraphicsEvents.EventType.Health]: 1,
     [GraphicsEvents.EventType.Text]: 1
 }
+
 
 export function build(fight: FightEvents.Event[]) {
     let display: GraphicsEvents.Event[] = [];
@@ -30,10 +30,6 @@ export function build(fight: FightEvents.Event[]) {
                     String((<FightEvents.Damage>event).amount),
                     'red'
                 ));
-                display.push(new GraphicsEvents.Attack(
-                    event.time - 150,
-                    otherCharacter(event.character)
-                ));
                 break;
             case FightEvents.Types.dodge:
                 display.push(new GraphicsEvents.Text(
@@ -41,10 +37,6 @@ export function build(fight: FightEvents.Event[]) {
                     event.character,
                     'dodge',
                     'orange'
-                ));
-                display.push(new GraphicsEvents.Attack(
-                    event.time - 150,
-                    otherCharacter(event.character)
                 ));
                 break;
             case FightEvents.Types.healing:
@@ -65,12 +57,6 @@ export function build(fight: FightEvents.Event[]) {
                     event.time,
                     event.character
                 ));
-                display.push(new GraphicsEvents.Text(
-                    event.time,
-                    0, //should this always be zero or be characterOther()?
-                    'Level Up!',
-                    'gold'
-                ));
                 break;
             case FightEvents.Types.crit:
                 display.push(new GraphicsEvents.Text(
@@ -79,8 +65,8 @@ export function build(fight: FightEvents.Event[]) {
                     'crit',
                     'red'
                 ));
-                const debuff = (<FightEvents.Crit>event).debuff;
-                if (debuff){
+                const { buff, debuff } = <FightEvents.Crit>event;
+                if (debuff) {
                     display.push(new GraphicsEvents.Buff(
                         event.time,
                         event.character,
@@ -88,8 +74,7 @@ export function build(fight: FightEvents.Event[]) {
                         debuff.duration
                     ));
                 }
-                const buff = (<FightEvents.Crit>event).debuff;
-                if (buff){
+                if (buff) {
                     display.push(new GraphicsEvents.Buff(
                         event.time,
                         otherCharacter(event.character),
@@ -116,6 +101,20 @@ export function build(fight: FightEvents.Event[]) {
                         'yellow'
                     ));
                 }
+                break;
+            case FightEvents.Types.attack:
+                display.push(new GraphicsEvents.Attack(
+                    event.time - 150,
+                    event.character
+                ));
+                break;
+            case FightEvents.Types.levelUp:
+                display.push(new GraphicsEvents.Text(
+                    event.time,
+                    event.character, //should this always be zero or be characterOther()?
+                    'Level Up!',
+                    'gold'
+                ));
                 break;
             default:
                 console.error('unidentified event type');
