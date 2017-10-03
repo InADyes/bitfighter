@@ -51,7 +51,6 @@ export class GameState {
 		patch?: number
 	) {
 		// Add received message to the queue
-		console.log(performance.now());
 		// Don't do anything if a character is dying or moving over
 		if ((this.player1 && this.player1.isAnimated())
 			|| (this.player2 && this.player2.isAnimated())) {
@@ -119,7 +118,6 @@ export class GameState {
 		let delay = nextTime - (performance.now() - this.ogTime);
 		if (delay < 0)
 			delay = 0;
-		console.log(`times:`, nextTime, performance.now(), this.ogTime, delay);
 		this.eventLoopTimeout = window.setTimeout(
 			() => {
 				this.getEvent();
@@ -133,7 +131,6 @@ export class GameState {
 		//while (reel[0].time != patch)
 		//	reel.shift();
 		for (let i = 0; i < this.reel.length; i++) {
-			console.log(reel[0].time, this.reel[i].time);
 			if (reel[0].time < this.reel[i].time) {
 				this.reel.splice(i);
 				this.reel.push(...reel);
@@ -238,7 +235,7 @@ export class GameState {
 	}
 
 	private switchToBitBoss() {
-		console.log("SWITCH TO BIT BOSS");
+		("SWITCH TO BIT BOSS");
 		flip('front');
 	}
 }
