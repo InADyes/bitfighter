@@ -3,10 +3,7 @@ import { BitFighter as BitFighterBack } from '../back_end/BitFighter';
 import { BitFighter as BitFighterFront } from '../front_end/BitFighter';
 import { BackToFrontMessage, FrontToBackMessage, CharacterChoice, FrontEndSettings as Settings } from '../shared/frontEndMessage';
 
-// declare window: {
-//     recalcHp :(damageAmount: number, newHp: number, maxHp: number) => void;
-// };
-
+declare let window: any;
 
 window.recalcHp = function (damageAmount: number, newHp: number, maxHp: number) {
     console.log("called recalchp");
