@@ -36,10 +36,12 @@ export function buildFightEvents(stats: Status[]) {
     if (combatants.length < 2) {
         console.log('not enough combatants to fight');
         if (combatants[0] && combatants[0].status.hitPoints <= 0) {
-            applyFightEvents(newStats, new FightEvents.Death(
+            const event = new FightEvents.Death(
                 combatants[0].time,
                 0
-            ));
+            );
+            reel.push(event);
+            applyFightEvents(newStats, event);
         }
         return {combatants: newStats, reel};
     }

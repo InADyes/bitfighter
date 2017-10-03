@@ -21,9 +21,8 @@ function nodePerformanceNow() {
 
 export class BitFighter {
     private fightStartTime: number = 0;
-    private timeout: NodeJS.Timer | null = null; // null if no timeout
+    private timeout: NodeJS.Timer | null = null;
     private combatants: Status[] = [];
-    //private lastResults: Status[] = [];
     private events: FightEvents.Event[] = [];
     private queue: Status[] = [];
 
@@ -57,41 +56,13 @@ export class BitFighter {
             // and the donation matches a fighter
             combatantIndex = this.combatants.findIndex(s => s.id === id);
             if (combatantIndex !== -1) {
-                const patchTime = nodePerformanceNow() - this.fightStartTime;
-
-                this.insertEvents(
-                    patchTime,
-                    new FightEvents.Donation(
-                        patchTime,
-                        combatantIndex,
-                        FightEvents.DonationType.healing
-                    ),
-                    new FightEvents.Healing(
-                        patchTime,
-                        combatantIndex,
-                        amount * this.settings.donationToHPRatio
-                    )
-                );
+                this.healCombatant(combatantIndex, this.settings.donationToHPRatio * amount);
                 return;
             }
         }
         combatantIndex = this.combatants.findIndex(s => s.id === id);
         if (combatantIndex !== -1) {
-            const patchTime = nodePerformanceNow() - this.fightStartTime;
-
-            this.insertEvents(
-                patchTime,
-                new FightEvents.Donation(
-                    combatantIndex,
-                    patchTime,
-                    FightEvents.DonationType.healing
-                ),
-                new FightEvents.Healing(
-                    patchTime,
-                    combatantIndex,
-                    amount * this.settings.donationToHPRatio
-                )
-            );
+            this.healCombatant(combatantIndex, this.settings.donationToHPRatio);
             return;
         }
 
@@ -106,21 +77,52 @@ export class BitFighter {
         // if there was a last fight, damage current champion
         if (this.combatants.length > 0) {
             const patchTime = nodePerformanceNow() - this.fightStartTime;
-
-            this.insertEvents(
-                patchTime,
-                new FightEvents.Donation(
-                    patchTime,
-                    0,
-                    FightEvents.DonationType.damage
-                ),
-                new FightEvents.Damage(
-                    patchTime,
-                    0,
-                    amount * this.settings.donationToHPRatio
-                )
-            );
+            this.damageCombatant(0, amount * this.settings.donationToHPRatio);
         }
+    }
+
+    private healCombatant(index: number, amount: number) {
+        const patchTime = nodePerformanceNow() - this.fightStartTime;
+        const combatant = this.combatants[index];
+
+        if (combatant.hitPoints + amount > combatant.stats.maxHitPoints)
+            amount = combatant.stats.maxHitPoints - combatant.hitPoints;
+
+        this.insertEvents(
+            patchTime,
+            new FightEvents.Donation(
+                patchTime,
+                index,
+                FightEvents.DonationType.healing
+            ),
+            new FightEvents.Healing(
+                patchTime,
+                index,
+                amount
+            )
+        );
+    }
+
+    private damageCombatant(index: number, amount: number) {
+        const patchTime = nodePerformanceNow() - this.fightStartTime;
+        
+        const combatant = this.combatants[index];
+        if (combatant.hitPoints < amount)
+            amount = combatant.hitPoints;
+
+        this.insertEvents(
+            patchTime,
+            new FightEvents.Donation(
+                patchTime,
+                0,
+                FightEvents.DonationType.damage
+            ),
+            new FightEvents.Damage(
+                patchTime,
+                0,
+                amount
+            )
+        );
     }
 
     public checkQueue() {
@@ -136,7 +138,7 @@ export class BitFighter {
 
     // only works when all new events have the same time
     private insertEvents(patchTime: number, ...insert: FightEvents.Event[]) {
-        
+
         // create a temporary copy of status
         let tempStatus = this.combatants.map(s => new Status(
             s.id,
@@ -155,13 +157,22 @@ export class BitFighter {
 
         // caculate the rest of the events
         let results = buildFightEvents(tempStatus);
-        results.reel.forEach(e => e.time += 2000);
+        results.reel.forEach(e => e.time += patchTime + 1000);
 
         // add the rest of the events to the old events
         insert = insert.concat(results.reel);
         this.events = insert;
 
         this.pushLastResults(patchTime);
+        
+        if (this.timeout)
+            clearTimeout(this.timeout);
+        if (this.events.length > 0) {
+            this.timeout = setTimeout(
+                () => this.nextEvent(),
+                0
+            );
+        }
     }
 
     // start a new fight
@@ -200,6 +211,9 @@ export class BitFighter {
             return;
         }
         applyFightEvents(this.combatants, event);
+
+        if (this.combatants[0])
+            console.log('health:', this.combatants[0].hitPoints);
 
         // if there is more left in the 
         if (this.events.length > 0) {

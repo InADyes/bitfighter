@@ -21,7 +21,7 @@ export class Damage extends Event {
     constructor (
         time: number,
         character: number,
-        public amount: number // todo: make readonly again (gets corrected sometimes in apply fight reel)
+        public readonly amount: number
     ) {
         super(time, Types.damage, character);
     }
@@ -49,7 +49,7 @@ export class Healing extends Event {
     constructor (
         time: number,
         character: number,
-        public amount: number // todo: make readonly again (gets corrected sometimes in apply fight reel)
+        public readonly amount: number
     ) {
         super(time, Types.healing, character);
     }
