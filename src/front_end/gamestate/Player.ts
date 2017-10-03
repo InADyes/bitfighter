@@ -97,7 +97,6 @@ export class Player {
         this.canvas.add(this.buffGroup);
 
         let numBuffsPerRow = Math.floor(this.trueWidth / this.buffWidth);
-        console.log(numBuffsPerRow);
         for (let i = 0; i < this.buffs.length; i++) {
             new fabric.Image.fromURL(this.buffArt[this.buffs[i]], (oImg: fabric.Image) => {
                 let currentbuff = oImg.set({
