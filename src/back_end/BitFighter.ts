@@ -193,10 +193,12 @@ export class BitFighter {
     
     private timeoutNextEvent() {
         // if there is more left in the 
-        if (this.events.length > 0) {
+        if (this.events.length > 0) { 
+            const timeout = this.events[0].time - (nodePerformanceNow() - this.fightStartTime);
+
             this.timeout = setTimeout(
                 () => this.nextEvent(),
-                this.events[0].time - (nodePerformanceNow() - this.fightStartTime)
+                timeout > 0 ? timeout : 0
             );
         } else {
             this.timeout = setTimeout(
