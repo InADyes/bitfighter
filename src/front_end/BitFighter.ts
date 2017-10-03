@@ -159,7 +159,8 @@ const artURLs = [
     "images/characters/stickFigureFighters/5rogue.png",
     "images/characters/stickFigureFighters/6warpriest.png",
     "images/characters/stickFigureFighters/7warlock.png",  
-    "images/characters/stickFigureFighters/8swashbuckler.png",    
+    "images/characters/stickFigureFighters/8swashbuckler.png",
+    "images/characters/stickFigureFighters/9dragon.png",
 ];
 
 const buffArt = [

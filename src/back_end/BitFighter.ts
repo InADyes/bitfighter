@@ -212,8 +212,8 @@ export class BitFighter {
         }
         applyFightEvents(this.combatants, event);
 
-        if (this.combatants[0])
-            console.log('health:', this.combatants[0].hitPoints);
+        //if (this.combatants[0])
+        //    console.log('health:', this.combatants[0].hitPoints);
 
         // if there is more left in the 
         if (this.events.length > 0) {
