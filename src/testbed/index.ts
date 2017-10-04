@@ -7,13 +7,13 @@ import { BackToFrontMessage, FrontToBackMessage, CharacterChoice, FrontEndSettin
 declare let window: any;
 
 window.recalcHp = function (damageAmount: number, newHp: number, maxHp: number) {
-    console.log("called recalchp");
+    //console.log("called recalchp");
 }
 window.flip = function (side: 'front' | 'back') {
-    console.log("called flip");
+    //console.log("called flip");
 }
 window.updateBitBoss = function (bossData: Object) {
-    console.log("called updateBitBoss");
+    //console.log("called updateBitBoss");
 }
 
 window.addEventListener('load', function(){

@@ -70,10 +70,13 @@ export class BitFighter {
             );
         }
         if (data.queue) {
-            let queue = document.getElementById('queue');
-            console.log(data.queue);
-            if (queue) {
-                queue.innerText = "NEXT";
+            let q = document.getElementById('queue');
+            console.log(`QUEUE: `, data.queue);
+            if (q) {
+                q.innerText = "NEXT\n";
+                for (let i = 0; i < data.queue.length; i++) {
+                    q.innerText += data.queue[i].fanDisplayName + ' - ' + data.queue[i].championTypeName + '\n';
+                }
             }
         }
     }
