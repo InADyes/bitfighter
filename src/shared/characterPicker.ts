@@ -61,29 +61,29 @@ export const characters: Character[] = [
             dodge: 50,
             attackSpeed: {
                 min: 500,
-                max: 1000,
+                max: 1000
             },
             attackDamage: {
                 min: 45,
-                max: 75,
+                max: 75
             },
             armor: 12,
             regeneration: 400,
             critChanceModifier: 1,
-            critDamageModifier: 1,
+            critDamageModifier: 1
         }, 
         rarity: 0,
         crits: [{
             damageMultiplier: 4,
-            odds: 6,
+            odds: 6
         },
         {
             odds: 15,
-            debuff: Buff.buffs[Buff.types.sculleryMaid],
+            debuff: Buff.buffs[Buff.types.sculleryMaid]
         },
         /*{
             odds: 15,
-            debuff: Buff.buffs[Buff.types.sculleryMaid1],
+            debuff: Buff.buffs[Buff.types.sculleryMaid1]
         }*/
     ],
         name: 'Scullery Maid'
@@ -95,25 +95,25 @@ export const characters: Character[] = [
             dodge: 50,
             attackSpeed: {
                 min: 625,
-                max: 1250,
+                max: 1250
             },
             attackDamage: {
                 min: 50,
-                max: 75,
+                max: 75
             },
             armor: 13,
             regeneration: 300,
             critChanceModifier: 1,
-            critDamageModifier: 1,
+            critDamageModifier: 1
         }, 
         rarity: 0,
         crits: [{
             damageMultiplier: 4,
-            odds: 8,
+            odds: 8
         },
         {
             odds: 8,
-            debuff: Buff.buffs[Buff.types.barkeep],
+            debuff: Buff.buffs[Buff.types.barkeep]
         }],
         name: 'Barkeep'
     }, // Barkeep
@@ -124,25 +124,25 @@ export const characters: Character[] = [
             dodge: 55,
             attackSpeed: {
                 min: 400,
-                max: 800,
+                max: 800
             },
             attackDamage: {
                 min: 40,
-                max: 65,
+                max: 65
             },
             armor: 7,
             regeneration: 300,
             critChanceModifier: 1,
-            critDamageModifier: 1,
+            critDamageModifier: 1
         }, 
         rarity: 0,
         crits: [{
             damageMultiplier: 4,
-            odds: 20,
+            odds: 20
         },
         {
             odds: 6,
-            buff: Buff.buffs[Buff.types.medium],
+            buff: Buff.buffs[Buff.types.medium]
         }],
         name: 'Medium'
     }, // Medium
@@ -153,25 +153,25 @@ export const characters: Character[] = [
             dodge: 55,
             attackSpeed: {
                 min: 375,
-                max: 750,
+                max: 750
             },
             attackDamage: {
                 min: 40,
-                max: 70,
+                max: 70
             },
             armor: 8,
             regeneration: 300,
             critChanceModifier: 1,
-            critDamageModifier: 1,
+            critDamageModifier: 1
         }, 
         rarity: 0,
         crits: [{
             damageMultiplier: 4,
-            odds: 6,
+            odds: 6
         },
         {
             odds: 8,
-            buff: Buff.buffs[Buff.types.minstrel],
+            buff: Buff.buffs[Buff.types.minstrel]
         }],
         name: 'Minstrel'
     },
@@ -182,25 +182,25 @@ export const characters: Character[] = [
             dodge: 40,
             attackSpeed: {
                 min: 250,
-                max: 500,
+                max: 500
             },
             attackDamage: {
                 min: 35,
-                max: 50,
+                max: 50
             },
             armor: 10,
             regeneration: 300,
             critChanceModifier: 1,
-            critDamageModifier: 1,
+            critDamageModifier: 1
         }, 
         rarity: 1,
         crits: [{
             damageMultiplier: 4,
-            odds: 6,
+            odds: 6
         },
         {
             odds: 45,
-            debuff: Buff.buffs[Buff.types.mage],
+            debuff: Buff.buffs[Buff.types.mage]
         }],
         name: 'Mage'
     }, // Mage
@@ -211,25 +211,25 @@ export const characters: Character[] = [
             dodge: 60,
             attackSpeed: {
                 min: 300,
-                max: 600,
+                max: 600
             },
             attackDamage: {
                 min: 35,
-                max: 45,
+                max: 45
             },
             armor: 6,
             regeneration: 300,
             critChanceModifier: 1,
-            critDamageModifier: 1,
+            critDamageModifier: 1
         }, 
         rarity: 1,
         crits: [{
             damageMultiplier: 4,
-            odds: 5,
+            odds: 5
         },
         {
             odds: 8,
-            buff: Buff.buffs[Buff.types.rogue],
+            buff: Buff.buffs[Buff.types.rogue]
         }],
         name: 'Rogue'
     }, // Rogue
@@ -240,25 +240,25 @@ export const characters: Character[] = [
             dodge: 50,
             attackSpeed: {
                 min: 550,
-                max: 1150,
+                max: 1150
             },
             attackDamage: {
                 min: 40,
-                max: 55,
+                max: 55
             },
             armor: 18,
             regeneration: 600,
             critChanceModifier: 1,
-            critDamageModifier: 1,
+            critDamageModifier: 1
         }, 
         rarity: 1,
         crits: [{
             damageMultiplier: 4,
-            odds: 3,
+            odds: 3
         },
         {
             odds: 6,
-            buff: Buff.buffs[Buff.types.warpriest],
+            buff: Buff.buffs[Buff.types.warpriest]
         }],
         name: 'Warpriest'
     }, // Warpriest
@@ -269,26 +269,26 @@ export const characters: Character[] = [
             dodge: 30,
             attackSpeed: {
                 min: 1000,
-                max: 1500,
+                max: 1500
             },
             attackDamage: {
                 min: 95,
-                max: 150,
+                max: 150
             },
             armor: 8,
             regeneration: 300,
             critChanceModifier: 1,
-            critDamageModifier: 1,
+            critDamageModifier: 1
         }, 
         rarity: 2,
         crits: [{
             damageMultiplier: 4,
-            odds: 8,
+            odds: 8
         },
         {
             odds: 10,
             buff: Buff.buffs[Buff.types.warlockBuff],
-            debuff: Buff.buffs[Buff.types.warlockDebuff],
+            debuff: Buff.buffs[Buff.types.warlockDebuff]
         }],
         name: 'Warlock'
     }, // Warlock
@@ -299,25 +299,25 @@ export const characters: Character[] = [
             dodge: 65,
             attackSpeed: {
                 min: 450,
-                max: 900,
+                max: 900
             },
             attackDamage: {
                 min: 45,
-                max: 70,
+                max: 70
             },
             armor: 8,
             regeneration: 300,
             critChanceModifier: 1,
-            critDamageModifier: 1,
+            critDamageModifier: 1
         }, 
         rarity: 2,
         crits: [{
             damageMultiplier: 4,
-            odds: 6,
+            odds: 6
         },
         {
             odds: 10,
-            buff: Buff.buffs[Buff.types.swashbucklerBuff],
+            buff: Buff.buffs[Buff.types.swashbucklerBuff]
         }],
         name: 'Swashbuckler'
     }, // Swashbuckler
@@ -328,25 +328,25 @@ export const characters: Character[] = [
             dodge: 10,
             attackSpeed: {
                 min: 1600,
-                max: 2800,
+                max: 2800
             },
             attackDamage: {
                 min: 120,
-                max: 320,
+                max: 320
             },
             armor: 10,
             regeneration: 400,
             critChanceModifier: 1,
-            critDamageModifier: 1,
+            critDamageModifier: 1
         }, 
         rarity: 3,
         crits: [{
             damageMultiplier: 2,
-            odds: 25,
+            odds: 25
         },
         {
             odds: 25,
-            debuff: Buff.buffs[Buff.types.dragon],
+            debuff: Buff.buffs[Buff.types.dragon]
         }],
         name: 'Dragon'
     }, // Dragon
