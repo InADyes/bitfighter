@@ -2,13 +2,13 @@ import * as FightEvents from './fightEvents';
 import { Event as GraphicsEvent } from './graphicsEvents';
 import { Combatant } from './Combatant';
 import { Status } from '../shared/Status';
-import { applyFightEvents, CombindedEvent } from './applyFightEvents';
+import { applyFightEvents, CombinedEvent } from './applyFightEvents';
 import { otherCharacter  as other} from './utility';
 import { buffs, types as buffTypes } from './buff';
 import * as BuildGraphicsEvents from './buildGraphicsEvents';
 
 export function buildEvents(status: Status[]) {
-    const reel: CombindedEvent[] = [];
+    const reel: CombinedEvent[] = [];
     const newStatus = status.map(s => s.clone());
     const combatants = newStatus.map((status, index) => new Combatant(
         status,

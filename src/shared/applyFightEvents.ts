@@ -5,7 +5,7 @@ import { buildStats, levels } from '../shared/characterPicker';
 import { build as buildGraphicsEvents } from './buildGraphicsEvents';
 import { Event as GraphicsEvent } from './graphicsEvents';
 
-export interface CombindedEvent {
+export interface CombinedEvent {
     fight: FightEvents.Event,
     graphics: GraphicsEvent[]
  };
@@ -15,7 +15,7 @@ export function applyFightEvents(
     status: Status[],
     ...reel: FightEvents.Event[]
 ) {
-    let combinedReel: CombindedEvent[] = [];
+    let combinedReel: CombinedEvent[] = [];
 
     for (let event of reel) {
         switch (event.type) {

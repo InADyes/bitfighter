@@ -7,7 +7,7 @@ import * as FightEvents from '../shared/fightEvents';
 import * as graphicsEvents from '../shared/graphicsEvents';
 import * as frontEndMessage from '../shared/frontEndMessage';
 import { Settings } from './backendSettings'
-import { applyFightEvents, CombindedEvent } from '../shared/applyFightEvents'
+import { applyFightEvents, CombinedEvent } from '../shared/applyFightEvents'
 import { CharacterChoiceHandler } from './characterChoiceHandler';
 import { hrtime } from 'process';
 
@@ -23,7 +23,7 @@ export class BitFighter {
     private fightStartTime: number = 0;
     private timeout: NodeJS.Timer | null = null;
     private combatants: Status[] = [];
-    private events: CombindedEvent[] = [];
+    private events: CombinedEvent[] = [];
     private queue: Status[] = [];
 
     private characterChoiceHandler = new CharacterChoiceHandler(
