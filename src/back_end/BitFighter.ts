@@ -172,11 +172,11 @@ export class BitFighter {
         this.timeoutNextEvent();
     }
 
-    // start a new fight
+    // start a new fight, maybe rename to queue change
     private nextFight() {
         if (this.combatants.length >= 2) {
             console.log('cannot start fight: fight already ongoing');
-            return;
+            this.sendMessageToFont({queue: this.queue.map(c => c.card)});
         }
 
         if (this.timeout !== null)
@@ -190,6 +190,7 @@ export class BitFighter {
 
         this.pushLastResults();
         this.timeoutNextEvent();
+        return true;
     }
     
     private timeoutNextEvent() {
@@ -242,7 +243,8 @@ export class BitFighter {
                     ),
                     reel: graphics,
                     patch: patchTime
-                }
+                },
+                queue: this.queue.map(s => s.card)
             },
             fan
         );
