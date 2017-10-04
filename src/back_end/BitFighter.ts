@@ -178,7 +178,7 @@ export class BitFighter {
             console.log('cannot start fight: fight already ongoing');
             this.sendMessageToFont({
                 queue: this.queue.map(s => ({
-                    fanDisplayName: '', 
+                    fanDisplayName: s.name, 
                     championTypeName: ''
                 }
             ))});
@@ -250,8 +250,8 @@ export class BitFighter {
                     patch: patchTime
                 },
                 queue: this.queue.map(s => ({
-                    fanDisplayName: '', 
-                    championTypeName: ''
+                    fanDisplayName: s.name, 
+                    championTypeName: characters[s.character].name
                 }))
             },
             fan
