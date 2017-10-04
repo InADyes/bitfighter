@@ -7,8 +7,8 @@ import { otherCharacter  as other} from './utility';
 import { buffs, types as buffTypes } from './buff';
 import * as BuildGraphicsEvents from './buildGraphicsEvents';
 
+const reel: CombinedEvent[] = [];
 export function buildEvents(status: Status[], startTime?: number) {
-    const reel: CombinedEvent[] = [];
     const newStatus = status.map(s => s.clone());
     const combatants = newStatus.map((status, index) => new Combatant(
         status,

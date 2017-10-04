@@ -8,7 +8,6 @@ import {
     FrontToBackMessage,
     StatBarAmount
 } from '../shared/frontEndMessage';
-import { choiceStats } from '../back_end/characterChoiceHandler';
 
 declare function flip(side: 'front' | 'back'): void;
 

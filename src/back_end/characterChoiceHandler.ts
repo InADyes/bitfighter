@@ -2,81 +2,6 @@ import { CharacterCard } from '../shared/frontEndMessage';
 import { Character, characters, pickCharacter, characterTypes } from '../shared/characterPicker';
 import { Status } from '../shared/Status';
 
-export type choiceStats = {[detials: string]: number};
-
-const cardStats: {[details: number]: choiceStats} = {
-    [characterTypes.scullaryMaid]: {
-        accuracy: 6,
-        dodge: 6,
-        armor: 5,
-        damage: 5,
-        attackSpeed: 5
-    },
-    [characterTypes.barkeep]: {
-        accuracy: 3,
-        dodge: 4,
-        armor: 8,
-        damage: 6,
-        attackSpeed: 3
-    },
-    [characterTypes.medium]: {
-        accuracy: 5,
-        dodge: 6,
-        armor: 1,
-        damage: 3,
-        attackSpeed: 7
-    },
-    [characterTypes.minstrel]: {
-        accuracy: 5,
-        dodge: 6,
-        armor: 2,
-        damage: 5,
-        attackSpeed: 8
-    },
-    [characterTypes.mage]: {
-        accuracy: 10,
-        dodge: 4,
-        armor: 5,
-        damage: 2,
-        attackSpeed: 10
-    },
-    [characterTypes.rogue]: {
-        accuracy: 8,
-        dodge: 8,
-        armor: 3,
-        damage: 1,
-        attackSpeed: 9
-    },
-    [characterTypes.warpriest]: {
-        accuracy: 3,
-        dodge: 3,
-        armor: 10,
-        damage: 3,
-        attackSpeed: 4
-    },
-    [characterTypes.warlock]: {
-        accuracy: 2,
-        dodge: 2,
-        armor: 5,
-        damage: 9,
-        attackSpeed: 2
-    },
-    [characterTypes.swashbuckler]: {
-        accuracy: 7,
-        dodge: 8,
-        armor: 3,
-        damage: 6,
-        attackSpeed: 6
-    },
-    [characterTypes.dragon]: {
-        accuracy: 1,
-        dodge: 1,
-        armor: 8,
-        damage: 10,
-        attackSpeed: 1
-    },
-}
-
 interface DonationTier {
     donation: number;
     odds: {[details: number]: number};
@@ -224,15 +149,7 @@ export class CharacterChoiceHandler {
         });
 
         this.requestPick(
-            statusChoices.map(s => ({
-                stats: cardStats[s.character] || cardStats[-1],
-                baseHealth: characters[s.character].stats.maxHitPoints,
-                bonusHealth: s.baseStats.maxHitPoints - characters[s.character].stats.maxHitPoints,
-                className: characters[s.character].name,
-                art: s.character,
-                level: s.level,
-                rarity: characters[s.character].rarity
-            })),
+            statusChoices.map(s => s.card),
             donation.id
         );
     }
