@@ -92,6 +92,7 @@ module.exports = [
         },
         plugins: [
             new ExtractTextPlugin("./testbed/index.css"),
+            new ExtractTextPlugin("./dist/index.css")
           ]
         // devtool: 'source-map'//,
         //target: 'node'

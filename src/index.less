@@ -35,7 +35,7 @@
   #arena {
     background: rgba( 255, 255, 255, 0.8);
     border: 1px solid rgba(0 ,0 ,0 , 0.8);
-    position: relative;
+    position: absolute;
     &:hover {
       & + #queue{
         display: block;
@@ -85,6 +85,15 @@
   &:nth-of-type(4) {
     animation-delay: 1s;
   }
+  &:nth-of-type(5) {
+    animation-delay: 1.25s;
+  }
+  &:nth-of-type(6) {
+    animation-delay: 1.50s;
+  }
+  &:nth-of-type(7) {
+    animation-delay: 1.75s;
+  }
 
   .character-card-stats {
     align-items: center;
@@ -98,7 +107,7 @@
       align-items: center;
       color: red;
       display: flex;
-      font-size: 2.2em;
+      font-size: 1.2em;
       font-weight: bolder;
       justify-content: flex-end;
       height: 20%;
