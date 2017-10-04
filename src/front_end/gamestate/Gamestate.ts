@@ -232,7 +232,7 @@ export class GameState {
 	}
 
 	private idleCheck() {
-		this.idleId = window.setTimeout(() => {this.switchToBitBoss()}, 10000);
+		this.idleId = window.setTimeout(() => {this.switchToBitBoss()}, 4000);
 	}
 
 	private switchToBitBoss() {

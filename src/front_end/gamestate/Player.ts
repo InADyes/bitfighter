@@ -318,12 +318,13 @@ export class Player {
         window.setTimeout(() => {this.displayText()}, 300);
     }
 
-	public healthbar(adjustment: number) {
+	public adjustHp(newHp: number) {
         if (!this.greenBar.height)
             return;
 
         // adjust actual health values
-        this.health += adjustment;
+        let adjustment = newHp - this.health;
+        this.health = newHp;
         if (this.health > this.data.maxHitPoints)
             this.health = this.data.maxHitPoints;
         this.drawHealthText();
