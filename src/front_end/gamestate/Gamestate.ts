@@ -31,25 +31,13 @@ export class GameState {
 		private readonly charArt: string[],
 		private readonly buffArt: string[]
 	) {
-		this.canvas = new fabric.StaticCanvas(canvasId); // USE StaticCanvas for noninteractive
+		this.canvas = new fabric.StaticCanvas(canvasId);
 		this.canvas.setWidth(this.baseWidth);
 		this.canvas.setWidth(this.baseHeight);
 		this.player1 = null;
 		this.player2 = null;
 	}
 
-	// public newMessage(
-	// 	reel: Events.Event[],
-	// 	characters: {
-	// 		name: string,
-	// 		currentHitPoints: number,
-	// 		maxHitPoints: number,
-	// 		art: number,
-	// 		profileImageURL: string,
-	// 		chatMessage: string
-	// 	}[],
-	// 	patch?: number
-	// ) {
 		public newMessage(msg: Message) {
 		// Add received message to the queue
 		// Don't do anything if a character is dying or moving over
@@ -65,12 +53,12 @@ export class GameState {
 			this.applyPatch(msg.reel, msg.patch);
 		}
 		else  {
-			this.clearMessage();
+			this.clearReel();
 			this.reel = msg.reel;
 
 			// if there's a patch immediately fire next event, otherwise start new reel
 			if (msg.patch)
-				this.getEvent();
+				this.getNextEvent();
 			else {
 				this.canvas.clear();
 				// init players
@@ -90,7 +78,7 @@ export class GameState {
 		}
 	}
 
-	private clearMessage() {
+	private clearReel() {
 		this.reel = [];
 		if (this.eventLoopTimeout)
 			clearTimeout(this.eventLoopTimeout);
@@ -102,13 +90,13 @@ export class GameState {
 		}
 		this.eventLoopTimeout = window.setTimeout(
 			() => {
-				this.getEvent();
+				this.getNextEvent();
 			},
 			this.reel[0].time - (performance.now() - this.ogTime)
 		);
 	}
 
-	private getEvent() {
+	private getNextEvent() {
 		let event = this.reel.shift();
 		if (event == undefined) {
 			this.eventLoopTimeout = null;
@@ -121,7 +109,7 @@ export class GameState {
 			delay = 0;
 		this.eventLoopTimeout = window.setTimeout(
 			() => {
-				this.getEvent();
+				this.getNextEvent();
 			},
 			delay //used to be nextTime - event.time
 		);
@@ -129,8 +117,6 @@ export class GameState {
 	}
 
 	private applyPatch(reel: Events.Event[], patch: number) {
-		//while (reel[0].time != patch)
-		//	reel.shift();
 		for (let i = 0; i < this.reel.length; i++) {
 			if (reel[0].time < this.reel[i].time) {
 				this.reel.splice(i);
@@ -142,9 +128,9 @@ export class GameState {
 
 	public drawPlayers() {
 		if (this.player1)
-			this.player1.draw();
+			this.player1.drawMe();
 		if (this.player2)
-			this.player2.draw();
+			this.player2.drawMe();
 	}
 
 	public attack(p2: number) {
@@ -186,7 +172,8 @@ export class GameState {
 		// Start checking if a fight idles too long to switch to bitboss
 		this.idleCheck();
 	}
-	newChampion() {
+
+	public newChampion() {
 		if ((this.player1 && this.player1.isAnimated()) || (this.player2 && this.player2.isAnimated())) {
 			window.setTimeout(() => {this.newChampion()}, 1);
 			return;
@@ -194,23 +181,15 @@ export class GameState {
 		this.player1 = this.player2;
 		this.player2 = null;
 	}
+
 	public displayText(p2: number, str: string, color: string) {
 	if (p2 && this.player2)
-			this.player2.text(str, color);
+			this.player2.displayText(str, color);
 		else if (this.player1)
-			this.player1.text(str, color);
+			this.player1.displayText(str, color);
 	}
 
 	public setNewScale(scale: number) {
-		/*if (this.scaleWait && scale != null) {
-			this.scaleWait = scale;
-			return;
-		}
-		
-		if ((this.player1 || this.player2) && (this.player1.isAnimated() || this.player2.isAnimated())) {
-			setTimeout(() => {this.setNewScale(null)}, 1);
-		}
-		else {*/
 		this.scaleWait = scale;
 		let oldScale = this.scale;
 		this.scale = this.scaleWait;
@@ -232,11 +211,11 @@ export class GameState {
 	}
 
 	private idleCheck() {
-		this.idleId = window.setTimeout(() => {this.switchToBitBoss()}, 4000);
-	}
-
-	private switchToBitBoss() {
-		console.log("SWITCH TO BIT BOSS");
-		flip('front');
+		// If bitfighter mode idles for full amount, switch to bitboss mode
+		this.idleId = window.setTimeout(
+			() => {
+				flip('front')
+			}, 4000
+		);
 	}
 }
