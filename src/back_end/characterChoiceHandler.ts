@@ -19,34 +19,14 @@ const rarities = [0, 1, 2, 3];
 
 const tiers: DonationTier[] = [
     {
-        donation: 200,
-        odds: {
-            [e_rarity.common]: 10,
-            [e_rarity.rare]: 6,
-            [e_rarity.epic]: 2,
-            [e_rarity.legendary]: 0.5
-        },
-        cards: 3
-    },
-    {
-        donation: 500,
-        odds: {
-            [e_rarity.common]: 5,
-            [e_rarity.rare]: 6,
-            [e_rarity.epic]: 7.5,
-            [e_rarity.legendary]: 2.5
-        },
-        cards: 4
-    },
-    {
-        donation: 1000,
+        donation: 10000,
         odds: {
             [e_rarity.common]: 0,
-            [e_rarity.rare]: 9,
-            [e_rarity.epic]: 8.75,
-            [e_rarity.legendary]: 5
+            [e_rarity.rare]: 0,
+            [e_rarity.epic]: 15,
+            [e_rarity.legendary]: 10
         },
-        cards: 5
+        cards: 7
     },
     {
         donation: 5000,
@@ -59,15 +39,35 @@ const tiers: DonationTier[] = [
         cards: 6
     },
     {
-        donation: 10000,
+        donation: 1000,
         odds: {
             [e_rarity.common]: 0,
-            [e_rarity.rare]: 0,
-            [e_rarity.epic]: 15,
-            [e_rarity.legendary]: 10
+            [e_rarity.rare]: 9,
+            [e_rarity.epic]: 8.75,
+            [e_rarity.legendary]: 5
         },
-        cards: 7
-    }
+        cards: 5
+    },
+    {
+        donation: 500,
+        odds: {
+            [e_rarity.common]: 5,
+            [e_rarity.rare]: 6,
+            [e_rarity.epic]: 7.5,
+            [e_rarity.legendary]: 2.5
+        },
+        cards: 4
+    },
+    {
+        donation: 200,
+        odds: {
+            [e_rarity.common]: 10,
+            [e_rarity.rare]: 6,
+            [e_rarity.epic]: 2,
+            [e_rarity.legendary]: 0.5
+        },
+        cards: 3
+    },
 ];
 
 export class CharacterChoiceHandler {
@@ -95,8 +95,8 @@ export class CharacterChoiceHandler {
             return; // todo: what should happen if they donate while they still have cards?
 
         //find last tier that we can achive or use the first one
-        const { odds, cards } = tiers.reverse().find(t => t.donation <= donation.amount) || tiers[0];
-        console.log("cards",cards,"odds",odds);
+        const { odds, cards } = tiers.find(t => t.donation <= donation.amount) || tiers[4];
+        //console.log("cards",cards,"odds",odds);
         //total odds of reach rarity
         const totals = rarities.map(r => odds[r] * characters.filter(c => c.rarity == r).length);
         
