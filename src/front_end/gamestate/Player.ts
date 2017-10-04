@@ -3,7 +3,7 @@ declare let fabric: any;
 
 export class Player {
     private health:         number;
-    private right:          number;
+    private onRight:        number;
     private img:            fabric.Object;
     private healthtext:     fabric.Group;
     private greenBar:       fabric.Rect;
@@ -67,25 +67,12 @@ export class Player {
         private readonly buffArt: string[]
     ) {
         this.health = data.currentHitPoints;
-        this.right = side;
+        this.onRight = side;
         this.canvas = canvas;
         this.scale = scale;
         this.center = this.canvas.getWidth() / 2;
         this.textQueue = [];
         this.buffs = [];
-    }
-
-    public addBuff(buff: number, duration: number) {
-        this.buffs.push(buff);
-        this.drawBuffs();
-        window.setTimeout(() => {
-            // remove this particular buff from the array
-            let i = this.buffs.indexOf(buff);
-            if (i > -1)
-                this.buffs.splice(i, 1);
-            this.drawBuffs();
-        }, duration);
-        this.drawBuffs();
     }
 
     private drawBuffs() {
@@ -96,12 +83,11 @@ export class Player {
             top:0
         });
         this.canvas.add(this.buffGroup);
-
         let numBuffsPerRow = Math.floor(this.trueWidth / (this.buffOffset * this.scale));
         for (let i = 0; i < this.buffs.length; i++) {
             new fabric.Image.fromURL(this.buffArt[this.buffs[i]], (oImg: fabric.Image) => {
                 let currentbuff = oImg.set({
-                    left: !this.right ? this.center - this.trueWidth + this.buffOffset * (i % numBuffsPerRow) * this.scale : this.center + this.buffOffset * (i % numBuffsPerRow) * this.scale,
+                    left: !this.onRight ? this.center - this.trueWidth + this.buffOffset * (i % numBuffsPerRow) * this.scale : this.center + this.buffOffset * (i % numBuffsPerRow) * this.scale,
                     top: i < numBuffsPerRow? this.buffTop * this.scale: (this.buffTop + this.buffSize * Math.floor(i / numBuffsPerRow) - 5) * this.scale,
                     height: this.buffSize * this.scale,
                     width: this.buffSize * this.scale
@@ -112,58 +98,41 @@ export class Player {
         }
     }
 
-    public draw() {
-        if (this.img)
-            this.canvas.remove(this.img);
-        new fabric.Image.fromURL(this.charArt[this.data.art], (oImg: fabric.Image) => {
-            if(oImg.width && oImg.height)
-                this.trueWidth = oImg.width/oImg.height * this.height * this.scale;
-            this.img = oImg.set({
-                left: !this.right ? (this.center - this.trueWidth / 2) - this.artAdjust : (this.center + this.trueWidth / 2) + this.artAdjust,
-                top: this.artTop * this.scale,
-                originX: 'center',
-                originY: 'bottom',
-                flipX: !this.right ? false : true
-            });
-            this.img.scaleToHeight(this.height * this.scale);
-            this.canvas.add(this.img);
-            this.drawHealthText();
-            this.drawHpBar();
-            this.drawname();
-        });
-    }
     private drawname() {
         if (this.displayname)
             this.canvas.remove(this.displayname);
         if (this.displaynametop)
             this.canvas.remove(this.displaynametop);
-        this.displayname = new fabric.Text(this.data.name, {
-            fontSize: this.fontSize * this.scale,
-            fontFamily: this.font,
-            strokeWidth: this.strokeWidith * this.scale,
+        this.displayname = this.getFabricName();
+        this.displayname.set({
             fill: 'white',
-            fontWeight: 'bold',
             stroke: 'white',
+            strokeWidth: this.strokeWidith * this.scale,
             top: this.nameHeight * this.scale,
-            left: !this.right ? this.center  - this.trueWidth / 2:this.center + this.trueWidth / 2,
-            originX: 'center'
         });
-        this.displaynametop = new fabric.Text(this.data.name, {
-            fontSize: this.fontSize * this.scale,
-            fontFamily: this.font,
+        this.displaynametop = this.getFabricName();
+        this.displaynametop.set({
             fill: 'black',
-            fontWeight: 'bold',
             top: this.nameHeight * this.scale + 1,
-            left: !this.right ? this.center  - this.trueWidth / 2:this.center + this.trueWidth / 2,
-            originX: 'center'
-        });
+        })
         this.canvas.add(this.displayname);
         this.canvas.add(this.displaynametop);
     }
+
+    private getFabricName() {
+        return (new fabric.Text(this.data.name, {
+            fontSize: this.fontSize * this.scale,
+            fontFamily: this.font,
+            fontWeight: 'bold',
+            left: !this.onRight ? this.center  - this.trueWidth / 2 : this.center + this.trueWidth / 2,
+            originX: 'center'
+        }));
+    }
+
     private drawHpBar() {
         let missingHeight = this.height * (this.health / this.data.maxHitPoints);
         let leftOffset = this.center - this.trueWidth - this.hpAdjust;
-        let rightOffset = this.center + this.trueWidth + this.hpAdjust;
+        let onRightOffset = this.center + this.trueWidth + this.hpAdjust;
 
         if (this.greenBar)
             this.canvas.remove(this.greenBar);
@@ -173,62 +142,52 @@ export class Player {
             this.canvas.remove(this.yellowBar);
         if (this.whiteBar)
             this.canvas.remove(this.whiteBar);
-        this.greenBar = new fabric.Rect({
-            left: !this.right ? leftOffset : rightOffset,
-            top: this.artTop * this.scale,
+        this.greenBar = this.getFabricHp(leftOffset, onRightOffset);
+        this.greenBar.set({
             fill: '#1eedce',
             blur: 0.5,
             height: missingHeight * this.scale,
-            width: this.hpWidth * this.scale,
-            flipY: true,
-            originX: 'center',
-            originY: 'bottom'
-        });
-        this.redBar = new fabric.Rect({
-            left: !this.right ? leftOffset : rightOffset,
-            top: this.artTop * this.scale,
+        })
+        this.redBar = this.getFabricHp(leftOffset, onRightOffset);
+        this.redBar.set({
             fill: '#ed1e1e',
             blur: 0.5,
             height: this.height * this.scale,
-            width: this.hpWidth * this.scale,
-            flipY: true,
-            originX: 'center',
-            originY: 'bottom'
-        });
-        this.yellowBar = new fabric.Rect({
-            left: !this.right ? leftOffset : rightOffset,
-            top: this.artTop * this.scale,
+        })
+        this.yellowBar = this.getFabricHp(leftOffset, onRightOffset); 
+        this.yellowBar.set({
             fill: '#edd11e',
             blur: 0.5,
             height: missingHeight * this.scale,
-            width: this.hpWidth * this.scale,
-            flipY: true,
-            originX: 'center',
-            originY: 'bottom'
-        });
-        this.whiteBar = new fabric.Rect({
-            left: !this.right ? leftOffset : rightOffset,
-            top: this.artTop * this.scale,
+        })
+        this.whiteBar = this.getFabricHp(leftOffset, onRightOffset);
+        this.whiteBar.set({
             fill: 'white',
             height: this.height * this.scale,
-            width: this.hpWidth * this.scale,
             strokeWidth: this.strokeWidith * this.scale,
             stroke: 'white',
-            flipY: true,
-            originX: 'center',
-            originY: 'bottom'
-        });
+        })
         this.canvas.add(this.whiteBar);
         this.canvas.add(this.redBar);
         this.canvas.add(this.yellowBar);
         this.canvas.add(this.greenBar);
-        
+    }
+
+    private getFabricHp(leftOffset: number, onRightOffset: number) {
+        return(new fabric.Rect({
+            left: !this.onRight ? leftOffset : onRightOffset,
+            top: this.artTop * this.scale,
+            width: this.hpWidth * this.scale,
+            flipY: true,
+            originX: 'center',
+            originY: 'bottom'
+        }));
     }
 
     private drawHealthText() {
         if (this.healthtext)
              this.canvas.remove(this.healthtext);
-        let healthtextbot = new fabric.Text(`${ this.health.toString() }`, {
+        let healthTextBot = new fabric.Text(`${ this.health.toString() }`, {
             fontSize: this.fontSize * this.scale,
             fontFamily: this.font,
             strokeWidth: this.strokeWidith * this.scale,
@@ -236,56 +195,39 @@ export class Player {
             fontWeight: 'bold',
             stroke: 'white',
             originX: 'center'
-        }); 
-        let healthtexttop = new fabric.Text(`${ this.health.toString() }`, {
+        });
+        let healthTextTop = new fabric.Text(`${ this.health.toString() }`, {
             fontSize: this.fontSize * this.scale,
             fontFamily: this.font,
             fill: 'black',
             top: 1,
             originX: 'center',
         }); 
-        this.healthtext = new fabric.Group([healthtextbot,healthtexttop],{
+        this.healthtext = new fabric.Group([healthTextBot,healthTextTop],{
             top: this.hpTextTop * this.scale,
-            left: !this.right ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
+            left: !this.onRight ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
             originX: 'center',
         });
         this.canvas.add(this.healthtext);
     }
 
-    public attacks() {
-        this.img.animate('left', this.right ? `-=${ 10  * this.scale }` : `+=${ 10 * this.scale }`, {
-            duration: 200,
-            easing: fabric.util.ease['easeInQuint'],
-            onChange: this.canvas.renderAll.bind(this.canvas),
-            onComplete: () => {
-                this.img.animate('left', this.right ? this.center + this.artAdjust + this.trueWidth / 2 : this.center - this.artAdjust - this.trueWidth / 2, {
-                    duration: 300,
-                    onChange: this.canvas.renderAll.bind(this.canvas),
-                    easing: fabric.util.ease['easeOutQuint'],
-                })
-            }
-        });
+    private removeNameAndHp() {
+        this.canvas.remove(this.healthtext);
+        this.canvas.remove(this.greenBar);
+        this.canvas.remove(this.yellowBar);
+        this.canvas.remove(this.redBar);
+        this.canvas.remove(this.whiteBar);
+        this.canvas.remove(this.displayname);
+        this.canvas.remove(this.displaynametop);
     }
 
-	public text(str: string, color: string) {
-        let txt = {
-            str: str,
-            color: color
-        };
-        this.textQueue.push(txt);
-        if (!this.textLock) {
-            this.textLock = 1;
-            this.displayText();
-        }
-    }
-
-    private displayText() {
+    private drawText() {
         if (!this.textQueue[0]) {
             this.textLock = 0;
             return;
         }
         let txtObj = this.textQueue.shift();
-        let txtbot = new fabric.Text(`${ txtObj.str }`, {
+        let txtBot = new fabric.Text(`${ txtObj.str }`, {
             fontSize: this.fontSize * this.scale,
             strokeWidth: this.strokeWidith *this.scale,
             fontFamily: this.font,
@@ -294,7 +236,7 @@ export class Player {
             fill: 'white',
             originX: 'center'
         });
-        let txttop = new fabric.Text(`${ txtObj.str }`, {
+        let txtTop = new fabric.Text(`${ txtObj.str }`, {
             fontSize: this.fontSize * this.scale,
             fontFamily: this.font,
             fontWeight: 'bold',
@@ -302,9 +244,9 @@ export class Player {
             top: 1,
             originX: 'center'
         });
-        let textgroup = new fabric.Group([txtbot,txttop],{
+        let textgroup = new fabric.Group([txtBot,txtTop],{
             top: this.textTop * this.scale,
-            left: !this.right ? this.center - this.artAdjust - this.trueWidth / 2 : this.center + this.artAdjust + this.trueWidth / 2,
+            left: !this.onRight ? this.center - this.artAdjust - this.trueWidth / 2 : this.center + this.artAdjust + this.trueWidth / 2,
             originX: 'center'
         });
         this.canvas.add(textgroup);
@@ -315,7 +257,70 @@ export class Player {
                 this.canvas.remove(textgroup);
             }
         });
-        window.setTimeout(() => {this.displayText()}, 300);
+        window.setTimeout(() => {this.drawText()}, 300);
+    }
+
+    public drawMe() {
+        if (this.img)
+            this.canvas.remove(this.img);
+        new fabric.Image.fromURL(this.charArt[this.data.art], (oImg: fabric.Image) => {
+            if(oImg.width && oImg.height)
+                this.trueWidth = oImg.width/oImg.height * this.height * this.scale;
+            this.img = oImg.set({
+                left: !this.onRight ? (this.center - this.trueWidth / 2) - this.artAdjust : (this.center + this.trueWidth / 2) + this.artAdjust,
+                top: this.artTop * this.scale,
+                originX: 'center',
+                originY: 'bottom',
+                flipX: !this.onRight ? false : true
+            });
+            this.img.scaleToHeight(this.height * this.scale);
+            this.canvas.add(this.img);
+            this.drawHealthText();
+            this.drawHpBar();
+            this.drawname();
+        });
+    }
+
+    public addBuff(buff: number, duration: number) {
+        this.buffs.push(buff);
+        this.drawBuffs();
+        window.setTimeout(
+            () => {
+                // remove this particular buff from the array after timeout
+                let i = this.buffs.indexOf(buff);
+                if (i > -1)
+                    this.buffs.splice(i, 1);
+                this.drawBuffs();
+            }, duration
+        );
+        this.drawBuffs();
+    }
+
+    public attacks() {
+        this.img.animate('left', this.onRight ? `-=${ 10  * this.scale }` : `+=${ 10 * this.scale }`, {
+            duration: 200,
+            easing: fabric.util.ease['easeInQuint'],
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: () => {
+                this.img.animate('left', this.onRight ? this.center + this.artAdjust + this.trueWidth / 2 : this.center - this.artAdjust - this.trueWidth / 2, {
+                    duration: 300,
+                    onChange: this.canvas.renderAll.bind(this.canvas),
+                    easing: fabric.util.ease['easeOutQuint'],
+                })
+            }
+        });
+    }
+
+	public displayText(str: string, color: string) {
+        let txt = {
+            str: str,
+            color: color
+        };
+        this.textQueue.push(txt);
+        if (!this.textLock) {
+            this.textLock = 1;
+            this.drawText();
+        }
     }
 
 	public adjustHp(newHp: number) {
@@ -338,10 +343,10 @@ export class Player {
             barChange = this.height * this.scale - this.greenBar.height;
         else if (barChange + this.greenBar.height <= 0)
             barChange = -this.greenBar.height;
-
         if (this.greenBar.height <= 0)
             this.greenBar.height = 0;
-        // Drop the green bar
+
+        // Move the green bar
         this.greenBar.animate('height', barChange > 0 ? `+=${ barChange }` : `-=${ -barChange }` , {
             duration: barChange > 0 ? 500 : 1,
             onChange: this.canvas.renderAll.bind(this.canvas),
@@ -367,9 +372,9 @@ export class Player {
     }
 
 	public dies(player2: Player | null) {
-        this.animates();
+        this.animationLock = 1;
         console.log(`ANiMATING`);
-        this.img.animate('angle', this.right ? '-90' : '90', {
+        this.img.animate('angle', this.onRight ? '-90' : '90', {
             duration: 500,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
@@ -378,13 +383,7 @@ export class Player {
                     onChange: this.canvas.renderAll.bind(this.canvas),
                     onComplete: () => {
                         this.canvas.remove(this.img);
-                        this.canvas.remove(this.healthtext);
-                        this.canvas.remove(this.greenBar);
-                        this.canvas.remove(this.yellowBar);
-                        this.canvas.remove(this.redBar);
-                        this.canvas.remove(this.whiteBar);
-                        this.canvas.remove(this.displayname);
-                        this.canvas.remove(this.displaynametop);
+                        this.removeNameAndHp();
                         if (player2)
                             player2.moves();
                         this.animationLock = 0;
@@ -395,22 +394,16 @@ export class Player {
     }
 
     public moves(){
-        this.animates();
-        this.canvas.remove(this.healthtext);
-        this.canvas.remove(this.greenBar);
-        this.canvas.remove(this.yellowBar);
-        this.canvas.remove(this.redBar);
-        this.canvas.remove(this.whiteBar);
-        this.canvas.remove(this.displayname);
-        this.canvas.remove(this.displaynametop);
+        this.animationLock = 1;
+        this.removeNameAndHp();
         this.img.animate(`left`, this.center - this.artAdjust - this.trueWidth / 2, {
-            duration:800,
+            duration: 800,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 this.canvas.remove(this.img);
                 this.img.setFlipX(false);
                 this.canvas.add(this.img);
-                this.right = 0;
+                this.onRight = 0;
                 this.drawHealthText();
                 this.drawHpBar();
                 this.drawname();
@@ -423,29 +416,25 @@ export class Player {
         this.scale = scale;
         this.center = this.canvas.getWidth() / 2;
         if (this.health > 0)
-            this.draw();
-    }
-
-    public animates() {
-        this.animationLock = 1;
+            this.drawMe();
     }
 
     public isAnimated() {
         return (this.animationLock ? true : false);
     }
 
-   public clearBuffs(){
-       this.canvas.remove(this.buffGroup);
-       this.buffs = [];
-   }
+    public clearBuffs(){
+        this.canvas.remove(this.buffGroup);
+        this.buffs = [];
+    }
 
-   public getBitBossInfo() {
-       return ({
-           name: this.data.name,
-           hp: this.health,
-           maxHp: this.data.maxHitPoints,
-           img: this.data.profileImageURL,
-           character: this.charStrings[this.data.art]
-       });
-   }
+    public getBitBossInfo() {
+        return ({
+            name: this.data.name,
+            hp: this.health,
+            maxHp: this.data.maxHitPoints,
+            img: this.data.profileImageURL,
+            character: this.charStrings[this.data.art]
+        });
+    }
 }
