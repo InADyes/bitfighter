@@ -188,3 +188,14 @@ body {
   top: 7px;
   left: 7px;
 }
+#queue {
+  display: none;
+  position: absolute;
+  top: 150;
+  background-color: black;
+  width: 200;
+}
+
+#bitfighter #arena:hover {
+  background-color: black;
+}

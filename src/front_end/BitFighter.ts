@@ -14,7 +14,8 @@ declare function flip(side: 'front' | 'back'): void;
 
 export class BitFighter {
     private readonly game: GameState;
-    private canvas: HTMLCanvasElement = document.createElement('canvas');
+    //private canvas: HTMLCanvasElement = document.createElement('canvas');
+    private canvas = document.getElementById('arena');
     private cards: HTMLDivElement[] = [];
     private timeout: number | null = null;
     private readonly artURLs: string[];
@@ -27,9 +28,10 @@ export class BitFighter {
         private readonly emitGameEvent: (gameSlug: string, message: FrontToBackMessage) => void
     ) {
         // build arena
-        this.canvas.id = 'arena';
-        this.canvas.style.position = 'absolute';
-        this.wrapperDiv.appendChild(this.canvas);
+        //this.canvas.id = 'arena';
+        //this.canvas.style.position = 'absolute';
+        if (this.canvas)
+            this.wrapperDiv.appendChild(this.canvas);
         this.artURLs = artURLs.map(url => this.settings.assetsShim + url);
         this.iconURLs = buffArt.map(url => this.settings.assetsShim + url);
         this.game = new GameState('arena', this.artURLs, this.iconURLs);
