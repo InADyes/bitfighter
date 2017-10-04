@@ -68,19 +68,6 @@ window.addEventListener('load', function(){
     );
 
 
-    // temp
-    let x = <HTMLButtonElement>document.getElementById('addBuff');
-    x.addEventListener("click", ()=> {
-        let a = <HTMLInputElement>document.getElementById("duration");
-        let b = <HTMLInputElement>document.getElementById("art");
-        let c = <HTMLInputElement>document.getElementById("player");
-        let duration = Number(a.value);
-        let art = Number(b.value);
-        let player = Number(c.value);
-    
-        frontend.addBuff(art, duration, player);
-    });
-
     const newDonationButton = <HTMLButtonElement>document.getElementById('new-donation');
     const nameInputNode = <HTMLInputElement>document.getElementById('donation-name');
     const idInputNode = <HTMLInputElement>document.getElementById('donation-id');
