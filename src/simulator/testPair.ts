@@ -1,4 +1,4 @@
-import { buildFightEvents } from '../shared/fight';
+import { buildEvents } from '../shared/buildEvents';
 import * as FightEvents from '../shared/fightEvents';
 import { otherCharacter as other } from '../shared/utility';
 import { Status } from '../shared/Status';
@@ -36,7 +36,7 @@ export function testPair(
     ));
 
     for (let i = 0; i < fights; i++) {
-        const {reel} = buildFightEvents(chars);
+        const reel = buildEvents(chars).reel.map(e => e.fight);
 
         reelToResults(results, reel);
     }

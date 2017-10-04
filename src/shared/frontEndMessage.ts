@@ -49,7 +49,8 @@ export interface BackToFrontMessage {
 }
 
 export interface FrontToBackMessage {
-    characterChoice: CharacterChoice;
+    characterChoice?: CharacterChoice;
+    requestReel?: 'true';
 }
 
 export interface StatBarAmount {

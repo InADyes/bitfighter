@@ -1,5 +1,5 @@
 import { pickCharacter } from '../shared/characterPicker';
-import { buildFightEvents } from '../shared/fight';
+import { buildEvents } from '../shared/buildEvents';
 import * as FightEvents from '../shared/fightEvents';
 import { stdout } from 'process';
 import { buffs } from '../shared/buff';
@@ -17,7 +17,7 @@ export function countPairStats(
     
     for (let _ = 0; _ < count; _++) {
         for (let __ = 0; __ < 1000; __++){
-            const { reel } = buildFightEvents(chars);
+            const reel = buildEvents(chars).reel.map(e => e.fight);
             reelToResults(results, reel);
             if (reel.find(e =>
                 e.type === FightEvents.Types.death

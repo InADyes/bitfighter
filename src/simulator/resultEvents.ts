@@ -1,5 +1,5 @@
 import { pickCharacter } from '../shared/characterPicker';
-import { buildFightEvents } from '../shared/fight';
+import { buildEvents } from '../shared/buildEvents';
 import * as FightEvents from '../shared/fightEvents';
 import { stdout } from 'process';
 import { buffs } from '../shared/buff';
@@ -63,7 +63,7 @@ export function resultEvents() {
         })
     ];
 
-    const { reel } = buildFightEvents(chars);
+    const reel = buildEvents(chars).reel.map(e => e.fight);
     printReel(reel);
 
     const results = reelToResults(

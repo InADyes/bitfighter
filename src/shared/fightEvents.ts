@@ -13,7 +13,7 @@ export const enum Types {
 
 export abstract class Event {
     constructor (
-        public time: number,
+        public readonly time: number,
         public readonly type: Types,
         public readonly character: number
     ) {};

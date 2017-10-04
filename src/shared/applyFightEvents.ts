@@ -2,12 +2,21 @@ import * as FightEvents from '../shared/fightEvents';
 import { Status } from '../shared/Status';
 import { otherCharacter } from '../shared/utility';
 import { buildStats, levels } from '../shared/characterPicker';
+import { build as buildGraphicsEvents } from './buildGraphicsEvents';
+import { Event as GraphicsEvent } from './graphicsEvents';
+
+export interface CombindedEvent {
+    fight: FightEvents.Event,
+    graphics: GraphicsEvent[]
+ };
 
 // also modifies events that would take health too high or low
 export function applyFightEvents(
     status: Status[],
     ...reel: FightEvents.Event[]
 ) {
+    let combinedReel: CombindedEvent[] = [];
+
     for (let event of reel) {
         switch (event.type) {
             case FightEvents.Types.damage:
@@ -41,5 +50,10 @@ export function applyFightEvents(
                     c.baseStats = buildStats(c.character, c.initialDonation, c.level);
                 }
         }
+        combinedReel.push({
+            fight: event,
+            graphics: buildGraphicsEvents(event, status)
+        })
     };
+    return combinedReel;
 }

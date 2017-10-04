@@ -1,13 +1,13 @@
 import { Packet } from '_debugger';
-import * as buildGraphicsEvents from './buildGraphicsEvents';
-import { buildFightEvents } from '../shared/fight';
+import { sortGraphicsEvents } from '../shared/buildGraphicsEvents';
+import { buildEvents } from '../shared/buildEvents';
 import { Stats, Status } from '../shared/Status';
 import { Character, pickCharacter } from '../shared/characterPicker';
 import * as FightEvents from '../shared/fightEvents';
 import * as graphicsEvents from '../shared/graphicsEvents';
 import * as frontEndMessage from '../shared/frontEndMessage';
 import { Settings } from './backendSettings'
-import { applyFightEvents } from '../shared/applyFightEvents'
+import { applyFightEvents, CombindedEvent } from '../shared/applyFightEvents'
 import { CharacterChoiceHandler } from './characterChoiceHandler';
 import { hrtime } from 'process';
 
@@ -23,7 +23,7 @@ export class BitFighter {
     private fightStartTime: number = 0;
     private timeout: NodeJS.Timer | null = null;
     private combatants: Status[] = [];
-    private events: FightEvents.Event[] = [];
+    private events: CombindedEvent[] = [];
     private queue: Status[] = [];
 
     private characterChoiceHandler = new CharacterChoiceHandler(
@@ -46,7 +46,10 @@ export class BitFighter {
     ) {}
 
     public receivedFanGameState(id: number, choice: frontEndMessage.FrontToBackMessage) {
-        this.characterChoiceHandler.completeChoice(id, choice.characterChoice.choice, true);
+        if (choice.characterChoice)
+            this.characterChoiceHandler.completeChoice(id, choice.characterChoice.choice, true);
+        if (choice.requestReel)
+            this.pushLastResults(undefined, id);
     }
     public donation(id: number, name: string, amount: number, profileImageURL: string, chatMessage: string) {
 
@@ -91,12 +94,12 @@ export class BitFighter {
         this.insertEvents(
             patchTime,
             new FightEvents.Donation(
-                patchTime,
+                patchTime + 2000,
                 index,
                 FightEvents.DonationType.healing
             ),
             new FightEvents.Healing(
-                patchTime,
+                patchTime + 2000,
                 index,
                 amount
             )
@@ -113,12 +116,12 @@ export class BitFighter {
         this.insertEvents(
             patchTime,
             new FightEvents.Donation(
-                patchTime,
+                patchTime + 2000,
                 0,
                 FightEvents.DonationType.damage
             ),
             new FightEvents.Damage(
-                patchTime,
+                patchTime + 2000,
                 0,
                 amount
             )
@@ -140,18 +143,14 @@ export class BitFighter {
     private insertEvents(patchTime: number, ...insert: FightEvents.Event[]) {
 
         // create a temporary copy of status
-        let tempStatus = this.combatants.map(s => s.clone());
+        const tempStatus = this.combatants.map(s => s.clone());
 
         // apply new events
-        applyFightEvents(tempStatus, ...insert);
+        const reel = applyFightEvents(tempStatus, ...insert);
 
-        // caculate the rest of the events
-        let results = buildFightEvents(tempStatus);
-        results.reel.forEach(e => e.time += patchTime + 1000);
-
-        // add the rest of the events to the old events
-        insert = insert.concat(results.reel);
-        this.events = insert;
+        // set the current events to the calculated events
+        reel.push(...buildEvents(tempStatus).reel);
+        this.events = reel;
 
         this.pushLastResults(patchTime);
         
@@ -172,8 +171,7 @@ export class BitFighter {
 
         this.combatants = this.combatants.concat(this.queue.splice(0, 2 - this.combatants.length));
 
-        const result = buildFightEvents(this.combatants);
-        result.reel.forEach(e => e.time *= this.settings.gameSpeedMultipier);
+        const result = buildEvents(this.combatants);
         this.fightStartTime = nodePerformanceNow();
         this.events = result.reel;
 
@@ -184,7 +182,7 @@ export class BitFighter {
     private timeoutNextEvent() {
         // if there is more left in the 
         if (this.events.length > 0) { 
-            const timeout = this.events[0].time - (nodePerformanceNow() - this.fightStartTime);
+            const timeout = this.events[0].fight.time - (nodePerformanceNow() - this.fightStartTime);
 
             this.timeout = setTimeout(
                 () => this.nextEvent(),
@@ -206,26 +204,33 @@ export class BitFighter {
             console.error('no events left in fight');
             return;
         }
-        applyFightEvents(this.combatants, event);
+        applyFightEvents(this.combatants, event.fight);
         this.timeoutNextEvent();
     }
 
     // push the current events to everyone
-    private pushLastResults(patchTime?: number) {
-        this.sendMessageToFont({
-            newReel: {
-                    characters: this.combatants.map(c => ({
-                        name: c.name,
-                        maxHitPoints: c.baseStats.maxHitPoints,
-                        currentHitPoints: c.hitPoints,
-                        art: c.character,
-                        profileImageURL: c.profileImageURL,
-                        chatMessage: c.chatMessage
-                    })
-                ),
-                reel: buildGraphicsEvents.build(this.events, this.combatants),
-                patch: patchTime
-            }
-        });
+    private pushLastResults(patchTime?: number, fan?: number) {
+        const graphics: graphicsEvents.Event[] = [];
+        this.events.forEach(e => graphics.push(...e.graphics));
+        sortGraphicsEvents(graphics);
+
+        this.sendMessageToFont(
+            {
+                newReel: {
+                        characters: this.combatants.map(c => ({
+                            name: c.name,
+                            maxHitPoints: c.baseStats.maxHitPoints,
+                            currentHitPoints: c.hitPoints,
+                            art: c.character,
+                            profileImageURL: c.profileImageURL,
+                            chatMessage: c.chatMessage
+                        })
+                    ),
+                    reel: graphics,
+                    patch: patchTime
+                }
+            },
+            fan
+        );
     }
 }

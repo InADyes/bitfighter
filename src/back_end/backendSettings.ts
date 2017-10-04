@@ -1,6 +1,6 @@
 export interface Settings {
     delayBetweenFights: number, // milliseconds
-    gameSpeedMultipier: number,
+    gameSpeedMultipier: number, // no longer supported
     minimumDonation: number,
     donationToHPRatio: number
 }
