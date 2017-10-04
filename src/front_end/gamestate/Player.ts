@@ -27,11 +27,7 @@ export class Player {
     private strokeWidith =  2;
     private fontSize =      15;
     private font =          'Concert One'
-<<<<<<< HEAD
-    private buffWidth =     25;
-=======
     private buffOffset =    18;
->>>>>>> 0d45adfbf71688093d9e7346fbdc81c313cfdbc0
     private buffTop =       135;
     private buffSize =      25;
 
@@ -101,12 +97,12 @@ export class Player {
         });
         this.canvas.add(this.buffGroup);
 
-        let numBuffsPerRow = Math.floor(this.trueWidth / this.buffSize);
+        let numBuffsPerRow = Math.floor(this.trueWidth / (this.buffOffset * this.scale));
         for (let i = 0; i < this.buffs.length; i++) {
             new fabric.Image.fromURL(this.buffArt[this.buffs[i]], (oImg: fabric.Image) => {
                 let currentbuff = oImg.set({
-                    left: !this.right ? this.center - this.trueWidth + this.buffOffset * (i % numBuffsPerRow) * this.scale : this.center  + this.buffOffset * (i % numBuffsPerRow) * this.scale,
-                    top: i < numBuffsPerRow? this.buffTop * this.scale: (this.buffTop + this.buffSize * Math.floor(i / numBuffsPerRow)) * this.scale,
+                    left: !this.right ? this.center - this.trueWidth + this.buffOffset * (i % numBuffsPerRow) * this.scale : this.center + this.buffOffset * (i % numBuffsPerRow) * this.scale,
+                    top: i < numBuffsPerRow? this.buffTop * this.scale: (this.buffTop + this.buffSize * Math.floor(i / numBuffsPerRow) - 5) * this.scale,
                     height: this.buffSize * this.scale,
                     width: this.buffSize * this.scale
                 });
@@ -121,7 +117,7 @@ export class Player {
             this.canvas.remove(this.img);
         new fabric.Image.fromURL(this.charArt[this.data.art], (oImg: fabric.Image) => {
             if(oImg.width && oImg.height)
-                this.trueWidth = oImg.width/oImg.height * 70 * this.scale;
+                this.trueWidth = oImg.width/oImg.height * this.height * this.scale;
             this.img = oImg.set({
                 left: !this.right ? (this.center - this.trueWidth / 2) - this.artAdjust : (this.center + this.trueWidth / 2) + this.artAdjust,
                 top: this.artTop * this.scale,
@@ -129,7 +125,7 @@ export class Player {
                 originY: 'bottom',
                 flipX: !this.right ? false : true
             });
-            this.img.scaleToHeight(70 * this.scale);
+            this.img.scaleToHeight(this.height * this.scale);
             this.canvas.add(this.img);
             this.drawHealthText();
             this.drawHpBar();
