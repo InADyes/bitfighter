@@ -1,7 +1,8 @@
+import { applyFightEvents } from '../shared/applyFightEvents';
 import * as GraphicsEvents from '../shared/graphicsEvents';
 import * as FightEvents from '../shared/fightEvents';
 import { otherCharacter } from '../shared/utility';
-
+import { Status } from '../shared/Status';
 // could be programatically genrated in a cleaner way if we end up with a lot
 // used to determine order of events when the timestamp is the same
 const eventOrder = {
@@ -13,16 +14,20 @@ const eventOrder = {
 }
 
 
-export function build(fight: FightEvents.Event[]) {
+export function build(fight: FightEvents.Event[], originalStatus: Status[]) {
     let display: GraphicsEvents.Event[] = [];
+
+    const status = originalStatus.map(s => s.clone());
     
     for (let event of fight) {
+        applyFightEvents(status, event);
+
         switch (event.type) {
             case FightEvents.Types.damage:
                 display.push(new GraphicsEvents.Health(
                     event.time,
                     event.character,
-                    -(<FightEvents.Damage>event).amount
+                    status[event.character].hitPoints
                 ));
                 display.push(new GraphicsEvents.Text(
                     event.time,
@@ -43,7 +48,7 @@ export function build(fight: FightEvents.Event[]) {
                 display.push(new GraphicsEvents.Health(
                     event.time,
                     event.character,
-                    (<FightEvents.Healing>event).amount
+                    status[event.character].hitPoints
                 ));
                 display.push(new GraphicsEvents.Text(
                     event.time,

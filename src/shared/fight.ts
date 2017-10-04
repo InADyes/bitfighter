@@ -8,17 +8,7 @@ import { buffs, types as buffTypes } from './buff';
 export function buildFightEvents(stats: Status[]) {
     const reel: FightEvents.Event[] = [];
 
-    const newStats = stats.map(s => new Status(
-            s.id, //getto deep clone
-            s.name,
-            s.character,
-            s.initialDonation,
-            s.hitPoints,
-            s.level,
-            s.baseStats,
-            s.profileImageURL,
-            s.chatMessage
-    ));
+    const newStats = stats.map(s => s.clone());
 
     const combatants = newStats.map((s, index) => new Combatant(
         s,

@@ -90,4 +90,17 @@ export class Status {
     public get stats() {
         return this.calculatedStats;
     }
+    public clone() {
+        return new Status(
+            this.id, //getto deep clone
+            this.name,
+            this.character,
+            this.initialDonation,
+            this.hitPoints,
+            this.level,
+            this.baseStats,
+            this.profileImageURL,
+            this.chatMessage
+        );
+    }
 }

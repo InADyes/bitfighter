@@ -140,17 +140,7 @@ export class BitFighter {
     private insertEvents(patchTime: number, ...insert: FightEvents.Event[]) {
 
         // create a temporary copy of status
-        let tempStatus = this.combatants.map(s => new Status(
-            s.id,
-            s.name,
-            s.character,
-            s.initialDonation,
-            s.hitPoints,
-            s.level,
-            s.baseStats,
-            s.profileImageURL,
-            s.chatMessage
-        ));
+        let tempStatus = this.combatants.map(s => s.clone());
 
         // apply new events
         applyFightEvents(tempStatus, ...insert);
@@ -233,7 +223,7 @@ export class BitFighter {
                         chatMessage: c.chatMessage
                     })
                 ),
-                reel: buildGraphicsEvents.build(this.events),
+                reel: buildGraphicsEvents.build(this.events, this.combatants),
                 patch: patchTime
             }
         });
