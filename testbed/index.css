@@ -17,6 +17,7 @@
 body {
   margin: 0px;
 }
+
 #bitfighter {
   align-items: center;
   box-sizing: border-box;
@@ -30,6 +31,7 @@ body {
 }
 #bitfighter #arena {
   background: rgba(255, 255, 255, 0.8);
+  background-color: white;
   border: 1px solid rgba(0, 0, 0, 0.8);
   left: 2%;
   position: relative;
