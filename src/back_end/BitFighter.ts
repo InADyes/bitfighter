@@ -46,6 +46,8 @@ export class BitFighter {
                 chatMessage: 'look at me'
             }
         },
+        private readonly saveGameState: (jsonStr: string) => void,
+        gameStateJSON?: string
     ) {
         //const default = this.settings.defaultState;
         this.combatants.push(pickCharacter({

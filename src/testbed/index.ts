@@ -43,7 +43,8 @@ window.addEventListener('load', function(){
                 profileImageURL: 'testbed_images/banana_icon.png',
                 chatMessage: 'look at me'
             }
-        }
+        },
+        str => console.log('new gamestate save:', str)
     );
 
     const frontend = new BitFighterFront(
