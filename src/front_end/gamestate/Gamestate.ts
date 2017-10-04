@@ -154,13 +154,13 @@ export class GameState {
 			this.player1.attacks();
 	}
 	
-	public changeHealth(p2: number, amount: number) {
+	public changeHealth(p2: number, newHp: number) {
 		if (p2 && this.player2)
-			this.player2.healthbar(amount);
+			this.player2.adjustHp(newHp);
 		else if (this.player1) {
-			this.player1.healthbar(amount);
 			let p = this.player1.getBitBossInfo();
-			recalcHp(amount, p.hp, p.maxHp);
+			recalcHp(p.hp - newHp, newHp, p.maxHp);
+			this.player1.adjustHp(newHp);
 		}
 	}
 
