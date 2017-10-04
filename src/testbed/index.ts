@@ -17,6 +17,31 @@ window.updateBitBoss = function (bossData: Object) {
 
 window.addEventListener('load', function(){
     const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
+    let requestIDs: number[] = [];
+    
+    const backend = new BitFighterBack(
+        (message, id) => {
+            if (message.characterChoices) {
+                if (id === undefined) {
+                    console.error('shouldn\'t push character choice to everyone');
+                    return;
+                }
+                requestIDs.push(id);
+            }
+            console.log('message, back to front:', message);
+            frontend.receivedViewerGameState(message);
+        },
+        {
+            delayBetweenFights: 3000,
+            minimumDonation: 200,
+            donationToHPRatio: 1,
+            defaultState: {
+                name: 'ravi II',
+                profileImageURL: 'testbed_images/banana_icon.png',
+                chatMessage: 'look at me'
+            }
+        }
+    );
 
     const frontend = new BitFighterFront(
         wrapperDiv,
@@ -41,21 +66,6 @@ window.addEventListener('load', function(){
         }
     );
 
-    let requestIDs: number[] = [];
-    
-    const backend = new BitFighterBack(
-        (message, id) => {
-            if (message.characterChoices) {
-                if (id === undefined) {
-                    console.error('shouldn\'t push character choice to everyone');
-                    return;
-                }
-                requestIDs.push(id);
-            }
-            console.log('message, back to front:', message);
-            frontend.receivedViewerGameState(message);
-        }
-    );
 
     // temp
     let x = <HTMLButtonElement>document.getElementById('addBuff');

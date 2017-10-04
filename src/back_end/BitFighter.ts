@@ -1,7 +1,7 @@
 import { sortGraphicsEvents } from '../shared/buildGraphicsEvents';
 import { buildEvents } from '../shared/buildEvents';
 import { Stats, Status } from '../shared/Status';
-import { Character, pickCharacter } from '../shared/characterPicker';
+import { Character, pickCharacter, characters } from '../shared/characterPicker';
 import * as FightEvents from '../shared/fightEvents';
 import * as graphicsEvents from '../shared/graphicsEvents';
 import * as frontEndMessage from '../shared/frontEndMessage';
@@ -46,7 +46,17 @@ export class BitFighter {
                 chatMessage: 'look at me'
             }
         },
-    ) {}
+    ) {
+        //const default = this.settings.defaultState;
+        this.combatants.push(pickCharacter({
+            id: -1,
+            name: this.settings.defaultState.name,
+            amount: 1000,
+            character: Math.floor(Math.random() * characters.length),
+            profileImageURL: this.settings.defaultState.profileImageURL,
+            chatMessage: this.settings.defaultState.chatMessage
+        }));
+    }
 
     public receivedFanGameState(id: number, choice: frontEndMessage.FrontToBackMessage) {
         if (choice.characterChoice)
