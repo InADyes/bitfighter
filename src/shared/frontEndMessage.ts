@@ -45,7 +45,10 @@ export interface FrontEndSettings {
 export interface BackToFrontMessage {
     newReel?: Message;
     characterChoices?: CharacterCard[];
-    queue?: CharacterCard[];
+    queue?: {
+        fanDisplayName: string,
+        championTypeName: string
+    }[];
 }
 
 export interface FrontToBackMessage {

@@ -176,7 +176,12 @@ export class BitFighter {
     private nextFight() {
         if (this.combatants.length >= 2) {
             console.log('cannot start fight: fight already ongoing');
-            this.sendMessageToFont({queue: this.queue.map(c => c.card)});
+            this.sendMessageToFont({
+                queue: this.queue.map(s => ({
+                    fanDisplayName: '', 
+                    championTypeName: ''
+                }
+            ))});
         }
 
         if (this.timeout !== null)
@@ -244,7 +249,10 @@ export class BitFighter {
                     reel: graphics,
                     patch: patchTime
                 },
-                queue: this.queue.map(s => s.card)
+                queue: this.queue.map(s => ({
+                    fanDisplayName: '', 
+                    championTypeName: ''
+                }))
             },
             fan
         );
