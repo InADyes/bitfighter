@@ -236,7 +236,8 @@ export class BitFighter {
                             currentHitPoints: c.hitPoints,
                             art: c.character,
                             profileImageURL: c.profileImageURL,
-                            chatMessage: c.chatMessage
+                            chatMessage: c.chatMessage,
+                            card: c.card
                         })
                     ),
                     reel: graphics,

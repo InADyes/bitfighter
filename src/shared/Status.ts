@@ -1,4 +1,6 @@
 import * as Buff from './buff';
+import { CharacterCard } from './frontEndMessage';
+import { characterTypes, characters } from './characterPicker';
 
 export interface Stats {
     maxHitPoints: number;
@@ -16,6 +18,81 @@ export interface Stats {
     regeneration: number;
     critChanceModifier: number;
     critDamageModifier: number;
+}
+
+export type choiceStats = {[detials: string]: number};
+
+const cardStats: {[details: number]: choiceStats} = {
+    [characterTypes.scullaryMaid]: {
+        accuracy: 6,
+        dodge: 6,
+        armor: 5,
+        damage: 5,
+        attackSpeed: 5
+    },
+    [characterTypes.barkeep]: {
+        accuracy: 3,
+        dodge: 4,
+        armor: 8,
+        damage: 6,
+        attackSpeed: 3
+    },
+    [characterTypes.medium]: {
+        accuracy: 5,
+        dodge: 6,
+        armor: 1,
+        damage: 3,
+        attackSpeed: 7
+    },
+    [characterTypes.minstrel]: {
+        accuracy: 5,
+        dodge: 6,
+        armor: 2,
+        damage: 5,
+        attackSpeed: 8
+    },
+    [characterTypes.mage]: {
+        accuracy: 10,
+        dodge: 4,
+        armor: 5,
+        damage: 2,
+        attackSpeed: 10
+    },
+    [characterTypes.rogue]: {
+        accuracy: 8,
+        dodge: 8,
+        armor: 3,
+        damage: 1,
+        attackSpeed: 9
+    },
+    [characterTypes.warpriest]: {
+        accuracy: 3,
+        dodge: 3,
+        armor: 10,
+        damage: 3,
+        attackSpeed: 4
+    },
+    [characterTypes.warlock]: {
+        accuracy: 2,
+        dodge: 2,
+        armor: 5,
+        damage: 9,
+        attackSpeed: 2
+    },
+    [characterTypes.swashbuckler]: {
+        accuracy: 7,
+        dodge: 8,
+        armor: 3,
+        damage: 6,
+        attackSpeed: 6
+    },
+    [characterTypes.dragon]: {
+        accuracy: 1,
+        dodge: 1,
+        armor: 8,
+        damage: 10,
+        attackSpeed: 1
+    },
 }
 
 export class Status {
@@ -102,5 +179,17 @@ export class Status {
             this.profileImageURL,
             this.chatMessage
         );
+    }
+    // TODO: only recalculate the level and bonus health
+    get card(): CharacterCard {
+        return {
+            stats: cardStats[this.character] || cardStats[-1],
+            baseHealth: this.stats.maxHitPoints,
+            bonusHealth: this.stats.maxHitPoints - characters[this.character].stats.maxHitPoints,
+            className: characters[this.character].name,
+            art: this.character,
+            level: this.level,
+            rarity: characters[this.character].rarity
+        };
     }
 }
