@@ -22,15 +22,17 @@ window.addEventListener('load', function(){
     
     const backend = new BitFighterBack(
         (message, id) => {
-            if (message.characterChoices) {
-                if (id === undefined) {
-                    console.error('shouldn\'t push character choice to everyone');
-                    return;
+            window.setTimeout(()=> {
+                if (message.characterChoices) {
+                    if (id === undefined) {
+                        console.error('shouldn\'t push character choice to everyone');
+                        return;
+                    }
+                    requestIDs.push(id);
                 }
-                requestIDs.push(id);
-            }
-            console.log('message, back to front:', message);
-            frontend.receivedViewerGameState(message);
+                console.log('message, back to front:', message);
+                frontend.receivedViewerGameState(message);
+            }, 0)
         },
         {
             delayBetweenFights: 3000,
@@ -56,14 +58,14 @@ window.addEventListener('load', function(){
             assetsShim: './'
         },
         (slug, message) => {
-            const id = requestIDs.shift()
-
-            if (id == undefined) {
-                console.log('no id in queue');
-                return;
-            }
-
-            backend.receivedFanGameState(id, message);
+            window.setTimeout(() => {
+                let id = requestIDs.shift()
+    
+                if (id === undefined)
+                    id = -1;
+    
+                backend.receivedFanGameState(id, message);
+            }, 0);
         }
     );
 
