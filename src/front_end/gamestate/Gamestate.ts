@@ -46,7 +46,6 @@ export class GameState {
 			window.setTimeout(() => {this.newMessage(msg)}, 1);
 			return;
 		}
-		console.log(msg.reel);
 		// if there's a patch in the middle of a reel
 		clearTimeout(this.idleId);
 		if (msg.patch && this.reel[0]) {

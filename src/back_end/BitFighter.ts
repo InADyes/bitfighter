@@ -182,6 +182,7 @@ export class BitFighter {
                     championTypeName: ''
                 }
             ))});
+            return;
         }
 
         if (this.timeout !== null)
@@ -195,7 +196,6 @@ export class BitFighter {
 
         this.pushLastResults();
         this.timeoutNextEvent();
-        return true;
     }
     
     private timeoutNextEvent() {

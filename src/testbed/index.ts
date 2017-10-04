@@ -23,6 +23,7 @@ window.addEventListener('load', function(){
     const backend = new BitFighterBack(
         (message, id) => {
             window.setTimeout(()=> {
+                console.log('message, back to front:', message);
                 if (message.characterChoices) {
                     if (id === undefined) {
                         console.error('shouldn\'t push character choice to everyone');
@@ -30,7 +31,6 @@ window.addEventListener('load', function(){
                     }
                     requestIDs.push(id);
                 }
-                console.log('message, back to front:', message);
                 frontend.receivedViewerGameState(message);
             }, 0)
         },
@@ -59,11 +59,12 @@ window.addEventListener('load', function(){
         },
         (slug, message) => {
             window.setTimeout(() => {
+                console.log('message, front to back:', message);
                 let id = requestIDs.shift()
     
                 if (id === undefined)
                     id = -1;
-    
+                
                 backend.receivedFanGameState(id, message);
             }, 0);
         }
