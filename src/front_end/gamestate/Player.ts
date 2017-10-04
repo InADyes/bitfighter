@@ -373,7 +373,6 @@ export class Player {
 
 	public dies(player2: Player | null) {
         this.animationLock = 1;
-        console.log(`ANiMATING`);
         this.img.animate('angle', this.onRight ? '-90' : '90', {
             duration: 500,
             onChange: this.canvas.renderAll.bind(this.canvas),

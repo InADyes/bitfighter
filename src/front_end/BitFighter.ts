@@ -71,7 +71,6 @@ export class BitFighter {
         }
         if (data.queue) {
             let q = document.getElementById('queue');
-            console.log(`QUEUE: `, data.queue);
             if (q) {
                 q.innerText = "NEXT\n";
                 for (let i = 0; i < data.queue.length; i++) {
