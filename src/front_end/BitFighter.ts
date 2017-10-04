@@ -69,6 +69,13 @@ export class BitFighter {
                 this.settings.cardsTimeout // one minute
             );
         }
+        if (data.queue) {
+            let queue = document.getElementById('queue');
+            console.log(data.queue);
+            if (queue) {
+                queue.innerText = "NEXT";
+            }
+        }
     }
     private clearCards() {
         for (let card of this.cards) {

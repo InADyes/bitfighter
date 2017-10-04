@@ -199,6 +199,7 @@ body {
   width: 20%;
   top: 50%;
   left: 2%;
+  padding: 2px;
 }
 
 #bitfighter #arena:hover + #queue{
