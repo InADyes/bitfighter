@@ -1,4 +1,3 @@
-import { Packet } from '_debugger';
 import { sortGraphicsEvents } from '../shared/buildGraphicsEvents';
 import { buildEvents } from '../shared/buildEvents';
 import { Stats, Status } from '../shared/Status';
@@ -39,10 +38,14 @@ export class BitFighter {
         private sendMessageToFont: (message: frontEndMessage.BackToFrontMessage, fan?: number) => void,
         public settings: Settings = {
             delayBetweenFights: 3000,
-            gameSpeedMultipier: 1,
             minimumDonation: 200,
-            donationToHPRatio: 1
-        }
+            donationToHPRatio: 1,
+            defaultState: {
+                name: 'tim',
+                profileImageURL: '',
+                chatMessage: 'look at me'
+            }
+        },
     ) {}
 
     public receivedFanGameState(id: number, choice: frontEndMessage.FrontToBackMessage) {
@@ -94,12 +97,12 @@ export class BitFighter {
         this.insertEvents(
             patchTime,
             new FightEvents.Donation(
-                patchTime + 2000,
+                patchTime,
                 index,
                 FightEvents.DonationType.healing
             ),
             new FightEvents.Healing(
-                patchTime + 2000,
+                patchTime,
                 index,
                 amount
             )
@@ -116,12 +119,12 @@ export class BitFighter {
         this.insertEvents(
             patchTime,
             new FightEvents.Donation(
-                patchTime + 2000,
+                patchTime,
                 0,
                 FightEvents.DonationType.damage
             ),
             new FightEvents.Damage(
-                patchTime + 2000,
+                patchTime,
                 0,
                 amount
             )
@@ -149,7 +152,7 @@ export class BitFighter {
         const reel = applyFightEvents(tempStatus, ...insert);
 
         // set the current events to the calculated events
-        reel.push(...buildEvents(tempStatus).reel);
+        reel.push(...buildEvents(tempStatus, patchTime).reel);
         this.events = reel;
 
         this.pushLastResults(patchTime);

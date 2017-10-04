@@ -7,14 +7,15 @@ import { otherCharacter  as other} from './utility';
 import { buffs, types as buffTypes } from './buff';
 import * as BuildGraphicsEvents from './buildGraphicsEvents';
 
-export function buildEvents(status: Status[]) {
+export function buildEvents(status: Status[], startTime?: number) {
     const reel: CombinedEvent[] = [];
     const newStatus = status.map(s => s.clone());
     const combatants = newStatus.map((status, index) => new Combatant(
         status,
         index,
         event => reel.push(...applyFightEvents(newStatus, event)),
-        attack => {combatants.filter(c => c != attack.attacker)[0].takeHit(attack);}
+        attack => {combatants.filter(c => c != attack.attacker)[0].takeHit(attack);},
+        startTime
     ));
 
     if (combatants.length < 2) {
@@ -25,7 +26,7 @@ export function buildEvents(status: Status[]) {
                 0
             )));
         }
-        return {combatants: newStatus, reel};
+        return { combatants: newStatus, reel };
     }
     // ------------- type hack starts here
 
@@ -57,9 +58,9 @@ export function buildEvents(status: Status[]) {
     }
 
     newStatus.forEach(s => s.clearBuffs());
-    let winner = combatants.filter(c => c.status == newStatus[0])[0];
+    const winner = combatants.filter(c => c.status == newStatus[0])[0];
     winner.time += 2000;
-    winner.heal(); //todo: maybe should be done in front end
+    winner.heal();
     reel.push(...applyFightEvents(newStatus, new FightEvents.LevelUp(
         winner.time,
         0

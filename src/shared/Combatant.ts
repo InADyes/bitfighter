@@ -20,13 +20,12 @@ interface attackProps {
 }
 
 export class Combatant {
-    public time: number = 0;
-
     constructor(
         public readonly status: Status,
         public readonly index: number,
         private readonly newEvent: (event: FightEvents.Event) => void,
-        private readonly attackCallback: (attack: attackProps) => void
+        private readonly attackCallback: (attack: attackProps) => void,
+        public time: number = 0
     ) {
         this.rollAttackSpeed();
     }
