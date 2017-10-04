@@ -31,9 +31,9 @@ body {
 #bitfighter #arena {
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
-  left: 2%;
-  position: relative;
-  top: 50%;
+  position: absolute;
+  height: 0px;
+  width: 0px;
 }
 #bitfighter .character-card {
   animation: .5s dropInFade both;
@@ -191,11 +191,14 @@ body {
 #queue {
   display: none;
   position: absolute;
-  top: 150;
-  background-color: black;
-  width: 200;
+  background-color: ivory;
+  border: 1px solid black;
+  font-family: "concert one";
+  width: 20%;
+  top: 56%;
+  left: 2%;
 }
 
-#bitfighter #arena:hover {
-  background-color: black;
+#bitfighter #arena:hover + #queue{
+  display: block;
 }

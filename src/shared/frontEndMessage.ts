@@ -50,7 +50,7 @@ export interface BackToFrontMessage {
 
 export interface FrontToBackMessage {
     characterChoice?: CharacterChoice;
-    requestReel?: 'true';
+    requestReel?: true;
 }
 
 export interface StatBarAmount {

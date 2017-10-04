@@ -30,8 +30,8 @@ export class BitFighter {
         // build arena
         //this.canvas.id = 'arena';
         //this.canvas.style.position = 'absolute';
-        if (this.canvas)
-            this.wrapperDiv.appendChild(this.canvas);
+        //if (this.canvas)
+        //    this.wrapperDiv.appendChild(this.canvas);
         this.artURLs = artURLs.map(url => this.settings.assetsShim + url);
         this.iconURLs = buffArt.map(url => this.settings.assetsShim + url);
         this.game = new GameState('arena', this.artURLs, this.iconURLs);
@@ -39,6 +39,7 @@ export class BitFighter {
         window.addEventListener('resize', () => {
             this.updateScale();
         });
+        this.emitGameEvent('bitFighter', {requestReel: true});
     }
     public receivedViewerGameState(data: BackToFrontMessage) {
         if (data.newReel) {
@@ -87,8 +88,8 @@ export class BitFighter {
     private updateScale() {
         const scale = this.wrapperDiv.offsetHeight / 400;
         this.wrapperDiv.style.fontSize = 12 * scale + 'px';
-        this.canvas.style.left = `${ this.settings.position.x  * scale}px`;
-        this.canvas.style.top = `${ this.settings.position.y  * scale}px`;
+        //this.canvas.style.left = `${ this.settings.position.x  * scale}px`;
+        //this.canvas.style.top = `${ this.settings.position.y  * scale}px`;
         this.game.setNewScale(scale);
     }
 
