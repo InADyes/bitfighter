@@ -42,9 +42,12 @@ window.addEventListener('load', function(){
             minimumDonation: 200,
             donationToHPRatio: 1,
             defaultState: {
+                id: -1,
                 name: 'ravi II',
+                amount: 1000,
                 profileImageURL: 'testbed_images/banana_icon.png',
-                chatMessage: 'look at me'
+                bossMessage: 'look at me',
+                bossEmoticonURL: ''
             }
         },
         str => console.log('new gamestate save:', str)
@@ -89,9 +92,23 @@ window.addEventListener('load', function(){
         idInputNode.value = String(id + 1);
 
         if (art <= -1)
-            backend.donation(id, name, amount, 'todo: url goes here', 'how\'re you doin\'?');
+            backend.donation({
+                id,
+                name,
+                amount,
+                profileImageURL: 'todo: url goes here',
+                bossMessage: 'how\'re you doin\'?',
+                bossEmoticonURL: ''
+            });
         else
-            backend.newCombatant(pickCharacter({id, name, amount, character: art, profileImageURL: 'todo: url goes here', chatMessage: 'how\'re you doin\'?'}));
+            backend.newCombatant(pickCharacter({
+                id,
+                name,
+                amount,
+                profileImageURL: 'todo: url goes here',
+                bossMessage: 'how\'re you doin\'?',
+                bossEmoticonURL: ''
+            }, art));
     });
 });
 

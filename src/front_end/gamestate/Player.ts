@@ -58,7 +58,7 @@ export class Player {
             readonly maxHitPoints: number;
             readonly art: number;
             readonly profileImageURL: string;
-            readonly chatMessage: string;
+            readonly bossMessage: string;
         },
         side: number, 
         canvas: fabric.Canvas, 

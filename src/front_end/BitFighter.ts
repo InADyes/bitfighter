@@ -112,7 +112,7 @@ function updateCards(cards: {
     maxHitPoints: number;
     art: number;
     profileImageURL: string;
-    chatMessage: string;
+    bossMessage: string;
     card: CharacterCard;
 }[], artURLS: string[]) {
     let newCard1 = buildCard(cards[0].card, artURLS);

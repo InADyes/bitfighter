@@ -111,7 +111,8 @@ export class Status {
         public level: number,
         public baseStats: Stats,
         public readonly profileImageURL: string,
-        public readonly chatMessage: string
+        public bossMessage: string,
+        public bossEmoticonURL: string
     ) {
         this.calculatedStats = Object.assign({}, this.baseStats);
         this.calculatedStats.attackDamage = Object.assign({}, this.baseStats.attackDamage);
@@ -177,7 +178,8 @@ export class Status {
             this.level,
             this.baseStats,
             this.profileImageURL,
-            this.chatMessage
+            this.bossMessage,
+            this.bossEmoticonURL
         );
     }
     // TODO: only recalculate the level and bonus health

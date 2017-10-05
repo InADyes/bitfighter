@@ -1,5 +1,6 @@
 import * as Buff from './interfaces/buff';
 import { Status, Stats } from '../shared/Status';
+import { Donation } from './interfaces/donation';
 
 export const artURLs = [
     "images/champions/0scullery_maid.png",
@@ -399,15 +400,11 @@ export function buildStats(character: number, donation: number, level: number) :
 
 // i'm going to fix this i swear
 // donation.amount is assumed to be in bits
-export function pickCharacter(donation: {
-    id: number, 
-    name: string,
-    amount: number,
-    character: number,
-    profileImageURL: string,
-    chatMessage: string
-}) : Status {
-    let pick = donation.character % characters.length;
+export function pickCharacter(
+    donation: Donation,
+    character: number
+) : Status {
+    let pick = character % characters.length;
 
     let level = rarityLevel[characters[pick].rarity]; // 1 indexed
 
@@ -426,6 +423,7 @@ export function pickCharacter(donation: {
         level,
         stats,
         donation.profileImageURL,
-        donation.chatMessage
+        donation.bossMessage,
+        donation.bossEmoticonURL
     )
 }
