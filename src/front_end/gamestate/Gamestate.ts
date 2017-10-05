@@ -169,8 +169,8 @@ export class GameState {
 			this.player1.dies(this.player2);
 			this.player1.clearBuffs();
 			if (this.player2) {
-				updateBitBoss({boss: this.player1.getBitBossInfo(), attacker: this.player2.getBitBossInfo()});
 				this.currentBoss = this.player2.getBitBossInfo();
+				updateBitBoss({boss: this.currentBoss});
 				this.player2.clearBuffs();
 			}
 			this.newChampion();
