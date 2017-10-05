@@ -105,7 +105,7 @@ export class CharacterChoiceHandler {
             return; // todo: what should happen if they donate while they still have cards?
 
         //find last tier that we can achive or use the first one
-        const { odds, cards } = tiers.find(t => t.donation <= donation.amount) || tiers[4];
+        const { odds, cards } = tiers.find(t => t.donation <= donation.amount) || tiers[5];
         //total odds of reach rarity
         const totals = rarities.map(r => odds[r] * characters.filter(c => c.rarity == r).length);
         
