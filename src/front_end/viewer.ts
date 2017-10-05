@@ -7,6 +7,7 @@ declare let window: any;
 
 document.addEventListener('DOMContentLoaded', ()=>{
 const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
+const cardDiv = <HTMLDivElement>document.getElementById('charSelect');
 
 window.bitFighter = new BitFighter(
     wrapperDiv,
@@ -21,7 +22,8 @@ window.bitFighter = new BitFighter(
     },
     (slug, message) => {
         emitGameEvent(slug, message);
-    }
+    },
+    cardDiv
 );
 
 })

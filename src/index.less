@@ -23,19 +23,19 @@
     margin: 0px;
   }
 #bitfighter {
-  align-items: flex-start;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
   position: relative;
-  justify-content: flex-start;
   height: 56.24vw;
-  padding: 1vw;
   width: 100vw;
+  #charSelect {
+    position: absolute;
+    padding: 1vw;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
   #arena {
-    background: rgba( 255, 255, 255, 0.8);
-    background-color: black;
-    border: 1px solid rgba(0 ,0 ,0 , 0.8);
     position: absolute;
     &:hover {
       & + #info{
