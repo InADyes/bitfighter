@@ -257,7 +257,7 @@ export class Player {
         });
         this.canvas.add(textgroup);
         textgroup.animate('top', `-=${ 20 * this.scale }`, {
-            duration: 700,
+            duration: txtObj.str == "dodge" ? 500 : 700,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 this.canvas.remove(textgroup);
