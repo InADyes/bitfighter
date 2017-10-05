@@ -230,7 +230,7 @@ export class GameState {
 	}
 
 	public startTimer(time: number) {
-		this.timer = time / 1000;
+		this.timer = time / 100;
 		this.countdown();
 	}
 
@@ -254,8 +254,9 @@ export class GameState {
 			fontWeight: 'bold',
 			fill: 'white',
 			stroke: 'white',
-			left: 10,
-			top: 10,
+			strokeWidth: 2 * this.scale,
+			left: 9 * this.scale,
+			top: 9 * this.scale,
 			originX: 'left'
 		})
 		this.countTop = new fabric.Text(`NEXT FIGHT IN: ${ this.timer }`, {
@@ -263,8 +264,8 @@ export class GameState {
 			fontFamily: 'concert one',
 			fontWeight: 'bold',
 			fill: 'black',
-			left: 10,
-			top: 9,
+			left: 10 * this.scale,
+			top: 9 * this.scale,
 			originX: 'left'
 		})
 		this.canvas.add(this.countBot);

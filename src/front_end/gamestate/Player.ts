@@ -24,7 +24,7 @@ export class Player {
     private textLock =      0;
     private animationLock = 0;
     private nameHeight =    120;
-    private strokeWidith =  2;
+    private strokeWidth =   2;
     private fontSize =      15;
     private font =          'Concert One'
     private buffOffset =    18;
@@ -33,9 +33,9 @@ export class Player {
 
     // Adjust these to move elements around
     private artAdjust =     0;
-    private hpAdjust =      5;
+    private hpAdjust =      6;
     private artTop =        120;
-    private hpTextTop =     33;
+    private hpTextTop =     32;
     private textTop =       30;
 
     private charStrings = [
@@ -107,7 +107,7 @@ export class Player {
         this.displayname.set({
             fill: 'white',
             stroke: 'white',
-            strokeWidth: this.strokeWidith * this.scale,
+            strokeWidth: this.strokeWidth * this.scale,
             top: this.nameHeight * this.scale,
         });
         this.displaynametop = this.getFabricName();
@@ -147,26 +147,27 @@ export class Player {
             fill: '#1eedce',
             blur: 0.5,
             height: missingHeight * this.scale,
-        })
+        });
         this.redBar = this.getFabricHp(leftOffset, onRightOffset);
         this.redBar.set({
             fill: '#ed1e1e',
             blur: 0.5,
             height: this.height * this.scale,
-        })
+        });
         this.yellowBar = this.getFabricHp(leftOffset, onRightOffset); 
         this.yellowBar.set({
             fill: '#edd11e',
             blur: 0.5,
             height: missingHeight * this.scale,
-        })
+        });
         this.whiteBar = this.getFabricHp(leftOffset, onRightOffset);
         this.whiteBar.set({
             fill: 'white',
             height: this.height * this.scale,
-            strokeWidth: this.strokeWidith * this.scale,
+            strokeWidth: this.strokeWidth * this.scale,
             stroke: 'white',
-        })
+            top: this.artTop * this.scale + 1,
+        });
         this.canvas.add(this.whiteBar);
         this.canvas.add(this.redBar);
         this.canvas.add(this.yellowBar);
@@ -176,9 +177,9 @@ export class Player {
     private getFabricHp(leftOffset: number, onRightOffset: number) {
         return(new fabric.Rect({
             left: !this.onRight ? leftOffset : onRightOffset,
-            top: this.artTop * this.scale,
             width: this.hpWidth * this.scale,
             flipY: true,
+            top: this.artTop * this.scale,
             originX: 'center',
             originY: 'bottom'
         }));
@@ -190,7 +191,7 @@ export class Player {
         let healthTextBot = new fabric.Text(`${ this.health.toString() }`, {
             fontSize: this.fontSize * this.scale,
             fontFamily: this.font,
-            strokeWidth: this.strokeWidith * this.scale,
+            strokeWidth: this.strokeWidth * this.scale,
             fill: 'white',
             fontWeight: 'bold',
             stroke: 'white',
@@ -229,7 +230,7 @@ export class Player {
         let txtObj = this.textQueue.shift();
         let txtBot = new fabric.Text(`${ txtObj.str }`, {
             fontSize: this.fontSize * this.scale,
-            strokeWidth: this.strokeWidith *this.scale,
+            strokeWidth: this.strokeWidth *this.scale,
             fontFamily: this.font,
             fontWeight: 'bold',
             stroke: 'white',
