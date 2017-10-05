@@ -210,7 +210,7 @@ export class BitFighter {
             this.sendMessageToFont({
                 queue: this.queue.map(s => ({
                     fanDisplayName: s.name, 
-                    championTypeName: ''
+                    championTypeName: characters[s.character].name
                 }
             ))});
             return;
