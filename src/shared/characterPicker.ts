@@ -15,17 +15,17 @@ export const artURLs = [
 ];
 
 export const buffArt = [
-    "images/icons/interfaces/buffs/mop_up.png",
-    "images/icons/interfaces/buffs/last_call.png",
-    "images/icons/interfaces/buffs/medium_buff.png",
-    "images/icons/interfaces/buffs/blinding_chord.png",
-    "images/icons/interfaces/buffs/magic_missile.png",
-    "images/icons/interfaces/buffs/backstabbing.png",
-    "images/icons/interfaces/buffs/curse.png",
-    "images/icons/interfaces/buffs/damnation_buff.png",
-    "images/icons/interfaces/buffs/damnation_debuff.png",
-    "images/icons/interfaces/buffs/whirling_blades.png",
-    "images/icons/interfaces/buffs/firebreathing.png"
+    "images/icons/buffs/mop_up.png",
+    "images/icons/buffs/last_call.png",
+    "images/icons/buffs/medium_buff.png",
+    "images/icons/buffs/blinding_chord.png",
+    "images/icons/buffs/magic_missile.png",
+    "images/icons/buffs/backstabbing.png",
+    "images/icons/buffs/curse.png",
+    "images/icons/buffs/damnation_buff.png",
+    "images/icons/buffs/damnation_debuff.png",
+    "images/icons/buffs/whirling_blades.png",
+    "images/icons/buffs/firebreathing.png"
 ];
 
 export interface Character {
