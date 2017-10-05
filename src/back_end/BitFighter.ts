@@ -45,7 +45,7 @@ export class BitFighter {
             donationToHPRatio: 1,
             defaultBossEmoticonURL: '',
             defaultBossMessage: 'heeeeeyyyyy',
-            defaultState: {
+            defaultChampion: {
                 id: -1,
                 name: 'tim',
                 amount: 1000,
@@ -57,7 +57,7 @@ export class BitFighter {
         private readonly saveGameState: (jsonStr: string) => void,
         gameStateJSON?: string
     ) {
-        this.combatants.push(pickCharacter(this.settings.defaultState, Math.floor(Math.random() * characters.length)));
+        this.combatants.push(pickCharacter(this.settings.defaultChampion, Math.floor(Math.random() * characters.length)));
     }
 
     public bossMessageUpdate(id: number, message: string) {
@@ -202,7 +202,7 @@ export class BitFighter {
                 ));
             } else {
                 this.combatants.push(pickCharacter(
-                    this.settings.defaultState,
+                    this.settings.defaultChampion,
                     Math.floor(Math.random() * characters.length)
                 ));
             }
