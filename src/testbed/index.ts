@@ -41,6 +41,8 @@ window.addEventListener('load', function(){
             delayBetweenFights: 3000,
             minimumDonation: 200,
             donationToHPRatio: 1,
+            defaultBossEmoticonURL: '',
+            defaultBossMessage: 'yo, tim! how\'re you doin\'??',
             defaultState: {
                 id: -1,
                 name: 'ravi II',
@@ -92,14 +94,14 @@ window.addEventListener('load', function(){
         idInputNode.value = String(id + 1);
 
         if (art <= -1)
-            backend.donation({
+            backend.donation(
                 id,
                 name,
                 amount,
-                profileImageURL: 'todo: url goes here',
-                bossMessage: 'how\'re you doin\'?',
-                bossEmoticonURL: ''
-            });
+                'todo: url goes here',
+                'how\'re you doin\'?',
+                'todo: emoticon url goes here'
+            );
         else
             backend.newCombatant(pickCharacter({
                 id,

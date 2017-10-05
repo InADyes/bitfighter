@@ -43,13 +43,15 @@ export class BitFighter {
             delayBetweenFights: 3000,
             minimumDonation: 200,
             donationToHPRatio: 1,
+            defaultBossEmoticonURL: '',
+            defaultBossMessage: 'heeeeeyyyyy',
             defaultState: {
                 id: -1,
                 name: 'tim',
                 amount: 1000,
                 profileImageURL: '',
                 bossMessage: 'look at me',
-                bossEmoticonURL: ''
+                bossEmoticonURL: '',
             }
         },
         private readonly saveGameState: (jsonStr: string) => void,
@@ -66,10 +68,15 @@ export class BitFighter {
             return;
         }
         this.combatants[0].bossMessage = message;
-        this.pushLastResults(nodePerformanceNow());
+        this.sendMessageToFont({
+            updateBossMessage: {
+                championIndex: 0,
+                bossMessage: message
+            }
+        });
     }
 
-    public bossEmodiconURLUpdate(id: number, bossEmoticonURL: string) {
+    public bossEmoticonURLUpdate(id: number, bossEmoticonURL: string) {
         // TODO: make this work for people in queue and on the right side of a fight
         if (this.combatants[0] === undefined
             || this.combatants[0].id !== id) {
@@ -77,7 +84,12 @@ export class BitFighter {
             return;
         }
         this.combatants[0].bossEmoticonURL = bossEmoticonURL;
-        this.pushLastResults(nodePerformanceNow());
+        this.sendMessageToFont({
+            updateBossEmoticonURL: {
+                championIndex: 0,
+                bossEmoticonURL: bossEmoticonURL
+            }
+        });
     }
 
     public receivedFanGameState(id: number, choice: FrontToBackMessage) {
@@ -86,9 +98,23 @@ export class BitFighter {
         if (choice.requestReel)
             this.pushLastResults(undefined, id);
     }
-    public donation(donation: Donation) {
+    public donation(
+        id: number,
+        name: string,
+        amount: number,
+        profileImageURL: string,
+        bossMessage: string = this.settings.defaultBossMessage,
+        bossEmoticonURL: string
+    ) {
+        const donation: Donation = {
+            id,
+            name,
+            amount,
+            profileImageURL,
+            bossMessage,
+            bossEmoticonURL
+        };
         this.lastDonation = donation;
-        const { id, amount } = donation;
 
         let combatantIndex: number;
         // if the fight is ongoing

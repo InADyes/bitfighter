@@ -370,7 +370,7 @@ interface Level {
 
 export const levels: Level[] = [
     {
-        bits: 1, //todo: change to let streamer options define starting bit values
+        bits: 1,
         damage: 0,
         health: 0,
     },// level 1
