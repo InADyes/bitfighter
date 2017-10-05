@@ -26,11 +26,7 @@ export class BitFighter {
         // todo: find out what gameslug is for
         private readonly emitGameEvent: (gameSlug: string, message: FrontToBackMessage) => void
     ) {
-        // build arena
-        //this.canvas.id = 'arena';
-        //this.canvas.style.position = 'absolute';
-        //if (this.canvas)
-        //    this.wrapperDiv.appendChild(this.canvas);
+ 
         this.artURLs = artURLs.map(url => this.settings.assetsShim + url);
         this.iconURLs = buffArt.map(url => this.settings.assetsShim + url);
         this.game = new GameState('arena', this.artURLs, this.iconURLs);
@@ -73,13 +69,17 @@ export class BitFighter {
             );
         }
         if (data.queue) {
-            let q = document.getElementById('queue');
-            if (q) {
-                q.innerText = "NEXT\n";
-                for (let i = 0; i < data.queue.length; i++) {
-                    q.innerText += data.queue[i].fanDisplayName + ' - ' + data.queue[i].championTypeName + '\n';
+            if (data.queue.queue) {
+                let q = document.getElementById('queue');
+                if (q) {
+                    q.innerText = "NEXT\n";
+                    for (let i = 0; i < data.queue.queue.length; i++) {
+                        q.innerText += data.queue.queue[i].fanDisplayName + ' - ' + data.queue.queue[i].championTypeName + '\n';
+                    }
                 }
             }
+            if (data.queue.timer)
+                this.game.startTimer(data.queue.timer);
         }
     }
     private clearCards() {
@@ -99,14 +99,7 @@ export class BitFighter {
     private updateScale() {
         const scale = this.wrapperDiv.offsetHeight / 400;
         this.wrapperDiv.style.fontSize = 12 * scale + 'px';
-        //this.canvas.style.left = `${ this.settings.position.x  * scale}px`;
-        //this.canvas.style.top = `${ this.settings.position.y  * scale}px`;
         this.game.setNewScale(scale);
-    }
-
-    //TEMP
-    public addBuff(art: number, duration: number, player: number) {
-        this.game.addBuff(art, duration, player);
     }
 }
 

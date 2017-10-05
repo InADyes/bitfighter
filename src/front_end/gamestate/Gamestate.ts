@@ -48,8 +48,6 @@ export class GameState {
 	}
 
 	public newMessage(msg: Message) {
-		this.timer = 11;
-		this.countdown();
 		// Add received message to the queue
 		// Don't do anything if a character is dying or moving over
 		if ((this.player1 && this.player1.isAnimated())
@@ -229,6 +227,11 @@ export class GameState {
 				flip('front')
 			}, 4000
 		);
+	}
+
+	public startTimer(time: number) {
+		this.timer = time / 1000;
+		this.countdown();
 	}
 
 	private countdown() {
