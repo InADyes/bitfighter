@@ -20,9 +20,9 @@ export interface Stats {
     critDamageModifier: number;
 }
 
-export type choiceStats = {[detials: string]: number};
+export type choiceStats = {[details: string]: number};
 
-const cardStats: {[details: number]: choiceStats} = {
+export const cardStats: {[details: number]: choiceStats} = {
     [characterTypes.scullaryMaid]: {
         accuracy: 6,
         dodge: 6,

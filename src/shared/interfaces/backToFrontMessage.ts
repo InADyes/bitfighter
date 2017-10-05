@@ -41,9 +41,10 @@ export interface BackToFrontMessage {
     readonly updateBossMessage?: {
         readonly championIndex: number;
         readonly bossMessage: string;
-    }
+    };
     readonly updateBossEmoticonURL?: {
         readonly championIndex: number;
         readonly bossEmoticonURL: string;
-    }
+    };
+    readonly characterList?: {[details: number]: choiceStats};
 }

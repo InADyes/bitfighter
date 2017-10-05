@@ -1,6 +1,6 @@
 import { sortGraphicsEvents } from '../shared/buildGraphicsEvents';
 import { buildEvents } from '../shared/buildEvents';
-import { Stats, Status } from '../shared/Status';
+import { Stats, Status, cardStats } from '../shared/Status';
 import { Character, pickCharacter, characters } from '../shared/characterPicker';
 import * as FightEvents from '../shared/fightEvents';
 import * as graphicsEvents from '../shared/graphicsEvents';
@@ -96,7 +96,7 @@ export class BitFighter {
         if (choice.characterChoice)
             this.characterChoiceHandler.completeChoice(id, choice.characterChoice.choice, true);
         if (choice.requestReel)
-            this.pushLastResults(undefined, id);
+            this.pushLastResults(undefined, id,);
     }
     public donation(
         id: number,
@@ -341,7 +341,8 @@ export class BitFighter {
                 queue: { queue: this.queue.map(s => ({
                     fanDisplayName: s.name, 
                     championTypeName: characters[s.character].name
-                }))}
+                }))},
+                characterList: fan ? cardStats : undefined
             },
             fan
         );
