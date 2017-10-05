@@ -58,7 +58,7 @@ export function buildEvents(status: Status[], startTime?: number) {
     }
 
     newStatus.forEach(s => s.clearBuffs());
-    const winner = combatants.filter(c => c.status == newStatus[0])[0];
+    const winner = combatants.filter(c => c.status === newStatus[0])[0];
     winner.time += 2000;
     winner.heal();
     reel.push(...applyFightEvents(newStatus, new FightEvents.LevelUp(
@@ -86,4 +86,4 @@ const typeMap = [
     types.magic,    // Warlock
     types.physical, // Swashbuckler
     types.magic,    // Dragon
-]
+];

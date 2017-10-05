@@ -24,6 +24,13 @@ export class BitFighter {
     private combatants: Status[] = [];
     private events: CombinedEvent[] = [];
     private queue: Status[] = [];
+    private lastDonation: {
+        id: number,
+        name: string,
+        amount: number,
+        profileImageURL: string,
+        chatMessage: string
+    } | null = null; // quick hack so if the boss dies this character goes in
 
     private characterChoiceHandler = new CharacterChoiceHandler(
         status => {
@@ -49,7 +56,6 @@ export class BitFighter {
         private readonly saveGameState: (jsonStr: string) => void,
         gameStateJSON?: string
     ) {
-        //const default = this.settings.defaultState;
         this.combatants.push(pickCharacter({
             id: -1,
             name: this.settings.defaultState.name,
@@ -67,6 +73,7 @@ export class BitFighter {
             this.pushLastResults(undefined, id);
     }
     public donation(id: number, name: string, amount: number, profileImageURL: string, chatMessage: string) {
+        this.lastDonation = {id, name, amount, profileImageURL, chatMessage};
 
         let combatantIndex: number;
         // if the fight is ongoing
@@ -146,6 +153,28 @@ export class BitFighter {
     public checkQueue() {
         if (this.queue.length > 0)
             this.nextFight();
+        else if (this.combatants.length == 0) {
+            if (this.lastDonation) {
+                this.combatants.push(pickCharacter({
+                    id: this.lastDonation.id,
+                    name: this.lastDonation.name,
+                    amount: this.lastDonation.amount,
+                    character: Math.floor(Math.random() * characters.length),
+                    profileImageURL: this.lastDonation.profileImageURL,
+                    chatMessage: this.lastDonation.chatMessage
+                }));
+            } else {
+                this.combatants.push(pickCharacter({
+                    id: -1,
+                    name: this.settings.defaultState.name,
+                    amount: 1000,
+                    character: Math.floor(Math.random() * characters.length),
+                    profileImageURL: this.settings.defaultState.profileImageURL,
+                    chatMessage: this.settings.defaultState.chatMessage
+                }));
+            }
+            this.nextFight();
+        }
     }
     
     // public for testing purposes (bypasses front end character choice)
