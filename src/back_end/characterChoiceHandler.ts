@@ -20,13 +20,14 @@ const rarities = [0, 1, 2, 3];
 const tiers: DonationTier[] = [
     {
         donation: 10000,
+        donation: 0,
         odds: {
             [e_rarity.common]: 0,
             [e_rarity.rare]: 0,
             [e_rarity.epic]: 15,
-            [e_rarity.legendary]: 10
+            [e_rarity.legendary]: 10,
         },
-        cards: 7
+        cards: 3
     },
     {
         donation: 5000,
@@ -36,7 +37,7 @@ const tiers: DonationTier[] = [
             [e_rarity.epic]: 10,
             [e_rarity.legendary]: 7.5
         },
-        cards: 6
+        cards: 3
     },
     {
         donation: 1000,
@@ -46,7 +47,7 @@ const tiers: DonationTier[] = [
             [e_rarity.epic]: 8.75,
             [e_rarity.legendary]: 5
         },
-        cards: 5
+        cards: 3
     },
     {
         donation: 500,
@@ -56,7 +57,7 @@ const tiers: DonationTier[] = [
             [e_rarity.epic]: 7.5,
             [e_rarity.legendary]: 2.5
         },
-        cards: 4
+        cards: 3
     },
     {
         donation: 200,
@@ -67,6 +68,16 @@ const tiers: DonationTier[] = [
             [e_rarity.legendary]: 0.5
         },
         cards: 3
+    },
+    {
+        donation: 0,
+        odds: {
+            [e_rarity.common]: 100,
+            [e_rarity.rare]: 0,
+            [e_rarity.epic]: 0,
+            [e_rarity.legendary]: 0,
+        },
+        cards: 1
     },
 ];
 
