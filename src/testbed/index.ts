@@ -14,7 +14,15 @@ window.recalcHp = function (damageAmount: number, newHp: number, maxHp: number) 
 window.flip = function (side: 'front' | 'back') {
     //console.log("called flip");
 }
-window.updateBitBoss = function (bossData: Object) {
+window.updateBitBoss = function (bossData: {
+    name: string,
+    hp: number,
+    maxHp: number,
+    img: string,
+    character: string,
+    bossMessage: string,
+    bossEmoticonURL: string
+}) {
     //console.log("called updateBitBoss");
 }
 
