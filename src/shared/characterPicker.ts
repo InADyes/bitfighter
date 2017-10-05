@@ -58,16 +58,16 @@ export const characters: Character[] = [
         stats: { 
             maxHitPoints: 1000,
             accuracy: 110,
-            dodge: 50,
+            dodge: 60,
             attackSpeed: {
                 min: 500,
                 max: 1000
             },
             attackDamage: {
                 min: 45,
-                max: 75
+                max: 70
             },
-            armor: 12,
+            armor: 13,
             regeneration: 800,
             critChanceModifier: 1,
             critDamageModifier: 1
@@ -152,8 +152,8 @@ export const characters: Character[] = [
             accuracy: 110,
             dodge: 55,
             attackSpeed: {
-                min: 375,
-                max: 750
+                min: 400,
+                max: 800
             },
             attackDamage: {
                 min: 40,
@@ -178,17 +178,17 @@ export const characters: Character[] = [
     {
         stats: { 
             maxHitPoints: 925,
-            accuracy: 140,
+            accuracy: 110,
             dodge: 40,
             attackSpeed: {
-                min: 250,
-                max: 500
+                min: 350,
+                max: 750
             },
             attackDamage: {
-                min: 35,
-                max: 50
+                min: 45,
+                max: 80
             },
-            armor: 10,
+            armor: 8,
             regeneration: 600,
             critChanceModifier: 1,
             critDamageModifier: 1
@@ -199,7 +199,7 @@ export const characters: Character[] = [
             odds: 6
         },
         {
-            odds: 45,
+            odds: 20,
             debuff: Buff.buffs[Buff.types.mage]
         }],
         name: 'Mage'
@@ -275,7 +275,7 @@ export const characters: Character[] = [
                 min: 95,
                 max: 150
             },
-            armor: 8,
+            armor: 10,
             regeneration: 600,
             critChanceModifier: 1,
             critDamageModifier: 1
@@ -305,7 +305,7 @@ export const characters: Character[] = [
                 min: 45,
                 max: 70
             },
-            armor: 8,
+            armor: 10,
             regeneration: 600,
             critChanceModifier: 1,
             critDamageModifier: 1
@@ -327,25 +327,25 @@ export const characters: Character[] = [
             accuracy: 70,
             dodge: 10,
             attackSpeed: {
-                min: 1600,
-                max: 2800
+                min: 1200,
+                max: 2200
             },
             attackDamage: {
-                min: 120,
-                max: 320
+                min: 80,
+                max: 150
             },
-            armor: 10,
+            armor: 5,
             regeneration: 800,
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
         rarity: 3,
         crits: [{
-            damageMultiplier: 8,
-            odds: 25
+            damageMultiplier: 6,
+            odds: 40
         },
         {
-            odds: 25,
+            odds: 20,
             debuff: Buff.buffs[Buff.types.dragon]
         }],
         name: 'Dragon'
