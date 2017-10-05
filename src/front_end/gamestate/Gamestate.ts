@@ -47,7 +47,9 @@ export class GameState {
 		this.player2 = null;
 	}
 
-		public newMessage(msg: Message) {
+	public newMessage(msg: Message) {
+		this.timer = 11;
+		this.countdown();
 		// Add received message to the queue
 		// Don't do anything if a character is dying or moving over
 		if ((this.player1 && this.player1.isAnimated())
@@ -230,35 +232,43 @@ export class GameState {
 	}
 
 	private countdown() {
-		if (!this.timer)
+		console.log(this.timer);
+		if (!this.timer) {
+			if (this.countBot)
+				this.canvas.remove(this.countBot);
+			if (this.countTop)
+				this.canvas.remove(this.countTop);
 			return;
+		}
 		
-		this.timer--;
 		if (this.countBot)
 			this.canvas.remove(this.countBot);
 		if (this.countTop)
 			this.canvas.remove(this.countTop);
 		this.countBot = new fabric.Text(`NEXT FIGHT IN: ${ this.timer }`, {
-			fontSize: 15 * this.scale,
+			fontSize: 17 * this.scale,
 			fontFamily: 'concert one',
 			fontWeight: 'bold',
 			fill: 'white',
 			stroke: 'white',
-			left: '2px',
-			top: '3px',
+			left: 10,
+			top: 10,
 			originX: 'left'
 		})
 		this.countTop = new fabric.Text(`NEXT FIGHT IN: ${ this.timer }`, {
-			fontSize: 15 * this.scale,
+			fontSize: 17 * this.scale,
 			fontFamily: 'concert one',
 			fontWeight: 'bold',
 			fill: 'black',
-			left: '2px',
-			top: '2px',
+			left: 10,
+			top: 9,
 			originX: 'left'
 		})
-
-		setTimeout(() => {
+		this.canvas.add(this.countBot);
+		this.canvas.add(this.countTop);
+		this.timer--;
+		
+		window.setTimeout(() => {
 			this.countdown();
 		}, 1000);
 	}
