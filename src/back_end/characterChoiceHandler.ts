@@ -20,7 +20,6 @@ const rarities = [0, 1, 2, 3];
 const tiers: DonationTier[] = [
     {
         donation: 10000,
-        donation: 0,
         odds: {
             [e_rarity.common]: 0,
             [e_rarity.rare]: 0,
