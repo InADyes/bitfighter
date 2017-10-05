@@ -222,12 +222,17 @@ export class Player {
         this.canvas.remove(this.displaynametop);
     }
 
-    private drawText() {
+    private emptyTextQueue() {
         if (!this.textQueue[0]) {
             this.textLock = 0;
             return;
         }
         let txtObj = this.textQueue.shift();
+        this.drawText(txtObj);
+        window.setTimeout(() => {this.emptyTextQueue()}, 300);
+    }
+
+    private drawText(txtObj: {str: string, color: string}) {
         let txtBot = new fabric.Text(`${ txtObj.str }`, {
             fontSize: this.fontSize * this.scale,
             strokeWidth: this.strokeWidth *this.scale,
@@ -258,7 +263,6 @@ export class Player {
                 this.canvas.remove(textgroup);
             }
         });
-        window.setTimeout(() => {this.drawText()}, 300);
     }
 
     public drawMe() {
@@ -317,10 +321,13 @@ export class Player {
             str: str,
             color: color
         };
-        this.textQueue.push(txt);
+        if (str != "dodge" && str != "Level Up!")
+            this.textQueue.push(txt);
+        else
+            this.drawText(txt);
         if (!this.textLock) {
             this.textLock = 1;
-            this.drawText();
+            this.emptyTextQueue();
         }
     }
 
@@ -434,7 +441,9 @@ export class Player {
             hp: this.health,
             maxHp: this.data.maxHitPoints,
             img: this.data.profileImageURL,
-            character: this.charStrings[this.data.art]
+            character: this.charStrings[this.data.art],
+            chatMessage: "hello world",
+            emoticonURL: "hello world"
         });
     }
 }

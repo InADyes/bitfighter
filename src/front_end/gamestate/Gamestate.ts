@@ -5,7 +5,7 @@ declare let fabric: any;
 import * as Player from './Player';
 import { fireEvent } from './fireEvent';
 
-declare function recalcHp(damageAmount: number, newHp: number, maxHp: number): void;
+declare function recalcHp(damageAmount: number, newHp: number, maxHp: number, attacker: string): void;
 declare function flip(side: 'front' | 'back'): void;
 declare function updateBitBoss(bossData: Object): void;
 
@@ -22,7 +22,9 @@ export class GameState {
 		hp: number,
 		maxHp: number,
 		img: string,
-		character: string
+		character: string,
+		chatMessage: string,
+		emoticonURL: string
 };
 	private ogTime:				number;
 	private timer:				number;
@@ -73,7 +75,7 @@ export class GameState {
 				this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt);
 				this.currentBoss = this.player1.getBitBossInfo();
 				updateBitBoss({boss: this.currentBoss});
-				recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp);
+				recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, "hello world");
 				if (msg.characters[1]) {
 					this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt);
 					flip('back');
@@ -155,7 +157,7 @@ export class GameState {
 			this.player2.adjustHp(newHp);
 		else if (this.player1) {
 			let p = this.player1.getBitBossInfo();
-			recalcHp(p.hp - newHp, newHp, p.maxHp);
+			recalcHp(p.hp - newHp, newHp, p.maxHp, "hello world");
 			this.player1.adjustHp(newHp);
 		}
 	}
