@@ -29,17 +29,21 @@ export interface CharacterCard {
 }
 
 export interface BackToFrontMessage {
-    newReel?: ReelMessage;
-    characterChoices?: CharacterCard[];
-    queue?: {
-        queue: {
-            fanDisplayName: string;
-            championTypeName: string;
+    readonly newReel?: ReelMessage;
+    readonly characterChoices?: CharacterCard[];
+    readonly queue?: {
+        readonly queue: {
+            readonly fanDisplayName: string;
+            readonly championTypeName: string;
         }[];
-        timer?: number;
+        readonly timer?: number;
     };
-    newChatMessage?:{
-        championIndex: number;
-        bossMessage: string;
+    readonly updateBossMessage?: {
+        readonly championIndex: number;
+        readonly bossMessage: string;
+    }
+    readonly updateBossEmoticonURL?: {
+        readonly championIndex: number;
+        readonly bossEmoticonURL: string;
     }
 }
