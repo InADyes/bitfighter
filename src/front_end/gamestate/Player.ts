@@ -18,7 +18,9 @@ export class Player {
     private textQueue:      any[];
     private buffs:          number[];
     private buffGroup:      fabric.Group;
-    private scale:          number; 
+    private scale:          number;
+    private bossMessage:    string;
+    private BossEmoticonURL: string;
     private height =        70;
     private hpWidth =       5;
     private textLock =      0;
@@ -442,8 +444,16 @@ export class Player {
             maxHp: this.data.maxHitPoints,
             img: this.data.profileImageURL,
             character: this.charStrings[this.data.art],
-            chatMessage: "hello world",
-            emoticonURL: "hello world"
+            bossMessage: this.bossMessage,
+            bossEmoticonURL: this.BossEmoticonURL
         });
+    }
+
+    public updateBossMessage(str: string) {
+        this.bossMessage = str;
+    }
+
+    public updateEmote(str: string) {
+        this.BossEmoticonURL = str;
     }
 }
