@@ -46,9 +46,12 @@ export interface BackToFrontMessage {
     newReel?: Message;
     characterChoices?: CharacterCard[];
     queue?: {
-        fanDisplayName: string,
-        championTypeName: string
-    }[];
+        queue: {
+            fanDisplayName: string;
+            championTypeName: string;
+        }[];
+        timer?: number;
+    };
 }
 
 export interface FrontToBackMessage {
