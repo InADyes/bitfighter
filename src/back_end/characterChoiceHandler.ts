@@ -1,6 +1,7 @@
 import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
 import { Character, characters, pickCharacter, characterTypes } from '../shared/characterPicker';
 import { Status } from '../shared/Status';
+import { Donation } from '../shared/interfaces/donation';
 
 interface DonationTier {
     donation: number;
@@ -92,15 +93,7 @@ export class CharacterChoiceHandler {
         private readonly requestPick: (choices: CharacterCard[], id: number) => void
     ) {}
 
-    public requestChoice(
-        donation: {
-            id: number,
-            name: string,
-            amount: number,
-            profileImageURL: string,
-            chatMessage: string
-        }
-    ) {
+    public requestChoice(donation: Donation) {
         if (this.pendingCharacterChoices.find(c => c.id === donation.id) !== undefined)
             return; // todo: what should happen if they donate while they still have cards?
 
@@ -134,10 +127,10 @@ export class CharacterChoiceHandler {
             id: donation.id,
             name: donation.name,
             amount: donation.amount,
-            character: characters.indexOf(c),
             profileImageURL: donation.profileImageURL,
-            chatMessage: donation.profileImageURL
-        }));
+            chatMessage: donation.profileImageURL,
+            emoticonURL: donation.emoticonURL
+        }, characters.indexOf(c)));
         
         const timeout = setTimeout(
             () => {

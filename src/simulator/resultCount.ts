@@ -36,18 +36,18 @@ export function resultCount() {
             id: 0,
             name: 'shawn',
             amount: Number(process.argv[3]),
-            character: Number(process.argv[2]),
             profileImageURL: 'hello, i\'m a url',
-            chatMessage: 'yo'
-        }),
+            chatMessage: 'yo',
+            emoticonURL: 'hey'
+        }, Number(process.argv[2])),
         pickCharacter({
             id: 1,
             name: 'hao',
             amount: Number(process.argv[5]),
-            character: Number(process.argv[4]),
             profileImageURL: 'hello, i\'m a url',
-            chatMessage: 'yo'
-        })
+            chatMessage: 'yo',
+            emoticonURL: 'hey'
+        }, Number(process.argv[4]))
     ];
 
     const count = Number(process.argv[7])

@@ -10,6 +10,7 @@ import { BackendSettings as Settings } from './settings'
 import { applyFightEvents, CombinedEvent } from '../shared/applyFightEvents'
 import { CharacterChoiceHandler } from './characterChoiceHandler';
 import { hrtime } from 'process';
+import { Donation } from '../shared/interfaces/donation';
 
 function nodePerformanceNow() {
     if (hrtime) {
@@ -25,13 +26,7 @@ export class BitFighter {
     private combatants: Status[] = [];
     private events: CombinedEvent[] = [];
     private queue: Status[] = [];
-    private lastDonation: {
-        id: number,
-        name: string,
-        amount: number,
-        profileImageURL: string,
-        chatMessage: string
-    } | null = null; // quick hack so if the boss dies this character goes in
+    private lastDonation: Donation | null = null; // quick hack so if the boss dies this character goes in
 
     private characterChoiceHandler = new CharacterChoiceHandler(
         status => {
@@ -49,22 +44,26 @@ export class BitFighter {
             minimumDonation: 200,
             donationToHPRatio: 1,
             defaultState: {
+                id: -1,
                 name: 'tim',
+                amount: 1000,
                 profileImageURL: '',
-                chatMessage: 'look at me'
+                chatMessage: 'look at me',
+                emoticonURL: ''
             }
         },
         private readonly saveGameState: (jsonStr: string) => void,
         gameStateJSON?: string
     ) {
-        this.combatants.push(pickCharacter({
-            id: -1,
-            name: this.settings.defaultState.name,
-            amount: 1000,
-            character: Math.floor(Math.random() * characters.length),
-            profileImageURL: this.settings.defaultState.profileImageURL,
-            chatMessage: this.settings.defaultState.chatMessage
-        }));
+        this.combatants.push(pickCharacter(this.settings.defaultState, Math.floor(Math.random() * characters.length)));
+    }
+
+    public bossMessageUPdate(id: number, message: string) {
+
+    }
+
+    public bossEmodiconUpdate(id: number, message: string) {
+
     }
 
     public receivedFanGameState(id: number, choice: FrontToBackMessage) {
@@ -73,16 +72,17 @@ export class BitFighter {
         if (choice.requestReel)
             this.pushLastResults(undefined, id);
     }
-    public donation(id: number, name: string, amount: number, profileImageURL: string, chatMessage: string) {
-        this.lastDonation = {id, name, amount, profileImageURL, chatMessage};
+    public donation(donation: Donation) {
+        this.lastDonation = donation;
+        const { id, amount } = donation;
 
         let combatantIndex: number;
         // if the fight is ongoing
         if (this.timeout !== null) {
             // and the donation matches a fighter
-            combatantIndex = this.combatants.findIndex(s => s.id === id);
+            combatantIndex = this.combatants.findIndex(s => s.id === donation.id);
             if (combatantIndex !== -1) {
-                this.healCombatant(combatantIndex, this.settings.donationToHPRatio * amount);
+                this.healCombatant(combatantIndex, this.settings.donationToHPRatio * donation.amount);
                 return;
             }
         }
@@ -95,7 +95,7 @@ export class BitFighter {
         // if the donation is enough for a character and they aren't already in the queue
         if (this.queue.some(s => {return s.id === id;}) === false
             && amount >= this.settings.minimumDonation) {
-            this.characterChoiceHandler.requestChoice({id, name, amount, profileImageURL, chatMessage});
+            this.characterChoiceHandler.requestChoice(donation);
             return;
         }
 
@@ -156,23 +156,15 @@ export class BitFighter {
             this.nextFight();
         else if (this.combatants.length == 0) {
             if (this.lastDonation) {
-                this.combatants.push(pickCharacter({
-                    id: this.lastDonation.id,
-                    name: this.lastDonation.name,
-                    amount: this.lastDonation.amount,
-                    character: Math.floor(Math.random() * characters.length),
-                    profileImageURL: this.lastDonation.profileImageURL,
-                    chatMessage: this.lastDonation.chatMessage
-                }));
+                this.combatants.push(pickCharacter(
+                    this.lastDonation,
+                    Math.floor(Math.random() * characters.length)
+                ));
             } else {
-                this.combatants.push(pickCharacter({
-                    id: -1,
-                    name: this.settings.defaultState.name,
-                    amount: 1000,
-                    character: Math.floor(Math.random() * characters.length),
-                    profileImageURL: this.settings.defaultState.profileImageURL,
-                    chatMessage: this.settings.defaultState.chatMessage
-                }));
+                this.combatants.push(pickCharacter(
+                    this.settings.defaultState,
+                    Math.floor(Math.random() * characters.length)
+                ));
             }
             this.nextFight();
         }
