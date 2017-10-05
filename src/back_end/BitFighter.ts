@@ -184,7 +184,10 @@ export class BitFighter {
             const timeout = 1000;
 
             this.timeout = setTimeout(
-                () => this.nextFight(),
+                () => {
+                    this.timeout = null;
+                    this.nextFight()
+                },
                 timeout // TODO: make this a setting
             );
             this.sendMessageToFont({
@@ -251,12 +254,18 @@ export class BitFighter {
             const timeout = this.events[0].fight.time - (nodePerformanceNow() - this.fightStartTime);
 
             this.timeout = setTimeout(
-                () => this.nextEvent(),
+                () => {
+                    this.timeout = null;
+                    this.nextEvent();
+                },
                 timeout > 0 ? timeout : 0
             );
         } else {
             this.timeout = setTimeout(
-                () => this.checkQueue(),
+                () => {
+                    this.timeout = null;
+                    this.checkQueue();
+                },
                 this.settings.delayBetweenFights
             );
         }
