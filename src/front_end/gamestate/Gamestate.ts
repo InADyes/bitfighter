@@ -25,6 +25,9 @@ export class GameState {
 		character: string
 };
 	private ogTime:				number;
+	private timer:				number;
+	private countBot:			fabric.Text;
+	private countTop:			fabric.Text;
 	private scale =				1;
 	private scaleWait =			0;
 	private isWaiting =			0;
@@ -224,5 +227,39 @@ export class GameState {
 				flip('front')
 			}, 4000
 		);
+	}
+
+	private countdown() {
+		if (!this.timer)
+			return;
+		
+		this.timer--;
+		if (this.countBot)
+			this.canvas.remove(this.countBot);
+		if (this.countTop)
+			this.canvas.remove(this.countTop);
+		this.countBot = new fabric.Text(`NEXT FIGHT IN: ${ this.timer }`, {
+			fontSize: 15 * this.scale,
+			fontFamily: 'concert one',
+			fontWeight: 'bold',
+			fill: 'white',
+			stroke: 'white',
+			left: '2px',
+			top: '3px',
+			originX: 'left'
+		})
+		this.countTop = new fabric.Text(`NEXT FIGHT IN: ${ this.timer }`, {
+			fontSize: 15 * this.scale,
+			fontFamily: 'concert one',
+			fontWeight: 'bold',
+			fill: 'black',
+			left: '2px',
+			top: '2px',
+			originX: 'left'
+		})
+
+		setTimeout(() => {
+			this.countdown();
+		}, 1000);
 	}
 }
