@@ -208,6 +208,13 @@ export class BitFighter {
             }
             this.nextFight();
         }
+        else
+            this.sendMessageToFont({
+                queue: { queue: this.queue.map(s => ({
+                    fanDisplayName: s.name, 
+                    championTypeName: characters[s.character].name
+                }))}
+            })
     }
     
     // public for testing purposes (bypasses front end character choice)
