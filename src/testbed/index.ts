@@ -43,7 +43,7 @@ window.addEventListener('load', function(){
             donationToHPRatio: 1,
             defaultBossEmoticonURL: '',
             defaultBossMessage: 'yo, tim! how\'re you doin\'??',
-            defaultState: {
+            defaultChampion: {
                 id: -1,
                 name: 'ravi II',
                 amount: 1000,

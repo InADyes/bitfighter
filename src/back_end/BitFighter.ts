@@ -233,6 +233,14 @@ export class BitFighter {
                 }
             })
         }
+        else {
+            this.sendMessageToFont({
+                queue: { queue: this.queue.map(s => ({
+                    fanDisplayName: s.name, 
+                    championTypeName: characters[s.character].name
+                }))}
+            })
+        }
     }
 
     // only works when all new events have the same time
