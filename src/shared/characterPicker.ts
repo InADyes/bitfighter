@@ -423,7 +423,7 @@ export function pickCharacter(
         level,
         stats,
         donation.profileImageURL,
-        donation.chatMessage,
-        donation.emoticonURL
+        donation.bossMessage,
+        donation.bossEmoticonURL
     )
 }

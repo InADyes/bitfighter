@@ -46,8 +46,8 @@ window.addEventListener('load', function(){
                 name: 'ravi II',
                 amount: 1000,
                 profileImageURL: 'testbed_images/banana_icon.png',
-                chatMessage: 'look at me',
-                emoticonURL: ''
+                bossMessage: 'look at me',
+                bossEmoticonURL: ''
             }
         },
         str => console.log('new gamestate save:', str)
@@ -97,8 +97,8 @@ window.addEventListener('load', function(){
                 name,
                 amount,
                 profileImageURL: 'todo: url goes here',
-                chatMessage: 'how\'re you doin\'?',
-                emoticonURL: ''
+                bossMessage: 'how\'re you doin\'?',
+                bossEmoticonURL: ''
             });
         else
             backend.newCombatant(pickCharacter({
@@ -106,8 +106,8 @@ window.addEventListener('load', function(){
                 name,
                 amount,
                 profileImageURL: 'todo: url goes here',
-                chatMessage: 'how\'re you doin\'?',
-                emoticonURL: ''
+                bossMessage: 'how\'re you doin\'?',
+                bossEmoticonURL: ''
             }, art));
     });
 });

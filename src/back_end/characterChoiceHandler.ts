@@ -128,8 +128,8 @@ export class CharacterChoiceHandler {
             name: donation.name,
             amount: donation.amount,
             profileImageURL: donation.profileImageURL,
-            chatMessage: donation.profileImageURL,
-            emoticonURL: donation.emoticonURL
+            bossMessage: donation.profileImageURL,
+            bossEmoticonURL: donation.bossEmoticonURL
         }, characters.indexOf(c)));
         
         const timeout = setTimeout(

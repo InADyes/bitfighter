@@ -48,8 +48,8 @@ export class BitFighter {
                 name: 'tim',
                 amount: 1000,
                 profileImageURL: '',
-                chatMessage: 'look at me',
-                emoticonURL: ''
+                bossMessage: 'look at me',
+                bossEmoticonURL: ''
             }
         },
         private readonly saveGameState: (jsonStr: string) => void,
@@ -65,18 +65,18 @@ export class BitFighter {
             console.log('boss message update is not from the current boss');
             return;
         }
-        this.combatants[0].chatMessage = message;
+        this.combatants[0].bossMessage = message;
         this.pushLastResults(nodePerformanceNow());
     }
 
-    public bossEmodiconUpdate(id: number, emoticonURL: string) {
+    public bossEmodiconURLUpdate(id: number, bossEmoticonURL: string) {
         // TODO: make this work for people in queue and on the right side of a fight
         if (this.combatants[0] === undefined
             || this.combatants[0].id !== id) {
             console.log('boss message update is not from the current boss');
             return;
         }
-        this.combatants[0].emoticonURL = emoticonURL;
+        this.combatants[0].bossEmoticonURL = bossEmoticonURL;
         this.pushLastResults(nodePerformanceNow());
     }
 
@@ -305,7 +305,7 @@ export class BitFighter {
                             currentHitPoints: Math.floor(c.hitPoints),
                             art: c.character,
                             profileImageURL: c.profileImageURL,
-                            chatMessage: c.chatMessage,
+                            bossMessage: c.bossMessage,
                             card: c.card
                         })
                     ),

@@ -11,7 +11,7 @@ export interface ReelMessage { // needs name change
         maxHitPoints: number;
         art: number;
         profileImageURL: string;
-        chatMessage: string;
+        bossMessage: string;
         card: CharacterCard;
     }[];
     reel: GraphicsEvent[];
@@ -40,6 +40,6 @@ export interface BackToFrontMessage {
     };
     newChatMessage?:{
         championIndex: number;
-        chatMessage: string;
+        bossMessage: string;
     }
 }
