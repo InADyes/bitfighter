@@ -61,11 +61,10 @@ window.addEventListener('load', function(){
         (slug, message) => {
             window.setTimeout(() => {
                 console.log('message, front to back:', message);
-                let id = requestIDs.shift()
+                let id = -1;
+                if (message.characterChoice)
+                    id = requestIDs.shift() || -1;
     
-                if (id === undefined)
-                    id = -1;
-                
                 backend.receivedFanGameState(id, message);
             }, 0);
         }

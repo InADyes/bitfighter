@@ -142,7 +142,7 @@ export const characters: Character[] = [
         },
         {
             odds: 6,
-            buff: Buff.buffs[Buff.types.medium]
+            debuff: Buff.buffs[Buff.types.medium]
         }],
         name: 'Medium'
     }, // Medium
