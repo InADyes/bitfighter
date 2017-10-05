@@ -39,6 +39,7 @@ export interface BackToFrontMessage {
         timer?: number;
     };
     newChatMessage?:{
-        
+        championIndex: number;
+        chatMessage: string;
     }
 }
