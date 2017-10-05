@@ -4,8 +4,9 @@ import { Stats, Status } from '../shared/Status';
 import { Character, pickCharacter, characters } from '../shared/characterPicker';
 import * as FightEvents from '../shared/fightEvents';
 import * as graphicsEvents from '../shared/graphicsEvents';
-import * as frontEndMessage from '../shared/frontEndMessage';
-import { Settings } from './backendSettings'
+import { BackToFrontMessage } from '../shared/interfaces/backToFrontMessage';
+import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
+import { BackendSettings as Settings } from './settings'
 import { applyFightEvents, CombinedEvent } from '../shared/applyFightEvents'
 import { CharacterChoiceHandler } from './characterChoiceHandler';
 import { hrtime } from 'process';
@@ -42,7 +43,7 @@ export class BitFighter {
     );
 
     constructor(
-        private sendMessageToFont: (message: frontEndMessage.BackToFrontMessage, fan?: number) => void,
+        private sendMessageToFont: (message: BackToFrontMessage, fan?: number) => void,
         public settings: Settings = {
             delayBetweenFights: 3000,
             minimumDonation: 200,
@@ -66,7 +67,7 @@ export class BitFighter {
         }));
     }
 
-    public receivedFanGameState(id: number, choice: frontEndMessage.FrontToBackMessage) {
+    public receivedFanGameState(id: number, choice: FrontToBackMessage) {
         if (choice.characterChoice)
             this.characterChoiceHandler.completeChoice(id, choice.characterChoice.choice, true);
         if (choice.requestReel)

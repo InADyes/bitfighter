@@ -3,10 +3,13 @@ import { GameState } from './gamestate/Gamestate';
 import {
     BackToFrontMessage,
     CharacterCard,
+} from '../shared/interfaces/backToFrontMessage';
+import {
     CharacterChoice,
-    FrontEndSettings as Settings,
     FrontToBackMessage
-} from '../shared/frontEndMessage';
+} from '../shared/interfaces/frontToBackMessage';
+
+import { FrontEndSettings as Settings } from './settings';
 
 declare function flip(side: 'front' | 'back'): void;
 

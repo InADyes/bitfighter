@@ -1,5 +1,5 @@
-import * as Buff from './buff';
-import { CharacterCard } from './frontEndMessage';
+import * as Buff from './interfaces/buff';
+import { CharacterCard } from './interfaces/backToFrontMessage';
 import { characterTypes, characters } from './characterPicker';
 
 export interface Stats {

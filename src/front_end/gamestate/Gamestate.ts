@@ -1,5 +1,5 @@
 import * as Events from '../../shared/graphicsEvents';
-import { Message } from '../../shared/frontEndMessage';
+import { ReelMessage } from '../../shared/interfaces/backToFrontMessage';
 import 'fabric'
 declare let fabric: any;
 import * as Player from './Player';
@@ -47,7 +47,7 @@ export class GameState {
 		this.player2 = null;
 	}
 
-	public newMessage(msg: Message) {
+	public newMessage(msg: ReelMessage) {
 		// Add received message to the queue
 		// Don't do anything if a character is dying or moving over
 		if ((this.player1 && this.player1.isAnimated())

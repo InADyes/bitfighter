@@ -2,7 +2,7 @@ import { pickCharacter } from '../shared/characterPicker';
 import { buildEvents } from '../shared/buildEvents';
 import * as FightEvents from '../shared/fightEvents';
 import { stdout } from 'process';
-import { buffs } from '../shared/buff';
+import { buffs } from '../shared/interfaces/buff';
 import { Results, reelToResults, printResults } from './testPair';
 import { Status } from '../shared/Status';
 

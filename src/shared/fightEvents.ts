@@ -1,4 +1,4 @@
-import * as Buff from './buff';
+import * as Buff from './interfaces/buff';
 
 export const enum Types {
     damage,

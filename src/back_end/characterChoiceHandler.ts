@@ -1,4 +1,4 @@
-import { CharacterCard } from '../shared/frontEndMessage';
+import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
 import { Character, characters, pickCharacter, characterTypes } from '../shared/characterPicker';
 import { Status } from '../shared/Status';
 

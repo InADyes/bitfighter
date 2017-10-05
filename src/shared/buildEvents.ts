@@ -4,7 +4,7 @@ import { Combatant } from './Combatant';
 import { Status } from '../shared/Status';
 import { applyFightEvents, CombinedEvent } from './applyFightEvents';
 import { otherCharacter  as other} from './utility';
-import { buffs, types as buffTypes } from './buff';
+import { buffs, types as buffTypes } from './interfaces/buff';
 import * as BuildGraphicsEvents from './buildGraphicsEvents';
 
 export function buildEvents(status: Status[], startTime?: number) {
