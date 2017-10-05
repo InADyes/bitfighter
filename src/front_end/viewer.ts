@@ -5,7 +5,7 @@ import {BackToFrontMessage, FrontToBackMessage, CharacterChoice, FrontEndSetting
 declare function emitGameEvent(slug: string, data: FrontToBackMessage) : void;
 declare let window: any;
 
-// document.addEventListener('DOMContentLoaded', ()=>{
+document.addEventListener('DOMContentLoaded', ()=>{
 const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
 
 window.bitFighter = new BitFighter(
@@ -24,4 +24,4 @@ window.bitFighter = new BitFighter(
     }
 );
 
-// })
+})

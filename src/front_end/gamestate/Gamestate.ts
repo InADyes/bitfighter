@@ -17,7 +17,13 @@ export class GameState {
 	private player1:			Player.Player | null;
 	private player2:			Player.Player | null;
 	private idleId:				number;
-	private currentBoss:		Object;
+	private currentBoss:		{
+		name: string,
+		hp: number,
+		maxHp: number,
+		img: string,
+		character: string
+};
 	private ogTime:				number;
 	private scale =				1;
 	private scaleWait =			0;
@@ -64,6 +70,7 @@ export class GameState {
 				this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt);
 				this.currentBoss = this.player1.getBitBossInfo();
 				updateBitBoss({boss: this.currentBoss});
+				recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp);
 				if (msg.characters[1]) {
 					this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt);
 					flip('back');
