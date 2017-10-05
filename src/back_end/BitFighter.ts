@@ -181,15 +181,20 @@ export class BitFighter {
     public newCombatant(status: Status) {
         this.queue.push(status)
         if (this.queue.length === 1 && this.timeout === null) {
+            const timeout = 1000;
+
             this.timeout = setTimeout(
                 () => this.nextFight(),
-                1000 // TODO: make this a setting
+                timeout // TODO: make this a setting
             );
             this.sendMessageToFont({
-                queue: this.queue.map(s => ({
-                    fanDisplayName: s.name, 
-                    championTypeName: characters[s.character].name
-                }))
+                queue: {
+                    queue: this.queue.map(s => ({
+                        fanDisplayName: s.name, 
+                        championTypeName: characters[s.character].name
+                    })),
+                    timer: timeout
+                }
             })
         }
     }
@@ -219,11 +224,11 @@ export class BitFighter {
         if (this.combatants.length >= 2) {
             console.log('cannot start fight: fight already ongoing');
             this.sendMessageToFont({
-                queue: this.queue.map(s => ({
+                queue: { queue: this.queue.map(s => ({
                     fanDisplayName: s.name, 
                     championTypeName: characters[s.character].name
-                }
-            ))});
+                })) }
+            });
             return;
         }
 
@@ -291,10 +296,10 @@ export class BitFighter {
                     reel: graphics,
                     patch: patchTime
                 },
-                queue: this.queue.map(s => ({
+                queue: { queue: this.queue.map(s => ({
                     fanDisplayName: s.name, 
                     championTypeName: characters[s.character].name
-                }))
+                }))}
             },
             fan
         );
