@@ -114,9 +114,9 @@ export class GameState {
 		let nextTime = this.reel[0] ? this.reel[0].time : 0;
 		fireEvent(event, this);
 		let delay = nextTime - (performance.now() - this.ogTime);
-		//console.log(nextTime, performance.now(), this.ogTime, delay);
 		if (delay < 0)
 			delay = 0;
+		console.log(nextTime, performance.now(), this.ogTime, delay);
 		this.eventLoopTimeout = window.setTimeout(
 			() => {
 				this.getNextEvent();
