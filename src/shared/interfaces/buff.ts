@@ -91,7 +91,7 @@ export const buffs: Buff[] = [
     {
         duration: 6000,
         art: 2,
-        attackSpeed: .5
+        attackSpeed: 1.2
     },// Medium - TBD
     {
         duration: 3000,
@@ -106,7 +106,7 @@ export const buffs: Buff[] = [
     {
         duration: 6000,
         art: 5,
-        attackSpeed: 4,
+        attackSpeed: .6,
     },// Rogue - Backstab
     {
         duration: 6000,

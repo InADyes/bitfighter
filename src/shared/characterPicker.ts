@@ -68,7 +68,7 @@ export const characters: Character[] = [
                 max: 75
             },
             armor: 12,
-            regeneration: 400,
+            regeneration: 800,
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
@@ -102,7 +102,7 @@ export const characters: Character[] = [
                 max: 75
             },
             armor: 13,
-            regeneration: 300,
+            regeneration: 600,
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
@@ -131,7 +131,7 @@ export const characters: Character[] = [
                 max: 65
             },
             armor: 7,
-            regeneration: 300,
+            regeneration: 600,
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
@@ -160,7 +160,7 @@ export const characters: Character[] = [
                 max: 70
             },
             armor: 8,
-            regeneration: 300,
+            regeneration: 600,
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
@@ -189,7 +189,7 @@ export const characters: Character[] = [
                 max: 50
             },
             armor: 10,
-            regeneration: 300,
+            regeneration: 600,
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
@@ -218,7 +218,7 @@ export const characters: Character[] = [
                 max: 45
             },
             armor: 6,
-            regeneration: 300,
+            regeneration: 600,
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
@@ -247,7 +247,7 @@ export const characters: Character[] = [
                 max: 55
             },
             armor: 18,
-            regeneration: 600,
+            regeneration: 1200,
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
@@ -276,7 +276,7 @@ export const characters: Character[] = [
                 max: 150
             },
             armor: 8,
-            regeneration: 300,
+            regeneration: 600,
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
@@ -306,7 +306,7 @@ export const characters: Character[] = [
                 max: 70
             },
             armor: 8,
-            regeneration: 300,
+            regeneration: 600,
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
@@ -335,13 +335,13 @@ export const characters: Character[] = [
                 max: 320
             },
             armor: 10,
-            regeneration: 400,
+            regeneration: 800,
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
         rarity: 3,
         crits: [{
-            damageMultiplier: 2,
+            damageMultiplier: 8,
             odds: 25
         },
         {
