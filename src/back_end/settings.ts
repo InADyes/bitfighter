@@ -6,5 +6,5 @@ export interface BackendSettings {
     donationToHPRatio: number,
     defaultBossEmoticonURL: string,
     defaultBossMessage: string,
-    defaultState: Donation
+    defaultChampion: Donation
 }
