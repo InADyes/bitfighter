@@ -39,12 +39,14 @@ export class BitFighter {
             this.updateScale();
         });
         setTimeout(() => {this.emitGameEvent('bitFighter', {requestReel: true})}, 1000);
-        
     }
     public receivedViewerGameState(data: BackToFrontMessage) {
         if (data.newReel) {
             this.game.newMessage(data.newReel);
             //this.game.newMessage(data.newReel.reel, data.newReel.characters, data.newReel.patch);
+            // update character cards
+            if (!data.newReel.patch)
+                updateCards(data.newReel.characters, this.artURLs);
         }
         if (data.characterChoices) {
             flip('back');
@@ -106,6 +108,28 @@ export class BitFighter {
     public addBuff(art: number, duration: number, player: number) {
         this.game.addBuff(art, duration, player);
     }
+}
+
+function updateCards(cards: {
+    name: string;
+    currentHitPoints: number;
+    maxHitPoints: number;
+    art: number;
+    profileImageURL: string;
+    chatMessage: string;
+    card: CharacterCard;
+}[], artURLS: string[]) {
+    let newCard1 = buildCard(cards[0].card, artURLS);
+    let newCard2 = null;
+    if (cards[1])
+        newCard2 = buildCard(cards[1].card, artURLs);
+    let oldCard1 = document.getElementById('card1');
+    let oldCard2 = document.getElementById('card2');
+
+    if (oldCard1)
+        oldCard1.innerHTML = newCard1.innerHTML;
+    if (oldCard2 && newCard2)
+        oldCard2.innerHTML = newCard2.innerHTML;
 }
 
 function buildCard(character: CharacterCard, artURLs: string[]) {
