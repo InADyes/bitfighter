@@ -5,8 +5,7 @@ import {
     CharacterCard,
     CharacterChoice,
     FrontEndSettings as Settings,
-    FrontToBackMessage,
-    StatBarAmount
+    FrontToBackMessage
 } from '../shared/frontEndMessage';
 
 declare function flip(side: 'front' | 'back'): void;
@@ -183,7 +182,10 @@ function buildCard(character: CharacterCard, artURLs: string[]) {
     return card;
 }
 
-function healthBarSVG(amount: StatBarAmount) {
+function healthBarSVG(amount: {
+    amount: number;
+    factor: number;
+}) {
     return `
     <svg class="stat-svg" 
         xmlns="http://www.w3.org/2000/svg"
