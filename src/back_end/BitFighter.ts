@@ -180,7 +180,18 @@ export class BitFighter {
     // public for testing purposes (bypasses front end character choice)
     public newCombatant(status: Status) {
         this.queue.push(status)
-        this.nextFight();
+        if (this.queue.length === 1 && this.timeout === null) {
+            this.timeout = setTimeout(
+                () => this.nextFight(),
+                1000 // TODO: make this a setting
+            );
+            this.sendMessageToFont({
+                queue: this.queue.map(s => ({
+                    fanDisplayName: s.name, 
+                    championTypeName: characters[s.character].name
+                }))
+            })
+        }
     }
 
     // only works when all new events have the same time
@@ -269,8 +280,8 @@ export class BitFighter {
                 newReel: {
                         characters: this.combatants.map(c => ({
                             name: c.name,
-                            maxHitPoints: c.baseStats.maxHitPoints,
-                            currentHitPoints: c.hitPoints,
+                            maxHitPoints: Math.floor(c.baseStats.maxHitPoints),
+                            currentHitPoints: Math.floor(c.hitPoints),
                             art: c.character,
                             profileImageURL: c.profileImageURL,
                             chatMessage: c.chatMessage,
