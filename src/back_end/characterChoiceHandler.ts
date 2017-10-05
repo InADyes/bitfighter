@@ -96,7 +96,6 @@ export class CharacterChoiceHandler {
 
         //find last tier that we can achive or use the first one
         const { odds, cards } = tiers.find(t => t.donation <= donation.amount) || tiers[4];
-        //console.log("cards",cards,"odds",odds);
         //total odds of reach rarity
         const totals = rarities.map(r => odds[r] * characters.filter(c => c.rarity == r).length);
         
