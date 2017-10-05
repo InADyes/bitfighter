@@ -24,7 +24,8 @@ export class BitFighter {
         private readonly wrapperDiv: HTMLDivElement,
         private settings: Settings,
         // todo: find out what gameslug is for
-        private readonly emitGameEvent: (gameSlug: string, message: FrontToBackMessage) => void
+        private readonly emitGameEvent: (gameSlug: string, message: FrontToBackMessage) => void,
+        private readonly cardDiv: HTMLDivElement
     ) {
  
         this.artURLs = artURLs.map(url => this.settings.assetsShim + url);
@@ -51,7 +52,7 @@ export class BitFighter {
             }
             this.cards = data.characterChoices.map(c => buildCard(c, this.artURLs));
             for (let i = 0; i < this.cards.length; i++) {
-                this.wrapperDiv.appendChild(this.cards[i]);
+                this.cardDiv.appendChild(this.cards[i]);
                 this.cards[i].addEventListener('click', () => {
                     this.emitGameEvent('bitFighter', {
                         characterChoice: {
@@ -84,7 +85,7 @@ export class BitFighter {
     }
     private clearCards() {
         for (let card of this.cards) {
-            this.wrapperDiv.removeChild(card);
+            this.cardDiv.removeChild(card);
         }
         this.cards = [];
         if (this.timeout) {

@@ -18,6 +18,7 @@ window.updateBitBoss = function (bossData: Object) {
 
 window.addEventListener('load', function(){
     const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
+    const cardDiv = <HTMLDivElement>document.getElementById('charSelect');
     let requestIDs: number[] = [];
     
     const backend = new BitFighterBack(
@@ -67,7 +68,8 @@ window.addEventListener('load', function(){
     
                 backend.receivedFanGameState(id, message);
             }, 0);
-        }
+        },
+        cardDiv
     );
 
 
