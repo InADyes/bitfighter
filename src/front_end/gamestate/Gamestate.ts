@@ -230,7 +230,7 @@ export class GameState {
 	}
 
 	public startTimer(time: number) {
-		this.timer = time / 100;
+		this.timer = time / 1000;
 		this.countdown();
 	}
 
