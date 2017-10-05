@@ -58,12 +58,26 @@ export class BitFighter {
         this.combatants.push(pickCharacter(this.settings.defaultState, Math.floor(Math.random() * characters.length)));
     }
 
-    public bossMessageUPdate(id: number, message: string) {
-
+    public bossMessageUpdate(id: number, message: string) {
+        // TODO: make this work for people in queue and on the right side of a fight
+        if (this.combatants[0] === undefined
+            || this.combatants[0].id !== id) {
+            console.log('boss message update is not from the current boss');
+            return;
+        }
+        this.combatants[0].chatMessage = message;
+        this.pushLastResults(nodePerformanceNow());
     }
 
-    public bossEmodiconUpdate(id: number, message: string) {
-
+    public bossEmodiconUpdate(id: number, emoticonURL: string) {
+        // TODO: make this work for people in queue and on the right side of a fight
+        if (this.combatants[0] === undefined
+            || this.combatants[0].id !== id) {
+            console.log('boss message update is not from the current boss');
+            return;
+        }
+        this.combatants[0].emoticonURL = emoticonURL;
+        this.pushLastResults(nodePerformanceNow());
     }
 
     public receivedFanGameState(id: number, choice: FrontToBackMessage) {

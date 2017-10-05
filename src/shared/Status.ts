@@ -111,8 +111,8 @@ export class Status {
         public level: number,
         public baseStats: Stats,
         public readonly profileImageURL: string,
-        public readonly chatMessage: string,
-        public readonly emoticonURL: string
+        public chatMessage: string,
+        public emoticonURL: string
     ) {
         this.calculatedStats = Object.assign({}, this.baseStats);
         this.calculatedStats.attackDamage = Object.assign({}, this.baseStats.attackDamage);
