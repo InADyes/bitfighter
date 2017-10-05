@@ -181,7 +181,7 @@ export class BitFighter {
     public newCombatant(status: Status) {
         this.queue.push(status)
         if (this.queue.length === 1 && this.timeout === null) {
-            const timeout = 1000;
+            const timeout = 5000;
 
             this.timeout = setTimeout(
                 () => {
