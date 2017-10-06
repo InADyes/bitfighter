@@ -92,9 +92,9 @@ export class BitFighter {
         if (data.updateBossEmoticonURL)
             this.game.updateEmote(data.updateBossEmoticonURL.championIndex, data.updateBossEmoticonURL.bossEmoticonURL);
         if (data.characterList) {
-            const combined = this.artURLs.map((v, i) => {
-                return ({name: charStrings[i], stats: data.characterList[i], imgURL: this.artURLs[i]});
-            });
+            const combined = this.artURLs.map((v, i) => (
+                {name: charStrings[i], stats: (data.characterList || [])[i] || 'error', imgURL: this.artURLs[i]}
+            ));
             receiveCharList(data.characterList);
         }
     }

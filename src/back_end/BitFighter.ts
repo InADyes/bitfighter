@@ -121,76 +121,55 @@ export class BitFighter {
         };
         this.lastDonation = donation;
 
-        let combatantIndex: number;
-        // if the fight is ongoing
-        if (this.timeout !== null) {
-            // and the donation matches a fighter
-            combatantIndex = this.combatants.findIndex(s => s.id === donation.id);
-            if (combatantIndex !== -1) {
-                this.healCombatant(combatantIndex, this.settings.donationToHPRatio * donation.amount);
-                return;
-            }
-        }
-        combatantIndex = this.combatants.findIndex(s => s.id === id);
+        const combatantIndex: number = this.combatants.findIndex(s => s.id === id);
+        // if the donation matches a fighter
         if (combatantIndex !== -1) {
-            this.healCombatant(combatantIndex, this.settings.donationToHPRatio);
-            return;
-        }
-
+            this.healCombatant(combatantIndex, donation);
         // if the donation is enough for a character and they aren't already in the queue
-        if (this.queue.some(s => {return s.id === id;}) === false
+        } else if (this.queue.some(s => {return s.id === id;}) === false
             && amount >= this.settings.minimumDonation) {
             this.characterChoiceHandler.requestChoice(donation);
-            return;
-        }
 
-
-        // if there was a last fight, damage current champion
-        if (this.combatants.length > 0) {
-            const patchTime = nodePerformanceNow() - this.fightStartTime;
-            this.damageCombatant(0, amount * this.settings.donationToHPRatio);
+        // if there is a champion deal damage to him
+        } else if (this.combatants.length > 0) {
+            this.damageCombatant(0, donation);
         }
     }
 
-    private healCombatant(index: number, amount: number) {
+    private healCombatant(index: number, donation: Donation) {
         const patchTime = nodePerformanceNow() - this.fightStartTime;
         const combatant = this.combatants[index];
 
-        if (combatant.hitPoints + amount > combatant.stats.maxHitPoints)
+        let amount = this.settings.donationToHPRatio * donation.amount;
+        if (combatant.hitPoints + donation.amount > combatant.stats.maxHitPoints)
             amount = combatant.stats.maxHitPoints - combatant.hitPoints;
 
         this.insertEvents(
             patchTime,
-            new FightEvents.Donation(
+            new FightEvents.HealingDonation(
                 patchTime,
                 index,
-                FightEvents.DonationType.healing
-            ),
-            new FightEvents.Healing(
-                patchTime,
-                index,
+                donation,
                 amount
             )
         );
     }
 
-    private damageCombatant(index: number, amount: number) {
+    private damageCombatant(index: number, donation: Donation) {
         const patchTime = nodePerformanceNow() - this.fightStartTime;
         
         const combatant = this.combatants[index];
+        let amount = this.settings.donationToHPRatio * donation.amount;
+
         if (combatant.hitPoints < amount)
             amount = combatant.hitPoints;
 
         this.insertEvents(
             patchTime,
-            new FightEvents.Donation(
+            new FightEvents.DamageDonation(
                 patchTime,
                 0,
-                FightEvents.DonationType.damage
-            ),
-            new FightEvents.Damage(
-                patchTime,
-                0,
+                donation,
                 amount
             )
         );
@@ -340,8 +319,8 @@ export class BitFighter {
                 newReel: {
                         characters: this.combatants.map(c => ({
                             name: c.name,
-                            maxHitPoints: Math.floor(c.baseStats.maxHitPoints),
-                            currentHitPoints: Math.floor(c.hitPoints),
+                            maxHitPoints: Math.ceil(c.baseStats.maxHitPoints),
+                            currentHitPoints: Math.ceil(c.hitPoints),
                             art: c.character,
                             profileImageURL: c.profileImageURL,
                             bossMessage: c.bossMessage,
