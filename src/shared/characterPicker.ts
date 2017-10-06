@@ -29,6 +29,19 @@ export const buffArt = [
     "images/icons/buffs/firebreathing.png"
 ];
 
+export const charStrings = [
+    "Scullary Maid",
+    "Barkeep",
+    "Medium",
+    "Minstrel",
+    "Mage",
+    "Rogue",
+    "Warpriest",
+    "Warlock",
+    "Swashbuckler",
+    "Dragon",
+]
+
 export interface Character {
     stats: Stats,
     rarity: number,
