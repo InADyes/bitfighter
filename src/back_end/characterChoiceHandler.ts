@@ -128,7 +128,7 @@ export class CharacterChoiceHandler {
             name: donation.name,
             amount: donation.amount,
             profileImageURL: donation.profileImageURL,
-            bossMessage: donation.profileImageURL,
+            bossMessage: donation.bossMessage,
             bossEmoticonURL: donation.bossEmoticonURL
         }, characters.indexOf(c)));
         
