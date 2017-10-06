@@ -28,9 +28,9 @@ export class Player {
     private strokeWidth =   2;
     private fontSize =      15;
     private font =          'Concert One'
-    private buffOffset =    18;
+    private buffOffset =    13;
     private buffTop =       135;
-    private buffSize =      25;
+    private buffSize =      30;
 
     // Adjust these to move elements around
     private artAdjust =     0;
