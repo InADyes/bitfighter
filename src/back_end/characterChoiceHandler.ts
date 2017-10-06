@@ -85,7 +85,7 @@ export class CharacterChoiceHandler {
     private pendingCharacterChoices: {
         id: number,
         characters: Status[],
-        timeout: NodeJS.Timer
+        timeout: number
     }[] = [];
 
     constructor(
@@ -132,7 +132,7 @@ export class CharacterChoiceHandler {
             bossEmoticonURL: donation.bossEmoticonURL
         }, characters.indexOf(c)));
         
-        const timeout = setTimeout(
+        const timeout = window.setTimeout(
             () => {
                 // clear timeout somehow
                 this.completeChoice(donation.id, Math.floor(choices.length * Math.random()))

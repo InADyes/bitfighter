@@ -22,7 +22,7 @@ function nodePerformanceNow() {
 
 export class BitFighter {
     private fightStartTime: number = 0;
-    private timeout: NodeJS.Timer | null = null;
+    private timeout: number | null = null;
     private combatants: Status[] = [];
     private events: CombinedEvent[] = [];
     private queue: Status[] = [];
@@ -221,7 +221,7 @@ export class BitFighter {
         if (this.queue.length === 1 && this.timeout === null) {
             const timeout = 5000;
 
-            this.timeout = setTimeout(
+            this.timeout = window.setTimeout(
                 () => {
                     this.timeout = null;
                     this.nextFight()
@@ -299,7 +299,7 @@ export class BitFighter {
         if (this.events.length > 0) { 
             const timeout = this.events[0].fight.time - (nodePerformanceNow() - this.fightStartTime);
 
-            this.timeout = setTimeout(
+            this.timeout = window.setTimeout(
                 () => {
                     this.timeout = null;
                     this.nextEvent();
@@ -307,7 +307,7 @@ export class BitFighter {
                 timeout > 0 ? timeout : 0
             );
         } else {
-            this.timeout = setTimeout(
+            this.timeout = window.setTimeout(
                 () => {
                     this.timeout = null;
                     this.checkQueue();
