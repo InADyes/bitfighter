@@ -57,8 +57,10 @@ export class BitFighter {
         private readonly saveGameState: (jsonStr: string) => void,
         gameStateJSON?: string
     ) {
-        console.log('------------------------> default champion profileImageURL:', this.settings.defaultChampion.profileImageURL);
-        this.combatants.push(pickCharacter(this.settings.defaultChampion, Math.floor(Math.random() * characters.length)));
+        this.combatants.push(pickCharacter(
+            this.settings.defaultChampion,
+            Math.floor(Math.random() * characters.length))
+        );
     }
 
     public bossMessageUpdate(id: number, message: string) {
@@ -330,9 +332,6 @@ export class BitFighter {
         const graphics: graphicsEvents.Event[] = [];
         this.events.forEach(e => graphics.push(...e.graphics));
         sortGraphicsEvents(graphics);
-
-        if (fan && this.combatants[0])
-            console.log('------------------------>  sending profile image url:', this.combatants[0].profileImageURL);
 
         this.sendMessageToFont(
             {
