@@ -21,7 +21,7 @@ export class Player {
     private buffGroup:      fabric.Group;
     private scale:          number;
     private height =        70;
-    private hpWidth =       5;
+    private hpWidth =       7;
     private textLock =      0;
     private animationLock = 0;
     private nameHeight =    120;
@@ -291,18 +291,24 @@ export class Player {
     }
 
     public attacks() {
-        this.img.animate('left', this.onRight ? `-=${ 10  * this.scale }` : `+=${ 10 * this.scale }`, {
-            duration: 200,
-            easing: fabric.util.ease['easeInQuint'],
-            onChange: this.canvas.renderAll.bind(this.canvas),
-            onComplete: () => {
-                this.img.animate('left', this.onRight ? this.center + this.artAdjust + this.trueWidth / 2 : this.center - this.artAdjust - this.trueWidth / 2, {
-                    duration: 300,
-                    onChange: this.canvas.renderAll.bind(this.canvas),
-                    easing: fabric.util.ease['easeOutQuint'],
-                })
-            }
-        });
+        // if dragon
+        if (this.data.art == 9) {
+
+        }
+        else {
+            this.img.animate('left', this.onRight ? `-=${ 10  * this.scale }` : `+=${ 10 * this.scale }`, {
+                duration: 200,
+                easing: fabric.util.ease['easeInQuint'],
+                onChange: this.canvas.renderAll.bind(this.canvas),
+                onComplete: () => {
+                    this.img.animate('left', this.onRight ? this.center + this.artAdjust + this.trueWidth / 2 : this.center - this.artAdjust - this.trueWidth / 2, {
+                        duration: 300,
+                        onChange: this.canvas.renderAll.bind(this.canvas),
+                        easing: fabric.util.ease['easeOutQuint'],
+                    })
+                }
+            });
+        }
     }
 
 	public displayText(str: string, color: string) {
