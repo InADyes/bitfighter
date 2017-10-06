@@ -14,6 +14,7 @@ window.recalcHp = function (damageAmount: number, newHp: number, maxHp: number) 
 window.flip = function (side: 'front' | 'back') {
     //console.log("called flip");
 }
+
 window.updateBitBoss = function (damageAmount: number, newHp: number, maxHp: number, attacker: string) {
     console.log("called updateBitBoss:", ...arguments);
 }

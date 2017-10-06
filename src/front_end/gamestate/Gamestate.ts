@@ -7,7 +7,15 @@ import { fireEvent } from './fireEvent';
 
 declare function recalcHp(damageAmount: number, newHp: number, maxHp: number, attacker: string): void;
 declare function flip(side: 'front' | 'back'): void;
-declare function updateBitBoss(bossData: Object): void;
+declare function updateBitBoss(bossData: {
+	name: string,
+	hp: number,
+	maxHp: number,
+	img: string,
+	character: string,
+	bossMessage: string,
+	bossEmoticonURL: string
+}): void;
 
 export class GameState {
 	private eventLoopTimeout:	number | null;
@@ -74,6 +82,7 @@ export class GameState {
 				// init players
 				this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt);
 				this.currentBoss = this.player1.getBitBossInfo();
+				console.log(this.currentBoss);
 				updateBitBoss({boss: this.currentBoss});
 				recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, "hello world");
 				if (msg.characters[1]) {
