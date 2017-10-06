@@ -4,18 +4,11 @@ import 'fabric'
 declare let fabric: any;
 import * as Player from './Player';
 import { fireEvent } from './fireEvent';
+import { BossData } from './interfaces'
 
 declare function recalcHp(damageAmount: number, newHp: number, maxHp: number, attacker: string): void;
 declare function flip(side: 'front' | 'back'): void;
-declare function updateBitBoss(bossData: {
-	name: string,
-	hp: number,
-	maxHp: number,
-	img: string,
-	character: string,
-	bossMessage: string,
-	bossEmoticonURL: string
-}): void;
+declare function updateBitBoss(bossData: {boss: BossData, attacker?: BossData}): void;
 
 export class GameState {
 	private eventLoopTimeout:	number | null;
@@ -25,15 +18,7 @@ export class GameState {
 	private player1:			Player.Player | null;
 	private player2:			Player.Player | null;
 	private idleId:				number;
-	private currentBoss:		{
-		name: string,
-		hp: number,
-		maxHp: number,
-		img: string,
-		character: string,
-		bossMessage: string,
-		bossEmoticonURL: string
-	};
+	private currentBoss:		BossData;
 	private ogTime:				number;
 	private timer:				number;
 	private countBot:			fabric.Text;

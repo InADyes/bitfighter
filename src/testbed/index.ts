@@ -4,6 +4,7 @@ import { BitFighter as BitFighterFront } from '../front_end/BitFighter';
 import { BackToFrontMessage } from '../shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage, CharacterChoice } from '../shared/interfaces/frontToBackMessage';
 import { FrontEndSettings } from '../front_end/settings';
+import { BossData } from '../front_end/gamestate/interfaces'
 
 // kind of a hack
 declare let window: any;
@@ -14,15 +15,7 @@ window.recalcHp = function (damageAmount: number, newHp: number, maxHp: number) 
 window.flip = function (side: 'front' | 'back') {
     //console.log("called flip");
 }
-window.updateBitBoss = function (bossData: {
-    name: string,
-    hp: number,
-    maxHp: number,
-    img: string,
-    character: string,
-    bossMessage: string,
-    bossEmoticonURL: string
-}) {
+window.updateBitBoss = function (bossData: {boss: BossData, attacker?: BossData}) {
     //console.log("called updateBitBoss");
 }
 
