@@ -131,18 +131,16 @@ export class CharacterChoiceHandler {
             bossMessage: donation.bossMessage,
             bossEmoticonURL: donation.bossEmoticonURL
         }, characters.indexOf(c)));
-        
-        const timeout = setTimeout(
-            // clear timeout somehow
-            () => this.completeChoice(donation.id, Math.floor(choices.length * Math.random())),
-            // one minute
-            60000
-        );
 
         this.pendingCharacterChoices.push({
             id: donation.id,
             characters: statusChoices,
-            timeout
+            timeout: setTimeout(
+                // clear timeout somehow
+                () => this.completeChoice(donation.id, Math.floor(choices.length * Math.random())),
+                // one minute
+                60000
+            )
         });
 
         this.requestPick(
