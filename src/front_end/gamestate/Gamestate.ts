@@ -67,7 +67,6 @@ export class GameState {
 				// init players
 				this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt);
 				this.currentBoss = this.player1.getBitBossInfo();
-				console.log("BOSSSSSS:",this.currentBoss);
 				updateBitBoss({boss: this.currentBoss});
 				recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, "hello world");
 				if (msg.characters[1]) {
