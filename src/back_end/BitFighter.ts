@@ -57,6 +57,8 @@ export class BitFighter {
         private readonly saveGameState: (jsonStr: string) => void,
         gameStateJSON?: string
     ) {
+        if (this.settings.defaultChampion.id === 123544090)
+            this.settings.defaultChampion.name = 'Ravioli';
         this.combatants.push(pickCharacter(
             this.settings.defaultChampion,
             Math.floor(Math.random() * characters.length))
