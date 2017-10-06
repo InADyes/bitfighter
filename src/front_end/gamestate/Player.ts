@@ -1,5 +1,6 @@
-import 'fabric'
+import 'fabric';
 declare let fabric: any;
+import {charStrings} from '../../shared/characterPicker';
 
 export class Player {
     private health:         number;
@@ -37,19 +38,6 @@ export class Player {
     private artTop =        120;
     private hpTextTop =     32;
     private textTop =       30;
-
-    private charStrings = [
-        "Scullary Maid",
-        "Barkeep",
-        "Medium",
-        "Minstrel",
-        "Mage",
-        "Rogue",
-        "Warpriest",
-        "Warlock",
-        "Swashbuckler",
-        "Dragon",
-    ];
 
     constructor(
         private readonly data: {
@@ -382,23 +370,38 @@ export class Player {
 
 	public dies(player2: Player | null) {
         this.animationLock = 1;
-        this.img.animate('angle', this.onRight ? '-90' : '90', {
-            duration: 500,
-            onChange: this.canvas.renderAll.bind(this.canvas),
-            onComplete: () => {
-                this.img.animate('opacity', 0, {
-                    duration: 200,
-                    onChange: this.canvas.renderAll.bind(this.canvas),
-                    onComplete: () => {
-                        this.canvas.remove(this.img);
-                        this.removeNameAndHp();
-                        if (player2)
-                            player2.moves();
-                        this.animationLock = 0;
-                    }
-                });
-            }
-        });
+        if (this.data.art == 9) {
+            this.img.animate('opacity', 0, {
+                duration: 1000,
+                onChange: this.canvas.renderAll.bind(this.canvas),
+                onComplete: () => {
+                    this.canvas.remove(this.img);
+                    this.removeNameAndHp();
+                    if (player2)
+                        player2.moves();
+                    this.animationLock = 0;
+                }
+            });
+        }
+        else {
+            this.img.animate('angle', this.onRight ? '-90' : '90', {
+                duration: 500,
+                onChange: this.canvas.renderAll.bind(this.canvas),
+                onComplete: () => {
+                    this.img.animate('opacity', 0, {
+                        duration: 200,
+                        onChange: this.canvas.renderAll.bind(this.canvas),
+                        onComplete: () => {
+                            this.canvas.remove(this.img);
+                            this.removeNameAndHp();
+                            if (player2)
+                                player2.moves();
+                            this.animationLock = 0;
+                        }
+                    });
+                }
+            });
+        }
     }
 
     public moves(){
@@ -442,7 +445,7 @@ export class Player {
             hp: this.health,
             maxHp: this.data.maxHitPoints,
             img: this.data.profileImageURL,
-            character: this.charStrings[this.data.art],
+            character: charStrings[this.data.art],
             bossMessage: this.data.bossMessage,
             bossEmoticonURL: this.data.bossEmoticonURL
         });
