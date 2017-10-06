@@ -57,6 +57,7 @@ export class BitFighter {
         private readonly saveGameState: (jsonStr: string) => void,
         gameStateJSON?: string
     ) {
+        console.log('------------------------> default champion profileImageURL:', this.settings.defaultChampion.profileImageURL);
         this.combatants.push(pickCharacter(this.settings.defaultChampion, Math.floor(Math.random() * characters.length)));
     }
 
@@ -96,7 +97,7 @@ export class BitFighter {
         if (choice.characterChoice)
             this.characterChoiceHandler.completeChoice(id, choice.characterChoice.choice, true);
         if (choice.requestReel)
-            this.pushLastResults(undefined, id,);
+            this.pushLastResults(undefined, id);
     }
     public donation(
         id: number,
@@ -329,6 +330,9 @@ export class BitFighter {
         const graphics: graphicsEvents.Event[] = [];
         this.events.forEach(e => graphics.push(...e.graphics));
         sortGraphicsEvents(graphics);
+
+        if (fan && this.combatants[0])
+            console.log('------------------------>  sending profile image url:', this.combatants[0].profileImageURL);
 
         this.sendMessageToFont(
             {
