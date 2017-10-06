@@ -102,25 +102,22 @@ export class GameState {
 	}
 
 	private getNextEvent() {
-		let event = this.reel.shift();
-		if (event == undefined) {
+		const event = this.reel.shift();
+		if (event === undefined) {
 			this.eventLoopTimeout = null;
 			this.idleCheck();
 			return;
 		}
-		let nextTime = this.reel[0] ? this.reel[0].time : 0;
+		const nextTime = this.reel[0] ? this.reel[0].time : 0;
 		fireEvent(event, this);
 		let delay = nextTime - (performance.now() - this.ogTime);
 		if (delay < 0)
 			delay = 0;
 		//console.log(nextTime, performance.now(), this.ogTime, delay);
 		this.eventLoopTimeout = window.setTimeout(
-			() => {
-				this.getNextEvent();
-			},
+			() => this.getNextEvent(),
 			delay //used to be nextTime - event.time
 		);
-		//this.lastTime = event.time;
 	}
 
 	private applyPatch(reel: Events.Event[], patch: number) {
