@@ -257,7 +257,11 @@ export class Player {
     }
 
     private getAtk(i: number) {
-        return (new fabric.Image.fromURL(this.atkArt[i])
+        return (new fabric.Image.fromURL(this.atkArt[i], (oImg: fabric.Image) => {
+            if (oImg.width && oImg.height)
+                let fireWidth = oImg.width/oImg.height * this.height * this.scale;
+            this.atk = oImg.set
+        })
     }
 
     public drawMe() {
