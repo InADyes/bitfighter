@@ -21,6 +21,7 @@ export class Player {
     private buffGroup:      fabric.Group;
     private scale:          number;
     private height =        70;
+    private hpHeight =      60;
     private hpWidth =       7;
     private textLock =      0;
     private animationLock = 0;
@@ -28,7 +29,7 @@ export class Player {
     private strokeWidth =   2;
     private fontSize =      15;
     private font =          'Concert One'
-    private buffOffset =    13;
+    private buffOffset =    14;
     private buffTop =       135;
     private buffSize =      30;
 
@@ -41,19 +42,20 @@ export class Player {
 
     constructor(
         private readonly data: {
-            readonly name: string;
-            readonly currentHitPoints: number;
-            readonly maxHitPoints: number;
-            readonly art: number;
-            readonly profileImageURL: string;
-            bossMessage: string;
-            bossEmoticonURL: string;
+            readonly name:              string;
+            readonly currentHitPoints:  number;
+            readonly maxHitPoints:      number;
+            readonly art:               number;
+            readonly profileImageURL:   string;
+            bossMessage:                string;
+            bossEmoticonURL:            string;
         },
-        side: number, 
-        canvas: fabric.Canvas, 
-        scale: number, 
-        private readonly charArt: string[], 
-        private readonly buffArt: string[]
+        side:                       number, 
+        canvas:                     fabric.Canvas, 
+        scale:                      number, 
+        private readonly charArt:   string[], 
+        private readonly buffArt:   string[],
+        private readonly atkArt:    string[]
     ) {
         this.health = data.currentHitPoints;
         this.onRight = side;
@@ -254,6 +256,10 @@ export class Player {
         });
     }
 
+    private getAtk(i: number) {
+        return (new fabric.Image.fromURL(this.atkArt[i])
+    }
+
     public drawMe() {
         if (this.img)
             this.canvas.remove(this.img);
@@ -291,11 +297,15 @@ export class Player {
     }
 
     public attacks() {
-        // if dragon
-        if (this.data.art == 9) {
-
-        }
-        else {
+        // if (this.data.art === 9) {
+        //     let fire1 = this.getFire();
+        //     fire1.set();
+        //     let fire2 = this.getFire();
+        //     fire2.set();
+        //     let fire3 = this.getFire();
+        //     fire3.set();
+        // }
+        // else {
             this.img.animate('left', this.onRight ? `-=${ 10  * this.scale }` : `+=${ 10 * this.scale }`, {
                 duration: 200,
                 easing: fabric.util.ease['easeInQuint'],
@@ -308,7 +318,7 @@ export class Player {
                     })
                 }
             });
-        }
+        // }
     }
 
 	public displayText(str: string, color: string) {

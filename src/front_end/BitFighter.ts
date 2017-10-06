@@ -1,6 +1,7 @@
 import { characters,
     buffArt as buffArtNoShim,
-    artURLs as artURLsNoShim
+    artURLs as artURLsNoShim,
+    atkArt as atkArtNoShim
 } from '../shared/characterPicker';
 import { GameState } from './gamestate/Gamestate';
 import {
@@ -26,6 +27,7 @@ export class BitFighter {
     private timeout: number | null = null;
     private readonly artURLs: string[];
     private readonly iconURLs: string[];
+    private readonly atkURLs: string[];
 
     constructor(
         private readonly wrapperDiv: HTMLDivElement,
@@ -37,7 +39,8 @@ export class BitFighter {
  
         this.artURLs = artURLsNoShim.map(url => this.settings.assetsShim + url);
         this.iconURLs = buffArtNoShim.map(url => this.settings.assetsShim + url);
-        this.game = new GameState('arena', this.artURLs, this.iconURLs);
+        this.atkURLs = atkArtNoShim.map(url => this.settings.assetsShim + url);
+        this.game = new GameState('arena', this.artURLs, this.iconURLs, this.atkURLs);
         this.updateSettings(settings);
         window.addEventListener('resize', () => {
             this.updateScale();

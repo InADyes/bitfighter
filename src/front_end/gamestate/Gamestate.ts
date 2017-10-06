@@ -31,9 +31,10 @@ export class GameState {
 	private messageQueue = 		[];
 
 	constructor(
-		canvasId: string,
-		private readonly charArt: string[],
-		private readonly buffArt: string[]
+		canvasId:					string,
+		private readonly charArt:	string[],
+		private readonly buffArt:	string[],
+		private readonly atkArt:	string[]
 	) {
 		this.canvas = new fabric.StaticCanvas(canvasId);
 		this.canvas.setWidth(this.baseWidth);
@@ -65,12 +66,12 @@ export class GameState {
 				clearTimeout(this.idleId);
 				this.canvas.clear();
 				// init players
-				this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt);
+				this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt);
 				this.currentBoss = this.player1.getBitBossInfo();
 				updateBitBoss({boss: this.currentBoss});
 				recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, "hello world");
 				if (msg.characters[1]) {
-					this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt);
+					this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt);
 					flip('back');
 					console.log("flip back");
 					this.ogTime = performance.now();
@@ -103,7 +104,7 @@ export class GameState {
 
 	private getNextEvent() {
 		let event = this.reel.shift();
-		if (event == undefined) {
+		if (event === undefined) {
 			this.eventLoopTimeout = null;
 			this.idleCheck();
 			return;

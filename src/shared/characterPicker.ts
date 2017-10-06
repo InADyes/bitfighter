@@ -29,6 +29,12 @@ export const buffArt = [
     "images/icons/buffs/firebreathing.png"
 ];
 
+export const atkArt = [
+    "images/icons/fire1.png",
+    "images/icons/fire2.png",
+    "images/icons/fire3.png"
+];
+
 export const charStrings = [
     "Scullary Maid",
     "Barkeep",
