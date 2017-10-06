@@ -71,7 +71,7 @@ window.addEventListener('load', function(){
             },
             size: 1,
             cardsTimeout: 60000,
-            assetsShim: './'
+            assetsShim: './shim_test/'
         },
         (slug, message) => {
             window.setTimeout(() => {
