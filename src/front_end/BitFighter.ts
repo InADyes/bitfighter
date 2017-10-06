@@ -8,10 +8,12 @@ import {
     CharacterChoice,
     FrontToBackMessage
 } from '../shared/interfaces/frontToBackMessage';
-
+import {charStrings} from '../shared/characterPicker';
 import { FrontEndSettings as Settings } from './settings';
 
 declare function flip(side: 'front' | 'back'): void;
+declare function receiveCharList(data: any): void;
+declare function receiveQueue(data: any): void;
 
 export class BitFighter {
     private readonly game: GameState;
@@ -73,6 +75,7 @@ export class BitFighter {
         }
         if (data.queue) {
             if (data.queue.queue) {
+                receiveQueue(data.queue.queue);
                 let q = document.getElementById('queue');
                 if (q) {
                     q.innerText = "NEXT\n";
@@ -84,14 +87,15 @@ export class BitFighter {
             if (data.queue.timer)
                 this.game.startTimer(data.queue.timer);
         }
-        if (data.updateBossMessage) {
+        if (data.updateBossMessage)
             this.game.updateBossMessage(data.updateBossMessage.championIndex, data.updateBossMessage.bossMessage);
-        }
-        if (data.updateBossEmoticonURL){
+        if (data.updateBossEmoticonURL)
             this.game.updateEmote(data.updateBossEmoticonURL.championIndex, data.updateBossEmoticonURL.bossEmoticonURL);
-        }
         if (data.characterList) {
-            //use a kieth global func to send him the entire char list
+            const combined = this.artURLs.map((v, i) => {
+                return ({name: charStrings[i], stats: data.characterList[i], imgURL: this.artURLs[i]});
+            });
+            receiveCharList(data.characterList);
         }
     }
     private clearCards() {

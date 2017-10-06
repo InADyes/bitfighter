@@ -18,6 +18,12 @@ window.flip = function (side: 'front' | 'back') {
 window.updateBitBoss = function (bossData: {boss: BossData, attacker?: BossData}) {
     //console.log("called updateBitBoss");
 }
+window.receiveQueue = function (data: any) {
+    console.log(`QUEUE: ${data}`);
+}
+window.receiveCharList = function (data: any) {
+    console.log(`CHAR LIST: ${data}`);
+}
 
 window.addEventListener('load', function(){
     const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
