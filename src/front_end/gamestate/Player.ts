@@ -21,14 +21,14 @@ export class Player {
     private buffGroup:      fabric.Group;
     private scale:          number;
     private height =        70;
-    private hpWidth =       5;
+    private hpWidth =       7;
     private textLock =      0;
     private animationLock = 0;
     private nameHeight =    120;
     private strokeWidth =   2;
     private fontSize =      15;
     private font =          'Concert One'
-    private buffOffset =    13;
+    private buffOffset =    14;
     private buffTop =       135;
     private buffSize =      30;
 
