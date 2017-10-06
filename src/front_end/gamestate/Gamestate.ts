@@ -43,6 +43,7 @@ export class GameState {
 	}
 
 	public newMessage(msg: ReelMessage) {
+		console.log("TIMTIM: ", msg);
 		if (msg.characters[0])
 			console.log("------------------------> TIM: ", msg.characters[0].profileImageURL);
 		// Don't do anything yet if a character is dying or moving over
