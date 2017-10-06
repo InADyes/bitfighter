@@ -43,8 +43,6 @@ export class GameState {
 	}
 
 	public newMessage(msg: ReelMessage) {
-		if (msg.characters[0])
-			console.log("------------------------> TIM: ", msg.characters[0]);
 		// Don't do anything yet if a character is dying or moving over
 		if ((this.player1 && this.player1.isAnimated())
 			|| (this.player2 && this.player2.isAnimated())) {
