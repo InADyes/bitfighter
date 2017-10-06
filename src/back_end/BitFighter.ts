@@ -344,7 +344,8 @@ export class BitFighter {
                             art: c.character,
                             profileImageURL: c.profileImageURL,
                             bossMessage: c.bossMessage,
-                            card: c.card
+                            card: c.card,
+                            bossEmoticonURL: c.bossEmoticonURL
                         })
                     ),
                     reel: graphics,
