@@ -67,7 +67,7 @@ export function build(event: FightEvents.Event, status: Status[]) {
                 event.character
             ));
             break;
-        case FightEvents.Types.crit:
+        case FightEvents.Types.crit: {
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
@@ -91,26 +91,37 @@ export function build(event: FightEvents.Event, status: Status[]) {
                     buff.duration
                 ));
             }
-            break;
-        case FightEvents.Types.donation:
-            const e = (<FightEvents.Donation>event);
+        }   break;
+        case FightEvents.Types.damageDonation: {
+            const e = <FightEvents.DamageDonation>event;
 
-            if (e.donationType === FightEvents.DonationType.damage) {
-                display.push(new GraphicsEvents.Text(
-                    event.time,
-                    event.character,
-                    'donation',
-                    'yellow'
-                ));
-            } else {
-                display.push(new GraphicsEvents.Text(
-                    event.time,
-                    event.character,
-                    'donation',
-                    'yellow'
-                ));
-            }
-            break;
+            display.push(new GraphicsEvents.Text(
+                event.time,
+                event.character,
+                e.donation.name,
+                'yellow'
+            ));
+            display.push(new GraphicsEvents.Health(
+                event.time,
+                event.character,
+                Math.ceil(status[event.character].hitPoints)
+            ));
+        }   break;
+        case FightEvents.Types.healingDonation: {
+            const e = (<FightEvents.HealingDonation>event);
+
+            display.push(new GraphicsEvents.Text(
+                event.time,
+                event.character,
+                e.donation.name,
+                'yellow'
+            ));
+            display.push(new GraphicsEvents.Health(
+                event.time,
+                event.character,
+                Math.ceil(status[event.character].hitPoints)
+            ));
+        }   break;
         case FightEvents.Types.attack:
             display.push(new GraphicsEvents.Attack(
                 event.time - 150,

@@ -31,9 +31,6 @@ function printReel(reel: FightEvents.Event[]) {
 
                 stdout.write(`crit: (buff: ${ buff }, debuff: ${ debuff })\n`)
                 break;
-            case FightEvents.Types.donation:
-                stdout.write(`donation: (type: ${ (<FightEvents.Donation>event).donationType })\n`)
-                break;
             default:
                 stdout.write('unidentified event type\n');
         }

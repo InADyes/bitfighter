@@ -1,4 +1,5 @@
-import * as Buff from './interfaces/buff';
+import { Buff } from './interfaces/buff';
+import { Donation } from './interfaces/donation';
 
 export const enum Types {
     damage,
@@ -6,9 +7,10 @@ export const enum Types {
     death,
     healing,
     crit,
-    donation,
+    damageDonation,
     levelUp,
-    attack
+    attack,
+    healingDonation
 }
 
 export abstract class Event {
@@ -61,22 +63,35 @@ export class Crit extends Event {
     constructor (
         time: number,
         character: number,
-        public readonly debuff?: Buff.Buff,
-        public readonly buff?: Buff.Buff
+        public readonly debuff?: Buff,
+        public readonly buff?: Buff
     ) {
         super(time, Types.crit, character);
     }
 }
 
-export class Donation extends Event {
+export class DamageDonation extends Event {
     constructor (
         time: number,
         character: number,
-        public readonly donationType: DonationType
+        public readonly donation: Donation,
+        public readonly amount: number
     ) {
-        super(time, Types.donation, character);
+        super(time, Types.damageDonation, character);
     }
 }
+
+export class HealingDonation extends Event {
+    constructor (
+        time: number,
+        character: number,
+        public readonly donation: Donation,
+        public readonly amount: number
+    ) {
+        super(time, Types.healingDonation, character);
+    }
+}
+
 
 export class LevelUp extends Event {
     constructor (
@@ -94,9 +109,4 @@ export class Attack extends Event {
     ) {
         super(time, Types.attack, character);
     }
-}
-
-export const enum DonationType {
-    healing,
-    damage
 }
