@@ -36,7 +36,7 @@ export function build(event: FightEvents.Event, status: Status[]) {
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
-                String((<FightEvents.Damage>event).amount),
+                String(Math.ceil((<FightEvents.Damage>event).amount)),
                 'red'
             ));
             break;
@@ -57,7 +57,7 @@ export function build(event: FightEvents.Event, status: Status[]) {
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
-                String((<FightEvents.Healing>event).amount),
+                String(Math.ceil((<FightEvents.Healing>event).amount)),
                 'green'
             ));
             break;
@@ -98,8 +98,14 @@ export function build(event: FightEvents.Event, status: Status[]) {
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
-                e.donation.name,
-                'yellow'
+                `${ e.donation.name} attacks`,
+                'purple'
+            ));
+            display.push(new GraphicsEvents.Text(
+                event.time,
+                event.character,
+                String(Math.ceil(e.amount)),
+                'red'
             ));
             display.push(new GraphicsEvents.Health(
                 event.time,
@@ -113,8 +119,14 @@ export function build(event: FightEvents.Event, status: Status[]) {
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
-                e.donation.name,
-                'yellow'
+                `${ e.donation.name } heals`,
+                'purple'
+            ));
+            display.push(new GraphicsEvents.Text(
+                event.time,
+                event.character,
+                String(Math.ceil(e.amount)),
+                'green'
             ));
             display.push(new GraphicsEvents.Health(
                 event.time,
