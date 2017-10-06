@@ -280,14 +280,20 @@ export class GameState {
 	public updateBossMessage(p2: number, str: string) {
 		if (p2 && this.player2)
 			this.player2.updateBossMessage(str);
-		else if (!p2 && this.player1)
+		else if (!p2 && this.player1) {
 			this.player1.updateBossMessage(str);
+			this.currentBoss = this.player1.getBitBossInfo();
+			updateBitBoss({boss: this.currentBoss});
+		}
 	}
 
 	public updateEmote(p2: number, str: string) {
 		if (p2 && this.player2)
 			this.player2.updateEmote(str);
-		else if (!p2 && this.player1)
+		else if (!p2 && this.player1) {
 			this.player1.updateEmote(str);
+			this.currentBoss = this.player1.getBitBossInfo();
+			updateBitBoss({boss: this.currentBoss});
+		}
 	}
 }
