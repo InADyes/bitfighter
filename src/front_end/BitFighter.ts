@@ -84,6 +84,15 @@ export class BitFighter {
             if (data.queue.timer)
                 this.game.startTimer(data.queue.timer);
         }
+        if (data.updateBossMessage) {
+
+        }
+        if (data.updateBossEmoticonURL){
+            
+        }
+        if (data.characterList) {
+            //use a kieth global func to send him the entire char list
+        }
     }
     private clearCards() {
         for (let card of this.cards) {
