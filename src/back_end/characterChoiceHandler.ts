@@ -105,7 +105,7 @@ export class CharacterChoiceHandler {
         //total odds
         const total = totals.reduce((previous, current) => previous + current);
     
-        let choices: Character[] = [];
+        const choices: Character[] = [];
     
         //todo: validate math
         // for every choice to be given
@@ -133,11 +133,10 @@ export class CharacterChoiceHandler {
         }, characters.indexOf(c)));
         
         const timeout = setTimeout(
-            () => {
-                // clear timeout somehow
-                this.completeChoice(donation.id, Math.floor(choices.length * Math.random()))
-            },
-            60000 // one minute
+            // clear timeout somehow
+            () => this.completeChoice(donation.id, Math.floor(choices.length * Math.random())),
+            // one minute
+            60000
         );
 
         this.pendingCharacterChoices.push({

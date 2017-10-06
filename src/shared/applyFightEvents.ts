@@ -40,23 +40,23 @@ export function applyFightEvents(
                         buff
                     );
                 }
-            }   break;
-            case FightEvents.Types.death: // level up also happens here
+            } break;
+            case FightEvents.Types.death: { // level up also happens here
                 status.splice(event.character, 1);
-                break;
+            } break;
             case FightEvents.Types.levelUp: {
                 const c = status[event.character];
                 if (c && levels.length > c.level) {
                     c.level++;
                     c.baseStats = buildStats(c.character, c.initialDonation, c.level);
                 }
-            }   break;
-            case FightEvents.Types.damageDonation:
+            } break;
+            case FightEvents.Types.damageDonation: {
                 status[event.character].hitPoints -= (<FightEvents.DamageDonation>event).amount;
-                break;
-            case FightEvents.Types.healingDonation:
+            } break;
+            case FightEvents.Types.healingDonation: {
                 status[event.character].hitPoints += (<FightEvents.HealingDonation>event).amount;
-                break;
+            } break;
         }
         combinedReel.push({
             fight: event,

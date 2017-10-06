@@ -26,7 +26,7 @@ export class BitFighter {
     private combatants: Status[] = [];
     private events: CombinedEvent[] = [];
     private queue: Status[] = [];
-    private lastDonation: Donation | null = null; // quick hack so if the boss dies this character goes in
+    private lastDamageDonation: Donation | null = null;
 
     private characterChoiceHandler = new CharacterChoiceHandler(
         status => {
@@ -119,7 +119,6 @@ export class BitFighter {
             bossMessage,
             bossEmoticonURL
         };
-        this.lastDonation = donation;
 
         const combatantIndex: number = this.combatants.findIndex(s => s.id === id);
         // if the donation matches a fighter
@@ -146,6 +145,7 @@ export class BitFighter {
 
         this.insertEvents(
             patchTime,
+            donation,
             new FightEvents.HealingDonation(
                 patchTime,
                 index,
@@ -166,6 +166,7 @@ export class BitFighter {
 
         this.insertEvents(
             patchTime,
+            donation,
             new FightEvents.DamageDonation(
                 patchTime,
                 0,
@@ -179,17 +180,10 @@ export class BitFighter {
         if (this.queue.length > 0)
             this.nextFight();
         else if (this.combatants.length == 0) {
-            if (this.lastDonation) {
-                this.combatants.push(pickCharacter(
-                    this.lastDonation,
-                    Math.floor(Math.random() * characters.length)
-                ));
-            } else {
-                this.combatants.push(pickCharacter(
-                    this.settings.defaultChampion,
-                    Math.floor(Math.random() * characters.length)
-                ));
-            }
+            this.combatants.push(pickCharacter(
+                this.settings.defaultChampion,
+                Math.floor(Math.random() * characters.length)
+            ));
             this.nextFight();
         }
     }
@@ -228,7 +222,7 @@ export class BitFighter {
     }
 
     // only works when all new events have the same time
-    private insertEvents(patchTime: number, ...insert: FightEvents.Event[]) {
+    private insertEvents(patchTime: number, donation: Donation, ...insert: FightEvents.Event[]) {
 
         // create a temporary copy of status
         const tempStatus = this.combatants.map(s => s.clone());
@@ -305,6 +299,21 @@ export class BitFighter {
             return;
         }
         applyFightEvents(this.combatants, event.fight);
+ 
+        if (event.fight.type === FightEvents.Types.damageDonation)
+            this.lastDamageDonation = (<FightEvents.DamageDonation>event.fight).donation;
+
+        // if the boss was killed by a damage donation they become the new boss
+        if (event.fight.type === FightEvents.Types.death
+            && this.combatants.length === 0
+            && this.lastDamageDonation) {
+            this.combatants.push(pickCharacter(
+                this.lastDamageDonation,
+                Math.floor(Math.random() * characters.length)
+            ));
+            this.pushLastResults();
+        }
+
         this.timeoutNextEvent();
     }
 
