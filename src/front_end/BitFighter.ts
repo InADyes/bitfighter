@@ -1,4 +1,7 @@
-import { characters, buffArt, artURLs } from '../shared/characterPicker';
+import { characters,
+    buffArt as buffArtNoShim,
+    artURLs as artURLsNoShim
+} from '../shared/characterPicker';
 import { GameState } from './gamestate/Gamestate';
 import {
     BackToFrontMessage,
@@ -32,8 +35,8 @@ export class BitFighter {
         private readonly cardDiv: HTMLDivElement
     ) {
  
-        this.artURLs = artURLs.map(url => this.settings.assetsShim + url);
-        this.iconURLs = buffArt.map(url => this.settings.assetsShim + url);
+        this.artURLs = artURLsNoShim.map(url => this.settings.assetsShim + url);
+        this.iconURLs = buffArtNoShim.map(url => this.settings.assetsShim + url);
         this.game = new GameState('arena', this.artURLs, this.iconURLs);
         this.updateSettings(settings);
         window.addEventListener('resize', () => {
@@ -131,7 +134,7 @@ function updateCards(cards: {
     let newCard1 = buildCard(cards[0].card, artURLS);
     let newCard2 = null;
     if (cards[1])
-        newCard2 = buildCard(cards[1].card, artURLs);
+        newCard2 = buildCard(cards[1].card, artURLS);
     let oldCard1 = document.getElementById('card1');
     let oldCard2 = document.getElementById('card2');
 
