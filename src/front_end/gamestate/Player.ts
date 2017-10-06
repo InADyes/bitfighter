@@ -246,7 +246,7 @@ export class Player {
         });
         this.canvas.add(textgroup);
         textgroup.animate('top', `-=${ 20 * this.scale }`, {
-            duration: txtObj.str == "dodge" ? 500 : 700,
+            duration: txtObj.str === "dodge" ? 500 : 700,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 this.canvas.remove(textgroup);
@@ -306,11 +306,13 @@ export class Player {
     }
 
 	public displayText(str: string, color: string) {
+        if (str === "Level Up!")
+            return;
         let txt = {
             str: str,
             color: color
         };
-        if (str != "dodge" && str != "Level Up!")
+        if (str !== "dodge")
             this.textQueue.push(txt);
         else
             this.drawText(txt);
@@ -354,7 +356,7 @@ export class Player {
                     barChange = this.yellowBar.height - this.greenBar.height;
                     catchUpPercent = (this.yellowBar.height - this.greenBar.height) / this.height * 100;
                 }
-                else if (this.greenBar.height == 0 && this.yellowBar.height){
+                else if (this.greenBar.height === 0 && this.yellowBar.height){
                     barChange = this.yellowBar.height;
                     catchUpPercent = this.yellowBar.height / this.height * 100;
                 }
@@ -370,7 +372,7 @@ export class Player {
 
 	public dies(player2: Player | null) {
         this.animationLock = 1;
-        if (this.data.art == 9) {
+        if (this.data.art === 9) {
             this.img.animate('opacity', 0, {
                 duration: 1000,
                 onChange: this.canvas.renderAll.bind(this.canvas),
