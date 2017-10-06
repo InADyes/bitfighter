@@ -283,7 +283,7 @@ export class GameState {
 		else if (!p2 && this.player1) {
 			this.player1.updateBossMessage(str);
 			this.currentBoss = this.player1.getBitBossInfo();
-			updateBitBoss({boss: this.currentBoss});
+			updateBitBoss({ boss: this.currentBoss });
 		}
 	}
 
@@ -293,7 +293,7 @@ export class GameState {
 		else if (!p2 && this.player1) {
 			this.player1.updateEmote(str);
 			this.currentBoss = this.player1.getBitBossInfo();
-			updateBitBoss({boss: this.currentBoss});
+			updateBitBoss({ boss: this.currentBoss });
 		}
 	}
 }
