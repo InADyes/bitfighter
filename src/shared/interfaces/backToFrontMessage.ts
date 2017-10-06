@@ -12,6 +12,7 @@ export interface ReelMessage { // needs name change
         art: number;
         profileImageURL: string;
         bossMessage: string;
+        bossEmoticonURL: string;
         card: CharacterCard;
     }[];
     reel: GraphicsEvent[];
