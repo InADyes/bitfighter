@@ -32,7 +32,7 @@ export interface CharacterCard {
 export interface BackToFrontMessage {
     readonly newReel?: ReelMessage;
     readonly characterChoices?: CharacterCard[];
-    readonly queue?: {
+    queue?: { // so it can be patches on for now, TODO: make readonly
         readonly queue: {
             readonly fanDisplayName: string;
             readonly championTypeName: string;
