@@ -45,11 +45,11 @@ export function applyFightEvents(
                 status.splice(event.character, 1);
             } break;
             case FightEvents.Types.levelUp: {
-                const c = status[event.character];
-                if (c && levels.length > c.level) {
-                    c.level++;
-                    c.baseStats = buildStats(c.character, c.initialDonation, c.level);
-                }
+                // const c = status[event.character];
+                // if (c && levels.length > c.level) {
+                //     c.level++;
+                //     c.baseStats = buildStats(c.character, c.initialDonation, c.level);
+                // }
             } break;
             case FightEvents.Types.damageDonation: {
                 status[event.character].hitPoints -= (<FightEvents.DamageDonation>event).amount;

@@ -101,6 +101,7 @@ export class Status {
         buff: Buff.Buff
     }[] = [];
     private calculatedStats: Stats;
+    private bossMessageChangesRemaining = 3;
 
     constructor(
         public readonly id: number,
@@ -111,7 +112,7 @@ export class Status {
         public level: number,
         public baseStats: Stats,
         public readonly profileImageURL: string,
-        public bossMessage: string,
+        private p_bossMessage: string,
         public bossEmoticonURL: string
     ) {
         this.calculatedStats = Object.assign({}, this.baseStats);
@@ -168,8 +169,9 @@ export class Status {
     public get stats() {
         return this.calculatedStats;
     }
+    // does not clone name change counter
     public clone() {
-        return new Status(
+        const s = new Status(
             this.id, //getto deep clone
             this.name,
             this.character,
@@ -178,9 +180,11 @@ export class Status {
             this.level,
             this.baseStats,
             this.profileImageURL,
-            this.bossMessage,
+            this.p_bossMessage,
             this.bossEmoticonURL
         );
+        s.bossMessageChangesRemaining = this.bossMessageChangesRemaining;
+        return s;
     }
     // TODO: only recalculate the level and bonus health
     get card(): CharacterCard {
@@ -194,4 +198,12 @@ export class Status {
             rarity: characters[this.character].rarity
         };
     }
+    get bossMessage() {return this.p_bossMessage;};
+    set bossMessage(bossMessage: string) {
+        if (this.bossMessageChangesRemaining < 1)
+            return;
+        this.bossMessageChangesRemaining--;
+        this.p_bossMessage = bossMessage;
+    }
+
 }

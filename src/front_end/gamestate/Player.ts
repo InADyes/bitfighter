@@ -21,8 +21,12 @@ export class Player {
     private buffGroup:      fabric.Group;
     private scale:          number;
     private height =        70;
+<<<<<<< HEAD
     private hpHeight =      60;
     private hpWidth =       7;
+=======
+    private hpWidth =       6.5;
+>>>>>>> 1b67aac80d482ec3c713f74473e6fb03ebb46f22
     private textLock =      0;
     private animationLock = 0;
     private nameHeight =    120;
@@ -201,6 +205,7 @@ export class Player {
             originX: 'center',
         });
         this.canvas.add(this.healthtext);
+        this.canvas.sendToBack(this.healthtext);
     }
 
     private removeNameAndHp() {

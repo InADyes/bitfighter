@@ -14,12 +14,18 @@ const eventOrder = {
     [GraphicsEvents.EventType.Text]: 1
 }
 
+const colors = {
+    damage: '#f00e53',
+    dodge: '#09d2d9',
+    donation: '#8de82c',
+    heal: '#21e4c6'
+}
+
 export function sortGraphicsEvents(events: GraphicsEvents.Event[]) {
     return events.sort((a, b) => {
         if (a.time === b.time)
             return eventOrder[a.type] - eventOrder[b.type];
         return a.time - b.time;
-        
     });
 }
 
@@ -36,8 +42,8 @@ export function build(event: FightEvents.Event, status: Status[]) {
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
-                String((<FightEvents.Damage>event).amount),
-                'red'
+                String(Math.ceil((<FightEvents.Damage>event).amount)),
+                colors.damage
             ));
             break;
         case FightEvents.Types.dodge:
@@ -45,7 +51,7 @@ export function build(event: FightEvents.Event, status: Status[]) {
                 event.time,
                 event.character,
                 'dodge',
-                'orange'
+                colors.dodge
             ));
             break;
         case FightEvents.Types.healing:
@@ -57,8 +63,8 @@ export function build(event: FightEvents.Event, status: Status[]) {
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
-                String((<FightEvents.Healing>event).amount),
-                'green'
+                String(Math.ceil((<FightEvents.Healing>event).amount)),
+                colors.heal
             ));
             break;
         case FightEvents.Types.death:
@@ -72,7 +78,7 @@ export function build(event: FightEvents.Event, status: Status[]) {
                 event.time,
                 event.character,
                 'crit',
-                'red'
+                colors.damage
             ));
             const { buff, debuff } = <FightEvents.Crit>event;
             if (debuff) {
@@ -98,8 +104,14 @@ export function build(event: FightEvents.Event, status: Status[]) {
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
-                e.donation.name,
-                'yellow'
+                `${ e.donation.name} attacks`,
+                colors.donation
+            ));
+            display.push(new GraphicsEvents.Text(
+                event.time,
+                event.character,
+                String(Math.ceil(e.amount)),
+                colors.damage
             ));
             display.push(new GraphicsEvents.Health(
                 event.time,
@@ -113,8 +125,14 @@ export function build(event: FightEvents.Event, status: Status[]) {
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
-                e.donation.name,
-                'yellow'
+                `${ e.donation.name } heals`,
+                colors.donation
+            ));
+            display.push(new GraphicsEvents.Text(
+                event.time,
+                event.character,
+                String(Math.ceil(e.amount)),
+                colors.heal
             ));
             display.push(new GraphicsEvents.Health(
                 event.time,
@@ -129,12 +147,12 @@ export function build(event: FightEvents.Event, status: Status[]) {
             ));
             break;
         case FightEvents.Types.levelUp:
-            display.push(new GraphicsEvents.Text(
-                event.time,
-                event.character, //should this always be zero or be characterOther()?
-                'Level Up!',
-                'gold'
-            ));
+            // display.push(new GraphicsEvents.Text(
+            //     event.time,
+            //     event.character, //should this always be zero or be characterOther()?
+            //     'Level Up!',
+            //     'gold'
+            // ));
             break;
         default:
             console.error('unidentified event type');

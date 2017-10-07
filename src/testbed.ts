@@ -1,10 +1,10 @@
-import { pickCharacter } from '../shared/characterPicker';
-import { BitFighter as BitFighterBack } from '../back_end/BitFighter';
-import { BitFighter as BitFighterFront } from '../front_end/BitFighter';
-import { BackToFrontMessage } from '../shared/interfaces/backToFrontMessage';
-import { FrontToBackMessage, CharacterChoice } from '../shared/interfaces/frontToBackMessage';
-import { FrontEndSettings } from '../front_end/settings';
-import { BossData } from '../front_end/gamestate/interfaces'
+import { pickCharacter } from './shared/characterPicker';
+import { BitFighter as BitFighterBack } from './back_end/BitFighter';
+import { BitFighter as BitFighterFront } from './front_end/BitFighter';
+import { BackToFrontMessage } from './shared/interfaces/backToFrontMessage';
+import { FrontToBackMessage, CharacterChoice } from './shared/interfaces/frontToBackMessage';
+import { FrontEndSettings } from './front_end/settings';
+import { BossData } from './front_end/gamestate/interfaces'
 
 // kind of a hack
 declare let window: any;
@@ -27,7 +27,7 @@ window.receiveCharList = function (data: any) {
 
 window.addEventListener('load', function(){
     const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
-    const cardDiv = <HTMLDivElement>document.getElementById('charSelect');
+    //const cardDiv = <HTMLDivElement>document.getElementById('charSelect');
     let requestIDs: number[] = [];
     
     const backend = new BitFighterBack(
@@ -83,7 +83,7 @@ window.addEventListener('load', function(){
                 backend.receivedFanGameState(id, message);
             }, 0);
         },
-        cardDiv
+        // cardDiv
     );
 
 
