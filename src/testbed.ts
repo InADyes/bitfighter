@@ -1,10 +1,10 @@
-import { pickCharacter } from '../shared/characterPicker';
-import { BitFighter as BitFighterBack } from '../back_end/BitFighter';
-import { BitFighter as BitFighterFront } from '../front_end/BitFighter';
-import { BackToFrontMessage } from '../shared/interfaces/backToFrontMessage';
-import { FrontToBackMessage, CharacterChoice } from '../shared/interfaces/frontToBackMessage';
-import { FrontEndSettings } from '../front_end/settings';
-import { BossData } from '../front_end/gamestate/interfaces'
+import { pickCharacter } from './shared/characterPicker';
+import { BitFighter as BitFighterBack } from './back_end/BitFighter';
+import { BitFighter as BitFighterFront } from './front_end/BitFighter';
+import { BackToFrontMessage } from './shared/interfaces/backToFrontMessage';
+import { FrontToBackMessage, CharacterChoice } from './shared/interfaces/frontToBackMessage';
+import { FrontEndSettings } from './front_end/settings';
+import { BossData } from './front_end/gamestate/interfaces'
 
 // kind of a hack
 declare let window: any;
