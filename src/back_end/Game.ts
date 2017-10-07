@@ -35,7 +35,7 @@ export class Game {
 
     }
 
-    public addCombatant(combatant: Status[]) {
+    public addCombatant(...combatant: Status[]) {
         if (this.combatants.length >= 2) {
             console.log('cannot start fight: fight already ongoing');
             this.sendMessageToFront({
@@ -59,6 +59,10 @@ export class Game {
         this.pushLastResults();
         this.timeoutNextEvent();
     }
+
+    public searchFightForCombatant(id: number) {
+        return this.combatants.findIndex(s => s.id === id);
+    }
     
     public healCombatant(index: number, donation: Donation) {
         const patchTime = nodePerformanceNow() - this.fightStartTime;
@@ -81,6 +85,11 @@ export class Game {
     }
 
     public damageCombatant(index: number, donation: Donation) {
+        if (this.combatants[index] === undefined) {
+            console.log(`combatant with index ${ index } does not exist`);
+            return;
+        }
+
         const patchTime = nodePerformanceNow() - this.fightStartTime;
         
         const combatant = this.combatants[index];
@@ -102,7 +111,7 @@ export class Game {
     }
     
     // push the current events to everyone
-    private pushLastResults(patchTime?: number, fan?: number) {
+    public pushLastResults(patchTime?: number, fan?: number) {
         const graphics: graphicsEvents.Event[] = [];
         this.events.forEach(e => graphics.push(...e.graphics));
         sortGraphicsEvents(graphics);
@@ -202,5 +211,13 @@ export class Game {
         }
 
         this.timeoutNextEvent();
+    }
+
+    public isBusy(): boolean {
+        return this.timeout !== null;
+    }
+
+    public getCombatants() {
+        return this.combatants;
     }
 }

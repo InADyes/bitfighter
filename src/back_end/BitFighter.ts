@@ -24,6 +24,7 @@ function nodePerformanceNow() {
 
 export class BitFighter {
     private queue: Status[] = [];
+    private timeout: NodeJS.Timer | null = null;
 
     private characterChoiceHandler = new CharacterChoiceHandler(
         status => {
@@ -33,15 +34,7 @@ export class BitFighter {
             this.sendMessageToFont({characterChoices}, id);
         }
     );
-    private game = new Game(
-        (message, fan) => {
-            message.queue =  { queue: this.queue.map(s => ({
-                fanDisplayName: s.name, 
-                championTypeName: characters[s.character].name
-            }))},
-            this.sendMessageToFont(message, fan);
-        }
-    );
+    private game: Game;
 
     constructor(
         private sendMessageToFont: (message: BackToFrontMessage, fan?: number) => void,
@@ -65,7 +58,18 @@ export class BitFighter {
     ) {
         if (this.settings.defaultChampion.id === 123544090)
             this.settings.defaultChampion.name = 'Ravioli';
-        this.combatants.push(pickCharacter(
+        this.game = new Game(
+            this.settings,
+            (message, fan) => {
+                message.queue =  { queue: this.queue.map(s => ({
+                    fanDisplayName: s.name, 
+                    championTypeName: characters[s.character].name
+                }))},
+                this.sendMessageToFont(message, fan);
+            },
+            () => this.checkQueue()
+        );
+        this.game.addCombatant(pickCharacter(
             this.settings.defaultChampion,
             Math.floor(Math.random() * characters.length))
         );
@@ -73,12 +77,13 @@ export class BitFighter {
 
     public bossMessageUpdate(id: number, message: string) {
         // TODO: make this work for people in queue and on the right side of a fight
-        if (this.combatants[0] === undefined
-            || this.combatants[0].id !== id) {
-            console.log('boss message update is not from the current boss');
+        const index = this.game.searchFightForCombatant(id);
+
+        if (id === -1) {
+            console.log('boss message update id does not match a currently fighting champion');
             return;
         }
-        this.combatants[0].bossMessage = message;
+        this.game.getCombatants()[0].bossMessage = message;
         this.sendMessageToFont({
             updateBossMessage: {
                 championIndex: 0,
@@ -89,12 +94,14 @@ export class BitFighter {
 
     public bossEmoticonURLUpdate(id: number, bossEmoticonURL: string) {
         // TODO: make this work for people in queue and on the right side of a fight
-        if (this.combatants[0] === undefined
-            || this.combatants[0].id !== id) {
-            console.log('boss message update is not from the current boss');
+
+        const index = this.game.searchFightForCombatant(id);
+
+        if (id === -1) {
+            console.log('boss emoticon update id does not match a currently fighting champion');
             return;
         }
-        this.combatants[0].bossEmoticonURL = bossEmoticonURL;
+        this.game.getCombatants()[0].bossEmoticonURL = bossEmoticonURL;
         this.sendMessageToFont({
             updateBossEmoticonURL: {
                 championIndex: 0,
@@ -107,7 +114,7 @@ export class BitFighter {
         if (choice.characterChoice)
             this.characterChoiceHandler.completeChoice(id, choice.characterChoice.choice, true);
         if (choice.requestReel)
-            this.pushLastResults(undefined, id);
+            this.game.pushLastResults(undefined, id);
     }
     public donation(
         id: number,
@@ -126,37 +133,37 @@ export class BitFighter {
             bossEmoticonURL
         };
 
-        const combatantIndex: number = this.combatants.findIndex(s => s.id === id);
+        const combatantIndex: number = this.game.searchFightForCombatant(id);
         // if the donation matches a fighter
         if (combatantIndex !== -1) {
-            this.healCombatant(combatantIndex, donation);
+            this.game.healCombatant(combatantIndex, donation);
         // if the donation is enough for a character and they aren't already in the queue
         } else if (this.queue.some(s => {return s.id === id;}) === false
             && amount >= this.settings.minimumDonation) {
             this.characterChoiceHandler.requestChoice(donation);
 
-        // if there is a champion deal damage to him
-        } else if (this.combatants.length > 0) {
-            this.damageCombatant(0, donation);
+        // otherwise try and damage the chapion
+        } else {
+            this.game.damageCombatant(0, donation);
         }
     }
 
     public checkQueue() {
         if (this.queue.length > 0)
             this.nextFight();
-        else if (this.combatants.length == 0) {
-            this.combatants.push(pickCharacter(
-                this.settings.defaultChampion,
-                Math.floor(Math.random() * characters.length)
-            ));
-            this.nextFight();
-        }
+        // else if (this.game.getCombatants().length == 0) {
+        //     this.game.getCombatants().push(pickCharacter(
+        //         this.settings.defaultChampion,
+        //         Math.floor(Math.random() * characters.length)
+        //     ));
+        //     this.nextFight();
+        // }
     }
     
     // public for testing purposes (bypasses front end character choice)
     public newCombatant(status: Status) {
         this.queue.push(status)
-        if (this.queue.length === 1 && this.timeout === null) {
+        if (this.queue.length === 1 && this.game.isBusy() === false) {
             const timeout = 5000;
 
             this.timeout = setTimeout(
@@ -188,6 +195,6 @@ export class BitFighter {
     
     // start a new fight, maybe rename to queue change
     private nextFight() {
-        this.game.addCombatant(this.queue);
+        this.game.addCombatant(...this.queue);
     }
 }
