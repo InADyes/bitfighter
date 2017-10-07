@@ -372,7 +372,7 @@ const rarityLevel = [
     3, // uncommon
     5, // rare
     7  // legendary
-]
+];
 
 interface Level {
     //level: number;

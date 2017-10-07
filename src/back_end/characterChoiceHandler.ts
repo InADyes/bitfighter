@@ -111,16 +111,25 @@ export class CharacterChoiceHandler {
         // for every choice to be given
         for (let _ = 0; _ < cards; _++) {
             let roll = Math.floor((total + 1) * Math.random());
+            let choice: Character | null = null;
     
             //reduce roll by total rarity odds untill rarity is found
             for (let rarity = 0; rarity < totals.length; rarity++) {
+
                 if (roll < totals[rarity]) {
                     roll /= odds[rarity];
-                    choices.push(characters.filter(c => c.rarity === rarity)[Math.floor(roll)]);
+                    choice = characters.filter(c => c.rarity === rarity)[Math.floor(roll)];
                     break;
                 }
                 roll -= totals[rarity];
             }
+            // quick hack to get rid of duplicate characters
+
+            if (choices.some(c => c === choice))
+                _--;
+            else if (choice)
+                choices.push(choice);
+
         }
 
         const statusChoices = choices.map(c => pickCharacter({
