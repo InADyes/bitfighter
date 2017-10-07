@@ -66,10 +66,13 @@ export class BitFighter {
             this.game.updateBossMessage(data.updateBossMessage.championIndex, data.updateBossMessage.bossMessage);
         if (data.updateBossEmoticonURL)
             this.game.updateEmote(data.updateBossEmoticonURL.championIndex, data.updateBossEmoticonURL.bossEmoticonURL);
-        if (data.characterList)
-            receiveCharList(this.artURLs.map((v, i) => (
+        if (data.characterList) {
+            let charList = this.artURLs.map((v, i) => (
                 {name: charStrings[i], stats: (data.characterList || [])[i] || 'error', imgURL: this.artURLs[i]}
-            )));
+            ));
+            console.log(`-------------------->TIM: got char list.\nlist: ${charList}`);
+            receiveCharList(charList);
+        }
     }
    
     public updateSettings(settings: Settings) {
