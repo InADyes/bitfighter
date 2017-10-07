@@ -1,6 +1,6 @@
-import { BitFighter } from './BitFighter';
-import { BackToFrontMessage } from '../shared/interfaces/backToFrontMessage';
-import { FrontToBackMessage, CharacterChoice } from '../shared/interfaces/frontToBackMessage';
+import { BitFighter } from './front_end/BitFighter';
+import { BackToFrontMessage } from './shared/interfaces/backToFrontMessage';
+import { FrontToBackMessage, CharacterChoice } from './shared/interfaces/frontToBackMessage';
 
 // keith stuff goes here
 declare function emitGameEvent(slug: string, data: FrontToBackMessage) : void;
