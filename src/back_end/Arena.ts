@@ -39,12 +39,20 @@ export class Arena {
         }
 
         this.combatants.splice(-1, 0, ...combatants);
+        this.startFight();
+    }
 
-        const result = buildEvents(this.combatants);
+    private startFight(...baseReel: FightEvents.Event[]) {
+        const tempStatus = this.combatants.map(s => s.clone());
+        const combinedBase = applyFightEvents(tempStatus, ...baseReel)
+
+        const result = buildEvents(tempStatus);
         this.fightStartTime = nodePerformanceNow();
-        this.events = result.reel;
+        this.events = combinedBase.concat(result.reel);
 
         this.pushLastResults();
+        if (this.timeout)
+            clearTimeout(this.timeout);
         this.timeoutNextEvent();
     }
 
@@ -133,9 +141,16 @@ export class Arena {
 
         // apply new events
         const reel = applyFightEvents(tempStatus, ...insert);
-
-        // set the current events to the calculated events
+        
+        // calculate the results of the new events
         reel.push(...buildEvents(tempStatus, patchTime).reel);
+
+        // if the new events caused the chapion to die instead start a fight
+        if (this.combatants.length === 1 && reel.some(e => e.fight.type === FightEvents.Types.death)) {
+            this.combatants.push(pickCharacter(donation, 0 /*replace with gravedigger*/));
+            this.startFight(new FightEvents.Healing(0, 0, this.combatants[0].stats.maxHitPoints * 0.1));
+            return;
+        }
         this.events = reel;
 
         this.pushLastResults(patchTime);
