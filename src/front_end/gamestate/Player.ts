@@ -226,7 +226,7 @@ export class Player {
         window.setTimeout(() => {this.emptyTextQueue()}, 300);
     }
 
-    private drawText(txtObj: {str: string, color: string}) {
+    private drawText(txtObj: {str: string, color: string, duration: number}) {
         let txtBot = new fabric.Text(`${ txtObj.str }`, {
             fontSize: this.fontSize * this.scale,
             strokeWidth: this.strokeWidth *this.scale,
@@ -251,7 +251,7 @@ export class Player {
         });
         this.canvas.add(textgroup);
         textgroup.animate('top', `-=${ 20 * this.scale }`, {
-            duration: txtObj.str === "dodge" ? 500 : 700,
+            duration: 700 * txtObj.duration,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 this.canvas.remove(textgroup);
@@ -315,12 +315,13 @@ export class Player {
         }
     }
 
-	public displayText(str: string, color: string) {
+	public displayText(str: string, color: string, duration: number) {
         if (str === "Level Up!")
             return;
         let txt = {
             str: str,
-            color: color
+            color: color,
+            duration: duration
         };
         if (str !== "dodge")
             this.textQueue.push(txt);

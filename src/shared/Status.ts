@@ -93,6 +93,13 @@ export const cardStats: {[details: number]: choiceStats} = {
         damage: 10,
         attackSpeed: 1
     },
+    [characterTypes.graveDigger]: {
+        accuracy: 3,
+        dodge: 2,
+        armor: 8,
+        damage: 4,
+        attackSpeed: 4
+    },
 }
 
 export class Status {

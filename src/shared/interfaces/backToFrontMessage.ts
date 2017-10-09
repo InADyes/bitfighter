@@ -29,16 +29,18 @@ export interface CharacterCard {
     readonly rarity: number;
 }
 
+export interface Queue { // so it can be patches on for now, TODO: make readonly
+    readonly queue: {
+        readonly fanDisplayName: string;
+        readonly championTypeName: string;
+    }[];
+    readonly timer?: number;
+}
+
 export interface BackToFrontMessage {
     readonly newReel?: ReelMessage;
     readonly characterChoices?: CharacterCard[];
-    readonly queue?: {
-        readonly queue: {
-            readonly fanDisplayName: string;
-            readonly championTypeName: string;
-        }[];
-        readonly timer?: number;
-    };
+    readonly queue?: Queue;
     readonly updateBossMessage?: {
         readonly championIndex: number;
         readonly bossMessage: string;

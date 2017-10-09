@@ -48,7 +48,7 @@ export class Attack {
         if (!this.imgs[i])
             return;
         this.canvas.add(this.imgs[i]);
-        window.setTimeout(() => this.nextAtk, 100);
+        window.setTimeout(() => {this.nextAtk(i + 1)}, 200);
     }
 
     private checkChar() {
@@ -61,7 +61,7 @@ export class Attack {
     
     private initDragon() {
         for (let i = 0; i < 3; i++) {
-            new fabric.Image.fromURL(this.atkURLs[0], (oImg: fabric.Image) => {
+            new fabric.Image.fromURL(this.atkURLs[i], (oImg: fabric.Image) => {
                 if (oImg.width && oImg.height)
                     this.trueWidth = oImg.width / oImg.height * this.height * this.scale;
                 let atk = oImg.set({

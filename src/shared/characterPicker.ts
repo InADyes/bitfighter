@@ -12,7 +12,8 @@ export const artURLs = [
     "images/champions/6warpriest.png",
     "images/champions/7warlock.png",  
     "images/champions/8swashbuckler.png",    
-    "images/champions/9dragon.png",  
+    "images/champions/9dragon.png",
+    "images/champions/10grave_digger.png"
 ];
 
 export const buffURLs = [
@@ -46,6 +47,7 @@ export const charStrings = [
     "Warlock",
     "Swashbuckler",
     "Dragon",
+    "Grave Digger",
 ]
 
 export interface Character {
@@ -71,6 +73,7 @@ export const enum characterTypes {
     warlock         = 7,
     swashbuckler    = 8,
     dragon          = 9,
+    graveDigger     = 10,
 }
 
 export const characters: Character[] = [
@@ -370,6 +373,32 @@ export const characters: Character[] = [
         }],
         name: 'Dragon'
     }, // Dragon
+    {
+        stats: { 
+            maxHitPoints: 700,
+            accuracy: 80,
+            dodge: 35,
+            attackSpeed: {
+                min: 700,
+                max: 1300
+            },
+            attackDamage: {
+                min: 40,
+                max: 60
+            },
+            armor: 8,
+            regeneration: 600,
+            critChanceModifier: 1,
+            critDamageModifier: 1
+        }, 
+        rarity: 4,
+        crits: [{
+            damageMultiplier: 5,
+            odds: 8
+        },
+    ],
+        name: 'Grave Digger'
+    }, // Grave Digger
 ];
 
 // starting level of rarities
@@ -377,8 +406,9 @@ const rarityLevel = [
     1, // common
     3, // uncommon
     5, // rare
-    7  // legendary
-]
+    7,  // legendary
+    0, // gravedigger
+];
 
 interface Level {
     //level: number;
