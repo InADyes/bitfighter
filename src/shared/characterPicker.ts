@@ -12,7 +12,8 @@ export const artURLs = [
     "images/champions/6warpriest.png",
     "images/champions/7warlock.png",  
     "images/champions/8swashbuckler.png",    
-    "images/champions/9dragon.png",  
+    "images/champions/9dragon.png",
+    "images/champions/10grave_digger.png"
 ];
 
 export const buffArt = [
@@ -40,6 +41,7 @@ export const charStrings = [
     "Warlock",
     "Swashbuckler",
     "Dragon",
+    "Grave Digger",
 ]
 
 export interface Character {
