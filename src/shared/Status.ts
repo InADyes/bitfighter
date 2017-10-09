@@ -207,11 +207,12 @@ export class Status {
         };
     }
     get bossMessage() {return this.p_bossMessage;};
-    set bossMessage(bossMessage: string) {
+    setBossMessage(bossMessage: string): boolean {
         if (this.bossMessageChangesRemaining < 1)
-            return;
+            return false;
         this.bossMessageChangesRemaining--;
         this.p_bossMessage = bossMessage;
+        return true;
     }
 
 }

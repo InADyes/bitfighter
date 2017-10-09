@@ -51,4 +51,5 @@ export interface BackToFrontMessage {
         readonly bossEmoticonURL: string;
     };
     readonly characterList?: {[details: number]: choiceStats};
+    readonly bossMessageChangeFailed?: true;
 }

@@ -77,13 +77,21 @@ export class BitFighter {
             console.log('boss message update id does not match a currently fighting champion');
             return;
         }
-        this.arena.getCombatants()[0].bossMessage = message;
-        this.sendMessageToFont({
-            updateBossMessage: {
-                championIndex: 0,
-                bossMessage: message
-            }
-        });
+        if (this.arena.getCombatants()[0].setBossMessage(message)) {
+            this.sendMessageToFont({
+                updateBossMessage: {
+                    championIndex: 0,
+                    bossMessage: message
+                }
+            });
+        } else {
+            this.sendMessageToFont(
+                {
+                    bossMessageChangeFailed: true
+                },
+                id
+            )
+        }
     }
 
     public bossEmoticonURLUpdate(id: number, bossEmoticonURL: string) {
