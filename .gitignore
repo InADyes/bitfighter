@@ -17,6 +17,9 @@
 /simulator.js
 /simulator.js.map
 
+# mongo testing
+/mongo
+
 *.csv
 
 *.css
