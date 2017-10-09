@@ -1,5 +1,6 @@
-import * as Buff from './buff';
+import * as Buff from './interfaces/buff';
 import { Status, Stats } from '../shared/Status';
+import { Donation } from './interfaces/donation';
 
 export const artURLs = [
     "images/champions/0scullery_maid.png",
@@ -27,6 +28,19 @@ export const buffArt = [
     "images/icons/buffs/whirling_blades.png",
     "images/icons/buffs/firebreathing.png"
 ];
+
+export const charStrings = [
+    "Scullary Maid",
+    "Barkeep",
+    "Medium",
+    "Minstrel",
+    "Mage",
+    "Rogue",
+    "Warpriest",
+    "Warlock",
+    "Swashbuckler",
+    "Dragon",
+]
 
 export interface Character {
     stats: Stats,
@@ -385,7 +399,7 @@ const rarityLevel = [
     3, // uncommon
     5, // rare
     7  // legendary
-]
+];
 
 interface Level {
     //level: number;
@@ -396,7 +410,7 @@ interface Level {
 
 export const levels: Level[] = [
     {
-        bits: 1, //todo: change to let streamer options define starting bit values
+        bits: 1,
         damage: 0,
         health: 0,
     },// level 1
@@ -426,15 +440,11 @@ export function buildStats(character: number, donation: number, level: number) :
 
 // i'm going to fix this i swear
 // donation.amount is assumed to be in bits
-export function pickCharacter(donation: {
-    id: number, 
-    name: string,
-    amount: number,
-    character: number,
-    profileImageURL: string,
-    chatMessage: string
-}) : Status {
-    let pick = donation.character % characters.length;
+export function pickCharacter(
+    donation: Donation,
+    character: number
+) : Status {
+    let pick = character % characters.length;
 
     let level = rarityLevel[characters[pick].rarity]; // 1 indexed
 
@@ -453,6 +463,7 @@ export function pickCharacter(donation: {
         level,
         stats,
         donation.profileImageURL,
-        donation.chatMessage
+        donation.bossMessage,
+        donation.bossEmoticonURL
     )
 }

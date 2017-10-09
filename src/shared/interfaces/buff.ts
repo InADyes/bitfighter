@@ -1,7 +1,7 @@
 import { SSL_OP_COOKIE_EXCHANGE } from 'constants';
-import { Damage, Dodge } from './fightEvents';
-import { Health } from './graphicsEvents';
-import { Message } from './frontEndMessage';
+import { Damage, Dodge } from '../fightEvents';
+import { Health } from '../graphicsEvents';
+import { ReelMessage } from './backToFrontMessage';
 /*
     Each buff is multiplied agaisnt a stat to create a new that is then used.
     See Combatant for implementation.

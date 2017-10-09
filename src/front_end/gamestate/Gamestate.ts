@@ -1,13 +1,14 @@
 import * as Events from '../../shared/graphicsEvents';
-import { Message } from '../../shared/frontEndMessage';
+import { ReelMessage } from '../../shared/interfaces/backToFrontMessage';
 import 'fabric'
 declare let fabric: any;
 import * as Player from './Player';
 import { fireEvent } from './fireEvent';
+import { BossData } from './interfaces'
 
-declare function recalcHp(damageAmount: number, newHp: number, maxHp: number): void;
+declare function recalcHp(damageAmount: number, newHp: number, maxHp: number, attacker: string | null): void;
 declare function flip(side: 'front' | 'back'): void;
-declare function updateBitBoss(bossData: Object): void;
+declare function updateBitBoss(bossData: {boss: BossData, attacker?: BossData}): void;
 
 export class GameState {
 	private eventLoopTimeout:	number | null;
@@ -17,13 +18,7 @@ export class GameState {
 	private player1:			Player.Player | null;
 	private player2:			Player.Player | null;
 	private idleId:				number;
-	private currentBoss:		{
-		name: string,
-		hp: number,
-		maxHp: number,
-		img: string,
-		character: string
-};
+	private currentBoss:		BossData;
 	private ogTime:				number;
 	private timer:				number;
 	private countBot:			fabric.Text;
@@ -47,17 +42,17 @@ export class GameState {
 		this.player2 = null;
 	}
 
-	public newMessage(msg: Message) {
-		// Add received message to the queue
-		// Don't do anything if a character is dying or moving over
+	public newMessage(msg: ReelMessage) {
+		console.log(`TIM MSG:`, msg.reel);
+		// Don't do anything yet if a character is dying or moving over
 		if ((this.player1 && this.player1.isAnimated())
 			|| (this.player2 && this.player2.isAnimated())) {
-			window.setTimeout(() => {this.newMessage(msg)}, 1);
+			window.setTimeout(() => {this.newMessage(msg)}, 10);
 			return;
 		}
 		// if there's a patch in the middle of a reel
-		clearTimeout(this.idleId);
 		if (msg.patch && this.reel[0]) {
+			clearTimeout(this.idleId);
 			this.applyPatch(msg.reel, msg.patch);
 		}
 		else  {
@@ -68,15 +63,18 @@ export class GameState {
 			if (msg.patch)
 				this.getNextEvent();
 			else {
+				clearTimeout(this.idleId);
 				this.canvas.clear();
 				// init players
 				this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt);
 				this.currentBoss = this.player1.getBitBossInfo();
 				updateBitBoss({boss: this.currentBoss});
-				recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp);
+				console.log(msg.characters[0].name)
+				recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, null);
 				if (msg.characters[1]) {
 					this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt);
 					flip('back');
+					console.log("flip back");
 					this.ogTime = performance.now();
 				}
 				else
@@ -106,24 +104,22 @@ export class GameState {
 	}
 
 	private getNextEvent() {
-		let event = this.reel.shift();
-		if (event == undefined) {
+		const event = this.reel.shift();
+		if (event === undefined) {
 			this.eventLoopTimeout = null;
+			this.idleCheck();
 			return;
 		}
-		let nextTime = this.reel[0] ? this.reel[0].time : 0;
+		const nextTime = this.reel[0] ? this.reel[0].time : 0;
 		fireEvent(event, this);
 		let delay = nextTime - (performance.now() - this.ogTime);
 		if (delay < 0)
 			delay = 0;
 		//console.log(nextTime, performance.now(), this.ogTime, delay);
 		this.eventLoopTimeout = window.setTimeout(
-			() => {
-				this.getNextEvent();
-			},
+			() => this.getNextEvent(),
 			delay //used to be nextTime - event.time
 		);
-		//this.lastTime = event.time;
 	}
 
 	private applyPatch(reel: Events.Event[], patch: number) {
@@ -150,12 +146,12 @@ export class GameState {
 			this.player1.attacks();
 	}
 	
-	public changeHealth(p2: number, newHp: number) {
+	public changeHealth(p2: number, newHp: number, attacker: string | null) {
 		if (p2 && this.player2)
 			this.player2.adjustHp(newHp);
 		else if (this.player1) {
 			let p = this.player1.getBitBossInfo();
-			recalcHp(p.hp - newHp, newHp, p.maxHp);
+			recalcHp(p.hp - newHp, newHp, p.maxHp, attacker);
 			this.player1.adjustHp(newHp);
 		}
 	}
@@ -192,11 +188,11 @@ export class GameState {
 		this.player2 = null;
 	}
 
-	public displayText(p2: number, str: string, color: string) {
+	public displayText(p2: number, str: string, color: string, duration: number) {
 	if (p2 && this.player2)
-			this.player2.displayText(str, color);
+			this.player2.displayText(str, color, duration);
 		else if (this.player1)
-			this.player1.displayText(str, color);
+			this.player1.displayText(str, color, duration);
 	}
 
 	public setNewScale(scale: number) {
@@ -224,6 +220,7 @@ export class GameState {
 		// If bitfighter mode idles for full amount, switch to bitboss mode
 		this.idleId = window.setTimeout(
 			() => {
+				console.log("flip to front");
 				flip('front')
 			}, 4000
 		);
@@ -235,7 +232,6 @@ export class GameState {
 	}
 
 	private countdown() {
-		console.log(this.timer);
 		if (!this.timer) {
 			if (this.countBot)
 				this.canvas.remove(this.countBot);
@@ -275,5 +271,25 @@ export class GameState {
 		window.setTimeout(() => {
 			this.countdown();
 		}, 1000);
+	}
+
+	public updateBossMessage(p2: number, str: string) {
+		if (p2 && this.player2)
+			this.player2.updateBossMessage(str);
+		else if (!p2 && this.player1) {
+			this.player1.updateBossMessage(str);
+			this.currentBoss = this.player1.getBitBossInfo();
+			updateBitBoss({ boss: this.currentBoss });
+		}
+	}
+
+	public updateEmote(p2: number, str: string) {
+		if (p2 && this.player2)
+			this.player2.updateEmote(str);
+		else if (!p2 && this.player1) {
+			this.player1.updateEmote(str);
+			this.currentBoss = this.player1.getBitBossInfo();
+			updateBitBoss({ boss: this.currentBoss });
+		}
 	}
 }

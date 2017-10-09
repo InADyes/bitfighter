@@ -1,6 +1,7 @@
-import { CharacterCard } from '../shared/frontEndMessage';
+import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
 import { Character, characters, pickCharacter, characterTypes } from '../shared/characterPicker';
 import { Status } from '../shared/Status';
+import { Donation } from '../shared/interfaces/donation';
 
 interface DonationTier {
     donation: number;
@@ -92,15 +93,7 @@ export class CharacterChoiceHandler {
         private readonly requestPick: (choices: CharacterCard[], id: number) => void
     ) {}
 
-    public requestChoice(
-        donation: {
-            id: number,
-            name: string,
-            amount: number,
-            profileImageURL: string,
-            chatMessage: string
-        }
-    ) {
+    public requestChoice(donation: Donation) {
         if (this.pendingCharacterChoices.find(c => c.id === donation.id) !== undefined)
             return; // todo: what should happen if they donate while they still have cards?
 
@@ -112,45 +105,51 @@ export class CharacterChoiceHandler {
         //total odds
         const total = totals.reduce((previous, current) => previous + current);
     
-        let choices: Character[] = [];
+        const choices: Character[] = [];
     
         //todo: validate math
         // for every choice to be given
         for (let _ = 0; _ < cards; _++) {
             let roll = Math.floor((total + 1) * Math.random());
+            let choice: Character | null = null;
     
             //reduce roll by total rarity odds untill rarity is found
             for (let rarity = 0; rarity < totals.length; rarity++) {
+
                 if (roll < totals[rarity]) {
                     roll /= odds[rarity];
-                    choices.push(characters.filter(c => c.rarity === rarity)[Math.floor(roll)]);
+                    choice = characters.filter(c => c.rarity === rarity)[Math.floor(roll)];
                     break;
                 }
                 roll -= totals[rarity];
             }
+            // quick hack to get rid of duplicate characters
+
+            if (choices.some(c => c === choice))
+                _--;
+            else if (choice)
+                choices.push(choice);
+
         }
 
         const statusChoices = choices.map(c => pickCharacter({
             id: donation.id,
             name: donation.name,
             amount: donation.amount,
-            character: characters.indexOf(c),
             profileImageURL: donation.profileImageURL,
-            chatMessage: donation.profileImageURL
-        }));
-        
-        const timeout = setTimeout(
-            () => {
-                // clear timeout somehow
-                this.completeChoice(donation.id, Math.floor(choices.length * Math.random()))
-            },
-            60000 // one minute
-        );
+            bossMessage: donation.bossMessage,
+            bossEmoticonURL: donation.bossEmoticonURL
+        }, characters.indexOf(c)));
 
         this.pendingCharacterChoices.push({
             id: donation.id,
             characters: statusChoices,
-            timeout
+            timeout: setTimeout(
+                // clear timeout somehow
+                () => this.completeChoice(donation.id, Math.floor(choices.length * Math.random())),
+                // one minute
+                60000
+            )
         });
 
         this.requestPick(

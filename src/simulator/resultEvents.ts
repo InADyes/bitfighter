@@ -2,7 +2,7 @@ import { pickCharacter } from '../shared/characterPicker';
 import { buildEvents } from '../shared/buildEvents';
 import * as FightEvents from '../shared/fightEvents';
 import { stdout } from 'process';
-import { buffs } from '../shared/buff';
+import { buffs } from '../shared/interfaces/buff';
 import { Results, reelToResults, printResults } from './testPair';
 
 function printReel(reel: FightEvents.Event[]) {
@@ -31,9 +31,6 @@ function printReel(reel: FightEvents.Event[]) {
 
                 stdout.write(`crit: (buff: ${ buff }, debuff: ${ debuff })\n`)
                 break;
-            case FightEvents.Types.donation:
-                stdout.write(`donation: (type: ${ (<FightEvents.Donation>event).donationType })\n`)
-                break;
             default:
                 stdout.write('unidentified event type\n');
         }
@@ -49,18 +46,18 @@ export function resultEvents() {
             id: 0,
             name: 'shawn',
             amount: Number(process.argv[3]),
-            character: Number(process.argv[2]),
             profileImageURL: 'hello, i\'m a url',
-            chatMessage: 'yo'
-        }),
+            bossMessage: 'yo',
+            bossEmoticonURL: 'hey'
+        }, Number(process.argv[2])),
         pickCharacter({
             id: 1,
             name: 'hao',
             amount: Number(process.argv[5]),
-            character: Number(process.argv[4]),
             profileImageURL: 'hello, i\'m a url',
-            chatMessage: 'yo'
-        })
+            bossMessage: 'yo',
+            bossEmoticonURL: 'hey'
+        }, Number(process.argv[4]))
     ];
 
     const reel = buildEvents(chars).reel.map(e => e.fight);

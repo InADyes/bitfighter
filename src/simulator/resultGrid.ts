@@ -34,18 +34,18 @@ export function resultGrid() {
                         id: 0,
                         name: 'shawn',
                         amount: levels[character2.v2].bits,
-                        character: character2.v1,
                         profileImageURL: 'hello, i\'m a url',
-                        chatMessage: 'yo'
-                    }),
+                        bossMessage: 'yo',
+                        bossEmoticonURL: 'hey'
+                    }, character2.v1),
                     pickCharacter({
                         id: 1,
                         name: 'hao',
                         amount: levels[character1.v2].bits,
-                        character: character1.v1,
                         profileImageURL: 'hello, i\'m a url',
-                        chatMessage: 'yo'
-                    })
+                        bossMessage: 'yo',
+                        bossEmoticonURL: 'hey'
+                    }, character1.v1)
                 ],
                 testCount
             );

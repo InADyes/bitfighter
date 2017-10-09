@@ -11,7 +11,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = [
     {
         entry: {
-            viewer: './src/front_end/viewer.ts',
+            viewer: './src/viewer.ts',
         },
         output: {
             filename: './dist/[name].js'
@@ -49,7 +49,7 @@ module.exports = [
     },   
     {
         entry: {
-            index: './src/testbed/index.ts'
+            index: './src/testbed.ts'
         },
         output: {
             filename: './testbed/js/[name].bundle.js'

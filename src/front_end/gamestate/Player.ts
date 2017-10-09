@@ -1,5 +1,6 @@
-import 'fabric'
+import 'fabric';
 declare let fabric: any;
+import {charStrings} from '../../shared/characterPicker';
 
 export class Player {
     private health:         number;
@@ -18,18 +19,18 @@ export class Player {
     private textQueue:      any[];
     private buffs:          number[];
     private buffGroup:      fabric.Group;
-    private scale:          number; 
+    private scale:          number;
     private height =        70;
-    private hpWidth =       5;
+    private hpWidth =       6.5;
     private textLock =      0;
     private animationLock = 0;
     private nameHeight =    120;
     private strokeWidth =   2;
     private fontSize =      15;
     private font =          'Concert One'
-    private buffOffset =    18;
+    private buffOffset =    14;
     private buffTop =       135;
-    private buffSize =      25;
+    private buffSize =      30;
 
     // Adjust these to move elements around
     private artAdjust =     0;
@@ -38,19 +39,6 @@ export class Player {
     private hpTextTop =     32;
     private textTop =       30;
 
-    private charStrings = [
-        "Scullary Maid",
-        "Barkeep",
-        "Medium",
-        "Minstrel",
-        "Mage",
-        "Rogue",
-        "Warpriest",
-        "Warlock",
-        "Swashbuckler",
-        "Dragon",
-    ];
-
     constructor(
         private readonly data: {
             readonly name: string;
@@ -58,7 +46,8 @@ export class Player {
             readonly maxHitPoints: number;
             readonly art: number;
             readonly profileImageURL: string;
-            readonly chatMessage: string;
+            bossMessage: string;
+            bossEmoticonURL: string;
         },
         side: number, 
         canvas: fabric.Canvas, 
@@ -210,6 +199,7 @@ export class Player {
             originX: 'center',
         });
         this.canvas.add(this.healthtext);
+        this.canvas.sendToBack(this.healthtext);
     }
 
     private removeNameAndHp() {
@@ -222,12 +212,17 @@ export class Player {
         this.canvas.remove(this.displaynametop);
     }
 
-    private drawText() {
+    private emptyTextQueue() {
         if (!this.textQueue[0]) {
             this.textLock = 0;
             return;
         }
         let txtObj = this.textQueue.shift();
+        this.drawText(txtObj);
+        window.setTimeout(() => {this.emptyTextQueue()}, 300);
+    }
+
+    private drawText(txtObj: {str: string, color: string, duration: number}) {
         let txtBot = new fabric.Text(`${ txtObj.str }`, {
             fontSize: this.fontSize * this.scale,
             strokeWidth: this.strokeWidth *this.scale,
@@ -252,13 +247,12 @@ export class Player {
         });
         this.canvas.add(textgroup);
         textgroup.animate('top', `-=${ 20 * this.scale }`, {
-            duration: 700,
+            duration: 700 * txtObj.duration,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
                 this.canvas.remove(textgroup);
             }
         });
-        window.setTimeout(() => {this.drawText()}, 300);
     }
 
     public drawMe() {
@@ -312,15 +306,21 @@ export class Player {
         });
     }
 
-	public displayText(str: string, color: string) {
+	public displayText(str: string, color: string, duration: number) {
+        if (str === "Level Up!")
+            return;
         let txt = {
             str: str,
-            color: color
+            color: color,
+            duration: duration
         };
-        this.textQueue.push(txt);
+        if (str !== "dodge")
+            this.textQueue.push(txt);
+        else
+            this.drawText(txt);
         if (!this.textLock) {
             this.textLock = 1;
-            this.drawText();
+            this.emptyTextQueue();
         }
     }
 
@@ -358,7 +358,7 @@ export class Player {
                     barChange = this.yellowBar.height - this.greenBar.height;
                     catchUpPercent = (this.yellowBar.height - this.greenBar.height) / this.height * 100;
                 }
-                else if (this.greenBar.height == 0 && this.yellowBar.height){
+                else if (this.greenBar.height === 0 && this.yellowBar.height){
                     barChange = this.yellowBar.height;
                     catchUpPercent = this.yellowBar.height / this.height * 100;
                 }
@@ -374,23 +374,38 @@ export class Player {
 
 	public dies(player2: Player | null) {
         this.animationLock = 1;
-        this.img.animate('angle', this.onRight ? '-90' : '90', {
-            duration: 500,
-            onChange: this.canvas.renderAll.bind(this.canvas),
-            onComplete: () => {
-                this.img.animate('opacity', 0, {
-                    duration: 200,
-                    onChange: this.canvas.renderAll.bind(this.canvas),
-                    onComplete: () => {
-                        this.canvas.remove(this.img);
-                        this.removeNameAndHp();
-                        if (player2)
-                            player2.moves();
-                        this.animationLock = 0;
-                    }
-                });
-            }
-        });
+        if (this.data.art === 9) {
+            this.img.animate('opacity', 0, {
+                duration: 1000,
+                onChange: this.canvas.renderAll.bind(this.canvas),
+                onComplete: () => {
+                    this.canvas.remove(this.img);
+                    this.removeNameAndHp();
+                    if (player2)
+                        player2.moves();
+                    this.animationLock = 0;
+                }
+            });
+        }
+        else {
+            this.img.animate('angle', this.onRight ? '-90' : '90', {
+                duration: 500,
+                onChange: this.canvas.renderAll.bind(this.canvas),
+                onComplete: () => {
+                    this.img.animate('opacity', 0, {
+                        duration: 200,
+                        onChange: this.canvas.renderAll.bind(this.canvas),
+                        onComplete: () => {
+                            this.canvas.remove(this.img);
+                            this.removeNameAndHp();
+                            if (player2)
+                                player2.moves();
+                            this.animationLock = 0;
+                        }
+                    });
+                }
+            });
+        }
     }
 
     public moves(){
@@ -434,7 +449,17 @@ export class Player {
             hp: this.health,
             maxHp: this.data.maxHitPoints,
             img: this.data.profileImageURL,
-            character: this.charStrings[this.data.art]
+            character: charStrings[this.data.art],
+            bossMessage: this.data.bossMessage,
+            bossEmoticonURL: this.data.bossEmoticonURL
         });
+    }
+
+    public updateBossMessage(str: string) {
+        this.data.bossMessage = str;
+    }
+
+    public updateEmote(str: string) {
+        this.data.bossEmoticonURL = str;
     }
 }

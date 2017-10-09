@@ -15,7 +15,7 @@ export function applyFightEvents(
     status: Status[],
     ...reel: FightEvents.Event[]
 ) {
-    let combinedReel: CombinedEvent[] = [];
+    const combinedReel: CombinedEvent[] = [];
 
     for (let event of reel) {
         switch (event.type) {
@@ -25,7 +25,7 @@ export function applyFightEvents(
             case FightEvents.Types.healing:
                 status[event.character].hitPoints += (<FightEvents.Healing>event).amount;
                 break;
-            case FightEvents.Types.crit:
+            case FightEvents.Types.crit: {
                 const debuff = (<FightEvents.Crit>event).debuff;
                 if (debuff) {
                     status[event.character].addEffect(
@@ -40,15 +40,23 @@ export function applyFightEvents(
                         buff
                     );
                 }
-                break;
-            case FightEvents.Types.death: // level up also happens here
+            } break;
+            case FightEvents.Types.death: { // level up also happens here
                 status.splice(event.character, 1);
-            case FightEvents.Types.levelUp:
-                const c = status[event.character];
-                if (c && levels.length > c.level) {
-                    c.level++;
-                    c.baseStats = buildStats(c.character, c.initialDonation, c.level);
-                }
+            } break;
+            case FightEvents.Types.levelUp: {
+                // const c = status[event.character];
+                // if (c && levels.length > c.level) {
+                //     c.level++;
+                //     c.baseStats = buildStats(c.character, c.initialDonation, c.level);
+                // }
+            } break;
+            case FightEvents.Types.damageDonation: {
+                status[event.character].hitPoints -= (<FightEvents.DamageDonation>event).amount;
+            } break;
+            case FightEvents.Types.healingDonation: {
+                status[event.character].hitPoints += (<FightEvents.HealingDonation>event).amount;
+            } break;
         }
         combinedReel.push({
             fight: event,

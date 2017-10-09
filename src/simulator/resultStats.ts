@@ -8,18 +8,18 @@ export function resultStats() {
                 id: 0,
                 name: 'shawn',
                 amount: Number(process.argv[3]),
-                character: Number(process.argv[2]),
                 profileImageURL: 'hello, i\'m a url',
-                chatMessage: 'yo'
-            }),
+                bossMessage: 'yo',
+                bossEmoticonURL: ''
+            }, Number(process.argv[2])),
             pickCharacter({
                 id: 1,
                 name: 'hao',
                 amount: Number(process.argv[5]),
-                character: Number(process.argv[4]),
                 profileImageURL: 'hello, i\'m a url',
-                chatMessage: 'yo'
-            })
+                bossMessage: 'yo',
+                bossEmoticonURL: ''
+            }, Number(process.argv[4]))
         ],
         Number(process.argv[6])
     )

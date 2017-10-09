@@ -18,6 +18,7 @@ export class Health extends Event {
     constructor (
         time: number,
         character: number,
+        readonly attacker: string | null,
         readonly health: number // delta
     ) {
         super(time, EventType.Health, character);
@@ -46,6 +47,7 @@ export class Text extends Event {
     constructor (
         time: number,
         character: number,
+        readonly duration: number,
         readonly text: string,
         readonly color: string //should this be a string?
     ) {

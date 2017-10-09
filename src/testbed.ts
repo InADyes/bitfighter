@@ -1,7 +1,10 @@
-import { pickCharacter } from '../shared/characterPicker';
-import { BitFighter as BitFighterBack } from '../back_end/BitFighter';
-import { BitFighter as BitFighterFront } from '../front_end/BitFighter';
-import { BackToFrontMessage, FrontToBackMessage, CharacterChoice, FrontEndSettings as Settings } from '../shared/frontEndMessage';
+import { pickCharacter } from './shared/characterPicker';
+import { BitFighter as BitFighterBack } from './back_end/BitFighter';
+import { BitFighter as BitFighterFront } from './front_end/BitFighter';
+import { BackToFrontMessage } from './shared/interfaces/backToFrontMessage';
+import { FrontToBackMessage, CharacterChoice } from './shared/interfaces/frontToBackMessage';
+import { FrontEndSettings } from './front_end/settings';
+import { BossData } from './front_end/gamestate/interfaces'
 
 // kind of a hack
 declare let window: any;
@@ -12,13 +15,19 @@ window.recalcHp = function (damageAmount: number, newHp: number, maxHp: number) 
 window.flip = function (side: 'front' | 'back') {
     //console.log("called flip");
 }
-window.updateBitBoss = function (bossData: Object) {
+window.updateBitBoss = function (bossData: {boss: BossData, attacker?: BossData}) {
     //console.log("called updateBitBoss");
+}
+window.receiveQueue = function (data: any) {
+    //console.log(`QUEUE: ${data}`);
+}
+window.receiveCharList = function (data: any) {
+    //console.log(`CHAR LIST: ${data}`);
 }
 
 window.addEventListener('load', function(){
     const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
-    const cardDiv = <HTMLDivElement>document.getElementById('charSelect');
+    //const cardDiv = <HTMLDivElement>document.getElementById('charSelect');
     let requestIDs: number[] = [];
     
     const backend = new BitFighterBack(
@@ -39,10 +48,15 @@ window.addEventListener('load', function(){
             delayBetweenFights: 3000,
             minimumDonation: 200,
             donationToHPRatio: 1,
-            defaultState: {
+            defaultBossEmoticonURL: '',
+            defaultBossMessage: 'yo, tim! how\'re you doin\'??',
+            defaultChampion: {
+                id: -1,
                 name: 'ravi II',
+                amount: 1000,
                 profileImageURL: 'testbed_images/banana_icon.png',
-                chatMessage: 'look at me'
+                bossMessage: 'look at me',
+                bossEmoticonURL: ''
             }
         },
         str => console.log('new gamestate save:', str)
@@ -57,7 +71,7 @@ window.addEventListener('load', function(){
             },
             size: 1,
             cardsTimeout: 60000,
-            assetsShim: './'
+            assetsShim: './shim_test/'
         },
         (slug, message) => {
             window.setTimeout(() => {
@@ -69,7 +83,7 @@ window.addEventListener('load', function(){
                 backend.receivedFanGameState(id, message);
             }, 0);
         },
-        cardDiv
+        // cardDiv
     );
 
 
@@ -87,9 +101,23 @@ window.addEventListener('load', function(){
         idInputNode.value = String(id + 1);
 
         if (art <= -1)
-            backend.donation(id, name, amount, 'todo: url goes here', 'how\'re you doin\'?');
+            backend.donation(
+                id,
+                name,
+                amount,
+                'todo: url goes here',
+                'how\'re you doin\'?',
+                'todo: emoticon url goes here'
+            );
         else
-            backend.newCombatant(pickCharacter({id, name, amount, character: art, profileImageURL: 'todo: url goes here', chatMessage: 'how\'re you doin\'?'}));
+            backend.newCombatant(pickCharacter({
+                id,
+                name,
+                amount,
+                profileImageURL: 'todo: url goes here',
+                bossMessage: 'how\'re you doin\'?',
+                bossEmoticonURL: ''
+            }, art));
     });
 });
 
