@@ -14,11 +14,11 @@ declare let fabric: any;
 */
 export class Attack {
     private exists:     boolean;
-    private imgs:       fabric.Object[];
     private trueWidth:  number;
+    private imgs:       fabric.Object[];
     private height =    70;
     private artAdjust = 0;
-    private artTop =    100;
+    private artTop =    125;
     constructor(
         private readonly canvas:    fabric.Canvas,
         private readonly char:      number,
@@ -27,7 +27,7 @@ export class Attack {
         private readonly onRight:   number,
         private center:             number,
     ){
-        console.log("ASASDASDAS", this.atkURLs);
+        this.imgs = [];
         this.exists = this.checkChar();
     }
 
@@ -38,10 +38,17 @@ export class Attack {
     }
 
     public fires() {
-        for (let i = 0; i < this.imgs.length; i++) {
-            this.canvas.add(this.imgs[i]);
-            //this.canvas.renderAll;
-        }
+        if (this.imgs.length > 1)
+            this.nextAtk(0);
+    }
+
+    private nextAtk(i: number) {
+        if (this.imgs[i - 1])
+            this.canvas.remove(this.imgs[i - 1]);
+        if (!this.imgs[i])
+            return;
+        this.canvas.add(this.imgs[i]);
+        window.setTimeout(() => this.nextAtk, 100);
     }
 
     private checkChar() {
@@ -51,21 +58,20 @@ export class Attack {
         }
         return (false)
     }
-    //new fabric.Image.fromURL(this.atkArt[i], (oImg: fabric.Image) => {
-        //         if (oImg.width && oImg.height)
-        //             let fireWidth = oImg.width/oImg.height * this.height * this.scale;
-        //         this.atk = oImg.set({
-        //             left: !this.onRight ? (this.center - this.trueWidth / 2) - this.artAdjust : (this.center + this.trueWidth / 2) + this.artAdjust,
-        //             top: this.artTop * this.scale,
+    
     private initDragon() {
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < 3; i++) {
             new fabric.Image.fromURL(this.atkURLs[0], (oImg: fabric.Image) => {
                 if (oImg.width && oImg.height)
                     this.trueWidth = oImg.width / oImg.height * this.height * this.scale;
                 let atk = oImg.set({
-                    left: !this.onRight ? (this.center - this.trueWidth / 2) - this.artAdjust : (this.center + this.trueWidth / 2) + this.artAdjust,
+                    left: !this.onRight ? this.center - this.artAdjust: this.center + this.artAdjust,
                     top: this.artTop * this.scale,
+                    originX: 'center',
+                    originY: 'bottom',
+                    flipX: !this.onRight ? false : true
                 })
+                atk.scaleToHeight(this.height * this.scale);
                 this.imgs.push(atk);
             });
         }

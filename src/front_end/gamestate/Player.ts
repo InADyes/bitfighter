@@ -259,17 +259,6 @@ export class Player {
         });
     }
 
-    // private getAtk(i: number) {
-    //     return (new fabric.Image.fromURL(this.atkArt[i], (oImg: fabric.Image) => {
-    //         if (oImg.width && oImg.height)
-    //             let fireWidth = oImg.width/oImg.height * this.height * this.scale;
-    //         this.atk = oImg.set({
-    //             left: !this.onRight ? (this.center - this.trueWidth / 2) - this.artAdjust : (this.center + this.trueWidth / 2) + this.artAdjust,
-    //             top: this.artTop * this.scale,
-    //         })
-    //     })
-    // }
-
     public drawMe() {
         if (this.img)
             this.canvas.remove(this.img);
@@ -307,10 +296,10 @@ export class Player {
     }
 
     public attacks() {
-        // if (this.specialAtk.canBeUsed()) {
-        //      this.specialAtk.fires();
-        // }
-        // else {
+        if (this.specialAtk.canBeUsed()) {
+            this.specialAtk.fires();
+        }
+        else {
             this.img.animate('left', this.onRight ? `-=${ 10  * this.scale }` : `+=${ 10 * this.scale }`, {
                 duration: 200,
                 easing: fabric.util.ease['easeInQuint'],
@@ -323,7 +312,7 @@ export class Player {
                     })
                 }
             });
-        // }
+        }
     }
 
 	public displayText(str: string, color: string) {
