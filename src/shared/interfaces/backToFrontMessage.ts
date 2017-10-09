@@ -27,6 +27,7 @@ export interface CharacterCard {
     readonly art: number;
     readonly level: number;
     readonly rarity: number;
+    readonly flavorText: string;
 }
 
 export interface Queue { // so it can be patches on for now, TODO: make readonly

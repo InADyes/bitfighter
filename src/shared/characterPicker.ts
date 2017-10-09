@@ -59,7 +59,8 @@ export interface Character {
         buff?: Buff.Buff,
         damageMultiplier?: number
     }[],
-    name: string
+    name: string,
+    flavorText: string
 }
 
 export const enum characterTypes {
@@ -109,7 +110,8 @@ export const characters: Character[] = [
             debuff: Buff.buffs[Buff.types.sculleryMaid1]
         }*/
     ],
-        name: 'Scullery Maid'
+        name: 'Scullery Maid',
+        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
     }, // Scullery Maid
     {
         stats: { 
@@ -138,7 +140,8 @@ export const characters: Character[] = [
             odds: 8,
             debuff: Buff.buffs[Buff.types.barkeep]
         }],
-        name: 'Barkeep'
+        name: 'Barkeep',
+        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
     }, // Barkeep
     {
         stats: { 
@@ -167,7 +170,8 @@ export const characters: Character[] = [
             odds: 6,
             debuff: Buff.buffs[Buff.types.medium]
         }],
-        name: 'Medium'
+        name: 'Medium',
+        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
     }, // Medium
     {
         stats: { 
@@ -196,7 +200,8 @@ export const characters: Character[] = [
             odds: 8,
             buff: Buff.buffs[Buff.types.minstrel]
         }],
-        name: 'Minstrel'
+        name: 'Minstrel',
+        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
     },
     {
         stats: { 
@@ -225,7 +230,8 @@ export const characters: Character[] = [
             odds: 20,
             debuff: Buff.buffs[Buff.types.mage]
         }],
-        name: 'Mage'
+        name: 'Mage',
+        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
     }, // Mage
     {
         stats: { 
@@ -254,7 +260,8 @@ export const characters: Character[] = [
             odds: 8,
             buff: Buff.buffs[Buff.types.rogue]
         }],
-        name: 'Rogue'
+        name: 'Rogue',
+        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
     }, // Rogue
     {
         stats: { 
@@ -283,7 +290,8 @@ export const characters: Character[] = [
             odds: 6,
             buff: Buff.buffs[Buff.types.warpriest]
         }],
-        name: 'Warpriest'
+        name: 'Warpriest',
+        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
     }, // Warpriest
     {
         stats: { 
@@ -304,16 +312,19 @@ export const characters: Character[] = [
             critDamageModifier: 1
         }, 
         rarity: 2,
-        crits: [{
-            damageMultiplier: 4,
-            odds: 8
-        },
-        {
-            odds: 10,
-            buff: Buff.buffs[Buff.types.warlockBuff],
-            debuff: Buff.buffs[Buff.types.warlockDebuff]
-        }],
-        name: 'Warlock'
+        crits: [
+            {
+                damageMultiplier: 4,
+                odds: 8
+            },
+            {
+                odds: 10,
+                buff: Buff.buffs[Buff.types.warlockBuff],
+                debuff: Buff.buffs[Buff.types.warlockDebuff]
+            }
+        ],
+        name: 'Warlock',
+        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
     }, // Warlock
     {
         stats: { 
@@ -334,15 +345,18 @@ export const characters: Character[] = [
             critDamageModifier: 1
         }, 
         rarity: 2,
-        crits: [{
-            damageMultiplier: 4,
-            odds: 6
-        },
-        {
-            odds: 10,
-            buff: Buff.buffs[Buff.types.swashbucklerBuff]
-        }],
-        name: 'Swashbuckler'
+        crits: [
+            {
+                damageMultiplier: 4,
+                odds: 6
+            },
+            {
+                odds: 10,
+                buff: Buff.buffs[Buff.types.swashbucklerBuff]
+            }
+        ],
+        name: 'Swashbuckler',
+        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
     }, // Swashbuckler
     {
         stats: { 
@@ -363,15 +377,18 @@ export const characters: Character[] = [
             critDamageModifier: 1
         }, 
         rarity: 3,
-        crits: [{
-            damageMultiplier: 6,
-            odds: 40
-        },
-        {
-            odds: 20,
-            debuff: Buff.buffs[Buff.types.dragon]
-        }],
-        name: 'Dragon'
+        crits: [
+            {
+                damageMultiplier: 6,
+                odds: 40
+            },
+            {
+                odds: 20,
+                debuff: Buff.buffs[Buff.types.dragon]
+            }
+        ],
+        name: 'Dragon',
+        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
     }, // Dragon
     {
         stats: { 
@@ -392,12 +409,14 @@ export const characters: Character[] = [
             critDamageModifier: 1
         }, 
         rarity: 4,
-        crits: [{
-            damageMultiplier: 5,
-            odds: 8
-        },
-    ],
-        name: 'Grave Digger'
+        crits: [
+            {
+                damageMultiplier: 5,
+                odds: 8
+            },
+        ],
+        name: 'Grave Digger',
+        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
     }, // Grave Digger
 ];
 

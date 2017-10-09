@@ -28,7 +28,7 @@ export const cardStats: {[details: number]: choiceStats} = {
         dodge: 6,
         armor: 5,
         damage: 5,
-        attackSpeed: 5
+        attackSpeed: 5,
     },
     [characterTypes.barkeep]: {
         accuracy: 3,
@@ -202,7 +202,8 @@ export class Status {
             className: characters[this.character].name,
             art: this.character,
             level: this.level,
-            rarity: characters[this.character].rarity
+            rarity: characters[this.character].rarity,
+            flavorText: characters[this.character].flavorText
         };
     }
     get bossMessage() {return this.p_bossMessage;};

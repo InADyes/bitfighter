@@ -89,6 +89,9 @@ export function buildCard(character: CharacterCard, artURLs: string[]) {
     </div>
     <div class="stats-container">
         <div class="header"> ${ character.className } </div>
+        <div class="stat">
+            ${ character.flavorText }
+        </div>
         ${charStats.join(' ')}
         <div class="stat">
             <div class="title">Level:</div>  
