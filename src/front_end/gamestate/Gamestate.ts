@@ -44,7 +44,7 @@ export class GameState {
 	}
 
 	public newMessage(msg: ReelMessage) {
-		console.log(`TIM MSG:`, msg.reel);
+		console.log(`TIM MSG:`, msg.characters);
 		// Don't do anything yet if a character is dying or moving over
 		if ((this.player1 && this.player1.isAnimated())
 			|| (this.player2 && this.player2.isAnimated())) {
@@ -70,7 +70,6 @@ export class GameState {
 				this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt);
 				this.currentBoss = this.player1.getBitBossInfo();
 				updateBitBoss({boss: this.currentBoss});
-				console.log(msg.characters[0].name)
 				recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, null);
 				if (msg.characters[1]) {
 					this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt);
