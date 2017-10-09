@@ -202,7 +202,8 @@ export class Status {
             className: characters[this.character].name,
             art: this.character,
             level: this.level,
-            rarity: characters[this.character].rarity
+            rarity: characters[this.character].rarity,
+            flavorText: characters[this.character].flavorText
         };
     }
     get bossMessage() {return this.p_bossMessage;};
