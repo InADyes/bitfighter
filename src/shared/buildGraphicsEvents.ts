@@ -37,11 +37,13 @@ export function build(event: FightEvents.Event, status: Status[]) {
             display.push(new GraphicsEvents.Health(
                 event.time,
                 event.character,
+                null,
                 Math.ceil(status[event.character].hitPoints)
             ));
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
+                1,
                 String(Math.ceil((<FightEvents.Damage>event).amount)),
                 colors.damage
             ));
@@ -50,6 +52,7 @@ export function build(event: FightEvents.Event, status: Status[]) {
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
+                .72,
                 'dodge',
                 colors.dodge
             ));
@@ -58,11 +61,13 @@ export function build(event: FightEvents.Event, status: Status[]) {
             display.push(new GraphicsEvents.Health(
                 event.time,
                 event.character,
+                null,
                 Math.ceil(status[event.character].hitPoints)
             ));
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
+                1,
                 String(Math.ceil((<FightEvents.Healing>event).amount)),
                 colors.heal
             ));
@@ -77,6 +82,7 @@ export function build(event: FightEvents.Event, status: Status[]) {
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
+                1,
                 'crit',
                 colors.damage
             ));
@@ -104,18 +110,21 @@ export function build(event: FightEvents.Event, status: Status[]) {
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
+                2,
                 `${ e.donation.name} attacks`,
                 colors.donation
             ));
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
+                2,
                 String(Math.ceil(e.amount)),
                 colors.damage
             ));
             display.push(new GraphicsEvents.Health(
                 event.time,
                 event.character,
+                e.donation.name,
                 Math.ceil(status[event.character].hitPoints)
             ));
         }   break;
@@ -125,18 +134,21 @@ export function build(event: FightEvents.Event, status: Status[]) {
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
+                1,
                 `${ e.donation.name } heals`,
                 colors.donation
             ));
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
+                1,
                 String(Math.ceil(e.amount)),
                 colors.heal
             ));
             display.push(new GraphicsEvents.Health(
                 event.time,
                 event.character,
+                null,
                 Math.ceil(status[event.character].hitPoints)
             ));
         }   break;

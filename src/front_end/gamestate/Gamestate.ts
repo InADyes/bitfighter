@@ -6,7 +6,7 @@ import * as Player from './Player';
 import { fireEvent } from './fireEvent';
 import { BossData } from './interfaces'
 
-declare function recalcHp(damageAmount: number, newHp: number, maxHp: number, attacker: string): void;
+declare function recalcHp(damageAmount: number, newHp: number, maxHp: number, attacker: string | null): void;
 declare function flip(side: 'front' | 'back'): void;
 declare function updateBitBoss(bossData: {boss: BossData, attacker?: BossData}): void;
 
@@ -43,6 +43,7 @@ export class GameState {
 	}
 
 	public newMessage(msg: ReelMessage) {
+		console.log(`TIM MSG:`, msg.reel);
 		// Don't do anything yet if a character is dying or moving over
 		if ((this.player1 && this.player1.isAnimated())
 			|| (this.player2 && this.player2.isAnimated())) {
@@ -68,7 +69,8 @@ export class GameState {
 				this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt);
 				this.currentBoss = this.player1.getBitBossInfo();
 				updateBitBoss({boss: this.currentBoss});
-				recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, "hello world");
+				console.log(msg.characters[0].name)
+				recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, null);
 				if (msg.characters[1]) {
 					this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt);
 					flip('back');
@@ -144,12 +146,12 @@ export class GameState {
 			this.player1.attacks();
 	}
 	
-	public changeHealth(p2: number, newHp: number) {
+	public changeHealth(p2: number, newHp: number, attacker: string | null) {
 		if (p2 && this.player2)
 			this.player2.adjustHp(newHp);
 		else if (this.player1) {
 			let p = this.player1.getBitBossInfo();
-			recalcHp(p.hp - newHp, newHp, p.maxHp, "hello world");
+			recalcHp(p.hp - newHp, newHp, p.maxHp, attacker);
 			this.player1.adjustHp(newHp);
 		}
 	}
@@ -186,11 +188,11 @@ export class GameState {
 		this.player2 = null;
 	}
 
-	public displayText(p2: number, str: string, color: string) {
+	public displayText(p2: number, str: string, color: string, duration: number) {
 	if (p2 && this.player2)
-			this.player2.displayText(str, color);
+			this.player2.displayText(str, color, duration);
 		else if (this.player1)
-			this.player1.displayText(str, color);
+			this.player1.displayText(str, color, duration);
 	}
 
 	public setNewScale(scale: number) {
