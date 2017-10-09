@@ -27,6 +27,7 @@ export class Attack {
         private readonly onRight:   number,
         private center:             number,
     ){
+        console.log("ASASDASDAS", this.atkURLs);
         this.exists = this.checkChar();
     }
 
@@ -58,7 +59,7 @@ export class Attack {
         //             top: this.artTop * this.scale,
     private initDragon() {
         for (let i = 0; i < 1; i++) {
-            new fabric.image.fromURL(this.atkURLs[0], (oImg: fabric.Image) => {
+            new fabric.Image.fromURL(this.atkURLs[0], (oImg: fabric.Image) => {
                 if (oImg.width && oImg.height)
                     this.trueWidth = oImg.width / oImg.height * this.height * this.scale;
                 let atk = oImg.set({
