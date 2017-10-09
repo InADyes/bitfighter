@@ -77,13 +77,15 @@ export class BitFighter {
             console.log('boss message update id does not match a currently fighting champion');
             return;
         }
-        if (this.arena.getCombatants()[0].setBossMessage(message)) {
-            this.sendMessageToFont({
-                updateBossMessage: {
-                    championIndex: 0,
-                    bossMessage: message
-                }
-            });
+        if (this.arena.getCombatants()[index].setBossMessage(message)) {
+            if (index === 0) {
+                this.sendMessageToFont({
+                    updateBossMessage: {
+                        championIndex: 0,
+                        bossMessage: message
+                    }
+                });
+            }
         } else {
             this.sendMessageToFont(
                 {
@@ -103,13 +105,15 @@ export class BitFighter {
             console.log('boss emoticon update id does not match a currently fighting champion');
             return;
         }
-        this.arena.getCombatants()[0].bossEmoticonURL = bossEmoticonURL;
-        this.sendMessageToFont({
-            updateBossEmoticonURL: {
-                championIndex: 0,
-                bossEmoticonURL: bossEmoticonURL
-            }
-        });
+        this.arena.getCombatants()[index].bossEmoticonURL = bossEmoticonURL;
+        if (index === 0) {
+            this.sendMessageToFont({
+                updateBossEmoticonURL: {
+                    championIndex: 0,
+                    bossEmoticonURL: bossEmoticonURL
+                }
+            });
+        }
     }
 
     public receivedFanGameState(id: number, choice: FrontToBackMessage) {

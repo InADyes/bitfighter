@@ -154,7 +154,7 @@ export function build(event: FightEvents.Event, status: Status[]) {
         }   break;
         case FightEvents.Types.attack:
             display.push(new GraphicsEvents.Attack(
-                event.time - 150,
+                event.time - 0,
                 event.character
             ));
             break;
