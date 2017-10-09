@@ -1,26 +1,11 @@
-import { sortGraphicsEvents } from '../shared/buildGraphicsEvents';
-import { buildEvents } from '../shared/buildEvents';
-import { Stats, Status, cardStats } from '../shared/Status';
+import { Status } from '../shared/Status';
 import { Character, pickCharacter, characters } from '../shared/characterPicker';
-import * as FightEvents from '../shared/fightEvents';
-import * as graphicsEvents from '../shared/graphicsEvents';
-import { BackToFrontMessage } from '../shared/interfaces/backToFrontMessage';
+import { BackToFrontMessage, Queue as QueueMessage } from '../shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 import { BackendSettings as Settings } from './settings'
-import { applyFightEvents, CombinedEvent } from '../shared/applyFightEvents'
 import { CharacterChoiceHandler } from './characterChoiceHandler';
-import { hrtime } from 'process';
 import { Donation } from '../shared/interfaces/donation';
-
-import { Game } from './Game';
-
-function nodePerformanceNow() {
-    if (hrtime) {
-        const time = hrtime();
-        return time[0] * 1e3 + time[1] / 1e6;
-    }
-    return performance.now();
-};
+import { Arena } from './Arena';
 
 export class BitFighter {
     private queue: Status[] = [];
@@ -34,7 +19,7 @@ export class BitFighter {
             this.sendMessageToFont({characterChoices}, id);
         }
     );
-    private game: Game;
+    private arena: Arena;
 
     constructor(
         private sendMessageToFont: (message: BackToFrontMessage, fan?: number) => void,
@@ -53,37 +38,46 @@ export class BitFighter {
                 bossEmoticonURL: '',
             }
         },
-        private readonly saveGameState: (jsonStr: string) => void,
+        private readonly saveArenaState: (jsonStr: string) => void,
         gameStateJSON?: string
     ) {
         if (this.settings.defaultChampion.id === 123544090)
             this.settings.defaultChampion.name = 'Ravioli';
-        this.game = new Game(
+        this.arena = new Arena(
             this.settings,
-            (message, fan) => {
-                message.queue =  { queue: this.queue.map(s => ({
-                    fanDisplayName: s.name, 
-                    championTypeName: characters[s.character].name
-                }))},
-                this.sendMessageToFont(message, fan);
+            (newReel) => {
+                this.sendMessageToFont({
+                    newReel,
+                    queue: newReel.patch ? undefined : this.buildQueueMessage()
+                });
             },
-            () => this.checkQueue()
+            () => this.addToArena()
         );
-        this.game.addCombatant(pickCharacter(
+        this.arena.addCombatants(pickCharacter(
             this.settings.defaultChampion,
             Math.floor(Math.random() * characters.length))
         );
     }
 
+    private buildQueueMessage(timer?: number): QueueMessage {
+        return {
+            queue: this.queue.map(s => ({
+                fanDisplayName: s.name, 
+                championTypeName: characters[s.character].name
+            })),
+            timer: timer
+        }
+    }
+
     public bossMessageUpdate(id: number, message: string) {
         // TODO: make this work for people in queue and on the right side of a fight
-        const index = this.game.searchFightForCombatant(id);
+        const index = this.arena.searchForCombatant(id);
 
         if (id === -1) {
             console.log('boss message update id does not match a currently fighting champion');
             return;
         }
-        this.game.getCombatants()[0].bossMessage = message;
+        this.arena.getCombatants()[0].bossMessage = message;
         this.sendMessageToFont({
             updateBossMessage: {
                 championIndex: 0,
@@ -95,13 +89,13 @@ export class BitFighter {
     public bossEmoticonURLUpdate(id: number, bossEmoticonURL: string) {
         // TODO: make this work for people in queue and on the right side of a fight
 
-        const index = this.game.searchFightForCombatant(id);
+        const index = this.arena.searchForCombatant(id);
 
         if (id === -1) {
             console.log('boss emoticon update id does not match a currently fighting champion');
             return;
         }
-        this.game.getCombatants()[0].bossEmoticonURL = bossEmoticonURL;
+        this.arena.getCombatants()[0].bossEmoticonURL = bossEmoticonURL;
         this.sendMessageToFont({
             updateBossEmoticonURL: {
                 championIndex: 0,
@@ -113,8 +107,8 @@ export class BitFighter {
     public receivedFanGameState(id: number, choice: FrontToBackMessage) {
         if (choice.characterChoice)
             this.characterChoiceHandler.completeChoice(id, choice.characterChoice.choice, true);
-        if (choice.requestReel)
-            this.game.pushLastResults(undefined, id);
+        //if (choice.requestReel)
+            //this.arena.pushLastResults(undefined, id);
     }
     public donation(
         id: number,
@@ -133,10 +127,10 @@ export class BitFighter {
             bossEmoticonURL
         };
 
-        const combatantIndex: number = this.game.searchFightForCombatant(id);
+        const combatantIndex: number = this.arena.searchForCombatant(id);
         // if the donation matches a fighter
         if (combatantIndex !== -1) {
-            this.game.healCombatant(combatantIndex, donation);
+            this.arena.healCombatant(combatantIndex, donation);
         // if the donation is enough for a character and they aren't already in the queue
         } else if (this.queue.some(s => {return s.id === id;}) === false
             && amount >= this.settings.minimumDonation) {
@@ -144,57 +138,44 @@ export class BitFighter {
 
         // otherwise try and damage the chapion
         } else {
-            this.game.damageCombatant(0, donation);
+            this.arena.damageCombatant(0, donation);
         }
-    }
-
-    public checkQueue() {
-        if (this.queue.length > 0)
-            this.nextFight();
-        // else if (this.game.getCombatants().length == 0) {
-        //     this.game.getCombatants().push(pickCharacter(
-        //         this.settings.defaultChampion,
-        //         Math.floor(Math.random() * characters.length)
-        //     ));
-        //     this.nextFight();
-        // }
     }
     
     // public for testing purposes (bypasses front end character choice)
     public newCombatant(status: Status) {
         this.queue.push(status)
-        if (this.queue.length === 1 && this.game.isBusy() === false) {
+
+        if (this.queue.length === 1 && this.arena.isBusy() === false) {
             const timeout = 5000;
 
             this.timeout = setTimeout(
                 () => {
                     this.timeout = null;
-                    this.nextFight()
+                    this.addToArena()
                 },
                 timeout // TODO: make this a setting
             );
             this.sendMessageToFont({
-                queue: {
-                    queue: this.queue.map(s => ({
-                        fanDisplayName: s.name, 
-                        championTypeName: characters[s.character].name
-                    })),
-                    timer: timeout
-                }
-            })
-        }
-        else {
+                queue: this.buildQueueMessage(timeout)
+            });
+        } else {
             this.sendMessageToFont({
-                queue: { queue: this.queue.map(s => ({
-                    fanDisplayName: s.name, 
-                    championTypeName: characters[s.character].name
-                }))}
-            })
+                queue: this.buildQueueMessage()
+            });
         }
     }
     
     // start a new fight, maybe rename to queue change
-    private nextFight() {
-        this.game.addCombatant(...this.queue);
+    private addToArena() {
+        if (this.queue.length < 1)
+            return;
+
+
+        let newFighterCount = 2 - this.arena.getCombatants().length;
+
+        if (newFighterCount < 0)
+            newFighterCount = 0;
+        this.arena.addCombatants(  ...this.queue.splice(0, newFighterCount));
     }
 }

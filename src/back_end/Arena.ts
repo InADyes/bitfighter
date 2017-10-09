@@ -1,11 +1,10 @@
 import { sortGraphicsEvents } from '../shared/buildGraphicsEvents';
 import { buildEvents } from '../shared/buildEvents';
-import { Stats, Status, cardStats } from '../shared/Status';
-import { Character, pickCharacter, characters } from '../shared/characterPicker';
+import { Status, cardStats } from '../shared/Status';
+import { pickCharacter, characters } from '../shared/characterPicker';
 import * as FightEvents from '../shared/fightEvents';
-import * as graphicsEvents from '../shared/graphicsEvents';
-import { BackToFrontMessage } from '../shared/interfaces/backToFrontMessage';
-import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
+import { Event as GraphicsEvent} from '../shared/graphicsEvents';
+import { BackToFrontMessage, ReelMessage } from '../shared/interfaces/backToFrontMessage';
 import { BackendSettings as Settings } from './settings'
 import { applyFightEvents, CombinedEvent } from '../shared/applyFightEvents'
 import { CharacterChoiceHandler } from './characterChoiceHandler';
@@ -20,37 +19,26 @@ function nodePerformanceNow() {
     return performance.now();
 };
 
-export class Game {
+export class Arena {
     private fightStartTime: number = 0;
     private timeout: NodeJS.Timer | null = null;
-    private combatants: Status[] = [];
+    private readonly combatants: Status[] = [];
     private events: CombinedEvent[] = [];
     private lastDamageDonation: Donation | null = null;
 
     constructor(
         private readonly settings: Settings,
-        private readonly sendMessageToFront: (message: BackToFrontMessage, fan?: number) => void,
+        private readonly newFightResults: (message: ReelMessage, fan?: number) => void,
         private readonly fightOver: () => void
-    ) {
+    ) {}
 
-    }
-
-    public addCombatant(...combatant: Status[]) {
-        if (this.combatants.length >= 2) {
-            console.log('cannot start fight: fight already ongoing');
-            this.sendMessageToFront({
-                queue: { queue: combatant.map(s => ({
-                    fanDisplayName: s.name, 
-                    championTypeName: characters[s.character].name
-                })) }
-            });
-            return;
+    public addCombatants(...combatants: Status[]) {
+        if (this.timeout !== null) {
+            clearTimeout(this.timeout);
+            this.timeout = null;
         }
 
-        if (this.timeout !== null)
-            clearTimeout(this.timeout);
-
-        this.combatants = this.combatants.concat(combatant.splice(0, 2 - this.combatants.length));
+        this.combatants.splice(-1, 0, ...combatants);
 
         const result = buildEvents(this.combatants);
         this.fightStartTime = nodePerformanceNow();
@@ -60,7 +48,7 @@ export class Game {
         this.timeoutNextEvent();
     }
 
-    public searchFightForCombatant(id: number) {
+    public searchForCombatant(id: number) {
         return this.combatants.findIndex(s => s.id === id);
     }
     
@@ -109,38 +97,32 @@ export class Game {
             )
         );
     }
-    
-    // push the current events to everyone
-    public pushLastResults(patchTime?: number, fan?: number) {
-        const graphics: graphicsEvents.Event[] = [];
+
+    public lastResults(patchTime?: number): ReelMessage {
+        const graphics: GraphicsEvent[] = [];
         this.events.forEach(e => graphics.push(...e.graphics));
         sortGraphicsEvents(graphics);
 
-        this.sendMessageToFront(
-            {
-                newReel: {
-                        characters: this.combatants.map(c => ({
-                            name: c.name,
-                            maxHitPoints: Math.ceil(c.baseStats.maxHitPoints),
-                            currentHitPoints: Math.ceil(c.hitPoints),
-                            art: c.character,
-                            profileImageURL: c.profileImageURL,
-                            bossMessage: c.bossMessage,
-                            card: c.card,
-                            bossEmoticonURL: c.bossEmoticonURL
-                        })
-                    ),
-                    reel: graphics,
-                    patch: patchTime
-                },
-                // queue: { queue: this.queue.map(s => ({
-                //     fanDisplayName: s.name, 
-                //     championTypeName: characters[s.character].name
-                // }))},
-                characterList: fan ? cardStats : undefined
-            },
-            fan
-        );
+        return {
+            characters: this.combatants.map(c => ({
+                name: c.name,
+                maxHitPoints: Math.ceil(c.baseStats.maxHitPoints),
+                currentHitPoints: Math.ceil(c.hitPoints),
+                art: c.character,
+                profileImageURL: c.profileImageURL,
+                bossMessage: c.bossMessage,
+                card: c.card,
+                bossEmoticonURL: c.bossEmoticonURL
+            })
+        ),
+        reel: graphics,
+        patch: patchTime
+        }
+    }
+    
+    // push the current events to everyone
+    public pushLastResults(patchTime?: number) {
+        this.newFightResults(this.lastResults(patchTime));
     }
     
     // only works when all new events have the same time
