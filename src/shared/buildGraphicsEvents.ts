@@ -16,7 +16,7 @@ const eventOrder = {
 
 const colors = {
     damage: '#f00e53',
-    dodge: '#09d2d9',
+    dodge: 'purple',
     donation: '#8de82c',
     heal: '#21e4c6'
 }

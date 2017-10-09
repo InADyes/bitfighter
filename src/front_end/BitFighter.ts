@@ -56,10 +56,8 @@ export class BitFighter {
             if (!data.newReel.patch)
                 updateStatusCards(data.newReel.characters, this.artURLs);
         }
-        if (data.characterChoices) {
-            flip('back');
+        if (data.characterChoices)
             this.cardChoices.displayCards(data.characterChoices.map(c => buildCard(c, this.artURLs)));
-        }
         if (data.queue)
             this.queue.handleNewQueue(data.queue);
         if (data.updateBossMessage)
