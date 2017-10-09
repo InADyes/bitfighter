@@ -147,7 +147,7 @@ export class Arena {
 
         // if the new events caused the chapion to die instead start a fight
         if (this.combatants.length === 1 && reel.some(e => e.fight.type === FightEvents.Types.death)) {
-            this.combatants.push(pickCharacter(donation, 0 /*replace with gravedigger*/));
+            this.combatants.push(pickCharacter(donation, 10 /*replace with gravedigger*/));
             this.startFight(new FightEvents.Healing(0, 0, this.combatants[0].stats.maxHitPoints * 0.1));
             return;
         }

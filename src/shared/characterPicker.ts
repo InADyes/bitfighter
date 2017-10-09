@@ -385,7 +385,7 @@ export const characters: Character[] = [
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
-        rarity: -1,
+        rarity: 4,
         crits: [{
             damageMultiplier: 5,
             odds: 8
@@ -400,7 +400,8 @@ const rarityLevel = [
     1, // common
     3, // uncommon
     5, // rare
-    7  // legendary
+    7,  // legendary
+    0, // gravedigger
 ];
 
 interface Level {
