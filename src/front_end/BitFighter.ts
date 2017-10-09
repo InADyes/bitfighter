@@ -1,7 +1,7 @@
 import { characters,
-    buffArt as buffArtNoShim,
+    buffURLs as buffURLsNoShim,
     artURLs as artURLsNoShim,
-    atkArt as atkArtNoShim
+    atkURLs as atkURLsNoShim
 } from '../shared/characterPicker';
 import { GameState } from './gamestate/Gamestate';
 import { BackToFrontMessage } from '../shared/interfaces/backToFrontMessage';
@@ -23,7 +23,8 @@ export class BitFighter {
     private canvas = document.getElementById('arena');
     private cardChoices: CardChoices;
     private readonly artURLs = artURLsNoShim.map(url => this.settings.assetsShim + url);
-    private readonly iconURLs = buffArtNoShim.map(url => this.settings.assetsShim + url);
+    private readonly iconURLs = buffURLsNoShim.map(url => this.settings.assetsShim + url);
+    private readonly atkURLs = atkURLsNoShim.map(url => this.settings.assetsShim + url);
     private readonly queue = new Queue(
         <HTMLDivElement>document.getElementById('queue'),
         (time) => this.game.startTimer(time)
@@ -35,7 +36,7 @@ export class BitFighter {
         // todo: find out what gameslug is for
         private readonly emitGameEvent: (gameSlug: string, message: FrontToBackMessage) => void
     ) {
-        this.game = new GameState('arena', this.artURLs, this.iconURLs);
+        this.game = new GameState('arena', this.artURLs, this.iconURLs, this.atkURLs);
         this.updateSettings(settings);
         this.cardChoices = new CardChoices(
             <HTMLDivElement>document.getElementById('charSelect'),

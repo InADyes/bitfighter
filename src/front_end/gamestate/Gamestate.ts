@@ -103,11 +103,7 @@ export class GameState {
 	}
 
 	private getNextEvent() {
-<<<<<<< HEAD
-		let event = this.reel.shift();
-=======
 		const event = this.reel.shift();
->>>>>>> 1b67aac80d482ec3c713f74473e6fb03ebb46f22
 		if (event === undefined) {
 			this.eventLoopTimeout = null;
 			this.idleCheck();

@@ -1,6 +1,7 @@
 import 'fabric';
 declare let fabric: any;
 import {charStrings} from '../../shared/characterPicker';
+import {Attack} from './Attack'
 
 export class Player {
     private health:         number;
@@ -20,13 +21,9 @@ export class Player {
     private buffs:          number[];
     private buffGroup:      fabric.Group;
     private scale:          number;
+    private specialAtk:     Attack;
     private height =        70;
-<<<<<<< HEAD
-    private hpHeight =      60;
-    private hpWidth =       7;
-=======
     private hpWidth =       6.5;
->>>>>>> 1b67aac80d482ec3c713f74473e6fb03ebb46f22
     private textLock =      0;
     private animationLock = 0;
     private nameHeight =    120;
@@ -68,6 +65,7 @@ export class Player {
         this.center = this.canvas.getWidth() / 2;
         this.textQueue = [];
         this.buffs = [];
+        this.specialAtk = new Attack(canvas, this.data.art, atkArt, scale, side, this.center);
     }
 
     private drawBuffs() {
@@ -261,16 +259,16 @@ export class Player {
         });
     }
 
-    private getAtk(i: number) {
-        return (new fabric.Image.fromURL(this.atkArt[i], (oImg: fabric.Image) => {
-            if (oImg.width && oImg.height)
-                let fireWidth = oImg.width/oImg.height * this.height * this.scale;
-            this.atk = oImg.set({
-                left: !this.onRight ? (this.center - this.trueWidth / 2) - this.artAdjust : (this.center + this.trueWidth / 2) + this.artAdjust,
-                top: this.artTop * this.scale,
-            })
-        })
-    }
+    // private getAtk(i: number) {
+    //     return (new fabric.Image.fromURL(this.atkArt[i], (oImg: fabric.Image) => {
+    //         if (oImg.width && oImg.height)
+    //             let fireWidth = oImg.width/oImg.height * this.height * this.scale;
+    //         this.atk = oImg.set({
+    //             left: !this.onRight ? (this.center - this.trueWidth / 2) - this.artAdjust : (this.center + this.trueWidth / 2) + this.artAdjust,
+    //             top: this.artTop * this.scale,
+    //         })
+    //     })
+    // }
 
     public drawMe() {
         if (this.img)
@@ -309,13 +307,8 @@ export class Player {
     }
 
     public attacks() {
-        // if (this.data.art === 9) {
-        //     let fire1 = this.getFire();
-        //     fire1.set();
-        //     let fire2 = this.getFire();
-        //     fire2.set();
-        //     let fire3 = this.getFire();
-        //     fire3.set();
+        // if (this.specialAtk.canBeUsed()) {
+        //      this.specialAtk.fires();
         // }
         // else {
             this.img.animate('left', this.onRight ? `-=${ 10  * this.scale }` : `+=${ 10 * this.scale }`, {

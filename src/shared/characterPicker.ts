@@ -15,7 +15,7 @@ export const artURLs = [
     "images/champions/9dragon.png",  
 ];
 
-export const buffArt = [
+export const buffURLs = [
     "images/icons/buffs/mop_up.png",
     "images/icons/buffs/last_call.png",
     "images/icons/buffs/medium_buff.png",
@@ -29,7 +29,7 @@ export const buffArt = [
     "images/icons/buffs/firebreathing.png"
 ];
 
-export const atkArt = [
+export const atkURLs = [
     "images/icons/fire1.png",
     "images/icons/fire2.png",
     "images/icons/fire3.png"

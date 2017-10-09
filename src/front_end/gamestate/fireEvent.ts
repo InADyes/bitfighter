@@ -6,7 +6,14 @@ export function fireEvent(event: GraphicsEvents.Event, gameState: GameState){
     switch(event.type) {
         case GraphicsEvents.EventType.Health:
             //console.log(`CHARACTER ${ char } CHANGES HEALTH BY ${ (<GraphicsEvents.Health>event).health }`);
-            gameState.changeHealth(char, (<GraphicsEvents.Health>event).health)
+            gameState.changeHealth(char, (<GraphicsEvents.Health>event).health);
+            //if (p2 && this.player2)
+		// 	this.player2.adjustHp(newHp);
+		// else if (this.player1) {
+		// 	let p = this.player1.getBitBossInfo();
+		// 	recalcHp(p.hp - newHp, newHp, p.maxHp, "hello world");
+		// 	this.player1.adjustHp(newHp);
+		//}
             break;
         case GraphicsEvents.EventType.Attack:
             //console.log(`CHARACTER ${ char } ATTACKS`)
