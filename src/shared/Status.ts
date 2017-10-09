@@ -28,7 +28,7 @@ export const cardStats: {[details: number]: choiceStats} = {
         dodge: 6,
         armor: 5,
         damage: 5,
-        attackSpeed: 5
+        attackSpeed: 5,
     },
     [characterTypes.barkeep]: {
         accuracy: 3,

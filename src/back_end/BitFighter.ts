@@ -107,7 +107,14 @@ export class BitFighter {
     public receivedFanGameState(id: number, choice: FrontToBackMessage) {
         if (choice.characterChoice)
             this.characterChoiceHandler.completeChoice(id, choice.characterChoice.choice, true);
-        //if (choice.requestReel)
+        if (choice.requestReel)
+            this.sendMessageToFont(
+                {
+                    queue: this.buildQueueMessage(),
+                    newReel: this.arena.lastResults()
+                },
+                id
+            )
             //this.arena.pushLastResults(undefined, id);
     }
     public donation(
