@@ -16,7 +16,7 @@ const eventOrder = {
 
 const colors = {
     damage: '#f00e53',
-    dodge: 'purple',
+    dodge: '#09d2d9',
     donation: '#8de82c',
     heal: '#21e4c6'
 }
@@ -110,14 +110,14 @@ export function build(event: FightEvents.Event, status: Status[]) {
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
-                2,
+                1.5,
                 `${ e.donation.name} attacks`,
                 colors.donation
             ));
             display.push(new GraphicsEvents.Text(
                 event.time,
                 event.character,
-                2,
+                1.5,
                 String(Math.ceil(e.amount)),
                 colors.damage
             ));
