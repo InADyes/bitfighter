@@ -38,7 +38,7 @@ export class Arena {
             this.timeout = null;
         }
 
-        this.combatants.splice(-1, 0, ...combatants);
+        this.combatants.push(...combatants);
         this.startFight();
     }
 
