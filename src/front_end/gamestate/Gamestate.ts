@@ -5,7 +5,7 @@ declare let fabric: any;
 import * as Player from './Player';
 import { fireEvent } from './fireEvent';
 import { BossData } from './interfaces';
-import { recalcHp, flip, updateBitBoss} from '../globalDependencies'
+import { recalcHp, flip, updateBitBoss, bossTextOut} from '../globalDependencies'
 
 // declare function recalcHp(damageAmount: number, newHp: number, maxHp: number, attacker: string | null): void;
 // declare function flip(side: 'front' | 'back'): void;
@@ -70,7 +70,6 @@ export class GameState {
 				this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt);
 				this.currentBoss = this.player1.getBitBossInfo();
 				updateBitBoss({boss: this.currentBoss});
-				console.log(msg.characters[0].name)
 				recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, null);
 				if (msg.characters[1]) {
 					this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt);
@@ -152,6 +151,7 @@ export class GameState {
 			this.player2.adjustHp(newHp);
 		else if (this.player1) {
 			let p = this.player1.getBitBossInfo();
+			console.log(`TIM SAYS: current hp: ${p.hp}, newhp: ${newHp}, damage: ${p.hp - newHp}`);
 			recalcHp(p.hp - newHp, newHp, p.maxHp, attacker);
 			this.player1.adjustHp(newHp);
 		}
@@ -190,10 +190,12 @@ export class GameState {
 	}
 
 	public displayText(p2: number, str: string, color: string, duration: number) {
-	if (p2 && this.player2)
+		if (p2 && this.player2)
 			this.player2.displayText(str, color, duration);
-		else if (this.player1)
+		else if (this.player1) {
 			this.player1.displayText(str, color, duration);
+			bossTextOut(color, str);
+		}
 	}
 
 	public setNewScale(scale: number) {
