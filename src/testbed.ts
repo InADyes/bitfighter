@@ -38,7 +38,10 @@ window.addEventListener('load', function(){
                 profileImageURL: 'testbed_images/banana_icon.png',
                 bossMessage: 'look at me',
                 bossEmoticonURL: ''
-            }
+            },
+            characterNames: {},
+            bitFighterEnabled: true,
+            bitBossStartingHealth: 1000
         },
         str => console.log('new gamestate save:', str),
         (gameState, donationType, amount) => {
