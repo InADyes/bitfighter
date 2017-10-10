@@ -13,9 +13,9 @@ import {charStrings} from '../shared/characterPicker';
 import { FrontEndSettings as Settings } from './settings';
 import {Queue} from './Queue';
 
-//import { flip, receiveCharList } from './globalDependencies';
-export declare function flip(side: 'front' | 'back'): void;
-export declare function receiveCharList(data: any): void;
+import { flip, receiveCharList, bossMessageTooManyChanges } from './globalDependencies';
+// export declare function flip(side: 'front' | 'back'): void;
+// export declare function receiveCharList(data: any): void;
 
 export class BitFighter {
     private readonly game: GameState;
@@ -71,6 +71,8 @@ export class BitFighter {
             console.log(`-------------------->TIM: got char list.\nlist: ${charList}`);
             receiveCharList(charList);
         }
+        if (data.bossMessageChangeFailed)
+            bossMessageTooManyChanges();
     }
    
     public updateSettings(settings: Settings) {
