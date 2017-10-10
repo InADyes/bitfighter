@@ -12,7 +12,8 @@ declare const window: {
     readonly receiveQueue: (data: {
         readonly fanDisplayName: string;
         readonly championTypeName: string;
-    }[]) => void
+    }[]) => void,
+    readonly bossTextOut: (color: string, text: string) => void
 };
 
 export const flip = window.flip;
@@ -20,3 +21,4 @@ export const receiveCharList = window.receiveCharList;
 export const recalcHp = window.recalcHp;
 export const updateBitBoss = window.updateBitBoss;
 export const receiveQueue = window.receiveQueue;
+export const bossTextOut = window.bossTextOut;
