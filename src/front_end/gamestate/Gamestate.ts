@@ -70,6 +70,7 @@ export class GameState {
 				this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt);
 				this.currentBoss = this.player1.getBitBossInfo();
 				updateBitBoss({boss: this.currentBoss});
+				console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
 				recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, null);
 				if (msg.characters[1]) {
 					this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt);
@@ -170,6 +171,7 @@ export class GameState {
 			this.player1.clearBuffs();
 			if (this.player2) {
 				this.currentBoss = this.player2.getBitBossInfo();
+				console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
 				updateBitBoss({boss: this.currentBoss});
 				this.player2.clearBuffs();
 			}
@@ -283,6 +285,7 @@ export class GameState {
 			this.player1.updateBossMessage(str);
 			this.currentBoss = this.player1.getBitBossInfo();
 			updateBitBoss({ boss: this.currentBoss });
+			console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
 		}
 	}
 
@@ -293,6 +296,7 @@ export class GameState {
 			this.player1.updateEmote(str);
 			this.currentBoss = this.player1.getBitBossInfo();
 			updateBitBoss({ boss: this.currentBoss });
+			console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
 		}
 	}
 }
