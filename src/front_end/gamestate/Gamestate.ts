@@ -1,5 +1,5 @@
 import * as Events from '../../shared/graphicsEvents';
-import { ReelMessage } from '../../shared/interfaces/backToFrontMessage';
+import { ReelMessage, FrontendCharacter } from '../../shared/interfaces/backToFrontMessage';
 import 'fabric'
 declare let fabric: any;
 import * as Player from './Player';
@@ -24,6 +24,7 @@ export class GameState {
 	private timer:				number;
 	private countBot:			fabric.Text;
 	private countTop:			fabric.Text;
+	private align =				"left"; 
 	private scale =				1;
 	private scaleWait =			0;
 	private isWaiting =			0;
@@ -34,7 +35,8 @@ export class GameState {
 	constructor(
 		canvasId: string,
 		private readonly charArt: string[],
-		private readonly buffArt: string[]
+		private readonly buffArt: string[],
+		private readonly characterStateChange: (characters: FrontendCharacter[]) => void
 	) {
 		this.canvas = new fabric.StaticCanvas(canvasId);
 		this.canvas.setWidth(this.baseWidth);
@@ -134,8 +136,14 @@ export class GameState {
 	}
 
 	public drawPlayers() {
-		if (this.player1)
+		if (this.player1 && this.align === "left")
 			this.player1.drawMe(this.player2 ? this.player2 : null, 0);
+		else if (this.player2 && this.align === "right")
+			this.player2.drawMe(this.player1 ? this.player1 : null, 0);
+		//else if (!this.player2 && this.align === "right")
+			//this.player1.drawMe(null, 100 * this.scale);
+		//else if (this.align === "center")
+			// draw players from center
 	}
 
 	public attack(p2: number) {
@@ -291,5 +299,15 @@ export class GameState {
 			this.currentBoss = this.player1.getBitBossInfo();
 			updateBitBoss({ boss: this.currentBoss });
 		}
+	}
+
+	public setAlign(alignment: 'left' | 'right' | 'center') {
+		let str2 = "right"; // wtf typescript???
+		let str3 = "center"; // why do i have to do this???
+		if (alignment !== "left" || alignment !== str2 || alignment !== str3) {
+			console.error("Not a proper alignment");
+			return;
+		}
+		this.align == alignment
 	}
 }
