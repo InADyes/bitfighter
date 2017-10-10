@@ -19,7 +19,7 @@ declare const window: {
         readonly fanDisplayName: string;
         readonly championTypeName: string;
     }[]) => void,
-    readonly bossTextOut: (color: string, text: string) => void,
+    //readonly bossTextOut: (color: string, text: string) => void,
     readonly bossMessageTooManyChanges: () => void
 };
 
@@ -28,5 +28,5 @@ export const receiveCharList = window.receiveCharList;
 export const recalcHp = window.recalcHp;
 export const updateBitBoss = window.updateBitBoss;
 export const receiveQueue = window.receiveQueue;
-export const bossTextOut = window.bossTextOut;
+//export const bossTextOut = window.bossTextOut;
 export const bossMessageTooManyChanges = window.bossMessageTooManyChanges;

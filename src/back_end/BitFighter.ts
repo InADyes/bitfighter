@@ -39,7 +39,10 @@ export class BitFighter {
                 profileImageURL: '',
                 bossMessage: 'look at me',
                 bossEmoticonURL: ''
-            }
+            },
+            characterNames: {},
+            bitFighterEnabled: true,
+            bitBossStartingHealth: 1000
         },
         private readonly saveArenaState: (jsonStr: string) => void,
         private readonly logDonation: (
