@@ -13,8 +13,9 @@ import {charStrings} from '../shared/characterPicker';
 import { FrontEndSettings as Settings } from './settings';
 import {Queue} from './Queue';
 
-declare function flip(side: 'front' | 'back'): void;
-declare function receiveCharList(data: any): void;
+// import { flip, receiveCharList } from './globalDependencies';
+export declare function flip(side: 'front' | 'back'): void;
+export declare function receiveCharList(data: any): void;
 
 export class BitFighter {
     private readonly game: GameState;
