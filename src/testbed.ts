@@ -59,7 +59,10 @@ window.addEventListener('load', function(){
                 bossEmoticonURL: ''
             }
         },
-        str => console.log('new gamestate save:', str)
+        str => console.log('new gamestate save:', str),
+        (gameState, donationType, amount) => {
+            console.log(`donation: ${ gameState }, ${ donationType }, ${ amount }`);
+        }
     );
 
     const frontend = new BitFighterFront(
@@ -85,7 +88,6 @@ window.addEventListener('load', function(){
         },
         // cardDiv
     );
-
 
     const newDonationButton = <HTMLButtonElement>document.getElementById('new-donation');
     const nameInputNode = <HTMLInputElement>document.getElementById('donation-name');
