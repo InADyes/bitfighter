@@ -21,7 +21,8 @@ export class Player {
     private buffGroup:      fabric.Group;
     private scale:          number;
     private offset:         number;
-    private align =         "left";
+    private cWidth:         number;
+    private align =         "right";
     private height =        70;
     private hpWidth =       6.5;
     private textLock =      0;
@@ -64,9 +65,10 @@ export class Player {
         this.center = this.canvas.getWidth() / 2;
         this.textQueue = [];
         this.buffs = [];
+        this.cWidth = this.canvas.getWidth();
     }
 
-    public drawMe(p2: Player | null, offset: number) {
+    public drawMe(player: Player | null, offset: number) {
         this.offset = offset;
         if (this.img)
             this.canvas.remove(this.img);
@@ -77,6 +79,8 @@ export class Player {
                 this.trueWidth = oImg.width/oImg.height * this.height;
             if (this.align === "left")
                 oImg.set({left: this.scale * (this.artAdjust + this.offset + this.trueWidth / 2)});
+            else if (this.align === "right")
+                oImg.set({left: this.cWidth - this.scale * (this.artAdjust + this.offset + this.trueWidth / 2)});
             this.img = oImg.set({
                 top: this.artTop * this.scale,
                 originX: 'center',
@@ -88,8 +92,8 @@ export class Player {
             this.drawHealthText();
             this.drawHpBar();
             this.drawname();
-            if (p2)
-                p2.drawMe(null, this.trueWidth);
+            if (player)
+                player.drawMe(null, this.trueWidth);
         });
     }
 
@@ -117,7 +121,9 @@ export class Player {
             originX: 'center',
         });
         if (this.align === "left")
-            this.healthtext.set({left: this.onRight ? (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust) * this.scale : this.hpAdjust * this.scale})
+            this.healthtext.set({left: this.onRight ? (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust) * this.scale : this.hpAdjust * this.scale});
+        else if (this.align === "right")
+            this.healthtext.set({left: this.onRight ? this.cWidth - this.hpAdjust * this.scale : this.cWidth - (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust) * this.scale});    
         this.canvas.add(this.healthtext);
         this.canvas.sendToBack(this.healthtext);
     }
@@ -176,6 +182,8 @@ export class Player {
         });
         if (this.align === "left")
             temp.set({left: this.onRight ? this.scale * (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust) : this.hpAdjust * this.scale});
+        else if (this.align === "right")
+            temp.set({left: this.onRight ? this.cWidth - this.hpAdjust * this.scale : this.cWidth - this.scale * (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust)});    
         return (temp);
     }
     
@@ -207,7 +215,9 @@ export class Player {
             originX: 'center'
         });
         if (this.align === "left")
-            temp.set({left: this.onRight ? (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust) * this.scale: this.hpAdjust * this.scale});
+            temp.set({left: this.onRight ? (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust) * this.scale : this.hpAdjust * this.scale});
+        else if (this.align === "right")
+            temp.set({left: this.onRight ? this.cWidth - this.hpAdjust * this.scale : this.cWidth - (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust) * this.scale});    
         return(temp);
     }
 
@@ -235,6 +245,8 @@ export class Player {
         });
         if (this.align === "left")
             textgroup.set({left: this.scale * (this.trueWidth / 2 + this.artAdjust + this.offset)});
+        if (this.align === "right")
+            textgroup.set({left: this.cWidth - this.scale * (this.trueWidth / 2 + this.artAdjust + this.offset)});
         this.canvas.add(textgroup);
         textgroup.animate('top', `-=${ 20 * this.scale }`, {
             duration: 700 * txtObj.duration,
@@ -284,6 +296,8 @@ export class Player {
             new fabric.Image.fromURL(this.buffArt[this.buffs[i]], (oImg: fabric.Image) => {
                 if (this.align === "left")
                     oImg.set({left: ((this.offset + this.artAdjust) + this.buffOffset * (i % numBuffsPerRow)) * this.scale});
+                else if (this.align === "right")
+                    oImg.set({left: this.cWidth - ((this.offset + this.artAdjust) + this.buffOffset * (i % numBuffsPerRow)) * this.scale});    
                 let currentbuff = oImg.set({
                     top: i < numBuffsPerRow? this.buffTop * this.scale: (this.buffTop + this.buffSize * Math.floor(i / numBuffsPerRow) - 5) * this.scale,
                     height: this.buffSize * this.scale,
@@ -376,6 +390,8 @@ export class Player {
                 let amount = 0;
                 if (this.align === "left")
                     amount = (this.artAdjust + this.offset + this.trueWidth / 2) * this.scale;
+                else if (this.align === "right")
+                    amount = this.cWidth - (this.artAdjust + this.offset + this.trueWidth / 2) * this.scale;
                 this.img.animate('left', amount, {
                     duration: 300,
                     onChange: this.canvas.renderAll.bind(this.canvas),
@@ -428,7 +444,9 @@ export class Player {
         let amount = 0;
         if (this.align === "left")
             amount = this.scale * (this.artAdjust + this.offset + this.trueWidth / 2);
-        this.img.animate(`left`, amount, {
+        if (this.align === "right")
+            amount = this.cWidth - this.scale * (this.artAdjust + this.offset + this.trueWidth / 2);
+        this.img.animate('left', amount, {
             duration: 800,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {

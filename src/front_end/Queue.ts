@@ -15,7 +15,7 @@ export class Queue {
         readonly timer?: number;
     }) {
     
-        receiveQueue(queue.queue);
+    receiveQueue(queue.queue);
         if (queue.timer)
             this.startTimer(queue.timer);
     }

@@ -24,7 +24,8 @@ export class GameState {
 	private timer:				number;
 	private countBot:			fabric.Text;
 	private countTop:			fabric.Text;
-	private align =				"left"; 
+	private charactersCards:	FrontendCharacter[];
+	private align =				"right"; 
 	private scale =				1;
 	private scaleWait =			0;
 	private isWaiting =			0;
@@ -46,6 +47,8 @@ export class GameState {
 	}
 
 	public newMessage(msg: ReelMessage) {
+		this.charactersCards = msg.characters;
+		this.characterStateChange(msg.characters);
 		console.log(`TIM MSG:`, msg.reel);
 		// Don't do anything yet if a character is dying or moving over
 		if ((this.player1 && this.player1.isAnimated())
@@ -158,6 +161,7 @@ export class GameState {
 			this.player2.adjustHp(newHp);
 		else if (this.player1) {
 			let p = this.player1.getBitBossInfo();
+			console.log(`current hp: ${p.hp}, new hp: ${newHp}`);
 			recalcHp(p.hp - newHp, newHp, p.maxHp, attacker);
 			this.player1.adjustHp(newHp);
 		}
@@ -170,6 +174,8 @@ export class GameState {
 				this.player1.clearBuffs();
 			this.player2.clearBuffs();
 			this.player2 = null;
+			this.charactersCards.splice(1, 1);
+			this.characterStateChange(this.charactersCards);
 		}
 		else if (this.player1) {
 			this.player1.dies(this.player2);
@@ -180,6 +186,8 @@ export class GameState {
 				this.player2.clearBuffs();
 			}
 			this.newChampion();
+			this.charactersCards.splice(0, 1);
+			this.characterStateChange(this.charactersCards);
 		}
 
 		// Start checking if a fight idles too long to switch to bitboss
