@@ -52,7 +52,7 @@ module.exports = [
             index: './src/testbed.ts'
         },
         output: {
-            filename: './testbed/js/[name].bundle.js'
+            filename: './testbed/testbed.js'
         },
         resolve: {
             extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']

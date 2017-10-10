@@ -43,8 +43,6 @@ export class Combatant {
         this.status.checkBuffs(this.time);
 
         const stats = this.status.stats;
-    
-        this.rollAttackSpeed();
 
         const damageRoll = Math.ceil(Math.random() * (stats.attackDamage.max - stats.attackDamage.min)) + stats.attackDamage.min;
 
@@ -57,6 +55,8 @@ export class Combatant {
             critChanceModifier: stats.critChanceModifier,
             crits: characterPicker.characters[this.status.character].crits
         });
+        
+        this.rollAttackSpeed();
     }
     public takeHit(attack: attackProps) {
     

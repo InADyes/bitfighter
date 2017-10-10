@@ -1,4 +1,4 @@
-import { Status } from '../shared/Status';
+import { Status, cardStats } from '../shared/Status';
 import { Character, pickCharacter, characters } from '../shared/characterPicker';
 import { BackToFrontMessage, Queue as QueueMessage } from '../shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
@@ -130,7 +130,8 @@ export class BitFighter {
             this.sendMessageToFont(
                 {
                     queue: this.buildQueueMessage(),
-                    newReel: this.arena.lastResults()
+                    newReel: this.arena.lastResults(),
+                    characterList: cardStats
                 },
                 id
             )

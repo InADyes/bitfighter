@@ -1,6 +1,6 @@
-// import { receiveQueue } from './globalDependencies';
+import { receiveQueue } from './globalDependencies';
 
-declare function receiveQueue(data: any): void;
+// declare function receiveQueue(data: any): void;
 
 export class Queue {
     constructor (

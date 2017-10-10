@@ -1,10 +1,24 @@
 import { BossData } from './gamestate/interfaces';
+import { choiceStats } from '../shared/Status';
 
-// set the game display to bitboss or bitfighter
-// export declare function flip(side: 'front' | 'back'): void;
-// export declare function receiveCharList(data: any): void;
-// set the health of botboss mode diplay
-// export declare function recalcHp(damageAmount: number, newHp: number, maxHp: number, attacker: string | null): void;
-// // update the bitboss's name and stuff
-// export declare function updateBitBoss(bossData: {boss: BossData, attacker?: BossData}): void;
-// export declare function receiveQueue(data: any): void;
+declare const window: {
+    readonly flip: (side: 'front' | 'back') => void,
+    // set the game display to bitboss or bitfighter
+    readonly receiveCharList: (data: {[details: number]: choiceStats}) => void,
+    // set the health of botboss mode diplay
+    readonly recalcHp: (damageAmount: number, newHp: number, maxHp: number, attacker: string | null) => void,
+    // update the bitboss's name and stuff
+    readonly updateBitBoss: (bossData: {boss: BossData, attacker?: BossData})=> void,
+    readonly receiveQueue: (data: {
+        readonly fanDisplayName: string;
+        readonly championTypeName: string;
+    }[]) => void,
+    readonly bossTextOut: (color: string, text: string) => void
+};
+
+export const flip = window.flip;
+export const receiveCharList = window.receiveCharList;
+export const recalcHp = window.recalcHp;
+export const updateBitBoss = window.updateBitBoss;
+export const receiveQueue = window.receiveQueue;
+export const bossTextOut = window.bossTextOut;
