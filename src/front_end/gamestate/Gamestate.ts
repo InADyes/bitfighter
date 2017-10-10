@@ -25,7 +25,7 @@ export class GameState {
 	private countBot:			fabric.Text;
 	private countTop:			fabric.Text;
 	private charactersCards:	FrontendCharacter[];
-	private align =				"right"; 
+	private align =				"center"; 
 	private scale =				1;
 	private scaleWait =			0;
 	private isWaiting =			0;
@@ -142,10 +142,13 @@ export class GameState {
 			this.player1.drawMe(this.player2 ? this.player2 : null, 0);
 		else if (this.player2 && this.align === "right")
 			this.player2.drawMe(this.player1 ? this.player1 : null, 0);
-		//else if (!this.player2 && this.align === "right")
-			//this.player1.drawMe(null, 100 * this.scale);
-		//else if (this.align === "center")
-			// draw players from center
+		else if (!this.player2 && this.align === "right" && this.player1)
+			this.player1.drawMe(null, 100 * this.scale);
+		else if (this.align === "center" && this.player1) {
+			this.player1.drawMe(null, 0);
+			if (this.player2)
+				this.player2.drawMe(null, 0);
+		}
 	}
 
 	public attack(p2: number) {
