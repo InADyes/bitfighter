@@ -85,10 +85,15 @@ export function buildCard(character: CharacterCard, artURLs: string[]) {
 
     stats.innerHTML = `
     <div class="avatar">
-        <img src="${artURLs[character.art]}" alt="${character.className}">
+        <div class="header-item">
+            <img src="${artURLs[character.art]}" alt="${character.className}">
+        </div>
+        <div class="header-item header-wrap">
+            <div class="header"> ${ character.className } </div>
+        </div>
     </div>
     <div class="stats-container">
-        <div class="header"> ${ character.className } </div>
+        
         <div class="stat">
             ${ character.flavorText }
         </div>
