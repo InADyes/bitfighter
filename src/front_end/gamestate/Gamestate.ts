@@ -134,9 +134,7 @@ export class GameState {
 
 	public drawPlayers() {
 		if (this.player1)
-			this.player1.drawMe();
-		if (this.player2)
-			this.player2.drawMe();
+			this.player1.drawMe(this.player2 ? this.player2 : null, 0);
 	}
 
 	public attack(p2: number) {
@@ -206,6 +204,7 @@ export class GameState {
 			this.player1.setScale(this.scaleWait);
 		if (this.player2)
 			this.player2.setScale(this.scaleWait);
+		this.drawPlayers();
 		this.scaleWait = 0;
 	}
 

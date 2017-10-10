@@ -20,6 +20,7 @@ export class Player {
     private buffs:          number[];
     private buffGroup:      fabric.Group;
     private scale:          number;
+    private offset:         number;
     private height =        70;
     private hpWidth =       6.5;
     private textLock =      0;
@@ -28,32 +29,32 @@ export class Player {
     private strokeWidth =   2;
     private fontSize =      15;
     private font =          'Concert One'
-    private buffOffset =    14;
+    private buffOffset =    35;
     private buffTop =       135;
     private buffSize =      30;
 
     // Adjust these to move elements around
-    private artAdjust =     0;
-    private hpAdjust =      6;
+    private artAdjust =     50;
+    private hpAdjust =      35;
     private artTop =        120;
     private hpTextTop =     32;
     private textTop =       30;
 
     constructor(
         private readonly data: {
-            readonly name: string;
-            readonly currentHitPoints: number;
-            readonly maxHitPoints: number;
-            readonly art: number;
-            readonly profileImageURL: string;
-            bossMessage: string;
-            bossEmoticonURL: string;
+            readonly name:              string;
+            readonly currentHitPoints:  number;
+            readonly maxHitPoints:      number;
+            readonly art:               number;
+            readonly profileImageURL:   string;
+            bossMessage:                string;
+            bossEmoticonURL:            string;
         },
-        side: number, 
-        canvas: fabric.Canvas, 
-        scale: number, 
-        private readonly charArt: string[], 
-        private readonly buffArt: string[]
+        side:                       number, 
+        canvas:                     fabric.Canvas, 
+        scale:                      number,
+        private readonly charArt:   string[], 
+        private readonly buffArt:   string[]
     ) {
         this.health = data.currentHitPoints;
         this.onRight = side;
@@ -76,7 +77,7 @@ export class Player {
         for (let i = 0; i < this.buffs.length; i++) {
             new fabric.Image.fromURL(this.buffArt[this.buffs[i]], (oImg: fabric.Image) => {
                 let currentbuff = oImg.set({
-                    left: !this.onRight ? this.center - this.trueWidth + this.buffOffset * (i % numBuffsPerRow) * this.scale : this.center + this.buffOffset * (i % numBuffsPerRow) * this.scale,
+                    left: this.offset + this.buffOffset * (i % numBuffsPerRow) * this.scale,
                     top: i < numBuffsPerRow? this.buffTop * this.scale: (this.buffTop + this.buffSize * Math.floor(i / numBuffsPerRow) - 5) * this.scale,
                     height: this.buffSize * this.scale,
                     width: this.buffSize * this.scale
@@ -113,15 +114,15 @@ export class Player {
             fontSize: this.fontSize * this.scale,
             fontFamily: this.font,
             fontWeight: 'bold',
-            left: !this.onRight ? this.center  - this.trueWidth / 2 : this.center + this.trueWidth / 2,
+            left: this.onRight ? this.trueWidth + this.artAdjust + this.offset + (this.artAdjust - this.hpAdjust) * this.scale: this.hpAdjust,
             originX: 'center'
         }));
     }
 
     private drawHpBar() {
         let missingHeight = this.height * (this.health / this.data.maxHitPoints);
-        let leftOffset = this.center - this.trueWidth - this.hpAdjust;
-        let onRightOffset = this.center + this.trueWidth + this.hpAdjust;
+        //let leftOffset = this.center - this.trueWidth - this.hpAdjust;
+        //let onRightOffset = this.center + this.trueWidth + this.hpAdjust;
 
         if (this.greenBar)
             this.canvas.remove(this.greenBar);
@@ -131,25 +132,25 @@ export class Player {
             this.canvas.remove(this.yellowBar);
         if (this.whiteBar)
             this.canvas.remove(this.whiteBar);
-        this.greenBar = this.getFabricHp(leftOffset, onRightOffset);
+        this.greenBar = this.getFabricHp();
         this.greenBar.set({
             fill: '#1eedce',
             blur: 0.5,
             height: missingHeight * this.scale,
         });
-        this.redBar = this.getFabricHp(leftOffset, onRightOffset);
+        this.redBar = this.getFabricHp();
         this.redBar.set({
             fill: '#ed1e1e',
             blur: 0.5,
             height: this.height * this.scale,
         });
-        this.yellowBar = this.getFabricHp(leftOffset, onRightOffset); 
+        this.yellowBar = this.getFabricHp(); 
         this.yellowBar.set({
             fill: '#edd11e',
             blur: 0.5,
             height: missingHeight * this.scale,
         });
-        this.whiteBar = this.getFabricHp(leftOffset, onRightOffset);
+        this.whiteBar = this.getFabricHp();
         this.whiteBar.set({
             fill: 'white',
             height: this.height * this.scale,
@@ -163,9 +164,9 @@ export class Player {
         this.canvas.add(this.greenBar);
     }
 
-    private getFabricHp(leftOffset: number, onRightOffset: number) {
+    private getFabricHp() {
         return(new fabric.Rect({
-            left: !this.onRight ? leftOffset : onRightOffset,
+            left: this.onRight ? this.trueWidth + this.artAdjust + this.offset + (this.artAdjust - this.hpAdjust) * this.scale : this.hpAdjust,
             width: this.hpWidth * this.scale,
             flipY: true,
             top: this.artTop * this.scale,
@@ -195,7 +196,7 @@ export class Player {
         }); 
         this.healthtext = new fabric.Group([healthTextBot,healthTextTop],{
             top: this.hpTextTop * this.scale,
-            left: !this.onRight ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
+            left: this.onRight ? this.trueWidth + this.artAdjust + this.offset + (this.artAdjust - this.hpAdjust) * this.scale : this.hpAdjust,
             originX: 'center',
         });
         this.canvas.add(this.healthtext);
@@ -242,7 +243,7 @@ export class Player {
         });
         let textgroup = new fabric.Group([txtBot,txtTop],{
             top: this.textTop * this.scale,
-            left: !this.onRight ? this.center - this.artAdjust - this.trueWidth / 2 : this.center + this.artAdjust + this.trueWidth / 2,
+            left: this.trueWidth / 2 + this.artAdjust + this.offset,
             originX: 'center'
         });
         this.canvas.add(textgroup);
@@ -255,14 +256,17 @@ export class Player {
         });
     }
 
-    public drawMe() {
+    public drawMe(p2: Player | null, offset: number) {
+        this.offset = offset;
         if (this.img)
             this.canvas.remove(this.img);
+        if (this.health < 0)
+            return;
         new fabric.Image.fromURL(this.charArt[this.data.art], (oImg: fabric.Image) => {
             if(oImg.width && oImg.height)
                 this.trueWidth = oImg.width/oImg.height * this.height * this.scale;
             this.img = oImg.set({
-                left: !this.onRight ? (this.center - this.trueWidth / 2) - this.artAdjust : (this.center + this.trueWidth / 2) + this.artAdjust,
+                left: (this.artAdjust + this.offset + this.trueWidth / 2),
                 top: this.artTop * this.scale,
                 originX: 'center',
                 originY: 'bottom',
@@ -273,6 +277,8 @@ export class Player {
             this.drawHealthText();
             this.drawHpBar();
             this.drawname();
+            if (p2)
+                p2.drawMe(null, this.trueWidth);
         });
     }
 
@@ -297,7 +303,7 @@ export class Player {
             easing: fabric.util.ease['easeInQuint'],
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
-                this.img.animate('left', this.onRight ? this.center + this.artAdjust + this.trueWidth / 2 : this.center - this.artAdjust - this.trueWidth / 2, {
+                this.img.animate('left', (this.artAdjust + this.offset + this.trueWidth / 2), {
                     duration: 300,
                     onChange: this.canvas.renderAll.bind(this.canvas),
                     easing: fabric.util.ease['easeOutQuint'],
@@ -411,7 +417,7 @@ export class Player {
     public moves(){
         this.animationLock = 1;
         this.removeNameAndHp();
-        this.img.animate(`left`, this.center - this.artAdjust - this.trueWidth / 2, {
+        this.img.animate(`left`, (this.offset + this.artAdjust), {
             duration: 800,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
@@ -430,8 +436,6 @@ export class Player {
     public setScale(scale: number) {
         this.scale = scale;
         this.center = this.canvas.getWidth() / 2;
-        if (this.health > 0)
-            this.drawMe();
     }
 
     public isAnimated() {
@@ -461,5 +465,13 @@ export class Player {
 
     public updateEmote(str: string) {
         this.data.bossEmoticonURL = str;
+    }
+
+    public getWid() {
+        return (this.trueWidth);
+    }
+
+    public setOffset(n: number) {
+        this.offset = n;
     }
 }
