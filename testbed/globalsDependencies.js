@@ -12,3 +12,6 @@ window.receiveCharList = function (data) {
 window.bossTextOut = function (color, text) {
     console.log('boss text out: ', color, text);
 };
+window.bossMessageTooManyChanges = function () {
+    console.log('boss message changed too many times');
+};
