@@ -27,7 +27,7 @@ export class GameState {
 	private scaleWait =			0;
 	private isWaiting =			0;
 	private baseWidth = 		500;
-	private baseHeight = 		180;
+	private baseHeight = 		250;
 	private messageQueue = 		[];
 
 	constructor(

@@ -29,7 +29,7 @@ export class Player {
     private strokeWidth =   2;
     private fontSize =      15;
     private font =          'Concert One'
-    private buffOffset =    35;
+    private buffOffset =    25;
     private buffTop =       135;
     private buffSize =      30;
 
@@ -77,7 +77,7 @@ export class Player {
         for (let i = 0; i < this.buffs.length; i++) {
             new fabric.Image.fromURL(this.buffArt[this.buffs[i]], (oImg: fabric.Image) => {
                 let currentbuff = oImg.set({
-                    left: this.offset + this.buffOffset * (i % numBuffsPerRow) * this.scale,
+                    left: ((this.offset + this.artAdjust) + this.buffOffset * (i % numBuffsPerRow)) * this.scale,
                     top: i < numBuffsPerRow? this.buffTop * this.scale: (this.buffTop + this.buffSize * Math.floor(i / numBuffsPerRow) - 5) * this.scale,
                     height: this.buffSize * this.scale,
                     width: this.buffSize * this.scale
@@ -114,7 +114,7 @@ export class Player {
             fontSize: this.fontSize * this.scale,
             fontFamily: this.font,
             fontWeight: 'bold',
-            left: this.onRight ? this.trueWidth + this.artAdjust + this.offset + (this.artAdjust - this.hpAdjust) * this.scale: this.hpAdjust,
+            left: this.onRight ? (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust) * this.scale: this.hpAdjust * this.scale,
             originX: 'center'
         }));
     }
@@ -166,7 +166,7 @@ export class Player {
 
     private getFabricHp() {
         return(new fabric.Rect({
-            left: this.onRight ? this.trueWidth + this.artAdjust + this.offset + (this.artAdjust - this.hpAdjust) * this.scale : this.hpAdjust,
+            left: this.onRight ? this.scale * (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust) : this.hpAdjust * this.scale,
             width: this.hpWidth * this.scale,
             flipY: true,
             top: this.artTop * this.scale,
@@ -196,7 +196,7 @@ export class Player {
         }); 
         this.healthtext = new fabric.Group([healthTextBot,healthTextTop],{
             top: this.hpTextTop * this.scale,
-            left: this.onRight ? this.trueWidth + this.artAdjust + this.offset + (this.artAdjust - this.hpAdjust) * this.scale : this.hpAdjust,
+            left: this.onRight ? (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust) * this.scale : this.hpAdjust * this.scale,
             originX: 'center',
         });
         this.canvas.add(this.healthtext);
@@ -211,6 +211,33 @@ export class Player {
         this.canvas.remove(this.whiteBar);
         this.canvas.remove(this.displayname);
         this.canvas.remove(this.displaynametop);
+    }
+
+
+    public drawMe(p2: Player | null, offset: number) {
+        this.offset = offset;
+        if (this.img)
+            this.canvas.remove(this.img);
+        if (this.health < 0)
+            return;
+        new fabric.Image.fromURL(this.charArt[this.data.art], (oImg: fabric.Image) => {
+            if(oImg.width && oImg.height)
+                this.trueWidth = oImg.width/oImg.height * this.height;
+            this.img = oImg.set({
+                left: this.scale * (this.artAdjust + this.offset + this.trueWidth / 2),
+                top: this.artTop * this.scale,
+                originX: 'center',
+                originY: 'bottom',
+                flipX: !this.onRight ? false : true
+            });
+            this.img.scaleToHeight(this.height * this.scale);
+            this.canvas.add(this.img);
+            this.drawHealthText();
+            this.drawHpBar();
+            this.drawname();
+            if (p2)
+                p2.drawMe(null, this.trueWidth);
+        });
     }
 
     private emptyTextQueue() {
@@ -243,7 +270,7 @@ export class Player {
         });
         let textgroup = new fabric.Group([txtBot,txtTop],{
             top: this.textTop * this.scale,
-            left: this.trueWidth / 2 + this.artAdjust + this.offset,
+            left: this.scale * (this.trueWidth / 2 + this.artAdjust + this.offset),
             originX: 'center'
         });
         this.canvas.add(textgroup);
@@ -256,31 +283,7 @@ export class Player {
         });
     }
 
-    public drawMe(p2: Player | null, offset: number) {
-        this.offset = offset;
-        if (this.img)
-            this.canvas.remove(this.img);
-        if (this.health < 0)
-            return;
-        new fabric.Image.fromURL(this.charArt[this.data.art], (oImg: fabric.Image) => {
-            if(oImg.width && oImg.height)
-                this.trueWidth = oImg.width/oImg.height * this.height * this.scale;
-            this.img = oImg.set({
-                left: (this.artAdjust + this.offset + this.trueWidth / 2),
-                top: this.artTop * this.scale,
-                originX: 'center',
-                originY: 'bottom',
-                flipX: !this.onRight ? false : true
-            });
-            this.img.scaleToHeight(this.height * this.scale);
-            this.canvas.add(this.img);
-            this.drawHealthText();
-            this.drawHpBar();
-            this.drawname();
-            if (p2)
-                p2.drawMe(null, this.trueWidth);
-        });
-    }
+    
 
     public addBuff(buff: number, duration: number) {
         this.buffs.push(buff);
@@ -303,7 +306,7 @@ export class Player {
             easing: fabric.util.ease['easeInQuint'],
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
-                this.img.animate('left', (this.artAdjust + this.offset + this.trueWidth / 2), {
+                this.img.animate('left', (this.artAdjust + this.offset + this.trueWidth / 2) * this.scale, {
                     duration: 300,
                     onChange: this.canvas.renderAll.bind(this.canvas),
                     easing: fabric.util.ease['easeOutQuint'],
@@ -416,8 +419,9 @@ export class Player {
 
     public moves(){
         this.animationLock = 1;
+        this.offset = 0;
         this.removeNameAndHp();
-        this.img.animate(`left`, (this.offset + this.artAdjust), {
+        this.img.animate(`left`, this.scale * (this.artAdjust + this.offset + this.trueWidth / 2), {
             duration: 800,
             onChange: this.canvas.renderAll.bind(this.canvas),
             onComplete: () => {
