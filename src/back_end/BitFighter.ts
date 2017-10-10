@@ -62,7 +62,7 @@ export class BitFighter {
         );
         this.arena.addCombatants(pickCharacter(
             this.settings.defaultChampion,
-            Math.floor(Math.random() * characters.length - 1))
+            Math.floor(Math.random() * (characters.length - 1)))
         );
     }
 
