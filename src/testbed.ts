@@ -6,25 +6,6 @@ import { FrontToBackMessage, CharacterChoice } from './shared/interfaces/frontTo
 import { FrontEndSettings } from './front_end/settings';
 import { BossData } from './front_end/gamestate/interfaces'
 
-// kind of a hack
-declare let window: any;
-
-window.recalcHp = function (damageAmount: number, newHp: number, maxHp: number) {
-    //console.log("called recalchp");
-}
-window.flip = function (side: 'front' | 'back') {
-    //console.log("called flip");
-}
-window.updateBitBoss = function (bossData: {boss: BossData, attacker?: BossData}) {
-    //console.log("called updateBitBoss");
-}
-window.receiveQueue = function (data: any) {
-    //console.log(`QUEUE: ${data}`);
-}
-window.receiveCharList = function (data: any) {
-    //console.log(`CHAR LIST: ${data}`);
-}
-
 window.addEventListener('load', function(){
     const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
     //const cardDiv = <HTMLDivElement>document.getElementById('charSelect');
