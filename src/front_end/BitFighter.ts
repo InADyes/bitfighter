@@ -25,7 +25,6 @@ export class BitFighter {
     private readonly artURLs = artURLsNoShim.map(url => this.settings.assetsShim + url);
     private readonly iconURLs = buffArtNoShim.map(url => this.settings.assetsShim + url);
     private readonly queue = new Queue(
-        <HTMLDivElement>document.getElementById('queue'),
         (time) => this.game.startTimer(time)
     );
 
