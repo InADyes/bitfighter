@@ -4,17 +4,19 @@ import { Stats, choiceStats } from '../Status';
 
 // what gets sent to the front end
 
+export interface FrontendCharacter {
+    name: string;
+    currentHitPoints: number;
+    maxHitPoints: number;
+    art: number;
+    profileImageURL: string;
+    bossMessage: string;
+    bossEmoticonURL: string;
+    card: CharacterCard;
+}
+
 export interface ReelMessage { // needs name change
-    characters: {
-        name: string;
-        currentHitPoints: number;
-        maxHitPoints: number;
-        art: number;
-        profileImageURL: string;
-        bossMessage: string;
-        bossEmoticonURL: string;
-        card: CharacterCard;
-    }[];
+    characters: FrontendCharacter[];
     reel: GraphicsEvent[];
     patch?: number; // if this is defined then the reel is a patch at the specified time
 }

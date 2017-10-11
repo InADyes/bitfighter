@@ -12,14 +12,10 @@ import {
 import {charStrings} from '../shared/characterPicker';
 import { FrontEndSettings as Settings } from './settings';
 import {Queue} from './Queue';
-
 import { flip, receiveCharList, bossMessageTooManyChanges } from './globalDependencies';
-// export declare function flip(side: 'front' | 'back'): void;
-// export declare function receiveCharList(data: any): void;
 
 export class BitFighter {
     private readonly game: GameState;
-    //private canvas: HTMLCanvasElement = document.createElement('canvas');
     private canvas = document.getElementById('arena');
     private cardChoices: CardChoices;
     private readonly artURLs = artURLsNoShim.map(url => this.settings.assetsShim + url);
@@ -34,7 +30,12 @@ export class BitFighter {
         // todo: find out what gameslug is for
         private readonly emitGameEvent: (gameSlug: string, message: FrontToBackMessage) => void
     ) {
-        this.game = new GameState('arena', this.artURLs, this.iconURLs);
+        this.game = new GameState(
+            'arena',
+            this.artURLs,
+            this.iconURLs,
+            chars => updateStatusCards(chars, this.artURLs)
+        );
         this.updateSettings(settings);
         this.cardChoices = new CardChoices(
             <HTMLDivElement>document.getElementById('charSelect'),
@@ -49,13 +50,8 @@ export class BitFighter {
     }
 
     public receivedViewerGameState(data: BackToFrontMessage) {
-        if (data.newReel) {
+        if (data.newReel)
             this.game.newMessage(data.newReel);
-            //this.game.newMessage(data.newReel.reel, data.newReel.characters, data.newReel.patch);
-            // update hover character cards
-            if (!data.newReel.patch)
-                updateStatusCards(data.newReel.characters, this.artURLs);
-        }
         if (data.characterChoices)
             this.cardChoices.displayCards(data.characterChoices.map(c => buildCard(c, this.artURLs)));
         if (data.queue)
