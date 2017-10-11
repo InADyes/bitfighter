@@ -54,13 +54,20 @@ export function updateStatusCards(
     }[],
     artURLS: string[]
 ) {
-    const newCard1 = buildCard(cards[0].card, artURLS);
+    const newCard1 = cards[0] ? buildCard(cards[0].card, artURLS) : null;
     const newCard2 = cards[1] ? buildCard(cards[1].card, artURLS) : null;
     const oldCard1 = document.getElementById('card1');
     const oldCard2 = document.getElementById('card2');
 
-    if (oldCard1)
+    if (oldCard1 && newCard1) {
+        oldCard1.classList.remove("empty-card");
+        oldCard1.classList.add("card");
         oldCard1.innerHTML = newCard1.innerHTML;
+    }
+    else if (oldCard1) {
+        oldCard1.classList.remove("card");
+        oldCard1.classList.add("empty-card");
+    }
     if (oldCard2 && newCard2) {
         oldCard2.classList.remove("empty-card");
         oldCard2.classList.add("card");
