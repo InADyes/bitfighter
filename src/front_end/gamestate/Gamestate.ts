@@ -51,6 +51,7 @@ export class GameState {
 			window.setTimeout(() => {this.newMessage(msg)}, 10);
 			return;
 		}
+
 		// if there's a patch in the middle of a reel
 		if (msg.patch && this.reel[0]) {
 			clearTimeout(this.idleId);
@@ -81,7 +82,7 @@ export class GameState {
 				else
 					this.idleCheck();
 				this.drawPlayers();
-				this.initReel();
+				window.setTimeout(()=>this.initReel(), 500);
 			}
 		}
 	}
@@ -201,6 +202,7 @@ export class GameState {
 	}
 
 	public setNewScale(scale: number) {
+		console.log(`TIM: My new scale: ${scale}`);
 		this.scaleWait = scale;
 		let oldScale = this.scale;
 		this.scale = this.scaleWait;
