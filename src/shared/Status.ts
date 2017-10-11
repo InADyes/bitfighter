@@ -223,5 +223,4 @@ export class Status {
         this.p_bossMessage = bossMessage;
         return true;
     }
-
 }

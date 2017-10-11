@@ -20,7 +20,6 @@ export interface Buff {
     readonly critDamageModifier?: number // also doesn't do anything
 }
 
-
 export const enum types {
     sculleryMaid            = 0,
     barkeep                 = 1,
