@@ -38,20 +38,20 @@ export const atkURLs = [
     "images/icons/fire3.png"
 ];
 
-export const charStrings = [
-    "Scullary Maid",
-    "Barkeep",
-    "Medium",
-    "Minstrel",
-    "Mage",
-    "Rogue",
-    "Warpriest",
-    "Warlock",
-    "Swashbuckler",
-    "Dragon",
-    "Grave Digger",
-    "Bit Boss"
-];
+// export const charStrings = [
+//     "Scullary Maid",
+//     "Barkeep",
+//     "Medium",
+//     "Minstrel",
+//     "Mage",
+//     "Rogue",
+//     "Warpriest",
+//     "Warlock",
+//     "Swashbuckler",
+//     "Dragon",
+//     "Grave Digger",
+//     "Bit Boss"
+// ];
 
 export interface Character {
     readonly stats: Stats,

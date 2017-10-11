@@ -10,7 +10,6 @@ import {
     CharacterChoice,
     FrontToBackMessage
 } from '../shared/interfaces/frontToBackMessage';
-import {charStrings} from '../shared/characterPicker';
 import { FrontEndSettings as Settings } from './settings';
 import { Queue } from './Queue';
 import { flip, receiveCharList, bossMessageTooManyChanges } from './globalDependencies';

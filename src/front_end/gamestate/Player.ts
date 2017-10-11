@@ -1,7 +1,7 @@
 import 'fabric';
 declare let fabric: any;
-import {charStrings} from '../../shared/characterPicker';
-import {Attack} from './Attack'
+import {Attack} from './Attack';
+import { FrontendCharacter } from '../../shared/interfaces/backToFrontMessage';
 
 export class Player {
     private health:         number;
@@ -42,15 +42,7 @@ export class Player {
     private textTop =       30;
 
     constructor(
-        private readonly data: {
-            readonly name:              string;
-            readonly currentHitPoints:  number;
-            readonly maxHitPoints:      number;
-            readonly art:               number;
-            readonly profileImageURL:   string;
-            bossMessage:                string;
-            bossEmoticonURL:            string;
-        },
+        private readonly data: FrontendCharacter,
         side:                       number, 
         canvas:                     fabric.Canvas, 
         scale:                      number, 
@@ -456,7 +448,7 @@ export class Player {
             hp: this.health,
             maxHp: this.data.maxHitPoints,
             img: this.data.profileImageURL,
-            character: charStrings[this.data.art],
+            character: this.data.className,
             bossMessage: this.data.bossMessage,
             bossEmoticonURL: this.data.bossEmoticonURL
         });

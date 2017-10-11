@@ -6,6 +6,7 @@ import { Stats, choiceStats } from '../Status';
 
 export interface FrontendCharacter {
     name: string;
+    className: string;
     currentHitPoints: number;
     maxHitPoints: number;
     art: number;

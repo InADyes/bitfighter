@@ -116,7 +116,8 @@ export class Arena {
                 profileImageURL: c.profileImageURL,
                 bossMessage: c.bossMessage,
                 card: c.card,
-                bossEmoticonURL: c.bossEmoticonURL
+                bossEmoticonURL: c.bossEmoticonURL,
+                className: c.className
             })
         ),
         reel: graphics,
