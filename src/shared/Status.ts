@@ -1,6 +1,6 @@
 import * as Buff from './interfaces/buff';
 import { CharacterCard } from './interfaces/backToFrontMessage';
-import { characterTypes, characters } from './characterPicker';
+import { characterTypes, characters, buffArt } from './characterPicker';
 
 export interface Stats {
     maxHitPoints: number;
@@ -195,6 +195,11 @@ export class Status {
     }
     // TODO: only recalculate the level and bonus health
     get card(): CharacterCard {
+        const character = characters[this.character];
+        const crit = character.crits.find(c => (c.buff || c.debuff) !== undefined)
+
+        const buff = crit ? (crit.buff || crit.debuff) : undefined;
+
         return {
             stats: cardStats[this.character] || cardStats[-1],
             baseHealth: this.stats.maxHitPoints,
@@ -203,15 +208,20 @@ export class Status {
             art: this.character,
             level: this.level,
             rarity: characters[this.character].rarity,
-            flavorText: characters[this.character].flavorText
+            flavorText: characters[this.character].flavorText,
+            bitBossCheerMote: false,
+            selectable: true,
+            buffArt: buff ? buffArt[buff.art] : 'ERROR: NO BUFF FOUND',
+            buffName: buff ? buff.name : 'ERROR: NO BUFF FOUND'
         };
     }
     get bossMessage() {return this.p_bossMessage;};
-    set bossMessage(bossMessage: string) {
+    setBossMessage(bossMessage: string): boolean {
         if (this.bossMessageChangesRemaining < 1)
-            return;
+            return false;
         this.bossMessageChangesRemaining--;
         this.p_bossMessage = bossMessage;
+        return true;
     }
 
 }

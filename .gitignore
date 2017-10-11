@@ -5,7 +5,7 @@
 
 # compiled
 /dist/**/*.js
-/testbed/**/*.js
+/testbed/testbed.js
 *.map
 
 # visual studio code settings
@@ -16,6 +16,9 @@
 
 /simulator.js
 /simulator.js.map
+
+# mongo testing
+/mongo
 
 *.csv
 

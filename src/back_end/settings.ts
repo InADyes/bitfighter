@@ -6,5 +6,8 @@ export interface BackendSettings {
     donationToHPRatio: number,
     defaultBossEmoticonURL: string,
     defaultBossMessage: string,
-    defaultChampion: Donation
+    defaultChampion: Donation,
+    bitFighterEnabled: boolean,
+    bitBossStartingHealth: number,
+    characterNames: {[character: string]: string}
 }

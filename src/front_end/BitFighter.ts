@@ -12,21 +12,17 @@ import {
 } from '../shared/interfaces/frontToBackMessage';
 import {charStrings} from '../shared/characterPicker';
 import { FrontEndSettings as Settings } from './settings';
-import {Queue} from './Queue';
-
-declare function flip(side: 'front' | 'back'): void;
-declare function receiveCharList(data: any): void;
+import { Queue } from './Queue';
+import { flip, receiveCharList, bossMessageTooManyChanges } from './globalDependencies';
 
 export class BitFighter {
     private readonly game: GameState;
-    //private canvas: HTMLCanvasElement = document.createElement('canvas');
     private canvas = document.getElementById('arena');
     private cardChoices: CardChoices;
     private readonly artURLs = artURLsNoShim.map(url => this.settings.assetsShim + url);
     private readonly iconURLs = buffURLsNoShim.map(url => this.settings.assetsShim + url);
     private readonly atkURLs = atkURLsNoShim.map(url => this.settings.assetsShim + url);
     private readonly queue = new Queue(
-        <HTMLDivElement>document.getElementById('queue'),
         (time) => this.game.startTimer(time)
     );
 
@@ -36,7 +32,16 @@ export class BitFighter {
         // todo: find out what gameslug is for
         private readonly emitGameEvent: (gameSlug: string, message: FrontToBackMessage) => void
     ) {
+<<<<<<< HEAD
         this.game = new GameState('arena', this.artURLs, this.iconURLs, this.atkURLs);
+=======
+        this.game = new GameState(
+            'arena',
+            this.artURLs,
+            this.iconURLs,
+            chars => updateStatusCards(chars, this.artURLs)
+        );
+>>>>>>> 329db520b6137efc15048f8747d0e893807e3b2f
         this.updateSettings(settings);
         this.cardChoices = new CardChoices(
             <HTMLDivElement>document.getElementById('charSelect'),
@@ -51,17 +56,10 @@ export class BitFighter {
     }
 
     public receivedViewerGameState(data: BackToFrontMessage) {
-        if (data.newReel) {
+        if (data.newReel)
             this.game.newMessage(data.newReel);
-            //this.game.newMessage(data.newReel.reel, data.newReel.characters, data.newReel.patch);
-            // update hover character cards
-            if (!data.newReel.patch)
-                updateStatusCards(data.newReel.characters, this.artURLs);
-        }
-        if (data.characterChoices) {
-            flip('back');
+        if (data.characterChoices)
             this.cardChoices.displayCards(data.characterChoices.map(c => buildCard(c, this.artURLs)));
-        }
         if (data.queue)
             this.queue.handleNewQueue(data.queue);
         if (data.updateBossMessage)
@@ -69,12 +67,15 @@ export class BitFighter {
         if (data.updateBossEmoticonURL)
             this.game.updateEmote(data.updateBossEmoticonURL.championIndex, data.updateBossEmoticonURL.bossEmoticonURL);
         if (data.characterList) {
+            this.updateScale();
             let charList = this.artURLs.map((v, i) => (
                 {name: charStrings[i], stats: (data.characterList || [])[i] || 'error', imgURL: this.artURLs[i]}
             ));
             console.log(`-------------------->TIM: got char list.\nlist: ${charList}`);
             receiveCharList(charList);
         }
+        if (data.bossMessageChangeFailed)
+            bossMessageTooManyChanges();
     }
    
     public updateSettings(settings: Settings) {

@@ -43,8 +43,6 @@ export class Combatant {
         this.status.checkBuffs(this.time);
 
         const stats = this.status.stats;
-    
-        this.rollAttackSpeed();
 
         const damageRoll = Math.ceil(Math.random() * (stats.attackDamage.max - stats.attackDamage.min)) + stats.attackDamage.min;
 
@@ -57,6 +55,8 @@ export class Combatant {
             critChanceModifier: stats.critChanceModifier,
             crits: characterPicker.characters[this.status.character].crits
         });
+        
+        this.rollAttackSpeed();
     }
     public takeHit(attack: attackProps) {
     
@@ -74,7 +74,13 @@ export class Combatant {
             if (Math.ceil(Math.random() * 100) <= crit.odds * attack.critChanceModifier) {
                 if (crit.damageMultiplier)
                     attack.damage = (attack.damage - this.status.stats.armor) * crit.damageMultiplier * attack.critDamageModifier;
-                this.newEvent(new FightEvents.Crit(attack.time, this.index, crit.debuff, crit.buff));
+                this.newEvent(new FightEvents.Crit(
+                    attack.time,
+                    this.index,
+                    crit.damageMultiplier !== undefined,
+                    crit.debuff,
+                    crit.buff
+                ));
             }
         }
 
