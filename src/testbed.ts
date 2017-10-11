@@ -41,7 +41,7 @@ window.addEventListener('load', function(){
                 bitBossCheerMote: true
             },
             characterNames: {},
-            bitFighterEnabled: false,
+            bitFighterEnabled: true,
             bitBossStartingHealth: 1000
         },
         str => console.log('new gamestate save:', str),

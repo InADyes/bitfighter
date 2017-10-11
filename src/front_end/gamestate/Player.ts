@@ -469,4 +469,10 @@ export class Player {
     public updateEmote(str: string) {
         this.data.bossEmoticonURL = str;
     }
+
+    public eraseMe() {
+        this.canvas.remove(this.img);
+        this.removeNameAndHp();
+        this.canvas.remove(this.buffGroup);
+    }
 }
