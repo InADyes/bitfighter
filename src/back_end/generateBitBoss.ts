@@ -3,6 +3,9 @@ import { Status } from '../shared/Status';
 import { characterTypes } from '../shared/characterPicker';
 
 export function generateBitBoss(donation: Donation, health: number) : Status {
+    if (health < 1)
+        health = 1;
+
     return new Status(
         donation.id,
         donation.name,

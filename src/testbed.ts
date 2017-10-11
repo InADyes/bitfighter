@@ -42,7 +42,7 @@ window.addEventListener('load', function(){
             },
             characterNames: {},
             bitFighterEnabled: false,
-            bitBossStartingHealth: 1000
+            bitBossStartingHealth: 750
         },
         str => console.log('new gamestate save:', str),
         (gameState, donationType, amount) => {
