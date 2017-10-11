@@ -1,3 +1,4 @@
+import { updateBitBoss } from '../front_end/globalDependencies';
 import * as Buff from './interfaces/buff';
 import { Status, Stats } from '../shared/Status';
 import { Donation } from './interfaces/donation';
@@ -13,6 +14,7 @@ export const artURLs = [
     "images/champions/7warlock.png",  
     "images/champions/8swashbuckler.png",    
     "images/champions/9dragon.png",
+    "images/champions/10grave_digger.png",
     "images/champions/10grave_digger.png"
 ];
 
@@ -48,19 +50,20 @@ export const charStrings = [
     "Swashbuckler",
     "Dragon",
     "Grave Digger",
+    "Bit Boss"
 ];
 
 export interface Character {
-    stats: Stats,
-    rarity: number,
-    crits: {
-        odds: number,
-        debuff?: Buff.Buff,
-        buff?: Buff.Buff,
-        damageMultiplier?: number
+    readonly stats: Stats,
+    readonly rarity: number,
+    readonly crits: {
+        readonly odds: number,
+        readonly debuff?: Buff.Buff,
+        readonly buff?: Buff.Buff,
+        readonly damageMultiplier?: number
     }[],
-    name: string,
-    flavorText: string
+    readonly name: string,
+    readonly flavorText: string
 }
 
 export const enum characterTypes {
@@ -75,7 +78,8 @@ export const enum characterTypes {
     swashbuckler    = 8,
     dragon          = 9,
     graveDigger     = 10,
-}
+    bitBoss         = 11
+};
 
 export const characters: Character[] = [
     {
@@ -418,6 +422,34 @@ export const characters: Character[] = [
         name: 'Grave Digger',
         flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
     }, // Grave Digger
+    {
+        stats: { 
+            maxHitPoints: 0,
+            accuracy: 0,
+            dodge: 0,
+            attackSpeed: {
+                min: 0,
+                max: 0
+            },
+            attackDamage: {
+                min: 0,
+                max: 0
+            },
+            armor: 0,
+            regeneration: 0,
+            critChanceModifier: 0,
+            critDamageModifier: 0
+        }, 
+        rarity: 5,
+        crits: [
+            {
+                damageMultiplier: 0,
+                odds: 0
+            },
+        ],
+        name: 'BitBoss',
+        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+    }
 ];
 
 // starting level of rarities
@@ -427,6 +459,7 @@ const rarityLevel = [
     5, // rare
     7,  // legendary
     0, // gravedigger
+    0, // bitboss
 ];
 
 interface Level {

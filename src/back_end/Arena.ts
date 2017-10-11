@@ -1,7 +1,7 @@
 import { sortGraphicsEvents } from '../shared/buildGraphicsEvents';
 import { buildEvents } from '../shared/buildEvents';
 import { Status, cardStats } from '../shared/Status';
-import { pickCharacter, characters } from '../shared/characterPicker';
+import { pickCharacter, characters, characterTypes } from '../shared/characterPicker';
 import * as FightEvents from '../shared/fightEvents';
 import { Event as GraphicsEvent} from '../shared/graphicsEvents';
 import { BackToFrontMessage, ReelMessage } from '../shared/interfaces/backToFrontMessage';
@@ -64,9 +64,7 @@ export class Arena {
         const patchTime = nodePerformanceNow() - this.fightStartTime;
         const combatant = this.combatants[index];
 
-        let amount = this.settings.donationToHPRatio * donation.amount;
-        if (combatant.hitPoints + donation.amount > combatant.stats.maxHitPoints)
-            amount = combatant.stats.maxHitPoints - combatant.hitPoints;
+        const amount = this.settings.donationToHPRatio * donation.amount;
 
         this.insertEvents(
             patchTime,
@@ -89,10 +87,7 @@ export class Arena {
         const patchTime = nodePerformanceNow() - this.fightStartTime;
         
         const combatant = this.combatants[index];
-        let amount = this.settings.donationToHPRatio * donation.amount;
-
-        if (combatant.hitPoints < amount)
-            amount = combatant.hitPoints;
+        const amount = this.settings.donationToHPRatio * donation.amount;
 
         this.insertEvents(
             patchTime,
@@ -151,7 +146,7 @@ export class Arena {
             && this.combatants.length === 1
             && reel.some(e => e.fight.type === FightEvents.Types.death)
         ) {
-            this.combatants.push(pickCharacter(donation, 10 /*replace with gravedigger*/));
+            this.combatants.push(pickCharacter(donation, characterTypes.graveDigger /*replace with gravedigger*/));
             this.startFight(new FightEvents.Healing(0, 0, this.combatants[0].stats.maxHitPoints * 0.1));
             return;
         }
@@ -200,13 +195,38 @@ export class Arena {
         if (event.fight.type === FightEvents.Types.damageDonation)
             this.lastDamageDonation = (<FightEvents.DamageDonation>event.fight).donation;
 
-        // if the boss was killed by a damage donation they become the new boss
+        // if the boss was killed by a damage donation they become the bitBoss
         if (event.fight.type === FightEvents.Types.death
             && this.combatants.length === 0
             && this.lastDamageDonation) {
-            this.combatants.push(pickCharacter(
-                this.lastDamageDonation,
-                Math.floor(Math.random() * characters.length)
+            const d = <FightEvents.Death>event.fight;
+            this.combatants.push(new Status(
+                this.lastDamageDonation.id,
+                this.lastDamageDonation.name,
+                characterTypes.bitBoss,
+                this.lastDamageDonation.amount,
+                this.settings.bitBossStartingHealth + d.overkill,
+                0,
+                { 
+                    maxHitPoints: this.settings.bitBossStartingHealth + d.overkill,
+                    accuracy: 0,
+                    dodge: 0,
+                    attackSpeed: {
+                        min: 0,
+                        max: 0
+                    },
+                    attackDamage: {
+                        min: 0,
+                        max: 0
+                    },
+                    armor: 0,
+                    regeneration: 0,
+                    critChanceModifier: 0,
+                    critDamageModifier: 0
+                },
+                this.lastDamageDonation.profileImageURL,
+                this.lastDamageDonation.bossMessage,
+                this.lastDamageDonation.bossEmoticonURL
             ));
             this.pushLastResults();
         }

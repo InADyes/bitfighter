@@ -100,6 +100,13 @@ export const cardStats: {[details: number]: choiceStats} = {
         damage: 4,
         attackSpeed: 4
     },
+    [characterTypes.bitBoss]: {
+        accuracy: 0,
+        dodge: 0,
+        armor: 0,
+        damage: 0,
+        attackSpeed: 0
+    }
 }
 
 export class Status {

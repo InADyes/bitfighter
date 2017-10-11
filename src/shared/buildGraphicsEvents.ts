@@ -39,7 +39,7 @@ export function build(event: FightEvents.Event, status: Status[]) {
                 event.time,
                 event.character,
                 null,
-                Math.ceil(status[event.character].hitPoints)
+                Math.max(0, Math.ceil(status[event.character].hitPoints))
             ));
             display.push(new GraphicsEvents.Text(
                 event.time,
