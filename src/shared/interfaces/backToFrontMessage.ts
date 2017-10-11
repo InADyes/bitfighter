@@ -28,6 +28,8 @@ export interface CharacterCard {
     readonly level: number;
     readonly rarity: number;
     readonly flavorText: string;
+    readonly buffArt: string,
+    readonly buffName: string,
     bitBossCheerMote: boolean;
     selectable: boolean;
 }
