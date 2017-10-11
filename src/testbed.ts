@@ -9,7 +9,7 @@ import { BossData } from './front_end/gamestate/interfaces'
 window.addEventListener('load', function(){
     const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
     //const cardDiv = <HTMLDivElement>document.getElementById('charSelect');
-    let requestIDs: number[] = [];
+    const requestIDs: number[] = [];
     
     const backend = new BitFighterBack(
         (message, id) => {
@@ -41,7 +41,7 @@ window.addEventListener('load', function(){
                 bitBossCheerMote: true
             },
             characterNames: {},
-            bitFighterEnabled: true,
+            bitFighterEnabled: false,
             bitBossStartingHealth: 1000
         },
         str => console.log('new gamestate save:', str),
