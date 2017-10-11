@@ -32,16 +32,12 @@ export class BitFighter {
         // todo: find out what gameslug is for
         private readonly emitGameEvent: (gameSlug: string, message: FrontToBackMessage) => void
     ) {
-<<<<<<< HEAD
-        this.game = new GameState('arena', this.artURLs, this.iconURLs, this.atkURLs);
-=======
         this.game = new GameState(
             'arena',
             this.artURLs,
             this.iconURLs,
             chars => updateStatusCards(chars, this.artURLs)
         );
->>>>>>> 329db520b6137efc15048f8747d0e893807e3b2f
         this.updateSettings(settings);
         this.cardChoices = new CardChoices(
             <HTMLDivElement>document.getElementById('charSelect'),
