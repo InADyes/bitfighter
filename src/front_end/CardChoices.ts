@@ -61,10 +61,16 @@ export function updateStatusCards(
 
     if (oldCard1)
         oldCard1.innerHTML = newCard1.innerHTML;
-    if (oldCard2 && newCard2)
+    if (oldCard2 && newCard2) {
+        oldCard2.classList.remove("empty-card");
+        oldCard2.classList.add("card");
         oldCard2.innerHTML = newCard2.innerHTML;
-    else if (oldCard2)
+    }
+    else if (oldCard2) {
+        oldCard2.classList.remove("card");
+        oldCard2.classList.add("empty-card");
         oldCard2.innerHTML = "";
+    }
 }
 
 export function buildCard(character: CharacterCard, artURLs: string[]) {

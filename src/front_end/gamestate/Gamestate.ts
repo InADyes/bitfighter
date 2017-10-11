@@ -158,7 +158,6 @@ export class GameState {
 			this.player2.adjustHp(newHp);
 		else if (this.player1) {
 			let p = this.player1.getBitBossInfo();
-			console.log(`TIM SAYS: current hp: ${p.hp}, newhp: ${newHp}, damage: ${p.hp - newHp}`);
 			recalcHp(p.hp - newHp, newHp, p.maxHp, attacker);
 			this.player1.adjustHp(newHp);
 		}
