@@ -36,7 +36,8 @@ export function resultGrid() {
                         amount: levels[character2.v2].bits,
                         profileImageURL: 'hello, i\'m a url',
                         bossMessage: 'yo',
-                        bossEmoticonURL: 'hey'
+                        bossEmoticonURL: 'hey',
+                        bitBossCheerMote: true
                     }, character2.v1),
                     pickCharacter({
                         id: 1,
@@ -44,7 +45,8 @@ export function resultGrid() {
                         amount: levels[character1.v2].bits,
                         profileImageURL: 'hello, i\'m a url',
                         bossMessage: 'yo',
-                        bossEmoticonURL: 'hey'
+                        bossEmoticonURL: 'hey',
+                        bitBossCheerMote: true
                     }, character1.v1)
                 ],
                 testCount

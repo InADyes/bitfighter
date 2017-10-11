@@ -5,5 +5,6 @@ export interface Donation {
     readonly profileImageURL: string,
     // boss options are used if this fan becomes the bitboss
     readonly bossMessage: string,
-    readonly bossEmoticonURL: string
+    readonly bossEmoticonURL: string,
+    readonly bitBossCheerMote: boolean;
 }

@@ -38,7 +38,8 @@ export class BitFighter {
                 amount: 1000,
                 profileImageURL: '',
                 bossMessage: 'look at me',
-                bossEmoticonURL: ''
+                bossEmoticonURL: '',
+                bitBossCheerMote: true
             },
             characterNames: {},
             bitFighterEnabled: true,
@@ -57,12 +58,16 @@ export class BitFighter {
 
         this.arena = new Arena(
             this.settings,
-            (newReel) => this.sendMessageToFont({
+            newReel => this.sendMessageToFont({
                 newReel,
                 queue: newReel.patch ? undefined : this.buildQueueMessage()
             }),
             () => this.addToArena()
         );
+
+        // todo: update character names
+
+
         this.arena.addCombatants(pickCharacter(
             this.settings.defaultChampion,
             Math.floor(Math.random() * (characters.length - 1)))
@@ -154,7 +159,8 @@ export class BitFighter {
             amount,
             profileImageURL,
             bossMessage,
-            bossEmoticonURL
+            bossEmoticonURL,
+            bitBossCheerMote: true
         };
 
         const gameState = this.arena.isBusy() ? 'fighting' : 'waiting';

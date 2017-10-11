@@ -38,7 +38,8 @@ export function resultCount() {
             amount: Number(process.argv[3]),
             profileImageURL: 'hello, i\'m a url',
             bossMessage: 'yo',
-            bossEmoticonURL: 'hey'
+            bossEmoticonURL: 'hey',
+            bitBossCheerMote: true
         }, Number(process.argv[2])),
         pickCharacter({
             id: 1,
@@ -46,7 +47,8 @@ export function resultCount() {
             amount: Number(process.argv[5]),
             profileImageURL: 'hello, i\'m a url',
             bossMessage: 'yo',
-            bossEmoticonURL: 'hey'
+            bossEmoticonURL: 'hey',
+            bitBossCheerMote: true
         }, Number(process.argv[4]))
     ];
 

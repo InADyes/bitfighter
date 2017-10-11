@@ -203,7 +203,9 @@ export class Status {
             art: this.character,
             level: this.level,
             rarity: characters[this.character].rarity,
-            flavorText: characters[this.character].flavorText
+            flavorText: characters[this.character].flavorText,
+            bitBossCheerMote: false,
+            selectable: true
         };
     }
     get bossMessage() {return this.p_bossMessage;};

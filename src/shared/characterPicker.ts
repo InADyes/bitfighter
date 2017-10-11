@@ -42,7 +42,7 @@ export const charStrings = [
     "Swashbuckler",
     "Dragon",
     "Grave Digger",
-]
+];
 
 export interface Character {
     stats: Stats,

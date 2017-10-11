@@ -28,6 +28,8 @@ export interface CharacterCard {
     readonly level: number;
     readonly rarity: number;
     readonly flavorText: string;
+    bitBossCheerMote: boolean;
+    selectable: boolean;
 }
 
 export interface Queue { // so it can be patches on for now, TODO: make readonly
