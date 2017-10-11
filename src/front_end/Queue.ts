@@ -4,7 +4,7 @@ import { receiveQueue } from './globalDependencies';
 
 export class Queue {
     constructor (
-        private readonly startTimer: (time: number) => void
+        //private readonly startTimer: (time: number) => void
     ){}
 
     handleNewQueue (queue: {
@@ -16,7 +16,14 @@ export class Queue {
     }) {
     
         receiveQueue(queue.queue);
-        if (queue.timer)
-            this.startTimer(queue.timer);
+        if (queue.timer) {
+            this.buildTimer(queue.timer);
+            //this.startTimer(queue.timer);
+        }
+    }
+    
+    private buildTimer(time: number) {
+        let timer = document.createElement('div');
+        
     }
 }
