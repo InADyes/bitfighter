@@ -63,6 +63,8 @@ export function updateStatusCards(
         oldCard1.innerHTML = newCard1.innerHTML;
     if (oldCard2 && newCard2)
         oldCard2.innerHTML = newCard2.innerHTML;
+    else if (oldCard2)
+        oldCard2.innerHTML = "";
 }
 
 export function buildCard(character: CharacterCard, artURLs: string[]) {
