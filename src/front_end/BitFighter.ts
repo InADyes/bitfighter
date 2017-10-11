@@ -23,6 +23,7 @@ export class BitFighter {
     private readonly iconURLs = buffURLsNoShim.map(url => this.settings.assetsShim + url);
     private readonly atkURLs = atkURLsNoShim.map(url => this.settings.assetsShim + url);
     private readonly queue = new Queue(
+        <HTMLDivElement>document.getElementById('bitfighter'),
         //(time) => this.game.startTimer(time)
     );
 
