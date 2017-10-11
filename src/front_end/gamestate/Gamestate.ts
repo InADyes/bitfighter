@@ -33,17 +33,10 @@ export class GameState {
 	private messageQueue = 		[];
 
 	constructor(
-<<<<<<< HEAD
-		canvasId:					string,
-		private readonly charArt:	string[],
-		private readonly buffArt:	string[],
-		private readonly atkArt:	string[]
-=======
 		canvasId: string,
 		private readonly charArt: string[],
 		private readonly buffArt: string[],
 		private readonly characterStateChange: (characters: FrontendCharacter[]) => void
->>>>>>> 329db520b6137efc15048f8747d0e893807e3b2f
 	) {
 		this.canvas = new fabric.StaticCanvas(canvasId);
 		this.canvas.setWidth(this.baseWidth);
@@ -83,10 +76,7 @@ export class GameState {
 				this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt);
 				this.currentBoss = this.player1.getBitBossInfo();
 				updateBitBoss({boss: this.currentBoss});
-<<<<<<< HEAD
-=======
 				console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
->>>>>>> 329db520b6137efc15048f8747d0e893807e3b2f
 				recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, null);
 				if (msg.characters[1]) {
 					this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt);
