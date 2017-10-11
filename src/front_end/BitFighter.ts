@@ -45,9 +45,6 @@ export class BitFighter {
         window.addEventListener('resize', () => {
             this.updateScale();
         });
-        window.addEventListener('load', () => {
-            this.updateScale();
-        });
         setTimeout(() => {this.emitGameEvent('bitFighter', {requestReel: true})}, 1000);
     }
 
