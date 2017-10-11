@@ -63,6 +63,7 @@ export class Crit extends Event {
     constructor (
         time: number,
         character: number,
+        public readonly damage: boolean,
         public readonly debuff?: Buff,
         public readonly buff?: Buff
     ) {
