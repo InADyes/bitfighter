@@ -202,6 +202,7 @@ export class GameState {
 	}
 
 	public setNewScale(scale: number) {
+		console.log(`TIM: My new scale: ${scale}`);
 		this.scaleWait = scale;
 		let oldScale = this.scale;
 		this.scale = this.scaleWait;
