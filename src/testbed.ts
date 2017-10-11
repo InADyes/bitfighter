@@ -40,8 +40,11 @@ window.addEventListener('load', function(){
                 bossEmoticonURL: '',
                 bitBossCheerMote: true
             },
-            characterNames: {},
-            bitFighterEnabled: false,
+            characterNames: {
+                'Scullary Maid': 'Scullary Maid mII',
+                'Mage': 'Mage mII'
+            },
+            bitFighterEnabled: true,
             bitBossStartingHealth: 750
         },
         str => console.log('new gamestate save:', str),

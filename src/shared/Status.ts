@@ -213,7 +213,7 @@ export class Status {
             stats: cardStats[this.character] || cardStats[-1],
             baseHealth: this.stats.maxHitPoints,
             bonusHealth: this.stats.maxHitPoints - characters[this.character].stats.maxHitPoints,
-            className: characters[this.character].name,
+            className: this.className,
             art: this.character,
             level: this.level,
             rarity: characters[this.character].rarity,
