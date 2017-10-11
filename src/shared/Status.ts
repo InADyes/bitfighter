@@ -1,6 +1,6 @@
 import * as Buff from './interfaces/buff';
 import { CharacterCard } from './interfaces/backToFrontMessage';
-import { characterTypes, characters, buffArt } from './characterPicker';
+import { characterTypes, characters, buffURLs } from './characterPicker';
 
 export interface Stats {
     maxHitPoints: number;
@@ -211,7 +211,7 @@ export class Status {
             flavorText: characters[this.character].flavorText,
             bitBossCheerMote: false,
             selectable: true,
-            buffArt: buff ? buffArt[buff.art] : 'ERROR: NO BUFF FOUND',
+            buffArt: buff ? buffURLs[buff.art] : 'ERROR: NO BUFF FOUND',
             buffName: buff ? buff.name : 'ERROR: NO BUFF FOUND'
         };
     }

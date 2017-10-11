@@ -36,6 +36,7 @@ export class BitFighter {
             'arena',
             this.artURLs,
             this.iconURLs,
+            this.atkURLs,
             chars => updateStatusCards(chars, this.artURLs)
         );
         this.updateSettings(settings);

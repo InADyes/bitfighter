@@ -36,6 +36,7 @@ export class GameState {
 		canvasId: string,
 		private readonly charArt: string[],
 		private readonly buffArt: string[],
+		private readonly atkArt: string[],
 		private readonly characterStateChange: (characters: FrontendCharacter[]) => void
 	) {
 		this.canvas = new fabric.StaticCanvas(canvasId);
