@@ -65,6 +65,7 @@ export class BitFighter {
         if (data.updateBossEmoticonURL)
             this.game.updateEmote(data.updateBossEmoticonURL.championIndex, data.updateBossEmoticonURL.bossEmoticonURL);
         if (data.characterList) {
+            this.updateScale();
             let charList = this.artURLs.map((v, i) => (
                 {name: charStrings[i], stats: (data.characterList || [])[i] || 'error', imgURL: this.artURLs[i]}
             ));
