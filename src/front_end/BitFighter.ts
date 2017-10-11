@@ -62,14 +62,8 @@ export class BitFighter {
             this.game.updateBossMessage(data.updateBossMessage.championIndex, data.updateBossMessage.bossMessage);
         if (data.updateBossEmoticonURL)
             this.game.updateEmote(data.updateBossEmoticonURL.championIndex, data.updateBossEmoticonURL.bossEmoticonURL);
-        if (data.characterList) {
-            this.updateScale();
-            let charList = this.artURLs.map((v, i) => (
-                {name: charStrings[i], stats: (data.characterList || [])[i] || 'error', imgURL: this.artURLs[i]}
-            ));
-            console.log(`-------------------->TIM: got char list.\nlist: ${charList}`);
-            receiveCharList(charList);
-        }
+        if (data.characterList)
+            receiveCharList(data.characterList);
         if (data.bossMessageChangeFailed)
             bossMessageTooManyChanges();
     }

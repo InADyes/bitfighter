@@ -1,16 +1,11 @@
 import { BossData } from './gamestate/interfaces';
 import { choiceStats } from '../shared/Status';
+import { CharacterListItem } from '../shared/interfaces/backToFrontMessage';
 
 declare const window: {
     readonly flip: (side: 'front' | 'back') => void,
     // set the game display to bitboss or bitfighter
-    readonly receiveCharList: (charList: {
-        name: string;
-        stats: {
-            [details: string]: number;
-        };
-        imgURL: string;
-    }[]) => void,
+    readonly receiveCharList: (charList: CharacterListItem[]) => void,
     // set the health of botboss mode diplay
     readonly recalcHp: (damageAmount: number, newHp: number, maxHp: number, attacker: string | null) => void,
     // update the bitboss's name and stuff

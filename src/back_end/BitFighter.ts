@@ -1,6 +1,6 @@
 import { generateBitBoss } from './generateBitBoss';
 import { Status, cardStats } from '../shared/Status';
-import { Character, pickCharacter, characters } from '../shared/characterPicker';
+import { Character, pickCharacter, characters, rarities } from '../shared/characterPicker';
 import { BackToFrontMessage, Queue as QueueMessage } from '../shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 import { BackendSettings as Settings } from './settings'
@@ -145,7 +145,20 @@ export class BitFighter {
                 {
                     queue: this.buildQueueMessage(),
                     newReel: this.arena.lastResults(),
-                    characterList: cardStats
+                    characterList: characters.map((c, i) => {
+                        const crit = c.crits.find(c => (c.buff || c.debuff) !== undefined)
+                        const buff = crit ? (crit.buff || crit.debuff) : undefined;
+
+                        return {
+                            stats: cardStats[i],
+                            className: this.settings.characterNames[c.name] || c.name,
+                            skillName: buff ? buff.name : 'NO BUFF FOUND',
+                            skillURL: buff ? buff.url : 'no buff',
+                            rarityName: rarities[c.rarity].name || 'rarity not found',
+                            rarityColor: rarities[c.rarity].color || 'rarity not found',
+                            flavorText: c.flavorText
+                        }
+                    })
                 },
                 id
             )

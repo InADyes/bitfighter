@@ -1,5 +1,6 @@
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
+import { rarities } from '../shared/characterPicker';
 
 export class CardChoices {
     private cards: HTMLDivElement[];
@@ -137,7 +138,7 @@ export function buildCard(character: CharacterCard, artURLs: string[]) {
         <div class="stat">
             <div class="title">Rarity:</div>
             <div class="amount">
-                ${ formatRarity[character.rarity] }
+                ${ rarities[character.rarity].name }
             </div>
         </div>
     </div>`;
@@ -172,11 +173,3 @@ function healthBarSVG(amount: {
     </svg>`;
 }
 
-const formatRarity: {[details: number]: string} = {
-    0: 'Common',
-    1: 'Uncommon',
-    2: 'Rare',
-    3: 'Mythic',
-    4: 'Grave Digger',
-    5: 'BitBoss'
-};

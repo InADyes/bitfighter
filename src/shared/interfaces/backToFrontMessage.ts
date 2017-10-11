@@ -45,6 +45,16 @@ export interface Queue { // so it can be patches on for now, TODO: make readonly
     readonly timer?: number;
 }
 
+export interface CharacterListItem {
+    stats: choiceStats,
+    className: string,
+    skillName: string,
+    skillURL: string,
+    rarityName: string,
+    rarityColor: string,
+    flavorText: string
+}
+
 export interface BackToFrontMessage {
     readonly newReel?: ReelMessage;
     readonly characterChoices?: CharacterCard[];
@@ -57,13 +67,6 @@ export interface BackToFrontMessage {
         readonly championIndex: number;
         readonly bossEmoticonURL: string;
     };
-    readonly characterList?: {
-        stats: choiceStats,
-        className: string,
-        skillName: string,
-        skillURL: string,
-        rarityName: number,
-        rarityColor: string
-    }[];
+    readonly characterList?: CharacterListItem[];
     readonly bossMessageChangeFailed?: true;
 }
