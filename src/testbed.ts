@@ -108,4 +108,3 @@ window.addEventListener('load', function(){
             }, art));
     });
 });
-
