@@ -447,9 +447,9 @@ export const characters: Character[] = [
                 odds: 0
             },
         ],
-        name: 'BitBoss',
+        name: '',
         flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
-    }
+    } // bitboss
 ];
 
 // starting level of rarities

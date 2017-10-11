@@ -1,3 +1,4 @@
+import { generateBitBoss } from './generateBitBoss';
 import { Status, cardStats } from '../shared/Status';
 import { Character, pickCharacter, characters } from '../shared/characterPicker';
 import { BackToFrontMessage, Queue as QueueMessage } from '../shared/interfaces/backToFrontMessage';
@@ -67,10 +68,13 @@ export class BitFighter {
 
         // todo: update character names
 
-
-        this.arena.addCombatants(pickCharacter(
-            this.settings.defaultChampion,
-            Math.floor(Math.random() * (characters.length - 1)))
+        this.arena.addCombatants(
+            this.settings.bitFighterEnabled
+                ? pickCharacter(
+                    this.settings.defaultChampion,
+                    Math.floor(Math.random() * (characters.length - 1))
+                )
+                : generateBitBoss(this.settings.defaultChampion, this.settings.bitBossStartingHealth)
         );
     }
 

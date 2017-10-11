@@ -1,3 +1,4 @@
+import { generateBitBoss } from './generateBitBoss';
 import { sortGraphicsEvents } from '../shared/buildGraphicsEvents';
 import { buildEvents } from '../shared/buildEvents';
 import { Status, cardStats } from '../shared/Status';
@@ -199,34 +200,9 @@ export class Arena {
         if (event.fight.type === FightEvents.Types.death
             && this.combatants.length === 0
             && this.lastDamageDonation) {
-            const d = <FightEvents.Death>event.fight;
-            this.combatants.push(new Status(
-                this.lastDamageDonation.id,
-                this.lastDamageDonation.name,
-                characterTypes.bitBoss,
-                this.lastDamageDonation.amount,
-                this.settings.bitBossStartingHealth + d.overkill,
-                0,
-                { 
-                    maxHitPoints: this.settings.bitBossStartingHealth + d.overkill,
-                    accuracy: 0,
-                    dodge: 0,
-                    attackSpeed: {
-                        min: 0,
-                        max: 0
-                    },
-                    attackDamage: {
-                        min: 0,
-                        max: 0
-                    },
-                    armor: 0,
-                    regeneration: 0,
-                    critChanceModifier: 0,
-                    critDamageModifier: 0
-                },
-                this.lastDamageDonation.profileImageURL,
-                this.lastDamageDonation.bossMessage,
-                this.lastDamageDonation.bossEmoticonURL
+            this.combatants.push(generateBitBoss(
+                this.lastDamageDonation,
+                this.settings.bitBossStartingHealth + (<FightEvents.Death>event.fight).overkill
             ));
             this.pushLastResults();
         }
