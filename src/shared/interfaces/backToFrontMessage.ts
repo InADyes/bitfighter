@@ -57,6 +57,13 @@ export interface BackToFrontMessage {
         readonly championIndex: number;
         readonly bossEmoticonURL: string;
     };
-    readonly characterList?: {[details: number]: choiceStats};
+    readonly characterList?: {
+        stats: choiceStats,
+        className: string,
+        skillName: string,
+        skillURL: string,
+        rarityName: number,
+        rarityColor: string
+    }[];
     readonly bossMessageChangeFailed?: true;
 }
