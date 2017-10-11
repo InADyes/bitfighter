@@ -47,16 +47,17 @@ export class GameState {
 	}
 
 	public newMessage(msg: ReelMessage) {
-		console.log(`TIM MSG:`, msg.reel);
-		this.characterCards = msg.characters;
-		this.characterStateChange(msg.characters);
-
 		// Don't do anything yet if a character is dying or moving over
 		if ((this.player1 && this.player1.isAnimated())
 			|| (this.player2 && this.player2.isAnimated())) {
 			window.setTimeout(() => {this.newMessage(msg)}, 10);
 			return;
 		}
+
+		console.log(`TIM MSG:`, msg.reel);
+		// Update hover cards
+		this.characterCards = msg.characters;
+		this.characterStateChange(msg.characters);
 
 		// if there's a patch in the middle of a reel
 		if (msg.patch && this.reel[0]) {

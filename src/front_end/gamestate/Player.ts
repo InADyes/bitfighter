@@ -68,58 +68,53 @@ export class Player {
         this.specialAtk = new Attack(canvas, this.data.art, atkArt, scale, side, this.center);
     }
 
-    private drawBuffs() {
-        if (this.buffGroup)
-            this.canvas.remove(this.buffGroup);
-        this.buffGroup = new fabric.Group([],{
-            left:0,
-            top:0
-        });
-        this.canvas.add(this.buffGroup);
-        let numBuffsPerRow = Math.floor(this.trueWidth / (this.buffOffset * this.scale));
-        for (let i = 0; i < this.buffs.length; i++) {
-            new fabric.Image.fromURL(this.buffArt[this.buffs[i]], (oImg: fabric.Image) => {
-                let currentbuff = oImg.set({
-                    left: !this.onRight ? this.center - this.trueWidth + this.buffOffset * (i % numBuffsPerRow) * this.scale : this.center + this.buffOffset * (i % numBuffsPerRow) * this.scale,
-                    top: i < numBuffsPerRow? this.buffTop * this.scale: (this.buffTop + this.buffSize * Math.floor(i / numBuffsPerRow) - 5) * this.scale,
-                    height: this.buffSize * this.scale,
-                    width: this.buffSize * this.scale
-                });
-                this.buffGroup.addWithUpdate(currentbuff);
-                this.canvas.renderAll();
+    public drawMe() {
+        if (this.img)
+            this.canvas.remove(this.img);
+        new fabric.Image.fromURL(this.charArt[this.data.art], (oImg: fabric.Image) => {
+            if(oImg.width && oImg.height)
+                this.trueWidth = oImg.width/oImg.height * this.height * this.scale;
+            this.img = oImg.set({
+                left: !this.onRight ? (this.center - this.trueWidth / 2) - this.artAdjust : (this.center + this.trueWidth / 2) + this.artAdjust,
+                top: this.artTop * this.scale,
+                originX: 'center',
+                originY: 'bottom',
+                flipX: !this.onRight ? false : true
             });
-        }
-    }
-
-    private drawname() {
-        if (this.displayname)
-            this.canvas.remove(this.displayname);
-        if (this.displaynametop)
-            this.canvas.remove(this.displaynametop);
-        this.displayname = this.getFabricName();
-        this.displayname.set({
-            fill: 'white',
-            stroke: 'white',
-            strokeWidth: this.strokeWidth * this.scale,
-            top: this.nameHeight * this.scale,
+            this.img.scaleToHeight(this.height * this.scale);
+            this.canvas.add(this.img);
+            this.drawHealthText();
+            this.drawHpBar();
+            this.drawname();
         });
-        this.displaynametop = this.getFabricName();
-        this.displaynametop.set({
-            fill: 'black',
-            top: this.nameHeight * this.scale + 1,
-        })
-        this.canvas.add(this.displayname);
-        this.canvas.add(this.displaynametop);
     }
 
-    private getFabricName() {
-        return (new fabric.Text(this.data.name, {
+    private drawHealthText() {
+        if (this.healthtext)
+             this.canvas.remove(this.healthtext);
+        let healthTextBot = new fabric.Text(`${ this.health.toString() }`, {
             fontSize: this.fontSize * this.scale,
             fontFamily: this.font,
+            strokeWidth: this.strokeWidth * this.scale,
+            fill: 'white',
             fontWeight: 'bold',
-            left: !this.onRight ? this.center  - this.trueWidth / 2 : this.center + this.trueWidth / 2,
+            stroke: 'white',
             originX: 'center'
-        }));
+        });
+        let healthTextTop = new fabric.Text(`${ this.health.toString() }`, {
+            fontSize: this.fontSize * this.scale,
+            fontFamily: this.font,
+            fill: 'black',
+            top: 1,
+            originX: 'center',
+        }); 
+        this.healthtext = new fabric.Group([healthTextBot,healthTextTop],{
+            top: this.hpTextTop * this.scale,
+            left: !this.onRight ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
+            originX: 'center',
+        });
+        this.canvas.add(this.healthtext);
+        this.canvas.sendToBack(this.healthtext);
     }
 
     private drawHpBar() {
@@ -166,7 +161,6 @@ export class Player {
         this.canvas.add(this.yellowBar);
         this.canvas.add(this.greenBar);
     }
-
     private getFabricHp(leftOffset: number, onRightOffset: number) {
         return(new fabric.Rect({
             left: !this.onRight ? leftOffset : onRightOffset,
@@ -178,42 +172,57 @@ export class Player {
         }));
     }
 
-    private drawHealthText() {
-        if (this.healthtext)
-             this.canvas.remove(this.healthtext);
-        let healthTextBot = new fabric.Text(`${ this.health.toString() }`, {
-            fontSize: this.fontSize * this.scale,
-            fontFamily: this.font,
-            strokeWidth: this.strokeWidth * this.scale,
+    private drawname() {
+        if (this.displayname)
+            this.canvas.remove(this.displayname);
+        if (this.displaynametop)
+            this.canvas.remove(this.displaynametop);
+        this.displayname = this.getFabricName();
+        this.displayname.set({
             fill: 'white',
-            fontWeight: 'bold',
             stroke: 'white',
-            originX: 'center'
+            strokeWidth: this.strokeWidth * this.scale,
+            top: this.nameHeight * this.scale,
         });
-        let healthTextTop = new fabric.Text(`${ this.health.toString() }`, {
+        this.displaynametop = this.getFabricName();
+        this.displaynametop.set({
+            fill: 'black',
+            top: this.nameHeight * this.scale + 1,
+        })
+        this.canvas.add(this.displayname);
+        this.canvas.add(this.displaynametop);
+    }
+    private getFabricName() {
+        return (new fabric.Text(this.data.name, {
             fontSize: this.fontSize * this.scale,
             fontFamily: this.font,
-            fill: 'black',
-            top: 1,
-            originX: 'center',
-        }); 
-        this.healthtext = new fabric.Group([healthTextBot,healthTextTop],{
-            top: this.hpTextTop * this.scale,
-            left: !this.onRight ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
-            originX: 'center',
-        });
-        this.canvas.add(this.healthtext);
-        this.canvas.sendToBack(this.healthtext);
+            fontWeight: 'bold',
+            left: !this.onRight ? this.center  - this.trueWidth / 2 : this.center + this.trueWidth / 2,
+            originX: 'center'
+        }));
     }
 
-    private removeNameAndHp() {
-        this.canvas.remove(this.healthtext);
-        this.canvas.remove(this.greenBar);
-        this.canvas.remove(this.yellowBar);
-        this.canvas.remove(this.redBar);
-        this.canvas.remove(this.whiteBar);
-        this.canvas.remove(this.displayname);
-        this.canvas.remove(this.displaynametop);
+    private drawBuffs() {
+        if (this.buffGroup)
+            this.canvas.remove(this.buffGroup);
+        this.buffGroup = new fabric.Group([],{
+            left:0,
+            top:0
+        });
+        this.canvas.add(this.buffGroup);
+        let numBuffsPerRow = Math.floor(this.trueWidth / (this.buffOffset * this.scale));
+        for (let i = 0; i < this.buffs.length; i++) {
+            new fabric.Image.fromURL(this.buffArt[this.buffs[i]], (oImg: fabric.Image) => {
+                let currentbuff = oImg.set({
+                    left: !this.onRight ? this.center - this.trueWidth + this.buffOffset * (i % numBuffsPerRow) * this.scale : this.center + this.buffOffset * (i % numBuffsPerRow) * this.scale,
+                    top: i < numBuffsPerRow? this.buffTop * this.scale: (this.buffTop + this.buffSize * Math.floor(i / numBuffsPerRow) - 5) * this.scale,
+                    height: this.buffSize * this.scale,
+                    width: this.buffSize * this.scale
+                });
+                this.buffGroup.addWithUpdate(currentbuff);
+                this.canvas.renderAll();
+            });
+        }
     }
 
     private emptyTextQueue() {
@@ -259,25 +268,14 @@ export class Player {
         });
     }
 
-    public drawMe() {
-        if (this.img)
-            this.canvas.remove(this.img);
-        new fabric.Image.fromURL(this.charArt[this.data.art], (oImg: fabric.Image) => {
-            if(oImg.width && oImg.height)
-                this.trueWidth = oImg.width/oImg.height * this.height * this.scale;
-            this.img = oImg.set({
-                left: !this.onRight ? (this.center - this.trueWidth / 2) - this.artAdjust : (this.center + this.trueWidth / 2) + this.artAdjust,
-                top: this.artTop * this.scale,
-                originX: 'center',
-                originY: 'bottom',
-                flipX: !this.onRight ? false : true
-            });
-            this.img.scaleToHeight(this.height * this.scale);
-            this.canvas.add(this.img);
-            this.drawHealthText();
-            this.drawHpBar();
-            this.drawname();
-        });
+    private removeNameAndHp() {
+        this.canvas.remove(this.healthtext);
+        this.canvas.remove(this.greenBar);
+        this.canvas.remove(this.yellowBar);
+        this.canvas.remove(this.redBar);
+        this.canvas.remove(this.whiteBar);
+        this.canvas.remove(this.displayname);
+        this.canvas.remove(this.displaynametop);
     }
 
     public addBuff(buff: number, duration: number) {
