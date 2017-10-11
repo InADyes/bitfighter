@@ -116,7 +116,7 @@ export class BitFighter {
 
         const index = this.arena.searchForCombatant(id);
 
-        if (id === -1) {
+        if (index === -1) {
             console.log('boss emoticon update id does not match a currently fighting champion');
             return;
         }
@@ -172,7 +172,7 @@ export class BitFighter {
             this.arena.healCombatant(combatantIndex, donation);
 
         // if the donation is enough for a character and they aren't already in the queue
-        } else if (this.queue.some(s => {return s.id === id;}) === false
+        } else if (this.settings.bitFighterEnabled && this.queue.some(s => {return s.id === id;}) === false
             && amount >= this.settings.minimumDonation) {
             this.logDonation(gameState, 'newCombatant', donation.amount);
             this.characterChoiceHandler.requestChoice(donation);

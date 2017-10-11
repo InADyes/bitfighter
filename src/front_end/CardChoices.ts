@@ -1,5 +1,5 @@
-import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
+import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
 
 export class CardChoices {
     private cards: HTMLDivElement[];
@@ -58,8 +58,8 @@ export function updateStatusCards(
     const newCard2 = cards[1] ? buildCard(cards[1].card, artURLS) : null;
     const oldCard1 = document.getElementById('card1');
     const oldCard2 = document.getElementById('card2');
-
     if (oldCard1 && newCard1) {
+
         oldCard1.classList.remove("empty-card");
         oldCard1.classList.add("card");
         oldCard1.innerHTML = newCard1.innerHTML;
