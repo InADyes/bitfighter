@@ -1,5 +1,5 @@
 import * as Events from '../../shared/graphicsEvents';
-import { ReelMessage } from '../../shared/interfaces/backToFrontMessage';
+import { ReelMessage, FrontendCharacter } from '../../shared/interfaces/backToFrontMessage';
 import 'fabric'
 declare let fabric: any;
 import * as Player from './Player';
@@ -24,6 +24,7 @@ export class GameState {
 	private timer:				number;
 	private countBot:			fabric.Text;
 	private countTop:			fabric.Text;
+	private characterCards:		FrontendCharacter[];
 	private scale =				1;
 	private scaleWait =			0;
 	private isWaiting =			0;
@@ -34,7 +35,8 @@ export class GameState {
 	constructor(
 		canvasId: string,
 		private readonly charArt: string[],
-		private readonly buffArt: string[]
+		private readonly buffArt: string[],
+		private readonly characterStateChange: (characters: FrontendCharacter[]) => void
 	) {
 		this.canvas = new fabric.StaticCanvas(canvasId);
 		this.canvas.setWidth(this.baseWidth);
@@ -45,6 +47,9 @@ export class GameState {
 
 	public newMessage(msg: ReelMessage) {
 		console.log(`TIM MSG:`, msg.reel);
+		this.characterCards = msg.characters;
+		this.characterStateChange(msg.characters);
+
 		// Don't do anything yet if a character is dying or moving over
 		if ((this.player1 && this.player1.isAnimated())
 			|| (this.player2 && this.player2.isAnimated())) {
@@ -166,6 +171,8 @@ export class GameState {
 				this.player1.clearBuffs();
 			this.player2.clearBuffs();
 			this.player2 = null;
+			this.characterCards.splice(1, 1);
+			this.characterStateChange(this.characterCards);
 		}
 		else if (this.player1) {
 			this.player1.dies(this.player2);
@@ -177,6 +184,8 @@ export class GameState {
 				this.player2.clearBuffs();
 			}
 			this.newChampion();
+			this.characterCards.splice(0, 1);
+			this.characterStateChange(this.characterCards);
 		}
 
 		// Start checking if a fight idles too long to switch to bitboss
