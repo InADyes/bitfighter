@@ -147,7 +147,7 @@ export class Arena {
             && this.combatants.length === 1
             && reel.some(e => e.fight.type === FightEvents.Types.death)
         ) {
-            this.combatants.push(pickCharacter(donation, characterTypes.graveDigger /*replace with gravedigger*/));
+            this.combatants.push(pickCharacter(donation, characterTypes.graveDigger, this.settings.characterNames));
             this.startFight(new FightEvents.Healing(0, 0, this.combatants[0].stats.maxHitPoints * 0.1));
             return;
         }

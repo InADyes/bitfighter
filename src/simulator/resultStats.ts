@@ -12,7 +12,7 @@ export function resultStats() {
                 bossMessage: 'yo',
                 bossEmoticonURL: '',
                 bitBossCheerMote: true
-            }, Number(process.argv[2])),
+            }, Number(process.argv[2]), {}),
             pickCharacter({
                 id: 1,
                 name: 'hao',
@@ -21,7 +21,7 @@ export function resultStats() {
                 bossMessage: 'yo',
                 bossEmoticonURL: '',
                 bitBossCheerMote: true
-            }, Number(process.argv[4]))
+            }, Number(process.argv[4]), {})
         ],
         Number(process.argv[6])
     )

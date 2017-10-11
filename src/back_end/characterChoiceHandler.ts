@@ -2,6 +2,7 @@ import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
 import { Character, characters, pickCharacter, characterTypes } from '../shared/characterPicker';
 import { Status } from '../shared/Status';
 import { Donation } from '../shared/interfaces/donation';
+import { BackendSettings } from './settings';
 
 interface DonationTier {
     donation: number;
@@ -90,7 +91,8 @@ export class CharacterChoiceHandler {
 
     constructor(
         private readonly newCombatant: (status: Status) => void,
-        private readonly requestPick: (choices: CharacterCard[], id: number) => void
+        private readonly requestPick: (choices: CharacterCard[], id: number) => void,
+        private readonly settings: BackendSettings
     ) {}
 
     public requestChoice(donation: Donation) {
@@ -148,7 +150,7 @@ export class CharacterChoiceHandler {
             bossMessage: donation.bossMessage,
             bossEmoticonURL: donation.bossEmoticonURL,
             bitBossCheerMote: true
-        }, characters.indexOf(c)));
+        }, characters.indexOf(c), this.settings.characterNames));
 
         const lastCard = statusChoices[statusChoices.length - 1].card
         lastCard.bitBossCheerMote = true;

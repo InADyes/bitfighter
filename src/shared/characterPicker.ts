@@ -457,7 +457,7 @@ const rarityLevel = [
     1, // common
     3, // uncommon
     5, // rare
-    7,  // legendary
+    7, // legendary
     0, // gravedigger
     0, // bitboss
 ];
@@ -503,9 +503,10 @@ export function buildStats(character: number, donation: number, level: number) :
 // donation.amount is assumed to be in bits
 export function pickCharacter(
     donation: Donation,
-    character: number
+    character: number,
+    nameMap: {[name: string]: string}
 ) : Status {
-    let pick = character % characters.length;
+    const pick = character % characters.length;
 
     let level = rarityLevel[characters[pick].rarity]; // 1 indexed
 
@@ -525,6 +526,7 @@ export function pickCharacter(
         stats,
         donation.profileImageURL,
         donation.bossMessage,
-        donation.bossEmoticonURL
+        donation.bossEmoticonURL,
+        nameMap[characters[pick].name] || characters[pick].name
     )
 }

@@ -18,7 +18,8 @@ export class BitFighter {
 
     private readonly characterChoiceHandler = new CharacterChoiceHandler(
         status => this.newCombatant(status),
-        (characterChoices, id) => this.sendMessageToFont({characterChoices}, id)
+        (characterChoices, id) => this.sendMessageToFont({characterChoices}, id),
+        this.settings
     );
     private arena: Arena;
 
@@ -72,7 +73,8 @@ export class BitFighter {
             this.settings.bitFighterEnabled
                 ? pickCharacter(
                     this.settings.defaultChampion,
-                    Math.floor(Math.random() * (characters.length - 1))
+                    Math.floor(Math.random() * (characters.length - 1)),
+                    this.settings.characterNames
                 )
                 : generateBitBoss(this.settings.defaultChampion, this.settings.bitBossStartingHealth)
         );

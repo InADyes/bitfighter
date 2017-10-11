@@ -177,5 +177,6 @@ const formatRarity: {[details: number]: string} = {
     1: 'Uncommon',
     2: 'Rare',
     3: 'Mythic',
-    4: 'Grave Digger'
-} 
+    4: 'Grave Digger',
+    5: 'BitBoss'
+};

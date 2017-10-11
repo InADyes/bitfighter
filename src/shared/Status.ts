@@ -127,7 +127,8 @@ export class Status {
         public baseStats: Stats,
         public readonly profileImageURL: string,
         private p_bossMessage: string,
-        public bossEmoticonURL: string
+        public bossEmoticonURL: string,
+        public readonly className: string
     ) {
         this.calculatedStats = Object.assign({}, this.baseStats);
         this.calculatedStats.attackDamage = Object.assign({}, this.baseStats.attackDamage);
@@ -195,7 +196,8 @@ export class Status {
             this.baseStats,
             this.profileImageURL,
             this.p_bossMessage,
-            this.bossEmoticonURL
+            this.bossEmoticonURL,
+            this.className
         );
         s.bossMessageChangesRemaining = this.bossMessageChangesRemaining;
         return s;

@@ -98,13 +98,13 @@ window.addEventListener('load', function(){
             );
         else
             backend.newCombatant(pickCharacter({
-                id,
                 name,
+                id,
                 amount,
                 profileImageURL: 'todo: url goes here',
                 bossMessage: 'how\'re you doin\'?',
                 bossEmoticonURL: '',
                 bitBossCheerMote: true
-            }, art));
+            }, art, {}));
     });
 });
