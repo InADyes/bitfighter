@@ -30,7 +30,7 @@ export class Player {
     private strokeWidth =   2;
     private fontSize =      15;
     private font =          'Concert One'
-    private buffOffset =    14;
+    private buffOffset =    15;
     private buffTop =       135;
     private buffSize =      30;
 
@@ -429,6 +429,7 @@ export class Player {
     public setScale(scale: number) {
         this.scale = scale;
         this.center = this.canvas.getWidth() / 2;
+        this.specialAtk.updateScale(scale, this.center);
         if (this.health > 0)
             this.drawMe();
     }

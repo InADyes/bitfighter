@@ -59,7 +59,12 @@ export function applyFightEvents(
                 status[event.character].hitPoints -= (<FightEvents.DamageDonation>event).amount;
             } break;
             case FightEvents.Types.healingDonation: {
-                status[event.character].hitPoints += (<FightEvents.HealingDonation>event).amount;
+                const s = status[event.character];
+
+                s.hitPoints = Math.min(
+                    s.hitPoints + (<FightEvents.HealingDonation>event).amount,
+                    s.stats.maxHitPoints
+                );
             } break;
         }
         combinedReel.push({

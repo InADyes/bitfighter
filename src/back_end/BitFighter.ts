@@ -3,7 +3,7 @@ import { Status, cardStats } from '../shared/Status';
 import { Character, pickCharacter, characters, rarities } from '../shared/characterPicker';
 import { BackToFrontMessage, Queue as QueueMessage } from '../shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
-import { BackendSettings as Settings } from './settings'
+import { BackendSettings as Settings, GameSave } from './interfaces';
 import { CharacterChoiceHandler } from './characterChoiceHandler';
 import { Donation } from '../shared/interfaces/donation';
 import { Arena } from './Arena';
@@ -47,7 +47,7 @@ export class BitFighter {
             bitFighterEnabled: true,
             bitBossStartingHealth: 1000
         },
-        private readonly saveArenaState: (jsonStr: string) => void,
+        private readonly setSaveJSON: (jsonStr: string) => void,
         private readonly logDonation: (
             gameState: string,
             donationType: string,
@@ -60,24 +60,48 @@ export class BitFighter {
 
         this.arena = new Arena(
             this.settings,
-            newReel => this.sendMessageToFont({
-                newReel,
-                queue: newReel.patch ? undefined : this.buildQueueMessage()
-            }),
+            newReel => {
+                this.saveState();
+                this.sendMessageToFont({
+                    newReel,
+                    queue: newReel.patch ? undefined : this.buildQueueMessage()
+                })
+            },
             () => this.addToArena()
         );
+        if (gameStateJSON) {
+            const save = <GameSave>JSON.parse(gameStateJSON);
+            this.queue.push(...save.queue.map(s => Status.clone(s)));
+            this.arena.addCombatants(...save.arena.map(s => Status.clone(s)));
+        } else {
+            this.arena.addCombatants(
+                this.settings.bitFighterEnabled
+                    ? pickCharacter(
+                        this.settings.defaultChampion,
+                        Math.floor(Math.random() * (characters.length - 1)),
+                        this.settings.characterNames
+                    )
+                    : generateBitBoss(this.settings.defaultChampion, this.settings.bitBossStartingHealth)
+            );
+        }
+    }
 
-        // todo: update character names
+    public clearTimeouts() {
+        // right now doing all this may send a bunch of extra reels to the front end to update the queue
+        this.characterChoiceHandler.clearTimeouts();
+        this.arena.clearTimeouts();
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+            this.timeout = null;
+        }
+    }
 
-        this.arena.addCombatants(
-            this.settings.bitFighterEnabled
-                ? pickCharacter(
-                    this.settings.defaultChampion,
-                    Math.floor(Math.random() * (characters.length - 1)),
-                    this.settings.characterNames
-                )
-                : generateBitBoss(this.settings.defaultChampion, this.settings.bitBossStartingHealth)
-        );
+    private saveState() {
+        const save: GameSave = {
+            arena: this.arena.getCombatants(),
+            queue: this.queue
+        };
+        this.setSaveJSON(JSON.stringify(save));
     }
 
     private buildQueueMessage(timer?: number): QueueMessage {
@@ -140,30 +164,34 @@ export class BitFighter {
     public receivedFanGameState(id: number, choice: FrontToBackMessage) {
         if (choice.characterChoice)
             this.characterChoiceHandler.completeChoice(id, choice.characterChoice.choice, true);
-        if (choice.requestReel) {
-            this.sendMessageToFont(
-                {
-                    queue: this.buildQueueMessage(),
-                    newReel: this.arena.lastResults(),
-                    characterList: characters.map((c, i) => {
-                        const crit = c.crits.find(c => (c.buff || c.debuff) !== undefined)
-                        const buff = crit ? (crit.buff || crit.debuff) : undefined;
-
-                        return {
-                            stats: cardStats[i],
-                            className: this.settings.characterNames[c.name] || c.name,
-                            skillName: buff ? buff.name : 'NO BUFF FOUND',
-                            skillURL: buff ? buff.url : 'no buff',
-                            rarityName: rarities[c.rarity].name || 'rarity not found',
-                            rarityColor: rarities[c.rarity].color || 'rarity not found',
-                            flavorText: c.flavorText
-                        }
-                    })
-                },
-                id
-            )
-        }
+        if (choice.requestReel)
+            this.initFans(id);
     }
+
+    private initFans(id?: number) {
+        this.sendMessageToFont(
+            {
+                queue: this.buildQueueMessage(),
+                newReel: this.arena.lastResults(),
+                characterList: characters.map((c, i) => {
+                    const crit = c.crits.find(c => (c.buff || c.debuff) !== undefined)
+                    const buff = crit ? (crit.buff || crit.debuff) : undefined;
+
+                    return {
+                        stats: cardStats[i],
+                        className: this.settings.characterNames[c.name] || c.name,
+                        skillName: buff ? buff.name : 'NO BUFF FOUND',
+                        skillURL: buff ? buff.url : 'no buff',
+                        rarityName: rarities[c.rarity].name || 'rarity not found',
+                        rarityColor: rarities[c.rarity].color || 'rarity not found',
+                        flavorText: c.flavorText
+                    }
+                })
+            },
+            id
+        )
+    }
+
     public donation(
         id: number,
         name: string,
@@ -220,6 +248,8 @@ export class BitFighter {
             this.sendMessageToFont({
                 queue: this.buildQueueMessage(timeout)
             });
+        // if (this.arena.isBusy() === false) {
+        //     this.addToArena();
         } else {
             this.sendMessageToFont({
                 queue: this.buildQueueMessage()

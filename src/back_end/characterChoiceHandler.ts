@@ -2,7 +2,7 @@ import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
 import { Character, characters, pickCharacter, characterTypes } from '../shared/characterPicker';
 import { Status } from '../shared/Status';
 import { Donation } from '../shared/interfaces/donation';
-import { BackendSettings } from './settings';
+import { BackendSettings } from './interfaces';
 
 interface DonationTier {
     donation: number;
@@ -94,6 +94,13 @@ export class CharacterChoiceHandler {
         private readonly requestPick: (choices: CharacterCard[], id: number) => void,
         private readonly settings: BackendSettings
     ) {}
+
+    public clearTimeouts() {
+        for (let choice of this.pendingCharacterChoices) {
+            clearTimeout(choice.timeout);
+            this.completeChoice(choice.id, Math.floor(choice.characters.length * Math.random()))
+        }
+    }
 
     public requestChoice(donation: Donation) {
         if (this.pendingCharacterChoices.find(c => c.id === donation.id) !== undefined)

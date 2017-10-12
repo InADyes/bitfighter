@@ -6,52 +6,66 @@ import { FrontToBackMessage, CharacterChoice } from './shared/interfaces/frontTo
 import { FrontEndSettings } from './front_end/settings';
 import { BossData } from './front_end/gamestate/interfaces'
 
+
 window.addEventListener('load', function(){
     const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
     //const cardDiv = <HTMLDivElement>document.getElementById('charSelect');
     const requestIDs: number[] = [];
+    let saveGame: string | undefined = undefined;
+
+    const resetButton = <HTMLButtonElement>document.getElementById('reset');
+
+    resetButton.addEventListener('click', () => {
+        backend.clearTimeouts();
+        backend = newGame(saveGame);
+    });
     
-    const backend = new BitFighterBack(
-        (message, id) => {
-            window.setTimeout(()=> {
-                console.log('message, back to front:', message);
-                if (message.characterChoices) {
-                    if (id === undefined) {
-                        console.error('shouldn\'t push character choice to everyone');
-                        return;
+    function newGame(savedGame?: string) {
+        return new BitFighterBack(
+            (message, id) => {
+                window.setTimeout(()=> {
+                    console.log('message, back to front:', message);
+                    if (message.characterChoices) {
+                        if (id === undefined) {
+                            console.error('shouldn\'t push character choice to everyone');
+                            return;
+                        }
+                        requestIDs.push(id);
                     }
-                    requestIDs.push(id);
-                }
-                frontend.receivedViewerGameState(message);
-            }, 0)
-        },
-        {
-            delayBetweenFights: 3000,
-            minimumDonation: 200,
-            donationToHPRatio: 1,
-            defaultBossEmoticonURL: '',
-            defaultBossMessage: 'yo, tim! how\'re you doin\'??',
-            defaultChampion: {
-                id: -1,
-                name: 'ravi II',
-                amount: 1000,
-                profileImageURL: 'testbed_images/banana_icon.png',
-                bossMessage: 'look at me',
-                bossEmoticonURL: '',
-                bitBossCheerMote: true
+                    frontend.receivedViewerGameState(message);
+                }, 0)
             },
-            characterNames: {
-                'Scullary Maid': 'Scullary Maid mII',
-                'Mage': 'Mage mII'
+            {
+                delayBetweenFights: 3000,
+                minimumDonation: 200,
+                donationToHPRatio: 1,
+                defaultBossEmoticonURL: '',
+                defaultBossMessage: 'yo, tim! how\'re you doin\'??',
+                defaultChampion: {
+                    id: -1,
+                    name: 'ravi II',
+                    amount: 1000,
+                    profileImageURL: 'testbed_images/banana_icon.png',
+                    bossMessage: 'look at me',
+                    bossEmoticonURL: '',
+                    bitBossCheerMote: true
+                },
+                characterNames: {
+                    'Scullary Maid': 'Scullary Maid mII',
+                    'Mage': 'Mage mII'
+                },
+                bitFighterEnabled: true,
+                bitBossStartingHealth: 750
             },
-            bitFighterEnabled: true,
-            bitBossStartingHealth: 750
-        },
-        str => console.log('new gamestate save:', str),
-        (gameState, donationType, amount) => {
-            console.log(`donation: ${ gameState }, ${ donationType }, ${ amount }`);
-        }
-    );
+            str => {saveGame = str},
+            (gameState, donationType, amount) => {
+                console.log(`donation: ${ gameState }, ${ donationType }, ${ amount }`);
+            },
+            savedGame
+        );
+    }
+    
+    let backend = newGame();
 
     const frontend = new BitFighterFront(
         wrapperDiv,
@@ -90,7 +104,7 @@ window.addEventListener('load', function(){
 
         idInputNode.value = String(id + 1);
 
-        if (art <= -1)
+        if (art <= -1) {
             backend.donation(
                 id,
                 name,
@@ -99,7 +113,7 @@ window.addEventListener('load', function(){
                 'how\'re you doin\'?',
                 'todo: emoticon url goes here'
             );
-        else
+        } else {
             backend.newCombatant(pickCharacter({
                 name,
                 id,
@@ -109,5 +123,6 @@ window.addEventListener('load', function(){
                 bossEmoticonURL: '',
                 bitBossCheerMote: true
             }, art, {}));
+        }
     });
 });

@@ -142,7 +142,7 @@ export const characters: Character[] = [
         }*/
     ],
         name: 'Scullery Maid',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'You think fighting dragons is hard, try scrubbing castle floors!'
     }, // Scullery Maid
     {
         stats: { 
@@ -172,7 +172,7 @@ export const characters: Character[] = [
             debuff: Buff.buffs[Buff.types.barkeep]
         }],
         name: 'Barkeep',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'They call my bar the Bongo, because you go there to get beaten.'
     }, // Barkeep
     {
         stats: { 
@@ -202,7 +202,7 @@ export const characters: Character[] = [
             debuff: Buff.buffs[Buff.types.medium]
         }],
         name: 'Medium',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'Battles can be boring when you already know the outcome'
     }, // Medium
     {
         stats: { 
@@ -232,7 +232,7 @@ export const characters: Character[] = [
             buff: Buff.buffs[Buff.types.minstrel]
         }],
         name: 'Minstrel',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'I deplore a battle wits with an unarmed opponent.'
     },
     {
         stats: { 
@@ -262,7 +262,7 @@ export const characters: Character[] = [
             debuff: Buff.buffs[Buff.types.mage]
         }],
         name: 'Mage',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'I put on my robe and my wizard hat...'
     }, // Mage
     {
         stats: { 
@@ -292,7 +292,7 @@ export const characters: Character[] = [
             buff: Buff.buffs[Buff.types.rogue]
         }],
         name: 'Rogue',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'Rogues do it from behind'
     }, // Rogue
     {
         stats: { 
@@ -322,7 +322,7 @@ export const characters: Character[] = [
             buff: Buff.buffs[Buff.types.warpriest]
         }],
         name: 'Warpriest',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'It?s only a fleshwound...'
     }, // Warpriest
     {
         stats: { 
@@ -355,7 +355,7 @@ export const characters: Character[] = [
             }
         ],
         name: 'Warlock',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'Souls are like wine, they are better in a glass jar.'
     }, // Warlock
     {
         stats: { 
@@ -387,7 +387,7 @@ export const characters: Character[] = [
             }
         ],
         name: 'Swashbuckler',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'I have sailed the 7 seas, slain skeletons and monsters and you want me to fight...a scullery maid and a barkeep?'
     }, // Swashbuckler
     {
         stats: { 
@@ -419,7 +419,7 @@ export const characters: Character[] = [
             }
         ],
         name: 'Dragon',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'If I wasn\'t supposed to eat adventurers, then why are they made of meat and treasure?'
     }, // Dragon
     {
         stats: { 
@@ -447,7 +447,7 @@ export const characters: Character[] = [
             },
         ],
         name: 'Grave Digger',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'The difference between the living and the dead...some dirt and a shovel.'
     }, // Grave Digger
     {
         stats: { 
@@ -475,7 +475,7 @@ export const characters: Character[] = [
             },
         ],
         name: '',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'Easter Egg Email mburson@operaevent.co You are the best coder'
     } // bitboss
 ];
 
