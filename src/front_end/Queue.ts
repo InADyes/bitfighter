@@ -20,7 +20,7 @@ export class Queue {
     
         receiveQueue(queue.queue);
         if (queue.timer) {
-            this.startTimer(queue.timer / 1000 + 5);
+            this.startTimer(queue.timer / 1000);
         }
     }
     
