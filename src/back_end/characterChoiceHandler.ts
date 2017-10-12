@@ -95,6 +95,13 @@ export class CharacterChoiceHandler {
         private readonly settings: BackendSettings
     ) {}
 
+    public clearTimeouts() {
+        for (let choice of this.pendingCharacterChoices) {
+            clearTimeout(choice.timeout);
+            this.completeChoice(choice.id, Math.floor(choice.characters.length * Math.random()))
+        }
+    }
+
     public requestChoice(donation: Donation) {
         if (this.pendingCharacterChoices.find(c => c.id === donation.id) !== undefined)
             return; // todo: what should happen if they donate while they still have cards?

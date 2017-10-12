@@ -87,11 +87,13 @@ export class BitFighter {
     }
 
     public clearTimeouts() {
+        // right now doing all this may send a bunch of extra reels to the front end to update the queue
+        this.characterChoiceHandler.clearTimeouts();
+        this.arena.clearTimeouts();
         if (this.timeout) {
             clearTimeout(this.timeout);
             this.timeout = null;
         }
-        this.arena.clearTimeouts();
     }
 
     private saveState() {
