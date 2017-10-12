@@ -82,12 +82,14 @@ const tiers: DonationTier[] = [
     },
 ];
 
+export interface PendingChoice {
+    id: number,
+    characters: Status[],
+    timeout: NodeJS.Timer
+}
+
 export class CharacterChoiceHandler {
-    private pendingCharacterChoices: {
-        id: number,
-        characters: Status[],
-        timeout: NodeJS.Timer
-    }[] = [];
+    public pendingCharacterChoices: PendingChoice[] = [];
 
     constructor(
         private readonly newCombatant: (status: Status) => void,
@@ -98,7 +100,6 @@ export class CharacterChoiceHandler {
     public clearTimeouts() {
         for (let choice of this.pendingCharacterChoices) {
             clearTimeout(choice.timeout);
-            this.completeChoice(choice.id, Math.floor(choice.characters.length * Math.random()))
         }
     }
 

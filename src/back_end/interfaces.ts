@@ -1,6 +1,8 @@
 import { Combatant } from '../shared/Combatant';
 import { Donation } from '../shared/interfaces/donation';
 import { Status } from '../shared/Status';
+import { PendingChoice } from './characterChoiceHandler';
+
 
 export interface BackendSettings {
     delayBetweenFights: number, // milliseconds
@@ -17,4 +19,5 @@ export interface BackendSettings {
 export interface GameSave {
     arena: Status[];
     queue: Status[];
+    pendingChoices: PendingChoice[];
 }

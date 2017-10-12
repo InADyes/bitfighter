@@ -24,6 +24,7 @@ export class Arena {
     private fightStartTime: number = 0;
     private timeout: NodeJS.Timer | null = null;
     private readonly combatants: Status[] = [];
+    public results: Status[] = [];
     private events: CombinedEvent[] = [];
     private lastDamageDonation: Donation | null = null;
 
@@ -55,6 +56,7 @@ export class Arena {
         const combinedBase = applyFightEvents(tempStatus, ...baseReel)
 
         const result = buildEvents(tempStatus);
+        this.results = result.combatants;
         this.fightStartTime = nodePerformanceNow();
         this.events = combinedBase.concat(result.reel);
 

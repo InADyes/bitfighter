@@ -71,7 +71,11 @@ export class BitFighter {
         );
         if (gameStateJSON) {
             const save = <GameSave>JSON.parse(gameStateJSON);
+            // status's must be cloned becaused they have no methods as they came from the JSON
             this.queue.push(...save.queue.map(s => Status.clone(s)));
+            this.queue.push(...save.pendingChoices.map(c => 
+                Status.clone(c.characters[Math.floor(Math.random() * c.characters.length)])
+            ));
             this.arena.addCombatants(...save.arena.map(s => Status.clone(s)));
         } else {
             this.arena.addCombatants(
@@ -98,8 +102,9 @@ export class BitFighter {
 
     private saveState() {
         const save: GameSave = {
-            arena: this.arena.getCombatants(),
-            queue: this.queue
+            arena: this.arena.results,
+            queue: this.queue,
+            pendingChoices: this.characterChoiceHandler.pendingCharacterChoices
         };
         this.setSaveJSON(JSON.stringify(save));
     }
@@ -255,6 +260,7 @@ export class BitFighter {
             this.sendMessageToFont({
                 queue: this.buildQueueMessage()
             });
+            this.saveState();
         }
     }
     
