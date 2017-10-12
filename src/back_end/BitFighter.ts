@@ -101,6 +101,11 @@ export class BitFighter {
         }
     }
 
+    applySettings(settings: Settings) {
+        this.settings = settings;
+        this.arena.settings = settings;
+    }
+
     private saveState() {
         const save: GameSave = {
             arena: this.arena.results,

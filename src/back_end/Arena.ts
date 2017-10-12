@@ -29,7 +29,7 @@ export class Arena {
     private lastDamageDonation: Donation | null = null;
 
     constructor(
-        private readonly settings: Settings,
+        public settings: Settings,
         private readonly newFightResults: (message: ReelMessage, timer?: number) => void,
         private readonly fightOver: () => void
     ) {}
