@@ -77,14 +77,14 @@ export class GameState {
 				// init players
 				if (this.player1)
 					this.player1.eraseMe();
+				if (this.player2)
+					this.player2.eraseMe();
 				this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt);
 				this.currentBoss = this.player1.getBitBossInfo();
 				updateBitBoss({boss: this.currentBoss});
 				console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
 				recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, null);
 				if (msg.characters[1]) {
-					if (this.player2)
-						this.player2.eraseMe();
 					this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt);
 					flip('back');
 					console.log("flip back");
