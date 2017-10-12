@@ -33,6 +33,13 @@ export class Arena {
         private readonly fightOver: () => void
     ) {}
 
+    public clearTimeouts() {
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+            this.timeout = null;
+        }
+    }
+
     public addCombatants(...combatants: Status[]) {
         if (this.timeout !== null) {
             clearTimeout(this.timeout);

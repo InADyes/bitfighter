@@ -71,8 +71,8 @@ export class BitFighter {
         );
         if (gameStateJSON) {
             const save = <GameSave>JSON.parse(gameStateJSON);
-            this.queue.push(...save.queue.map(s => Object.create(Status, <any>s)));
-            this.arena.addCombatants(...save.arena.map(s => Object.create(Status, <any>s)))
+            this.queue.push(...save.queue.map(s => Status.clone(s)));
+            this.arena.addCombatants(...save.arena.map(s => Status.clone(s)));
         } else {
             this.arena.addCombatants(
                 this.settings.bitFighterEnabled
@@ -84,6 +84,14 @@ export class BitFighter {
                     : generateBitBoss(this.settings.defaultChampion, this.settings.bitBossStartingHealth)
             );
         }
+    }
+
+    public clearTimeouts() {
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+            this.timeout = null;
+        }
+        this.arena.clearTimeouts();
     }
 
     private saveState() {
@@ -238,6 +246,8 @@ export class BitFighter {
             this.sendMessageToFont({
                 queue: this.buildQueueMessage(timeout)
             });
+        // if (this.arena.isBusy() === false) {
+        //     this.addToArena();
         } else {
             this.sendMessageToFont({
                 queue: this.buildQueueMessage()
