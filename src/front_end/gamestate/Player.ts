@@ -30,7 +30,7 @@ export class Player {
     private strokeWidth =   2;
     private fontSize =      15;
     private font =          'Concert One'
-    private buffOffset =    14;
+    private buffOffset =    15;
     private buffTop =       135;
     private buffSize =      30;
 
