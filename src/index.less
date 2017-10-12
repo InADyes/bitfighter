@@ -35,12 +35,11 @@
 }
 
 #bitfighter {
-  box-sizing: border-box;
-  position: relative;
-  height: 56.24vw;
-  width: 100vw;
+  min-height: 75%;
+  position: absolute;
   #arena {
     position: absolute;
+    backface-visibility: hidden;
     &:hover {
       & + #info{
         display: flex;
