@@ -43,6 +43,7 @@ export class Player {
     private artTop =        120;
     private hpTextTop =     32;
     private textTop =       30;
+    private centerHpAdjust = 6;
 
     constructor(
         private readonly data: {
@@ -133,7 +134,7 @@ export class Player {
         else if (this.align === "right")
             this.healthtext.set({left: this.onRight ? this.cWidth - this.hpAdjust * this.scale : this.cWidth - (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust) * this.scale});
         else if (this.align === "center")
-            this.healthtext.set({left: !this.onRight ? this.center  - (this.trueWidth + this.hpAdjust) * this.scale : this.center + (this.trueWidth + this.hpAdjust) * this.scale})
+            this.healthtext.set({left: !this.onRight ? this.center  - (this.trueWidth + this.centerHpAdjust) * this.scale : this.center + (this.trueWidth + this.centerHpAdjust) * this.scale})
         this.canvas.add(this.healthtext);
         this.canvas.sendToBack(this.healthtext);
     }
@@ -193,8 +194,8 @@ export class Player {
         else if (this.align === "right")
             temp.set({left: this.onRight ? this.cWidth - this.hpAdjust * this.scale : this.cWidth - this.scale * (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust)});    
         else if (this.align === "center") {
-            let leftOffset = this.center - (this.trueWidth - this.hpAdjust) * this.scale;
-            let onRightOffset = this.center + (this.trueWidth + this.hpAdjust) * this.scale;
+            let leftOffset = this.center - (this.trueWidth - this.centerHpAdjust) * this.scale;
+            let onRightOffset = this.center + (this.trueWidth + this.centerHpAdjust) * this.scale;
             temp.set({left: !this.onRight ? leftOffset : onRightOffset});
         }
         return (temp);
@@ -263,7 +264,7 @@ export class Player {
         else if (this.align === "right")
             textgroup.set({left: this.cWidth - this.scale * (this.trueWidth / 2 + this.artAdjust + this.offset)});
         else if (this.align === "center")
-            textgroup.set({left: !this.onRight ? this.center - (this.artAdjust - this.trueWidth / 2) * this.scale : this.center + (this.artAdjust + this.trueWidth / 2) * this.scale})
+            textgroup.set({left: !this.onRight ? this.center - (this.trueWidth / 2) * this.scale : this.center + (this.trueWidth / 2) * this.scale})
         this.canvas.add(textgroup);
         textgroup.animate('top', `-=${ 20 * this.scale }`, {
             duration: 700 * txtObj.duration,
@@ -488,8 +489,8 @@ export class Player {
             this.movesAmount = this.cWidth - this.scale * (this.artAdjust + this.offset + this.trueWidth / 2);
         }
         else if (this.align === "center"){
-            this.atkAnimReturn = this.onRight ? this.center + (this.artAdjust + this.trueWidth / 2) * this.scale : this.center - (this.trueWidth / 2 - this.artAdjust) * this.scale;
-            this.movesAmount = this.center - (this.artAdjust - this.trueWidth / 2) * this.scale;
+            this.atkAnimReturn = this.onRight ? this.center + (this.trueWidth / 2) * this.scale : this.center - (this.trueWidth / 2) * this.scale;
+            this.movesAmount = this.center - (this.trueWidth / 2) * this.scale;
         }
     }
 
