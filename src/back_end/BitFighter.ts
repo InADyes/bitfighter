@@ -239,21 +239,8 @@ export class BitFighter {
     public newCombatant(status: Status) {
         this.queue.push(status)
 
-        // if (this.queue.length === 1 && this.arena.isBusy() === false) {
-        //     const timeout = 5000;
-
-        //     this.timeout = setTimeout(
-        //         () => {
-        //             this.timeout = null;
-        //             this.addToArena();
-        //         },
-        //         timeout // TODO: make this a setting
-        //     );
-        //     this.sendMessageToFont({
-        //         queue: this.buildQueueMessage(timeout)
-        //     });
         if (this.arena.isBusy() === false) {
-            this.addToArena(5000);
+            this.addToArena(this.arena.getCombatants().length > 0 ? 5000 : undefined);
         } else {
             this.sendMessageToFont({
                 queue: this.buildQueueMessage()
@@ -261,8 +248,7 @@ export class BitFighter {
             this.saveState();
         }
     }
-    
-    // start a new fight, maybe rename to queue change
+
     private addToArena(countdown?: number) {
         const newFighterCount = 2 - this.arena.getCombatants().length;
 
