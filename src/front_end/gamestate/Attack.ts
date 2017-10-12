@@ -77,7 +77,16 @@ export class Attack {
         }
     }
 
-    public updateScale(scale: number) {
-        this.scale = scale
+    public updateScale(scale: number, center: number) {
+        this.scale = scale;
+        this.center = center;
+        for (let i = 0; i < this.imgs.length; i++) {
+            this.imgs[i].set({
+                left: !this.onRight ? this.center - this.artAdjust: this.center + this.artAdjust,
+                top: this.artTop * this.scale, 
+            });
+            this.imgs[i].scaleToHeight(this.height * this.scale);
+        }
+    }
     }
 }

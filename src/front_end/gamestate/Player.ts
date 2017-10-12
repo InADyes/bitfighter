@@ -429,6 +429,7 @@ export class Player {
     public setScale(scale: number) {
         this.scale = scale;
         this.center = this.canvas.getWidth() / 2;
+        this.specialAtk.updateScale(scale, this.center);
         if (this.health > 0)
             this.drawMe();
     }
