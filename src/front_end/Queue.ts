@@ -6,7 +6,7 @@ export class Queue {
     private timer: HTMLDivElement;
 
     constructor (
-        private readonly timerDiv: HTMLDivElement,
+        private readonly bitfighterDiv: HTMLDivElement,
         //private readonly startTimer: (time: number) => void
     ){}
 
@@ -20,26 +20,31 @@ export class Queue {
     
         receiveQueue(queue.queue);
         if (queue.timer) {
-            this.startTimer(queue.timer);
-            //this.startTimer(queue.timer);
-
+            this.startTimer(queue.timer / 1000 + 5);
         }
     }
     
     private startTimer(time: number) {
-        let timer = document.createElement('div');
+        let timerDiv = document.createElement('div');
+        timerDiv.className = 'timerDiv';
+        let challenger = document.createElement('span');
+        challenger.className = 'challenger';
+        timerDiv.appendChild(challenger);
+        let timer = document.createElement('span');
         timer.className = 'timer';
-        this.timerDiv.appendChild(timer);
+        timerDiv.appendChild(timer);
+        challenger.innerText = "NEW CHALLENGER";
         timer.innerText = time.toString();
+        this.bitfighterDiv.appendChild(timerDiv);
 
-        window.setTimeout(() => this.updateTimer(timer, time - 1), 1000);
+        window.setTimeout(() => this.updateTimer(timerDiv, timer, time - 1), 1000);
     }
-    private updateTimer(timer: HTMLDivElement, time: number) {
+    private updateTimer(timerDiv: HTMLDivElement, timer: HTMLSpanElement, time: number) {
         if (time < 1){
-            this.timerDiv.removeChild(timer);
+            this.bitfighterDiv.removeChild(timerDiv);
             return;
         }
         timer.innerText = time.toString();
-        window.setTimeout(() => this.updateTimer(timer, time - 1), 1000);
+        window.setTimeout(() => this.updateTimer(timerDiv, timer, time - 1), 1000);
     }
 }
