@@ -14,11 +14,13 @@ window.addEventListener('load', function(){
     let saveGame: string | undefined = undefined;
 
     const resetButton = <HTMLButtonElement>document.getElementById('reset');
-
     resetButton.addEventListener('click', () => {
         backend.clearTimeouts();
         backend = newGame(saveGame);
     });
+
+    const bossKillButton = <HTMLButtonElement>document.getElementById('bossKill');
+    bossKillButton.addEventListener('click', () => backend.bossKill() );
     
     function newGame(savedGame?: string) {
         return new BitFighterBack(

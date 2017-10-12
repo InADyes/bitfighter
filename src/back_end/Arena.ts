@@ -1,3 +1,4 @@
+import { Packet } from '_debugger';
 import { generateBitBoss } from './generateBitBoss';
 import { sortGraphicsEvents } from '../shared/buildGraphicsEvents';
 import { buildEvents } from '../shared/buildEvents';
@@ -41,6 +42,13 @@ export class Arena {
         }
     }
 
+    public bossKill() {
+        if (this.combatants.length < 1)
+            return;
+        this.combatants.splice(0, 1);
+        this.startFight(0);
+    }
+
     public addCombatants(countdown: number, ...combatants: Status[]) {
         if (this.timeout !== null) {
             clearTimeout(this.timeout);
@@ -60,7 +68,7 @@ export class Arena {
         this.fightStartTime = nodePerformanceNow();
         this.events = combinedBase.concat(result.reel);
 
-        this.pushLastResults({countdown});
+        this.pushLastResults({countdown: countdown === 0 ? undefined : countdown});
         if (this.timeout)
             clearTimeout(this.timeout);
         this.timeoutNextEvent();

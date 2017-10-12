@@ -79,16 +79,18 @@ export class BitFighter {
             ));
             this.arena.addCombatants(0, ...save.arena.map(s => Status.clone(s)));
         } else {
-            this.arena.addCombatants(0,
-                this.settings.bitFighterEnabled
-                    ? pickCharacter(
-                        this.settings.defaultChampion,
-                        Math.floor(Math.random() * (characters.length - 2)),
-                        this.settings.characterNames
-                    )
-                    : generateBitBoss(this.settings.defaultChampion, this.settings.bitBossStartingHealth)
-            );
+            this.arena.addCombatants(0, this.buildDefaultCombatant());
         }
+    }
+
+    private buildDefaultCombatant(): Status {
+        if (this.settings.bitFighterEnabled)
+            return pickCharacter(
+                this.settings.defaultChampion,
+                Math.floor(Math.random() * (characters.length - 2)),
+                this.settings.characterNames
+            );
+        return generateBitBoss(this.settings.defaultChampion, this.settings.bitBossStartingHealth);
     }
 
     public clearTimeouts() {
@@ -99,6 +101,12 @@ export class BitFighter {
             clearTimeout(this.timeout);
             this.timeout = null;
         }
+    }
+
+    bossKill() {
+        this.arena.bossKill();
+        if (this.arena.getCombatants().length < 1)
+            this.arena.addCombatants(0, this.buildDefaultCombatant());
     }
 
     applySettings(settings: Settings) {
