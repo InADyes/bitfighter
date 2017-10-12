@@ -186,21 +186,7 @@ export class Status {
     }
     // does not clone name change counter
     public clone() {
-        const s = new Status(
-            this.id, //getto deep clone
-            this.name,
-            this.character,
-            this.initialDonation,
-            this.hitPoints,
-            this.level,
-            this.baseStats,
-            this.profileImageURL,
-            this.p_bossMessage,
-            this.bossEmoticonURL,
-            this.className
-        );
-        s.bossMessageChangesRemaining = this.bossMessageChangesRemaining;
-        return s;
+        return Status.clone(this);
     }
     // TODO: only recalculate the level and bonus health
     get card(): CharacterCard {
@@ -231,5 +217,24 @@ export class Status {
         this.bossMessageChangesRemaining--;
         this.p_bossMessage = bossMessage;
         return true;
+    }
+
+    public static clone(o: Status): Status {
+        
+        const s = new Status(
+            o.id, //getto deep clone
+            o.name,
+            o.character,
+            o.initialDonation,
+            o.hitPoints,
+            o.level,
+            o.baseStats,
+            o.profileImageURL,
+            o.p_bossMessage,
+            o.bossEmoticonURL,
+            o.className
+        );
+        s.bossMessageChangesRemaining = o.bossMessageChangesRemaining;
+        return s;
     }
 }

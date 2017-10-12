@@ -6,7 +6,7 @@ import { pickCharacter, characters, characterTypes } from '../shared/characterPi
 import * as FightEvents from '../shared/fightEvents';
 import { Event as GraphicsEvent} from '../shared/graphicsEvents';
 import { BackToFrontMessage, ReelMessage } from '../shared/interfaces/backToFrontMessage';
-import { BackendSettings as Settings } from './settings'
+import { BackendSettings as Settings } from './interfaces';
 import { applyFightEvents, CombinedEvent } from '../shared/applyFightEvents'
 import { CharacterChoiceHandler } from './characterChoiceHandler';
 import { hrtime } from 'process';
@@ -32,6 +32,13 @@ export class Arena {
         private readonly newFightResults: (message: ReelMessage, fan?: number) => void,
         private readonly fightOver: () => void
     ) {}
+
+    public clearTimeouts() {
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+            this.timeout = null;
+        }
+    }
 
     public addCombatants(...combatants: Status[]) {
         if (this.timeout !== null) {

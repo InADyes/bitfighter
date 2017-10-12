@@ -1,4 +1,6 @@
+import { Combatant } from '../shared/Combatant';
 import { Donation } from '../shared/interfaces/donation';
+import { Status } from '../shared/Status';
 
 export interface BackendSettings {
     delayBetweenFights: number, // milliseconds
@@ -10,4 +12,9 @@ export interface BackendSettings {
     bitFighterEnabled: boolean,
     bitBossStartingHealth: number,
     characterNames: {[character: string]: string}
+}
+
+export interface GameSave {
+    arena: Status[];
+    queue: Status[];
 }
