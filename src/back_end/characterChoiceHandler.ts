@@ -2,7 +2,7 @@ import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
 import { Character, characters, pickCharacter, characterTypes } from '../shared/characterPicker';
 import { Status } from '../shared/Status';
 import { Donation } from '../shared/interfaces/donation';
-import { BackendSettings } from './settings';
+import { BackendSettings } from './interfaces';
 
 interface DonationTier {
     donation: number;

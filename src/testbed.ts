@@ -44,7 +44,7 @@ window.addEventListener('load', function(){
                 'Scullary Maid': 'Scullary Maid mII',
                 'Mage': 'Mage mII'
             },
-            bitFighterEnabled: true,
+            bitFighterEnabled: false,
             bitBossStartingHealth: 750
         },
         str => console.log('new gamestate save:', str),
