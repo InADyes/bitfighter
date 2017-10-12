@@ -68,7 +68,7 @@ export class BitFighter {
                     timer
                 });
             },
-            () => this.addToArena(0)
+            () => this.addToArena()
         );
         if (gameStateJSON) {
             const save = <GameSave>JSON.parse(gameStateJSON);
@@ -263,12 +263,12 @@ export class BitFighter {
     }
     
     // start a new fight, maybe rename to queue change
-    private addToArena(countdown: number) {
+    private addToArena(countdown?: number) {
         const newFighterCount = 2 - this.arena.getCombatants().length;
 
         if (this.queue.length < 1 || newFighterCount < 0)
             return;
 
-        this.arena.addCombatants(0, ...this.queue.splice(0, newFighterCount));
+        this.arena.addCombatants(countdown || 0, ...this.queue.splice(0, newFighterCount));
     }
 }
