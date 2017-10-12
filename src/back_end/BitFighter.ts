@@ -1,7 +1,7 @@
 import { generateBitBoss } from './generateBitBoss';
 import { Status, cardStats } from '../shared/Status';
 import { Character, pickCharacter, characters, rarities } from '../shared/characterPicker';
-import { BackToFrontMessage, Queue as QueueMessage } from '../shared/interfaces/backToFrontMessage';
+import { BackToFrontMessage, CharacterListItem, Queue as QueueMessage } from '../shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 import { BackendSettings as Settings, GameSave } from './interfaces';
 import { CharacterChoiceHandler } from './characterChoiceHandler';
@@ -65,7 +65,7 @@ export class BitFighter {
                 this.sendMessageToFont({
                     newReel,
                     queue: newReel.patch ? undefined : this.buildQueueMessage()
-                })
+                });
             },
             () => this.addToArena()
         );
@@ -78,7 +78,7 @@ export class BitFighter {
                 this.settings.bitFighterEnabled
                     ? pickCharacter(
                         this.settings.defaultChampion,
-                        Math.floor(Math.random() * (characters.length - 1)),
+                        Math.floor(Math.random() * (characters.length - 2)),
                         this.settings.characterNames
                     )
                     : generateBitBoss(this.settings.defaultChampion, this.settings.bitBossStartingHealth)
@@ -169,11 +169,12 @@ export class BitFighter {
     }
 
     private initFans(id?: number) {
+
         this.sendMessageToFont(
             {
                 queue: this.buildQueueMessage(),
                 newReel: this.arena.lastResults(),
-                characterList: characters.map((c, i) => {
+                characterList: characters.filter(c => c.name != '').map((c, i) => {
                     const crit = c.crits.find(c => (c.buff || c.debuff) !== undefined)
                     const buff = crit ? (crit.buff || crit.debuff) : undefined;
 
