@@ -1,7 +1,7 @@
 import { generateBitBoss } from './generateBitBoss';
 import { Status, cardStats } from '../shared/Status';
 import { Character, pickCharacter, characters, rarities } from '../shared/characterPicker';
-import { BackToFrontMessage, CharacterListItem, Queue as QueueMessage } from '../shared/interfaces/backToFrontMessage';
+import { BackToFrontMessage, CharacterListItem, QueueItem } from '../shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 import { BackendSettings as Settings, GameSave } from './interfaces';
 import { CharacterChoiceHandler } from './characterChoiceHandler';
@@ -60,14 +60,15 @@ export class BitFighter {
 
         this.arena = new Arena(
             this.settings,
-            newReel => {
+            (newReel, timer) => {
                 this.saveState();
                 this.sendMessageToFont({
                     newReel,
-                    queue: newReel.patch ? undefined : this.buildQueueMessage()
+                    queue: newReel.patch ? undefined : this.buildQueueMessage(),
+                    timer
                 });
             },
-            () => this.addToArena()
+            () => this.addToArena(0)
         );
         if (gameStateJSON) {
             const save = <GameSave>JSON.parse(gameStateJSON);
@@ -76,9 +77,9 @@ export class BitFighter {
             this.queue.push(...save.pendingChoices.map(c => 
                 Status.clone(c.characters[Math.floor(Math.random() * c.characters.length)])
             ));
-            this.arena.addCombatants(...save.arena.map(s => Status.clone(s)));
+            this.arena.addCombatants(0, ...save.arena.map(s => Status.clone(s)));
         } else {
-            this.arena.addCombatants(
+            this.arena.addCombatants(0,
                 this.settings.bitFighterEnabled
                     ? pickCharacter(
                         this.settings.defaultChampion,
@@ -109,14 +110,11 @@ export class BitFighter {
         this.setSaveJSON(JSON.stringify(save));
     }
 
-    private buildQueueMessage(timer?: number): QueueMessage {
-        return {
-            queue: this.queue.map(s => ({
-                fanDisplayName: s.name, 
-                championTypeName: characters[s.character].name
-            })),
-            timer: timer
-        }
+    private buildQueueMessage(timer?: number): QueueItem[] {
+        return this.queue.map(s => ({
+            fanDisplayName: s.name, 
+            championTypeName: characters[s.character].name
+        }));
     }
 
     public bossMessageUpdate(id: number, message: string) {
@@ -241,21 +239,21 @@ export class BitFighter {
     public newCombatant(status: Status) {
         this.queue.push(status)
 
-        if (this.queue.length === 1 && this.arena.isBusy() === false) {
-            const timeout = 5000;
+        // if (this.queue.length === 1 && this.arena.isBusy() === false) {
+        //     const timeout = 5000;
 
-            this.timeout = setTimeout(
-                () => {
-                    this.timeout = null;
-                    this.addToArena();
-                },
-                timeout // TODO: make this a setting
-            );
-            this.sendMessageToFont({
-                queue: this.buildQueueMessage(timeout)
-            });
-        // if (this.arena.isBusy() === false) {
-        //     this.addToArena();
+        //     this.timeout = setTimeout(
+        //         () => {
+        //             this.timeout = null;
+        //             this.addToArena();
+        //         },
+        //         timeout // TODO: make this a setting
+        //     );
+        //     this.sendMessageToFont({
+        //         queue: this.buildQueueMessage(timeout)
+        //     });
+        if (this.arena.isBusy() === false) {
+            this.addToArena(5000);
         } else {
             this.sendMessageToFont({
                 queue: this.buildQueueMessage()
@@ -265,12 +263,12 @@ export class BitFighter {
     }
     
     // start a new fight, maybe rename to queue change
-    private addToArena() {
+    private addToArena(countdown: number) {
         const newFighterCount = 2 - this.arena.getCombatants().length;
 
         if (this.queue.length < 1 || newFighterCount < 0)
             return;
 
-        this.arena.addCombatants(  ...this.queue.splice(0, newFighterCount));
+        this.arena.addCombatants(0, ...this.queue.splice(0, newFighterCount));
     }
 }

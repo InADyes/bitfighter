@@ -37,12 +37,9 @@ export interface CharacterCard {
     selectable: boolean;
 }
 
-export interface Queue { // so it can be patches on for now, TODO: make readonly
-    readonly queue: {
-        readonly fanDisplayName: string;
-        readonly championTypeName: string;
-    }[];
-    readonly timer?: number;
+export interface QueueItem {
+    readonly fanDisplayName: string;
+    readonly championTypeName: string;
 }
 
 export interface CharacterListItem {
@@ -58,7 +55,8 @@ export interface CharacterListItem {
 export interface BackToFrontMessage {
     readonly newReel?: ReelMessage;
     readonly characterChoices?: CharacterCard[];
-    readonly queue?: Queue;
+    readonly queue?: QueueItem[];
+    readonly timer?: number;
     readonly updateBossMessage?: {
         readonly championIndex: number;
         readonly bossMessage: string;

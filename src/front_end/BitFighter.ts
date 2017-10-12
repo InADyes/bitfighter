@@ -57,7 +57,7 @@ export class BitFighter {
         if (data.characterChoices)
             this.cardChoices.displayCards(data.characterChoices.map(c => buildCard(c, this.artURLs)));
         if (data.queue)
-            this.queue.handleNewQueue(data.queue);
+            this.queue.handleNewQueue({queue: data.queue, timer: data.timer});
         if (data.updateBossMessage)
             this.game.updateBossMessage(data.updateBossMessage.championIndex, data.updateBossMessage.bossMessage);
         if (data.updateBossEmoticonURL)

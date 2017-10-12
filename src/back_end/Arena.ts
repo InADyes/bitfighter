@@ -30,7 +30,7 @@ export class Arena {
 
     constructor(
         private readonly settings: Settings,
-        private readonly newFightResults: (message: ReelMessage, fan?: number) => void,
+        private readonly newFightResults: (message: ReelMessage, timer?: number) => void,
         private readonly fightOver: () => void
     ) {}
 
@@ -41,26 +41,26 @@ export class Arena {
         }
     }
 
-    public addCombatants(...combatants: Status[]) {
+    public addCombatants(countdown: number, ...combatants: Status[]) {
         if (this.timeout !== null) {
             clearTimeout(this.timeout);
             this.timeout = null;
         }
 
         this.combatants.push(...combatants);
-        this.startFight();
+        this.startFight(countdown);
     }
 
-    private startFight(...baseReel: FightEvents.Event[]) {
+    private startFight(countdown: number, ...baseReel: FightEvents.Event[]) {
         const tempStatus = this.combatants.map(s => s.clone());
         const combinedBase = applyFightEvents(tempStatus, ...baseReel)
 
-        const result = buildEvents(tempStatus);
+        const result = buildEvents(tempStatus, countdown);
         this.results = result.combatants;
         this.fightStartTime = nodePerformanceNow();
         this.events = combinedBase.concat(result.reel);
 
-        this.pushLastResults();
+        this.pushLastResults({countdown});
         if (this.timeout)
             clearTimeout(this.timeout);
         this.timeoutNextEvent();
@@ -135,8 +135,13 @@ export class Arena {
     }
     
     // push the current events to everyone
-    public pushLastResults(patchTime?: number) {
-        this.newFightResults(this.lastResults(patchTime));
+    public pushLastResults(options?: {countdown?: number, patchTime?: number}) {
+        this.newFightResults(
+            this.lastResults(
+                options ? options.patchTime : undefined
+            ),
+            options ? options.countdown : undefined
+        );
     }
     
     // only works when all new events have the same time
@@ -158,12 +163,12 @@ export class Arena {
             && reel.some(e => e.fight.type === FightEvents.Types.death)
         ) {
             this.combatants.push(pickCharacter(donation, characterTypes.graveDigger, this.settings.characterNames));
-            this.startFight(new FightEvents.Healing(0, 0, this.combatants[0].stats.maxHitPoints * 0.1));
+            this.startFight(0, new FightEvents.Healing(0, 0, this.combatants[0].stats.maxHitPoints * 0.1));
             return;
         }
         this.events = reel;
 
-        this.pushLastResults(patchTime);
+        this.pushLastResults({patchTime});
         
         if (this.timeout)
             clearTimeout(this.timeout);
