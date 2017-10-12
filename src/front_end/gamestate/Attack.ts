@@ -88,5 +88,4 @@ export class Attack {
             this.imgs[i].scaleToHeight(this.height * this.scale);
         }
     }
-    }
 }
