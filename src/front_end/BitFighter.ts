@@ -50,7 +50,6 @@ export class BitFighter {
         });
         setTimeout(() => {
             this.emitGameEvent('bitFighter', {requestReel: true});
-            this.updateScale();
         }, 1000);
     }
 
@@ -65,8 +64,10 @@ export class BitFighter {
             this.game.updateBossMessage(data.updateBossMessage.championIndex, data.updateBossMessage.bossMessage);
         if (data.updateBossEmoticonURL)
             this.game.updateEmote(data.updateBossEmoticonURL.championIndex, data.updateBossEmoticonURL.bossEmoticonURL);
-        if (data.characterList)
+        if (data.characterList) {
+            this.updateScale();
             receiveCharList(data.characterList);
+        }
         if (data.bossMessageChangeFailed)
             bossMessageTooManyChanges();
     }
