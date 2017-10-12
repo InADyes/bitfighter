@@ -163,7 +163,6 @@ export class GameState {
 			this.player2.adjustHp(newHp);
 		else if (this.player1) {
 			let p = this.player1.getBitBossInfo();
-			console.log(`TIM SAYS: current hp: ${p.hp}, newhp: ${newHp}, damage: ${p.hp - newHp}`);
 			recalcHp(p.hp - newHp, newHp, p.maxHp, attacker);
 			this.player1.adjustHp(newHp);
 		}
@@ -208,10 +207,8 @@ export class GameState {
 	public displayText(p2: number, str: string, color: string, duration: number) {
 		if (p2 && this.player2)
 			this.player2.displayText(str, color, duration);
-		else if (this.player1) {
+		else if (this.player1)
 			this.player1.displayText(str, color, duration);
-			bossTextOut(color, str);
-		}
 	}
 
 	public setNewScale(scale: number) {

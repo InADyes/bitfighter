@@ -85,8 +85,9 @@ export class Player {
             else if (this.align === "right")
                 oImg.set({left: this.cWidth - this.scale * (this.artAdjust + this.offset + this.trueWidth / 2)});
             else if (this.align === "center") {
-                console.log(`DRAWING AT`, !this.onRight ? this.center - (this.trueWidth / 2 - this.artAdjust) * this.scale : this.center + (this.trueWidth / 2 + this.artAdjust) * this.scale)
-                oImg.set({left: !this.onRight ? this.center - (this.trueWidth / 2 - this.artAdjust) * this.scale : this.center + (this.trueWidth / 2 + this.artAdjust) * this.scale})
+                console.log(`center:`, this.center, `truew:`, this.trueWidth, `scale`, this.scale);
+                console.log(`DRAWING AT`, !this.onRight ? this.center - (this.trueWidth / 2) * this.scale : this.center + (this.trueWidth / 2) * this.scale)
+                oImg.set({left: !this.onRight ? this.center - (this.trueWidth / 2) * this.scale : this.center + (this.trueWidth / 2) * this.scale})
             }
             this.img = oImg.set({
                 top: this.artTop * this.scale,
@@ -132,7 +133,7 @@ export class Player {
         else if (this.align === "right")
             this.healthtext.set({left: this.onRight ? this.cWidth - this.hpAdjust * this.scale : this.cWidth - (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust) * this.scale});
         else if (this.align === "center")
-            this.healthtext.set({left: !this.onRight ? this.center  - (this.trueWidth - this.hpAdjust) * this.scale : this.center + (this.trueWidth + this.hpAdjust) * this.scale})
+            this.healthtext.set({left: !this.onRight ? this.center  - (this.trueWidth + this.hpAdjust) * this.scale : this.center + (this.trueWidth + this.hpAdjust) * this.scale})
         this.canvas.add(this.healthtext);
         this.canvas.sendToBack(this.healthtext);
     }
@@ -488,7 +489,6 @@ export class Player {
         }
         else if (this.align === "center"){
             this.atkAnimReturn = this.onRight ? this.center + (this.artAdjust + this.trueWidth / 2) * this.scale : this.center - (this.trueWidth / 2 - this.artAdjust) * this.scale;
-            console.log(`RETURN TO:`, this.atkAnimReturn);
             this.movesAmount = this.center - (this.artAdjust - this.trueWidth / 2) * this.scale;
         }
     }
