@@ -1,6 +1,6 @@
 import * as Buff from './interfaces/buff';
 import { CharacterCard } from './interfaces/backToFrontMessage';
-import { characterTypes, characters } from './characterPicker';
+import { characterTypes, characters, buffURLs } from './characterPicker';
 
 export interface Stats {
     maxHitPoints: number;
@@ -100,6 +100,13 @@ export const cardStats: {[details: number]: choiceStats} = {
         damage: 4,
         attackSpeed: 4
     },
+    [characterTypes.bitBoss]: {
+        accuracy: 0,
+        dodge: 0,
+        armor: 0,
+        damage: 0,
+        attackSpeed: 0
+    }
 }
 
 export class Status {
@@ -120,7 +127,8 @@ export class Status {
         public baseStats: Stats,
         public readonly profileImageURL: string,
         private p_bossMessage: string,
-        public bossEmoticonURL: string
+        public bossEmoticonURL: string,
+        public readonly className: string
     ) {
         this.calculatedStats = Object.assign({}, this.baseStats);
         this.calculatedStats.attackDamage = Object.assign({}, this.baseStats.attackDamage);
@@ -178,32 +186,29 @@ export class Status {
     }
     // does not clone name change counter
     public clone() {
-        const s = new Status(
-            this.id, //getto deep clone
-            this.name,
-            this.character,
-            this.initialDonation,
-            this.hitPoints,
-            this.level,
-            this.baseStats,
-            this.profileImageURL,
-            this.p_bossMessage,
-            this.bossEmoticonURL
-        );
-        s.bossMessageChangesRemaining = this.bossMessageChangesRemaining;
-        return s;
+        return Status.clone(this);
     }
     // TODO: only recalculate the level and bonus health
     get card(): CharacterCard {
+        const character = characters[this.character];
+        const crit = character.crits.find(c => (c.buff || c.debuff) !== undefined)
+
+        const buff = crit ? (crit.buff || crit.debuff) : undefined;
+
         return {
             stats: cardStats[this.character] || cardStats[-1],
             baseHealth: this.stats.maxHitPoints,
             bonusHealth: this.stats.maxHitPoints - characters[this.character].stats.maxHitPoints,
-            className: characters[this.character].name,
+            className: this.className,
             art: this.character,
             level: this.level,
             rarity: characters[this.character].rarity,
-            flavorText: characters[this.character].flavorText
+            flavorText: characters[this.character].flavorText,
+            skillText: characters[this.character].skillText,
+            bitBossCheerMote: false,
+            selectable: true,
+            buffArt: buff ? buffURLs[buff.art] : 'ERROR: NO BUFF FOUND',
+            buffName: buff ? buff.name : 'ERROR: NO BUFF FOUND'
         };
     }
     get bossMessage() {return this.p_bossMessage;};
@@ -215,4 +220,22 @@ export class Status {
         return true;
     }
 
+    public static clone(o: Status): Status {
+        
+        const s = new Status(
+            o.id, //getto deep clone
+            o.name,
+            o.character,
+            o.initialDonation,
+            o.hitPoints,
+            o.level,
+            o.baseStats,
+            o.profileImageURL,
+            o.p_bossMessage,
+            o.bossEmoticonURL,
+            o.className
+        );
+        s.bossMessageChangesRemaining = o.bossMessageChangesRemaining;
+        return s;
+    }
 }

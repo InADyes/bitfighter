@@ -2,6 +2,7 @@ import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
 import { Character, characters, pickCharacter, characterTypes } from '../shared/characterPicker';
 import { Status } from '../shared/Status';
 import { Donation } from '../shared/interfaces/donation';
+import { BackendSettings } from './interfaces';
 
 interface DonationTier {
     donation: number;
@@ -81,17 +82,26 @@ const tiers: DonationTier[] = [
     },
 ];
 
+export interface PendingChoice {
+    id: number,
+    characters: Status[],
+    timeout: NodeJS.Timer
+}
+
 export class CharacterChoiceHandler {
-    private pendingCharacterChoices: {
-        id: number,
-        characters: Status[],
-        timeout: NodeJS.Timer
-    }[] = [];
+    public pendingCharacterChoices: PendingChoice[] = [];
 
     constructor(
         private readonly newCombatant: (status: Status) => void,
-        private readonly requestPick: (choices: CharacterCard[], id: number) => void
+        private readonly requestPick: (choices: CharacterCard[], id: number) => void,
+        private readonly settings: BackendSettings
     ) {}
+
+    public clearTimeouts() {
+        for (let choice of this.pendingCharacterChoices) {
+            clearTimeout(choice.timeout);
+        }
+    }
 
     public requestChoice(donation: Donation) {
         if (this.pendingCharacterChoices.find(c => c.id === donation.id) !== undefined)
@@ -125,8 +135,16 @@ export class CharacterChoiceHandler {
             }
             // quick hack to get rid of duplicate characters
 
-            if (choices.some(c => c === choice))
+            // if it's the last card then redo the pick if it's common
+            if (_ === cards && choice && choice.rarity === 0) {
                 _--;
+                continue;
+            }
+
+            if (choices.some(c => c === choice)) {
+                _--;
+                continue;
+            }
             else if (choice)
                 choices.push(choice);
 
@@ -138,8 +156,24 @@ export class CharacterChoiceHandler {
             amount: donation.amount,
             profileImageURL: donation.profileImageURL,
             bossMessage: donation.bossMessage,
-            bossEmoticonURL: donation.bossEmoticonURL
-        }, characters.indexOf(c)));
+            bossEmoticonURL: donation.bossEmoticonURL,
+            bitBossCheerMote: true
+        }, characters.indexOf(c), this.settings.characterNames));
+
+        const choiceCards = statusChoices.map(s => s.card);
+        const lastCard = choiceCards[choiceCards.length - 1];
+        lastCard.bitBossCheerMote = true;
+        lastCard.selectable = donation.bitBossCheerMote ? true : false;
+
+        //send the choices to the front end
+        this.requestPick(
+            choiceCards,
+            donation.id
+        );
+
+        // if they didn't use the bitboss chearmote remove the last choice
+        if (donation.bitBossCheerMote === false)
+            statusChoices.pop();
 
         this.pendingCharacterChoices.push({
             id: donation.id,
@@ -151,12 +185,11 @@ export class CharacterChoiceHandler {
                 60000
             )
         });
-
-        this.requestPick(
-            statusChoices.map(s => s.card),
-            donation.id
-        );
     }
+    public hasPendingChoice(id: number) {
+        return this.pendingCharacterChoices.some(c => c.id === id);
+    }
+
     public completeChoice(id: number, pick: number, clear?: boolean) {
         const index = this.pendingCharacterChoices.findIndex(c => c.id === id);
 

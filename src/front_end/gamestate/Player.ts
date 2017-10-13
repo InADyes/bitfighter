@@ -1,6 +1,7 @@
 import 'fabric';
 declare let fabric: any;
-import {charStrings} from '../../shared/characterPicker';
+import {Attack} from './Attack';
+import { FrontendCharacter } from '../../shared/interfaces/backToFrontMessage';
 
 export class Player {
     private health:         number;
@@ -24,6 +25,7 @@ export class Player {
     private cWidth:         number;
     private atkAnimReturn:  number;
     private movesAmount:    number;
+    private specialAtk:     Attack;
     private height =        70;
     private hpWidth =       6.5;
     private textLock =      0;
@@ -35,6 +37,7 @@ export class Player {
     private buffOffset =    15;
     private buffTop =       135;
     private buffSize =      25;
+    private drawing =       0;
 
     // Adjust these to move elements around
     private artAdjust =     50;
@@ -45,20 +48,13 @@ export class Player {
     private centerHpAdjust = 6;
 
     constructor(
-        private readonly data: {
-            readonly name:              string;
-            readonly currentHitPoints:  number;
-            readonly maxHitPoints:      number;
-            readonly art:               number;
-            readonly profileImageURL:   string;
-            bossMessage:                string;
-            bossEmoticonURL:            string;
-        },
+        private readonly data: FrontendCharacter,
         side:                       number, 
         canvas:                     fabric.Canvas, 
-        scale:                      number,
+        scale:                      number, 
         private readonly charArt:   string[], 
         private readonly buffArt:   string[],
+        private readonly atkArt:    string[],
         private align:              'left' | 'right' | 'center',
     ) {
         this.health = data.currentHitPoints;
@@ -69,6 +65,7 @@ export class Player {
         this.textQueue = [];
         this.buffs = [];
         this.cWidth = this.canvas.getWidth();
+        this.specialAtk = new Attack(canvas, this.data.art, atkArt, scale, side, this.center);
     }
 
     public drawMe(player: Player | null, offset: number) {
@@ -77,6 +74,7 @@ export class Player {
             this.canvas.remove(this.img);
         if (this.health < 0)
             return;
+        this.drawing = 1;
         new fabric.Image.fromURL(this.charArt[this.data.art], (oImg: fabric.Image) => {
             if(oImg.width && oImg.height)
                 this.trueWidth = oImg.width/oImg.height * this.height;
@@ -102,6 +100,7 @@ export class Player {
             this.drawname();
             if (player)
                 player.drawMe(null, this.trueWidth);
+            this.drawing = 0;
         });
     }
 
@@ -183,7 +182,6 @@ export class Player {
         this.canvas.add(this.greenBar);
     }
     private getFabricHp() {
-        console.log(`POFAFFFEWGEWQF`, this.offset);
         let temp = new fabric.Rect({
             width: this.hpWidth * this.scale,
             flipY: true,
@@ -201,7 +199,7 @@ export class Player {
         }
         return (temp);
     }
-    
+
     private drawname() {
         if (this.displayname)
             this.canvas.remove(this.displayname);
@@ -485,7 +483,11 @@ export class Player {
         this.center = this.canvas.getWidth() / 2;
         this.atkAnimReturn = 0;
         this.setAnimationAmount();
+        this.specialAtk.updateScale(scale, this.center);
+        if (this.health > 0 && !this.drawing)
+            this.drawMe(null, this.offset);
     }
+
     private setAnimationAmount() {
         if (this.align === "left"){
             this.atkAnimReturn = (this.artAdjust + this.offset + this.trueWidth / 2) * this.scale;
@@ -516,7 +518,7 @@ export class Player {
             hp: this.health,
             maxHp: this.data.maxHitPoints,
             img: this.data.profileImageURL,
-            character: charStrings[this.data.art],
+            character: this.data.className,
             bossMessage: this.data.bossMessage,
             bossEmoticonURL: this.data.bossEmoticonURL
         });
@@ -537,5 +539,14 @@ export class Player {
     public setOffset(offset: number) {
         this.offset = offset;
         this.setAnimationAmount();
+    }
+
+    public eraseMe() {
+        if (this.img) {
+            console.log("asdsad");
+            this.canvas.remove(this.img);
+        }
+        this.removeNameAndHp();
+        this.canvas.remove(this.buffGroup);
     }
 }

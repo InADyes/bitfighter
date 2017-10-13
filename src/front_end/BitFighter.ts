@@ -1,6 +1,7 @@
 import { characters,
-    buffArt as buffArtNoShim,
-    artURLs as artURLsNoShim
+    buffURLs as buffURLsNoShim,
+    artURLs as artURLsNoShim,
+    atkURLs as atkURLsNoShim
 } from '../shared/characterPicker';
 import { GameState } from './gamestate/Gamestate';
 import { BackToFrontMessage } from '../shared/interfaces/backToFrontMessage';
@@ -9,21 +10,17 @@ import {
     CharacterChoice,
     FrontToBackMessage
 } from '../shared/interfaces/frontToBackMessage';
-import {charStrings} from '../shared/characterPicker';
 import { FrontEndSettings as Settings } from './settings';
-import {Queue} from './Queue';
-
+import { Queue } from './Queue';
 import { flip, receiveCharList, bossMessageTooManyChanges } from './globalDependencies';
-// export declare function flip(side: 'front' | 'back'): void;
-// export declare function receiveCharList(data: any): void;
 
 export class BitFighter {
     private readonly game: GameState;
-    //private canvas: HTMLCanvasElement = document.createElement('canvas');
     private canvas = document.getElementById('arena');
     private cardChoices: CardChoices;
     private readonly artURLs = artURLsNoShim.map(url => this.settings.assetsShim + url);
-    private readonly iconURLs = buffArtNoShim.map(url => this.settings.assetsShim + url);
+    private readonly iconURLs = buffURLsNoShim.map(url => this.settings.assetsShim + url);
+    private readonly atkURLs = atkURLsNoShim.map(url => this.settings.assetsShim + url);
     private readonly queue = new Queue(
         (time) => this.game.startTimer(time)
     );
@@ -38,6 +35,10 @@ export class BitFighter {
             'arena',
             this.artURLs,
             this.iconURLs,
+<<<<<<< HEAD
+=======
+            this.atkURLs,
+>>>>>>> 124d3989b49a230d513168d39a96ef676878e9d9
             chars => updateStatusCards(chars, this.artURLs)
         );
         this.updateSettings(settings);
@@ -50,31 +51,33 @@ export class BitFighter {
         window.addEventListener('resize', () => {
             this.updateScale();
         });
-        setTimeout(() => {this.emitGameEvent('bitFighter', {requestReel: true})}, 1000);
+        setTimeout(() => {
+            this.emitGameEvent('bitFighter', {requestReel: true});
+        }, 1000);
     }
 
     public receivedViewerGameState(data: BackToFrontMessage) {
-        if (data.newReel) {
+        if (data.newReel)
             this.game.newMessage(data.newReel);
+<<<<<<< HEAD
             //this.game.newMessage(data.newReel.reel, data.newReel.characters, data.newReel.patch);
             // update hover character cards
             // if (!data.newReel.patch)
             //     updateStatusCards(data.newReel.characters, this.artURLs);
         }
+=======
+>>>>>>> 124d3989b49a230d513168d39a96ef676878e9d9
         if (data.characterChoices)
             this.cardChoices.displayCards(data.characterChoices.map(c => buildCard(c, this.artURLs)));
         if (data.queue)
-            this.queue.handleNewQueue(data.queue);
+            this.queue.handleNewQueue({queue: data.queue, timer: data.timer});
         if (data.updateBossMessage)
             this.game.updateBossMessage(data.updateBossMessage.championIndex, data.updateBossMessage.bossMessage);
         if (data.updateBossEmoticonURL)
             this.game.updateEmote(data.updateBossEmoticonURL.championIndex, data.updateBossEmoticonURL.bossEmoticonURL);
         if (data.characterList) {
-            let charList = this.artURLs.map((v, i) => (
-                {name: charStrings[i], stats: (data.characterList || [])[i] || 'error', imgURL: this.artURLs[i]}
-            ));
-            console.log(`-------------------->TIM: got char list.\nlist: ${charList}`);
-            receiveCharList(charList);
+            this.updateScale();
+            receiveCharList(data.characterList);
         }
         if (data.bossMessageChangeFailed)
             bossMessageTooManyChanges();

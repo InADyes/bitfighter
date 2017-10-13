@@ -48,16 +48,18 @@ export function resultEvents() {
             amount: Number(process.argv[3]),
             profileImageURL: 'hello, i\'m a url',
             bossMessage: 'yo',
-            bossEmoticonURL: 'hey'
-        }, Number(process.argv[2])),
+            bossEmoticonURL: 'hey',
+            bitBossCheerMote: true
+        }, Number(process.argv[2]), {}),
         pickCharacter({
             id: 1,
             name: 'hao',
             amount: Number(process.argv[5]),
             profileImageURL: 'hello, i\'m a url',
             bossMessage: 'yo',
-            bossEmoticonURL: 'hey'
-        }, Number(process.argv[4]))
+            bossEmoticonURL: 'hey',
+            bitBossCheerMote: true
+        }, Number(process.argv[4]), {})
     ];
 
     const reel = buildEvents(chars).reel.map(e => e.fight);

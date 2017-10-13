@@ -6,6 +6,10 @@ import { Stats, choiceStats } from '../Status';
 
 export interface FrontendCharacter {
     name: string;
+<<<<<<< HEAD
+=======
+    className: string;
+>>>>>>> 124d3989b49a230d513168d39a96ef676878e9d9
     currentHitPoints: number;
     maxHitPoints: number;
     art: number;
@@ -30,20 +34,33 @@ export interface CharacterCard {
     readonly level: number;
     readonly rarity: number;
     readonly flavorText: string;
+    readonly skillText: string;
+    readonly buffArt: string,
+    readonly buffName: string,
+    bitBossCheerMote: boolean;
+    selectable: boolean;
 }
 
-export interface Queue { // so it can be patches on for now, TODO: make readonly
-    readonly queue: {
-        readonly fanDisplayName: string;
-        readonly championTypeName: string;
-    }[];
-    readonly timer?: number;
+export interface QueueItem {
+    readonly fanDisplayName: string;
+    readonly championTypeName: string;
+}
+
+export interface CharacterListItem {
+    stats: choiceStats,
+    className: string,
+    skillName: string,
+    skillURL: string,
+    rarityName: string,
+    rarityColor: string,
+    flavorText: string
 }
 
 export interface BackToFrontMessage {
     readonly newReel?: ReelMessage;
     readonly characterChoices?: CharacterCard[];
-    readonly queue?: Queue;
+    readonly queue?: QueueItem[];
+    readonly timer?: number;
     readonly updateBossMessage?: {
         readonly championIndex: number;
         readonly bossMessage: string;
@@ -52,6 +69,6 @@ export interface BackToFrontMessage {
         readonly championIndex: number;
         readonly bossEmoticonURL: string;
     };
-    readonly characterList?: {[details: number]: choiceStats};
+    readonly characterList?: CharacterListItem[];
     readonly bossMessageChangeFailed?: true;
 }

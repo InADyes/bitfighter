@@ -36,16 +36,18 @@ export function resultCountGrid() {
                         amount: levels[character2.v2].bits,
                         profileImageURL: 'hello, i\'m a url',
                         bossMessage: 'yo',
-                        bossEmoticonURL: 'hey'
-                    }, character2.v1),
+                        bossEmoticonURL: 'hey',
+                        bitBossCheerMote: true
+                    }, character2.v1, {}),
                     pickCharacter({
                         id: 1,
                         name: 'hao',
                         amount: levels[character1.v2].bits,
                         profileImageURL: 'hello, i\'m a url',
                         bossMessage: 'yo',
-                        bossEmoticonURL: 'hey'
-                    }, character1.v1)
+                        bossEmoticonURL: 'hey',
+                        bitBossCheerMote: true
+                    }, character1.v1, {})
                 ],
                 testCount
             );

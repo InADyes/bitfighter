@@ -18,7 +18,8 @@ const colors = {
     damage: '#f00e53',
     dodge: '#09d2d9',
     donation: '#8de82c',
-    heal: '#21e4c6'
+    heal: '#21e4c6',
+    ability: '#f34ef5'
 }
 
 export function sortGraphicsEvents(events: GraphicsEvents.Event[]) {
@@ -38,7 +39,7 @@ export function build(event: FightEvents.Event, status: Status[]) {
                 event.time,
                 event.character,
                 null,
-                Math.ceil(status[event.character].hitPoints)
+                Math.max(0, Math.ceil(status[event.character].hitPoints))
             ));
             display.push(new GraphicsEvents.Text(
                 event.time,
@@ -79,20 +80,29 @@ export function build(event: FightEvents.Event, status: Status[]) {
             ));
             break;
         case FightEvents.Types.crit: {
-            display.push(new GraphicsEvents.Text(
-                event.time,
-                event.character,
-                1,
-                'crit',
-                colors.damage
-            ));
-            const { buff, debuff } = <FightEvents.Crit>event;
+            const { buff, debuff, damage } = <FightEvents.Crit>event;
+            if (damage) {
+                display.push(new GraphicsEvents.Text(
+                    event.time,
+                    event.character,
+                    1,
+                    'crit',
+                    colors.damage
+                ));
+            }
             if (debuff) {
                 display.push(new GraphicsEvents.Buff(
                     event.time,
                     event.character,
                     debuff.art,
                     debuff.duration
+                ));
+                display.push(new GraphicsEvents.Text(
+                    event.time,
+                    event.character,
+                    1,
+                    debuff.name,
+                    colors.ability
                 ));
             }
             if (buff) {
@@ -101,6 +111,13 @@ export function build(event: FightEvents.Event, status: Status[]) {
                     otherCharacter(event.character),
                     buff.art,
                     buff.duration
+                ));
+                display.push(new GraphicsEvents.Text(
+                    event.time,
+                    otherCharacter(event.character),
+                    1,
+                    buff.name,
+                    colors.ability
                 ));
             }
         }   break;

@@ -74,7 +74,13 @@ export class Combatant {
             if (Math.ceil(Math.random() * 100) <= crit.odds * attack.critChanceModifier) {
                 if (crit.damageMultiplier)
                     attack.damage = (attack.damage - this.status.stats.armor) * crit.damageMultiplier * attack.critDamageModifier;
-                this.newEvent(new FightEvents.Crit(attack.time, this.index, crit.debuff, crit.buff));
+                this.newEvent(new FightEvents.Crit(
+                    attack.time,
+                    this.index,
+                    crit.damageMultiplier !== undefined,
+                    crit.debuff,
+                    crit.buff
+                ));
             }
         }
 
@@ -85,7 +91,7 @@ export class Combatant {
         this.newEvent(new FightEvents.Damage(attack.time, this.index, attack.damage));
             
         if (this.status.hitPoints <= 0)
-            this.newEvent(new FightEvents.Death(attack.time, this.index));
+            this.newEvent(new FightEvents.Death(attack.time, this.index, -1 * this.status.hitPoints));
     }
     public heal() {
         this.status.checkBuffs(this.time);

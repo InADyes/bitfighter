@@ -1,13 +1,15 @@
+import { Packet } from '_debugger';
+import { generateBitBoss } from './generateBitBoss';
 import { sortGraphicsEvents } from '../shared/buildGraphicsEvents';
 import { buildEvents } from '../shared/buildEvents';
 import { Status, cardStats } from '../shared/Status';
-import { pickCharacter, characters } from '../shared/characterPicker';
+import { pickCharacter, characters, characterTypes } from '../shared/characterPicker';
 import * as FightEvents from '../shared/fightEvents';
 import { Event as GraphicsEvent} from '../shared/graphicsEvents';
 import { BackToFrontMessage, ReelMessage } from '../shared/interfaces/backToFrontMessage';
-import { BackendSettings as Settings } from './settings'
+import { BackendSettings as Settings } from './interfaces';
 import { applyFightEvents, CombinedEvent } from '../shared/applyFightEvents'
-import { CharacterChoiceHandler } from './characterChoiceHandler';
+import { CharacterChoiceHandler } from './CharacterChoiceHandler';
 import { hrtime } from 'process';
 import { Donation } from '../shared/interfaces/donation';
 
@@ -23,34 +25,50 @@ export class Arena {
     private fightStartTime: number = 0;
     private timeout: NodeJS.Timer | null = null;
     private readonly combatants: Status[] = [];
+    public results: Status[] = [];
     private events: CombinedEvent[] = [];
     private lastDamageDonation: Donation | null = null;
 
     constructor(
-        private readonly settings: Settings,
-        private readonly newFightResults: (message: ReelMessage, fan?: number) => void,
+        public settings: Settings,
+        private readonly newFightResults: (message: ReelMessage, timer?: number) => void,
         private readonly fightOver: () => void
     ) {}
 
-    public addCombatants(...combatants: Status[]) {
+    public clearTimeouts() {
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+            this.timeout = null;
+        }
+    }
+
+    public bossKill() {
+        if (this.combatants.length < 1)
+            return;
+        this.combatants.splice(0, 1);
+        this.startFight(0);
+    }
+
+    public addCombatants(countdown: number, ...combatants: Status[]) {
         if (this.timeout !== null) {
             clearTimeout(this.timeout);
             this.timeout = null;
         }
 
         this.combatants.push(...combatants);
-        this.startFight();
+        this.startFight(countdown);
     }
 
-    private startFight(...baseReel: FightEvents.Event[]) {
+    private startFight(countdown: number, ...baseReel: FightEvents.Event[]) {
         const tempStatus = this.combatants.map(s => s.clone());
         const combinedBase = applyFightEvents(tempStatus, ...baseReel)
 
-        const result = buildEvents(tempStatus);
+        const result = buildEvents(tempStatus, countdown);
+        this.results = result.combatants;
         this.fightStartTime = nodePerformanceNow();
         this.events = combinedBase.concat(result.reel);
 
-        this.pushLastResults();
+        this.pushLastResults({countdown: countdown === 0 ? undefined : countdown});
         if (this.timeout)
             clearTimeout(this.timeout);
         this.timeoutNextEvent();
@@ -64,9 +82,7 @@ export class Arena {
         const patchTime = nodePerformanceNow() - this.fightStartTime;
         const combatant = this.combatants[index];
 
-        let amount = this.settings.donationToHPRatio * donation.amount;
-        if (combatant.hitPoints + donation.amount > combatant.stats.maxHitPoints)
-            amount = combatant.stats.maxHitPoints - combatant.hitPoints;
+        const amount = this.settings.donationToHPRatio * donation.amount;
 
         this.insertEvents(
             patchTime,
@@ -89,10 +105,7 @@ export class Arena {
         const patchTime = nodePerformanceNow() - this.fightStartTime;
         
         const combatant = this.combatants[index];
-        let amount = this.settings.donationToHPRatio * donation.amount;
-
-        if (combatant.hitPoints < amount)
-            amount = combatant.hitPoints;
+        const amount = this.settings.donationToHPRatio * donation.amount;
 
         this.insertEvents(
             patchTime,
@@ -120,7 +133,8 @@ export class Arena {
                 profileImageURL: c.profileImageURL,
                 bossMessage: c.bossMessage,
                 card: c.card,
-                bossEmoticonURL: c.bossEmoticonURL
+                bossEmoticonURL: c.bossEmoticonURL,
+                className: c.className
             })
         ),
         reel: graphics,
@@ -129,8 +143,13 @@ export class Arena {
     }
     
     // push the current events to everyone
-    public pushLastResults(patchTime?: number) {
-        this.newFightResults(this.lastResults(patchTime));
+    public pushLastResults(options?: {countdown?: number, patchTime?: number}) {
+        this.newFightResults(
+            this.lastResults(
+                options ? options.patchTime : undefined
+            ),
+            options ? options.countdown : undefined
+        );
     }
     
     // only works when all new events have the same time
@@ -146,14 +165,18 @@ export class Arena {
         reel.push(...buildEvents(tempStatus, patchTime).reel);
 
         // if the new events caused the chapion to die instead start a fight
-        if (this.combatants.length === 1 && reel.some(e => e.fight.type === FightEvents.Types.death)) {
-            this.combatants.push(pickCharacter(donation, 10 /*replace with gravedigger*/));
-            this.startFight(new FightEvents.Healing(0, 0, this.combatants[0].stats.maxHitPoints * 0.1));
+        if (
+            this.settings.bitFighterEnabled
+            && this.combatants.length === 1
+            && reel.some(e => e.fight.type === FightEvents.Types.death)
+        ) {
+            this.combatants.push(pickCharacter(donation, characterTypes.graveDigger, this.settings.characterNames));
+            this.startFight(0, new FightEvents.Healing(0, 0, this.combatants[0].stats.maxHitPoints * 0.1));
             return;
         }
         this.events = reel;
 
-        this.pushLastResults(patchTime);
+        this.pushLastResults({patchTime});
         
         if (this.timeout)
             clearTimeout(this.timeout);
@@ -196,13 +219,13 @@ export class Arena {
         if (event.fight.type === FightEvents.Types.damageDonation)
             this.lastDamageDonation = (<FightEvents.DamageDonation>event.fight).donation;
 
-        // if the boss was killed by a damage donation they become the new boss
+        // if the boss was killed by a damage donation they become the bitBoss
         if (event.fight.type === FightEvents.Types.death
             && this.combatants.length === 0
             && this.lastDamageDonation) {
-            this.combatants.push(pickCharacter(
+            this.combatants.push(generateBitBoss(
                 this.lastDamageDonation,
-                Math.floor(Math.random() * characters.length)
+                this.settings.bitBossStartingHealth + (<FightEvents.Death>event.fight).overkill
             ));
             this.pushLastResults();
         }

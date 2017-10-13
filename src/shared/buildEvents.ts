@@ -23,7 +23,8 @@ export function buildEvents(status: Status[], startTime?: number) {
         if (combatants[0] && combatants[0].status.hitPoints <= 0) {
             reel.push(...applyFightEvents(newStatus, new FightEvents.Death(
                 combatants[0].time,
-                0
+                0,
+                -1 * combatants[0].status.hitPoints
             )));
         }
         return { combatants: newStatus, reel };

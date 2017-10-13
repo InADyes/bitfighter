@@ -1,6 +1,34 @@
+import { updateBitBoss } from '../front_end/globalDependencies';
 import * as Buff from './interfaces/buff';
 import { Status, Stats } from '../shared/Status';
 import { Donation } from './interfaces/donation';
+
+export const rarities: {[details: number]: {name: string; color: string;}} = {
+    0: {
+        name: 'Common',
+        color: 'white'
+    },
+    1: {
+        name: 'Uncommon',
+        color: 'grey'
+    },
+    2: {
+        name: 'Rare',
+        color: 'blue'
+    },
+    3: {
+        name: 'Mythic',
+        color: 'orange'
+    },
+    4: {
+        name: 'Grave Digger',
+        color: 'green'
+    },
+    5: {
+        name: 'BitBoss',
+        color: 'purple'
+    }
+};
 
 export const artURLs = [
     "images/champions/0scullery_maid.png",
@@ -13,10 +41,11 @@ export const artURLs = [
     "images/champions/7warlock.png",  
     "images/champions/8swashbuckler.png",    
     "images/champions/9dragon.png",
+    "images/champions/10grave_digger.png",
     "images/champions/10grave_digger.png"
 ];
 
-export const buffArt = [
+export const buffURLs = [
     "images/icons/buffs/mop_up.png",
     "images/icons/buffs/last_call.png",
     "images/icons/buffs/medium_buff.png",
@@ -30,31 +59,39 @@ export const buffArt = [
     "images/icons/buffs/firebreathing.png"
 ];
 
-export const charStrings = [
-    "Scullary Maid",
-    "Barkeep",
-    "Medium",
-    "Minstrel",
-    "Mage",
-    "Rogue",
-    "Warpriest",
-    "Warlock",
-    "Swashbuckler",
-    "Dragon",
-    "Grave Digger",
-]
+export const atkURLs = [
+    "images/icons/fire1.png",
+    "images/icons/fire2.png",
+    "images/icons/fire3.png"
+];
+
+// export const charStrings = [
+//     "Scullary Maid",
+//     "Barkeep",
+//     "Medium",
+//     "Minstrel",
+//     "Mage",
+//     "Rogue",
+//     "Warpriest",
+//     "Warlock",
+//     "Swashbuckler",
+//     "Dragon",
+//     "Grave Digger",
+//     "Bit Boss"
+// ];
 
 export interface Character {
-    stats: Stats,
-    rarity: number,
-    crits: {
-        odds: number,
-        debuff?: Buff.Buff,
-        buff?: Buff.Buff,
-        damageMultiplier?: number
+    readonly stats: Stats,
+    readonly rarity: number,
+    readonly crits: {
+        readonly odds: number,
+        readonly debuff?: Buff.Buff,
+        readonly buff?: Buff.Buff,
+        readonly damageMultiplier?: number
     }[],
-    name: string,
-    flavorText: string
+    readonly name: string,
+    readonly flavorText: string,
+    readonly skillText: string
 }
 
 export const enum characterTypes {
@@ -69,7 +106,8 @@ export const enum characterTypes {
     swashbuckler    = 8,
     dragon          = 9,
     graveDigger     = 10,
-}
+    bitBoss         = 11
+};
 
 export const characters: Character[] = [
     {
@@ -105,7 +143,8 @@ export const characters: Character[] = [
         }*/
     ],
         name: 'Scullery Maid',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'You think fighting dragons is hard, try scrubbing castle floors!',
+        skillText: 'DEBUFF Lowers Accuracy and Dodge'
     }, // Scullery Maid
     {
         stats: { 
@@ -135,7 +174,8 @@ export const characters: Character[] = [
             debuff: Buff.buffs[Buff.types.barkeep]
         }],
         name: 'Barkeep',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'They call my bar the Bongo, because you go there to get beaten.',
+        skillText: 'DEBUFF Cripples Opponent'
     }, // Barkeep
     {
         stats: { 
@@ -165,7 +205,8 @@ export const characters: Character[] = [
             debuff: Buff.buffs[Buff.types.medium]
         }],
         name: 'Medium',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'Battles can be boring when you already know the outcome',
+        skillText: 'DEBUFF Lowers Accuracy'
     }, // Medium
     {
         stats: { 
@@ -195,7 +236,8 @@ export const characters: Character[] = [
             buff: Buff.buffs[Buff.types.minstrel]
         }],
         name: 'Minstrel',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'I deplore a battle wits with an unarmed opponent.',
+        skillText: 'DEBUFF Blinds Enemy'
     },
     {
         stats: { 
@@ -225,7 +267,8 @@ export const characters: Character[] = [
             debuff: Buff.buffs[Buff.types.mage]
         }],
         name: 'Mage',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'I put on my robe and my wizard hat...',
+        skillText: 'DEBUFF Bypasses Armor'
     }, // Mage
     {
         stats: { 
@@ -255,7 +298,8 @@ export const characters: Character[] = [
             buff: Buff.buffs[Buff.types.rogue]
         }],
         name: 'Rogue',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'Rogues do it from behind',
+        skillText: 'BUFF Dodges more Frequently'
     }, // Rogue
     {
         stats: { 
@@ -285,7 +329,8 @@ export const characters: Character[] = [
             buff: Buff.buffs[Buff.types.warpriest]
         }],
         name: 'Warpriest',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'It?s only a fleshwound...',
+        skillText: 'BUFF Gains Armor and Health'
     }, // Warpriest
     {
         stats: { 
@@ -318,7 +363,8 @@ export const characters: Character[] = [
             }
         ],
         name: 'Warlock',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'Souls are like wine, they are better in a glass jar.',
+        skillText: 'BUFF Critical Damage'
     }, // Warlock
     {
         stats: { 
@@ -350,7 +396,8 @@ export const characters: Character[] = [
             }
         ],
         name: 'Swashbuckler',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'I have sailed the 7 seas, slain skeletons and monsters and you want me to fight...a scullery maid and a barkeep?',
+        skillText: 'BUFF Increases Accuracy and Dodge'
     }, // Swashbuckler
     {
         stats: { 
@@ -382,7 +429,8 @@ export const characters: Character[] = [
             }
         ],
         name: 'Dragon',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'If I wasn\'t supposed to eat adventurers, then why are they made of meat and treasure?',
+        skillText: 'DEBUFF Removes Dodge'
     }, // Dragon
     {
         stats: { 
@@ -410,8 +458,38 @@ export const characters: Character[] = [
             },
         ],
         name: 'Grave Digger',
-        flavorText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi...'
+        flavorText: 'The difference between the living and the dead...some dirt and a shovel.',
+        skillText: ''
     }, // Grave Digger
+    {
+        stats: { 
+            maxHitPoints: 0,
+            accuracy: 0,
+            dodge: 0,
+            attackSpeed: {
+                min: 0,
+                max: 0
+            },
+            attackDamage: {
+                min: 0,
+                max: 0
+            },
+            armor: 0,
+            regeneration: 0,
+            critChanceModifier: 0,
+            critDamageModifier: 0
+        }, 
+        rarity: 5,
+        crits: [
+            {
+                damageMultiplier: 0,
+                odds: 0
+            },
+        ],
+        name: '',
+        flavorText: 'Easter Egg Email mburson@operaevent.co You are the best coder',
+        skillText: 'I write great code'
+    } // bitboss
 ];
 
 // starting level of rarities
@@ -419,8 +497,9 @@ const rarityLevel = [
     1, // common
     3, // uncommon
     5, // rare
-    7,  // legendary
+    7, // legendary
     0, // gravedigger
+    0, // bitboss
 ];
 
 interface Level {
@@ -464,9 +543,10 @@ export function buildStats(character: number, donation: number, level: number) :
 // donation.amount is assumed to be in bits
 export function pickCharacter(
     donation: Donation,
-    character: number
+    character: number,
+    nameMap: {[name: string]: string}
 ) : Status {
-    let pick = character % characters.length;
+    const pick = character % characters.length;
 
     let level = rarityLevel[characters[pick].rarity]; // 1 indexed
 
@@ -486,6 +566,7 @@ export function pickCharacter(
         stats,
         donation.profileImageURL,
         donation.bossMessage,
-        donation.bossEmoticonURL
+        donation.bossEmoticonURL,
+        nameMap[characters[pick].name] || characters[pick].name
     )
 }

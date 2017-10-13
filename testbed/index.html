@@ -6,7 +6,7 @@
 		<script type="text/javascript" src="testbed.js"></script>
 	</head>
 	<body>
-		<div id="bitfighter">
+		<div id="bitfighter" style="position: relative; height: 60vw;">
 			<div id="charSelect"></div>
 			<canvas id="arena"></canvas>
 			<div id="info">
@@ -14,17 +14,22 @@
 				<div id="card2" class="card character-card"></div>
 			</div>
 		</div>
-
-		<div id="donation">
-			name: <input id="donation-name" type="text" value="bob">
-			<br>
-			id: <input id="donation-id" type="number" value="1">
-			<br>
-			bits:  <input id="donation-bits" type="number" value="1000">
-			<br>
-			character: <input id="donation-art" type="number" value="-1">
-			<br>
-			<button id="new-donation">donate</button>
+		<div style="position: absolute; top: 400px;">
+			<div id="donation">
+				name: <input id="donation-name" type="text" value="bob">
+				<br>
+				id: <input id="donation-id" type="number" value="1">
+				<br>
+				bits:  <input id="donation-bits" type="number" value="1000">
+				<br>
+				character: <input id="donation-art" type="number" value="-1">
+				<br>
+				<button id="new-donation">donate</button>
+			</div>
+			<div>
+				<button id="reset">reset</button>
+				<button id="bossKill">bosskill</button>
+			</div>
 		</div>
 	</body>
 </html>
