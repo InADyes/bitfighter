@@ -186,6 +186,10 @@ export class CharacterChoiceHandler {
             )
         });
     }
+    public hasPendingChoice(id: number) {
+        return this.pendingCharacterChoices.some(c => c.id === id);
+    }
+
     public completeChoice(id: number, pick: number, clear?: boolean) {
         const index = this.pendingCharacterChoices.findIndex(c => c.id === id);
 

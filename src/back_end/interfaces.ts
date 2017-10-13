@@ -1,8 +1,7 @@
 import { Combatant } from '../shared/Combatant';
 import { Donation } from '../shared/interfaces/donation';
 import { Status } from '../shared/Status';
-import { PendingChoice } from './characterChoiceHandler';
-
+import { PendingChoice } from './CharacterChoiceHandler';
 
 export interface BackendSettings {
     delayBetweenFights: number, // milliseconds

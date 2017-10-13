@@ -9,7 +9,7 @@ import { Event as GraphicsEvent} from '../shared/graphicsEvents';
 import { BackToFrontMessage, ReelMessage } from '../shared/interfaces/backToFrontMessage';
 import { BackendSettings as Settings } from './interfaces';
 import { applyFightEvents, CombinedEvent } from '../shared/applyFightEvents'
-import { CharacterChoiceHandler } from './characterChoiceHandler';
+import { CharacterChoiceHandler } from './CharacterChoiceHandler';
 import { hrtime } from 'process';
 import { Donation } from '../shared/interfaces/donation';
 
