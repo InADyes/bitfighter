@@ -21,6 +21,7 @@
   "dependencies": {
     "@types/fabric": "^1.5.26",
     "@types/node": "^8.0.28",
+    "@types/typescript": "^2.0.0",
     "@types/webpack": "^3.0.10",
     "express": "^4.15.4",
     "fabric": "^1.7.19",
