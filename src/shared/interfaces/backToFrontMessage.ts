@@ -44,13 +44,14 @@ export interface QueueItem {
 }
 
 export interface CharacterListItem {
-    stats: choiceStats,
-    className: string,
-    skillName: string,
-    skillURL: string,
-    rarityName: string,
-    rarityColor: string,
-    flavorText: string
+    readonly stats: choiceStats,
+    readonly className: string,
+    readonly skillName: string,
+    readonly skillURL: string,
+    classArtURL: string, // needs to get shim prepended to it at front end
+    readonly rarityName: string,
+    readonly rarityColor: string,
+    readonly flavorText: string
 }
 
 export interface BackToFrontMessage {
