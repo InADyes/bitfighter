@@ -31,6 +31,7 @@ export interface CharacterCard {
     readonly level: number;
     readonly rarity: number;
     readonly flavorText: string;
+    readonly skillText: string;
     readonly buffArt: string,
     readonly buffName: string,
     bitBossCheerMote: boolean;

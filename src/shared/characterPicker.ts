@@ -90,7 +90,8 @@ export interface Character {
         readonly damageMultiplier?: number
     }[],
     readonly name: string,
-    readonly flavorText: string
+    readonly flavorText: string,
+    readonly skillText: string
 }
 
 export const enum characterTypes {
