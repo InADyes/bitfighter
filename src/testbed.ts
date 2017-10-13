@@ -53,7 +53,7 @@ window.addEventListener('load', function(){
                     bitBossCheerMote: true
                 },
                 characterNames: {
-                    'Scullary Maid': 'Scullary Maid mII',
+                    'Scullery Maid': 'Scullery Maid mII',
                     'Mage': 'Mage mII'
                 },
                 bitFighterEnabled: true,

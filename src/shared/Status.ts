@@ -23,7 +23,7 @@ export interface Stats {
 export type choiceStats = {[details: string]: number};
 
 export const cardStats: {[details: number]: choiceStats} = {
-    [characterTypes.scullaryMaid]: {
+    [characterTypes.sculleryMaid]: {
         accuracy: 6,
         dodge: 6,
         armor: 5,

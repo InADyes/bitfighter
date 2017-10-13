@@ -95,7 +95,7 @@ export interface Character {
 }
 
 export const enum characterTypes {
-    scullaryMaid    = 0,
+    sculleryMaid    = 0,
     barkeep         = 1,
     medium          = 2,
     minstrel        = 3,
