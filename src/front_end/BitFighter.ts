@@ -35,10 +35,7 @@ export class BitFighter {
             'arena',
             this.artURLs,
             this.iconURLs,
-<<<<<<< HEAD
-=======
             this.atkURLs,
->>>>>>> 124d3989b49a230d513168d39a96ef676878e9d9
             chars => updateStatusCards(chars, this.artURLs)
         );
         this.updateSettings(settings);
@@ -59,14 +56,6 @@ export class BitFighter {
     public receivedViewerGameState(data: BackToFrontMessage) {
         if (data.newReel)
             this.game.newMessage(data.newReel);
-<<<<<<< HEAD
-            //this.game.newMessage(data.newReel.reel, data.newReel.characters, data.newReel.patch);
-            // update hover character cards
-            // if (!data.newReel.patch)
-            //     updateStatusCards(data.newReel.characters, this.artURLs);
-        }
-=======
->>>>>>> 124d3989b49a230d513168d39a96ef676878e9d9
         if (data.characterChoices)
             this.cardChoices.displayCards(data.characterChoices.map(c => buildCard(c, this.artURLs)));
         if (data.queue)
