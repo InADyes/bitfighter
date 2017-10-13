@@ -39,7 +39,7 @@ export class GameState {
 		private readonly atkArt: string[],
 		private readonly characterStateChange: (characters: FrontendCharacter[]) => void
 	) {
-		this.canvas = new fabric.Canvas(canvasId);
+		this.canvas = new fabric.StaticCanvas(canvasId);
 		this.canvas.setWidth(this.baseWidth);
 		this.canvas.setWidth(this.baseHeight);
 		this.player1 = null;
@@ -53,7 +53,6 @@ export class GameState {
 			window.setTimeout(() => {this.newMessage(msg)}, 10);
 			return;
 		}
-
 		console.log(`TIM MSG:`, msg.characters);
 		// Update hover cards
 		this.characterCards = msg.characters;
@@ -87,6 +86,8 @@ export class GameState {
 						console.log("flip back");
 						this.ogTime = performance.now();
 					}
+					else if (!msg.characters[1] && this.player2)
+						this.player2 = null;
 					this.drawPlayers();
 				}
 				else
