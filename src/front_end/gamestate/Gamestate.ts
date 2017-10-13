@@ -39,7 +39,7 @@ export class GameState {
 		private readonly atkArt: string[],
 		private readonly characterStateChange: (characters: FrontendCharacter[]) => void
 	) {
-		this.canvas = new fabric.StaticCanvas(canvasId);
+		this.canvas = new fabric.Canvas(canvasId);
 		this.canvas.setWidth(this.baseWidth);
 		this.canvas.setWidth(this.baseHeight);
 		this.player1 = null;
@@ -75,24 +75,22 @@ export class GameState {
 				clearTimeout(this.idleId);
 				this.canvas.clear();
 				// init players
-				if (this.player1)
-					this.player1.eraseMe();
-				if (this.player2)
-					this.player2.eraseMe();
-				this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt);
-				this.currentBoss = this.player1.getBitBossInfo();
-				updateBitBoss({boss: this.currentBoss});
-				console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
-				recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, null);
-				if (msg.characters[1]) {
-					this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt);
-					flip('back');
-					console.log("flip back");
-					this.ogTime = performance.now();
+				if (msg.characters[0]) {
+					this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt);
+					this.currentBoss = this.player1.getBitBossInfo();
+					updateBitBoss({boss: this.currentBoss});
+					console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
+					recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, null);
+					if (msg.characters[1]) {
+						this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt);
+						flip('back');
+						console.log("flip back");
+						this.ogTime = performance.now();
+					}
+					this.drawPlayers();
 				}
 				else
 					this.idleCheck();
-				this.drawPlayers();
 				window.setTimeout(()=>this.initReel(), 500);
 			}
 		}

@@ -33,6 +33,7 @@ export class Player {
     private buffOffset =    15;
     private buffTop =       135;
     private buffSize =      30;
+    private drawing =       0;
 
     // Adjust these to move elements around
     private artAdjust =     0;
@@ -63,6 +64,7 @@ export class Player {
     public drawMe() {
         if (this.img)
             this.canvas.remove(this.img);
+        this.drawing = 1;
         new fabric.Image.fromURL(this.charArt[this.data.art], (oImg: fabric.Image) => {
             if(oImg.width && oImg.height)
                 this.trueWidth = oImg.width/oImg.height * this.height * this.scale;
@@ -78,6 +80,7 @@ export class Player {
             this.drawHealthText();
             this.drawHpBar();
             this.drawname();
+            this.drawing = 0;
         });
     }
 
@@ -430,7 +433,7 @@ export class Player {
         this.scale = scale;
         this.center = this.canvas.getWidth() / 2;
         this.specialAtk.updateScale(scale, this.center);
-        if (this.health > 0)
+        if (this.health > 0 && !this.drawing)
             this.drawMe();
     }
 
@@ -464,7 +467,10 @@ export class Player {
     }
 
     public eraseMe() {
-        this.canvas.remove(this.img);
+        if (this.img) {
+            console.log("asdsad");
+            this.canvas.remove(this.img);
+        }
         this.removeNameAndHp();
         this.canvas.remove(this.buffGroup);
     }
