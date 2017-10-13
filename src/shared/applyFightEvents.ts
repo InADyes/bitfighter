@@ -26,7 +26,7 @@ export function applyFightEvents(
                 const c = status[event.character];
                 c.hitPoints = Math.min(
                     c.hitPoints + (<FightEvents.Healing>event).amount,
-                    characters[c.character].stats.maxHitPoints
+                    c.stats.maxHitPoints
                 );
             } break;
             case FightEvents.Types.crit: {
