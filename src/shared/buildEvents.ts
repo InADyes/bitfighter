@@ -18,17 +18,19 @@ export function buildEvents(status: Status[], startTime?: number) {
         startTime
     ));
 
-    if (combatants.length < 2) {
-        console.log('not enough combatants to fight');
-        if (combatants[0] && combatants[0].status.hitPoints <= 0) {
+    for (let c of combatants) {
+        if (c.status.hitPoints <= 0) {
             reel.push(...applyFightEvents(newStatus, new FightEvents.Death(
-                combatants[0].time,
+                c.time,
                 0,
-                -1 * combatants[0].status.hitPoints
+                -1 * c.status.hitPoints
             )));
         }
-        return { combatants: newStatus, reel };
     }
+
+    if (newStatus.length < 2)
+        return { combatants: newStatus, reel };
+
     // ------------- type hack starts here
 
     if (typeMap[newStatus[0].character] === 0 && typeMap[newStatus[1].character] === 2)
