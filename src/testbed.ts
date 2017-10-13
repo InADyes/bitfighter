@@ -113,7 +113,8 @@ window.addEventListener('load', function(){
                 amount,
                 'todo: url goes here',
                 'how\'re you doin\'?',
-                'todo: emoticon url goes here'
+                'todo: emoticon url goes here',
+                false
             );
         } else {
             backend.newCombatant(pickCharacter({
@@ -123,7 +124,7 @@ window.addEventListener('load', function(){
                 profileImageURL: 'todo: url goes here',
                 bossMessage: 'how\'re you doin\'?',
                 bossEmoticonURL: '',
-                bitBossCheerMote: true
+                bitBossCheerMote: false
             }, art, {}));
         }
     });

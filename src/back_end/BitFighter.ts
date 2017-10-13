@@ -215,7 +215,8 @@ export class BitFighter {
         amount: number,
         profileImageURL: string,
         bossMessage: string = this.settings.defaultBossMessage,
-        bossEmoticonURL: string
+        bossEmoticonURL: string,
+        bitBossCheerMote: boolean
     ) {
         const donation: Donation = {
             id,
@@ -224,7 +225,7 @@ export class BitFighter {
             profileImageURL,
             bossMessage,
             bossEmoticonURL,
-            bitBossCheerMote: true
+            bitBossCheerMote
         };
 
         const gameState = this.arena.isBusy() ? 'fighting' : 'waiting';
