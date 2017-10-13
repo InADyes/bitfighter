@@ -204,6 +204,7 @@ export class Status {
             level: this.level,
             rarity: characters[this.character].rarity,
             flavorText: characters[this.character].flavorText,
+            skillText: characters[this.character].skillText,
             bitBossCheerMote: false,
             selectable: true,
             buffArt: buff ? buffURLs[buff.art] : 'ERROR: NO BUFF FOUND',

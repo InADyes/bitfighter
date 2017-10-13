@@ -90,7 +90,8 @@ export interface Character {
         readonly damageMultiplier?: number
     }[],
     readonly name: string,
-    readonly flavorText: string
+    readonly flavorText: string,
+    readonly skillText: string
 }
 
 export const enum characterTypes {
@@ -142,7 +143,8 @@ export const characters: Character[] = [
         }*/
     ],
         name: 'Scullery Maid',
-        flavorText: 'You think fighting dragons is hard, try scrubbing castle floors!'
+        flavorText: 'You think fighting dragons is hard, try scrubbing castle floors!',
+        skillText: 'DEBUFF Lowers Accuracy and Dodge'
     }, // Scullery Maid
     {
         stats: { 
@@ -172,7 +174,8 @@ export const characters: Character[] = [
             debuff: Buff.buffs[Buff.types.barkeep]
         }],
         name: 'Barkeep',
-        flavorText: 'They call my bar the Bongo, because you go there to get beaten.'
+        flavorText: 'They call my bar the Bongo, because you go there to get beaten.',
+        skillText: 'DEBUFF Cripples Opponent'
     }, // Barkeep
     {
         stats: { 
@@ -202,7 +205,8 @@ export const characters: Character[] = [
             debuff: Buff.buffs[Buff.types.medium]
         }],
         name: 'Medium',
-        flavorText: 'Battles can be boring when you already know the outcome'
+        flavorText: 'Battles can be boring when you already know the outcome',
+        skillText: 'DEBUFF Lowers Accuracy'
     }, // Medium
     {
         stats: { 
@@ -232,7 +236,8 @@ export const characters: Character[] = [
             buff: Buff.buffs[Buff.types.minstrel]
         }],
         name: 'Minstrel',
-        flavorText: 'I deplore a battle wits with an unarmed opponent.'
+        flavorText: 'I deplore a battle wits with an unarmed opponent.',
+        skillText: 'DEBUFF Blinds Enemy'
     },
     {
         stats: { 
@@ -262,7 +267,8 @@ export const characters: Character[] = [
             debuff: Buff.buffs[Buff.types.mage]
         }],
         name: 'Mage',
-        flavorText: 'I put on my robe and my wizard hat...'
+        flavorText: 'I put on my robe and my wizard hat...',
+        skillText: 'DEBUFF Bypasses Armor'
     }, // Mage
     {
         stats: { 
@@ -292,7 +298,8 @@ export const characters: Character[] = [
             buff: Buff.buffs[Buff.types.rogue]
         }],
         name: 'Rogue',
-        flavorText: 'Rogues do it from behind'
+        flavorText: 'Rogues do it from behind',
+        skillText: 'BUFF Dodges more Frequently'
     }, // Rogue
     {
         stats: { 
@@ -322,7 +329,8 @@ export const characters: Character[] = [
             buff: Buff.buffs[Buff.types.warpriest]
         }],
         name: 'Warpriest',
-        flavorText: 'It?s only a fleshwound...'
+        flavorText: 'It?s only a fleshwound...',
+        skillText: 'BUFF Gains Armor and Health'
     }, // Warpriest
     {
         stats: { 
@@ -355,7 +363,8 @@ export const characters: Character[] = [
             }
         ],
         name: 'Warlock',
-        flavorText: 'Souls are like wine, they are better in a glass jar.'
+        flavorText: 'Souls are like wine, they are better in a glass jar.',
+        skillText: 'BUFF Critical Damage'
     }, // Warlock
     {
         stats: { 
@@ -387,7 +396,8 @@ export const characters: Character[] = [
             }
         ],
         name: 'Swashbuckler',
-        flavorText: 'I have sailed the 7 seas, slain skeletons and monsters and you want me to fight...a scullery maid and a barkeep?'
+        flavorText: 'I have sailed the 7 seas, slain skeletons and monsters and you want me to fight...a scullery maid and a barkeep?',
+        skillText: 'BUFF Increases Accuracy and Dodge'
     }, // Swashbuckler
     {
         stats: { 
@@ -419,7 +429,8 @@ export const characters: Character[] = [
             }
         ],
         name: 'Dragon',
-        flavorText: 'If I wasn\'t supposed to eat adventurers, then why are they made of meat and treasure?'
+        flavorText: 'If I wasn\'t supposed to eat adventurers, then why are they made of meat and treasure?',
+        skillText: 'DEBUFF Removes Dodge'
     }, // Dragon
     {
         stats: { 
@@ -447,7 +458,8 @@ export const characters: Character[] = [
             },
         ],
         name: 'Grave Digger',
-        flavorText: 'The difference between the living and the dead...some dirt and a shovel.'
+        flavorText: 'The difference between the living and the dead...some dirt and a shovel.',
+        skillText: ''
     }, // Grave Digger
     {
         stats: { 
@@ -475,7 +487,8 @@ export const characters: Character[] = [
             },
         ],
         name: '',
-        flavorText: 'Easter Egg Email mburson@operaevent.co You are the best coder'
+        flavorText: 'Easter Egg Email mburson@operaevent.co You are the best coder',
+        skillText: 'I write great code'
     } // bitboss
 ];
 
