@@ -95,7 +95,6 @@
     background-size: cover;
     box-shadow: 0.05vw 0.05vw 0.7vw rgba(1, 1, 1, 0.5);
     border-radius: 2%;
-    cursor: pointer;
     // filter: blur(1.5px) drop-shadow(0.15vw 0.15vw 0.05vw rgba(1, 1, 1, 0.5));
     flex-basis: auto;
     margin: 0.7vw;
@@ -112,24 +111,25 @@
       box-shadow: 0.15vw 0.15vw 1.5vw rgba(1, 1, 1, 0.4);    
       // filter: blur(0px) drop-shadow(0.25vw 0.25vw 0.15vw rgba(1, 1, 1, 0.3));
     }
-  &:nth-of-type(2) {
-    animation-delay: 0.25s;
-  }
-  &:nth-of-type(3) {
-    animation-delay: 0.5s;
-  }
-  &:nth-of-type(4) {
-    animation-delay: 1s;
-  }
-  &:nth-of-type(5) {
-    animation-delay: 1.25s;
-  }
-  &:nth-of-type(6) {
-    animation-delay: 1.50s;
-  }
-  &:nth-of-type(7) {
-    animation-delay: 1.75s;
-  }
+    &:nth-of-type(2) {
+
+      animation-delay: 0.25s;
+    }
+    &:nth-of-type(3) {
+      animation-delay: 0.5s;
+    }
+    &:nth-of-type(4) {
+      animation-delay: 1s;
+    }
+    &:nth-of-type(5) {
+      animation-delay: 1.25s;
+    }
+    &:nth-of-type(6) {
+      animation-delay: 1.50s;
+    }
+    &:nth-of-type(7) {
+      animation-delay: 1.75s;
+    }
 
   .character-card-stats {
     align-items: center;
@@ -286,7 +286,7 @@
   box-sizing: border-box;  
   position: relative;
   pointer-events: all;
-  
+  &:not(.not_selectable) {cursor: pointer;}
 }
 
 .character_select_card h3{
@@ -421,7 +421,7 @@
   align-items: center;
   justify-content: center;
 }
-.character_select_card .csc_image:hover > .csc_hoverwrap{
+.character_select_card:hover:not(.not_selectable) .csc_image > .csc_hoverwrap{
   display: block;
 }
 .character_select_card .csc_left{

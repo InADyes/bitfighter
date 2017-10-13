@@ -98,11 +98,13 @@ window.addEventListener('load', function(){
     const idInputNode = <HTMLInputElement>document.getElementById('donation-id');
     const bitsInputNode = <HTMLInputElement>document.getElementById('donation-bits');
     const artInputNode = <HTMLInputElement>document.getElementById('donation-art');
+    const emoteInputNode = <HTMLInputElement>document.getElementById('bitboss-emote');
     newDonationButton.addEventListener('click', element => {
         const id = Number(idInputNode.value);
         const name = nameInputNode.value;
         const amount = Number(bitsInputNode.value);
         const art = Number(artInputNode.value);
+        const emote = emoteInputNode.checked;
 
         idInputNode.value = String(id + 1);
 
@@ -114,7 +116,7 @@ window.addEventListener('load', function(){
                 'todo: url goes here',
                 'how\'re you doin\'?',
                 'todo: emoticon url goes here',
-                false
+                emote
             );
         } else {
             backend.newCombatant(pickCharacter({
@@ -124,7 +126,7 @@ window.addEventListener('load', function(){
                 profileImageURL: 'todo: url goes here',
                 bossMessage: 'how\'re you doin\'?',
                 bossEmoticonURL: '',
-                bitBossCheerMote: false
+                bitBossCheerMote: emote
             }, art, {}));
         }
     });
