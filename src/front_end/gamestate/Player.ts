@@ -24,7 +24,6 @@ export class Player {
     private cWidth:         number;
     private atkAnimReturn:  number;
     private movesAmount:    number;
-    private align =         "center";
     private height =        70;
     private hpWidth =       6.5;
     private textLock =      0;
@@ -33,7 +32,7 @@ export class Player {
     private strokeWidth =   2;
     private fontSize =      15;
     private font =          'Concert One'
-    private buffOffset =    20;
+    private buffOffset =    15;
     private buffTop =       135;
     private buffSize =      25;
 
@@ -59,7 +58,8 @@ export class Player {
         canvas:                     fabric.Canvas, 
         scale:                      number,
         private readonly charArt:   string[], 
-        private readonly buffArt:   string[]
+        private readonly buffArt:   string[],
+        private align:              'left' | 'right' | 'center',
     ) {
         this.health = data.currentHitPoints;
         this.onRight = side;
@@ -86,9 +86,8 @@ export class Player {
             else if (this.align === "right")
                 oImg.set({left: this.cWidth - this.scale * (this.artAdjust + this.offset + this.trueWidth / 2)});
             else if (this.align === "center") {
-                console.log(`center:`, this.center, `truew:`, this.trueWidth, `scale`, this.scale);
-                console.log(`DRAWING AT`, !this.onRight ? this.center - (this.trueWidth / 2) * this.scale : this.center + (this.trueWidth / 2) * this.scale)
-                oImg.set({left: !this.onRight ? this.center - (this.trueWidth / 2) * this.scale : this.center + (this.trueWidth / 2) * this.scale})
+                let offset = (this.trueWidth / 2) * this.scale;
+                oImg.set({left: !this.onRight ? this.center - offset : this.center + offset})
             }
             this.img = oImg.set({
                 top: this.artTop * this.scale,
@@ -130,11 +129,13 @@ export class Player {
             originX: 'center',
         });
         if (this.align === "left")
-            this.healthtext.set({left: this.onRight ? (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust) * this.scale : this.hpAdjust * this.scale});
+            this.healthtext.set({left: this.onRight ? (this.trueWidth + this.artAdjust * 2 + this.offset - this.hpAdjust) * this.scale : this.hpAdjust * this.scale});
         else if (this.align === "right")
-            this.healthtext.set({left: this.onRight ? this.cWidth - this.hpAdjust * this.scale : this.cWidth - (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust) * this.scale});
-        else if (this.align === "center")
-            this.healthtext.set({left: !this.onRight ? this.center  - (this.trueWidth + this.centerHpAdjust) * this.scale : this.center + (this.trueWidth + this.centerHpAdjust) * this.scale})
+            this.healthtext.set({left: this.onRight ? this.cWidth - this.hpAdjust * this.scale : this.cWidth - (this.trueWidth + this.artAdjust * 2 + this.offset - this.hpAdjust) * this.scale});
+        else if (this.align === "center") {
+            let offset = (this.trueWidth + this.centerHpAdjust) * this.scale;
+            this.healthtext.set({left: !this.onRight ? this.center - offset : this.center + offset})
+        }
         this.canvas.add(this.healthtext);
         this.canvas.sendToBack(this.healthtext);
     }
@@ -182,6 +183,7 @@ export class Player {
         this.canvas.add(this.greenBar);
     }
     private getFabricHp() {
+        console.log(`POFAFFFEWGEWQF`, this.offset);
         let temp = new fabric.Rect({
             width: this.hpWidth * this.scale,
             flipY: true,
@@ -190,9 +192,9 @@ export class Player {
             originY: 'bottom'
         });
         if (this.align === "left")
-            temp.set({left: this.onRight ? this.scale * (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust) : this.hpAdjust * this.scale});
+            temp.set({left: this.onRight ? this.scale * (this.trueWidth + this.artAdjust * 2 + this.offset - this.hpAdjust) : this.hpAdjust * this.scale});
         else if (this.align === "right")
-            temp.set({left: this.onRight ? this.cWidth - this.hpAdjust * this.scale : this.cWidth - this.scale * (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust)});    
+            temp.set({left: this.onRight ? this.cWidth - this.hpAdjust * this.scale : this.cWidth - this.scale * (this.trueWidth + this.artAdjust * 2 + this.offset - this.hpAdjust)});    
         else if (this.align === "center") {
             let offset = (this.trueWidth + this.centerHpAdjust) * this.scale; 
             temp.set({left: !this.onRight ? this.center - offset : this.center + offset});
@@ -228,9 +230,9 @@ export class Player {
             originX: 'center'
         });
         if (this.align === "left")
-            temp.set({left: this.onRight ? (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust) * this.scale : this.hpAdjust * this.scale});
+            temp.set({left: this.onRight ? (this.trueWidth + this.artAdjust * 2 + this.offset - this.hpAdjust) * this.scale : this.hpAdjust * this.scale});
         else if (this.align === "right")
-            temp.set({left: this.onRight ? this.cWidth - this.hpAdjust * this.scale : this.cWidth - (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust) * this.scale});
+            temp.set({left: this.onRight ? this.cWidth - this.hpAdjust * this.scale : this.cWidth - (this.trueWidth + this.artAdjust * 2 + this.offset - this.hpAdjust) * this.scale});
         else if (this.align === "center")
             temp.set({left: !this.onRight ? this.center - this.trueWidth / 2 * this.scale : this.center + this.trueWidth / 2 * this.scale});
         return(temp);
@@ -316,7 +318,7 @@ export class Player {
                 else if (this.align === "right")
                     oImg.set({left: this.cWidth - (this.offset + this.artAdjust + this.buffOffset * (numBuffsPerRow - i % numBuffsPerRow)) * this.scale});
                 else if (this.align === "center")
-                    oImg.set({left: !this.onRight ? this.center - this.trueWidth + this.buffOffset * (i % numBuffsPerRow) * this.scale : this.center + this.buffOffset * (i % numBuffsPerRow) * this.scale});
+                    oImg.set({left: !this.onRight ? this.center - (this.trueWidth + this.buffOffset * (i % numBuffsPerRow)) * this.scale : this.center + (this.buffOffset * (i % numBuffsPerRow)) * this.scale});
                 let currentbuff = oImg.set({
                     top: i < numBuffsPerRow ? this.buffTop * this.scale: (this.buffTop + this.buffSize * Math.floor(i / numBuffsPerRow) - 5) * this.scale,
                     height: this.buffSize * this.scale,
@@ -441,8 +443,13 @@ export class Player {
                         onComplete: () => {
                             this.canvas.remove(this.img);
                             this.removeNameAndHp();
-                            if (player2)
+                            if (player2) {
+                                if (this.align == 'right'){
+                                    console.log(`P1 OFFSET:`, this.offset);
+                                    player2.setOffset(this.offset);
+                                }
                                 player2.moves();
+                            }
                             this.animationLock = 0;
                         }
                     });
@@ -453,7 +460,8 @@ export class Player {
 
     public moves(){
         this.animationLock = 1;
-        this.offset = 0;
+        if (this.align == 'left')
+            this.offset = 0;
         this.removeNameAndHp();
         
         this.img.animate('left', this.movesAmount, {
@@ -481,7 +489,7 @@ export class Player {
     private setAnimationAmount() {
         if (this.align === "left"){
             this.atkAnimReturn = (this.artAdjust + this.offset + this.trueWidth / 2) * this.scale;
-            this.movesAmount = this.scale * (this.artAdjust + this.offset + this.trueWidth / 2);
+            this.movesAmount = this.scale * (this.artAdjust + this.trueWidth / 2);
         }
         else if (this.align === "right"){
             this.atkAnimReturn = this.cWidth - (this.artAdjust + this.offset + this.trueWidth / 2) * this.scale;
@@ -520,5 +528,14 @@ export class Player {
 
     public updateEmote(str: string) {
         this.data.bossEmoticonURL = str;
+    }
+
+    public setAlignment(alignment: 'left' | 'right' | 'center') {
+        this.align = alignment;
+    }
+
+    public setOffset(offset: number) {
+        this.offset = offset;
+        this.setAnimationAmount();
     }
 }

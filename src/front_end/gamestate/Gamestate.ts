@@ -25,7 +25,7 @@ export class GameState {
 	private countBot:			fabric.Text;
 	private countTop:			fabric.Text;
 	private charactersCards:	FrontendCharacter[];
-	private align =				"center"; 
+	private align:				'left' | 'right' | 'center'; 
 	private scale =				1;
 	private scaleWait =			0;
 	private isWaiting =			0;
@@ -44,6 +44,7 @@ export class GameState {
 		this.canvas.setWidth(this.baseHeight);
 		this.player1 = null;
 		this.player2 = null;
+		this.align = 'center';
 	}
 
 	public newMessage(msg: ReelMessage) {
@@ -72,12 +73,12 @@ export class GameState {
 				clearTimeout(this.idleId);
 				this.canvas.clear();
 				// init players
-				this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt);
+				this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt, this.align);
 				this.currentBoss = this.player1.getBitBossInfo();
 				updateBitBoss({boss: this.currentBoss});
 				recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, null);
 				if (msg.characters[1]) {
-					this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt);
+					this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt, this.align);
 					flip('back');
 					console.log("flip back");
 					this.ogTime = performance.now();
@@ -317,6 +318,11 @@ export class GameState {
 			console.error("Not a proper alignment");
 			return;
 		}
-		this.align == alignment
+		this.align = alignment;
+		if (this.player1)
+			this.player1.setAlignment(this.align);
+		if (this.player2)
+			this.player2.setAlignment(this.align);
+		this.drawPlayers();
 	}
 }
