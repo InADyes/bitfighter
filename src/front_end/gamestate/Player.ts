@@ -194,9 +194,8 @@ export class Player {
         else if (this.align === "right")
             temp.set({left: this.onRight ? this.cWidth - this.hpAdjust * this.scale : this.cWidth - this.scale * (this.trueWidth + this.artAdjust + this.offset + this.artAdjust - this.hpAdjust)});    
         else if (this.align === "center") {
-            let leftOffset = this.center - (this.trueWidth - this.centerHpAdjust) * this.scale;
-            let onRightOffset = this.center + (this.trueWidth + this.centerHpAdjust) * this.scale;
-            temp.set({left: !this.onRight ? leftOffset : onRightOffset});
+            let offset = (this.trueWidth + this.centerHpAdjust) * this.scale; 
+            temp.set({left: !this.onRight ? this.center - offset : this.center + offset});
         }
         return (temp);
     }
