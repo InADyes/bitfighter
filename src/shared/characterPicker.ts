@@ -65,21 +65,6 @@ export const atkURLs = [
     "images/icons/fire3.png"
 ];
 
-// export const charStrings = [
-//     "Scullary Maid",
-//     "Barkeep",
-//     "Medium",
-//     "Minstrel",
-//     "Mage",
-//     "Rogue",
-//     "Warpriest",
-//     "Warlock",
-//     "Swashbuckler",
-//     "Dragon",
-//     "Grave Digger",
-//     "Bit Boss"
-// ];
-
 export interface Character {
     readonly stats: Stats,
     readonly rarity: number,
@@ -94,7 +79,7 @@ export interface Character {
     readonly skillText: string
 }
 
-export const enum characterTypes {
+export enum characterTypes {
     sculleryMaid    = 0,
     barkeep         = 1,
     medium          = 2,
