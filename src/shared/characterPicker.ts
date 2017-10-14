@@ -79,7 +79,7 @@ export interface Character {
     readonly skillText: string
 }
 
-export enum characterTypes {
+export const enum characterTypes {
     sculleryMaid    = 0,
     barkeep         = 1,
     medium          = 2,
