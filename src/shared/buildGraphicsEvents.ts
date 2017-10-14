@@ -14,12 +14,12 @@ const eventOrder = {
     [GraphicsEvents.EventType.Text]: 1
 }
 
-const colors = {
-    damage: '#f00e53',
-    dodge: '#09d2d9',
-    donation: '#8de82c',
-    heal: '#21e4c6',
-    ability: '#f34ef5'
+const enum colors {
+    damage = '#f00e53',
+    dodge = '#09d2d9',
+    donation = '#8de82c',
+    heal = '#21e4c6',
+    ability = '#f34ef5'
 }
 
 export function sortGraphicsEvents(events: GraphicsEvents.Event[]) {
