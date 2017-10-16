@@ -122,10 +122,6 @@ export const characters: Character[] = [
             odds: 15,
             debuff: Buff.buffs[Buff.types.sculleryMaid]
         },
-        /*{
-            odds: 15,
-            debuff: Buff.buffs[Buff.types.sculleryMaid1]
-        }*/
     ],
         name: 'Scullery Maid',
         flavorText: 'You think fighting dragons is hard, try scrubbing castle floors!',

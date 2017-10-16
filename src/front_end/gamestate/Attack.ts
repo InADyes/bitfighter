@@ -17,7 +17,6 @@ export class Attack {
     private trueWidth:  number;
     private imgs:       fabric.Object[];
     private left:       number;
-    private cWid:       number;
     
     private height =    70;
     private artAdjust = 0;
@@ -34,7 +33,6 @@ export class Attack {
     ){
         this.imgs = [];
         this.exists = this.checkChar();
-        this.cWid = this.canvas.getWidth();
     }
 
     public canBeUsed() {
@@ -66,13 +64,11 @@ export class Attack {
     }
     
     private setDragon() {
-        if (this.align == 'left')
+        if (this.align === 'left')
             this.left = this.onRight ? (this.offset + 44) * this.scale : 236 * this.scale;
-        else if (this.align == 'right') {
-            console.log('OFFSET',this.offset);
-            this.left = this.onRight ? this.cWid - 236 * this.scale : this.cWid - (this.offset + 44) * this.scale;
-        }
-        else if (this.align == 'center') 
+        else if (this.align === 'right')
+            this.left = this.onRight ? this.canvas.getWidth() - 236 * this.scale : this.canvas.getWidth() - (this.offset + 44) * this.scale;
+        else if (this.align === 'center') 
             this.left = this.center; 
         if (!this.imgs[0]) {
             for (let i = 0; i < 3; i++) {
@@ -96,7 +92,6 @@ export class Attack {
     public updateScale(scale: number, center: number) {
         this.scale = scale;
         this.center = center;
-        this.cWid = this.canvas.getWidth();
         this.updateImgs();
     }
     
@@ -113,6 +108,7 @@ export class Attack {
     private updateImgs() {
         this.checkChar();
         for (let i = 0; i < this.imgs.length; i++) {
+            console.log("in update images",this.left);
             this.imgs[i].set({
                 left: this.left,
                 top: this.artTop * this.scale, 
