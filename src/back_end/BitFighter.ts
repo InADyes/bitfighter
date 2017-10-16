@@ -1,6 +1,6 @@
 import { generateBitBoss } from './generateBitBoss';
 import { Status, cardStats } from '../shared/Status';
-import { Character, pickCharacter, characters, rarities } from '../shared/characterPicker';
+import { Character, pickCharacter, characters, rarities, artURLs } from '../shared/characterPicker';
 import { BackToFrontMessage, CharacterListItem, QueueItem } from '../shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 import { BackendSettings as Settings, GameSave } from './interfaces';
@@ -207,7 +207,8 @@ export class BitFighter {
                         skillURL: buff ? buff.url : 'no buff',
                         rarityName: rarities[c.rarity].name || 'rarity not found',
                         rarityColor: rarities[c.rarity].color || 'rarity not found',
-                        flavorText: c.flavorText
+                        flavorText: c.flavorText,
+                        classArtURL: artURLs[i]
                     }
                 })
             },

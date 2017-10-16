@@ -22,13 +22,15 @@ export class CardChoices {
         this.cards = cards;
         for (let i = 0; i < this.cards.length; i++) {
             this.cardDiv.appendChild(this.cards[i]);
-            this.cards[i].addEventListener('click', () => {
-                this.emitGameEvent({
-                    characterChoice: {
-                        choice: i
-                }});
-                this.clearCards();
-            });
+            if (this.cards[i].classList.contains('not_selectable') === false) {
+                this.cards[i].addEventListener('click', () => {
+                    this.emitGameEvent({
+                        characterChoice: {
+                            choice: i
+                    }});
+                    this.clearCards();
+                });
+            }
         }
         this.timeout = window.setTimeout(
             () => this.clearCards(),
@@ -86,13 +88,15 @@ export function buildCard(character: CharacterCard, artURLs: string[]) {
     let info = JSON.stringify(character);
     
     let usedBBBCheermote = false;
+    let className = 'character_select_card';
     
     //If this character is bitboss cheermote only apply the appropriate class
-    if(character.bitBossCheerMote){
-      card.className = 'character_select_card csc_bbbonly';
-    }else{
-      card.className = 'character_select_card';
-    }
+    if(character.bitBossCheerMote)
+      className += ' csc_bbbonly';
+    if (character.selectable === false)
+      className += ' not_selectable';
+
+    card.className = className;
     
     //We are going to include this disabled element when the card is bitboss cheermote only and they didn't use the bitboss cheermote
     let disabled_overlay = document.createElement('div');

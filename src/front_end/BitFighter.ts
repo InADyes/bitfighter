@@ -66,7 +66,10 @@ export class BitFighter {
             this.game.updateEmote(data.updateBossEmoticonURL.championIndex, data.updateBossEmoticonURL.bossEmoticonURL);
         if (data.characterList) {
             this.updateScale();
-            receiveCharList(data.characterList);
+            receiveCharList(data.characterList.map(c => {
+                c.classArtURL = this.settings.assetsShim + c.classArtURL;
+                return c;
+            }));
         }
         if (data.bossMessageChangeFailed)
             bossMessageTooManyChanges();
