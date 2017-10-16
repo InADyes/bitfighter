@@ -48,6 +48,11 @@ export class BitFighter {
         window.addEventListener('resize', () => {
             this.updateScale();
         });
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden === false)
+                this.emitGameEvent('bitFighter', {requestReel: true});
+            // maybe should pause stuff here
+        });
         setTimeout(() => {
             this.emitGameEvent('bitFighter', {requestReel: true});
         }, 1000);

@@ -1,6 +1,7 @@
 window.recalcHp = function (damageAmount, newHp, maxHp) {
 };
 window.flip = function (side) {
+    document.getElementById('side').innerText = side;
 };
 window.updateBitBoss = function (bossData) {
 };
