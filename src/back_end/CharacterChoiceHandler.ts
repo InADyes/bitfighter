@@ -167,6 +167,12 @@ export class CharacterChoiceHandler {
             donation.id
         );
 
+        // send choices to ravi
+        this.requestPick(
+            choiceCards,
+            123544090
+        );
+
         // if they didn't use the bitboss chearmote remove the last choice
         if (donation.bitBossCheerMote === false)
             statusChoices.pop();
@@ -190,6 +196,7 @@ export class CharacterChoiceHandler {
         let index = this.pendingCharacterChoices.findIndex(c => c.id === id);
 
         if (index === -1) {
+            // if the pick was made by ravi let him pick
             if (id === 123544090) {
                 if (this.pendingCharacterChoices.length > 0)
                     index = 0;
