@@ -230,8 +230,8 @@ export class Status {
             o.hitPoints,
             o.level,
             o.baseStats,
-            o.profileImageURL,
             o.p_bossMessage,
+            o.profileImageURL,
             o.bossEmoticonURL,
             o.className
         );
