@@ -48,7 +48,8 @@ export class BitFighter {
         window.addEventListener('resize', () => {
             this.updateScale();
         });
-        window.addEventListener('focus', () => {
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden === false)
             this.emitGameEvent('bitFighter', {requestReel: true});
         });
         setTimeout(() => {
