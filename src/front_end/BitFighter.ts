@@ -50,7 +50,8 @@ export class BitFighter {
         });
         document.addEventListener("visibilitychange", () => {
             if (document.hidden === false)
-            this.emitGameEvent('bitFighter', {requestReel: true});
+                this.emitGameEvent('bitFighter', {requestReel: true});
+            // maybe should pause stuff here
         });
         setTimeout(() => {
             this.emitGameEvent('bitFighter', {requestReel: true});
