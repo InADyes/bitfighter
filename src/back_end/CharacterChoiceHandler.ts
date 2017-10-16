@@ -78,7 +78,7 @@ const tiers: DonationTier[] = [
             [e_rarity.epic]: 0,
             [e_rarity.legendary]: 0,
         },
-        cards: 1
+        cards: 2
     },
 ];
 
