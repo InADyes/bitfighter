@@ -115,10 +115,16 @@ export function buildCard(character: CharacterCard, artURLs: string[]) {
     
     //Create all the rows for stats
     let charStats = Object.keys(character.stats).map(function(key, index){
+        let statDispName = '';
+        if(key == 'attackSpeed'){
+          statDispName = 'Speed';
+        }else{
+          statDispName = key;
+        }
         
         let x = `
         <tr>
-          <td>${key}</td>
+          <td>${statDispName}</td>
           <td>${ character.stats[key] }</td>
           <td>
             <div class="csc_bar">
