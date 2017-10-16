@@ -49,7 +49,7 @@ window.addEventListener('load', function(){
                     amount: 1000,
                     profileImageURL: 'testbed_images/banana_icon.png',
                     bossMessage: 'look at me',
-                    bossEmoticonURL: '',
+                    bossEmoticonURL: 'emoticon url here',
                     bitBossCheerMote: true
                 },
                 characterNames: {
@@ -125,7 +125,7 @@ window.addEventListener('load', function(){
                 amount,
                 profileImageURL: 'todo: url goes here',
                 bossMessage: 'how\'re you doin\'?',
-                bossEmoticonURL: '',
+                bossEmoticonURL: 'emoticon url here',
                 bitBossCheerMote: emote
             }, art, {}));
         }

@@ -150,15 +150,11 @@ export class CharacterChoiceHandler {
 
         }
 
-        const statusChoices = choices.map(c => pickCharacter({
-            id: donation.id,
-            name: donation.name,
-            amount: donation.amount,
-            profileImageURL: donation.profileImageURL,
-            bossMessage: donation.bossMessage,
-            bossEmoticonURL: donation.bossEmoticonURL,
-            bitBossCheerMote: true
-        }, characters.indexOf(c), this.settings.characterNames));
+        const statusChoices = choices.map(c => pickCharacter(
+            donation,
+            characters.indexOf(c),
+            this.settings.characterNames
+        ));
 
         const choiceCards = statusChoices.map(s => s.card);
         const lastCard = choiceCards[choiceCards.length - 1];

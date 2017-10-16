@@ -545,8 +545,8 @@ export function pickCharacter(
         stats.maxHitPoints,
         level,
         stats,
-        donation.profileImageURL,
         donation.bossMessage,
+        donation.profileImageURL,
         donation.bossEmoticonURL,
         nameMap[characters[pick].name] || characters[pick].name
     )
