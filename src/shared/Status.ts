@@ -125,8 +125,8 @@ export class Status {
         public hitPoints: number,
         public level: number,
         public baseStats: Stats,
-        public readonly profileImageURL: string,
         private p_bossMessage: string,
+        public readonly profileImageURL: string,
         public bossEmoticonURL: string,
         public readonly className: string
     ) {
