@@ -45,7 +45,7 @@ export class GameState {
 		this.canvas.setWidth(this.baseHeight);
 		this.player1 = null;
 		this.player2 = null;
-		this.align = 'center';
+		this.align = 'right';
 	}
 
 	public newMessage(msg: ReelMessage) {

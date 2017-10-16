@@ -65,11 +65,12 @@ export class Player {
         this.textQueue = [];
         this.buffs = [];
         this.cWidth = this.canvas.getWidth();
-        this.specialAtk = new Attack(canvas, this.data.art, atkArt, scale, side, this.center);
+        this.specialAtk = new Attack(canvas, this.data.art, atkArt, scale, side, this.center, this.align);
     }
 
     public drawMe(player: Player | null, offset: number) {
         this.offset = offset;
+        this.specialAtk.setOffset(offset);
         if (this.img)
             this.canvas.remove(this.img);
         if (this.health < 0)
@@ -84,8 +85,8 @@ export class Player {
             else if (this.align === "right")
                 oImg.set({left: this.cWidth - this.scale * (this.artAdjust + this.offset + this.trueWidth / 2)});
             else if (this.align === "center") {
-                let offset = (this.trueWidth / 2) * this.scale;
-                oImg.set({left: !this.onRight ? this.center - offset : this.center + offset})
+                let fromCenter = (this.trueWidth / 2) * this.scale;
+                oImg.set({left: !this.onRight ? this.center - fromCenter : this.center + fromCenter})
             }
             this.img = oImg.set({
                 top: this.artTop * this.scale,
@@ -401,18 +402,23 @@ export class Player {
     }
 
     public attacks() {
-        this.img.animate('left', this.onRight ? `-=${ 10  * this.scale }` : `+=${ 10 * this.scale }`, {
-            duration: 200,
-            easing: fabric.util.ease['easeInQuint'],
-            onChange: this.canvas.renderAll.bind(this.canvas),
-            onComplete: () => {
-                this.img.animate('left', this.atkAnimReturn, {
-                    duration: 300,
-                    onChange: this.canvas.renderAll.bind(this.canvas),
-                    easing: fabric.util.ease['easeOutQuint'],
-                })
-            }
-        });
+        if (this.specialAtk.canBeUsed()) {
+            this.specialAtk.fires();
+        }
+        else {
+            this.img.animate('left', this.onRight ? `-=${ 10  * this.scale }` : `+=${ 10 * this.scale }`, {
+                duration: 200,
+                easing: fabric.util.ease['easeInQuint'],
+                onChange: this.canvas.renderAll.bind(this.canvas),
+                onComplete: () => {
+                    this.img.animate('left', this.atkAnimReturn, {
+                        duration: 300,
+                        onChange: this.canvas.renderAll.bind(this.canvas),
+                        easing: fabric.util.ease['easeOutQuint'],
+                    })
+                }
+            });
+        }
     }
 
 	public dies(player2: Player | null) {
@@ -481,11 +487,12 @@ export class Player {
     public setScale(scale: number) {
         this.scale = scale;
         this.center = this.canvas.getWidth() / 2;
+        this.cWidth = this.canvas.getWidth();
         this.atkAnimReturn = 0;
         this.setAnimationAmount();
         this.specialAtk.updateScale(scale, this.center);
-        if (this.health > 0 && !this.drawing)
-            this.drawMe(null, this.offset);
+        // if (this.health > 0 && !this.drawing)
+        //     this.drawMe(null, this.offset);
     }
 
     private setAnimationAmount() {
@@ -534,10 +541,12 @@ export class Player {
 
     public setAlignment(alignment: 'left' | 'right' | 'center') {
         this.align = alignment;
+        this.specialAtk.setAlignment(alignment);
     }
 
     public setOffset(offset: number) {
         this.offset = offset;
+        this.specialAtk.setOffset(offset);
         this.setAnimationAmount();
     }
 
