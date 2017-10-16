@@ -314,7 +314,7 @@ export const characters: Character[] = [
             buff: Buff.buffs[Buff.types.warpriest]
         }],
         name: 'Warpriest',
-        flavorText: 'It?s only a fleshwound...',
+        flavorText: 'It\'s only a fleshwound...',
         skillText: 'BUFF Gains Armor and Health'
     }, // Warpriest
     {

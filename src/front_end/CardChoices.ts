@@ -123,7 +123,6 @@ export function buildCard(character: CharacterCard, artURLs: string[]) {
         let x = `
         <tr>
           <td>${key}</td>
-          <td>${ character.stats[key] }</td>
           <td>
             <div class="csc_bar">
               <div class="csc_inner_bar" style="width:${ character.stats[key] }0%"></div>
@@ -159,23 +158,18 @@ export function buildCard(character: CharacterCard, artURLs: string[]) {
     </div>
     <div class="csc_stats">
       <table>
+      <tr>
+        <td>Health</td>
+        <td colspan="2">${ character.baseHealth }</td>
+      </tr>
         <tr class="csc_bonus_health">
           <td>Bonus</td>
           <td colspan="2">${ character.bonusHealth }</td>
-        </tr>
-        <tr>
-          <td>Health</td>
-          <td colspan="2">${ character.baseHealth }</td>
         </tr>
         ${charStats.join(' ')}
         <tr>
           <td>Level</td>
           <td>${ character.level }</td>
-          <td>
-            <div class="csc_bar">
-              <div class="csc_inner_bar" style="width:${ character.level }0%"></div>
-            </div>
-          </td>
         </tr>
       </table>
     </div>`;

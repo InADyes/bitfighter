@@ -129,7 +129,7 @@ export function build(event: FightEvents.Event, status: Status[]) {
                 event.character,
                 1.5,
                 `${ e.donation.name} attacks`,
-                colors.donation
+                colors.damage
             ));
             display.push(new GraphicsEvents.Text(
                 event.time,
