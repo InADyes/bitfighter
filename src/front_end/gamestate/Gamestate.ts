@@ -53,7 +53,6 @@ export class GameState {
 			window.setTimeout(() => {this.newMessage(msg)}, 10);
 			return;
 		}
-
 		console.log(`TIM MSG:`, msg.characters);
 		// Update hover cards
 		this.characterCards = msg.characters;
@@ -75,24 +74,24 @@ export class GameState {
 				clearTimeout(this.idleId);
 				this.canvas.clear();
 				// init players
-				if (this.player1)
-					this.player1.eraseMe();
-				if (this.player2)
-					this.player2.eraseMe();
-				this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt);
-				this.currentBoss = this.player1.getBitBossInfo();
-				updateBitBoss({boss: this.currentBoss});
-				console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
-				recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, null);
-				if (msg.characters[1]) {
-					this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt);
-					flip('back');
-					console.log("flip back");
-					this.ogTime = performance.now();
+				if (msg.characters[0]) {
+					this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt);
+					this.currentBoss = this.player1.getBitBossInfo();
+					updateBitBoss({boss: this.currentBoss});
+					console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
+					recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, null);
+					if (msg.characters[1]) {
+						this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt);
+						flip('back');
+						console.log("flip back");
+						this.ogTime = performance.now();
+					}
+					else if (!msg.characters[1] && this.player2)
+						this.player2 = null;
+					this.drawPlayers();
 				}
 				else
 					this.idleCheck();
-				this.drawPlayers();
 				window.setTimeout(()=>this.initReel(), 500);
 			}
 		}

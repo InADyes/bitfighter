@@ -23,89 +23,89 @@ export interface Stats {
 export type choiceStats = {[details: string]: number};
 
 export const cardStats: {[details: number]: choiceStats} = {
-    [characterTypes.scullaryMaid]: {
+    [characterTypes.sculleryMaid]: {
         accuracy: 6,
         dodge: 6,
         armor: 5,
         damage: 5,
-        attackSpeed: 5,
+        speed: 5,
     },
     [characterTypes.barkeep]: {
         accuracy: 3,
         dodge: 4,
         armor: 8,
         damage: 6,
-        attackSpeed: 3
+        speed: 3
     },
     [characterTypes.medium]: {
         accuracy: 5,
         dodge: 6,
         armor: 1,
         damage: 3,
-        attackSpeed: 7
+        speed: 7
     },
     [characterTypes.minstrel]: {
         accuracy: 5,
         dodge: 6,
         armor: 2,
         damage: 5,
-        attackSpeed: 8
+        speed: 8
     },
     [characterTypes.mage]: {
         accuracy: 10,
         dodge: 4,
         armor: 5,
         damage: 2,
-        attackSpeed: 10
+        speed: 10
     },
     [characterTypes.rogue]: {
         accuracy: 8,
         dodge: 8,
         armor: 3,
         damage: 1,
-        attackSpeed: 9
+        speed: 9
     },
     [characterTypes.warpriest]: {
         accuracy: 3,
         dodge: 3,
         armor: 10,
         damage: 3,
-        attackSpeed: 4
+        speed: 4
     },
     [characterTypes.warlock]: {
         accuracy: 2,
         dodge: 2,
         armor: 5,
         damage: 9,
-        attackSpeed: 2
+        speed: 2
     },
     [characterTypes.swashbuckler]: {
         accuracy: 7,
         dodge: 8,
         armor: 3,
         damage: 6,
-        attackSpeed: 6
+        speed: 6
     },
     [characterTypes.dragon]: {
         accuracy: 1,
         dodge: 1,
         armor: 8,
         damage: 10,
-        attackSpeed: 1
+        speed: 1
     },
     [characterTypes.graveDigger]: {
         accuracy: 3,
         dodge: 2,
         armor: 8,
         damage: 4,
-        attackSpeed: 4
+        speed: 4
     },
     [characterTypes.bitBoss]: {
         accuracy: 0,
         dodge: 0,
         armor: 0,
         damage: 0,
-        attackSpeed: 0
+        speed: 0
     }
 }
 

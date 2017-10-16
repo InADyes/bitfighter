@@ -97,10 +97,10 @@ export const buffs: Buff[] = [
     {
         duration: 6000,
         art: 2,
-        name: 'TBD',
+        name: 'Divination',
         url: "images/icons/buffs/medium_buff.png",
         accuracy: .75
-    },// Medium - TBD
+    },// Medium - Divination
     {
         duration: 3000,
         art: 3,
@@ -118,14 +118,14 @@ export const buffs: Buff[] = [
     {
         duration: 6000,
         art: 5,
-        name: 'BackStab',
+        name: 'Evasion',
         url: "images/icons/buffs/backstabbing.png",
         dodge: 1.3
-    },// Rogue - Backstab
+    },// Rogue - Evasion
     {
         duration: 6000,
         art: 6,
-        name: 'Curse',
+        name: 'Blassing',
         url: "images/icons/buffs/curse.png",
         regeneration: 400,
         armor: 2,
@@ -133,7 +133,7 @@ export const buffs: Buff[] = [
     {
         duration: 6000,
         art: 7,
-        name: 'Damnation',
+        name: 'Siphon Soul',
         url: "images/icons/buffs/damnation_buff.png",
         regeneration: 500,
         accuracy: 2,
@@ -143,7 +143,7 @@ export const buffs: Buff[] = [
     {
         duration: 6000,
         art: 8,
-        name: 'Damnation',
+        name: 'Siphon Soul',
         url: "images/icons/buffs/damnation_debuff.png",
         accuracy: .25,
         dodge: .25,
@@ -166,7 +166,7 @@ export const buffs: Buff[] = [
     {
         duration: 10000000,
         art: 22,
-        name: 'Armor Bonus',
+        name: 'Advantage',
         url: 'no art',
         armor: 1.5
     },// ArmorBonus

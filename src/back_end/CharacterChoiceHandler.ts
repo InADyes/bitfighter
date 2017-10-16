@@ -160,13 +160,14 @@ export class CharacterChoiceHandler {
             bitBossCheerMote: true
         }, characters.indexOf(c), this.settings.characterNames));
 
-        const lastCard = statusChoices[statusChoices.length - 1].card
+        const choiceCards = statusChoices.map(s => s.card);
+        const lastCard = choiceCards[choiceCards.length - 1];
         lastCard.bitBossCheerMote = true;
         lastCard.selectable = donation.bitBossCheerMote ? true : false;
 
         //send the choices to the front end
         this.requestPick(
-            statusChoices.map(s => s.card),
+            choiceCards,
             donation.id
         );
 
@@ -185,6 +186,10 @@ export class CharacterChoiceHandler {
             )
         });
     }
+    public hasPendingChoice(id: number) {
+        return this.pendingCharacterChoices.some(c => c.id === id);
+    }
+
     public completeChoice(id: number, pick: number, clear?: boolean) {
         const index = this.pendingCharacterChoices.findIndex(c => c.id === id);
 

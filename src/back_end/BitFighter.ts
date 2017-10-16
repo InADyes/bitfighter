@@ -1,12 +1,13 @@
 import { generateBitBoss } from './generateBitBoss';
 import { Status, cardStats } from '../shared/Status';
-import { Character, pickCharacter, characters, rarities } from '../shared/characterPicker';
+import { Character, pickCharacter, characters, rarities, artURLs } from '../shared/characterPicker';
 import { BackToFrontMessage, CharacterListItem, QueueItem } from '../shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 import { BackendSettings as Settings, GameSave } from './interfaces';
-import { CharacterChoiceHandler } from './characterChoiceHandler';
+import { CharacterChoiceHandler } from './CharacterChoiceHandler';
 import { Donation } from '../shared/interfaces/donation';
 import { Arena } from './Arena';
+import { validateDonation, validateSettings } from './validations';
 
 function logDonation(gameState: string, donationType: string, amount: number) {
     console.log(`donation: ${ gameState }, ${ donationType }, ${ amount }`);
@@ -16,19 +17,16 @@ export class BitFighter {
     private readonly queue: Status[] = [];
     private timeout: NodeJS.Timer | null = null;
 
-    private readonly characterChoiceHandler = new CharacterChoiceHandler(
-        status => this.newCombatant(status),
-        (characterChoices, id) => this.sendMessageToFont({characterChoices}, id),
-        this.settings
-    );
+    private readonly characterChoiceHandler: CharacterChoiceHandler;
     private arena: Arena;
+    private settings: Settings;
 
     constructor(
         private sendMessageToFont: (
             message: BackToFrontMessage,
             fan?: number
         ) => void,
-        public settings: Settings = {
+        settings: Settings = {
             delayBetweenFights: 3000,
             minimumDonation: 200,
             donationToHPRatio: 1,
@@ -55,9 +53,14 @@ export class BitFighter {
         ) => void,
         gameStateJSON?: string
     ) {
-        if (this.settings.defaultChampion.id === 123544090)
-            this.settings.defaultChampion.name = 'Ravioli';
 
+        // --- initialize properties
+        this.settings = validateSettings(settings);
+        this.characterChoiceHandler = new CharacterChoiceHandler(
+            status => this.newCombatant(status),
+            (characterChoices, id) => this.sendMessageToFont({characterChoices}, id),
+            this.settings
+        );
         this.arena = new Arena(
             this.settings,
             (newReel, timer) => {
@@ -70,6 +73,9 @@ export class BitFighter {
             },
             () => this.addToArena()
         );
+        // ---
+
+
         if (gameStateJSON) {
             const save = <GameSave>JSON.parse(gameStateJSON);
             // status's must be cloned becaused they have no methods as they came from the JSON
@@ -201,7 +207,8 @@ export class BitFighter {
                         skillURL: buff ? buff.url : 'no buff',
                         rarityName: rarities[c.rarity].name || 'rarity not found',
                         rarityColor: rarities[c.rarity].color || 'rarity not found',
-                        flavorText: c.flavorText
+                        flavorText: c.flavorText,
+                        classArtURL: artURLs[i]
                     }
                 })
             },
@@ -215,29 +222,34 @@ export class BitFighter {
         amount: number,
         profileImageURL: string,
         bossMessage: string = this.settings.defaultBossMessage,
-        bossEmoticonURL: string
+        bossEmoticonURL: string,
+        bitBossCheerMote: boolean
     ) {
-        const donation: Donation = {
+        const donation = validateDonation({
             id,
             name,
             amount,
             profileImageURL,
             bossMessage,
             bossEmoticonURL,
-            bitBossCheerMote: true
-        };
+            bitBossCheerMote
+        });
 
         const gameState = this.arena.isBusy() ? 'fighting' : 'waiting';
 
-        const combatantIndex: number = this.arena.searchForCombatant(id);
+        const combatantIndex = this.arena.searchForCombatant(id);
         // if the donation matches a fighter
         if (combatantIndex !== -1) {
             this.logDonation(gameState, 'heal', donation.amount);
             this.arena.healCombatant(combatantIndex, donation);
 
-        // if the donation is enough for a character and they aren't already in the queue
-        } else if (this.settings.bitFighterEnabled && this.queue.some(s => {return s.id === id;}) === false
-            && amount >= this.settings.minimumDonation) {
+        // if the donation is enough for a character and they aren't already in the queue or have a pending choice
+        } else if (
+            this.settings.bitFighterEnabled
+            && this.queue.some(s => s.id === donation.id) === false
+            && amount >= this.settings.minimumDonation
+            && this.characterChoiceHandler.hasPendingChoice(id) === false
+        ) {
             this.logDonation(gameState, 'newCombatant', donation.amount);
             this.characterChoiceHandler.requestChoice(donation);
 
@@ -251,6 +263,7 @@ export class BitFighter {
     // public for testing purposes (bypasses front end character choice)
     public newCombatant(status: Status) {
         this.queue.push(status)
+
 
         if (this.arena.isBusy() === false) {
             this.addToArena(this.arena.getCombatants().length > 0 ? 5000 : undefined);
@@ -268,6 +281,9 @@ export class BitFighter {
         if (this.queue.length < 1 || newFighterCount < 0)
             return;
 
-        this.arena.addCombatants(countdown || 0, ...this.queue.splice(0, newFighterCount));
+        this.arena.addCombatants(
+            countdown || 0,
+            ...this.queue.splice(0, newFighterCount)
+        );
     }
 }

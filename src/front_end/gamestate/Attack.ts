@@ -1,7 +1,7 @@
 import 'fabric';
 declare let fabric: any;
 /*
-    scullaryMaid    = 0,
+    sculleryMaid    = 0,
     barkeep         = 1,
     medium          = 2,
     minstrel        = 3,
