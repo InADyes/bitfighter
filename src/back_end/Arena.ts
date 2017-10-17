@@ -134,7 +134,8 @@ export class Arena {
                 bossMessage: c.bossMessage,
                 card: c.card,
                 bossEmoticonURL: c.bossEmoticonURL,
-                className: c.className
+                className: c.className,
+                id: c.id
             })
         ),
         reel: graphics,
