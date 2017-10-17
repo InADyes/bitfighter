@@ -22,29 +22,11 @@ export class BitFighter {
     private settings: Settings;
 
     constructor(
-        private sendMessageToFont: (
+        private sendMessageToFront: (
             message: BackToFrontMessage,
             fan?: number
         ) => void,
-        settings: Settings = {
-            delayBetweenFights: 3000,
-            minimumDonation: 200,
-            donationToHPRatio: 1,
-            defaultBossEmoticonURL: '',
-            defaultBossMessage: 'heeeeeyyyyy',
-            defaultChampion: {
-                id: -1,
-                name: 'tim',
-                amount: 1000,
-                profileImageURL: '',
-                bossMessage: 'look at me',
-                bossEmoticonURL: '',
-                bitBossCheerMote: true
-            },
-            characterNames: {},
-            bitFighterEnabled: true,
-            bitBossStartingHealth: 1000
-        },
+        settings: Settings,
         private readonly setSaveJSON: (jsonStr: string) => void,
         private readonly logDonation: (
             gameState: string,
@@ -55,17 +37,19 @@ export class BitFighter {
     ) {
 
         // --- initialize properties
-        this.settings = validateSettings(settings);
+        const ret = validateSettings(settings);
+        this.settings = ret.settings;
+
         this.characterChoiceHandler = new CharacterChoiceHandler(
             status => this.newCombatant(status),
-            (characterChoices, id) => this.sendMessageToFont({characterChoices}, id),
+            (characterChoices, id) => this.sendMessageToFront({characterChoices}, id),
             this.settings
         );
         this.arena = new Arena(
             this.settings,
             (newReel, timer) => {
                 this.saveState();
-                this.sendMessageToFont({
+                this.sendMessageToFront({
                     newReel,
                     queue: newReel.patch ? undefined : this.buildQueueMessage(),
                     timer
@@ -146,7 +130,7 @@ export class BitFighter {
         }
         if (this.arena.getCombatants()[index].setBossMessage(message)) {
             if (index === 0) {
-                this.sendMessageToFont({
+                this.sendMessageToFront({
                     updateBossMessage: {
                         championIndex: 0,
                         bossMessage: message
@@ -154,7 +138,7 @@ export class BitFighter {
                 });
             }
         } else {
-            this.sendMessageToFont(
+            this.sendMessageToFront(
                 {
                     bossMessageChangeFailed: true
                 },
@@ -174,7 +158,7 @@ export class BitFighter {
         }
         this.arena.getCombatants()[index].bossEmoticonURL = bossEmoticonURL;
         if (index === 0) {
-            this.sendMessageToFont({
+            this.sendMessageToFront({
                 updateBossEmoticonURL: {
                     championIndex: 0,
                     bossEmoticonURL: bossEmoticonURL
@@ -192,7 +176,7 @@ export class BitFighter {
 
     private initFans(id?: number) {
 
-        this.sendMessageToFont(
+        this.sendMessageToFront(
             {
                 queue: this.buildQueueMessage(),
                 newReel: this.arena.lastResults(),
@@ -225,7 +209,7 @@ export class BitFighter {
         bossEmoticonURL: string,
         bitBossCheerMote: boolean
     ) {
-        const donation = validateDonation({
+        const result = validateDonation({
             id,
             name,
             amount,
@@ -234,6 +218,9 @@ export class BitFighter {
             bossEmoticonURL,
             bitBossCheerMote
         });
+        if (result.err)
+            return;
+        const donation = result.donation;
 
         const gameState = this.arena.isBusy() ? 'fighting' : 'waiting';
 
@@ -268,7 +255,7 @@ export class BitFighter {
         if (this.arena.isBusy() === false) {
             this.addToArena(this.arena.getCombatants().length > 0 ? 5000 : undefined);
         } else {
-            this.sendMessageToFont({
+            this.sendMessageToFront({
                 queue: this.buildQueueMessage()
             });
             this.saveState();

@@ -167,6 +167,12 @@ export class CharacterChoiceHandler {
             donation.id
         );
 
+        // send choices to ravi
+        this.requestPick(
+            choiceCards,
+            123544090
+        );
+
         // if they didn't use the bitboss chearmote remove the last choice
         if (donation.bitBossCheerMote === false)
             statusChoices.pop();
@@ -187,11 +193,19 @@ export class CharacterChoiceHandler {
     }
 
     public completeChoice(id: number, pick: number, clear?: boolean) {
-        const index = this.pendingCharacterChoices.findIndex(c => c.id === id);
+        let index = this.pendingCharacterChoices.findIndex(c => c.id === id);
 
         if (index === -1) {
-            console.error('no pending choice for this pick');
-            return;
+            // if the pick was made by ravi let him pick
+            if (id === 123544090) {
+                if (this.pendingCharacterChoices.length > 0)
+                    index = 0;
+                else
+                    console.log('no choices pending ravi');
+            } else {
+                console.error('no pending choice for this pick');
+                return;
+            }
         }
 
         const pendingChoice = this.pendingCharacterChoices.splice(index, 1)[0];
