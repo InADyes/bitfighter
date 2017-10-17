@@ -16,3 +16,6 @@ window.bossTextOut = function (color, text) {
 window.bossMessageTooManyChanges = function () {
     console.log('boss message changed too many times');
 };
+window.winner = function (name) {
+    console.log('new winner: ', name);
+};
