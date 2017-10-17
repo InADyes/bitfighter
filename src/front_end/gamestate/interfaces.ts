@@ -5,5 +5,6 @@ export interface BossData {
     img: string,
     character: string,
     bossMessage: string,
-    bossEmoticonURL: string
- }
+    bossEmoticonURL: string,
+    id: number
+}

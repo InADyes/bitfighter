@@ -8,6 +8,7 @@ import { CharacterChoiceHandler } from './CharacterChoiceHandler';
 import { Donation } from '../shared/interfaces/donation';
 import { Arena } from './Arena';
 import { validateDonation, validateSettings } from './validations';
+import { Readonly } from '../shared/interfaces/utility';
 
 function logDonation(gameState: string, donationType: string, amount: number) {
     console.log(`donation: ${ gameState }, ${ donationType }, ${ amount }`);
@@ -19,7 +20,7 @@ export class BitFighter {
 
     private readonly characterChoiceHandler: CharacterChoiceHandler;
     private arena: Arena;
-    private settings: Settings;
+    private settings: Readonly<Settings>;
 
     constructor(
         private sendMessageToFront: (

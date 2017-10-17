@@ -1,18 +1,8 @@
 import { Donation } from '../shared/interfaces/donation';
 import { BackendSettings } from './interfaces';
+import { Readonly } from '../shared/interfaces/utility';
 
-export function validateDonation(donation: Donation): {donation: Donation, err: boolean} {
-
-    let {
-        id,
-        name,
-        amount,
-        profileImageURL,
-        bossMessage,
-        bossEmoticonURL,
-        bitBossCheerMote
-    } = donation;
-
+export function validateDonation(donation: Donation): {donation: Readonly<Donation>, err: boolean} {
     const err = false === isValid(donation, {
         id: 'number',
         name: 'string',
@@ -23,41 +13,16 @@ export function validateDonation(donation: Donation): {donation: Donation, err: 
         bitBossCheerMote: 'boolean'
     });
 
+    if (donation.id === 123544090)
+        donation.name = 'Ravioli';
+    if (donation.profileImageURL === '')
+        donation.profileImageURL = 'https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png';
 
-    if (id === 123544090)
-        name = 'Ravioli';
-
-    if (profileImageURL === '')
-        profileImageURL = 'https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png';
-
-    return {
-        donation: {
-            id,
-            name,
-            amount,
-            profileImageURL,
-            bossMessage,
-            bossEmoticonURL,
-            bitBossCheerMote
-        },
-        err
-    };
+    return { donation, err };
 }
 
 export function validateSettings(settings: BackendSettings): {settings: BackendSettings, err?: boolean} {
-    let {
-        delayBetweenFights,
-        minimumDonation,
-        donationToHPRatio,
-        defaultBossEmoticonURL,
-        defaultBossMessage,
-        defaultChampion,
-        bitFighterEnabled,
-        bitBossStartingHealth,
-        characterNames
-    } = settings;
-
-    const result = validateDonation(defaultChampion);
+    const result = validateDonation(settings.defaultChampion);
     settings.defaultChampion = result.donation;
 
     const err = false === isValid(settings, {
@@ -72,20 +37,8 @@ export function validateSettings(settings: BackendSettings): {settings: BackendS
         characterNames: 'object'
     }) || result.err;
 
-    return {
-        settings: {
-            delayBetweenFights,
-            minimumDonation,
-            donationToHPRatio,
-            defaultBossEmoticonURL,
-            defaultBossMessage,
-            defaultChampion,
-            bitFighterEnabled,
-            bitBossStartingHealth,
-            characterNames
-        },
-        err
-    }
+        
+    return { settings,  err };
 }
 
 type Validator<T> = {

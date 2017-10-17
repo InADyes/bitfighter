@@ -2,6 +2,7 @@ import 'fabric';
 declare let fabric: any;
 import {Attack} from './Attack';
 import { FrontendCharacter } from '../../shared/interfaces/backToFrontMessage';
+import { BossData } from './interfaces';
 
 export class Player {
     private health:         number;
@@ -519,7 +520,7 @@ export class Player {
         this.buffs = [];
     }
 
-    public getBitBossInfo() {
+    public getBitBossInfo(): BossData {
         return ({
             name: this.data.name,
             hp: this.health,
@@ -527,7 +528,8 @@ export class Player {
             img: this.data.profileImageURL,
             character: this.data.className,
             bossMessage: this.data.bossMessage,
-            bossEmoticonURL: this.data.bossEmoticonURL
+            bossEmoticonURL: this.data.bossEmoticonURL,
+            id: this.data.id
         });
     }
 

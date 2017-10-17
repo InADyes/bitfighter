@@ -113,6 +113,7 @@
       // filter: blur(0px) drop-shadow(0.25vw 0.25vw 0.15vw rgba(1, 1, 1, 0.3));
     }
     &:nth-of-type(2) {
+
       animation-delay: 0.25s;
     }
     &:nth-of-type(3) {
@@ -130,7 +131,6 @@
     &:nth-of-type(7) {
       animation-delay: 1.75s;
     }
-
     .character-card-stats {
       align-items: center;
       display: flex;
@@ -162,7 +162,6 @@
           z-index: 100;
         }
       }
-
       .avatar {
         display: flex;
         left: 0;
@@ -243,50 +242,6 @@
     }
   }
 
-  .timerDiv {
-    position: absolute;
-    display: flex;
-    width: 70%;
-    height: 35%;
-    border: 5px ridge black;
-    font-family: Impact, 'Arial Narrow Bold', sans-serif;
-    font-size: 7vw;
-    align-items: center;
-    /*background-color: #8D0000;*/
-    animation-name: timerFlash;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-out;
-  }
-
-  .challenger {
-    position: relative;
-    left: 3%;
-    -webkit-transform: scale(1, 2);
-  }
-
-  .timer {
-    position: relative;
-    left: 1%;
-    font-size: 14vw;
-    margin: auto;
-  }
-
-  @-webkit-keyframes timerFlash {
-    /*0% {
-      background-color: #FF9191;
-    }
-    100% {
-      background-color: #8D0000;
-    }*/
-    0% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
-
   @-webkit-keyframes dropInFade {
     from {
       opacity: 0;
@@ -297,20 +252,9 @@
       transform: translateY(0px) translatex(0px) rotate(0deg) skewY(0deg);
     }
   }
-
-  #wrapper {
-    border: 2px solid red;
-    width: 610px;
-    height: 410px;
-    left: 0px;
-    top: 0px;
-  }
-  #myimage {
-    position: absolute;
-    top: 7px;
-    left: 7px;
-  }
 }
+
+
 
 #container{
   width:100%;

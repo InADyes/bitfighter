@@ -88,7 +88,7 @@ export class BitFighter {
         this.settings = settings;
         this.updateScale();
     }
-    
+
     private updateScale() {
         if (this.resizeTimeout) {
             clearTimeout(this.resizeTimeout);
