@@ -5,7 +5,7 @@ declare let fabric: any;
 import * as Player from './Player';
 import { fireEvent } from './fireEvent';
 import { BossData } from './interfaces';
-import { recalcHp, flip, updateBitBoss} from '../globalDependencies'
+import { recalcHp, flip, updateBitBoss, winner} from '../globalDependencies'
 
 // declare function recalcHp(damageAmount: number, newHp: number, maxHp: number, attacker: string | null): void;
 // declare function flip(side: 'front' | 'back'): void;
@@ -171,12 +171,16 @@ export class GameState {
 	public slay(p2: number) {
 		if (this.player2 && p2) {
 			this.player2.dies(null);
-			if (this.player1)
+			if (this.player1) {
 				this.player1.clearBuffs();
+				winner(this.currentBoss.name);
+				console.log(this.currentBoss.name + " wins");
+			}
 			this.player2.clearBuffs();
 			this.player2 = null;
 			this.characterCards.splice(1, 1);
 			this.characterStateChange(this.characterCards);
+			
 		}
 		else if (this.player1) {
 			this.player1.dies(this.player2);
@@ -185,6 +189,8 @@ export class GameState {
 				this.currentBoss = this.player2.getBitBossInfo();
 				console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
 				updateBitBoss({boss: this.currentBoss});
+				winner(this.currentBoss.name);
+				console.log(this.currentBoss.name + " wins");
 				this.player2.clearBuffs();
 			}
 			this.newChampion();
