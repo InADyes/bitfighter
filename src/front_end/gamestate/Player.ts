@@ -150,7 +150,7 @@ export class Player {
             height: this.height * this.scale,
             strokeWidth: this.strokeWidth * this.scale,
             stroke: 'white',
-            top: this.artTop * this.scale + 1,
+            top: (this.artTop + 1) * this.scale,
         });
         this.canvas.add(this.whiteBar);
         this.canvas.add(this.redBar);
@@ -183,7 +183,7 @@ export class Player {
         this.displaynametop = this.getFabricName();
         this.displaynametop.set({
             fill: 'black',
-            top: this.nameHeight * this.scale + 1,
+            top: (this.nameHeight + 1) * this.scale,
         })
         this.canvas.add(this.displayname);
         this.canvas.add(this.displaynametop);
@@ -193,7 +193,7 @@ export class Player {
             fontSize: this.fontSize * this.scale,
             fontFamily: this.font,
             fontWeight: 'bold',
-            left: !this.onRight ? this.center  - this.trueWidth / 2 : this.center + this.trueWidth / 2,
+            left: !this.onRight ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
             originX: 'center'
         }));
     }
