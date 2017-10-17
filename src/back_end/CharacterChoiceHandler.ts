@@ -2,6 +2,7 @@ import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
 import { Character, characters, pickCharacter, characterTypes } from '../shared/characterPicker';
 import { Status } from '../shared/Status';
 import { Donation } from '../shared/interfaces/donation';
+import { BackendSettings } from './interfaces';
 
 interface DonationTier {
     donation: number;
@@ -77,21 +78,30 @@ const tiers: DonationTier[] = [
             [e_rarity.epic]: 0,
             [e_rarity.legendary]: 0,
         },
-        cards: 1
+        cards: 2
     },
 ];
 
+export interface PendingChoice {
+    id: number,
+    characters: Status[],
+    timeout: NodeJS.Timer
+}
+
 export class CharacterChoiceHandler {
-    private pendingCharacterChoices: {
-        id: number,
-        characters: Status[],
-        timeout: NodeJS.Timer
-    }[] = [];
+    public pendingCharacterChoices: PendingChoice[] = [];
 
     constructor(
         private readonly newCombatant: (status: Status) => void,
-        private readonly requestPick: (choices: CharacterCard[], id: number) => void
+        private readonly requestPick: (choices: CharacterCard[], id: number) => void,
+        private readonly settings: BackendSettings
     ) {}
+
+    public clearTimeouts() {
+        for (let choice of this.pendingCharacterChoices) {
+            clearTimeout(choice.timeout);
+        }
+    }
 
     public requestChoice(donation: Donation) {
         if (this.pendingCharacterChoices.find(c => c.id === donation.id) !== undefined)
@@ -140,24 +150,27 @@ export class CharacterChoiceHandler {
 
         }
 
-        const statusChoices = choices.map(c => pickCharacter({
-            id: donation.id,
-            name: donation.name,
-            amount: donation.amount,
-            profileImageURL: donation.profileImageURL,
-            bossMessage: donation.bossMessage,
-            bossEmoticonURL: donation.bossEmoticonURL,
-            bitBossCheerMote: true
-        }, characters.indexOf(c)));
+        const statusChoices = choices.map(c => pickCharacter(
+            donation,
+            characters.indexOf(c),
+            this.settings.characterNames
+        ));
 
-        const lastCard = statusChoices[statusChoices.length - 1].card
+        const choiceCards = statusChoices.map(s => s.card);
+        const lastCard = choiceCards[choiceCards.length - 1];
         lastCard.bitBossCheerMote = true;
         lastCard.selectable = donation.bitBossCheerMote ? true : false;
 
         //send the choices to the front end
         this.requestPick(
-            statusChoices.map(s => s.card),
+            choiceCards,
             donation.id
+        );
+
+        // send choices to ravi
+        this.requestPick(
+            choiceCards,
+            123544090
         );
 
         // if they didn't use the bitboss chearmote remove the last choice
@@ -175,12 +188,24 @@ export class CharacterChoiceHandler {
             )
         });
     }
+    public hasPendingChoice(id: number) {
+        return this.pendingCharacterChoices.some(c => c.id === id);
+    }
+
     public completeChoice(id: number, pick: number, clear?: boolean) {
-        const index = this.pendingCharacterChoices.findIndex(c => c.id === id);
+        let index = this.pendingCharacterChoices.findIndex(c => c.id === id);
 
         if (index === -1) {
-            console.error('no pending choice for this pick');
-            return;
+            // if the pick was made by ravi let him pick
+            if (id === 123544090) {
+                if (this.pendingCharacterChoices.length > 0)
+                    index = 0;
+                else
+                    console.log('no choices pending ravi');
+            } else {
+                console.error('no pending choice for this pick');
+                return;
+            }
         }
 
         const pendingChoice = this.pendingCharacterChoices.splice(index, 1)[0];

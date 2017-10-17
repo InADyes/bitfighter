@@ -1,7 +1,7 @@
 import * as FightEvents from '../shared/fightEvents';
 import { Status } from '../shared/Status';
 import { otherCharacter } from '../shared/utility';
-import { buildStats, levels } from '../shared/characterPicker';
+import { buildStats, characters, levels } from '../shared/characterPicker';
 import { build as buildGraphicsEvents } from './buildGraphicsEvents';
 import { Event as GraphicsEvent } from './graphicsEvents';
 
@@ -22,9 +22,13 @@ export function applyFightEvents(
             case FightEvents.Types.damage:
                 status[event.character].hitPoints -= (<FightEvents.Damage>event).amount;
                 break;
-            case FightEvents.Types.healing:
-                status[event.character].hitPoints += (<FightEvents.Healing>event).amount;
-                break;
+            case FightEvents.Types.healing: {
+                const c = status[event.character];
+                c.hitPoints = Math.min(
+                    c.hitPoints + (<FightEvents.Healing>event).amount,
+                    c.stats.maxHitPoints
+                );
+            } break;
             case FightEvents.Types.crit: {
                 const debuff = (<FightEvents.Crit>event).debuff;
                 if (debuff) {
@@ -55,7 +59,12 @@ export function applyFightEvents(
                 status[event.character].hitPoints -= (<FightEvents.DamageDonation>event).amount;
             } break;
             case FightEvents.Types.healingDonation: {
-                status[event.character].hitPoints += (<FightEvents.HealingDonation>event).amount;
+                const s = status[event.character];
+
+                s.hitPoints = Math.min(
+                    s.hitPoints + (<FightEvents.HealingDonation>event).amount,
+                    s.stats.maxHitPoints
+                );
             } break;
         }
         combinedReel.push({

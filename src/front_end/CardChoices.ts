@@ -1,5 +1,6 @@
-import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
+import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
+import { rarities } from '../shared/characterPicker';
 
 export class CardChoices {
     private cards: HTMLDivElement[];
@@ -21,13 +22,15 @@ export class CardChoices {
         this.cards = cards;
         for (let i = 0; i < this.cards.length; i++) {
             this.cardDiv.appendChild(this.cards[i]);
-            this.cards[i].addEventListener('click', () => {
-                this.emitGameEvent({
-                    characterChoice: {
-                        choice: i
-                }});
-                this.clearCards();
-            });
+            if (this.cards[i].classList.contains('not_selectable') === false) {
+                this.cards[i].addEventListener('click', () => {
+                    this.emitGameEvent({
+                        characterChoice: {
+                            choice: i
+                    }});
+                    this.clearCards();
+                });
+            }
         }
         this.timeout = window.setTimeout(
             () => this.clearCards(),
@@ -58,8 +61,8 @@ export function updateStatusCards(
     const newCard2 = cards[1] ? buildCard(cards[1].card, artURLS) : null;
     const oldCard1 = document.getElementById('card1');
     const oldCard2 = document.getElementById('card2');
-
     if (oldCard1 && newCard1) {
+
         oldCard1.classList.remove("empty-card");
         oldCard1.classList.add("card");
         oldCard1.innerHTML = newCard1.innerHTML;
@@ -82,66 +85,102 @@ export function updateStatusCards(
 
 export function buildCard(character: CharacterCard, artURLs: string[]) {
     let card = document.createElement('div');
-    let stats = document.createElement('div');
-    stats.className = 'character-card-stats';
-    card.appendChild(stats);
+    let info = JSON.stringify(character);
+    
+    let usedBBBCheermote = false;
+    let className = 'character_select_card';
+    
+    //If this character is bitboss cheermote only apply the appropriate class
+    if(character.bitBossCheerMote)
+      className += ' csc_bbbonly';
+    if (character.selectable === false)
+      className += ' not_selectable';
 
+    card.className = className;
+    
+    //We are going to include this disabled element when the card is bitboss cheermote only and they didn't use the bitboss cheermote
+    let disabled_overlay = document.createElement('div');
+    disabled_overlay.className = 'csc_disabledwrap';
+    disabled_overlay.innerHTML = `
+    <div class="csc_bbb_disabled"> 
+      <img src="https://s3.amazonaws.com/operaevent-gather/locked.png" /><br/>
+      This card is only available when using the bitboss cheermote
+    </div>`;
+    
+    //TODO:: Verify that I should just be using selectable true/false to know whether the user has used the bitboss cheermote
+    //If it should be disabled then append the disabled overlay
+    if(!character.selectable){
+      card.appendChild(disabled_overlay);
+    }
+    
+    let inside = document.createElement('div');
+    inside.className = 'csc_inner';
+    card.appendChild(inside);
+    
+    //Create all the rows for stats
     let charStats = Object.keys(character.stats).map(function(key, index){
+        let statDispName = '';
+        if(key == 'attackSpeed'){
+          statDispName = 'Speed';
+        }else{
+          statDispName = key;
+        }
+        
         let x = `
-        <div class="stat">
-            <div class="title">${key}:</div>
-            <div class="amount">
-                <div class="amount-int">  ${ character.stats[key] }</div>
-                ${healthBarSVG(   {amount: character.stats[key], factor:  10} )}
+        <tr>
+          <td>${statDispName}</td>
+          <td>${ character.stats[key] }</td>
+          <td>
+            <div class="csc_bar">
+              <div class="csc_inner_bar" style="width:${ character.stats[key] }0%"></div>
             </div>
-        </div>`
+          </td>
+        </tr>
+        `
         return x;
     }) 
 
-    stats.innerHTML = `
-    <div class="avatar">
-        <div class="header-item">
-            <img src="${artURLs[character.art]}" alt="${character.className}">
-        </div>
-        <div class="header-item header-wrap">
-            <div class="header"> ${ character.className } </div>
-        </div>
+    inside.innerHTML = `
+    <h3 class="csc_raritycolor${character.rarity}">${character.className}</h3>
+    <div class="csc_image" style="background-image:url('${artURLs[character.art]}')">
+      <div class="csc_bbb_badge">
+        <img src="https://s3.amazonaws.com/operaevent-gather/tier_10000.gif" />
+        <p>BitBoss<br/>Cheermote<br/>Exclusive</p>
+      </div>
+      <div class="csc_hoverwrap">
+        <div class="csc_description">${ character.flavorText }</div>
+      </div>
     </div>
-    <div class="stats-container">
-        
-        <div class="stat">
-            ${ character.flavorText }
-        </div>
+    <div class="csc_left">
+    
+      <div class="csc_skill">
+        <h4 class="csc_raritycolor${character.rarity}">${ character.buffName }</h4>
+        <p><img src="https://s3.amazonaws.com/operaevent-gather/${ character.buffArt }" /> ${ character.skillText }</p>
+        <div class="csc_clear"></div>
+      </div>
+      
+      <div class="csc_rarity">
+        <h4 class="csc_raritycolor${character.rarity}">${ rarities[character.rarity].name }</h4>
+      </div>
+    </div>
+    <div class="csc_stats">
+      <table>
+      <tr>
+        <td>Health</td>
+        <td colspan="2">${ character.baseHealth }</td>
+      </tr>
+        <tr class="csc_bonus_health">
+          <td>Bonus</td>
+          <td colspan="2">${ character.bonusHealth }</td>
+        </tr>
         ${charStats.join(' ')}
-        <div class="stat">
-            <div class="title">Level:</div>  
-            <div class="amount">
-                 <div class="amount-int">  ${ character.level }</div>
-                  ${healthBarSVG({amount: character.level, factor: 10} )}
-            </div>
-        </div>
-        <div class="stat">
-            <div class="title">Health:</div> 
-            <div class="amount">
-                <div class="amount-int">  ${ character.baseHealth }    </div>
-                ${healthBarSVG({amount: character.baseHealth, factor: 0.1} )}
-            </div>
-        </div>
-        <div class="stat bonus">
-            <div class="title">Bonus Health:</div>
-            <div class="amount">
-                <div class="amount-int"> ${ character.bonusHealth } </div>
-                 ${healthBarSVG({amount: character.bonusHealth, factor: 0.1} )}
-            </div>
-        </div>
-        <div class="stat">
-            <div class="title">Rarity:</div>
-            <div class="amount">
-                ${ formatRarity[character.rarity] }
-            </div>
-        </div>
+        <tr>
+          <td>Level</td>
+          <td>${ character.level }</td>
+        </tr>
+      </table>
     </div>`;
-    card.className = 'character-card';
+
     return card;
 }
 
@@ -172,10 +211,3 @@ function healthBarSVG(amount: {
     </svg>`;
 }
 
-const formatRarity: {[details: number]: string} = {
-    0: 'Common',
-    1: 'Uncommon',
-    2: 'Rare',
-    3: 'Mythic',
-    4: 'Grave Digger'
-} 

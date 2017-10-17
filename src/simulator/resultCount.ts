@@ -40,7 +40,7 @@ export function resultCount() {
             bossMessage: 'yo',
             bossEmoticonURL: 'hey',
             bitBossCheerMote: true
-        }, Number(process.argv[2])),
+        }, Number(process.argv[2]), {}),
         pickCharacter({
             id: 1,
             name: 'hao',
@@ -49,7 +49,7 @@ export function resultCount() {
             bossMessage: 'yo',
             bossEmoticonURL: 'hey',
             bitBossCheerMote: true
-        }, Number(process.argv[4]))
+        }, Number(process.argv[4]), {})
     ];
 
     const count = Number(process.argv[7])

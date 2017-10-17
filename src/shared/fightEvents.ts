@@ -34,7 +34,7 @@ export class Damage extends Event {
 export class Dodge extends Event {
     constructor (
         time: number,
-        character: number,
+        character: number
     ) {
         super(time, Types.dodge, character);
     }
@@ -44,6 +44,7 @@ export class Death extends Event {
     constructor (
         time: number,
         character: number,
+        public readonly overkill: number
     ) {
         super(time, Types.death, character);
     }

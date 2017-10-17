@@ -1,16 +1,11 @@
 import { BossData } from './gamestate/interfaces';
 import { choiceStats } from '../shared/Status';
+import { CharacterListItem } from '../shared/interfaces/backToFrontMessage';
 
 declare const window: {
     readonly flip: (side: 'front' | 'back') => void,
     // set the game display to bitboss or bitfighter
-    readonly receiveCharList: (charList: {
-        name: string;
-        stats: {
-            [details: string]: number;
-        };
-        imgURL: string;
-    }[]) => void,
+    readonly receiveCharList: (charList: CharacterListItem[]) => void,
     // set the health of botboss mode diplay
     readonly recalcHp: (damageAmount: number, newHp: number, maxHp: number, attacker: string | null) => void,
     // update the bitboss's name and stuff
@@ -19,6 +14,7 @@ declare const window: {
         readonly fanDisplayName: string;
         readonly championTypeName: string;
     }[]) => void,
+    readonly winner: (name: string) => void,
     //readonly bossTextOut: (color: string, text: string) => void,
     readonly bossMessageTooManyChanges: () => void
 };
@@ -28,5 +24,6 @@ export const receiveCharList = window.receiveCharList;
 export const recalcHp = window.recalcHp;
 export const updateBitBoss = window.updateBitBoss;
 export const receiveQueue = window.receiveQueue;
+export const winner = window.winner;
 //export const bossTextOut = window.bossTextOut;
 export const bossMessageTooManyChanges = window.bossMessageTooManyChanges;

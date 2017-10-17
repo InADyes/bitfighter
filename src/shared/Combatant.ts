@@ -91,7 +91,7 @@ export class Combatant {
         this.newEvent(new FightEvents.Damage(attack.time, this.index, attack.damage));
             
         if (this.status.hitPoints <= 0)
-            this.newEvent(new FightEvents.Death(attack.time, this.index));
+            this.newEvent(new FightEvents.Death(attack.time, this.index, -1 * this.status.hitPoints));
     }
     public heal() {
         this.status.checkBuffs(this.time);
