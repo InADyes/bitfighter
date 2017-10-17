@@ -26,25 +26,7 @@ export class BitFighter {
             message: BackToFrontMessage,
             fan?: number
         ) => void,
-        settings: Settings = {
-            delayBetweenFights: 3000,
-            minimumDonation: 200,
-            donationToHPRatio: 1,
-            defaultBossEmoticonURL: '',
-            defaultBossMessage: 'heeeeeyyyyy',
-            defaultChampion: {
-                id: -1,
-                name: 'tim',
-                amount: 1000,
-                profileImageURL: '',
-                bossMessage: 'look at me',
-                bossEmoticonURL: '',
-                bitBossCheerMote: true
-            },
-            characterNames: {},
-            bitFighterEnabled: true,
-            bitBossStartingHealth: 1000
-        },
+        settings: Settings,
         private readonly setSaveJSON: (jsonStr: string) => void,
         private readonly logDonation: (
             gameState: string,
@@ -55,7 +37,9 @@ export class BitFighter {
     ) {
 
         // --- initialize properties
-        this.settings = validateSettings(settings);
+        const ret = validateSettings(settings);
+        this.settings = ret.settings;
+
         this.characterChoiceHandler = new CharacterChoiceHandler(
             status => this.newCombatant(status),
             (characterChoices, id) => this.sendMessageToFront({characterChoices}, id),
@@ -225,7 +209,7 @@ export class BitFighter {
         bossEmoticonURL: string,
         bitBossCheerMote: boolean
     ) {
-        const donation = validateDonation({
+        const result = validateDonation({
             id,
             name,
             amount,
@@ -234,6 +218,9 @@ export class BitFighter {
             bossEmoticonURL,
             bitBossCheerMote
         });
+        if (result.err)
+            return;
+        const donation = result.donation;
 
         const gameState = this.arena.isBusy() ? 'fighting' : 'waiting';
 
