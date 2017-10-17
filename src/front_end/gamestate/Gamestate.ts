@@ -248,7 +248,7 @@ export class GameState {
 			() => {
 				console.log("flip to front");
 				flip('front')
-			}, 4000
+			}, 100
 		);
 	}
 
