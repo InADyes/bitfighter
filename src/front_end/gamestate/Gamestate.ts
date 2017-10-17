@@ -18,7 +18,7 @@ export class GameState {
 	private reel:				Events.Event[];
 	private player1:			Player.Player | null;
 	private player2:			Player.Player | null;
-	private idleId:				number;
+	private idleId:				number | null;
 	private currentBoss:		BossData;
 	private ogTime:				number;
 	private timer:				number;
@@ -60,7 +60,11 @@ export class GameState {
 
 		// if there's a patch in the middle of a reel
 		if (msg.patch && this.reel[0]) {
-			clearTimeout(this.idleId);
+			if (this.idleId) {
+				clearTimeout(this.idleId);
+				this.idleId = null;
+			}
+			this.idleId = null;
 			this.applyPatch(msg.reel, msg.patch);
 		}
 		else {
@@ -71,7 +75,10 @@ export class GameState {
 			if (msg.patch)
 				this.getNextEvent();
 			else {
-				clearTimeout(this.idleId);
+				if (this.idleId){
+					clearTimeout(this.idleId);
+					this.idleId = null;
+				}
 				this.canvas.clear();
 				// init players
 				if (msg.characters[0]) {
