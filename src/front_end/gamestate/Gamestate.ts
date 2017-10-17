@@ -5,13 +5,12 @@ declare let fabric: any;
 import * as Player from './Player';
 import { fireEvent } from './fireEvent';
 import { BossData } from './interfaces';
-import { recalcHp, flip, updateBitBoss} from '../globalDependencies'
+import { recalcHp, flip, updateBitBoss, winner} from '../globalDependencies'
 
 // declare function recalcHp(damageAmount: number, newHp: number, maxHp: number, attacker: string | null): void;
 // declare function flip(side: 'front' | 'back'): void;
 // declare function updateBitBoss(bossData: {boss: BossData, attacker?: BossData}): void;
-declare function winner(name: string): void;
-
+// declare function winner(name: string): void;
 export class GameState {
 	private eventLoopTimeout:	number | null;
 	private lastTime: 			number;
