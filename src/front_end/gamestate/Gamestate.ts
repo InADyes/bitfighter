@@ -174,6 +174,7 @@ export class GameState {
 			if (this.player1) {
 				this.player1.clearBuffs();
 				winner(this.currentBoss.name);
+				console.log(this.currentBoss.name + " wins");
 			}
 			this.player2.clearBuffs();
 			this.player2 = null;
@@ -189,6 +190,7 @@ export class GameState {
 				console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
 				updateBitBoss({boss: this.currentBoss});
 				winner(this.currentBoss.name);
+				console.log(this.currentBoss.name + " wins");
 				this.player2.clearBuffs();
 			}
 			this.newChampion();
