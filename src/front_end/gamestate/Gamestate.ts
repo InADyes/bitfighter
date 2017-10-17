@@ -5,7 +5,7 @@ declare let fabric: any;
 import * as Player from './Player';
 import { fireEvent } from './fireEvent';
 import { BossData } from './interfaces';
-import { recalcHp, flip, updateBitBoss} from '../globalDependencies'
+import { recalcHp, flip, updateBitBoss, winner} from '../globalDependencies'
 
 // declare function recalcHp(damageAmount: number, newHp: number, maxHp: number, attacker: string | null): void;
 // declare function flip(side: 'front' | 'back'): void;
