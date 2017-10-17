@@ -24,6 +24,5 @@ export const receiveCharList = window.receiveCharList;
 export const recalcHp = window.recalcHp;
 export const updateBitBoss = window.updateBitBoss;
 export const receiveQueue = window.receiveQueue;
-export const winner = window.winner;
-//export const bossTextOut = window.bossTextOut;
+//export const winner = window.winner;
 export const bossMessageTooManyChanges = window.bossMessageTooManyChanges;

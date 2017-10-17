@@ -180,8 +180,8 @@ export class GameState {
 			this.player2.dies(null);
 			if (this.player1) {
 				this.player1.clearBuffs();
-				winner(this.currentBoss.name);
-				console.log(this.currentBoss.name + " wins");
+				//winner(this.currentBoss.name);
+				//console.log(this.currentBoss.name + " wins");
 			}
 			this.player2.clearBuffs();
 			this.player2 = null;
@@ -196,8 +196,8 @@ export class GameState {
 				this.currentBoss = this.player2.getBitBossInfo();
 				console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
 				updateBitBoss({boss: this.currentBoss});
-				winner(this.currentBoss.name);
-				console.log(this.currentBoss.name + " wins");
+				//winner(this.currentBoss.name);
+				//console.log(this.currentBoss.name + " wins");
 				this.player2.clearBuffs();
 			}
 			this.newChampion();
@@ -294,7 +294,7 @@ export class GameState {
 			fontWeight: 'bold',
 			fill: 'black',
 			left: 10 * this.scale,
-			top: 9 * this.scale,
+			top: 10 * this.scale,
 			originX: 'left'
 		})
 		this.canvas.add(this.countBot);
