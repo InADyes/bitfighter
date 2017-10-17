@@ -248,16 +248,15 @@
     display: flex;
     width: 70%;
     height: 35%;
-    border: 2px solid black;
+    border: 5px ridge black;
     font-family: Impact, 'Arial Narrow Bold', sans-serif;
     font-size: 7vw;
     align-items: center;
-    background-color: #8D0000;
+    /*background-color: #8D0000;*/
     animation-name: timerFlash;
     animation-duration: 1s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-out;
-
   }
 
   .challenger {
@@ -274,11 +273,17 @@
   }
 
   @-webkit-keyframes timerFlash {
-    0% {
+    /*0% {
       background-color: #FF9191;
     }
     100% {
       background-color: #8D0000;
+    }*/
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
     }
   }
 

@@ -21,6 +21,7 @@ export class BitFighter {
     private readonly artURLs = artURLsNoShim.map(url => this.settings.assetsShim + url);
     private readonly iconURLs = buffURLsNoShim.map(url => this.settings.assetsShim + url);
     private readonly atkURLs = atkURLsNoShim.map(url => this.settings.assetsShim + url);
+    private resizeTimeout: number | null = null;
     private readonly queue = new Queue(
         <HTMLDivElement>document.getElementById('bitfighter'),
         //(time) => this.game.startTimer(time)
@@ -87,9 +88,16 @@ export class BitFighter {
         this.settings = settings;
         this.updateScale();
     }
+    
     private updateScale() {
-        const scale = this.wrapperDiv.offsetWidth / 500;
-        this.wrapperDiv.style.fontSize = 12 * scale + 'px';
-        this.game.setNewScale(scale);
+        if (this.resizeTimeout) {
+            clearTimeout(this.resizeTimeout);
+            this.resizeTimeout = null;
+        }
+        this.resizeTimeout = window.setTimeout(() => {
+            this.resizeTimeout = null;
+            const scale = this.wrapperDiv.offsetWidth / 500;
+            this.game.setNewScale(scale);
+        }, 100)
     }
 }

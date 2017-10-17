@@ -34,9 +34,9 @@ export class Queue {
         challenger.innerText = "NEW CHALLENGER";
         timer.innerText = time.toString();
         this.bitfighterDiv.appendChild(timerDiv);
-
         window.setTimeout(() => this.updateTimer(timerDiv, timer, time - 1), 1000);
     }
+
     private updateTimer(timerDiv: HTMLDivElement, timer: HTMLSpanElement, time: number) {
         if (time < 1){
             this.bitfighterDiv.removeChild(timerDiv);
