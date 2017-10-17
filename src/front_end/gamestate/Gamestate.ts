@@ -5,12 +5,12 @@ declare let fabric: any;
 import * as Player from './Player';
 import { fireEvent } from './fireEvent';
 import { BossData } from './interfaces';
-import { recalcHp, flip, updateBitBoss, winner} from '../globalDependencies'
+import { recalcHp, flip, updateBitBoss/*, winner*/} from '../globalDependencies'
 
 // declare function recalcHp(damageAmount: number, newHp: number, maxHp: number, attacker: string | null): void;
 // declare function flip(side: 'front' | 'back'): void;
 // declare function updateBitBoss(bossData: {boss: BossData, attacker?: BossData}): void;
-
+declare function winner(name: string): void;
 export class GameState {
 	private eventLoopTimeout:	number | null;
 	private lastTime: 			number;
@@ -18,7 +18,7 @@ export class GameState {
 	private reel:				Events.Event[];
 	private player1:			Player.Player | null;
 	private player2:			Player.Player | null;
-	private idleId:				number;
+	private idleId:				number | null;
 	private currentBoss:		BossData;
 	private ogTime:				number;
 	private timer:				number;
@@ -62,7 +62,11 @@ export class GameState {
 
 		// if there's a patch in the middle of a reel
 		if (msg.patch && this.reel[0]) {
-			clearTimeout(this.idleId);
+			if (this.idleId) {
+				clearTimeout(this.idleId);
+				this.idleId = null;
+			}
+			this.idleId = null;
 			this.applyPatch(msg.reel, msg.patch);
 		}
 		else {
@@ -73,7 +77,10 @@ export class GameState {
 			if (msg.patch)
 				this.getNextEvent();
 			else {
-				clearTimeout(this.idleId);
+				if (this.idleId){
+					clearTimeout(this.idleId);
+					this.idleId = null;
+				}
 				this.canvas.clear();
 				// init players
 				if (msg.characters[0]) {
@@ -183,6 +190,7 @@ export class GameState {
 			if (this.player1) {
 				this.player1.clearBuffs();
 				winner(this.currentBoss.name);
+				console.log(this.currentBoss.name + " wins");
 			}
 			this.player2.clearBuffs();
 			this.player2 = null;
@@ -198,6 +206,7 @@ export class GameState {
 				console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
 				updateBitBoss({boss: this.currentBoss});
 				winner(this.currentBoss.name);
+				console.log(this.currentBoss.name + " wins");
 				this.player2.clearBuffs();
 			}
 			this.newChampion();
@@ -293,7 +302,7 @@ export class GameState {
 			fontWeight: 'bold',
 			fill: 'black',
 			left: 10 * this.scale,
-			top: 9 * this.scale,
+			top: 10 * this.scale,
 			originX: 'left'
 		})
 		this.canvas.add(this.countBot);

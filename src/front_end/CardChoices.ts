@@ -129,7 +129,6 @@ export function buildCard(character: CharacterCard, artURLs: string[]) {
         let x = `
         <tr>
           <td>${statDispName}</td>
-          <td>${ character.stats[key] }</td>
           <td>
             <div class="csc_bar">
               <div class="csc_inner_bar" style="width:${ character.stats[key] }0%"></div>

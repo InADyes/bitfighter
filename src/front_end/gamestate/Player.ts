@@ -113,6 +113,7 @@ export class Player {
             fontSize: this.fontSize * this.scale,
             fontFamily: this.font,
             strokeWidth: this.strokeWidth * this.scale,
+            top: this.hpTextTop * this.scale,
             fill: 'white',
             fontWeight: 'bold',
             stroke: 'white',
@@ -122,11 +123,11 @@ export class Player {
             fontSize: this.fontSize * this.scale,
             fontFamily: this.font,
             fill: 'black',
-            top: 1,
+            top: (this.hpTextTop + 1) * this.scale,
             originX: 'center',
         }); 
         this.healthtext = new fabric.Group([healthTextBot,healthTextTop],{
-            top: this.hpTextTop * this.scale,
+            left: !this.onRight ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
             originX: 'center',
         });
         if (this.align === "left")
@@ -176,7 +177,7 @@ export class Player {
             height: this.height * this.scale,
             strokeWidth: this.strokeWidth * this.scale,
             stroke: 'white',
-            top: this.artTop * this.scale + 1,
+            top: (this.artTop + 1) * this.scale,
         });
         this.canvas.add(this.whiteBar);
         this.canvas.add(this.redBar);
@@ -217,7 +218,7 @@ export class Player {
         this.displaynametop = this.getFabricName();
         this.displaynametop.set({
             fill: 'black',
-            top: this.nameHeight * this.scale + 1,
+            top: (this.nameHeight + 1) * this.scale,
         })
         this.canvas.add(this.displayname);
         this.canvas.add(this.displaynametop);
@@ -227,6 +228,7 @@ export class Player {
             fontSize: this.fontSize * this.scale,
             fontFamily: this.font,
             fontWeight: 'bold',
+            left: !this.onRight ? this.center  - this.trueWidth - this.hpAdjust : this.center + this.trueWidth + this.hpAdjust,
             originX: 'center'
         });
         if (this.align === "left")
@@ -242,6 +244,7 @@ export class Player {
         let txtBot = new fabric.Text(`${ txtObj.str }`, {
             fontSize: this.fontSize * this.scale,
             strokeWidth: this.strokeWidth *this.scale,
+            top: this.textTop * this.scale,
             fontFamily: this.font,
             fontWeight: 'bold',
             stroke: 'white',
@@ -253,11 +256,11 @@ export class Player {
             fontFamily: this.font,
             fontWeight: 'bold',
             fill: txtObj.color,
-            top: 1,
+            top: (this.textTop + 1) * this.scale,
             originX: 'center'
         });
         let textgroup = new fabric.Group([txtBot,txtTop],{
-            top: this.textTop * this.scale,
+            left: !this.onRight ? this.center - this.artAdjust - this.trueWidth / 2 : this.center + this.artAdjust + this.trueWidth / 2,
             originX: 'center'
         });
         if (this.align === "left")

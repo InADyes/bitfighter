@@ -125,7 +125,7 @@ export const buffs: Buff[] = [
     {
         duration: 6000,
         art: 6,
-        name: 'Blassing',
+        name: 'Blessing',
         url: "images/icons/buffs/curse.png",
         regeneration: 400,
         armor: 2,
