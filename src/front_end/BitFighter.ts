@@ -93,7 +93,6 @@ export class BitFighter {
         this.resizeTimeout = window.setTimeout(() => {
             this.resizeTimeout = null;
             const scale = this.wrapperDiv.offsetWidth / 500;
-            console.log("width:", this.wrapperDiv.offsetWidth);
             //this.wrapperDiv.style.fontSize = 12 * scale + 'px';
             this.game.setNewScale(scale);
         }, 100)
