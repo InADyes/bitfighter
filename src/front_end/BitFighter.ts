@@ -85,7 +85,7 @@ export class BitFighter {
         this.updateScale();
     }
     private updateScale() {
-        const scale = this.wrapperDiv.offsetHeight / 400;
+        const scale = this.wrapperDiv.offsetWidth / 500;
         this.wrapperDiv.style.fontSize = 12 * scale + 'px';
         this.game.setNewScale(scale);
     }
