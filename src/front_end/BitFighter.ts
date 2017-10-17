@@ -65,7 +65,9 @@ export class BitFighter {
         if (data.characterChoices)
             this.cardChoices.displayCards(data.characterChoices.map(c => buildCard(c, this.artURLs)));
         if (data.queue)
-            this.queue.handleNewQueue({queue: data.queue, timer: data.timer});
+            this.queue.handleNewQueue(data.queue);
+        if (data.timer)
+            this.queue.handleNewTimer(data.timer);
         if (data.updateBossMessage)
             this.game.updateBossMessage(data.updateBossMessage.championIndex, data.updateBossMessage.bossMessage);
         if (data.updateBossEmoticonURL)
@@ -80,13 +82,13 @@ export class BitFighter {
         if (data.bossMessageChangeFailed)
             bossMessageTooManyChanges();
     }
-   
+
     public updateSettings(settings: Settings) {
         this.settings = settings;
         this.updateScale();
     }
     private updateScale() {
-        const scale = this.wrapperDiv.offsetHeight / 400;
+        const scale = this.wrapperDiv.offsetWidth / 500;
         this.wrapperDiv.style.fontSize = 12 * scale + 'px';
         this.game.setNewScale(scale);
     }

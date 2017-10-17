@@ -10,20 +10,18 @@ export class Queue {
         //private readonly startTimer: (time: number) => void
     ){}
 
-    handleNewQueue (queue: {
-        readonly queue: {
-            readonly fanDisplayName: string;
-            readonly championTypeName: string;
-        }[];
-        readonly timer?: number;
-    }) {
-    
-        receiveQueue(queue.queue);
-        if (queue.timer) {
-            this.startTimer(queue.timer / 1000);
-        }
+    public handleNewQueue (queue: {
+        readonly fanDisplayName: string;
+        readonly championTypeName: string;
+    }[]) {
+        receiveQueue(queue);
     }
     
+    public handleNewTimer(timer: number){
+        if (timer > 0)
+            this.startTimer(timer / 1000);
+    }
+
     private startTimer(time: number) {
         let timerDiv = document.createElement('div');
         timerDiv.className = 'timerDiv';
