@@ -13,6 +13,6 @@ window.receiveCharList = function (data) {
 window.bossMessageTooManyChanges = function () {
     console.log('boss message changed too many times');
 };
-// window.winner = function (name) {
-//     console.log('new winner: ', name);
-// };
+window.winner = function (name) {
+    console.log('new winner: ', name);
+};

@@ -62,14 +62,21 @@
     overflow: hidden;
     transition: 0.3s all;
     pointer-events: none;
-    & .card {
-      display: inline-block;
-      min-height: 30px;
-      height: 100%;
-      flex-basis: 30%;
-      border: 1px solid #000;
-      animation-delay: 0s;
-      margin: 0;
+    // & .card {
+    //   display: inline-block;
+    //   min-height: 30px;
+    //   height: 100%;
+    //   flex-basis: 30%;
+    //   border: 1px solid #000;
+    //   animation-delay: 0s;
+    //   margin: 0;
+    // }
+
+    .character_select_card {
+      height: 23vh;
+      .csc_image {
+        display: none;
+      }
     }
   }
   #card1{
@@ -89,158 +96,158 @@
   .empty-card {
     display: none;
   }
-  .character-card {
-    animation: .5s dropInFade both;
-    background-color: transparent;
-    background-color: #fff;
-    background-size: cover;
-    box-shadow: 0.05vw 0.05vw 0.7vw rgba(1, 1, 1, 0.5);
-    border-radius: 2%;
-    // filter: blur(1.5px) drop-shadow(0.15vw 0.15vw 0.05vw rgba(1, 1, 1, 0.5));
-    flex-basis: auto;
-    margin: 0.7vw;
-    opacity: 0;
-    padding: 0.8vw;
-    position: relative;
-    // width: 23%;
-    transition: 0.1s all;
-    transform: translateY(-200px) rotate(-10deg);
-    z-index: 1;
-    pointer-events: auto;
+  // .character-card {
+  //   animation: .5s dropInFade both;
+  //   background-color: transparent;
+  //   background-color: #fff;
+  //   background-size: cover;
+  //   box-shadow: 0.05vw 0.05vw 0.7vw rgba(1, 1, 1, 0.5);
+  //   border-radius: 2%;
+  //   // filter: blur(1.5px) drop-shadow(0.15vw 0.15vw 0.05vw rgba(1, 1, 1, 0.5));
+  //   flex-basis: auto;
+  //   margin: 0.7vw;
+  //   opacity: 0;
+  //   padding: 0.8vw;
+  //   position: relative;
+  //   // width: 23%;
+  //   transition: 0.1s all;
+  //   transform: translateY(-200px) rotate(-10deg);
+  //   z-index: 1;
+  //   pointer-events: auto;
     
-    &:hover {
-      box-shadow: 0.15vw 0.15vw 1.5vw rgba(1, 1, 1, 0.4);    
-      // filter: blur(0px) drop-shadow(0.25vw 0.25vw 0.15vw rgba(1, 1, 1, 0.3));
-    }
-    &:nth-of-type(2) {
+  //   &:hover {
+  //     box-shadow: 0.15vw 0.15vw 1.5vw rgba(1, 1, 1, 0.4);    
+  //     // filter: blur(0px) drop-shadow(0.25vw 0.25vw 0.15vw rgba(1, 1, 1, 0.3));
+  //   }
+  //   &:nth-of-type(2) {
 
-      animation-delay: 0.25s;
-    }
-    &:nth-of-type(3) {
-      animation-delay: 0.5s;
-    }
-    &:nth-of-type(4) {
-      animation-delay: 1s;
-    }
-    &:nth-of-type(5) {
-      animation-delay: 1.25s;
-    }
-    &:nth-of-type(6) {
-      animation-delay: 1.50s;
-    }
-    &:nth-of-type(7) {
-      animation-delay: 1.75s;
-    }
-    .character-card-stats {
-      align-items: center;
-      display: flex;
-      font-family: 'Reenie Beanie', 'Comic Sans MS', cursive;
-      flex-direction: column;
-      justify-content: space-evenly;
-      position: relative;
-      .header-item {
-        flex: 1 0 50%;
-      }
-      .header-wrap {
-        flex: 1 0 50%;
-        align-items: center;
-        display: flex;
-        justify-content: center;
-        .header {
-          align-items: center;
-          color: red;
-          display: flex;
-          font-size: 1.2em;
-          font-weight: bolder;
-          justify-content: flex-end;
-          line-height: 0.6em;
-          opacity: 0.8;
-          right: 0;
-          text-align: right;
-          text-shadow: 0.1vw 0.1vw 0.2vw #000;
-          top: 1%;
-          z-index: 100;
-        }
-      }
-      .avatar {
-        display: flex;
-        left: 0;
-        justify-items: center;
-        top: 0;
-        width: 100%;
-        padding-bottom: 10px;
-        & img {
-          box-sizing: border-box;
-          display: block;
-          height: auto;
-          margin: auto;
-          max-height: 100%;
-          max-width: 100%;
-          padding: 0;
-          position: relative;
-        }
-      }
+  //     animation-delay: 0.25s;
+  //   }
+  //   &:nth-of-type(3) {
+  //     animation-delay: 0.5s;
+  //   }
+  //   &:nth-of-type(4) {
+  //     animation-delay: 1s;
+  //   }
+  //   &:nth-of-type(5) {
+  //     animation-delay: 1.25s;
+  //   }
+  //   &:nth-of-type(6) {
+  //     animation-delay: 1.50s;
+  //   }
+  //   &:nth-of-type(7) {
+  //     animation-delay: 1.75s;
+  //   }
+  //   .character-card-stats {
+  //     align-items: center;
+  //     display: flex;
+  //     font-family: 'Reenie Beanie', 'Comic Sans MS', cursive;
+  //     flex-direction: column;
+  //     justify-content: space-evenly;
+  //     position: relative;
+  //     .header-item {
+  //       flex: 1 0 50%;
+  //     }
+  //     .header-wrap {
+  //       flex: 1 0 50%;
+  //       align-items: center;
+  //       display: flex;
+  //       justify-content: center;
+  //       .header {
+  //         align-items: center;
+  //         color: red;
+  //         display: flex;
+  //         font-size: 1.2em;
+  //         font-weight: bolder;
+  //         justify-content: flex-end;
+  //         line-height: 0.6em;
+  //         opacity: 0.8;
+  //         right: 0;
+  //         text-align: right;
+  //         text-shadow: 0.1vw 0.1vw 0.2vw #000;
+  //         top: 1%;
+  //         z-index: 100;
+  //       }
+  //     }
+  //     .avatar {
+  //       display: flex;
+  //       left: 0;
+  //       justify-items: center;
+  //       top: 0;
+  //       width: 100%;
+  //       padding-bottom: 10px;
+  //       & img {
+  //         box-sizing: border-box;
+  //         display: block;
+  //         height: auto;
+  //         margin: auto;
+  //         max-height: 100%;
+  //         max-width: 100%;
+  //         padding: 0;
+  //         position: relative;
+  //       }
+  //     }
     
-      .stats-container {
-        display: flex;
-        flex-direction: column;
-      }
-      .stat {
-        align-items: center;
-        box-sizing: border-box;
-        border-bottom: 1px solid rgba(0, 255, 255, 0.68) ;
-        display: flex;
-        font-size: 1.3em;
-        line-height: 1em;
-        justify-content: space-between;
-        width: 100%;
-        &:nth-of-type(1) {
-          border-bottom: none;
-        }
-        &:nth-of-type(2) {
-          border-top: @redBorder;
-        }
-        & .title {
-          border-right: @redBorder;
-          font-size: 0.8em;
-          overflow: hidden;
-          padding-right: 0.3em;
-          text-align: right;
-          text-overflow: ellipsis;
-          text-transform: capitalize;
-          width: 35%;
-        }
-        & .amount {
-          align-items: center;
-          display: flex;
-          padding-left: 0.3em;
-          width: 65%;
-          & .amount-int {
-            height: 100%;
-            line-height: 0.8;
-            overflow: hidden;
-            text-align: center;
-            text-overflow: ellipsis;
-            width: 25%;
-          }
-        }
+  //     .stats-container {
+  //       display: flex;
+  //       flex-direction: column;
+  //     }
+  //     .stat {
+  //       align-items: center;
+  //       box-sizing: border-box;
+  //       border-bottom: 1px solid rgba(0, 255, 255, 0.68) ;
+  //       display: flex;
+  //       font-size: 1.3em;
+  //       line-height: 1em;
+  //       justify-content: space-between;
+  //       width: 100%;
+  //       &:nth-of-type(1) {
+  //         border-bottom: none;
+  //       }
+  //       &:nth-of-type(2) {
+  //         border-top: @redBorder;
+  //       }
+  //       & .title {
+  //         border-right: @redBorder;
+  //         font-size: 0.8em;
+  //         overflow: hidden;
+  //         padding-right: 0.3em;
+  //         text-align: right;
+  //         text-overflow: ellipsis;
+  //         text-transform: capitalize;
+  //         width: 35%;
+  //       }
+  //       & .amount {
+  //         align-items: center;
+  //         display: flex;
+  //         padding-left: 0.3em;
+  //         width: 65%;
+  //         & .amount-int {
+  //           height: 100%;
+  //           line-height: 0.8;
+  //           overflow: hidden;
+  //           text-align: center;
+  //           text-overflow: ellipsis;
+  //           width: 25%;
+  //         }
+  //       }
         
-        & .stat-svg {
-          height: 0.8em;
-          width: 75%;
-          & rect {
-            fill: red;
-            transition: 0.3s all;
-          }
-          & .main {
-            fill: transparent;
-            fill: red;
-            transition: 0.3s all;
-          }
-        }
-      }
-    }
-  }
+  //       & .stat-svg {
+  //         height: 0.8em;
+  //         width: 75%;
+  //         & rect {
+  //           fill: red;
+  //           transition: 0.3s all;
+  //         }
+  //         & .main {
+  //           fill: transparent;
+  //           fill: red;
+  //           transition: 0.3s all;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   @-webkit-keyframes dropInFade {
     from {
