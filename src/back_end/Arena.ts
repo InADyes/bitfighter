@@ -221,9 +221,11 @@ export class Arena {
             this.lastDamageDonation = (<FightEvents.DamageDonation>event.fight).donation;
 
         // if the boss was killed by a damage donation they become the bitBoss
-        if (event.fight.type === FightEvents.Types.death
+        if (
+            event.fight.type === FightEvents.Types.death
             && this.combatants.length === 0
-            && this.lastDamageDonation) {
+            && this.lastDamageDonation
+        ) {
             this.combatants.push(generateBitBoss(
                 this.lastDamageDonation,
                 this.settings.bitBossStartingHealth + (<FightEvents.Death>event.fight).overkill
