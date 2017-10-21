@@ -99,7 +99,7 @@ export class CharacterChoiceHandler {
 
     public clearTimeouts() {
         for (let choice of this.pendingCharacterChoices) {
-            clearTimeout(choice.timeout);
+            global.clearTimeout(choice.timeout);
         }
     }
 
@@ -180,7 +180,7 @@ export class CharacterChoiceHandler {
         this.pendingCharacterChoices.push({
             id: donation.id,
             characters: statusChoices,
-            timeout: setTimeout(
+            timeout: global.setTimeout(
                 // clear timeout somehow
                 () => this.completeChoice(donation.id, Math.floor(choices.length * Math.random())),
                 // one minute
@@ -211,7 +211,7 @@ export class CharacterChoiceHandler {
         const pendingChoice = this.pendingCharacterChoices.splice(index, 1)[0];
         
         if (clear && clear === true)
-            clearTimeout(pendingChoice.timeout);
+            global.clearTimeout(pendingChoice.timeout);
 
         this.newCombatant(pendingChoice.characters[pick % pendingChoice.characters.length]);
     }

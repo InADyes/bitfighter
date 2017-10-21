@@ -37,7 +37,7 @@ export class Arena {
 
     public clearTimeouts() {
         if (this.timeout) {
-            clearTimeout(this.timeout);
+            global.clearTimeout(this.timeout);
             this.timeout = null;
         }
     }
@@ -189,7 +189,7 @@ export class Arena {
         if (this.events.length > 0) { 
             const timeout = this.events[0].fight.time - (nodePerformanceNow() - this.fightStartTime);
 
-            this.timeout = setTimeout(
+            this.timeout = global.setTimeout(
                 () => {
                     this.timeout = null;
                     this.nextEvent();
@@ -197,7 +197,7 @@ export class Arena {
                 timeout > 0 ? timeout : 0
             );
         } else {
-            this.timeout = setTimeout(
+            this.timeout = global.setTimeout(
                 () => {
                     this.timeout = null;
                     this.fightOver();
