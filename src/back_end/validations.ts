@@ -1,6 +1,5 @@
 import { Donation } from '../shared/interfaces/donation';
 import { BackendSettings } from './interfaces';
-import { Readonly } from '../shared/interfaces/utility';
 
 export function validateDonation(donation: Donation): {donation: Readonly<Donation>, err: boolean} {
     const err = false === isValid(donation, {

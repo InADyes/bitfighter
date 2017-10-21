@@ -3,7 +3,12 @@ import * as Buff from './interfaces/buff';
 import { Status, Stats } from '../shared/Status';
 import { Donation } from './interfaces/donation';
 
-export const rarities: {[details: number]: {name: string; color: string;}} = {
+export const rarities: {
+    readonly [details: number]: {
+        readonly name: string;
+        readonly color: string;
+    }
+} = {
     0: {
         name: 'Common',
         color: 'white'
