@@ -256,11 +256,12 @@
   .timerDiv {
     position: absolute;
     display: flex;
-    width: 37%;
+    width: 27%;
     height: 15%;
     //border: 4px ridge black;
-    font-family: Impact, 'Arial Narrow Bold', sans-serif;
-    font-size: 4vw;
+    //font-family: Impact, 'Arial Narrow Bold', sans-serif;
+    font-family: 'Concert One';
+    font-size: 3vw;
     align-items: center;
     //background-color: #8D0000;
     animation-name: timerFlash;
@@ -272,15 +273,23 @@
 
   .challenger {
     position: relative;
+    display: inline-block;
     left: 3%;
     -webkit-transform: scale(1, 1.75);
   }
 
+  .timer span {
+    width: 5%;
+  }
+  
   .timer {
+    display: inline-block;
     position: relative;
-    left: 1%;
-    font-size: 7vw;
+    left: 3%;
+    color: red;
+    font-size: 5vw;
     margin: auto;
+    //-webkit-transform: scale(1, 1.1);
   }
 
   @-webkit-keyframes timerFlash {

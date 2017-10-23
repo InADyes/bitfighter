@@ -22,6 +22,17 @@ window.addEventListener('load', function(){
     const bossKillButton = <HTMLButtonElement>document.getElementById('bossKill');
     bossKillButton.addEventListener('click', () => backend.bossKill() );
     
+    // Change Alignment - TIM //
+    // const changeAlignment = <HTMLButtonElement>document.getElementById('redraw');
+    // changeAlignment.addEventListener('click', () => {
+    //     const left = <HTMLInputElement>document.getElementById('alignLeft');
+    //     const center = <HTMLInputElement>document.getElementById('alignCenter');
+    //     const right = <HTMLInputElement>document.getElementById('alignRight');
+    //     if (left.checked)
+
+    // })
+    ////////////////////////////
+
     function newGame(savedGame?: string) {
         return new BitFighterBack(
             (message, id) => {
