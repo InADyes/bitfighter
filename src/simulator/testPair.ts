@@ -1,5 +1,5 @@
 import { buildEvents } from '../shared/buildEvents';
-import * as FightEvents from '../shared/fightEvents';
+import { FightEvent } from '../shared/fightEvents';
 import { otherCharacter as other } from '../shared/utility';
 import { Status } from '../shared/Status';
 
@@ -45,26 +45,26 @@ export function testPair(
 
 export function reelToResults(
     results: Results[],
-    reel: FightEvents.Event[]
+    reel: FightEvent[]
 ) {
     results[0].totalTime += reel[reel.length - 1].time - reel[0].time;
 
     for (const event of reel) {
         switch (event.type) {
-            case FightEvents.Types.damage:
-                results[other(event.character)].total_damage += (<FightEvents.Damage>event).amount;
+            case 'damage':
+                results[other(event.character)].total_damage += event.amount;
                 results[other(event.character)].hits++;
                 break;
-            case FightEvents.Types.dodge:
+            case 'dodge':
                 results[other(event.character)].miss++;
                 break;
-            case FightEvents.Types.healing:
+            case 'heal':
                 break;
-            case FightEvents.Types.death:
+            case 'death':
                 results[event.character].losses++;
                 results[other(event.character)].wins++;
                 break;
-            case FightEvents.Types.crit:
+            case 'crit':
                 results[other(event.character)].crits++;
                 break;
             default:

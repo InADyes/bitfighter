@@ -1,4 +1,4 @@
-import { Donation } from '../shared/interfaces/donation';
+import { Donation } from '../shared/interfaces/interfaces';
 import { BackendSettings } from './interfaces';
 
 export function validateDonation(donation: Donation): {donation: Readonly<Donation>, err: boolean} {

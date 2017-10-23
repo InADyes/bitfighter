@@ -1,103 +1,65 @@
+import { Combatant } from './Combatant';
 import { Buff } from './interfaces/buff';
-import { Donation } from './interfaces/donation';
+import { Donation, Source } from './interfaces/interfaces';
 
-export const enum Types {
-    damage,
-    dodge,
-    death,
-    healing,
-    crit,
-    damageDonation,
-    levelUp,
-    attack,
-    healingDonation
-}
-
-export interface Event {
+interface abstract_Event {
     time: number;
-    type: Types;
+    type: string;
     character: number;
 }
 
-export class Damage implements Event {
-    public type = Types.damage;
-    constructor (
-        public time: number,
-        public character: number,
-        public amount: number
-    ) {}
+export interface Damage extends abstract_Event {
+    type: 'damage';
+    time: number;
+    character: number;
+    amount: number;
+    source: Source;
 }
 
-export class Dodge implements Event {
-    public type = Types.dodge;
-    constructor (
-        public time: number,
-        public character: number
-    ) {}
+export interface Dodge extends abstract_Event {
+    type: 'dodge';
+    time: number;
+    character: number;
+    source: Source;
 }
 
-export class Death implements Event {
-    public type = Types.death;
-    constructor (
-        public time: number,
-        public character: number,
-        public overkill: number
-    ) {}
+export interface Death extends abstract_Event {
+    type: 'death';
+    time: number;
+    character: number;
+    overkill: number;
+    source: Source;
 }
 
-export class Healing implements Event {
-    public type = Types.healing;
-    constructor (
-        public time: number,
-        public character: number,
-        public amount: number
-    ) {}
+export interface Heal extends abstract_Event {
+    type: 'heal';
+    time: number;
+    character: number;
+    amount: number;
+    source: Source;
 }
 
-export class Crit implements Event {
-    public type = Types.crit;
-    constructor (
-        public time: number,
-        public character: number,
-        public damage: boolean,
-        public debuff?: Buff,
-        public buff?: Buff
-    ) {}
+export interface Crit extends abstract_Event {
+    type: 'crit';
+    time: number;
+    character: number;
+    damage: boolean;
+    source: Source;
+    debuff?: Buff;
+    buff?: Buff
 }
 
-export class DamageDonation implements Event {
-    public type = Types.damageDonation;
-    constructor (
-        public time: number,
-        public character: number,
-        public donation: Donation,
-        public amount: number
-    ) {}
+export interface LevelUp extends abstract_Event {
+    type: 'levelUp';
+    time: number;
+    character: number
 }
 
-export class HealingDonation implements Event {
-    public type = Types.healingDonation;
-    constructor (
-        public time: number,
-        public character: number,
-        public donation: Donation,
-        public amount: number
-    ) {}
+// todo: can now be infered because of sources, remove
+export interface Attack extends abstract_Event {
+    type: 'attack';
+    time: number;
+    character: number
 }
 
-
-export class LevelUp implements Event {
-    public type = Types.levelUp;
-    constructor (
-        public time: number,
-        public character: number
-    ) {}
-}
-
-export class Attack implements Event {
-    public type = Types.attack;
-    constructor (
-        public time: number,
-        public character: number
-    ) {}
-}
+export type FightEvent = Damage | Dodge | Death | Heal | Crit | LevelUp | Attack;

@@ -5,7 +5,7 @@ import { BackToFrontMessage, CharacterListItem, QueueItem } from '../shared/inte
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 import { BackendSettings as Settings, GameSave } from './interfaces';
 import { CharacterChoiceHandler } from './CharacterChoiceHandler';
-import { Donation } from '../shared/interfaces/donation';
+import { Donation } from '../shared/interfaces/interfaces';
 import { Arena } from './Arena';
 import { validateDonation, validateSettings } from './validations';
 
