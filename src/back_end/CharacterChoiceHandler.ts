@@ -99,7 +99,7 @@ export class CharacterChoiceHandler {
 
     public clearTimeouts() {
         for (let choice of this.pendingCharacterChoices) {
-            clearTimeout(choice.timeout);
+            global.clearTimeout(choice.timeout);
         }
     }
 
@@ -167,12 +167,6 @@ export class CharacterChoiceHandler {
             donation.id
         );
 
-        // send choices to ravi
-        this.requestPick(
-            choiceCards,
-            123544090
-        );
-
         // if they didn't use the bitboss chearmote remove the last choice
         if (donation.bitBossCheerMote === false)
             statusChoices.pop();
@@ -180,11 +174,11 @@ export class CharacterChoiceHandler {
         this.pendingCharacterChoices.push({
             id: donation.id,
             characters: statusChoices,
-            timeout: setTimeout(
+            timeout: global.setTimeout(
                 // clear timeout somehow
                 () => this.completeChoice(donation.id, Math.floor(choices.length * Math.random())),
-                // one minute
-                60000
+                // one minute with some buffer
+                61000
             )
         });
     }
@@ -196,22 +190,14 @@ export class CharacterChoiceHandler {
         let index = this.pendingCharacterChoices.findIndex(c => c.id === id);
 
         if (index === -1) {
-            // if the pick was made by ravi let him pick
-            if (id === 123544090) {
-                if (this.pendingCharacterChoices.length > 0)
-                    index = 0;
-                else
-                    console.log('no choices pending ravi');
-            } else {
-                console.error('no pending choice for this pick');
-                return;
-            }
+            console.error('no pending choice for this pick');
+            return;
         }
 
         const pendingChoice = this.pendingCharacterChoices.splice(index, 1)[0];
         
         if (clear && clear === true)
-            clearTimeout(pendingChoice.timeout);
+            global.clearTimeout(pendingChoice.timeout);
 
         this.newCombatant(pendingChoice.characters[pick % pendingChoice.characters.length]);
     }

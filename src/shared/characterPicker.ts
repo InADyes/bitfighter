@@ -3,7 +3,12 @@ import * as Buff from './interfaces/buff';
 import { Status, Stats } from '../shared/Status';
 import { Donation } from './interfaces/donation';
 
-export const rarities: {[details: number]: {name: string; color: string;}} = {
+export const rarities: {
+    readonly [details: number]: {
+        readonly name: string;
+        readonly color: string;
+    }
+} = {
     0: {
         name: 'Common',
         color: 'white'
@@ -66,17 +71,17 @@ export const atkURLs = [
 ];
 
 export interface Character {
-    readonly stats: Stats,
-    readonly rarity: number,
-    readonly crits: {
-        readonly odds: number,
-        readonly debuff?: Buff.Buff,
-        readonly buff?: Buff.Buff,
-        readonly damageMultiplier?: number
+    stats: Stats,
+    rarity: number,
+    crits: {
+        odds: number,
+        debuff?: Buff.Buff,
+        buff?: Buff.Buff,
+        damageMultiplier?: number
     }[],
-    readonly name: string,
-    readonly flavorText: string,
-    readonly skillText: string
+    name: string,
+    flavorText: string,
+    skillText: string
 }
 
 export const enum characterTypes {
@@ -94,7 +99,7 @@ export const enum characterTypes {
     bitBoss         = 11
 };
 
-export const characters: Character[] = [
+export const characters: Readonly<Character>[] = [
     {
         stats: { 
             maxHitPoints: 1000,
@@ -114,15 +119,16 @@ export const characters: Character[] = [
             critDamageModifier: 1
         }, 
         rarity: 0,
-        crits: [{
-            damageMultiplier: 4,
-            odds: 6
-        },
-        {
-            odds: 15,
-            debuff: Buff.buffs[Buff.types.sculleryMaid]
-        },
-    ],
+        crits: [
+            {
+                damageMultiplier: 4,
+                odds: 6
+            },
+            {
+                odds: 15,
+                debuff: Buff.buffs[Buff.types.sculleryMaid]
+            },
+        ],
         name: 'Scullery Maid',
         flavorText: 'You think fighting dragons is hard, try scrubbing castle floors!',
         skillText: 'DEBUFF Lowers Accuracy and Dodge'
@@ -146,14 +152,16 @@ export const characters: Character[] = [
             critDamageModifier: 1
         }, 
         rarity: 0,
-        crits: [{
-            damageMultiplier: 4,
-            odds: 8
-        },
-        {
-            odds: 8,
-            debuff: Buff.buffs[Buff.types.barkeep]
-        }],
+        crits: [
+            {
+                damageMultiplier: 4,
+                odds: 8
+            },
+            {
+                odds: 8,
+                debuff: Buff.buffs[Buff.types.barkeep]
+            }
+        ],
         name: 'Barkeep',
         flavorText: 'They call my bar the Bongo, because you go there to get beaten.',
         skillText: 'DEBUFF Cripples Opponent'
@@ -177,14 +185,16 @@ export const characters: Character[] = [
             critDamageModifier: 1
         }, 
         rarity: 0,
-        crits: [{
-            damageMultiplier: 4,
-            odds: 20
-        },
-        {
-            odds: 6,
-            debuff: Buff.buffs[Buff.types.medium]
-        }],
+        crits: [
+            {
+                damageMultiplier: 4,
+                odds: 20
+            },
+            {
+                odds: 6,
+                debuff: Buff.buffs[Buff.types.medium]
+            }
+        ],
         name: 'Medium',
         flavorText: 'Battles can be boring when you already know the outcome',
         skillText: 'DEBUFF Lowers Accuracy'
@@ -208,14 +218,16 @@ export const characters: Character[] = [
             critDamageModifier: 1
         }, 
         rarity: 0,
-        crits: [{
-            damageMultiplier: 4,
-            odds: 6
-        },
-        {
-            odds: 8,
-            buff: Buff.buffs[Buff.types.minstrel]
-        }],
+        crits: [
+            {
+                damageMultiplier: 4,
+                odds: 6
+            },
+            {
+                odds: 8,
+                buff: Buff.buffs[Buff.types.minstrel]
+            }
+        ],
         name: 'Minstrel',
         flavorText: 'I deplore a battle wits with an unarmed opponent.',
         skillText: 'DEBUFF Blinds Enemy'
@@ -239,14 +251,16 @@ export const characters: Character[] = [
             critDamageModifier: 1
         }, 
         rarity: 1,
-        crits: [{
-            damageMultiplier: 4,
-            odds: 6
-        },
-        {
-            odds: 20,
-            debuff: Buff.buffs[Buff.types.mage]
-        }],
+        crits: [
+            {
+                damageMultiplier: 4,
+                odds: 6
+            },
+            {
+                odds: 20,
+                debuff: Buff.buffs[Buff.types.mage]
+            }
+        ],
         name: 'Mage',
         flavorText: 'I put on my robe and my wizard hat...',
         skillText: 'DEBUFF Bypasses Armor'
@@ -270,14 +284,16 @@ export const characters: Character[] = [
             critDamageModifier: 1
         }, 
         rarity: 1,
-        crits: [{
-            damageMultiplier: 4,
-            odds: 5
-        },
-        {
-            odds: 8,
-            buff: Buff.buffs[Buff.types.rogue]
-        }],
+        crits: [
+            {
+                damageMultiplier: 4,
+                odds: 5
+            },
+            {
+                odds: 8,
+                buff: Buff.buffs[Buff.types.rogue]
+            }
+        ],
         name: 'Rogue',
         flavorText: 'Rogues do it from behind',
         skillText: 'BUFF Dodges more Frequently'
@@ -301,14 +317,16 @@ export const characters: Character[] = [
             critDamageModifier: 1
         }, 
         rarity: 1,
-        crits: [{
-            damageMultiplier: 4,
-            odds: 3
-        },
-        {
-            odds: 6,
-            buff: Buff.buffs[Buff.types.warpriest]
-        }],
+        crits: [
+            {
+                damageMultiplier: 4,
+                odds: 3
+            },
+            {
+                odds: 6,
+                buff: Buff.buffs[Buff.types.warpriest]
+            }
+        ],
         name: 'Warpriest',
         flavorText: 'It\'s only a fleshwound...',
         skillText: 'BUFF Gains Armor and Health'

@@ -13,102 +13,91 @@ export const enum Types {
     healingDonation
 }
 
-export abstract class Event {
-    constructor (
-        public readonly time: number,
-        public readonly type: Types,
-        public readonly character: number
-    ) {};
+export interface Event {
+    time: number;
+    type: Types;
+    character: number;
 }
 
-export class Damage extends Event {
+export class Damage implements Event {
+    public type = Types.damage;
     constructor (
-        time: number,
-        character: number,
-        public readonly amount: number
-    ) {
-        super(time, Types.damage, character);
-    }
+        public time: number,
+        public character: number,
+        public amount: number
+    ) {}
 }
 
-export class Dodge extends Event {
+export class Dodge implements Event {
+    public type = Types.dodge;
     constructor (
-        time: number,
-        character: number
-    ) {
-        super(time, Types.dodge, character);
-    }
+        public time: number,
+        public character: number
+    ) {}
 }
 
-export class Death extends Event {
+export class Death implements Event {
+    public type = Types.death;
     constructor (
-        time: number,
-        character: number,
-        public readonly overkill: number
-    ) {
-        super(time, Types.death, character);
-    }
+        public time: number,
+        public character: number,
+        public overkill: number
+    ) {}
 }
 
-export class Healing extends Event {
+export class Healing implements Event {
+    public type = Types.healing;
     constructor (
-        time: number,
-        character: number,
-        public readonly amount: number
-    ) {
-        super(time, Types.healing, character);
-    }
+        public time: number,
+        public character: number,
+        public amount: number
+    ) {}
 }
 
-export class Crit extends Event {
+export class Crit implements Event {
+    public type = Types.crit;
     constructor (
-        time: number,
-        character: number,
-        public readonly damage: boolean,
-        public readonly debuff?: Buff,
-        public readonly buff?: Buff
-    ) {
-        super(time, Types.crit, character);
-    }
+        public time: number,
+        public character: number,
+        public damage: boolean,
+        public debuff?: Buff,
+        public buff?: Buff
+    ) {}
 }
 
-export class DamageDonation extends Event {
+export class DamageDonation implements Event {
+    public type = Types.damageDonation;
     constructor (
-        time: number,
-        character: number,
-        public readonly donation: Donation,
-        public readonly amount: number
-    ) {
-        super(time, Types.damageDonation, character);
-    }
+        public time: number,
+        public character: number,
+        public donation: Donation,
+        public amount: number
+    ) {}
 }
 
-export class HealingDonation extends Event {
+export class HealingDonation implements Event {
+    public type = Types.healingDonation;
     constructor (
-        time: number,
-        character: number,
-        public readonly donation: Donation,
-        public readonly amount: number
-    ) {
-        super(time, Types.healingDonation, character);
-    }
+        public time: number,
+        public character: number,
+        public donation: Donation,
+        public amount: number
+    ) {}
 }
 
 
-export class LevelUp extends Event {
+export class LevelUp implements Event {
+    public type = Types.levelUp;
     constructor (
-        time: number,
-        character: number
-    ) {
-        super(time, Types.levelUp, character);
-    }
+        public time: number,
+        public character: number
+    ) {}
 }
 
-export class Attack extends Event {
+export class Attack implements Event {
+    public type = Types.attack;
     constructor (
-        time: number,
-        character: number
-    ) {
-        super(time, Types.attack, character);
-    }
+        public time: number,
+        public character: number
+    ) {}
 }
