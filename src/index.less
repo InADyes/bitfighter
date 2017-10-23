@@ -252,6 +252,51 @@
   //     }
   //   }
   // }
+  
+  .timerDiv {
+    position: absolute;
+    display: flex;
+    width: 37%;
+    height: 15%;
+    //border: 4px ridge black;
+    font-family: Impact, 'Arial Narrow Bold', sans-serif;
+    font-size: 4vw;
+    align-items: center;
+    //background-color: #8D0000;
+    animation-name: timerFlash;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+
+  }
+
+  .challenger {
+    position: relative;
+    left: 3%;
+    -webkit-transform: scale(1, 1.75);
+  }
+
+  .timer {
+    position: relative;
+    left: 1%;
+    font-size: 7vw;
+    margin: auto;
+  }
+
+  @-webkit-keyframes timerFlash {
+    // 0% {
+    //   background-color: #FF9191;
+    // }
+    // 100% {
+    //   background-color: #8D0000;
+    // }
+    30% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
 
   @-webkit-keyframes dropInFade {
     from {
