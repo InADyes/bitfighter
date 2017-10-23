@@ -1,67 +1,34 @@
-export const enum EventType {
-    Health,
-    Attack, // animation only
-    Clear,
-    Text,
-    Buff
+export interface Event {
+        time: number;
+        type: string;
+        character: number;
 }
 
-export class Event {
-    constructor (
-        readonly time: number,
-        readonly type: EventType,
-        readonly character: number
-    ) {}
+export interface Health extends Event {
+        type: 'health';
+        attacker: string | null;
+        health: number; // delta
 }
 
-export class Health extends Event {
-    constructor (
-        time: number,
-        character: number,
-        readonly attacker: string | null,
-        readonly health: number // delta
-    ) {
-        super(time, EventType.Health, character);
-    }
+export interface Attack extends Event {
+        type: 'attack';
 }
 
-export class Attack extends Event {
-    constructor (
-        time: number,
-        character: number
-    ) {
-        super(time, EventType.Attack, character);
-    }
+export interface Clear extends Event {
+        type: 'clear';
 }
 
-export class Clear extends Event {
-    constructor (
-        time: number,
-        character: number
-    ) {
-        super(time, EventType.Clear, character);
-    }
+export interface Text extends Event {
+        type: 'text';
+        duration: number;
+        text: string;
+        color: string; //should this be a string?
 }
 
-export class Text extends Event {
-    constructor (
-        time: number,
-        character: number,
-        readonly duration: number,
-        readonly text: string,
-        readonly color: string //should this be a string?
-    ) {
-        super(time, EventType.Text, character);
-    }
+export interface Buff extends Event {
+        type: 'buff';
+        art: number;
+        duration: number;
 }
 
-export class Buff extends Event {
-    constructor (
-        time: number,
-        character: number,
-        readonly art: number,
-        readonly duration: number
-    ) {
-        super(time, EventType.Buff, character);
-    }
-}
+export type GraphicsEvent = Health | Attack | Clear | Text | Buff;

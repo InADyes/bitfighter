@@ -1,17 +1,17 @@
 import { applyFightEvents } from './applyFightEvents';
-import * as GraphicsEvents from './graphicsEvents';
+import { GraphicsEvent } from './graphicsEvents';
 import { FightEvent } from './fightEvents';
 import { otherCharacter, assertNever } from './utility';
 import { Status } from './Status';
 
 // could be programatically genrated in a cleaner way if we end up with a lot
 // used to determine order of events when the timestamp is the same
-const eventOrder = {
-    [GraphicsEvents.EventType.Attack]: 1,
-    [GraphicsEvents.EventType.Buff]: 1,
-    [GraphicsEvents.EventType.Clear]: 2,
-    [GraphicsEvents.EventType.Health]: 1,
-    [GraphicsEvents.EventType.Text]: 1
+const eventOrder: {[type: string]: number} = {
+    'attack': 1,
+    'buff': 1,
+    'clear': 2,
+    // [GraphicsEvents.EventType.Health]: 1,
+    // [GraphicsEvents.EventType.Text]: 1
 }
 
 const enum colors {
