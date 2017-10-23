@@ -22,11 +22,18 @@ export function buildEvents(status: Status[], startTime?: number) {
 
     for (let i = 0; i < combatants.length; i++) {
         if (combatants[i].status.hitPoints <= 0) {
-            reel.push(...applyFightEvents(newStatus, new FightEvents.Death(
-                combatants[i].time,
-                i,
-                -1 * combatants[i].status.hitPoints
-            )));
+            // reel.push(...applyFightEvents(newStatus, new FightEvents.Death(
+            //     combatants[i].time,
+            //     i,
+            //     -1 * combatants[i].status.hitPoints
+            // )));
+            reel.push(...applyFightEvents(newStatus, {
+                type: 'death',
+                time: combatants[i].time,
+                character: i,
+                overkill: -1 * combatants[i].status.hitPoints,
+                source: {type: 'game'}
+            }));
         }
     }
 
@@ -63,11 +70,16 @@ export function buildEvents(status: Status[], startTime?: number) {
     if (isFight) {
         const winner = combatants.filter(c => c.status === newStatus[0])[0];
         winner.time += 2000;
-        winner.heal();
-        reel.push(...applyFightEvents(newStatus, new FightEvents.LevelUp(
-            winner.time,
-            0
-        )));
+        winner.heal({type: 'game'});
+        // reel.push(...applyFightEvents(newStatus, new FightEvents.LevelUp(
+        //     winner.time,
+        //     0
+        // )));
+        reel.push(...applyFightEvents(newStatus, {
+            type: 'levelUp',
+            time: winner.time,
+            character: 0
+        }));
     }
 
     return { combatants: newStatus, reel }

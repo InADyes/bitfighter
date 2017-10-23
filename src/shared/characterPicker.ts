@@ -1,7 +1,7 @@
 import { updateBitBoss } from '../front_end/globalDependencies';
 import * as Buff from './interfaces/buff';
 import { Status, Stats } from '../shared/Status';
-import { Donation } from './interfaces/donation';
+import { Donation } from './interfaces/interfaces';
 
 export const rarities: {
     readonly [details: number]: {

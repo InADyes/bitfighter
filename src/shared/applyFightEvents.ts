@@ -4,73 +4,66 @@ import { otherCharacter } from '../shared/utility';
 import { buildStats, characters, levels } from '../shared/characterPicker';
 import { build as buildGraphicsEvents } from './buildGraphicsEvents';
 import { Event as GraphicsEvent } from './graphicsEvents';
+import { assertNever } from './utility';
 
 export interface CombinedEvent {
-    fight: FightEvents.Event,
+    fight: FightEvents.FightEvent,
     graphics: GraphicsEvent[]
  };
 
 // also modifies events that would take health too high or low
 export function applyFightEvents(
     status: Status[],
-    ...reel: FightEvents.Event[]
+    ...reel: FightEvents.FightEvent[]
 ) {
     const combinedReel: CombinedEvent[] = [];
 
     for (let event of reel) {
         switch (event.type) {
-            case FightEvents.Types.damage:
-                status[event.character].hitPoints -= (<FightEvents.Damage>event).amount;
+            case 'damage':
+                status[event.character].hitPoints -= event.amount;
                 break;
-            case FightEvents.Types.healing: {
+            case 'heal': {
                 const c = status[event.character];
                 c.hitPoints = Math.min(
-                    c.hitPoints + (<FightEvents.Healing>event).amount,
+                    c.hitPoints + event.amount,
                     c.stats.maxHitPoints
                 );
             } break;
-            case FightEvents.Types.crit: {
-                const debuff = (<FightEvents.Crit>event).debuff;
-                if (debuff) {
+            case 'crit': {
+                if (event.debuff) {
                     status[event.character].addEffect(
-                        event.time + debuff.duration,
-                        debuff
+                        event.time + event.debuff.duration,
+                        event.debuff
                     );
                 }
-                const buff = (<FightEvents.Crit>event).buff;
-                if (buff) {
+                if (event.buff) {
                     status[otherCharacter(event.character)].addEffect(
-                        event.time + buff.duration,
-                        buff
+                        event.time + event.buff.duration,
+                        event.buff
                     );
                 }
             } break;
-            case FightEvents.Types.death: { // level up also happens here
+            case 'death': { // level up also happens here
                 status.splice(event.character, 1);
             } break;
-            case FightEvents.Types.levelUp: {
+            case 'levelUp': {
                 // const c = status[event.character];
                 // if (c && levels.length > c.level) {
                 //     c.level++;
                 //     c.baseStats = buildStats(c.character, c.initialDonation, c.level);
                 // }
             } break;
-            case FightEvents.Types.damageDonation: {
-                status[event.character].hitPoints -= (<FightEvents.DamageDonation>event).amount;
-            } break;
-            case FightEvents.Types.healingDonation: {
-                const s = status[event.character];
-
-                s.hitPoints = Math.min(
-                    s.hitPoints + (<FightEvents.HealingDonation>event).amount,
-                    s.stats.maxHitPoints
-                );
-            } break;
+            case 'dodge':
+            case 'attack':
+                break;
+            default:
+                assertNever(event);
         }
         combinedReel.push({
             fight: event,
             graphics: buildGraphicsEvents(event, status)
-        })
+        });
     };
     return combinedReel;
 }
