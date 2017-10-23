@@ -183,8 +183,8 @@ export class CharacterChoiceHandler {
             timeout: global.setTimeout(
                 // clear timeout somehow
                 () => this.completeChoice(donation.id, Math.floor(choices.length * Math.random())),
-                // one minute
-                60000
+                // one minute with some buffer
+                61000
             )
         });
     }
