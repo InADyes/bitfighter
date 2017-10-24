@@ -101,4 +101,9 @@ export class BitFighter {
             this.game.setNewScale(scale);
         }, 100)
     }
+
+    public updateAlignment(alignTo: 'left' | 'right' | 'center') {
+        console.log("ALIGN:", alignTo);
+        this.game.setAlign(alignTo);
+    }
 }

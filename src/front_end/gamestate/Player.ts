@@ -31,21 +31,21 @@ export class Player {
     private hpWidth =       6.5;
     private textLock =      0;
     private animationLock = 0;
-    private nameHeight =    120;
+    private nameHeight =    110;
     private strokeWidth =   2;
     private fontSize =      15;
     private font =          'Concert One'
     private buffOffset =    15;
-    private buffTop =       135;
+    private buffTop =       125;
     private buffSize =      25;
     private drawing =       0;
 
     // Adjust these to move elements around
     private artAdjust =     50;
     private hpAdjust =      35;
-    private artTop =        120;
-    private hpTextTop =     32;
-    private textTop =       30;
+    private artTop =        110;
+    private hpTextTop =     22;
+    private textTop =       20;
     private centerHpAdjust = 6;
 
     constructor(
@@ -100,6 +100,7 @@ export class Player {
             this.drawHealthText();
             this.drawHpBar();
             this.drawname();
+            this.drawBuffs();
             if (player)
                 player.drawMe(null, this.trueWidth);
             this.drawing = 0;
@@ -236,7 +237,7 @@ export class Player {
         else if (this.align === "right")
             temp.set({left: this.onRight ? this.cWidth - this.hpAdjust * this.scale : this.cWidth - (this.trueWidth + this.artAdjust * 2 + this.offset - this.hpAdjust) * this.scale});
         else if (this.align === "center")
-            temp.set({left: !this.onRight ? this.center - this.trueWidth / 2 * this.scale : this.center + this.trueWidth / 2 * this.scale});
+            temp.set({left: !this.onRight ? this.center - (this.trueWidth + this.centerHpAdjust) * this.scale : this.center + (this.trueWidth + this.centerHpAdjust) * this.scale});
         return(temp);
     }
 
