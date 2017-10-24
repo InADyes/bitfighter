@@ -58,6 +58,7 @@ export class Player {
         private readonly atkArt:    string[],
         private align:              'left' | 'right' | 'center',
     ) {
+        console.log(this.data);
         this.health = data.currentHitPoints;
         this.onRight = side;
         this.canvas = canvas;
