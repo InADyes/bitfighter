@@ -1,4 +1,4 @@
-import * as Events from '../../shared/interfaces/graphicsEvents';
+import { GraphicsEvent } from '../../shared/interfaces/graphicsEvents';
 import { ReelMessage, FrontendCharacter } from '../../shared/interfaces/backToFrontMessage';
 import 'fabric'
 declare let fabric: any;
@@ -15,7 +15,7 @@ export class GameState {
 	private eventLoopTimeout:	number | null;
 	private lastTime: 			number;
 	private canvas:				fabric.Canvas; 
-	private reel:				Events.Event[];
+	private reel:				GraphicsEvent[];
 	private player1:			Player.Player | null;
 	private player2:			Player.Player | null;
 	private idleId:				number | null;
@@ -143,7 +143,7 @@ export class GameState {
 		);
 	}
 
-	private applyPatch(reel: Events.Event[], patch: number) {
+	private applyPatch(reel: GraphicsEvent[], patch: number) {
 		for (let i = 0; i < this.reel.length; i++) {
 			if (reel[0].time < this.reel[i].time) {
 				this.reel.splice(i);

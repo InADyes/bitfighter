@@ -1,14 +1,15 @@
-import * as GraphicsEvents from '../../shared/interfaces/graphicsEvents';
+import { GraphicsEvent } from '../../shared/interfaces/graphicsEvents';
 import { GameState } from './Gamestate'
+import {assertNever} from '../../shared/utility'
 
 //define function bitBoss
 
-export function fireEvent(event: GraphicsEvents.Event, gameState: GameState){
-    let char = event.character;
+export function fireEvent(event: GraphicsEvent, gameState: GameState){
+    const char = event.character;
     switch(event.type) {
         case 'health':
             //console.log(`CHARACTER ${ char } CHANGES HEALTH BY ${ (<GraphicsEvents.Health>event).health }`);
-            gameState.changeHealth(char, (<GraphicsEvents.Health>event).health, (<GraphicsEvents.Health>event).attacker)
+            gameState.changeHealth(char, event.health, event.attacker)
             break;
         case 'attack':
             //console.log(`CHARACTER ${ char } ATTACKS`)
@@ -20,12 +21,12 @@ export function fireEvent(event: GraphicsEvents.Event, gameState: GameState){
             break;
         case 'text':
             //console.log(`CHARACTER ${ char } SAYS ${ (<GraphicsEvents.Text>event).text }`);
-            gameState.displayText(char, (<GraphicsEvents.Text>event).text, (<GraphicsEvents.Text>event).color, (<GraphicsEvents.Text>event).duration)
+            gameState.displayText(char, event.text, event.color, event.duration)
             break;
         case 'buff':
-            gameState.addBuff((<GraphicsEvents.Buff>event).art, (<GraphicsEvents.Buff>event).duration, char)
+            gameState.addBuff(event.art, event.duration, char)
             break;
         default:
-            console.error('unidentified event type')
+            assertNever(event);
     }
 }
