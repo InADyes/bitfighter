@@ -1,13 +1,17 @@
-import * as FightEvents from './fightEvents';
-import { Event as GraphicsEvent } from './graphicsEvents';
+import * as FightEvents from './interfaces/fightEvents';
+import { GraphicsEvent } from './interfaces/graphicsEvents';
 import { Combatant } from './Combatant';
 import { Status } from '../shared/Status';
 import { applyFightEvents, CombinedEvent } from './applyFightEvents';
 import { otherCharacter  as other} from './utility';
 import { buffs, types as buffTypes } from './interfaces/buff';
 import * as BuildGraphicsEvents from './buildGraphicsEvents';
+import { Source } from './interfaces/interfaces';
 
-export function buildEvents(status: Status[], startTime?: number) {
+export function buildEvents(
+    status: Status[],
+    options: {startTime?: number, source?: Source} = {source: undefined}
+) {
     const reel: CombinedEvent[] = [];
     const newStatus = status.map(s => s.clone());
     const combatants = newStatus.map((status, index) => new Combatant(
@@ -15,18 +19,25 @@ export function buildEvents(status: Status[], startTime?: number) {
         index,
         event => reel.push(...applyFightEvents(newStatus, event)),
         attack => {combatants.filter(c => c != attack.attacker)[0].takeHit(attack);},
-        startTime
+        options.startTime
     ));
     
     const isFight = newStatus.length >= 2;
 
     for (let i = 0; i < combatants.length; i++) {
         if (combatants[i].status.hitPoints <= 0) {
-            reel.push(...applyFightEvents(newStatus, new FightEvents.Death(
-                combatants[i].time,
-                i,
-                -1 * combatants[i].status.hitPoints
-            )));
+            // reel.push(...applyFightEvents(newStatus, new FightEvents.Death(
+            //     combatants[i].time,
+            //     i,
+            //     -1 * combatants[i].status.hitPoints
+            // )));
+            reel.push(...applyFightEvents(newStatus, {
+                type: 'death',
+                time: combatants[i].time,
+                character: i,
+                overkill: -1 * combatants[i].status.hitPoints,
+                source: options.source || {type: 'game'}
+            }));
         }
     }
 
@@ -63,11 +74,16 @@ export function buildEvents(status: Status[], startTime?: number) {
     if (isFight) {
         const winner = combatants.filter(c => c.status === newStatus[0])[0];
         winner.time += 2000;
-        winner.heal();
-        reel.push(...applyFightEvents(newStatus, new FightEvents.LevelUp(
-            winner.time,
-            0
-        )));
+        winner.heal({type: 'game'});
+        // reel.push(...applyFightEvents(newStatus, new FightEvents.LevelUp(
+        //     winner.time,
+        //     0
+        // )));
+        reel.push(...applyFightEvents(newStatus, {
+            type: 'levelUp',
+            time: winner.time,
+            character: 0
+        }));
     }
 
     return { combatants: newStatus, reel }

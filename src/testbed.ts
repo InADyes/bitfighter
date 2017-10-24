@@ -21,7 +21,7 @@ window.addEventListener('load', function(){
 
     const bossKillButton = <HTMLButtonElement>document.getElementById('bossKill');
     bossKillButton.addEventListener('click', () => backend.bossKill() );
-    
+
     function newGame(savedGame?: string) {
         return new BitFighterBack(
             (message, id) => {
@@ -56,7 +56,7 @@ window.addEventListener('load', function(){
                     'Scullery Maid': 'Scullery Maid mII',
                     'Mage': 'Mage mII'
                 },
-                bitFighterEnabled: true,
+                bitFighterEnabled: false,
                 bitBossStartingHealth: 750
             },
             str => {saveGame = str},
@@ -92,6 +92,21 @@ window.addEventListener('load', function(){
         },
         // cardDiv
     );
+        
+    // Change Alignment - TIM //
+    const changeAlignment = <HTMLButtonElement>document.getElementById('redraw');
+    changeAlignment.addEventListener('click', () => {
+        const left = <HTMLInputElement>document.getElementById('alignLeft');
+        const center = <HTMLInputElement>document.getElementById('alignCenter');
+        const right = <HTMLInputElement>document.getElementById('alignRight');
+        if (left.checked)
+            frontend.updateAlignment('left');
+        else if (center.checked)
+            frontend.updateAlignment('center');
+        else if (right.checked)
+            frontend.updateAlignment('right');
+    })
+    ////////////////////////////
 
     const newDonationButton = <HTMLButtonElement>document.getElementById('new-donation');
     const nameInputNode = <HTMLInputElement>document.getElementById('donation-name');

@@ -1,21 +1,21 @@
-import * as Events from '../../shared/graphicsEvents';
+import { GraphicsEvent } from '../../shared/interfaces/graphicsEvents';
 import { ReelMessage, FrontendCharacter } from '../../shared/interfaces/backToFrontMessage';
 import 'fabric'
 declare let fabric: any;
 import * as Player from './Player';
 import { fireEvent } from './fireEvent';
 import { BossData } from './interfaces';
-import { recalcHp, flip, updateBitBoss, winner} from '../globalDependencies'
+import { recalcHp, flip, updateBitBoss/*, winner*/} from '../globalDependencies'
 
 // declare function recalcHp(damageAmount: number, newHp: number, maxHp: number, attacker: string | null): void;
 // declare function flip(side: 'front' | 'back'): void;
 // declare function updateBitBoss(bossData: {boss: BossData, attacker?: BossData}): void;
-
+declare function winner(name: string): void;
 export class GameState {
 	private eventLoopTimeout:	number | null;
 	private lastTime: 			number;
 	private canvas:				fabric.Canvas; 
-	private reel:				Events.Event[];
+	private reel:				GraphicsEvent[];
 	private player1:			Player.Player | null;
 	private player2:			Player.Player | null;
 	private idleId:				number | null;
@@ -24,12 +24,13 @@ export class GameState {
 	private timer:				number;
 	private countBot:			fabric.Text;
 	private countTop:			fabric.Text;
-	private characterCards:		FrontendCharacter[];
+	private characterCards:	FrontendCharacter[];
+	private align:				'left' | 'right' | 'center'; 
 	private scale =				1;
 	private scaleWait =			0;
 	private isWaiting =			0;
 	private baseWidth = 		500;
-	private baseHeight = 		180;
+	private baseHeight = 		250;
 	private messageQueue = 		[];
 
 	constructor(
@@ -44,6 +45,7 @@ export class GameState {
 		this.canvas.setWidth(this.baseHeight);
 		this.player1 = null;
 		this.player2 = null;
+		this.align = 'left';
 	}
 
 	public newMessage(msg: ReelMessage) {
@@ -82,13 +84,13 @@ export class GameState {
 				this.canvas.clear();
 				// init players
 				if (msg.characters[0]) {
-					this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt);
+					this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt, this.align);
 					this.currentBoss = this.player1.getBitBossInfo();
 					updateBitBoss({boss: this.currentBoss});
 					console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
 					recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, null);
 					if (msg.characters[1]) {
-						this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt);
+						this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt, this.align);
 						flip('back');
 						console.log("flip back");
 						this.ogTime = performance.now();
@@ -141,7 +143,7 @@ export class GameState {
 		);
 	}
 
-	private applyPatch(reel: Events.Event[], patch: number) {
+	private applyPatch(reel: GraphicsEvent[], patch: number) {
 		for (let i = 0; i < this.reel.length; i++) {
 			if (reel[0].time < this.reel[i].time) {
 				this.reel.splice(i);
@@ -152,10 +154,17 @@ export class GameState {
 	}
 
 	public drawPlayers() {
-		if (this.player1)
-			this.player1.drawMe();
-		if (this.player2)
-			this.player2.drawMe();
+		if (this.player1 && this.align === "left")
+			this.player1.drawMe(this.player2 ? this.player2 : null, 0);
+		else if (this.player2 && this.align === "right")
+			this.player2.drawMe(this.player1 ? this.player1 : null, 0);
+		else if (!this.player2 && this.align === "right" && this.player1)
+			this.player1.drawMe(null, 100 * this.scale);
+		else if (this.align === "center" && this.player1) {
+			this.player1.drawMe(null, 0);
+			if (this.player2)
+				this.player2.drawMe(null, 0);
+		}
 	}
 
 	public attack(p2: number) {
@@ -221,10 +230,8 @@ export class GameState {
 	public displayText(p2: number, str: string, color: string, duration: number) {
 		if (p2 && this.player2)
 			this.player2.displayText(str, color, duration);
-		else if (this.player1) {
+		else if (this.player1)
 			this.player1.displayText(str, color, duration);
-			//bossTextOut(color, str);
-		}
 	}
 
 	public setNewScale(scale: number) {
@@ -239,6 +246,7 @@ export class GameState {
 			this.player1.setScale(this.scaleWait);
 		if (this.player2)
 			this.player2.setScale(this.scaleWait);
+		this.drawPlayers();
 		this.scaleWait = 0;
 	}
 
@@ -294,7 +302,7 @@ export class GameState {
 			fontWeight: 'bold',
 			fill: 'black',
 			left: 10 * this.scale,
-			top: 9 * this.scale,
+			top: 10 * this.scale,
 			originX: 'left'
 		})
 		this.canvas.add(this.countBot);
@@ -326,5 +334,25 @@ export class GameState {
 			updateBitBoss({ boss: this.currentBoss });
 			console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
 		}
+	}
+
+	public setAlign(alignment: 'left' | 'right' | 'center') {
+		/* 
+		 * Defaults to Left alignment.
+		 * Center alignment draws the images from the center of the canvas out.
+		 * So something wide like the dragon will appear further to the side
+		 * than someone small.
+		 * Player 1 is always drawn on the left, so in Right alignment its position
+		 * is relative to the width of his opponent. When there is no opponent it
+		 * defaults to a size. In the case of player 1 dying, player 2 moves over
+		 * base on his own width then readjusts to his opponent's width if there's
+		 * a fight in queue.
+		 */
+		this.align = alignment;
+		if (this.player1)
+			this.player1.setAlignment(this.align);
+		if (this.player2)
+			this.player2.setAlignment(this.align);
+		this.drawPlayers();
 	}
 }

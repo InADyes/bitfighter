@@ -5,14 +5,9 @@ import { BackToFrontMessage, CharacterListItem, QueueItem } from '../shared/inte
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 import { BackendSettings as Settings, GameSave } from './interfaces';
 import { CharacterChoiceHandler } from './CharacterChoiceHandler';
-import { Donation } from '../shared/interfaces/donation';
+import { Donation } from '../shared/interfaces/interfaces';
 import { Arena } from './Arena';
 import { validateDonation, validateSettings } from './validations';
-import { Readonly } from '../shared/interfaces/utility';
-
-function logDonation(gameState: string, donationType: string, amount: number) {
-    console.log(`donation: ${ gameState }, ${ donationType }, ${ amount }`);
-}
 
 export class BitFighter {
     private readonly queue: Status[] = [];
@@ -94,13 +89,13 @@ export class BitFighter {
         }
     }
 
-    bossKill() {
+    public bossKill() {
         this.arena.bossKill();
         if (this.arena.getCombatants().length < 1)
             this.arena.addCombatants(0, this.buildDefaultCombatant());
     }
 
-    applySettings(settings: Settings) {
+    public applySettings(settings: Settings) {
         this.settings = settings;
         this.arena.settings = settings;
     }

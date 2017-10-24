@@ -1,4 +1,4 @@
-import { Donation } from '../shared/interfaces/donation';
+import { Donation } from '../shared/interfaces/interfaces';
 import { Status } from '../shared/Status';
 import { characterTypes } from '../shared/characterPicker';
 
