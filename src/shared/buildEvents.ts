@@ -1,5 +1,5 @@
 import * as FightEvents from './fightEvents';
-import { Event as GraphicsEvent } from './graphicsEvents';
+import { GraphicsEvent } from './graphicsEvents';
 import { Combatant } from './Combatant';
 import { Status } from '../shared/Status';
 import { applyFightEvents, CombinedEvent } from './applyFightEvents';

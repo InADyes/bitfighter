@@ -1,4 +1,4 @@
-import { Event } from '../graphicsEvents';
+import { FightEvent } from '../fightEvents';
 import { Status } from '../Status';
 
 export interface Donation {
@@ -28,7 +28,7 @@ interface DonationSource extends a_Source {
 
 interface EventSource extends a_Source {
     readonly type: 'event';
-    readonly event: Event;
+    readonly event: FightEvent;
 }
 
 interface GameSource extends a_Source {

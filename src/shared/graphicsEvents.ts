@@ -1,4 +1,4 @@
-export interface Event {
+interface Event {
         time: number;
         type: string;
         character: number;

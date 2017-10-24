@@ -5,7 +5,7 @@ import { buildEvents } from '../shared/buildEvents';
 import { Status, cardStats } from '../shared/Status';
 import { pickCharacter, characters, characterTypes } from '../shared/characterPicker';
 import { FightEvent } from '../shared/fightEvents';
-import { Event as GraphicsEvent} from '../shared/graphicsEvents';
+import { GraphicsEvent} from '../shared/graphicsEvents';
 import { BackToFrontMessage, ReelMessage } from '../shared/interfaces/backToFrontMessage';
 import { BackendSettings as Settings } from './interfaces';
 import { applyFightEvents, CombinedEvent } from '../shared/applyFightEvents'

@@ -3,7 +3,7 @@ import { Status } from '../shared/Status';
 import { otherCharacter } from '../shared/utility';
 import { buildStats, characters, levels } from '../shared/characterPicker';
 import { build as buildGraphicsEvents } from './buildGraphicsEvents';
-import { Event as GraphicsEvent } from './graphicsEvents';
+import { GraphicsEvent } from './graphicsEvents';
 import { assertNever } from './utility';
 
 export interface CombinedEvent {
