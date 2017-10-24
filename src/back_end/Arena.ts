@@ -12,6 +12,7 @@ import { applyFightEvents, CombinedEvent } from '../shared/applyFightEvents'
 import { CharacterChoiceHandler } from './CharacterChoiceHandler';
 import { hrtime } from 'process';
 import { Donation } from '../shared/interfaces/interfaces';
+import { Source } from '../shared/interfaces/interfaces';
 
 function nodePerformanceNow() {
     if (hrtime) {
@@ -27,7 +28,6 @@ export class Arena {
     private readonly combatants: Status[] = [];
     public results: Status[] = [];
     private events: Readonly<CombinedEvent>[] = [];
-    private lastDamageDonation: Readonly<Donation> | null = null;
 
     constructor(
         public settings: Settings,
@@ -63,7 +63,7 @@ export class Arena {
         const tempStatus = this.combatants.map(s => s.clone());
         const combinedBase = applyFightEvents(tempStatus, ...baseReel)
 
-        const result = buildEvents(tempStatus, countdown);
+        const result = buildEvents(tempStatus, {startTime: countdown});
         this.results = result.combatants;
         this.fightStartTime = nodePerformanceNow();
         this.events = combinedBase.concat(result.reel);
@@ -81,21 +81,21 @@ export class Arena {
     public healCombatant(index: number, donation: Donation) {
         const patchTime = nodePerformanceNow() - this.fightStartTime;
         const combatant = this.combatants[index];
-
         const amount = this.settings.donationToHPRatio * donation.amount;
+        const source: Source = {
+            type: 'donation',
+            donation
+        };
 
         this.insertEvents(
             patchTime,
-            donation,
+            source,
             {
                 type: 'heal',
                 time: patchTime,
                 character: index,
                 amount,
-                source: {
-                    type: 'donation',
-                    donation
-                }
+                source
             }
         );
     }
@@ -110,19 +110,20 @@ export class Arena {
         
         const combatant = this.combatants[index];
         const amount = this.settings.donationToHPRatio * donation.amount;
+        const source: Source = {
+            type: 'donation',
+            donation
+        };
 
         this.insertEvents(
             patchTime,
-            donation,
+            source,
             {
                 type: 'damage',
                 time: patchTime,
                 character: 0,
                 amount,
-                source: {
-                    type: 'donation',
-                    donation
-                }
+                source
             }
         )
     }
@@ -162,7 +163,7 @@ export class Arena {
     }
     
     // only works when all new events have the same time
-    public insertEvents(patchTime: number, donation: Donation, ...insert: FightEvent[]) {
+    public insertEvents(patchTime: number, source: Source, ...insert: FightEvent[]) {
 
         // create a temporary copy of status
         const tempStatus = this.combatants.map(s => s.clone());
@@ -171,15 +172,16 @@ export class Arena {
         const reel = applyFightEvents(tempStatus, ...insert);
         
         // calculate the results of the new events
-        reel.push(...buildEvents(tempStatus, patchTime).reel);
+        reel.push(...buildEvents(tempStatus, {startTime: patchTime, source}).reel);
 
         // if the new events caused the chapion to die instead start a fight
         if (
             this.settings.bitFighterEnabled
             && this.combatants.length === 1
             && reel.some(e => e.fight.type === 'death')
+            && source.type === 'donation'
         ) {
-            this.combatants.push(pickCharacter(donation, characterTypes.graveDigger, this.settings.characterNames));
+            this.combatants.push(pickCharacter(source.donation, characterTypes.graveDigger, this.settings.characterNames));
             this.startFight(0,
                 /*new FightEvents.Healing(0, 0, this.combatants[0].stats.maxHitPoints * 0.1, {type: 'game'})*/
                 {
@@ -233,18 +235,15 @@ export class Arena {
             return;
         }
         applyFightEvents(this.combatants, event.fight);
-    
-        if (event.fight.type === 'damage' && event.fight.source.type === 'donation')
-            this.lastDamageDonation = event.fight.source.donation;
 
         // if the boss was killed by a damage donation they become the bitBoss
         if (
             event.fight.type === 'death'
             && this.combatants.length === 0
-            && this.lastDamageDonation
+            && event.fight.source.type === 'donation'
         ) {
             this.combatants.push(generateBitBoss(
-                this.lastDamageDonation,
+                event.fight.source.donation,
                 this.settings.bitBossStartingHealth + event.fight.overkill
             ));
             this.pushLastResults();

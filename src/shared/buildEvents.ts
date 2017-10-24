@@ -6,8 +6,12 @@ import { applyFightEvents, CombinedEvent } from './applyFightEvents';
 import { otherCharacter  as other} from './utility';
 import { buffs, types as buffTypes } from './interfaces/buff';
 import * as BuildGraphicsEvents from './buildGraphicsEvents';
+import { Source } from './interfaces/interfaces';
 
-export function buildEvents(status: Status[], startTime?: number) {
+export function buildEvents(
+    status: Status[],
+    options: {startTime?: number, source?: Source} = {source: undefined}
+) {
     const reel: CombinedEvent[] = [];
     const newStatus = status.map(s => s.clone());
     const combatants = newStatus.map((status, index) => new Combatant(
@@ -15,7 +19,7 @@ export function buildEvents(status: Status[], startTime?: number) {
         index,
         event => reel.push(...applyFightEvents(newStatus, event)),
         attack => {combatants.filter(c => c != attack.attacker)[0].takeHit(attack);},
-        startTime
+        options.startTime
     ));
     
     const isFight = newStatus.length >= 2;
@@ -32,7 +36,7 @@ export function buildEvents(status: Status[], startTime?: number) {
                 time: combatants[i].time,
                 character: i,
                 overkill: -1 * combatants[i].status.hitPoints,
-                source: {type: 'game'}
+                source: options.source || {type: 'game'}
             }));
         }
     }
