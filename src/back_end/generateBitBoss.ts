@@ -30,8 +30,8 @@ export function generateBitBoss(donation: Donation, health: number) : Status {
             critChanceModifier: 0,
             critDamageModifier: 0
         },
-        donation.profileImageURL,
         donation.bossMessage,
+        donation.profileImageURL,
         donation.bossEmoticonURL,
         ''
     )

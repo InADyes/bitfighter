@@ -62,7 +62,7 @@ export class BitFighter {
 
 
         if (gameStateJSON) {
-            const save = <GameSave>JSON.parse(gameStateJSON);
+            const save = JSON.parse(gameStateJSON) as GameSave;
             // status's must be cloned becaused they have no methods as they came from the JSON
             this.queue.push(...save.queue.map(s => Status.clone(s)));
             this.queue.push(...save.pendingChoices.map(c => 
