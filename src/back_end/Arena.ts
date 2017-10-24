@@ -246,6 +246,7 @@ export class Arena {
                 event.fight.source.donation,
                 this.settings.bitBossStartingHealth + event.fight.overkill
             ));
+            this.results = this.combatants;
             this.pushLastResults();
         }
 
