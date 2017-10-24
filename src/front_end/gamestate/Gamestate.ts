@@ -337,12 +337,6 @@ export class GameState {
 	}
 
 	public setAlign(alignment: 'left' | 'right' | 'center') {
-		let str2 = "right"; // wtf typescript???
-		let str3 = "center"; // why do i have to do this???
-		if (alignment !== "left" || alignment !== str2 || alignment !== str3) {
-			console.error("Not a proper alignment");
-			return;
-		}
 		this.align = alignment;
 		if (this.player1)
 			this.player1.setAlignment(this.align);
