@@ -1,33 +1,32 @@
 import { pickCharacter } from '../shared/characterPicker';
 import { buildEvents } from '../shared/buildEvents';
-import * as FightEvents from '../shared/fightEvents';
+import { FightEvent } from '../shared/interfaces/fightEvents';
 import { stdout } from 'process';
 import { buffs } from '../shared/interfaces/buff';
 import { Results, reelToResults, printResults } from './testPair';
 
-function printReel(reel: FightEvents.Event[]) {
+function printReel(reel: FightEvent[]) {
 
     console.log('####### EVENTS #######');
 
     for (let event of reel) {
         stdout.write(`time: ${ event.time.toPrecision(6) }, char: ${ event.character }, `);
         switch (event.type) {
-            case FightEvents.Types.damage:
-                stdout.write(`damage: ${ (<FightEvents.Damage>event).amount }\n`)
+            case 'damage':
+                stdout.write(`damage: ${ event.amount }\n`)
                 break;
-            case FightEvents.Types.dodge:
+            case 'dodge':
                 stdout.write('dodge\n');
                 break;
-            case FightEvents.Types.healing:
-                stdout.write(`healing: ${ (<FightEvents.Healing>event).amount }\n`);
+            case 'heal':
+                stdout.write(`healing: ${ event.amount }\n`);
                 break;
-            case FightEvents.Types.death:
+            case 'death':
                 stdout.write('death\n');
                 break;
-            case FightEvents.Types.crit:
-                const crit = (<FightEvents.Crit>event);
-                const buff = crit.buff ? buffs.indexOf(crit.buff) : -1;
-                const debuff = crit.debuff ? buffs.indexOf(crit.debuff) : -1;
+            case 'crit':
+                const buff = event.buff ? buffs.indexOf(event.buff) : -1;
+                const debuff = event.debuff ? buffs.indexOf(event.debuff) : -1;
 
                 stdout.write(`crit: (buff: ${ buff }, debuff: ${ debuff })\n`)
                 break;

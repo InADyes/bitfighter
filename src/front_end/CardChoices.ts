@@ -62,22 +62,21 @@ export function updateStatusCards(
     const oldCard1 = document.getElementById('card1');
     const oldCard2 = document.getElementById('card2');
     if (oldCard1 && newCard1) {
-
         oldCard1.classList.remove("empty-card");
-        oldCard1.classList.add("card");
+        oldCard1.classList.add("character_select_card");
         oldCard1.innerHTML = newCard1.innerHTML;
     }
     else if (oldCard1) {
-        oldCard1.classList.remove("card");
+        oldCard1.classList.remove("character_select_card");
         oldCard1.classList.add("empty-card");
     }
     if (oldCard2 && newCard2) {
         oldCard2.classList.remove("empty-card");
-        oldCard2.classList.add("card");
+        oldCard2.classList.add("character_select_card");
         oldCard2.innerHTML = newCard2.innerHTML;
     }
     else if (oldCard2) {
-        oldCard2.classList.remove("card");
+        oldCard2.classList.remove("character_select_card");
         oldCard2.classList.add("empty-card");
         oldCard2.innerHTML = "";
     }

@@ -16,9 +16,12 @@ export class Attack {
     private exists:     boolean;
     private trueWidth:  number;
     private imgs:       fabric.Object[];
+    private left:       number;
+    
     private height =    70;
     private artAdjust = 0;
     private artTop =    125;
+    private offset =    0;
     constructor(
         private readonly canvas:    fabric.Canvas,
         private readonly char:      number,
@@ -26,6 +29,7 @@ export class Attack {
         private scale:              number,
         private readonly onRight:   number,
         private center:             number,
+        private align:              'left' | 'right' | 'center',
     ){
         this.imgs = [];
         this.exists = this.checkChar();
@@ -53,36 +57,60 @@ export class Attack {
 
     private checkChar() {
         if (this.char === 9) {
-            this.initDragon();
+            this.setDragon();
             return (true);
         }
         return (false)
     }
     
-    private initDragon() {
-        for (let i = 0; i < 3; i++) {
-            new fabric.Image.fromURL(this.atkURLs[i], (oImg: fabric.Image) => {
-                if (oImg.width && oImg.height)
-                    this.trueWidth = oImg.width / oImg.height * this.height * this.scale;
-                let atk = oImg.set({
-                    left: !this.onRight ? this.center - this.artAdjust: this.center + this.artAdjust,
-                    top: this.artTop * this.scale,
-                    originX: 'center',
-                    originY: 'bottom',
-                    flipX: !this.onRight ? false : true
-                })
-                atk.scaleToHeight(this.height * this.scale);
-                this.imgs.push(atk);
-            });
+    private setDragon() {
+        if (this.align === 'left')
+            this.left = this.onRight ? (this.offset + 44) * this.scale : 236 * this.scale;
+        else if (this.align === 'right')
+            this.left = this.onRight ? this.canvas.getWidth() - 236 * this.scale : this.canvas.getWidth() - (this.offset + 44) * this.scale;
+        else if (this.align === 'center') 
+            this.left = this.center; 
+        if (!this.imgs[0]) {
+            for (let i = 0; i < 3; i++) {
+                new fabric.Image.fromURL(this.atkURLs[i], (oImg: fabric.Image) => {
+                    if (oImg.width && oImg.height)
+                        this.trueWidth = oImg.width / oImg.height * this.height * this.scale;
+                    let atk = oImg.set({
+                        left: this.left,
+                        top: this.artTop * this.scale,
+                        originX: 'center',
+                        originY: 'bottom',
+                        flipX: !this.onRight ? false : true
+                    })
+                    atk.scaleToHeight(this.height * this.scale);
+                    this.imgs.push(atk);
+                });
+            }
         }
     }
 
     public updateScale(scale: number, center: number) {
         this.scale = scale;
         this.center = center;
+        this.updateImgs();
+    }
+    
+    public setAlignment(alignment: 'left' | 'right' | 'center') {
+        this.align = alignment;
+        this.updateImgs();
+    }
+
+    public setOffset(offset: number) {
+        this.offset = offset;
+        this.updateImgs();
+    }
+
+    private updateImgs() {
+        this.checkChar();
         for (let i = 0; i < this.imgs.length; i++) {
+            console.log("in update images",this.left);
             this.imgs[i].set({
-                left: !this.onRight ? this.center - this.artAdjust: this.center + this.artAdjust,
+                left: this.left,
                 top: this.artTop * this.scale, 
             });
             this.imgs[i].scaleToHeight(this.height * this.scale);

@@ -19,21 +19,20 @@
   },
   "homepage": "https://github.com/the-opera-house/bitfighter#readme",
   "dependencies": {
+  },
+  "devDependencies": {
     "@types/fabric": "^1.5.26",
     "@types/node": "^8.0.28",
     "@types/typescript": "^2.0.0",
     "@types/webpack": "^3.0.10",
-    "express": "^4.15.4",
-    "fabric": "^1.7.19",
-    "ts-loader": "^2.3.7",
-    "typescript": "^2.5.3"
-  },
-  "devDependencies": {
     "extract-text-webpack-plugin": "^2.1.2",
     "css-loader": "^0.28.7",
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
     "style-loader": "^0.18.2",
-    "webpack": "^3.6.0"
+    "webpack": "^3.6.0",
+    "ts-loader": "^2.3.7",
+    "typescript": "^2.5.3",
+    "fabric": "^1.7.19"
   }
 }

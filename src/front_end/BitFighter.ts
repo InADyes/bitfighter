@@ -23,7 +23,8 @@ export class BitFighter {
     private readonly atkURLs = atkURLsNoShim.map(url => this.settings.assetsShim + url);
     private resizeTimeout: number | null = null;
     private readonly queue = new Queue(
-        (time) => this.game.startTimer(time)
+        <HTMLDivElement>document.getElementById('bitfighter'),
+        //(time) => this.game.startTimer(time)
     );
 
     constructor(
@@ -65,7 +66,9 @@ export class BitFighter {
         if (data.characterChoices)
             this.cardChoices.displayCards(data.characterChoices.map(c => buildCard(c, this.artURLs)));
         if (data.queue)
-            this.queue.handleNewQueue({queue: data.queue, timer: data.timer});
+            this.queue.handleNewQueue(data.queue);
+        if (data.timer)
+            this.queue.handleNewTimer(data.timer);
         if (data.updateBossMessage)
             this.game.updateBossMessage(data.updateBossMessage.championIndex, data.updateBossMessage.bossMessage);
         if (data.updateBossEmoticonURL)
@@ -80,7 +83,7 @@ export class BitFighter {
         if (data.bossMessageChangeFailed)
             bossMessageTooManyChanges();
     }
-   
+
     public updateSettings(settings: Settings) {
         this.settings = settings;
         this.updateScale();
@@ -95,8 +98,12 @@ export class BitFighter {
             this.resizeTimeout = null;
             console.log('WIDTH: ', this.wrapperDiv.offsetWidth);
             const scale = this.wrapperDiv.offsetWidth / 500;
-            //this.wrapperDiv.style.fontSize = 12 * scale + 'px';
             this.game.setNewScale(scale);
         }, 100)
+    }
+
+    public updateAlignment(alignTo: 'left' | 'right' | 'center') {
+        console.log("ALIGN:", alignTo);
+        this.game.setAlign(alignTo);
     }
 }
