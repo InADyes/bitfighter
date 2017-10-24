@@ -4,8 +4,8 @@ import { sortGraphicsEvents } from '../shared/buildGraphicsEvents';
 import { buildEvents } from '../shared/buildEvents';
 import { Status, cardStats } from '../shared/Status';
 import { pickCharacter, characters, characterTypes } from '../shared/characterPicker';
-import { FightEvent } from '../shared/fightEvents';
-import { GraphicsEvent} from '../shared/graphicsEvents';
+import { FightEvent } from '../shared/interfaces/fightEvents';
+import { GraphicsEvent} from '../shared/interfaces/graphicsEvents';
 import { BackToFrontMessage, ReelMessage } from '../shared/interfaces/backToFrontMessage';
 import { BackendSettings as Settings } from './interfaces';
 import { applyFightEvents, CombinedEvent } from '../shared/applyFightEvents'

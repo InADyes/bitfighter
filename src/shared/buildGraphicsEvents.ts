@@ -1,6 +1,6 @@
 import { applyFightEvents } from './applyFightEvents';
-import { GraphicsEvent } from './graphicsEvents';
-import { FightEvent } from './fightEvents';
+import { GraphicsEvent } from './interfaces/graphicsEvents';
+import { FightEvent } from './interfaces/fightEvents';
 import { otherCharacter, assertNever } from './utility';
 import { Status } from './Status';
 

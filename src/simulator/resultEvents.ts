@@ -1,6 +1,6 @@
 import { pickCharacter } from '../shared/characterPicker';
 import { buildEvents } from '../shared/buildEvents';
-import { FightEvent } from '../shared/fightEvents';
+import { FightEvent } from '../shared/interfaces/fightEvents';
 import { stdout } from 'process';
 import { buffs } from '../shared/interfaces/buff';
 import { Results, reelToResults, printResults } from './testPair';

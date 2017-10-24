@@ -1,5 +1,5 @@
 import { buildEvents } from '../shared/buildEvents';
-import { FightEvent } from '../shared/fightEvents';
+import { FightEvent } from '../shared/interfaces/fightEvents';
 import { otherCharacter as other } from '../shared/utility';
 import { Status } from '../shared/Status';
 

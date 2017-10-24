@@ -1,4 +1,4 @@
-import { FightEvent } from '../fightEvents';
+import { FightEvent } from './fightEvents';
 import { Status } from '../Status';
 
 export interface Donation {

@@ -1,4 +1,4 @@
-import { FightEvent } from './fightEvents';
+import { FightEvent } from './interfaces/fightEvents';
 import * as Buff from './interfaces/buff';
 import * as characterPicker from './characterPicker';
 import { Status } from '../shared/Status';

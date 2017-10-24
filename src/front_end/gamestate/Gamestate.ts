@@ -1,4 +1,4 @@
-import * as Events from '../../shared/graphicsEvents';
+import * as Events from '../../shared/interfaces/graphicsEvents';
 import { ReelMessage, FrontendCharacter } from '../../shared/interfaces/backToFrontMessage';
 import 'fabric'
 declare let fabric: any;

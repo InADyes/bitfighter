@@ -1,4 +1,4 @@
-import * as GraphicsEvents from '../../shared/graphicsEvents';
+import * as GraphicsEvents from '../../shared/interfaces/graphicsEvents';
 import { GameState } from './Gamestate'
 
 //define function bitBoss

@@ -1,9 +1,9 @@
-import * as FightEvents from '../shared/fightEvents';
+import * as FightEvents from '../shared/interfaces/fightEvents';
 import { Status } from '../shared/Status';
 import { otherCharacter } from '../shared/utility';
 import { buildStats, characters, levels } from '../shared/characterPicker';
 import { build as buildGraphicsEvents } from './buildGraphicsEvents';
-import { GraphicsEvent } from './graphicsEvents';
+import { GraphicsEvent } from './interfaces/graphicsEvents';
 import { assertNever } from './utility';
 
 export interface CombinedEvent {
