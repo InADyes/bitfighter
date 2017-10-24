@@ -337,6 +337,16 @@ export class GameState {
 	}
 
 	public setAlign(alignment: 'left' | 'right' | 'center') {
+		/* 
+		 * Center alignment draws the images from the center of the canvas out.
+		 * So something wide like the dragon will appear further to the side
+		 * than someone small.
+		 * Player 1 is always drawn on the left, so in Right alignment its position
+		 * is relative to the width of his opponent. When there is no opponent it
+		 * defaults to a size. In the case of player 1 dying, player 2 moves over
+		 * base on his own width then readjusts to his opponent's width if there's
+		 * a fight in queue.
+		 */
 		this.align = alignment;
 		if (this.player1)
 			this.player1.setAlignment(this.align);
