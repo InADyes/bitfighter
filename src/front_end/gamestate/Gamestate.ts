@@ -338,6 +338,7 @@ export class GameState {
 
 	public setAlign(alignment: 'left' | 'right' | 'center') {
 		/* 
+		 * Defaults to Left alignment.
 		 * Center alignment draws the images from the center of the canvas out.
 		 * So something wide like the dragon will appear further to the side
 		 * than someone small.
