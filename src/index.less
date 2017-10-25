@@ -35,6 +35,7 @@
 }
 
 #bitfighter {
+  // background-color: orange;////////////////////////////////////////////
   min-height: 75%;
   position: absolute;
   #arena {
@@ -253,61 +254,7 @@
   //   }
   // }
   
-  .timerDiv {
-    position: absolute;
-    display: flex;
-    width: 27%;
-    height: 15%;
-    //border: 4px ridge black;
-    //font-family: Impact, 'Arial Narrow Bold', sans-serif;
-    font-family: 'Concert One';
-    font-size: 3vw;
-    align-items: center;
-    //background-color: #8D0000;
-    animation-name: timerFlash;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-out;
 
-  }
-
-  .challenger {
-    position: relative;
-    display: inline-block;
-    stroke: white;
-    stroke-width: 1%;
-    left: 3%;
-    -webkit-transform: scale(1, 1.5);
-  }
-
-  .timer span {
-    width: 5%;
-  }
-  
-  .timer {
-    display: inline-block;
-    position: relative;
-    left: 3%;
-    color: red;
-    font-size: 5vw;
-    margin: auto;
-    //-webkit-transform: scale(1, 1.1);
-  }
-
-  @-webkit-keyframes timerFlash {
-    // 0% {
-    //   background-color: #FF9191;
-    // }
-    // 100% {
-    //   background-color: #8D0000;
-    // }
-    30% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
 
   @-webkit-keyframes dropInFade {
     from {
@@ -327,6 +274,7 @@
   text-align: center;
 }
 .character_select_card{
+  animation: .5s dropInFade both;
   width:24vw;
   margin:0 .5vh 1vh .5vh;
   display: inline-block;
@@ -571,3 +519,81 @@
 .character_select_card .csc_bonus_health{
   color: #cabe00;
 }
+
+// vv Tim's 60 second timer vv //
+.charSelectTimer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 7vw;
+  color: red;
+  font-family: "Concert One";
+  background-color: rgba(236, 235, 235, 0.6);
+  position: absolute;
+  left: calc(50% - 4.5vw);
+  top: calc(50% - 6vw);
+  width: 9vw;
+  height: 9vw;
+  border-radius: 50%;
+  z-index: 6;
+  border: .2vw solid rgba(236, 235, 235, 0.6);
+  box-shadow: inset 0 0 0 .2vw black;
+}
+// ^^ Tim's 60 second timer ^^ //
+
+// vv Tim's NEW CHALLENGER timer vv /
+#mini-boss-wrapper {
+  .timerDiv {
+    position: absolute;
+    display: flex;
+    width: 27%;
+    // height: 15%;
+    //border: 4px ridge black;
+    //font-family: Impact, 'Arial Narrow Bold', sans-serif;
+    font-family: 'Concert One';
+    font-size: 3vw;
+    align-items: center;
+    //background-color: #8D0000;
+    animation-name: timerFlash;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+  }
+  .challenger {
+    position: relative;
+    display: inline-block;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: white;
+    left: 3%;
+    -webkit-transform: scale(1, 1.5);
+  }
+  .timer span {
+    width: 5%;
+  }
+  .timer {
+    display: inline-block;
+    position: relative;
+    left: 3%;
+    color: red;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: white;
+    font-size: 5vw;
+    margin: auto;
+    //-webkit-transform: scale(1, 1.1);
+  }
+  @-webkit-keyframes timerFlash {
+    // 0% {
+    //   background-color: #FF9191;
+    // }
+    // 100% {
+    //   background-color: #8D0000;
+    // }
+    30% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}
+// ^^ Tim's NEW CHALLENGER timer ^^ //

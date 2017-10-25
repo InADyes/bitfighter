@@ -56,7 +56,7 @@ window.addEventListener('load', function(){
                     'Scullery Maid': 'Scullery Maid mII',
                     'Mage': 'Mage mII'
                 },
-                bitFighterEnabled: false,
+                bitFighterEnabled: true,
                 bitBossStartingHealth: 750
             },
             str => {saveGame = str},

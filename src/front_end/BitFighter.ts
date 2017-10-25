@@ -23,7 +23,7 @@ export class BitFighter {
     private readonly atkURLs = atkURLsNoShim.map(url => this.settings.assetsShim + url);
     private resizeTimeout: number | null = null;
     private readonly queue = new Queue(
-        <HTMLDivElement>document.getElementById('bitfighter'),
+        <HTMLDivElement>document.getElementById('mini-boss-wrapper'),
         //(time) => this.game.startTimer(time)
     );
 

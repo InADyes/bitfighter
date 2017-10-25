@@ -4,6 +4,7 @@ import { rarities } from '../shared/characterPicker';
 
 export class CardChoices {
     private cards: HTMLDivElement[];
+    private timer: HTMLDivElement;
     private timeout: number | null = null;
 
     constructor (
@@ -32,6 +33,7 @@ export class CardChoices {
                 });
             }
         }
+        this.charSelectTimer(60);
         this.timeout = window.setTimeout(
             () => this.clearCards(),
             this.cardsTimeout // one minute
@@ -42,6 +44,22 @@ export class CardChoices {
             this.cardDiv.removeChild(card);
         }
         this.cards = [];
+        this.cardDiv.removeChild(this.timer);
+    }
+    private charSelectTimer(time: number) {
+        this.timer = document.createElement('div');
+        this.timer.className = 'charSelectTimer';
+        this.cardDiv.appendChild(this.timer);
+        this.timer.innerText = time.toString();
+        window.setTimeout(() => this.updateTimer(time - 1), 1000);
+    }
+    private updateTimer(time: number) {
+        if (time < 1){
+            this.cardDiv.removeChild(this.timer);
+            return;
+        }
+        this.timer.innerText = time.toString();
+        window.setTimeout(() => this.updateTimer(time - 1), 1000);
     }
 }
 
@@ -208,4 +226,3 @@ function healthBarSVG(amount: {
         <rect class="main" width="${ amount.amount * amount.factor }%" height="100%" mask="url(#healthBarCutout)"/>
     </svg>`;
 }
-
