@@ -57,9 +57,11 @@ export class CardChoices {
         window.setTimeout(() => this.updateTimer(time - 1), 1000);
     }
     private updateTimer(time: number) {
-        if (time < 1 && this.timer){
-            this.cardDiv.removeChild(this.timer);
-            this.timer = null;
+        if (time < 1){
+            if (this.timer) {
+                this.cardDiv.removeChild(this.timer);
+                this.timer = null;
+            }
             return;
         }
         if (this.timer)

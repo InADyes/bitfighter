@@ -62,7 +62,7 @@ export class BitFighter {
 
     public receivedViewerGameState(data: BackToFrontMessage) {
         if (data.newReel)
-            this.game.newMessage(data.newReel);
+            this.game.newMessage(data.newReel, data.timer ? 1 : 0);
         if (data.characterChoices)
             this.cardChoices.displayCards(data.characterChoices.map(c => buildCard(c, this.artURLs)));
         if (data.queue)
