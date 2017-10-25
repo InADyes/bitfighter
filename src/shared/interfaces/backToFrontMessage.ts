@@ -14,7 +14,7 @@ export interface FrontendCharacter {
     bossMessage: string;
     bossEmoticonURL: string;
     card: CharacterCard;
-    id: number;
+    id: string;
 }
 
 export interface ReelMessage { // needs name change

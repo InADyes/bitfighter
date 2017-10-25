@@ -31,7 +31,7 @@ export function resultGrid() {
             const results = testPair(
                 [
                     pickCharacter({
-                        id: 0,
+                        id: '0',
                         name: 'shawn',
                         amount: levels[character2.v2].bits,
                         profileImageURL: 'hello, i\'m a url',
@@ -40,7 +40,7 @@ export function resultGrid() {
                         bitBossCheerMote: true
                     }, character2.v1, {}),
                     pickCharacter({
-                        id: 1,
+                        id: '1',
                         name: 'hao',
                         amount: levels[character1.v2].bits,
                         profileImageURL: 'hello, i\'m a url',

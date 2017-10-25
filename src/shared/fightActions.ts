@@ -3,32 +3,6 @@ import { characters } from './characterPicker';
 import { Combatant } from '../shared/Combatant';
 import { Source } from '../shared/interfaces/interfaces';
 
-// interface attackProps {
-//     source: Source;
-//     time: number;
-//     attacker: Combatant;
-//     damage: number;
-//     accuracy: number;
-//     critChanceModifier: number;
-//     critDamageModifier: number;
-//     crits: {
-//         odds: number;
-//         debuff?: Buff.Buff;
-//         buff?: Buff.Buff;
-//         damageMultiplier?: number;
-//     }[];
-// }
-
-// export class Combatant {
-//     constructor(
-//         public readonly combatant: Combatant,
-//         private readonly newEvent: (event: FightEvent) => void,
-//         private readonly attackCallback: (attack: attackProps) => void,
-//         public time: number = 0
-//     ) {
-//         this.rollAttackSpeed();
-//     }
-
 // increase internal timer by attack speed;
 export function rollAttackSpeed(target: Combatant) {
     target.time += Math.ceil(Math.random() * (target.stats.attackSpeed.max - target.stats.attackSpeed.min)) + target.stats.attackSpeed.min;
@@ -48,8 +22,6 @@ export function attack(
     attacker.checkBuffs(attacker.time);
 
     let damageRoll = Math.ceil(Math.random() * (attacker.stats.attackDamage.max - attacker.stats.attackDamage.min)) + attacker.stats.attackDamage.min;
-    
-    rollAttackSpeed(attacker);
 
     const total = attacker.stats.accuracy + attacker.stats.dodge;
     const hitChangeRoll = Math.ceil(Math.random() * total);
@@ -90,8 +62,6 @@ export function attack(
 
     if (damageRoll < 0)
         damageRoll = 0;
-    // else if (damageRoll > this.combatant.hitPoints)
-    //     damageRoll = this.combatant.hitPoints;
 
     newEvent({
         type: 'damage',
@@ -116,7 +86,7 @@ export function attack(
             overkill: -1 * attacked.hitPoints
         });
     }
-
+    rollAttackSpeed(attacker);
 }
 
 export function heal(

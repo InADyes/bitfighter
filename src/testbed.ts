@@ -10,7 +10,7 @@ import { BossData } from './front_end/gamestate/interfaces'
 window.addEventListener('load', function(){
     const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
     //const cardDiv = <HTMLDivElement>document.getElementById('charSelect');
-    const requestIDs: number[] = [];
+    const requestIDs: string[] = [];
     let saveGame: string | undefined = undefined;
 
     const resetButton = <HTMLButtonElement>document.getElementById('reset');
@@ -44,7 +44,7 @@ window.addEventListener('load', function(){
                 defaultBossEmoticonURL: '',
                 defaultBossMessage: 'yo, tim! how\'re you doin\'??',
                 defaultChampion: {
-                    id: -1,
+                    id: '-1',
                     name: 'ravi II',
                     amount: 1000,
                     profileImageURL: 'testbed_images/banana_icon.png',
@@ -83,9 +83,9 @@ window.addEventListener('load', function(){
         (slug, message) => {
             window.setTimeout(() => {
                 console.log('message, front to back:', message);
-                let id = -1;
+                let id = '-1';
                 if (message.characterChoice)
-                    id = requestIDs.shift() || -1;
+                    id = requestIDs.shift() || '-1';
     
                 backend.receivedFanGameState(id, message);
             }, 0);
@@ -115,7 +115,7 @@ window.addEventListener('load', function(){
     const artInputNode = <HTMLInputElement>document.getElementById('donation-art');
     const emoteInputNode = <HTMLInputElement>document.getElementById('bitboss-emote');
     newDonationButton.addEventListener('click', element => {
-        const id = Number(idInputNode.value);
+        const id = idInputNode.value;
         const name = nameInputNode.value;
         const amount = Number(bitsInputNode.value);
         const art = Number(artInputNode.value);

@@ -42,7 +42,7 @@ function printReel(reel: FightEvent[]) {
 export function resultEvents() {
     const chars = [
         pickCharacter({
-            id: 0,
+            id: '0',
             name: 'shawn',
             amount: Number(process.argv[3]),
             profileImageURL: 'hello, i\'m a url',
@@ -51,7 +51,7 @@ export function resultEvents() {
             bitBossCheerMote: true
         }, Number(process.argv[2]), {}),
         pickCharacter({
-            id: 1,
+            id: '1',
             name: 'hao',
             amount: Number(process.argv[5]),
             profileImageURL: 'hello, i\'m a url',

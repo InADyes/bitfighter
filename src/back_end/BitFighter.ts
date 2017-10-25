@@ -20,7 +20,7 @@ export class BitFighter {
     constructor(
         private sendMessageToFront: (
             message: BackToFrontMessage,
-            fan?: number
+            fan?: string
         ) => void,
         settings: Settings,
         private readonly setSaveJSON: (jsonStr: string) => void,
@@ -116,11 +116,11 @@ export class BitFighter {
         }));
     }
 
-    public bossMessageUpdate(id: number, message: string) {
+    public bossMessageUpdate(id: string, message: string) {
         // TODO: make this work for people in queue and on the right side of a fight
         const index = this.arena.searchForCombatant(id);
 
-        if (id === -1) {
+        if (index === -1) {
             console.log('boss message update id does not match a currently fighting champion');
             return;
         }
@@ -143,7 +143,7 @@ export class BitFighter {
         }
     }
 
-    public bossEmoticonURLUpdate(id: number, bossEmoticonURL: string) {
+    public bossEmoticonURLUpdate(id: string, bossEmoticonURL: string) {
         // TODO: make this work for people in queue and on the right side of a fight
 
         const index = this.arena.searchForCombatant(id);
@@ -163,14 +163,14 @@ export class BitFighter {
         }
     }
 
-    public receivedFanGameState(id: number, choice: FrontToBackMessage) {
+    public receivedFanGameState(id: string, choice: FrontToBackMessage) {
         if (choice.characterChoice)
             this.characterChoiceHandler.completeChoice(id, choice.characterChoice.choice, true);
         if (choice.requestReel)
             this.initFans(id);
     }
 
-    private initFans(id?: number) {
+    private initFans(id?: string) {
 
         this.sendMessageToFront(
             {
@@ -197,7 +197,7 @@ export class BitFighter {
     }
 
     public donation(
-        id: number,
+        id: string,
         name: string,
         amount: number,
         profileImageURL: string,

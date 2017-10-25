@@ -2,7 +2,7 @@ import { FightEvent } from './fightEvents';
 import { Combatant } from '../Combatant';
 
 export interface Donation {
-    id: number,
+    id: string,
     name: string,
     amount: number,
     profileImageURL: string,
@@ -18,7 +18,7 @@ interface a_Source {
 
 interface CombatantSource extends a_Source {
     readonly type: 'combatant';
-    readonly id: number;
+    readonly id: string;
 }
 
 interface DonationSource extends a_Source {

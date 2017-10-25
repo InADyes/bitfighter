@@ -5,7 +5,7 @@ import { Combatant } from '../Combatant';
 interface abstract_Event {
     time: number;
     type: string;
-    targetID: number;
+    targetID: string;
 }
 
 export interface Damage extends abstract_Event {

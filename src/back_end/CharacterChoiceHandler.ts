@@ -83,7 +83,7 @@ const tiers: DonationTier[] = [
 ];
 
 export interface PendingChoice {
-    id: number,
+    id: string,
     characters: Combatant[],
     timeout: NodeJS.Timer
 }
@@ -93,7 +93,7 @@ export class CharacterChoiceHandler {
 
     constructor(
         private readonly newCombatant: (combatant: Combatant) => void,
-        private readonly requestPick: (choices: CharacterCard[], id: number) => void,
+        private readonly requestPick: (choices: CharacterCard[], id: string) => void,
         private readonly settings: BackendSettings
     ) {}
 
@@ -182,11 +182,11 @@ export class CharacterChoiceHandler {
             )
         });
     }
-    public hasPendingChoice(id: number) {
+    public hasPendingChoice(id: string) {
         return this.pendingCharacterChoices.some(c => c.id === id);
     }
 
-    public completeChoice(id: number, pick: number, clear?: boolean) {
+    public completeChoice(id: string, pick: number, clear?: boolean) {
         let index = this.pendingCharacterChoices.findIndex(c => c.id === id);
 
         if (index === -1) {

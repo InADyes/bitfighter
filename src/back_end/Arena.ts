@@ -74,11 +74,11 @@ export class Arena {
         this.timeoutNextEvent();
     }
 
-    public searchForCombatant(id: number) {
+    public searchForCombatant(id: string) {
         return this.combatants.findIndex(s => s.id === id);
     }
     
-    public healCombatant(targetID: number, donation: Donation) {
+    public healCombatant(targetID: string, donation: Donation) {
         const patchTime = nodePerformanceNow() - this.fightStartTime;
         const amount = this.settings.donationToHPRatio * donation.amount;
         const source: Source = {

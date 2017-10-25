@@ -6,5 +6,5 @@ export interface BossData {
     character: string,
     bossMessage: string,
     bossEmoticonURL: string,
-    id: number
+    id: string
 }

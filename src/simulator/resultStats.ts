@@ -5,7 +5,7 @@ export function resultStats() {
     const results = testPair(
         [
             pickCharacter({
-                id: 0,
+                id: '0',
                 name: 'shawn',
                 amount: Number(process.argv[3]),
                 profileImageURL: 'hello, i\'m a url',
@@ -14,7 +14,7 @@ export function resultStats() {
                 bitBossCheerMote: true
             }, Number(process.argv[2]), {}),
             pickCharacter({
-                id: 1,
+                id: '1',
                 name: 'hao',
                 amount: Number(process.argv[5]),
                 profileImageURL: 'hello, i\'m a url',

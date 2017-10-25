@@ -3,7 +3,7 @@ import { BackendSettings } from './interfaces';
 
 export function validateDonation(donation: Donation): {donation: Readonly<Donation>, err: boolean} {
     const err = false === isValid(donation, {
-        id: 'number',
+        id: 'string',
         name: 'string',
         amount: 'number',
         profileImageURL: 'string',
@@ -12,7 +12,7 @@ export function validateDonation(donation: Donation): {donation: Readonly<Donati
         bitBossCheerMote: 'boolean'
     });
 
-    if (donation.id === 123544090)
+    if (donation.id === '123544090')
         donation.name = 'Ravioli';
     if (donation.profileImageURL === '')
         donation.profileImageURL = 'https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png';
