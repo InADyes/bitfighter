@@ -1,6 +1,7 @@
+import { FightEvent } from './interfaces/fightEvents';
 import * as FightEvents from './interfaces/fightEvents';
 import { GraphicsEvent } from './interfaces/graphicsEvents';
-import { Combatant } from './Combatant';
+import { attack, rollAttackSpeed, heal } from './fightActions';
 import { Status } from '../shared/Status';
 import { applyFightEvents, CombinedEvent } from './applyFightEvents';
 import { otherCharacter  as other} from './utility';
@@ -10,31 +11,27 @@ import { Source } from './interfaces/interfaces';
 
 export function buildEvents(
     status: Status[],
-    options: {startTime?: number, source?: Source} = {source: undefined}
+    options: {startTime?: number, source?: Source} = {}
 ) {
     const reel: CombinedEvent[] = [];
     const newStatus = status.map(s => s.clone());
-    const combatants = newStatus.map((status, index) => new Combatant(
-        status,
-        event => reel.push(...applyFightEvents(newStatus, event)),
-        attack => {combatants.filter(c => c != attack.attacker)[0].takeHit(attack);},
-        options.startTime
-    ));
+    // const combatants = newStatus.map((status, index) => new Combatant(
+    //     status,
+    //     event => reel.push(...applyFightEvents(newStatus, event)),
+    //     attack => {combatants.filter(c => c != attack.attacker)[0].takeHit(attack);},
+    //     options.startTime
+    // ));
     
     const isFight = newStatus.length >= 2;
+    const newEvent = (event: FightEvent) => reel.push(...applyFightEvents(newStatus, event));
 
-    for (let c of combatants) {
-        if (c.status.hitPoints <= 0) {
-            // reel.push(...applyFightEvents(newStatus, new FightEvents.Death(
-            //     combatants[i].time,
-            //     i,
-            //     -1 * combatants[i].status.hitPoints
-            // )));
+    for (let c of newStatus) {
+        if (c.hitPoints <= 0) {
             reel.push(...applyFightEvents(newStatus, {
                 type: 'death',
                 time: c.time,
-                targetID: c.status.id,
-                overkill: -1 * c.status.hitPoints,
+                targetID: c.id,
+                overkill: -1 * c.hitPoints,
                 source: options.source || {type: 'game'}
             }));
         }
@@ -60,27 +57,32 @@ export function buildEvents(
         if (typeMap[newStatus[1].character] === 2 && typeMap[newStatus[0].character] === 1)
             newStatus[1].addEffect(10000000, buffs[buffTypes.armorBonus]);
     }
-
     // ---------- end here
+
+    // initialize times
+    for (let c of newStatus) {
+        c.time = options.startTime || 0;
+        rollAttackSpeed(c);
+    }
+
     while (newStatus.length >= 2) {
-        if (combatants[0].time <= combatants[1].time)
-            combatants[0].attack();
+        if (newStatus[0].time <= newStatus[1].time)
+            attack(newStatus[0], newStatus[1], newEvent);
         else
-            combatants[1].attack();
+            attack(newStatus[1], newStatus[0], newEvent);
     }
 
     newStatus.forEach(s => s.clearBuffs());
     if (isFight) {
-        const winner = combatants.filter(c => c.status === newStatus[0])[0];
-        winner.time += 2000;
-        winner.heal({type: 'game'});
-        // reel.push(...applyFightEvents(newStatus, new FightEvents.LevelUp(
-        //     winner.time,
-        //     0
-        // )));
+        newStatus[0].time += 2000;
+        heal(
+            newStatus[0],
+            {type: 'game'},
+            newEvent
+        );
         reel.push(...applyFightEvents(newStatus, {
             type: 'levelUp',
-            time: winner.time,
+            time: newStatus[0].time,
             targetID: newStatus[0].id
         }));
     }

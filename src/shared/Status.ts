@@ -116,6 +116,7 @@ export class Status {
     }[] = [];
     private calculatedStats: Stats;
     private bossMessageChangesRemaining = 3;
+    public time = 0;
 
     constructor(
         public readonly id: number,

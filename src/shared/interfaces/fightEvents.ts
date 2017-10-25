@@ -1,4 +1,3 @@
-import { Combatant } from '../Combatant';
 import { Buff } from './buff';
 import { Donation, Source } from './interfaces';
 import { Status } from '../Status';
