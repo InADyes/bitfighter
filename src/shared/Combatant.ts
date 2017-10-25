@@ -50,7 +50,7 @@ export class Combatant {
         this.attackCallback({
             source: {
                 type: 'combatant',
-                status: this.status
+                id: this.status.id
             },
             time: this.time,
             attacker: this,

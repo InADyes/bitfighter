@@ -43,10 +43,14 @@ export function applyFightEvents(
                     );
                 }
                 if (event.buff && event.source.type === 'combatant') {
-                    event.source.status.addEffect(
-                        event.time + event.buff.duration,
-                        event.buff
-                    );
+                    const id = event.source.id;
+                    const s = status.find(s => s.id === id);
+                    if (s) {
+                        s.addEffect(
+                            event.time + event.buff.duration,
+                            event.buff
+                        );
+                    }
                 }
             } break;
             case 'death': { // level up also happens here
