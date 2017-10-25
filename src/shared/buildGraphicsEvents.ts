@@ -30,9 +30,15 @@ export function sortGraphicsEvents(events: GraphicsEvent[]) {
     });
 }
 
-export function build(event: FightEvent, status: Status[]) {
+export function build(event: FightEvent, status: Status[]): GraphicsEvent[] {
     const display: GraphicsEvent[] = [];
-    const { time, character } = event;
+    const time  = event.time;
+    const targetIndex = status.findIndex(s => s.id === event.targetID);
+
+    if (targetIndex === -1) {
+        console.error('invalid target: ', event.targetID);
+        return [];
+    }
 
     switch (event.type) {
         case 'damage':
@@ -42,7 +48,7 @@ export function build(event: FightEvent, status: Status[]) {
                 display.push({
                     type: 'text',
                     time,
-                    character,
+                    character: targetIndex,
                     duration: 1.5,
                     text: `${ d.name} attacks`,
                     color: colors.damage 
@@ -50,7 +56,7 @@ export function build(event: FightEvent, status: Status[]) {
                 display.push({
                     type: 'text',
                     time,
-                    character,
+                    character: targetIndex,
                     duration: 1.5,
                     text: String(Math.ceil(d.amount)),
                     color: colors.damage
@@ -58,22 +64,22 @@ export function build(event: FightEvent, status: Status[]) {
                 display.push({
                     type: 'health',
                     time,
-                    character,
+                    character: targetIndex,
                     attacker: d.name,
-                    health: Math.ceil(status[character].hitPoints)
+                    health: Math.ceil(status[targetIndex].hitPoints)
                 });
             } else {
                 display.push({
                     type: 'health',
                     time,
-                    character,
+                    character: targetIndex,
                     attacker: null,
-                    health: Math.max(0, Math.ceil(status[character].hitPoints))
+                    health: Math.max(0, Math.ceil(status[targetIndex].hitPoints))
                 });
                 display.push({
                     type: 'text',
                     time,
-                    character,
+                    character: targetIndex,
                     duration: 1,
                     text: String(Math.ceil(event.amount)),
                     color: colors.damage
@@ -84,7 +90,7 @@ export function build(event: FightEvent, status: Status[]) {
             display.push({
                 type: 'text',
                 time,
-                character,
+                character: targetIndex,
                 duration: .72,
                 text: 'dodge',
                 color: colors.dodge
@@ -95,7 +101,7 @@ export function build(event: FightEvent, status: Status[]) {
                 display.push({
                     type: 'text',
                     time,
-                    character,
+                    character: targetIndex,
                     duration: 1,
                     text: `${ event.source.donation.name } heals`,
                     color: colors.donation
@@ -103,7 +109,7 @@ export function build(event: FightEvent, status: Status[]) {
                 display.push({
                     type: 'text',
                     time,
-                    character,
+                    character: targetIndex,
                     duration: 1,
                     text: String(Math.ceil(event.amount)),
                     color: colors.heal
@@ -111,22 +117,22 @@ export function build(event: FightEvent, status: Status[]) {
                 display.push({
                     type: 'health',
                     time,
-                    character,
+                    character: targetIndex,
                     attacker: null,
-                    health: Math.ceil(status[character].hitPoints)
+                    health: Math.ceil(status[targetIndex].hitPoints)
                 });
             } else {
                 display.push({
                     type: 'health',
                     time,
-                    character,
+                    character: targetIndex,
                     attacker: null,
-                    health: Math.ceil(status[character].hitPoints)
+                    health: Math.ceil(status[targetIndex].hitPoints)
                 });
                 display.push({
                     type: 'text',
                     time,
-                    character,
+                    character: targetIndex,
                     duration: 1,
                     text: String(Math.ceil(event.amount)),
                     color: colors.heal
@@ -137,7 +143,7 @@ export function build(event: FightEvent, status: Status[]) {
             display.push({
                 type: 'clear',
                 time,
-                character
+                character: targetIndex
             });
             break;
         case 'crit': {
@@ -146,7 +152,7 @@ export function build(event: FightEvent, status: Status[]) {
                 display.push({
                     type: 'text',
                     time,
-                    character,
+                    character: targetIndex,
                     duration: 1,
                     text: 'crit',
                     color: colors.damage
@@ -156,14 +162,14 @@ export function build(event: FightEvent, status: Status[]) {
                 display.push({
                     type: 'buff',
                     time,
-                    character,
+                    character: targetIndex,
                     art: debuff.art,
                     duration: debuff.duration
                 });
                 display.push({
                     type: 'text',
                     time,
-                    character,
+                    character: targetIndex,
                     duration: 1,
                     text: debuff.name,
                     color: colors.ability
@@ -173,14 +179,14 @@ export function build(event: FightEvent, status: Status[]) {
                 display.push({
                     type: 'buff',
                     time,
-                    character: otherCharacter(character),
+                    character: otherCharacter(targetIndex),
                     art: buff.art,
                     duration: buff.duration
                 });
                 display.push({
                     type: 'text',
                     time,
-                    character: otherCharacter(character),
+                    character: otherCharacter(targetIndex),
                     duration: 1,
                     text: buff.name,
                     color: colors.ability
@@ -191,13 +197,13 @@ export function build(event: FightEvent, status: Status[]) {
             display.push({
                 type: 'attack',
                 time: time - 125,
-                character
+                character: targetIndex
             });
             break;
         case 'levelUp':
             // display.push(new GraphicsEvents.Text(
             //     time,
-            //     character, //should this always be zero or be characterOther()?
+            //     character: targetIndex, //should this always be zero or be characterOther()?
             //     'Level Up!',
             //     'gold'
             // ));

@@ -17,10 +17,10 @@ export function countPairStats(
     for (let _ = 0; _ < count; _++) {
         for (let __ = 0; __ < 1000; __++){
             const reel = buildEvents(chars).reel.map(e => e.fight);
-            reelToResults(results, reel);
+            reelToResults(results, reel, chars);
             if (reel.find(e =>
                 e.type === 'death'
-                && e.character === 0
+                && e.targetID === chars[0].id
             ) !== undefined)
                 break;
         }

@@ -1,11 +1,12 @@
 import { Combatant } from '../Combatant';
 import { Buff } from './buff';
 import { Donation, Source } from './interfaces';
+import { Status } from '../Status';
 
 interface abstract_Event {
     time: number;
     type: string;
-    character: number;
+    targetID: number;
 }
 
 export interface Damage extends abstract_Event {
