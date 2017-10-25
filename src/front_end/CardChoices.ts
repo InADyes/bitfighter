@@ -4,7 +4,7 @@ import { rarities } from '../shared/characterPicker';
 
 export class CardChoices {
     private cards: HTMLDivElement[];
-    private timer: HTMLDivElement;
+    private timer: HTMLDivElement | null;
     private timeout: number | null = null;
 
     constructor (
@@ -44,7 +44,10 @@ export class CardChoices {
             this.cardDiv.removeChild(card);
         }
         this.cards = [];
-        this.cardDiv.removeChild(this.timer);
+        if (this.timer) {
+            this.cardDiv.removeChild(this.timer);
+            this.timer = null;
+        }
     }
     private charSelectTimer(time: number) {
         this.timer = document.createElement('div');
@@ -54,11 +57,13 @@ export class CardChoices {
         window.setTimeout(() => this.updateTimer(time - 1), 1000);
     }
     private updateTimer(time: number) {
-        if (time < 1){
+        if (time < 1 && this.timer){
             this.cardDiv.removeChild(this.timer);
+            this.timer = null;
             return;
         }
-        this.timer.innerText = time.toString();
+        if (this.timer)
+            this.timer.innerText = time.toString();
         window.setTimeout(() => this.updateTimer(time - 1), 1000);
     }
 }
