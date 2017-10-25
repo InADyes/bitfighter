@@ -71,7 +71,7 @@ export class Combatant {
         if (hitChangeRoll > attack.accuracy) {
             this.newEvent({
                 type: 'dodge',
-                time: this.time,
+                time: attack.time,
                 targetID: this.status.id,
                 source: attack.source
             });
@@ -86,7 +86,7 @@ export class Combatant {
                     attack.damage = (attack.damage - this.status.stats.armor) * crit.damageMultiplier * attack.critDamageModifier;
                 this.newEvent({
                     type: 'crit',
-                    time: this.time,
+                    time: attack.time,
                     targetID: this.status.id,
                     damage: crit.damageMultiplier !== undefined,
                     buff: crit.buff,
@@ -103,7 +103,7 @@ export class Combatant {
 
         this.newEvent({
             type: 'damage',
-            time: this.time,
+            time: attack.time,
             targetID: this.status.id,
             amount: attack.damage,
             source: attack.source
@@ -112,7 +112,7 @@ export class Combatant {
         if (this.status.hitPoints <= 0) {
             this.newEvent({
                 type: 'death',
-                time: this.time,
+                time: attack.time,
                 targetID: this.status.id,
                 source: attack.source,
                 overkill: -1 * this.status.hitPoints
