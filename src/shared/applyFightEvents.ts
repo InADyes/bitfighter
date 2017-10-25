@@ -19,36 +19,48 @@ export function applyFightEvents(
     const combinedReel: CombinedEvent[] = [];
 
     for (let event of reel) {
+        const target = status.find(s => s.id === event.targetID);
+        if (target === undefined) {
+            console.error('invalid target id:', event.targetID);
+            continue;
+        }
+
         switch (event.type) {
             case 'damage':
-                status[event.character].hitPoints -= event.amount;
+                target.hitPoints -= event.amount;
                 break;
             case 'heal': {
-                const c = status[event.character];
-                c.hitPoints = Math.min(
-                    c.hitPoints + event.amount,
-                    c.stats.maxHitPoints
+                target.hitPoints = Math.min(
+                    target.hitPoints + event.amount,
+                    target.stats.maxHitPoints
                 );
             } break;
             case 'crit': {
                 if (event.debuff) {
-                    status[event.character].addEffect(
+                    target.addEffect(
                         event.time + event.debuff.duration,
                         event.debuff
                     );
                 }
-                if (event.buff) {
-                    status[otherCharacter(event.character)].addEffect(
+                if (event.buff && event.source.type === 'combatant') {
+                    event.source.status.addEffect(
                         event.time + event.buff.duration,
                         event.buff
                     );
                 }
             } break;
             case 'death': { // level up also happens here
-                status.splice(event.character, 1);
+            //     const i = status.findIndex(s => s !== s);
+            //     if (i === -1)
+            //         console.error('could not remove character:', event.target);
+            //     else {
+            //         status.splice(i, 1);
+            //         // recalculate positions (doing it after the graphics event for now)
+            //         // status.forEach((s, i) => s.position = (i === 0 ? 'boss' : 'challenger'));
+            //     }
             } break;
             case 'levelUp': {
-                // const c = status[event.character];
+                // const c = target;
                 // if (c && levels.length > c.level) {
                 //     c.level++;
                 //     c.baseStats = buildStats(c.character, c.initialDonation, c.level);
@@ -64,6 +76,15 @@ export function applyFightEvents(
             fight: event,
             graphics: buildGraphicsEvents(event, status)
         });
+
+        // if somone dies recalculate the positions after building the graphics
+        if (event.type === 'death') {
+            const i = status.findIndex(s => s === target);
+            if (i === -1)
+                console.error('could not remove character:', event.targetID);
+            else
+                status.splice(i, 1);
+        }
     };
     return combinedReel;
 }

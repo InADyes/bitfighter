@@ -10,7 +10,7 @@ function printReel(reel: FightEvent[]) {
     console.log('####### EVENTS #######');
 
     for (let event of reel) {
-        stdout.write(`time: ${ event.time.toPrecision(6) }, char: ${ event.character }, `);
+        stdout.write(`time: ${ event.time.toPrecision(6) }, char: ${ event.targetID }, `);
         switch (event.type) {
             case 'damage':
                 stdout.write(`damage: ${ event.amount }\n`)
@@ -69,7 +69,8 @@ export function resultEvents() {
             s.character,
             s.initialDonation
         )),
-        reel
+        reel,
+        chars
     )
 
     printResults(results);
