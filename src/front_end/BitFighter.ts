@@ -5,7 +5,7 @@ import { characters,
 } from '../shared/characterPicker';
 import { GameState } from './gamestate/Gamestate';
 import { BackToFrontMessage } from '../shared/interfaces/backToFrontMessage';
-import { buildCard, updateStatusCards, CardChoices } from './CardChoices';
+import { buildCard, updateCombatantCards, CardChoices } from './CardChoices';
 import {
     CharacterChoice,
     FrontToBackMessage
@@ -38,7 +38,7 @@ export class BitFighter {
             this.artURLs,
             this.iconURLs,
             this.atkURLs,
-            chars => updateStatusCards(chars, this.artURLs)
+            chars => updateCombatantCards(chars, this.artURLs)
         );
         this.updateSettings(settings);
         this.cardChoices = new CardChoices(

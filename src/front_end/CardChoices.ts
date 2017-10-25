@@ -45,7 +45,7 @@ export class CardChoices {
     }
 }
 
-export function updateStatusCards(
+export function updateCombatantCards(
     cards: {
         name: string;
         currentHitPoints: number;

@@ -1,5 +1,5 @@
 import { Donation } from '../shared/interfaces/interfaces';
-import { Status } from '../shared/Status';
+import { Combatant } from '../shared/Combatant';
 import { PendingChoice } from './CharacterChoiceHandler';
 
 export interface BackendSettings {
@@ -15,7 +15,7 @@ export interface BackendSettings {
 }
 
 export interface GameSave {
-    arena: Status[];
-    queue: Status[];
+    arena: Combatant[];
+    queue: Combatant[];
     pendingChoices: PendingChoice[];
 }

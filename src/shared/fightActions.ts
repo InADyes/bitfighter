@@ -1,6 +1,6 @@
 import { FightEvent } from './interfaces/fightEvents';
 import { characters } from './characterPicker';
-import { Status } from '../shared/Status';
+import { Combatant } from '../shared/Combatant';
 import { Source } from '../shared/interfaces/interfaces';
 
 // interface attackProps {
@@ -21,7 +21,7 @@ import { Source } from '../shared/interfaces/interfaces';
 
 // export class Combatant {
 //     constructor(
-//         public readonly status: Status,
+//         public readonly combatant: Combatant,
 //         private readonly newEvent: (event: FightEvent) => void,
 //         private readonly attackCallback: (attack: attackProps) => void,
 //         public time: number = 0
@@ -30,13 +30,13 @@ import { Source } from '../shared/interfaces/interfaces';
 //     }
 
 // increase internal timer by attack speed;
-export function rollAttackSpeed(target: Status) {
+export function rollAttackSpeed(target: Combatant) {
     target.time += Math.ceil(Math.random() * (target.stats.attackSpeed.max - target.stats.attackSpeed.min)) + target.stats.attackSpeed.min;
 }
 
 export function attack(
-    attacker: Status,
-    attacked: Status,
+    attacker: Combatant,
+    attacked: Combatant,
     newEvent: (event: FightEvent) => void
 ) {
     newEvent({
@@ -48,20 +48,6 @@ export function attack(
     attacker.checkBuffs(attacker.time);
 
     let damageRoll = Math.ceil(Math.random() * (attacker.stats.attackDamage.max - attacker.stats.attackDamage.min)) + attacker.stats.attackDamage.min;
-
-    // this.attackCallback({
-    //     source: {
-    //         type: 'combatant',
-    //         id: this.status.id
-    //     },
-    //     time: this.time,
-    //     attacker: this,
-    //     damage: damageRoll,
-    //     accuracy: stats.accuracy,
-    //     critDamageModifier: stats.critDamageModifier,
-    //     critChanceModifier: stats.critChanceModifier,
-    //     crits: characterPicker.characters[this.status.character].crits
-    // });
     
     rollAttackSpeed(attacker);
 
@@ -72,7 +58,7 @@ export function attack(
         newEvent({
             type: 'dodge',
             time: attacker.time,
-            targetID: attacker.id,
+            targetID: attacked.id,
             source: {
                 type: 'combatant',
                 id: attacker.id
@@ -104,8 +90,8 @@ export function attack(
 
     if (damageRoll < 0)
         damageRoll = 0;
-    // else if (damageRoll > this.status.hitPoints)
-    //     damageRoll = this.status.hitPoints;
+    // else if (damageRoll > this.combatant.hitPoints)
+    //     damageRoll = this.combatant.hitPoints;
 
     newEvent({
         type: 'damage',
@@ -134,7 +120,7 @@ export function attack(
 }
 
 export function heal(
-    target: Status,
+    target: Combatant,
     source: Source,
     newEvent: (event: FightEvent) => void
 ) {

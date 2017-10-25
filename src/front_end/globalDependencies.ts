@@ -1,5 +1,5 @@
 import { BossData } from './gamestate/interfaces';
-import { choiceStats } from '../shared/Status';
+import { choiceStats } from '../shared/Combatant';
 import { CharacterListItem } from '../shared/interfaces/backToFrontMessage';
 
 declare const window: {

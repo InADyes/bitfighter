@@ -1,5 +1,5 @@
 import { FightEvent } from './fightEvents';
-import { Status } from '../Status';
+import { Combatant } from '../Combatant';
 
 export interface Donation {
     id: number,

@@ -2,7 +2,7 @@ import { Packet } from '_debugger';
 import { generateBitBoss } from './generateBitBoss';
 import { sortGraphicsEvents } from '../shared/buildGraphicsEvents';
 import { buildEvents } from '../shared/buildEvents';
-import { Status, cardStats } from '../shared/Status';
+import { Combatant, cardStats } from '../shared/Combatant';
 import { pickCharacter, characters, characterTypes } from '../shared/characterPicker';
 import { FightEvent } from '../shared/interfaces/fightEvents';
 import { GraphicsEvent} from '../shared/interfaces/graphicsEvents';
@@ -25,8 +25,8 @@ function nodePerformanceNow() {
 export class Arena {
     private fightStartTime: number = 0;
     private timeout: NodeJS.Timer | null = null;
-    private readonly combatants: Status[] = [];
-    public results: Status[] = [];
+    private readonly combatants: Combatant[] = [];
+    public results: Combatant[] = [];
     private events: Readonly<CombinedEvent>[] = [];
 
     constructor(
@@ -49,7 +49,7 @@ export class Arena {
         this.startFight(0);
     }
 
-    public addCombatants(countdown: number, ...combatants: Status[]) {
+    public addCombatants(countdown: number, ...combatants: Combatant[]) {
         if (this.timeout !== null) {
             clearTimeout(this.timeout);
             this.timeout = null;
@@ -60,10 +60,10 @@ export class Arena {
     }
 
     private startFight(countdown: number, ...baseReel: FightEvent[]) {
-        const tempStatus = this.combatants.map(s => s.clone());
-        const combinedBase = applyFightEvents(tempStatus, ...baseReel)
+        const tempCombatant = this.combatants.map(s => s.clone());
+        const combinedBase = applyFightEvents(tempCombatant, ...baseReel)
 
-        const result = buildEvents(tempStatus, {startTime: countdown});
+        const result = buildEvents(tempCombatant, {startTime: countdown});
         this.results = result.combatants;
         this.fightStartTime = nodePerformanceNow();
         this.events = combinedBase.concat(result.reel);
@@ -164,14 +164,14 @@ export class Arena {
     // only works when all new events have the same time
     public insertEvents(patchTime: number, source: Source, ...insert: FightEvent[]) {
 
-        // create a temporary copy of status
-        const tempStatus = this.combatants.map(s => s.clone());
+        // create a temporary copy of combatant
+        const tempCombatant = this.combatants.map(s => s.clone());
 
         // apply new events
-        const reel = applyFightEvents(tempStatus, ...insert);
+        const reel = applyFightEvents(tempCombatant, ...insert);
         
         // calculate the results of the new events
-        reel.push(...buildEvents(tempStatus, {startTime: patchTime, source}).reel);
+        reel.push(...buildEvents(tempCombatant, {startTime: patchTime, source}).reel);
 
         // if the new events caused the chapion to die instead start a fight
         if (

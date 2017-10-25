@@ -2,7 +2,7 @@ import { FightEvent } from './interfaces/fightEvents';
 import * as FightEvents from './interfaces/fightEvents';
 import { GraphicsEvent } from './interfaces/graphicsEvents';
 import { attack, rollAttackSpeed, heal } from './fightActions';
-import { Status } from '../shared/Status';
+import { Combatant } from '../shared/Combatant';
 import { applyFightEvents, CombinedEvent } from './applyFightEvents';
 import { otherCharacter  as other} from './utility';
 import { buffs, types as buffTypes } from './interfaces/buff';
@@ -10,24 +10,24 @@ import * as BuildGraphicsEvents from './buildGraphicsEvents';
 import { Source } from './interfaces/interfaces';
 
 export function buildEvents(
-    status: Status[],
+    combatant: Combatant[],
     options: {startTime?: number, source?: Source} = {}
 ) {
     const reel: CombinedEvent[] = [];
-    const newStatus = status.map(s => s.clone());
-    // const combatants = newStatus.map((status, index) => new Combatant(
-    //     status,
-    //     event => reel.push(...applyFightEvents(newStatus, event)),
+    const newCombatant = combatant.map(s => s.clone());
+    // const combatants = newCombatant.map((combatant, index) => new Combatant(
+    //     combatant,
+    //     event => reel.push(...applyFightEvents(newCombatant, event)),
     //     attack => {combatants.filter(c => c != attack.attacker)[0].takeHit(attack);},
     //     options.startTime
     // ));
     
-    const isFight = newStatus.length >= 2;
-    const newEvent = (event: FightEvent) => reel.push(...applyFightEvents(newStatus, event));
+    const isFight = newCombatant.length >= 2;
+    const newEvent = (event: FightEvent) => reel.push(...applyFightEvents(newCombatant, event));
 
-    for (let c of newStatus) {
+    for (let c of newCombatant) {
         if (c.hitPoints <= 0) {
-            reel.push(...applyFightEvents(newStatus, {
+            reel.push(...applyFightEvents(newCombatant, {
                 type: 'death',
                 time: c.time,
                 targetID: c.id,
@@ -38,56 +38,56 @@ export function buildEvents(
     }
 
     // ------------- type hack starts here
-    if (newStatus.length >= 2) {
-        if (typeMap[newStatus[0].character] === 0 && typeMap[newStatus[1].character] === 2)
-            newStatus[0].addEffect(10000000, buffs[buffTypes.armorBonus]);
+    if (newCombatant.length >= 2) {
+        if (typeMap[newCombatant[0].character] === 0 && typeMap[newCombatant[1].character] === 2)
+            newCombatant[0].addEffect(10000000, buffs[buffTypes.armorBonus]);
             
-        if (typeMap[newStatus[0].character] === 1 && typeMap[newStatus[1].character] === 0)
-            newStatus[0].addEffect(10000000, buffs[buffTypes.armorBonus]);
+        if (typeMap[newCombatant[0].character] === 1 && typeMap[newCombatant[1].character] === 0)
+            newCombatant[0].addEffect(10000000, buffs[buffTypes.armorBonus]);
 
-        if (typeMap[newStatus[0].character] === 2 && typeMap[newStatus[1].character] === 1)
-            newStatus[0].addEffect(10000000, buffs[buffTypes.armorBonus]);
+        if (typeMap[newCombatant[0].character] === 2 && typeMap[newCombatant[1].character] === 1)
+            newCombatant[0].addEffect(10000000, buffs[buffTypes.armorBonus]);
 
-        if (typeMap[newStatus[1].character] === 0 && typeMap[newStatus[0].character] === 2)
-            newStatus[1].addEffect(10000000, buffs[buffTypes.armorBonus]);
+        if (typeMap[newCombatant[1].character] === 0 && typeMap[newCombatant[0].character] === 2)
+            newCombatant[1].addEffect(10000000, buffs[buffTypes.armorBonus]);
 
-        if (typeMap[newStatus[1].character] === 1 && typeMap[newStatus[0].character] === 0)
-            newStatus[1].addEffect(10000000, buffs[buffTypes.armorBonus]);
+        if (typeMap[newCombatant[1].character] === 1 && typeMap[newCombatant[0].character] === 0)
+            newCombatant[1].addEffect(10000000, buffs[buffTypes.armorBonus]);
 
-        if (typeMap[newStatus[1].character] === 2 && typeMap[newStatus[0].character] === 1)
-            newStatus[1].addEffect(10000000, buffs[buffTypes.armorBonus]);
+        if (typeMap[newCombatant[1].character] === 2 && typeMap[newCombatant[0].character] === 1)
+            newCombatant[1].addEffect(10000000, buffs[buffTypes.armorBonus]);
     }
     // ---------- end here
 
     // initialize times
-    for (let c of newStatus) {
+    for (let c of newCombatant) {
         c.time = options.startTime || 0;
         rollAttackSpeed(c);
     }
 
-    while (newStatus.length >= 2) {
-        if (newStatus[0].time <= newStatus[1].time)
-            attack(newStatus[0], newStatus[1], newEvent);
+    while (newCombatant.length >= 2) {
+        if (newCombatant[0].time <= newCombatant[1].time)
+            attack(newCombatant[0], newCombatant[1], newEvent);
         else
-            attack(newStatus[1], newStatus[0], newEvent);
+            attack(newCombatant[1], newCombatant[0], newEvent);
     }
 
-    newStatus.forEach(s => s.clearBuffs());
+    newCombatant.forEach(s => s.clearBuffs());
     if (isFight) {
-        newStatus[0].time += 2000;
+        newCombatant[0].time += 2000;
         heal(
-            newStatus[0],
+            newCombatant[0],
             {type: 'game'},
             newEvent
         );
-        reel.push(...applyFightEvents(newStatus, {
+        reel.push(...applyFightEvents(newCombatant, {
             type: 'levelUp',
-            time: newStatus[0].time,
-            targetID: newStatus[0].id
+            time: newCombatant[0].time,
+            targetID: newCombatant[0].id
         }));
     }
 
-    return { combatants: newStatus, reel }
+    return { combatants: newCombatant, reel }
 }
 
 const enum types {

@@ -2,7 +2,7 @@ import { applyFightEvents } from './applyFightEvents';
 import { GraphicsEvent } from './interfaces/graphicsEvents';
 import { FightEvent } from './interfaces/fightEvents';
 import { otherCharacter, assertNever } from './utility';
-import { Status } from './Status';
+import { Combatant } from './Combatant';
 
 // could be programatically genrated in a cleaner way if we end up with a lot
 // used to determine order of events when the timestamp is the same
@@ -30,10 +30,10 @@ export function sortGraphicsEvents(events: GraphicsEvent[]) {
     });
 }
 
-export function build(event: FightEvent, status: Status[]): GraphicsEvent[] {
+export function build(event: FightEvent, combatant: Combatant[]): GraphicsEvent[] {
     const display: GraphicsEvent[] = [];
     const time  = event.time;
-    const targetIndex = status.findIndex(s => s.id === event.targetID);
+    const targetIndex = combatant.findIndex(s => s.id === event.targetID);
 
     if (targetIndex === -1) {
         console.error('invalid target: ', event.targetID);
@@ -66,7 +66,7 @@ export function build(event: FightEvent, status: Status[]): GraphicsEvent[] {
                     time,
                     character: targetIndex,
                     attacker: d.name,
-                    health: Math.ceil(status[targetIndex].hitPoints)
+                    health: Math.ceil(combatant[targetIndex].hitPoints)
                 });
             } else {
                 display.push({
@@ -74,7 +74,7 @@ export function build(event: FightEvent, status: Status[]): GraphicsEvent[] {
                     time,
                     character: targetIndex,
                     attacker: null,
-                    health: Math.max(0, Math.ceil(status[targetIndex].hitPoints))
+                    health: Math.max(0, Math.ceil(combatant[targetIndex].hitPoints))
                 });
                 display.push({
                     type: 'text',
@@ -119,7 +119,7 @@ export function build(event: FightEvent, status: Status[]): GraphicsEvent[] {
                     time,
                     character: targetIndex,
                     attacker: null,
-                    health: Math.ceil(status[targetIndex].hitPoints)
+                    health: Math.ceil(combatant[targetIndex].hitPoints)
                 });
             } else {
                 display.push({
@@ -127,7 +127,7 @@ export function build(event: FightEvent, status: Status[]): GraphicsEvent[] {
                     time,
                     character: targetIndex,
                     attacker: null,
-                    health: Math.ceil(status[targetIndex].hitPoints)
+                    health: Math.ceil(combatant[targetIndex].hitPoints)
                 });
                 display.push({
                     type: 'text',

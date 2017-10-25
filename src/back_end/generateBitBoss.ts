@@ -1,12 +1,12 @@
 import { Donation } from '../shared/interfaces/interfaces';
-import { Status } from '../shared/Status';
+import { Combatant } from '../shared/Combatant';
 import { characterTypes } from '../shared/characterPicker';
 
-export function generateBitBoss(donation: Donation, health: number) : Status {
+export function generateBitBoss(donation: Donation, health: number) : Combatant {
     if (health < 1)
         health = 1;
 
-    return new Status(
+    return new Combatant(
         donation.id,
         donation.name,
         characterTypes.bitBoss,

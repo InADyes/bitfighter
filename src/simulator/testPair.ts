@@ -1,7 +1,7 @@
 import { buildEvents } from '../shared/buildEvents';
 import { FightEvent } from '../shared/interfaces/fightEvents';
 import { otherCharacter as other } from '../shared/utility';
-import { Status } from '../shared/Status';
+import { Combatant } from '../shared/Combatant';
 
 export class Results {
     hits = 0;
@@ -27,7 +27,7 @@ export class Results {
 }
 
 export function testPair(
-    chars: Status[],
+    chars: Combatant[],
     fights: number
 ) {
     let results = chars.map(s => new Results(
@@ -46,12 +46,12 @@ export function testPair(
 export function reelToResults(
     results: Results[],
     reel: FightEvent[],
-    status: Status[]
+    combatants: Combatant[]
 ) {
     results[0].totalTime += reel[reel.length - 1].time - reel[0].time;
 
     for (const event of reel) {
-        const targetIndex = status.findIndex(s => s.id === event.targetID);
+        const targetIndex = combatants.findIndex(s => s.id === event.targetID);
         if (targetIndex === -1) {
             console.error('invalid target ID: ', event.targetID);
             continue;

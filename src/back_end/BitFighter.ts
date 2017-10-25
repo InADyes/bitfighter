@@ -1,5 +1,5 @@
 import { generateBitBoss } from './generateBitBoss';
-import { Status, cardStats } from '../shared/Status';
+import { Combatant, cardStats } from '../shared/Combatant';
 import { Character, pickCharacter, characters, rarities, artURLs } from '../shared/characterPicker';
 import { BackToFrontMessage, CharacterListItem, QueueItem } from '../shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
@@ -10,7 +10,7 @@ import { Arena } from './Arena';
 import { validateDonation, validateSettings } from './validations';
 
 export class BitFighter {
-    private readonly queue: Status[] = [];
+    private readonly queue: Combatant[] = [];
     private timeout: NodeJS.Timer | null = null;
 
     private readonly characterChoiceHandler: CharacterChoiceHandler;
@@ -37,7 +37,7 @@ export class BitFighter {
         this.settings = ret.settings;
 
         this.characterChoiceHandler = new CharacterChoiceHandler(
-            status => this.newCombatant(status),
+            combatant => this.newCombatant(combatant),
             (characterChoices, id) => this.sendMessageToFront({characterChoices}, id),
             this.settings
         );
@@ -58,18 +58,18 @@ export class BitFighter {
 
         if (gameStateJSON) {
             const save = JSON.parse(gameStateJSON) as GameSave;
-            // status's must be cloned becaused they have no methods as they came from the JSON
-            this.queue.push(...save.queue.map(s => Status.clone(s)));
+            // combatant's must be cloned becaused they have no methods as they came from the JSON
+            this.queue.push(...save.queue.map(s => Combatant.clone(s)));
             this.queue.push(...save.pendingChoices.map(c => 
-                Status.clone(c.characters[Math.floor(Math.random() * c.characters.length)])
+                Combatant.clone(c.characters[Math.floor(Math.random() * c.characters.length)])
             ));
-            this.arena.addCombatants(0, ...save.arena.map(s => Status.clone(s)));
+            this.arena.addCombatants(0, ...save.arena.map(s => Combatant.clone(s)));
         } else {
             this.arena.addCombatants(0, this.buildDefaultCombatant());
         }
     }
 
-    private buildDefaultCombatant(): Status {
+    private buildDefaultCombatant(): Combatant {
         if (this.settings.bitFighterEnabled)
             return pickCharacter(
                 this.settings.defaultChampion,
@@ -244,8 +244,8 @@ export class BitFighter {
     }
     
     // public for testing purposes (bypasses front end character choice)
-    public newCombatant(status: Status) {
-        this.queue.push(status)
+    public newCombatant(combatant: Combatant) {
+        this.queue.push(combatant)
 
 
         if (this.arena.isBusy() === false) {

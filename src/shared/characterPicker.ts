@@ -1,6 +1,6 @@
 import { updateBitBoss } from '../front_end/globalDependencies';
 import * as Buff from './interfaces/buff';
-import { Status, Stats } from '../shared/Status';
+import { Combatant, Stats } from '../shared/Combatant';
 import { Donation } from './interfaces/interfaces';
 
 export const rarities: {
@@ -544,7 +544,7 @@ export function pickCharacter(
     donation: Donation,
     character: number,
     nameMap: {[name: string]: string}
-) : Status {
+) : Combatant {
     const pick = character % characters.length;
 
     let level = rarityLevel[characters[pick].rarity]; // 1 indexed
@@ -555,7 +555,7 @@ export function pickCharacter(
 
     const stats = buildStats(pick, donation.amount, level);
 
-    return new Status(
+    return new Combatant(
         donation.id,
         donation.name,
         pick,

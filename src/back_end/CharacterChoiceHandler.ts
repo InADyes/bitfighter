@@ -1,6 +1,6 @@
 import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
 import { Character, characters, pickCharacter, characterTypes } from '../shared/characterPicker';
-import { Status } from '../shared/Status';
+import { Combatant } from '../shared/Combatant';
 import { Donation } from '../shared/interfaces/interfaces';
 import { BackendSettings } from './interfaces';
 
@@ -84,7 +84,7 @@ const tiers: DonationTier[] = [
 
 export interface PendingChoice {
     id: number,
-    characters: Status[],
+    characters: Combatant[],
     timeout: NodeJS.Timer
 }
 
@@ -92,7 +92,7 @@ export class CharacterChoiceHandler {
     public pendingCharacterChoices: PendingChoice[] = [];
 
     constructor(
-        private readonly newCombatant: (status: Status) => void,
+        private readonly newCombatant: (combatant: Combatant) => void,
         private readonly requestPick: (choices: CharacterCard[], id: number) => void,
         private readonly settings: BackendSettings
     ) {}
@@ -150,13 +150,13 @@ export class CharacterChoiceHandler {
 
         }
 
-        const statusChoices = choices.map(c => pickCharacter(
+        const combatantChoices = choices.map(c => pickCharacter(
             donation,
             characters.indexOf(c),
             this.settings.characterNames
         ));
 
-        const choiceCards = statusChoices.map(s => s.card);
+        const choiceCards = combatantChoices.map(s => s.card);
         const lastCard = choiceCards[choiceCards.length - 1];
         lastCard.bitBossCheerMote = true;
         lastCard.selectable = donation.bitBossCheerMote ? true : false;
@@ -169,11 +169,11 @@ export class CharacterChoiceHandler {
 
         // if they didn't use the bitboss chearmote remove the last choice
         if (donation.bitBossCheerMote === false)
-            statusChoices.pop();
+            combatantChoices.pop();
 
         this.pendingCharacterChoices.push({
             id: donation.id,
-            characters: statusChoices,
+            characters: combatantChoices,
             timeout: global.setTimeout(
                 // clear timeout somehow
                 () => this.completeChoice(donation.id, Math.floor(choices.length * Math.random())),

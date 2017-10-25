@@ -3,10 +3,10 @@ import { buildEvents } from '../shared/buildEvents';
 import { stdout } from 'process';
 import { buffs } from '../shared/interfaces/buff';
 import { Results, reelToResults, printResults } from './testPair';
-import { Status } from '../shared/Status';
+import { Combatant } from '../shared/Combatant';
 
 export function countPairStats(
-    chars: Status[],
+    chars: Combatant[],
     count: number
 ) {
     const results = chars.map(s => new Results(

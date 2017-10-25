@@ -77,7 +77,6 @@ module.exports = [
             extensions: ['.js', '.less'],
         },
         module: {
-
             rules: [
           {
             test: /\.less$/,

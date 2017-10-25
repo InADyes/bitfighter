@@ -1,5 +1,5 @@
 import * as FightEvents from '../shared/interfaces/fightEvents';
-import { Status } from '../shared/Status';
+import { Combatant } from '../shared/Combatant';
 import { otherCharacter } from '../shared/utility';
 import { buildStats, characters, levels } from '../shared/characterPicker';
 import { build as buildGraphicsEvents } from './buildGraphicsEvents';
@@ -13,13 +13,13 @@ export interface CombinedEvent {
 
 // also modifies events that would take health too high or low
 export function applyFightEvents(
-    status: Status[],
+    combatant: Combatant[],
     ...reel: FightEvents.FightEvent[]
 ) {
     const combinedReel: CombinedEvent[] = [];
 
     for (let event of reel) {
-        const target = status.find(s => s.id === event.targetID);
+        const target = combatant.find(s => s.id === event.targetID);
         if (target === undefined) {
             console.error('invalid target id:', event.targetID);
             continue;
@@ -44,7 +44,7 @@ export function applyFightEvents(
                 }
                 if (event.buff && event.source.type === 'combatant') {
                     const id = event.source.id;
-                    const s = status.find(s => s.id === id);
+                    const s = combatant.find(s => s.id === id);
                     if (s) {
                         s.addEffect(
                             event.time + event.buff.duration,
@@ -54,13 +54,13 @@ export function applyFightEvents(
                 }
             } break;
             case 'death': { // level up also happens here
-            //     const i = status.findIndex(s => s !== s);
+            //     const i = combatant.findIndex(s => s !== s);
             //     if (i === -1)
             //         console.error('could not remove character:', event.target);
             //     else {
-            //         status.splice(i, 1);
+            //         combatant.splice(i, 1);
             //         // recalculate positions (doing it after the graphics event for now)
-            //         // status.forEach((s, i) => s.position = (i === 0 ? 'boss' : 'challenger'));
+            //         // combatant.forEach((s, i) => s.position = (i === 0 ? 'boss' : 'challenger'));
             //     }
             } break;
             case 'levelUp': {
@@ -78,16 +78,16 @@ export function applyFightEvents(
         }
         combinedReel.push({
             fight: event,
-            graphics: buildGraphicsEvents(event, status)
+            graphics: buildGraphicsEvents(event, combatant)
         });
 
         // if somone dies recalculate the positions after building the graphics
         if (event.type === 'death') {
-            const i = status.findIndex(s => s === target);
+            const i = combatant.findIndex(s => s === target);
             if (i === -1)
                 console.error('could not remove character:', event.targetID);
             else
-                status.splice(i, 1);
+                combatant.splice(i, 1);
         }
     };
     return combinedReel;
