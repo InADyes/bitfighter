@@ -38,34 +38,41 @@ export function testPair(
     for (let i = 0; i < fights; i++) {
         const reel = buildEvents(chars).reel.map(e => e.fight);
 
-        reelToResults(results, reel);
+        reelToResults(results, reel, chars);
     }
     return results;
 }
 
 export function reelToResults(
     results: Results[],
-    reel: FightEvent[]
+    reel: FightEvent[],
+    status: Status[]
 ) {
     results[0].totalTime += reel[reel.length - 1].time - reel[0].time;
 
     for (const event of reel) {
+        const targetIndex = status.findIndex(s => s.id === event.targetID);
+        if (targetIndex === -1) {
+            console.error('invalid target ID: ', event.targetID);
+            continue;
+        }
+
         switch (event.type) {
             case 'damage':
-                results[other(event.character)].total_damage += event.amount;
-                results[other(event.character)].hits++;
+                results[other(targetIndex)].total_damage += event.amount;
+                results[other(targetIndex)].hits++;
                 break;
             case 'dodge':
-                results[other(event.character)].miss++;
+                results[other(targetIndex)].miss++;
                 break;
             case 'heal':
                 break;
             case 'death':
-                results[event.character].losses++;
-                results[other(event.character)].wins++;
+                results[targetIndex].losses++;
+                results[other(targetIndex)].wins++;
                 break;
             case 'crit':
-                results[other(event.character)].crits++;
+                results[other(targetIndex)].crits++;
                 break;
             default:
                 break;

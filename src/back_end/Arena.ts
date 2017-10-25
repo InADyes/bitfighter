@@ -78,9 +78,8 @@ export class Arena {
         return this.combatants.findIndex(s => s.id === id);
     }
     
-    public healCombatant(index: number, donation: Donation) {
+    public healCombatant(targetID: number, donation: Donation) {
         const patchTime = nodePerformanceNow() - this.fightStartTime;
-        const combatant = this.combatants[index];
         const amount = this.settings.donationToHPRatio * donation.amount;
         const source: Source = {
             type: 'donation',
@@ -93,7 +92,7 @@ export class Arena {
             {
                 type: 'heal',
                 time: patchTime,
-                character: index,
+                targetID,
                 amount,
                 source
             }
@@ -121,7 +120,7 @@ export class Arena {
             {
                 type: 'damage',
                 time: patchTime,
-                character: 0,
+                targetID: this.combatants[0].id,
                 amount,
                 source
             }
@@ -183,11 +182,10 @@ export class Arena {
         ) {
             this.combatants.push(pickCharacter(source.donation, characterTypes.graveDigger, this.settings.characterNames));
             this.startFight(0,
-                /*new FightEvents.Healing(0, 0, this.combatants[0].stats.maxHitPoints * 0.1, {type: 'game'})*/
                 {
                     type: 'heal',
                     time: 0,
-                    character: 0,
+                    targetID: this.combatants[0].id,
                     amount: this.combatants[0].stats.maxHitPoints * 0.1,
                     source: {type: 'game'}
                 }
@@ -246,6 +244,7 @@ export class Arena {
                 event.fight.source.donation,
                 this.settings.bitBossStartingHealth + event.fight.overkill
             ));
+            this.results = this.combatants;
             this.pushLastResults();
         }
 

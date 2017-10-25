@@ -59,11 +59,11 @@ window.addEventListener('load', function(){
                 bitFighterEnabled: true,
                 bitBossStartingHealth: 750
             },
-            str => {saveGame = str},
+            str => saveGame = str,
             (gameState, donationType, amount) => {
                 console.log(`donation: ${ gameState }, ${ donationType }, ${ amount }`);
             },
-            savedGame
+            saveGame
         );
     }
     

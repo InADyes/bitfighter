@@ -220,11 +220,11 @@ export class BitFighter {
 
         const gameState = this.arena.isBusy() ? 'fighting' : 'waiting';
 
-        const combatantIndex = this.arena.searchForCombatant(id);
+        const inArena = this.arena.getCombatants().some(s => s.id === id);
         // if the donation matches a fighter
-        if (combatantIndex !== -1) {
+        if (inArena) {
             this.logDonation(gameState, 'heal', donation.amount);
-            this.arena.healCombatant(combatantIndex, donation);
+            this.arena.healCombatant(donation.id, donation);
 
         // if the donation is enough for a character and they aren't already in the queue or have a pending choice
         } else if (

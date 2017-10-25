@@ -18,7 +18,7 @@ interface a_Source {
 
 interface CombatantSource extends a_Source {
     readonly type: 'combatant';
-    readonly status: Status;
+    readonly id: number;
 }
 
 interface DonationSource extends a_Source {

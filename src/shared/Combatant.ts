@@ -5,25 +5,24 @@ import { Status } from '../shared/Status';
 import { Source } from '../shared/interfaces/interfaces';
 
 interface attackProps {
-    source: Source,
-    time: number,
-    attacker: Combatant,
-    damage: number,
-    accuracy: number,
-    critChanceModifier: number,
-    critDamageModifier: number
+    source: Source;
+    time: number;
+    attacker: Combatant;
+    damage: number;
+    accuracy: number;
+    critChanceModifier: number;
+    critDamageModifier: number;
     crits: {
-        odds: number,
-        debuff?: Buff.Buff,
-        buff?: Buff.Buff,
-        damageMultiplier?: number
-    }[]
+        odds: number;
+        debuff?: Buff.Buff;
+        buff?: Buff.Buff;
+        damageMultiplier?: number;
+    }[];
 }
 
 export class Combatant {
     constructor(
         public readonly status: Status,
-        public readonly index: number,
         private readonly newEvent: (event: FightEvent) => void,
         private readonly attackCallback: (attack: attackProps) => void,
         public time: number = 0
@@ -39,7 +38,7 @@ export class Combatant {
         this.newEvent({
             type: 'attack',
             time: this.time,
-            character: this.index
+            targetID: this.status.id
         });
 
         this.status.checkBuffs(this.time);
@@ -51,7 +50,7 @@ export class Combatant {
         this.attackCallback({
             source: {
                 type: 'combatant',
-                status: this.status
+                id: this.status.id
             },
             time: this.time,
             attacker: this,
@@ -70,11 +69,10 @@ export class Combatant {
         const hitChangeRoll = Math.ceil(Math.random() * total);
     
         if (hitChangeRoll > attack.accuracy) {
-            //this.newEvent(new FightEvents.Dodge(attack.time, this.index, attack.source));
             this.newEvent({
                 type: 'dodge',
-                time: this.time,
-                character: this.index,
+                time: attack.time,
+                targetID: this.status.id,
                 source: attack.source
             });
             return;
@@ -88,8 +86,8 @@ export class Combatant {
                     attack.damage = (attack.damage - this.status.stats.armor) * crit.damageMultiplier * attack.critDamageModifier;
                 this.newEvent({
                     type: 'crit',
-                    time: this.time,
-                    character: this.index,
+                    time: attack.time,
+                    targetID: this.status.id,
                     damage: crit.damageMultiplier !== undefined,
                     buff: crit.buff,
                     debuff: crit.debuff,
@@ -100,24 +98,22 @@ export class Combatant {
 
         if (attack.damage < 0)
             attack.damage = 0;
-        else if (attack.damage > this.status.hitPoints)
-            attack.damage = this.status.hitPoints;
-        //this.newEvent(new FightEvents.Damage(attack.time, this.index, attack.damage, {type: 'combatant', s: this.status}));
+        // else if (attack.damage > this.status.hitPoints)
+        //     attack.damage = this.status.hitPoints;
 
         this.newEvent({
             type: 'damage',
-            time: this.time,
-            character: this.index,
+            time: attack.time,
+            targetID: this.status.id,
             amount: attack.damage,
             source: attack.source
         });
             
         if (this.status.hitPoints <= 0) {
-            //this.newEvent(new FightEvents.Death(attack.time, this.index, -1 * this.status.hitPoints, {type: 'combatant', s: this.status}));
             this.newEvent({
                 type: 'death',
-                time: this.time,
-                character: this.index,
+                time: attack.time,
+                targetID: this.status.id,
                 source: attack.source,
                 overkill: -1 * this.status.hitPoints
             });
@@ -133,11 +129,10 @@ export class Combatant {
             healingAmount = maxHitPoints - this.status.hitPoints;
 
         // allways heals the first character in the future, needs to be changed
-        //this.newEvent(new FightEvents.Healing(this.time + 200, 0, healingAmount, source));
         this.newEvent({
             type: 'heal',
             time: this.time + 200,
-            character: 0,
+            targetID: this.status.id,
             amount: healingAmount,
             source: source
         });
