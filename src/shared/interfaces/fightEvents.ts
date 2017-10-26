@@ -1,6 +1,7 @@
 import { Buff } from './buff';
-import { Donation, Source } from './interfaces';
+import { Donation } from './interfaces';
 import { Combatant } from '../Combatant';
+import { Source } from './source';
 
 interface abstract_Event {
     time: number;

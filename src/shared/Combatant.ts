@@ -1,6 +1,7 @@
-import * as Buff from './interfaces/buff';
+import { Buff } from './interfaces/buff';
 import { CharacterCard } from './interfaces/backToFrontMessage';
 import { characterTypes, characters, buffURLs } from './characterPicker';
+import { Item } from './interfaces/interfaces';
 
 export interface Stats {
     maxHitPoints: number;
@@ -112,7 +113,7 @@ export const cardStats: {[details: number]: choiceStats} = {
 export class Combatant {
     private buffs: {
         expires: number,
-        buff: Buff.Buff
+        buff: Buff
     }[] = [];
     private calculatedStats: Stats;
     private bossMessageChangesRemaining = 3;
@@ -129,13 +130,14 @@ export class Combatant {
         private p_bossMessage: string,
         public readonly profileImageURL: string,
         public bossEmoticonURL: string,
-        public readonly className: string
+        public readonly className: string,
+        private readonly items: Item[]
     ) {
         this.calculatedStats = Object.assign({}, this.baseStats);
         this.calculatedStats.attackDamage = Object.assign({}, this.baseStats.attackDamage);
         this.calculatedStats.attackSpeed = Object.assign({}, this.baseStats.attackSpeed);
     }
-    addEffect(expires: number, buff: Buff.Buff) {
+    addEffect(expires: number, buff: Buff) {
         this.buffs.push({expires: expires, buff: buff});
         this.recalc();
     }
@@ -157,9 +159,13 @@ export class Combatant {
         Object.assign(this.calculatedStats.attackDamage, this.baseStats.attackDamage);
         Object.assign(this.calculatedStats.attackSpeed, this.baseStats.attackSpeed);
 
-        for (let buff of this.buffs) {
-            let b = buff.buff;
-
+        for (let item of this.items)
+            this.applyBuffs(...item.buffs);
+        for (let buff of this.buffs)
+            this.applyBuffs(buff.buff);
+    }
+    private applyBuffs(...buffs: Buff[]) {
+        for (let b of buffs) {
             if (b.accuracy) 
                 this.calculatedStats.accuracy *= b.accuracy;
             if (b.dodge) 
@@ -234,9 +240,22 @@ export class Combatant {
             o.p_bossMessage,
             o.profileImageURL,
             o.bossEmoticonURL,
-            o.className
+            o.className,
+            o.items
         );
         s.bossMessageChangesRemaining = o.bossMessageChangesRemaining;
         return s;
+    }
+
+    public useItem(i: Item) {
+        if (i.duration) {
+            i.buffs.forEach(b => this.buffs.push({ // todo: fix (this wont work real well if they aren't aready in a fight)
+                expires: this.time + b.duration,
+                buff: b
+            }));
+        } else {
+            this.items.push(i);
+        }
+        this.recalc();
     }
 }

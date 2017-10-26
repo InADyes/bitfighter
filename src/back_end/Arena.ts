@@ -12,7 +12,7 @@ import { applyFightEvents, CombinedEvent } from '../shared/applyFightEvents'
 import { CharacterChoiceHandler } from './CharacterChoiceHandler';
 import { hrtime } from 'process';
 import { Donation } from '../shared/interfaces/interfaces';
-import { Source } from '../shared/interfaces/interfaces';
+import { Source } from '../shared/interfaces/source';
 
 function nodePerformanceNow() {
     if (hrtime) {
@@ -46,7 +46,7 @@ export class Arena {
         if (this.combatants.length < 1)
             return;
         this.combatants.splice(0, 1);
-        this.startFight(0);
+        this.startFight();
     }
 
     public addCombatants(countdown: number, ...combatants: Combatant[]) {
@@ -56,19 +56,19 @@ export class Arena {
         }
 
         this.combatants.push(...combatants);
-        this.startFight(countdown);
+        this.startFight({countdown});
     }
 
-    private startFight(countdown: number, ...baseReel: FightEvent[]) {
+    public startFight(options: {countdown?: number, baseReel?: FightEvent[]} = {}) {
         const tempCombatant = this.combatants.map(s => s.clone());
-        const combinedBase = applyFightEvents(tempCombatant, ...baseReel)
+        const combinedBase = applyFightEvents(tempCombatant, ...(options.baseReel || []))
 
-        const result = buildEvents(tempCombatant, {startTime: countdown});
+        const result = buildEvents(tempCombatant, {startTime: options.countdown});
         this.results = result.combatants;
         this.fightStartTime = nodePerformanceNow();
         this.events = combinedBase.concat(result.reel);
 
-        this.pushLastResults({countdown: countdown === 0 ? undefined : countdown});
+        this.pushLastResults({countdown: options.countdown});
         if (this.timeout)
             clearTimeout(this.timeout);
         this.timeoutNextEvent();
@@ -181,15 +181,15 @@ export class Arena {
             && source.type === 'donation'
         ) {
             this.combatants.push(pickCharacter(source.donation, characterTypes.graveDigger, this.settings.characterNames));
-            this.startFight(0,
-                {
+            this.startFight({
+                baseReel: [{
                     type: 'heal',
                     time: 0,
                     targetID: this.combatants[0].id,
                     amount: this.combatants[0].stats.maxHitPoints * 0.1,
                     source: {type: 'game'}
-                }
-            );
+                }]
+            });
             return;
         }
         this.events = reel;

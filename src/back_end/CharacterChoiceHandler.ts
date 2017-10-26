@@ -1,7 +1,7 @@
 import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
 import { Character, characters, pickCharacter, characterTypes } from '../shared/characterPicker';
 import { Combatant } from '../shared/Combatant';
-import { Donation } from '../shared/interfaces/interfaces';
+import { Donation, Item } from '../shared/interfaces/interfaces';
 import { BackendSettings } from './interfaces';
 
 interface DonationTier {
@@ -103,7 +103,7 @@ export class CharacterChoiceHandler {
         }
     }
 
-    public requestChoice(donation: Donation) {
+    public requestChoice(donation: Donation, ...items: Item[]) {
         if (this.pendingCharacterChoices.find(c => c.id === donation.id) !== undefined)
             return; // todo: what should happen if they donate while they still have cards?
 
@@ -153,7 +153,8 @@ export class CharacterChoiceHandler {
         const combatantChoices = choices.map(c => pickCharacter(
             donation,
             characters.indexOf(c),
-            this.settings.characterNames
+            this.settings.characterNames,
+            ...items
         ));
 
         const choiceCards = combatantChoices.map(s => s.card);

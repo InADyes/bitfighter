@@ -7,7 +7,7 @@ import { applyFightEvents, CombinedEvent } from './applyFightEvents';
 import { otherCharacter  as other} from './utility';
 import { buffs, types as buffTypes } from './interfaces/buff';
 import * as BuildGraphicsEvents from './buildGraphicsEvents';
-import { Source } from './interfaces/interfaces';
+import { Source } from './interfaces/source';
 
 export function buildEvents(
     combatant: Combatant[],

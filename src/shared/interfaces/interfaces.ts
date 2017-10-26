@@ -1,5 +1,4 @@
-import { FightEvent } from './fightEvents';
-import { Combatant } from '../Combatant';
+import { Buff } from './buff';
 
 export interface Donation {
     id: string,
@@ -12,27 +11,11 @@ export interface Donation {
     bitBossCheerMote: boolean;
 }
 
-interface a_Source {
-    type: string;
+export interface Item {
+    destroy: () => void;
+    name: string;
+    duration?: number;
+    fanInfluencer: string;
+    consumable: boolean;
+    buffs: Buff[];
 }
-
-interface CombatantSource extends a_Source {
-    readonly type: 'combatant';
-    readonly id: string;
-}
-
-interface DonationSource extends a_Source {
-    readonly type: 'donation';
-    readonly donation: Donation;
-}
-
-interface EventSource extends a_Source {
-    readonly type: 'event';
-    readonly event: FightEvent;
-}
-
-interface GameSource extends a_Source {
-    readonly type: 'game';
-}
-
-export type Source = CombatantSource | DonationSource | EventSource | GameSource;

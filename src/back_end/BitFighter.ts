@@ -5,7 +5,7 @@ import { BackToFrontMessage, CharacterListItem, QueueItem } from '../shared/inte
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 import { BackendSettings as Settings, GameSave } from './interfaces';
 import { CharacterChoiceHandler } from './CharacterChoiceHandler';
-import { Donation } from '../shared/interfaces/interfaces';
+import { Donation, Item } from '../shared/interfaces/interfaces';
 import { Arena } from './Arena';
 import { validateDonation, validateSettings } from './validations';
 
@@ -203,7 +203,8 @@ export class BitFighter {
         profileImageURL: string,
         bossMessage: string = this.settings.defaultBossMessage,
         bossEmoticonURL: string,
-        bitBossCheerMote: boolean
+        bitBossCheerMote: boolean,
+        ...items: Item[]
     ) {
         const result = validateDonation({
             id,
@@ -234,7 +235,7 @@ export class BitFighter {
             && this.characterChoiceHandler.hasPendingChoice(id) === false
         ) {
             this.logDonation(gameState, 'newCombatant', donation.amount);
-            this.characterChoiceHandler.requestChoice(donation);
+            this.characterChoiceHandler.requestChoice(donation, ...items);
 
         // otherwise try and damage the chapion
         } else {
@@ -255,6 +256,17 @@ export class BitFighter {
                 queue: this.buildQueueMessage()
             });
             this.saveState();
+        }
+    }
+
+    public useItem(fanID: string, item: Item) {
+        let combatant: Combatant | undefined;
+
+        if (combatant = this.queue.find(c => c.id === fanID)) {
+            combatant.useItem(item);
+        } else if (combatant = this.arena.getCombatants().find(c => c.id === fanID)) {
+            combatant.useItem(item);
+            this.arena.startFight();
         }
     }
 

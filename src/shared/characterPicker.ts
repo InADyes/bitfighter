@@ -1,7 +1,7 @@
 import { updateBitBoss } from '../front_end/globalDependencies';
 import * as Buff from './interfaces/buff';
 import { Combatant, Stats } from '../shared/Combatant';
-import { Donation } from './interfaces/interfaces';
+import { Donation, Item } from './interfaces/interfaces';
 
 export const rarities: {
     readonly [details: number]: {
@@ -543,7 +543,8 @@ export function buildStats(character: number, donation: number, level: number) :
 export function pickCharacter(
     donation: Donation,
     character: number,
-    nameMap: {[name: string]: string}
+    nameMap: {[name: string]: string},
+    ...items: Item[]
 ) : Combatant {
     const pick = character % characters.length;
 
@@ -566,6 +567,7 @@ export function pickCharacter(
         donation.bossMessage,
         donation.profileImageURL,
         donation.bossEmoticonURL,
-        nameMap[characters[pick].name] || characters[pick].name
+        nameMap[characters[pick].name] || characters[pick].name,
+        items
     )
 }

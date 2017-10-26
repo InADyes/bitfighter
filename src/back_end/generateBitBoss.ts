@@ -33,6 +33,7 @@ export function generateBitBoss(donation: Donation, health: number) : Combatant 
         donation.bossMessage,
         donation.profileImageURL,
         donation.bossEmoticonURL,
-        ''
+        '',
+        []
     )
 }

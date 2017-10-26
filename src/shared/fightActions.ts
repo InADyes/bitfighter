@@ -1,7 +1,7 @@
 import { FightEvent } from './interfaces/fightEvents';
 import { characters } from './characterPicker';
 import { Combatant } from '../shared/Combatant';
-import { Source } from '../shared/interfaces/interfaces';
+import { Source } from '../shared/interfaces/source';
 
 // increase internal timer by attack speed;
 export function rollAttackSpeed(target: Combatant) {
@@ -36,6 +36,7 @@ export function attack(
                 id: attacker.id
             }
         });
+        rollAttackSpeed(attacker);
         return;
     }
 
