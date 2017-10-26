@@ -1,82 +1,93 @@
 import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
-import { Character, characters, pickCharacter, characterTypes } from '../shared/characterPicker';
+import {
+    Character,
+    characters,
+    characterTypes,
+    pickCharacter,
+    Rarity,
+    rarityInfo,
+    rarities
+} from '../shared/characterPicker';
 import { Combatant } from '../shared/Combatant';
 import { Donation, Item } from '../shared/interfaces/interfaces';
 import { BackendSettings } from './interfaces';
 
 interface DonationTier {
     donation: number;
-    odds: {[details: number]: number};
+    odds: {[R in Rarity]: number};
     cards: number;
 }
-
-const enum e_rarity {
-    common,
-    rare,
-    epic,
-    legendary
-}
-
-const rarities = [0, 1, 2, 3];
 
 const tiers: DonationTier[] = [
     {
         donation: 10000,
         odds: {
-            [e_rarity.common]: 0,
-            [e_rarity.rare]: 0,
-            [e_rarity.epic]: 15,
-            [e_rarity.legendary]: 10,
+            'common': 0,
+            'uncommon': 0,
+            'rare': 15,
+            'mythic': 10,
+            'graveDigger': 0,
+            'bitBoss': 0
         },
         cards: 3
     },
     {
         donation: 5000,
         odds: {
-            [e_rarity.common]: 0,
-            [e_rarity.rare]: 6,
-            [e_rarity.epic]: 10,
-            [e_rarity.legendary]: 7.5
+            'common': 0,
+            'uncommon': 6,
+            'rare': 10,
+            'mythic': 7.5,
+            'graveDigger': 0,
+            'bitBoss': 0
         },
         cards: 3
     },
     {
         donation: 1000,
         odds: {
-            [e_rarity.common]: 0,
-            [e_rarity.rare]: 9,
-            [e_rarity.epic]: 8.75,
-            [e_rarity.legendary]: 5
+            'common': 0,
+            'uncommon': 9,
+            'rare': 8.75,
+            'mythic': 5,
+            'graveDigger': 0,
+            'bitBoss': 0
         },
         cards: 3
     },
     {
         donation: 500,
         odds: {
-            [e_rarity.common]: 5,
-            [e_rarity.rare]: 6,
-            [e_rarity.epic]: 7.5,
-            [e_rarity.legendary]: 2.5
+            'common': 5,
+            'uncommon': 6,
+            'rare': 7.5,
+            'mythic': 2.5,
+            'graveDigger': 0,
+            'bitBoss': 0
         },
         cards: 3
     },
     {
         donation: 200,
         odds: {
-            [e_rarity.common]: 10,
-            [e_rarity.rare]: 6,
-            [e_rarity.epic]: 2,
-            [e_rarity.legendary]: 0.5
+            'common': 10,
+            'uncommon': 6,
+            'rare': 2,
+            'mythic': 0.5,
+            'graveDigger': 0,
+            'bitBoss': 0
         },
         cards: 3
     },
     {
         donation: 0,
         odds: {
-            [e_rarity.common]: 100,
-            [e_rarity.rare]: 0,
-            [e_rarity.epic]: 0,
-            [e_rarity.legendary]: 0,
+            'common': 100,
+            'uncommon': 0,
+            'rare': 0,
+            'mythic': 0,
+            'graveDigger': 0,
+            'bitBoss': 0
         },
         cards: 2
     },
@@ -110,7 +121,7 @@ export class CharacterChoiceHandler {
         //find last tier that we can achive or use the first one
         const { odds, cards } = tiers.find(t => t.donation <= donation.amount) || tiers[5];
         //total odds of reach rarity
-        const totals = rarities.map(r => odds[r] * characters.filter(c => c.rarity == r).length);
+        const totals = rarities.map(r => odds[r as Rarity] * characters.filter(c => c.rarity === r).length);
         
         //total odds
         const total = totals.reduce((previous, current) => previous + current);
@@ -124,19 +135,19 @@ export class CharacterChoiceHandler {
             let choice: Character | null = null;
     
             //reduce roll by total rarity odds untill rarity is found
-            for (let rarity = 0; rarity < totals.length; rarity++) {
+            for (let i = 0; i < rarities.length; i++) {
 
-                if (roll < totals[rarity]) {
-                    roll /= odds[rarity];
-                    choice = characters.filter(c => c.rarity === rarity)[Math.floor(roll)];
+                if (roll < totals[i]) {
+                    roll /= odds[rarities[i]];
+                    choice = characters.filter(c => c.rarity === rarities[i])[Math.floor(roll)];
                     break;
                 }
-                roll -= totals[rarity];
+                roll -= totals[i];
             }
             // quick hack to get rid of duplicate characters
 
             // if it's the last card then redo the pick if it's common
-            if (_ === cards && choice && choice.rarity === 0) {
+            if (_ === cards && choice && choice.rarity === 'common') {
                 _--;
                 continue;
             }

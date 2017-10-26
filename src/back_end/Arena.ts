@@ -1,21 +1,21 @@
 import { Packet } from '_debugger';
 import { generateBitBoss } from './generateBitBoss';
 import { sortGraphicsEvents } from '../shared/buildGraphicsEvents';
-import { buildEvents } from '../shared/buildEvents';
+import { fight } from '../shared/fight';
 import { Combatant, cardStats } from '../shared/Combatant';
 import { pickCharacter, characters, characterTypes } from '../shared/characterPicker';
 import { FightEvent } from '../shared/interfaces/fightEvents';
 import { GraphicsEvent} from '../shared/interfaces/graphicsEvents';
 import { BackToFrontMessage, ReelMessage } from '../shared/interfaces/backToFrontMessage';
 import { BackendSettings as Settings } from './interfaces';
-import { applyFightEvents, CombinedEvent } from '../shared/applyFightEvents'
+import { applyFightEvents } from '../shared/applyFightEvents'
 import { CharacterChoiceHandler } from './CharacterChoiceHandler';
 import { hrtime } from 'process';
-import { Donation } from '../shared/interfaces/interfaces';
+import { Donation, CombinedEvent } from '../shared/interfaces/interfaces';
 import { Source } from '../shared/interfaces/source';
 
 /**
- * re-implementation of performanceNow() for node
+ * Re-implementation of performanceNow() for node.
  */
 function nodePerformanceNow() {
     if (hrtime) {
@@ -69,7 +69,7 @@ export class Arena {
         const tempCombatant = this.combatants.map(s => s.clone());
         const combinedBase = applyFightEvents(tempCombatant, ...(options.baseReel || []))
 
-        const result = buildEvents(tempCombatant, {startTime: options.countdown});
+        const result = fight(tempCombatant, {startTime: options.countdown});
         this.results = result.combatants;
         this.fightStartTime = nodePerformanceNow();
         this.events = combinedBase.concat(result.reel);
@@ -184,7 +184,7 @@ export class Arena {
         const reel = applyFightEvents(tempCombatant, ...insert);
         
         // calculate the results of the new events
-        reel.push(...buildEvents(tempCombatant, {startTime: patchTime, source}).reel);
+        reel.push(...fight(tempCombatant, {startTime: patchTime, source}).reel);
 
         // if the new events caused the chapion to die instead start a fight
         if (

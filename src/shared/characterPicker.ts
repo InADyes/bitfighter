@@ -3,37 +3,48 @@ import * as Buff from './interfaces/buff';
 import { Combatant, Stats } from '../shared/Combatant';
 import { Donation, Item } from './interfaces/interfaces';
 
-export const rarities: {
-    readonly [details: number]: {
+export type Rarity = 'common' | 'uncommon' | 'rare' | 'mythic' | 'graveDigger' | 'bitBoss';
+
+export const rarityInfo: {
+    readonly [K in Rarity]: {
         readonly name: string;
         readonly color: string;
+        readonly startingLevel: number;
     }
 } = {
-    0: {
+    'common': {
         name: 'Common',
-        color: 'white'
+        color: 'white',
+        startingLevel: 1
     },
-    1: {
+    'uncommon': {
         name: 'Uncommon',
-        color: 'grey'
+        color: 'grey',
+        startingLevel: 3
     },
-    2: {
+    'rare': {
         name: 'Rare',
-        color: 'blue'
+        color: 'blue',
+        startingLevel: 5
     },
-    3: {
+    'mythic': {
         name: 'Mythic',
-        color: 'orange'
+        color: 'orange',
+        startingLevel: 7
     },
-    4: {
+    'graveDigger': {
         name: 'Grave Digger',
-        color: 'green'
+        color: 'green',
+        startingLevel: 0
     },
-    5: {
+    'bitBoss': {
         name: 'BitBoss',
-        color: 'purple'
+        color: 'purple',
+        startingLevel: 0
     }
 };
+
+export const rarities = Object.keys(rarityInfo) as Rarity[];
 
 export const artURLs = [
     "images/champions/0scullery_maid.png",
@@ -71,17 +82,17 @@ export const atkURLs = [
 ];
 
 export interface Character {
-    stats: Stats,
-    rarity: number,
+    stats: Stats;
+    rarity: Rarity;
     crits: {
-        odds: number,
-        debuff?: Buff.Buff,
-        buff?: Buff.Buff,
-        damageMultiplier?: number
-    }[],
-    name: string,
-    flavorText: string,
-    skillText: string
+        odds: number;
+        debuff?: Buff.Buff;
+        buff?: Buff.Buff;
+        damageMultiplier?: number;
+    }[];
+    name: string;
+    flavorText: string;
+    skillText: string;
 }
 
 export const enum characterTypes {
@@ -118,7 +129,7 @@ export const characters: Readonly<Character>[] = [
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
-        rarity: 0,
+        rarity: 'common',
         crits: [
             {
                 damageMultiplier: 4,
@@ -151,7 +162,7 @@ export const characters: Readonly<Character>[] = [
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
-        rarity: 0,
+        rarity: 'common',
         crits: [
             {
                 damageMultiplier: 4,
@@ -184,7 +195,7 @@ export const characters: Readonly<Character>[] = [
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
-        rarity: 0,
+        rarity: 'common',
         crits: [
             {
                 damageMultiplier: 4,
@@ -217,7 +228,7 @@ export const characters: Readonly<Character>[] = [
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
-        rarity: 0,
+        rarity: 'common',
         crits: [
             {
                 damageMultiplier: 4,
@@ -250,7 +261,7 @@ export const characters: Readonly<Character>[] = [
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
-        rarity: 1,
+        rarity: 'uncommon',
         crits: [
             {
                 damageMultiplier: 4,
@@ -283,7 +294,7 @@ export const characters: Readonly<Character>[] = [
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
-        rarity: 1,
+        rarity: 'uncommon',
         crits: [
             {
                 damageMultiplier: 4,
@@ -316,7 +327,7 @@ export const characters: Readonly<Character>[] = [
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
-        rarity: 1,
+        rarity: 'uncommon',
         crits: [
             {
                 damageMultiplier: 4,
@@ -349,7 +360,7 @@ export const characters: Readonly<Character>[] = [
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
-        rarity: 2,
+        rarity: 'rare',
         crits: [
             {
                 damageMultiplier: 4,
@@ -383,7 +394,7 @@ export const characters: Readonly<Character>[] = [
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
-        rarity: 2,
+        rarity: 'rare',
         crits: [
             {
                 damageMultiplier: 4,
@@ -416,7 +427,7 @@ export const characters: Readonly<Character>[] = [
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
-        rarity: 3,
+        rarity: 'mythic',
         crits: [
             {
                 damageMultiplier: 6,
@@ -449,7 +460,7 @@ export const characters: Readonly<Character>[] = [
             critChanceModifier: 1,
             critDamageModifier: 1
         }, 
-        rarity: 4,
+        rarity: 'graveDigger',
         crits: [
             {
                 damageMultiplier: 5,
@@ -478,7 +489,7 @@ export const characters: Readonly<Character>[] = [
             critChanceModifier: 0,
             critDamageModifier: 0
         }, 
-        rarity: 5,
+        rarity: 'bitBoss',
         crits: [
             {
                 damageMultiplier: 0,
@@ -489,16 +500,6 @@ export const characters: Readonly<Character>[] = [
         flavorText: 'Easter Egg Email mburson@operaevent.co You are the best coder',
         skillText: 'I write great code'
     } // bitboss
-];
-
-// starting level of rarities
-const rarityLevel = [
-    1, // common
-    3, // uncommon
-    5, // rare
-    7, // legendary
-    0, // gravedigger
-    0, // bitboss
 ];
 
 interface Level {
@@ -548,7 +549,7 @@ export function pickCharacter(
 ) : Combatant {
     const pick = character % characters.length;
 
-    let level = rarityLevel[characters[pick].rarity]; // 1 indexed
+    let level = rarityInfo[characters[pick].rarity].startingLevel; // 1 indexed
 
     // while we are not the highest level and we have the bits required to be the next level
     while (level < levels.length && donation.amount > levels[level].bits)

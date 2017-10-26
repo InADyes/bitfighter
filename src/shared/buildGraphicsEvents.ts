@@ -30,7 +30,11 @@ export function sortGraphicsEvents(events: GraphicsEvent[]) {
     });
 }
 
-export function build(event: FightEvent, combatant: Combatant[]): GraphicsEvent[] {
+/**
+ * Creates the graphics events resulting from given fight event.
+ * @param combatant Required so that id identifiers used in fight events can become index's.
+ */
+export function buildGraphicsEvents(event: FightEvent, combatant: Combatant[]): GraphicsEvent[] {
     const display: GraphicsEvent[] = [];
     const time  = event.time;
     const targetIndex = combatant.findIndex(s => s.id === event.targetID);

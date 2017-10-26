@@ -1,7 +1,9 @@
 import { Buff } from './buff';
+import { FightEvent } from './fightEvents';
+import { GraphicsEvent } from './graphicsEvents';
 
 /**
- * all information pertaining to a paticular donation
+ * All information pertaining to a paticular donation.
  */
 export interface Donation {
     id: string,
@@ -15,7 +17,7 @@ export interface Donation {
 }
 
 /**
- * used to store all information on any paticular item, equipment, or consumable
+ * Used to store all information on any paticular item, equipment, or consumable.
  */
 export interface Item {
     destroy: () => void;
@@ -25,3 +27,11 @@ export interface Item {
     consumable: boolean;
     buffs: Buff[];
 }
+
+/**
+ * Multiple graphics events can be generated per fight event.
+ */
+export interface CombinedEvent {
+    fight: FightEvent,
+    graphics: GraphicsEvent[]
+ };

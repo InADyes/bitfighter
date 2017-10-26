@@ -1,20 +1,18 @@
-import * as FightEvents from '../shared/interfaces/fightEvents';
+import { FightEvent } from '../shared/interfaces/fightEvents';
 import { Combatant } from '../shared/Combatant';
 import { otherCharacter } from '../shared/utility';
 import { buildStats, characters, levels } from '../shared/characterPicker';
-import { build as buildGraphicsEvents } from './buildGraphicsEvents';
+import { buildGraphicsEvents } from './buildGraphicsEvents';
 import { GraphicsEvent } from './interfaces/graphicsEvents';
 import { assertNever } from './utility';
+import { CombinedEvent } from '../shared/interfaces/interfaces';
 
-export interface CombinedEvent {
-    fight: FightEvents.FightEvent,
-    graphics: GraphicsEvent[]
- };
-
-// also modifies events that would take health too high or low
+/**
+ * Applies events to the given combatants.
+ */
 export function applyFightEvents(
     combatant: Combatant[],
-    ...reel: FightEvents.FightEvent[]
+    ...reel:FightEvent[]
 ) {
     const combinedReel: CombinedEvent[] = [];
 
@@ -29,13 +27,13 @@ export function applyFightEvents(
             case 'damage':
                 target.hitPoints -= event.amount;
                 break;
-            case 'heal': {
+            case 'heal':
                 target.hitPoints = Math.min(
                     target.hitPoints + event.amount,
                     target.stats.maxHitPoints
                 );
-            } break;
-            case 'crit': {
+                break;
+            case 'crit':
                 if (event.debuff) {
                     target.addEffect(
                         event.time + event.debuff.duration,
@@ -52,24 +50,9 @@ export function applyFightEvents(
                         );
                     }
                 }
-            } break;
-            case 'death': { // level up also happens here
-            //     const i = combatant.findIndex(s => s !== s);
-            //     if (i === -1)
-            //         console.error('could not remove character:', event.target);
-            //     else {
-            //         combatant.splice(i, 1);
-            //         // recalculate positions (doing it after the graphics event for now)
-            //         // combatant.forEach((s, i) => s.position = (i === 0 ? 'boss' : 'challenger'));
-            //     }
-            } break;
-            case 'levelUp': {
-                // const c = target;
-                // if (c && levels.length > c.level) {
-                //     c.level++;
-                //     c.baseStats = buildStats(c.character, c.initialDonation, c.level);
-                // }
-            } break;
+                break;
+            case 'death':
+            case 'levelUp':
             case 'dodge':
             case 'attack':
                 break;

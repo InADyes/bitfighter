@@ -2,6 +2,9 @@ import { Donation } from '../shared/interfaces/interfaces';
 import { Combatant } from '../shared/Combatant';
 import { characterTypes } from '../shared/characterPicker';
 
+/**
+ * Template for a BitBoss.
+ */
 export function generateBitBoss(donation: Donation, health: number) : Combatant {
     if (health < 1)
         health = 1;

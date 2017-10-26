@@ -1,6 +1,6 @@
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
-import { rarities } from '../shared/characterPicker';
+import { rarityInfo } from '../shared/characterPicker';
 
 export class CardChoices {
     private cards: HTMLDivElement[];
@@ -158,7 +158,7 @@ export function buildCard(character: CharacterCard, artURLs: string[]) {
       </div>
       
       <div class="csc_rarity">
-        <h4 class="csc_raritycolor${character.rarity}">${ rarities[character.rarity].name }</h4>
+        <h4 class="csc_raritycolor${character.rarity}">${ rarityInfo[character.rarity].name }</h4>
       </div>
     </div>
     <div class="csc_stats">

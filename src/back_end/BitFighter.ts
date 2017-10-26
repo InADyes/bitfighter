@@ -1,6 +1,6 @@
 import { generateBitBoss } from './generateBitBoss';
 import { Combatant, cardStats } from '../shared/Combatant';
-import { Character, pickCharacter, characters, rarities, artURLs } from '../shared/characterPicker';
+import { Character, pickCharacter, characters, rarityInfo, artURLs } from '../shared/characterPicker';
 import { BackToFrontMessage, CharacterListItem, QueueItem } from '../shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 import { BackendSettings as Settings, GameSave } from './interfaces';
@@ -206,8 +206,8 @@ export class BitFighter {
                         className: this.settings.characterNames[c.name] || c.name,
                         skillName: buff ? buff.name : 'NO BUFF FOUND',
                         skillURL: buff ? buff.url : 'no buff',
-                        rarityName: rarities[c.rarity].name || 'rarity not found',
-                        rarityColor: rarities[c.rarity].color || 'rarity not found',
+                        rarityName: rarityInfo[c.rarity].name || 'rarity not found',
+                        rarityColor: rarityInfo[c.rarity].color || 'rarity not found',
                         flavorText: c.flavorText,
                         classArtURL: artURLs[i]
                     }

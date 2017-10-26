@@ -1,5 +1,5 @@
 import { GraphicsEvent } from './graphicsEvents';
-import { Character } from '../characterPicker';
+import { Character, Rarity } from '../characterPicker';
 import { Stats, choiceStats } from '../Combatant';
 
 // what gets sent to the front end
@@ -30,7 +30,7 @@ export interface CharacterCard {
     readonly className: string;
     readonly art: number;
     readonly level: number;
-    readonly rarity: number;
+    readonly rarity: Rarity;
     readonly flavorText: string;
     readonly skillText: string;
     readonly buffArt: string,

@@ -1,26 +1,22 @@
 import { FightEvent } from './interfaces/fightEvents';
-import * as FightEvents from './interfaces/fightEvents';
 import { GraphicsEvent } from './interfaces/graphicsEvents';
 import { attack, rollAttackSpeed, heal } from './fightActions';
 import { Combatant } from '../shared/Combatant';
-import { applyFightEvents, CombinedEvent } from './applyFightEvents';
+import { applyFightEvents } from './applyFightEvents';
 import { otherCharacter  as other} from './utility';
 import { buffs, types as buffTypes } from './interfaces/buff';
-import * as BuildGraphicsEvents from './buildGraphicsEvents';
 import { Source } from './interfaces/source';
+import { CombinedEvent } from '../shared/interfaces/interfaces';
 
-export function buildEvents(
+/**
+ * Plays out a fight between two characters.
+ */
+export function fight(
     combatant: Combatant[],
-    options: {startTime?: number, source?: Source} = {}
+    options: { startTime?: number, source?: Source } = {}
 ) {
     const reel: CombinedEvent[] = [];
     const newCombatant = combatant.map(s => s.clone());
-    // const combatants = newCombatant.map((combatant, index) => new Combatant(
-    //     combatant,
-    //     event => reel.push(...applyFightEvents(newCombatant, event)),
-    //     attack => {combatants.filter(c => c != attack.attacker)[0].takeHit(attack);},
-    //     options.startTime
-    // ));
     
     const isFight = newCombatant.length >= 2;
     const newEvent = (event: FightEvent) => reel.push(...applyFightEvents(newCombatant, event));
