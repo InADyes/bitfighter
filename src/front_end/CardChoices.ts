@@ -52,11 +52,14 @@ export class CardChoices {
     private charSelectTimer(time: number) {
         this.timer = document.createElement('div');
         this.timer.className = 'charSelectTimer';
+        let txt = document.createElement('div');
+        txt.className = 'charSelectTimerTxt';
+        txt.innerText = time.toString();
+        this.timer.appendChild(txt);
         this.cardDiv.appendChild(this.timer);
-        this.timer.innerText = time.toString();
-        window.setTimeout(() => this.updateTimer(time - 1), 1000);
+        window.setTimeout(() => this.updateTimer(txt, time - 1), 1000);
     }
-    private updateTimer(time: number) {
+    private updateTimer(txt: HTMLDivElement, time: number) {
         if (time < 1){
             if (this.timer) {
                 this.cardDiv.removeChild(this.timer);
@@ -64,9 +67,8 @@ export class CardChoices {
             }
             return;
         }
-        if (this.timer)
-            this.timer.innerText = time.toString();
-        window.setTimeout(() => this.updateTimer(time - 1), 1000);
+            txt.innerText = time.toString();
+        window.setTimeout(() => this.updateTimer(txt, time - 1), 1000);
     }
 }
 
