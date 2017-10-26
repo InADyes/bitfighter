@@ -5,14 +5,9 @@ import { BackToFrontMessage, CharacterListItem, QueueItem } from '../shared/inte
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 import { BackendSettings as Settings, GameSave } from './interfaces';
 import { CharacterChoiceHandler } from './CharacterChoiceHandler';
-import { Donation } from '../shared/interfaces/donation';
+import { Donation } from '../shared/interfaces/interfaces';
 import { Arena } from './Arena';
 import { validateDonation, validateSettings } from './validations';
-import { Readonly } from '../shared/interfaces/utility';
-
-function logDonation(gameState: string, donationType: string, amount: number) {
-    console.log(`donation: ${ gameState }, ${ donationType }, ${ amount }`);
-}
 
 export class BitFighter {
     private readonly queue: Status[] = [];
@@ -62,7 +57,7 @@ export class BitFighter {
 
 
         if (gameStateJSON) {
-            const save = <GameSave>JSON.parse(gameStateJSON);
+            const save = JSON.parse(gameStateJSON) as GameSave;
             // status's must be cloned becaused they have no methods as they came from the JSON
             this.queue.push(...save.queue.map(s => Status.clone(s)));
             this.queue.push(...save.pendingChoices.map(c => 
@@ -94,13 +89,13 @@ export class BitFighter {
         }
     }
 
-    bossKill() {
+    public bossKill() {
         this.arena.bossKill();
         if (this.arena.getCombatants().length < 1)
             this.arena.addCombatants(0, this.buildDefaultCombatant());
     }
 
-    applySettings(settings: Settings) {
+    public applySettings(settings: Settings) {
         this.settings = settings;
         this.arena.settings = settings;
     }
@@ -225,11 +220,11 @@ export class BitFighter {
 
         const gameState = this.arena.isBusy() ? 'fighting' : 'waiting';
 
-        const combatantIndex = this.arena.searchForCombatant(id);
+        const inArena = this.arena.getCombatants().some(s => s.id === id);
         // if the donation matches a fighter
-        if (combatantIndex !== -1) {
+        if (inArena) {
             this.logDonation(gameState, 'heal', donation.amount);
-            this.arena.healCombatant(combatantIndex, donation);
+            this.arena.healCombatant(donation.id, donation);
 
         // if the donation is enough for a character and they aren't already in the queue or have a pending choice
         } else if (

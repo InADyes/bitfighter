@@ -1,17 +1,17 @@
 import { applyFightEvents } from './applyFightEvents';
-import * as GraphicsEvents from './graphicsEvents';
-import * as FightEvents from './fightEvents';
-import { otherCharacter } from './utility';
+import { GraphicsEvent } from './interfaces/graphicsEvents';
+import { FightEvent } from './interfaces/fightEvents';
+import { otherCharacter, assertNever } from './utility';
 import { Status } from './Status';
 
 // could be programatically genrated in a cleaner way if we end up with a lot
 // used to determine order of events when the timestamp is the same
-const eventOrder = {
-    [GraphicsEvents.EventType.Attack]: 1,
-    [GraphicsEvents.EventType.Buff]: 1,
-    [GraphicsEvents.EventType.Clear]: 2,
-    [GraphicsEvents.EventType.Health]: 1,
-    [GraphicsEvents.EventType.Text]: 1
+const eventOrder: {[type: string]: number} = {
+    'attack': 1,
+    'buff': 1,
+    'clear': 2,
+    'health': 1,
+    'text': 1
 }
 
 const enum colors {
@@ -22,7 +22,7 @@ const enum colors {
     ability = '#f34ef5'
 }
 
-export function sortGraphicsEvents(events: GraphicsEvents.Event[]) {
+export function sortGraphicsEvents(events: GraphicsEvent[]) {
     return events.sort((a, b) => {
         if (a.time === b.time)
             return eventOrder[a.type] - eventOrder[b.type];
@@ -30,161 +30,186 @@ export function sortGraphicsEvents(events: GraphicsEvents.Event[]) {
     });
 }
 
-export function build(event: FightEvents.Event, status: Status[]) {
-    const display: GraphicsEvents.Event[] = [];
+export function build(event: FightEvent, status: Status[]): GraphicsEvent[] {
+    const display: GraphicsEvent[] = [];
+    const time  = event.time;
+    const targetIndex = status.findIndex(s => s.id === event.targetID);
+
+    if (targetIndex === -1) {
+        console.error('invalid target: ', event.targetID);
+        return [];
+    }
 
     switch (event.type) {
-        case FightEvents.Types.damage:
-            display.push(new GraphicsEvents.Health(
-                event.time,
-                event.character,
-                null,
-                Math.max(0, Math.ceil(status[event.character].hitPoints))
-            ));
-            display.push(new GraphicsEvents.Text(
-                event.time,
-                event.character,
-                1,
-                String(Math.ceil((<FightEvents.Damage>event).amount)),
-                colors.damage
-            ));
+        case 'damage':
+            if (event.source.type === 'donation') {
+                const d = event.source.donation;
+
+                display.push({
+                    type: 'text',
+                    time,
+                    character: targetIndex,
+                    duration: 1.5,
+                    text: `${ d.name} attacks`,
+                    color: colors.damage 
+                })
+                display.push({
+                    type: 'text',
+                    time,
+                    character: targetIndex,
+                    duration: 1.5,
+                    text: String(Math.ceil(d.amount)),
+                    color: colors.damage
+                });
+                display.push({
+                    type: 'health',
+                    time,
+                    character: targetIndex,
+                    attacker: d.name,
+                    health: Math.ceil(status[targetIndex].hitPoints)
+                });
+            } else {
+                display.push({
+                    type: 'health',
+                    time,
+                    character: targetIndex,
+                    attacker: null,
+                    health: Math.max(0, Math.ceil(status[targetIndex].hitPoints))
+                });
+                display.push({
+                    type: 'text',
+                    time,
+                    character: targetIndex,
+                    duration: 1,
+                    text: String(Math.ceil(event.amount)),
+                    color: colors.damage
+                });
+            }
             break;
-        case FightEvents.Types.dodge:
-            display.push(new GraphicsEvents.Text(
-                event.time,
-                event.character,
-                .72,
-                'dodge',
-                colors.dodge
-            ));
+        case 'dodge':
+            display.push({
+                type: 'text',
+                time,
+                character: targetIndex,
+                duration: .72,
+                text: 'dodge',
+                color: colors.dodge
+            });
             break;
-        case FightEvents.Types.healing:
-            display.push(new GraphicsEvents.Health(
-                event.time,
-                event.character,
-                null,
-                Math.ceil(status[event.character].hitPoints)
-            ));
-            display.push(new GraphicsEvents.Text(
-                event.time,
-                event.character,
-                1,
-                String(Math.ceil((<FightEvents.Healing>event).amount)),
-                colors.heal
-            ));
+        case 'heal':
+            if (event.source.type === 'donation') {
+                display.push({
+                    type: 'text',
+                    time,
+                    character: targetIndex,
+                    duration: 1,
+                    text: `${ event.source.donation.name } heals`,
+                    color: colors.donation
+                });
+                display.push({
+                    type: 'text',
+                    time,
+                    character: targetIndex,
+                    duration: 1,
+                    text: String(Math.ceil(event.amount)),
+                    color: colors.heal
+                });
+                display.push({
+                    type: 'health',
+                    time,
+                    character: targetIndex,
+                    attacker: null,
+                    health: Math.ceil(status[targetIndex].hitPoints)
+                });
+            } else {
+                display.push({
+                    type: 'health',
+                    time,
+                    character: targetIndex,
+                    attacker: null,
+                    health: Math.ceil(status[targetIndex].hitPoints)
+                });
+                display.push({
+                    type: 'text',
+                    time,
+                    character: targetIndex,
+                    duration: 1,
+                    text: String(Math.ceil(event.amount)),
+                    color: colors.heal
+                });
+            }
             break;
-        case FightEvents.Types.death:
-            display.push(new GraphicsEvents.Clear(
-                event.time,
-                event.character
-            ));
+        case 'death':
+            display.push({
+                type: 'clear',
+                time,
+                character: targetIndex
+            });
             break;
-        case FightEvents.Types.crit: {
-            const { buff, debuff, damage } = <FightEvents.Crit>event;
+        case 'crit': {
+            const { buff, debuff, damage } = event;
             if (damage) {
-                display.push(new GraphicsEvents.Text(
-                    event.time,
-                    event.character,
-                    1,
-                    'crit',
-                    colors.damage
-                ));
+                display.push({
+                    type: 'text',
+                    time,
+                    character: targetIndex,
+                    duration: 1,
+                    text: 'crit',
+                    color: colors.damage
+                });
             }
             if (debuff) {
-                display.push(new GraphicsEvents.Buff(
-                    event.time,
-                    event.character,
-                    debuff.art,
-                    debuff.duration
-                ));
-                display.push(new GraphicsEvents.Text(
-                    event.time,
-                    event.character,
-                    1,
-                    debuff.name,
-                    colors.ability
-                ));
+                display.push({
+                    type: 'buff',
+                    time,
+                    character: targetIndex,
+                    art: debuff.art,
+                    duration: debuff.duration
+                });
+                display.push({
+                    type: 'text',
+                    time,
+                    character: targetIndex,
+                    duration: 1,
+                    text: debuff.name,
+                    color: colors.ability
+                });
             }
             if (buff) {
-                display.push(new GraphicsEvents.Buff(
-                    event.time,
-                    otherCharacter(event.character),
-                    buff.art,
-                    buff.duration
-                ));
-                display.push(new GraphicsEvents.Text(
-                    event.time,
-                    otherCharacter(event.character),
-                    1,
-                    buff.name,
-                    colors.ability
-                ));
+                display.push({
+                    type: 'buff',
+                    time,
+                    character: otherCharacter(targetIndex),
+                    art: buff.art,
+                    duration: buff.duration
+                });
+                display.push({
+                    type: 'text',
+                    time,
+                    character: otherCharacter(targetIndex),
+                    duration: 1,
+                    text: buff.name,
+                    color: colors.ability
+                });
             }
         }   break;
-        case FightEvents.Types.damageDonation: {
-            const e = <FightEvents.DamageDonation>event;
-
-            display.push(new GraphicsEvents.Text(
-                event.time,
-                event.character,
-                1.5,
-                `${ e.donation.name} attacks`,
-                colors.damage
-            ));
-            display.push(new GraphicsEvents.Text(
-                event.time,
-                event.character,
-                1.5,
-                String(Math.ceil(e.amount)),
-                colors.damage
-            ));
-            display.push(new GraphicsEvents.Health(
-                event.time,
-                event.character,
-                e.donation.name,
-                Math.ceil(status[event.character].hitPoints)
-            ));
-        }   break;
-        case FightEvents.Types.healingDonation: {
-            const e = (<FightEvents.HealingDonation>event);
-
-            display.push(new GraphicsEvents.Text(
-                event.time,
-                event.character,
-                1,
-                `${ e.donation.name } heals`,
-                colors.donation
-            ));
-            display.push(new GraphicsEvents.Text(
-                event.time,
-                event.character,
-                1,
-                String(Math.ceil(e.amount)),
-                colors.heal
-            ));
-            display.push(new GraphicsEvents.Health(
-                event.time,
-                event.character,
-                null,
-                Math.ceil(status[event.character].hitPoints)
-            ));
-        }   break;
-        case FightEvents.Types.attack:
-            display.push(new GraphicsEvents.Attack(
-                event.time - 125,
-                event.character
-            ));
+        case 'attack':
+            display.push({
+                type: 'attack',
+                time: time - 125,
+                character: targetIndex
+            });
             break;
-        case FightEvents.Types.levelUp:
+        case 'levelUp':
             // display.push(new GraphicsEvents.Text(
-            //     event.time,
-            //     event.character, //should this always be zero or be characterOther()?
+            //     time,
+            //     character: targetIndex, //should this always be zero or be characterOther()?
             //     'Level Up!',
             //     'gold'
             // ));
             break;
         default:
-            console.error('unidentified event type');
+            assertNever(event);
     }
     return display;
 }

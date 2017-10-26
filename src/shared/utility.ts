@@ -10,3 +10,7 @@ export function otherCharacter(char: number) {
             return -1; // typescript does not recognise exit
     }
 }
+
+export function assertNever(x: never) {
+    throw new Error("Unexpected object: " + x);
+}

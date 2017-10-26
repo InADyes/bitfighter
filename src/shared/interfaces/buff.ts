@@ -1,6 +1,6 @@
 import { SSL_OP_COOKIE_EXCHANGE } from 'constants';
-import { Damage, Dodge } from '../fightEvents';
-import { Health } from '../graphicsEvents';
+import { Damage, Dodge } from './fightEvents';
+import { Health } from './graphicsEvents';
 import { ReelMessage } from './backToFrontMessage';
 /*
     Each buff is multiplied agaisnt a stat to create a new that is then used.
@@ -125,7 +125,7 @@ export const buffs: Buff[] = [
     {
         duration: 6000,
         art: 6,
-        name: 'Blassing',
+        name: 'Blessing',
         url: "images/icons/buffs/curse.png",
         regeneration: 400,
         armor: 2,

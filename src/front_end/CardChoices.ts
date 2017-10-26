@@ -4,6 +4,7 @@ import { rarities } from '../shared/characterPicker';
 
 export class CardChoices {
     private cards: HTMLDivElement[];
+    private timer: HTMLDivElement | null;
     private timeout: number | null = null;
 
     constructor (
@@ -32,6 +33,7 @@ export class CardChoices {
                 });
             }
         }
+        this.charSelectTimer(60);
         this.timeout = window.setTimeout(
             () => this.clearCards(),
             this.cardsTimeout // one minute
@@ -42,6 +44,31 @@ export class CardChoices {
             this.cardDiv.removeChild(card);
         }
         this.cards = [];
+        if (this.timer) {
+            this.cardDiv.removeChild(this.timer);
+            this.timer = null;
+        }
+    }
+    private charSelectTimer(time: number) {
+        this.timer = document.createElement('div');
+        this.timer.className = 'charSelectTimer';
+        let txt = document.createElement('div');
+        txt.className = 'charSelectTimerTxt';
+        txt.innerText = time.toString();
+        this.timer.appendChild(txt);
+        this.cardDiv.appendChild(this.timer);
+        window.setTimeout(() => this.updateTimer(txt, time - 1), 1000);
+    }
+    private updateTimer(txt: HTMLDivElement, time: number) {
+        if (time < 1){
+            if (this.timer) {
+                this.cardDiv.removeChild(this.timer);
+                this.timer = null;
+            }
+            return;
+        }
+            txt.innerText = time.toString();
+        window.setTimeout(() => this.updateTimer(txt, time - 1), 1000);
     }
 }
 
@@ -62,22 +89,21 @@ export function updateStatusCards(
     const oldCard1 = document.getElementById('card1');
     const oldCard2 = document.getElementById('card2');
     if (oldCard1 && newCard1) {
-
         oldCard1.classList.remove("empty-card");
-        oldCard1.classList.add("card");
+        oldCard1.classList.add("character_select_card");
         oldCard1.innerHTML = newCard1.innerHTML;
     }
     else if (oldCard1) {
-        oldCard1.classList.remove("card");
+        oldCard1.classList.remove("character_select_card");
         oldCard1.classList.add("empty-card");
     }
     if (oldCard2 && newCard2) {
         oldCard2.classList.remove("empty-card");
-        oldCard2.classList.add("card");
+        oldCard2.classList.add("character_select_card");
         oldCard2.innerHTML = newCard2.innerHTML;
     }
     else if (oldCard2) {
-        oldCard2.classList.remove("card");
+        oldCard2.classList.remove("character_select_card");
         oldCard2.classList.add("empty-card");
         oldCard2.innerHTML = "";
     }
@@ -129,7 +155,6 @@ export function buildCard(character: CharacterCard, artURLs: string[]) {
         let x = `
         <tr>
           <td>${statDispName}</td>
-          <td>${ character.stats[key] }</td>
           <td>
             <div class="csc_bar">
               <div class="csc_inner_bar" style="width:${ character.stats[key] }0%"></div>
@@ -210,4 +235,3 @@ function healthBarSVG(amount: {
         <rect class="main" width="${ amount.amount * amount.factor }%" height="100%" mask="url(#healthBarCutout)"/>
     </svg>`;
 }
-

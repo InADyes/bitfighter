@@ -1,5 +1,5 @@
 import { buildEvents } from '../shared/buildEvents';
-import * as FightEvents from '../shared/fightEvents';
+import { FightEvent } from '../shared/interfaces/fightEvents';
 import { otherCharacter as other } from '../shared/utility';
 import { Status } from '../shared/Status';
 
@@ -38,34 +38,41 @@ export function testPair(
     for (let i = 0; i < fights; i++) {
         const reel = buildEvents(chars).reel.map(e => e.fight);
 
-        reelToResults(results, reel);
+        reelToResults(results, reel, chars);
     }
     return results;
 }
 
 export function reelToResults(
     results: Results[],
-    reel: FightEvents.Event[]
+    reel: FightEvent[],
+    status: Status[]
 ) {
     results[0].totalTime += reel[reel.length - 1].time - reel[0].time;
 
     for (const event of reel) {
+        const targetIndex = status.findIndex(s => s.id === event.targetID);
+        if (targetIndex === -1) {
+            console.error('invalid target ID: ', event.targetID);
+            continue;
+        }
+
         switch (event.type) {
-            case FightEvents.Types.damage:
-                results[other(event.character)].total_damage += (<FightEvents.Damage>event).amount;
-                results[other(event.character)].hits++;
+            case 'damage':
+                results[other(targetIndex)].total_damage += event.amount;
+                results[other(targetIndex)].hits++;
                 break;
-            case FightEvents.Types.dodge:
-                results[other(event.character)].miss++;
+            case 'dodge':
+                results[other(targetIndex)].miss++;
                 break;
-            case FightEvents.Types.healing:
+            case 'heal':
                 break;
-            case FightEvents.Types.death:
-                results[event.character].losses++;
-                results[other(event.character)].wins++;
+            case 'death':
+                results[targetIndex].losses++;
+                results[other(targetIndex)].wins++;
                 break;
-            case FightEvents.Types.crit:
-                results[other(event.character)].crits++;
+            case 'crit':
+                results[other(targetIndex)].crits++;
                 break;
             default:
                 break;

@@ -1,4 +1,4 @@
-import { Event as GraphicsEvent } from '../graphicsEvents';
+import { GraphicsEvent } from './graphicsEvents';
 import { Character } from '../characterPicker';
 import { Stats, choiceStats } from '../Status';
 

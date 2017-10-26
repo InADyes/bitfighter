@@ -11,8 +11,6 @@ window.addEventListener('load', function(){
     const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
     //const cardDiv = <HTMLDivElement>document.getElementById('charSelect');
     const requestIDs: number[] = [];
-<<<<<<< HEAD
-=======
     let saveGame: string | undefined = undefined;
 
     const resetButton = <HTMLButtonElement>document.getElementById('reset');
@@ -23,8 +21,6 @@ window.addEventListener('load', function(){
 
     const bossKillButton = <HTMLButtonElement>document.getElementById('bossKill');
     bossKillButton.addEventListener('click', () => backend.bossKill() );
->>>>>>> 5c7a945467eae9b1c6cea265f159d598bc2913b3
-    
     function newGame(savedGame?: string) {
         return new BitFighterBack(
             (message, id) => {
@@ -62,11 +58,11 @@ window.addEventListener('load', function(){
                 bitFighterEnabled: true,
                 bitBossStartingHealth: 750
             },
-            str => {saveGame = str},
+            str => saveGame = str,
             (gameState, donationType, amount) => {
                 console.log(`donation: ${ gameState }, ${ donationType }, ${ amount }`);
             },
-            savedGame
+            saveGame
         );
     }
     
@@ -95,6 +91,21 @@ window.addEventListener('load', function(){
         },
         // cardDiv
     );
+        
+    // Change Alignment - TIM //
+    const changeAlignment = <HTMLButtonElement>document.getElementById('redraw');
+    changeAlignment.addEventListener('click', () => {
+        const left = <HTMLInputElement>document.getElementById('alignLeft');
+        const center = <HTMLInputElement>document.getElementById('alignCenter');
+        const right = <HTMLInputElement>document.getElementById('alignRight');
+        if (left.checked)
+            frontend.updateAlignment('left');
+        else if (center.checked)
+            frontend.updateAlignment('center');
+        else if (right.checked)
+            frontend.updateAlignment('right');
+    })
+    ////////////////////////////
 
     const newDonationButton = <HTMLButtonElement>document.getElementById('new-donation');
     const nameInputNode = <HTMLInputElement>document.getElementById('donation-name');
