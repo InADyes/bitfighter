@@ -38,7 +38,8 @@ export class BitFighter {
             this.artURLs,
             this.iconURLs,
             this.atkURLs,
-            chars => updateStatusCards(chars, this.artURLs)
+            chars => updateStatusCards(chars, this.artURLs),
+            this.wrapperDiv
         );
         this.updateSettings(settings);
         this.cardChoices = new CardChoices(
@@ -96,7 +97,6 @@ export class BitFighter {
         }
         this.resizeTimeout = window.setTimeout(() => {
             this.resizeTimeout = null;
-            console.log('WIDTH: ', this.wrapperDiv.offsetWidth);
             const scale = this.wrapperDiv.offsetWidth / 500;
             this.game.setNewScale(scale);
         }, 100)

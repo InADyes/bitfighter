@@ -57,8 +57,8 @@ export class Player {
         private readonly buffArt:   string[],
         private readonly atkArt:    string[],
         private align:              'left' | 'right' | 'center',
+        private readonly bfDiv:     HTMLDivElement
     ) {
-        console.log(this.data);
         this.health = data.currentHitPoints;
         this.onRight = side;
         this.canvas = canvas;
@@ -68,6 +68,7 @@ export class Player {
         this.buffs = [];
         this.cWidth = this.canvas.getWidth();
         this.specialAtk = new Attack(canvas, this.data.art, atkArt, scale, side, this.center, this.align);
+        console.log(this.bfDiv);
     }
 
     public drawMe(player: Player | null, offset: number) {
