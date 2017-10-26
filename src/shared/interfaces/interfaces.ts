@@ -1,5 +1,8 @@
 import { Buff } from './buff';
 
+/**
+ * all information pertaining to a paticular donation
+ */
 export interface Donation {
     id: string,
     name: string,
@@ -11,6 +14,9 @@ export interface Donation {
     bitBossCheerMote: boolean;
 }
 
+/**
+ * used to store all information on any paticular item, equipment, or consumable
+ */
 export interface Item {
     destroy: () => void;
     name: string;

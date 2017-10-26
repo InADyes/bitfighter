@@ -24,5 +24,7 @@ interface EventSource extends a_Source {
 interface GameSource extends a_Source {
     readonly type: 'game';
 }
-
+/**
+ * used to identify the source of a fight event, may be used for other stuff
+ */
 export type Source = CombatantSource | DonationSource | EventSource | GameSource;

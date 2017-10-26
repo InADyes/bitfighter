@@ -9,30 +9,30 @@ interface abstract_Event {
     targetID: string;
 }
 
-export interface Damage extends abstract_Event {
+interface Damage extends abstract_Event {
     type: 'damage';
     amount: number;
     source: Source;
 }
 
-export interface Dodge extends abstract_Event {
+interface Dodge extends abstract_Event {
     type: 'dodge';
     source: Source;
 }
 
-export interface Death extends abstract_Event {
+interface Death extends abstract_Event {
     type: 'death';
     overkill: number;
     source: Source;
 }
 
-export interface Heal extends abstract_Event {
+interface Heal extends abstract_Event {
     type: 'heal';
     amount: number;
     source: Source;
 }
 
-export interface Crit extends abstract_Event {
+interface Crit extends abstract_Event {
     type: 'crit';
     damage: boolean;
     source: Source;
@@ -40,13 +40,16 @@ export interface Crit extends abstract_Event {
     buff?: Buff;
 }
 
-export interface LevelUp extends abstract_Event {
+interface LevelUp extends abstract_Event {
     type: 'levelUp';
 }
 
 // todo: can now be infered because of sources, remove
-export interface Attack extends abstract_Event {
+interface Attack extends abstract_Event {
     type: 'attack';
 }
 
+/**
+ * Fight events are all actions that happen in a fight. An array of these should be sufficient to re-create a fight.
+ */
 export type FightEvent = Damage | Dodge | Death | Heal | Crit | LevelUp | Attack;

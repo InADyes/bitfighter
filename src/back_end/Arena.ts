@@ -14,6 +14,9 @@ import { hrtime } from 'process';
 import { Donation } from '../shared/interfaces/interfaces';
 import { Source } from '../shared/interfaces/source';
 
+/**
+ * re-implementation of performanceNow() for node
+ */
 function nodePerformanceNow() {
     if (hrtime) {
         const time = hrtime();
@@ -22,10 +25,13 @@ function nodePerformanceNow() {
     return performance.now();
 };
 
+/**
+ * manages fights 
+ */
 export class Arena {
     private fightStartTime: number = 0;
     private timeout: NodeJS.Timer | null = null;
-    private readonly combatants: Combatant[] = [];
+    public readonly combatants: Combatant[] = [];
     public results: Combatant[] = [];
     private events: Readonly<CombinedEvent>[] = [];
 
@@ -71,7 +77,7 @@ export class Arena {
         this.pushLastResults({countdown: options.countdown});
         if (this.timeout)
             clearTimeout(this.timeout);
-        this.timeoutNextEvent();
+        this.playEvents();
     }
 
     public searchForCombatant(id: string) {
@@ -127,7 +133,10 @@ export class Arena {
         )
     }
 
-    public lastResults(patchTime?: number): ReelMessage {
+    /**
+     * builds  ReelMessage from current state
+     */
+    public buildReelMessage(patchTime?: number): ReelMessage {
         const graphics: GraphicsEvent[] = [];
         this.events.forEach(e => graphics.push(...e.graphics));
         sortGraphicsEvents(graphics);
@@ -144,24 +153,28 @@ export class Arena {
                 bossEmoticonURL: c.bossEmoticonURL,
                 className: c.className,
                 id: c.id
-            })
-        ),
-        reel: graphics,
-        patch: patchTime
+            })),
+            reel: graphics,
+            patch: patchTime
         }
     }
     
-    // push the current events to everyone
+    /**
+     * Pushes the current reel to everyone.
+     */
     public pushLastResults(options?: {countdown?: number, patchTime?: number}) {
         this.newFightResults(
-            this.lastResults(
+            this.buildReelMessage(
                 options ? options.patchTime : undefined
             ),
             options ? options.countdown : undefined
         );
     }
     
-    // only works when all new events have the same time
+    /**
+     * Insert events into the current fight and genrate a new reel.
+     * Only works when all new events have the same time.
+     */
     public insertEvents(patchTime: number, source: Source, ...insert: FightEvent[]) {
 
         // create a temporary copy of combatant
@@ -198,10 +211,13 @@ export class Arena {
         
         if (this.timeout)
             clearTimeout(this.timeout);
-        this.timeoutNextEvent();
+        this.playEvents();
     }
     
-    private timeoutNextEvent() {
+    /**
+     * Plays events until the timeout is cleared or there are no more events
+     */
+    private playEvents() {
         // if there is more left in the 
         if (this.events.length > 0) { 
             const timeout = this.events[0].fight.time - (nodePerformanceNow() - this.fightStartTime);
@@ -209,7 +225,8 @@ export class Arena {
             this.timeout = global.setTimeout(
                 () => {
                     this.timeout = null;
-                    this.nextEvent();
+                    this.applyNextEvent();
+                    this.playEvents();
                 },
                 timeout > 0 ? timeout : 0
             );
@@ -224,8 +241,10 @@ export class Arena {
         }
     }
 
-    //plays next fight event and queues the one after
-    private nextEvent() {
+    /**
+     * Plays the next event. If the event was a death caused by a donatoin then generate a new bitboss.
+     */
+    private applyNextEvent() {
         const event = this.events.shift();
 
         if (event === undefined) {
@@ -247,15 +266,9 @@ export class Arena {
             this.results = this.combatants;
             this.pushLastResults();
         }
-
-        this.timeoutNextEvent();
     }
 
     public isBusy(): boolean {
         return this.timeout !== null;
-    }
-
-    public getCombatants() {
-        return this.combatants;
     }
 }

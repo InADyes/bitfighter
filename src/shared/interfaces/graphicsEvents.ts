@@ -1,34 +1,37 @@
 interface Event {
-        time: number;
-        type: string;
-        character: number;
+    time: number;
+    type: string;
+    character: number;
 }
 
-export interface Health extends Event {
-        type: 'health';
-        attacker: string | null;
-        health: number; // delta
+interface Health extends Event {
+    type: 'health';
+    attacker: string | null;
+    health: number; // delta
 }
 
-export interface Attack extends Event {
-        type: 'attack';
+interface Attack extends Event {
+    type: 'attack';
 }
 
-export interface Clear extends Event {
-        type: 'clear';
+interface Clear extends Event {
+    type: 'clear';
 }
 
-export interface Text extends Event {
-        type: 'text';
-        duration: number;
-        text: string;
-        color: string; //should this be a string?
+interface Text extends Event {
+    type: 'text';
+    duration: number;
+    text: string;
+    color: string; //should this be a string?
 }
 
-export interface Buff extends Event {
-        type: 'buff';
-        art: number;
-        duration: number;
+interface Buff extends Event {
+    type: 'buff';
+    art: number;
+    duration: number;
 }
 
+/**
+ * Events sent to the front end used to represent the fight.
+ */
 export type GraphicsEvent = Health | Attack | Clear | Text | Buff;

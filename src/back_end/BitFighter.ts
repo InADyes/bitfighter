@@ -9,6 +9,9 @@ import { Donation, Item } from '../shared/interfaces/interfaces';
 import { Arena } from './Arena';
 import { validateDonation, validateSettings } from './validations';
 
+/**
+ * Main backend module. One instance supports one influencer game instance.
+ */
 export class BitFighter {
     private readonly queue: Combatant[] = [];
     private timeout: NodeJS.Timer | null = null;
@@ -89,12 +92,18 @@ export class BitFighter {
         }
     }
 
+    /**
+     * Kills the current chapion or bitBoss.
+     */
     public bossKill() {
         this.arena.bossKill();
-        if (this.arena.getCombatants().length < 1)
+        if (this.arena.combatants.length < 1)
             this.arena.addCombatants(0, this.buildDefaultCombatant());
     }
 
+    /**
+     * Updates the game settings.
+     */
     public applySettings(settings: Settings) {
         this.settings = settings;
         this.arena.settings = settings;
@@ -116,6 +125,9 @@ export class BitFighter {
         }));
     }
 
+    /**
+     * If a fan tries to update their bossMessage this function should be called.
+     */
     public bossMessageUpdate(id: string, message: string) {
         // TODO: make this work for people in queue and on the right side of a fight
         const index = this.arena.searchForCombatant(id);
@@ -124,7 +136,7 @@ export class BitFighter {
             console.log('boss message update id does not match a currently fighting champion');
             return;
         }
-        if (this.arena.getCombatants()[index].setBossMessage(message)) {
+        if (this.arena.combatants[index].setBossMessage(message)) {
             if (index === 0) {
                 this.sendMessageToFront({
                     updateBossMessage: {
@@ -143,6 +155,9 @@ export class BitFighter {
         }
     }
 
+    /**
+     * If a fan tries to update their bossEmoticon this function should be called.
+     */
     public bossEmoticonURLUpdate(id: string, bossEmoticonURL: string) {
         // TODO: make this work for people in queue and on the right side of a fight
 
@@ -152,7 +167,7 @@ export class BitFighter {
             console.log('boss emoticon update id does not match a currently fighting champion');
             return;
         }
-        this.arena.getCombatants()[index].bossEmoticonURL = bossEmoticonURL;
+        this.arena.combatants[index].bossEmoticonURL = bossEmoticonURL;
         if (index === 0) {
             this.sendMessageToFront({
                 updateBossEmoticonURL: {
@@ -163,6 +178,9 @@ export class BitFighter {
         }
     }
 
+    /**
+     * Called when the front end sends something back. Routs the message parts.
+     */
     public receivedFanGameState(id: string, choice: FrontToBackMessage) {
         if (choice.characterChoice)
             this.characterChoiceHandler.completeChoice(id, choice.characterChoice.choice, true);
@@ -170,12 +188,15 @@ export class BitFighter {
             this.initFans(id);
     }
 
+    /**
+     * Sends the current state to everyone or just one person if a fan is specified. 
+     */
     private initFans(id?: string) {
 
         this.sendMessageToFront(
             {
                 queue: this.buildQueueMessage(),
-                newReel: this.arena.lastResults(),
+                newReel: this.arena.buildReelMessage(),
                 characterList: characters.filter(c => c.name != '').map((c, i) => {
                     const crit = c.crits.find(c => (c.buff || c.debuff) !== undefined)
                     const buff = crit ? (crit.buff || crit.debuff) : undefined;
@@ -221,7 +242,7 @@ export class BitFighter {
 
         const gameState = this.arena.isBusy() ? 'fighting' : 'waiting';
 
-        const inArena = this.arena.getCombatants().some(s => s.id === id);
+        const inArena = this.arena.combatants.some(s => s.id === id);
         // if the donation matches a fighter
         if (inArena) {
             this.logDonation(gameState, 'heal', donation.amount);
@@ -250,7 +271,7 @@ export class BitFighter {
 
 
         if (this.arena.isBusy() === false) {
-            this.addToArena(this.arena.getCombatants().length > 0 ? 5000 : undefined);
+            this.addToArena(this.arena.combatants.length > 0 ? 5000 : undefined);
         } else {
             this.sendMessageToFront({
                 queue: this.buildQueueMessage()
@@ -264,14 +285,14 @@ export class BitFighter {
 
         if (combatant = this.queue.find(c => c.id === fanID)) {
             combatant.useItem(item);
-        } else if (combatant = this.arena.getCombatants().find(c => c.id === fanID)) {
+        } else if (combatant = this.arena.combatants.find(c => c.id === fanID)) {
             combatant.useItem(item);
             this.arena.startFight();
         }
     }
 
     private addToArena(countdown?: number) {
-        const newFighterCount = 2 - this.arena.getCombatants().length;
+        const newFighterCount = 2 - this.arena.combatants.length;
 
         if (this.queue.length < 1 || newFighterCount < 0)
             return;
