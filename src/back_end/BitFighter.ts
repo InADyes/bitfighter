@@ -1,6 +1,7 @@
+import { characterSheets } from '../shared/globals/characterSheets';
 import { generateBitBoss } from './generateBitBoss';
 import { Combatant, cardStats } from '../shared/Combatant';
-import { Character, pickCharacter, characters, rarityInfo, artURLs } from '../shared/characterPicker';
+import { pickCharacter, artURLs } from '../shared/characterPicker';
 import { BackToFrontMessage, CharacterListItem, QueueItem } from '../shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 import { BackendSettings as Settings, GameSave } from './interfaces';
@@ -8,6 +9,7 @@ import { CharacterChoiceHandler } from './CharacterChoiceHandler';
 import { Donation, Item } from '../shared/interfaces/interfaces';
 import { Arena } from './Arena';
 import { validateDonation, validateSettings } from './validations';
+import { rarityInfo } from '../shared/globals/rarity';
 
 /**
  * Main backend module. One instance supports one influencer game instance.
@@ -76,7 +78,7 @@ export class BitFighter {
         if (this.settings.bitFighterEnabled)
             return pickCharacter(
                 this.settings.defaultChampion,
-                Math.floor(Math.random() * (characters.length - 2)),
+                Math.floor(Math.random() * (characterSheets.length - 2)),
                 this.settings.characterNames
             );
         return generateBitBoss(this.settings.defaultChampion, this.settings.bitBossStartingHealth);
@@ -121,7 +123,7 @@ export class BitFighter {
     private buildQueueMessage(timer?: number): QueueItem[] {
         return this.queue.map(s => ({
             fanDisplayName: s.name, 
-            championTypeName: characters[s.character].name
+            championTypeName: characterSheets[s.character].name
         }));
     }
 
@@ -197,7 +199,7 @@ export class BitFighter {
             {
                 queue: this.buildQueueMessage(),
                 newReel: this.arena.buildReelMessage(),
-                characterList: characters.filter(c => c.name != '').map((c, i) => {
+                characterList: characterSheets.filter(c => c.name != '').map((c, i) => {
                     const crit = c.crits.find(c => (c.buff || c.debuff) !== undefined)
                     const buff = crit ? (crit.buff || crit.debuff) : undefined;
 

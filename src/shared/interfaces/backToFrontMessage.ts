@@ -1,6 +1,7 @@
 import { GraphicsEvent } from './graphicsEvents';
-import { Character, Rarity } from '../characterPicker';
-import { Stats, choiceStats } from '../Combatant';
+import { Character, Stats } from './interfaces';
+import { choiceStats } from '../Combatant';
+import { Rarity } from '../globals/rarity';
 
 // what gets sent to the front end
 

@@ -3,7 +3,7 @@ import { generateBitBoss } from './generateBitBoss';
 import { sortGraphicsEvents } from '../shared/buildGraphicsEvents';
 import { fight } from '../shared/fight';
 import { Combatant, cardStats } from '../shared/Combatant';
-import { pickCharacter, characters, characterTypes } from '../shared/characterPicker';
+import { pickCharacter, characterTypes } from '../shared/characterPicker';
 import { FightEvent } from '../shared/interfaces/fightEvents';
 import { GraphicsEvent} from '../shared/interfaces/graphicsEvents';
 import { BackToFrontMessage, ReelMessage } from '../shared/interfaces/backToFrontMessage';

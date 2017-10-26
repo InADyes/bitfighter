@@ -1,7 +1,7 @@
 import { FightEvent } from '../shared/interfaces/fightEvents';
 import { Combatant } from '../shared/Combatant';
 import { otherCharacter } from '../shared/utility';
-import { buildStats, characters, levels } from '../shared/characterPicker';
+import { buildStats, levels } from '../shared/characterPicker';
 import { buildGraphicsEvents } from './buildGraphicsEvents';
 import { GraphicsEvent } from './interfaces/graphicsEvents';
 import { assertNever } from './utility';

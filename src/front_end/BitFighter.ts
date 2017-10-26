@@ -1,4 +1,4 @@
-import { characters,
+import {
     buffURLs as buffURLsNoShim,
     artURLs as artURLsNoShim,
     atkURLs as atkURLsNoShim

@@ -1,6 +1,7 @@
 import { Buff } from './buff';
 import { FightEvent } from './fightEvents';
 import { GraphicsEvent } from './graphicsEvents';
+import { Rarity } from '../globals/rarity';
 
 /**
  * All information pertaining to a paticular donation.
@@ -34,4 +35,36 @@ export interface Item {
 export interface CombinedEvent {
     fight: FightEvent,
     graphics: GraphicsEvent[]
- };
+};
+ 
+export interface Character {
+    stats: Stats;
+    rarity: Rarity;
+    crits: {
+        odds: number;
+        debuff?: Buff;
+        buff?: Buff;
+        damageMultiplier?: number;
+    }[];
+    name: string;
+    flavorText: string;
+    skillText: string;
+}
+ 
+export interface Stats {
+    maxHitPoints: number;
+    accuracy: number;
+    dodge: number;
+    attackSpeed: {
+        min: number;
+        max: number;
+    }; // in milliseconds
+    attackDamage: {
+        min: number;
+        max: number;
+    };
+    armor: number;
+    regeneration: number;
+    critChanceModifier: number;
+    critDamageModifier: number;
+}

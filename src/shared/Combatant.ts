@@ -1,25 +1,8 @@
+import { characterSheets } from './globals/characterSheets';
 import { Buff } from './interfaces/buff';
 import { CharacterCard } from './interfaces/backToFrontMessage';
-import { characterTypes, characters, buffURLs } from './characterPicker';
-import { Item } from './interfaces/interfaces';
-
-export interface Stats {
-    maxHitPoints: number;
-    accuracy: number;
-    dodge: number;
-    attackSpeed: {
-        min: number;
-        max: number;
-    }; // in milliseconds
-    attackDamage: {
-        min: number;
-        max: number;
-    };
-    armor: number;
-    regeneration: number;
-    critChanceModifier: number;
-    critDamageModifier: number;
-}
+import { characterTypes, buffURLs } from './characterPicker';
+import { Item, Stats } from './interfaces/interfaces';
 
 export type choiceStats = {[stat: string]: number};
 
@@ -197,7 +180,7 @@ export class Combatant {
     }
     // TODO: only recalculate the level and bonus health
     get card(): CharacterCard {
-        const character = characters[this.character];
+        const character = characterSheets[this.character];
         const crit = character.crits.find(c => (c.buff || c.debuff) !== undefined)
 
         const buff = crit ? (crit.buff || crit.debuff) : undefined;
@@ -205,13 +188,13 @@ export class Combatant {
         return {
             stats: cardStats[this.character] || cardStats[-1],
             baseHealth: this.stats.maxHitPoints,
-            bonusHealth: this.stats.maxHitPoints - characters[this.character].stats.maxHitPoints,
+            bonusHealth: this.stats.maxHitPoints - characterSheets[this.character].stats.maxHitPoints,
             className: this.className,
             art: this.character,
             level: this.level,
-            rarity: characters[this.character].rarity,
-            flavorText: characters[this.character].flavorText,
-            skillText: characters[this.character].skillText,
+            rarity: characterSheets[this.character].rarity,
+            flavorText: characterSheets[this.character].flavorText,
+            skillText: characterSheets[this.character].skillText,
             bitBossCheerMote: false,
             selectable: true,
             buffArt: buff ? buffURLs[buff.art] : 'ERROR: NO BUFF FOUND',

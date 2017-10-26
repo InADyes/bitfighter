@@ -1,4 +1,5 @@
-import { characters, pickCharacter, levels } from '../shared/characterPicker';
+import { characterSheets } from '../shared/globals/characterSheets';
+import { pickCharacter, levels } from '../shared/characterPicker';
 import { countPairStats } from './resultCount';
 import { stdout } from 'process';
 
@@ -17,16 +18,16 @@ function buildPairs<T, Y>(arr1: T[], arr2: Y[]) : {v1: number, v2: number}[] {
 }
 
 export function resultCountGrid() {
-    const pairs = buildPairs(characters, levels);
+    const pairs = buildPairs(characterSheets, levels);
     const testCount = Number(process.argv[2]);
 
     // top key
     for (let pair of pairs)
-        stdout.write(`, ${ characters[pair.v1].name }: ${ pair.v2 }`);
+        stdout.write(`, ${ characterSheets[pair.v1].name }: ${ pair.v2 }`);
     stdout.write('\n');
 
     for (let character1 of pairs) {
-        stdout.write(`${ characters[character1.v1].name }: ${ character1.v2 }`)
+        stdout.write(`${ characterSheets[character1.v1].name }: ${ character1.v2 }`)
         for (let character2 of pairs) {
             const results = countPairStats(
                 [

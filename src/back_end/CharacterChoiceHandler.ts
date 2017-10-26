@@ -1,15 +1,12 @@
+import { characterSheets } from '../shared/globals/characterSheets';
+import { rarityInfo, Rarity, rarities } from '../shared/globals/rarity';
 import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
 import {
-    Character,
-    characters,
     characterTypes,
-    pickCharacter,
-    Rarity,
-    rarityInfo,
-    rarities
+    pickCharacter
 } from '../shared/characterPicker';
 import { Combatant } from '../shared/Combatant';
-import { Donation, Item } from '../shared/interfaces/interfaces';
+import { Donation, Item, Character } from '../shared/interfaces/interfaces';
 import { BackendSettings } from './interfaces';
 
 interface DonationTier {
@@ -121,7 +118,7 @@ export class CharacterChoiceHandler {
         //find last tier that we can achive or use the first one
         const { odds, cards } = tiers.find(t => t.donation <= donation.amount) || tiers[5];
         //total odds of reach rarity
-        const totals = rarities.map(r => odds[r as Rarity] * characters.filter(c => c.rarity === r).length);
+        const totals = rarities.map(r => odds[r as Rarity] * characterSheets.filter(c => c.rarity === r).length);
         
         //total odds
         const total = totals.reduce((previous, current) => previous + current);
@@ -139,12 +136,12 @@ export class CharacterChoiceHandler {
 
                 if (roll < totals[i]) {
                     roll /= odds[rarities[i]];
-                    choice = characters.filter(c => c.rarity === rarities[i])[Math.floor(roll)];
+                    choice = characterSheets.filter(c => c.rarity === rarities[i])[Math.floor(roll)];
                     break;
                 }
                 roll -= totals[i];
             }
-            // quick hack to get rid of duplicate characters
+            // quick hack to get rid of duplicate characterSheets
 
             // if it's the last card then redo the pick if it's common
             if (_ === cards && choice && choice.rarity === 'common') {
@@ -163,7 +160,7 @@ export class CharacterChoiceHandler {
 
         const combatantChoices = choices.map(c => pickCharacter(
             donation,
-            characters.indexOf(c),
+            characterSheets.indexOf(c),
             this.settings.characterNames,
             ...items
         ));
