@@ -1,4 +1,3 @@
-
 export interface FrontEndSettings {
     position: {
         x: number;

@@ -21,7 +21,7 @@ export interface Stats {
     critDamageModifier: number;
 }
 
-export type choiceStats = {[details: string]: number};
+export type choiceStats = {[stat: string]: number};
 
 export const cardStats: {[details: number]: choiceStats} = {
     [characterTypes.sculleryMaid]: {

@@ -539,8 +539,11 @@ export function buildStats(character: number, donation: number, level: number) :
     }
 }
 
-// i'm going to fix this i swear
-// donation.amount is assumed to be in bits
+/**
+ * Given the right ingredients builds a combatant.
+ * 
+ * donation.amount is assumed to be in bits.
+ */
 export function pickCharacter(
     donation: Donation,
     character: number,

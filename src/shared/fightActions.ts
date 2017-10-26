@@ -3,11 +3,16 @@ import { characters } from './characterPicker';
 import { Combatant } from '../shared/Combatant';
 import { Source } from '../shared/interfaces/source';
 
-// increase internal timer by attack speed;
+/**
+ * Increases internal timer by attack speed roll.
+ */
 export function rollAttackSpeed(target: Combatant) {
     target.time += Math.ceil(Math.random() * (target.stats.attackSpeed.max - target.stats.attackSpeed.min)) + target.stats.attackSpeed.min;
 }
 
+/**
+ * Attacker attacks attacked and passes created events to the newEvent callback.
+ */
 export function attack(
     attacker: Combatant,
     attacked: Combatant,
@@ -90,24 +95,21 @@ export function attack(
     rollAttackSpeed(attacker);
 }
 
+/**
+ * Creates a heal event and passes it to the newEvent callback.
+ * Overhealing is handled in applyFightEvents.
+ */
 export function heal(
     target: Combatant,
     source: Source,
     newEvent: (event: FightEvent) => void
 ) {
     target.checkBuffs(target.time);
-    const maxHitPoints = target.stats.maxHitPoints;
-    let healingAmount = target.stats.regeneration;
-
-    if (healingAmount + target.hitPoints > maxHitPoints)
-        healingAmount = maxHitPoints - target.hitPoints;
-
-    // allways heals the first character in the future, needs to be changed
     newEvent({
         type: 'heal',
         time: target.time + 200,
         targetID: target.id,
-        amount: healingAmount,
+        amount: target.stats.regeneration,
         source: source
     });
 }
