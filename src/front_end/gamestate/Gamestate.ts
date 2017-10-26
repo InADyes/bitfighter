@@ -5,12 +5,11 @@ declare let fabric: any;
 import * as Player from './Player';
 import { fireEvent } from './fireEvent';
 import { BossData } from './interfaces';
-import { recalcHp, flip, updateBitBoss/*, winner*/} from '../globalDependencies'
+import { recalcHp, flip, updateBitBoss } from '../globalDependencies'
 
 // declare function recalcHp(damageAmount: number, newHp: number, maxHp: number, attacker: string | null): void;
 // declare function flip(side: 'front' | 'back'): void;
 // declare function updateBitBoss(bossData: {boss: BossData, attacker?: BossData}): void;
-declare function winner(name: string): void;
 export class GameState {
 	private eventLoopTimeout:	number | null;
 	private lastTime: 			number;
@@ -48,11 +47,11 @@ export class GameState {
 		this.align = 'left';
 	}
 
-	public newMessage(msg: ReelMessage) {
+	public newMessage(msg: ReelMessage, hasTimer: number) {
 		// Don't do anything yet if a character is dying or moving over
 		if ((this.player1 && this.player1.isAnimated())
 			|| (this.player2 && this.player2.isAnimated())) {
-			window.setTimeout(() => {this.newMessage(msg)}, 10);
+			window.setTimeout(() => {this.newMessage(msg, hasTimer)}, 10);
 			return;
 		}
 		console.log(`TIM MSG:`, msg.characters);
@@ -91,8 +90,16 @@ export class GameState {
 					recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, null);
 					if (msg.characters[1]) {
 						this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt, this.align);
-						flip('back');
-						console.log("flip back");
+						if (hasTimer) {
+							window.setTimeout(()=>{
+								flip('back');
+								console.log("flip back");
+							}, 4000)
+						}
+						else {
+							flip('back');
+							console.log("flip back");
+						}
 						this.ogTime = performance.now();
 					}
 					else if (!msg.characters[1] && this.player2)
@@ -189,8 +196,6 @@ export class GameState {
 			this.player2.dies(null);
 			if (this.player1) {
 				this.player1.clearBuffs();
-				winner(this.currentBoss.name);
-				console.log(this.currentBoss.name + " wins");
 			}
 			this.player2.clearBuffs();
 			this.player2 = null;
@@ -205,8 +210,6 @@ export class GameState {
 				this.currentBoss = this.player2.getBitBossInfo();
 				console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
 				updateBitBoss({boss: this.currentBoss});
-				winner(this.currentBoss.name);
-				console.log(this.currentBoss.name + " wins");
 				this.player2.clearBuffs();
 			}
 			this.newChampion();

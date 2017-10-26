@@ -4,6 +4,7 @@ import { rarityInfo } from '../shared/characterPicker';
 
 export class CardChoices {
     private cards: HTMLDivElement[];
+    private timer: HTMLDivElement | null;
     private timeout: number | null = null;
 
     constructor (
@@ -32,6 +33,7 @@ export class CardChoices {
                 });
             }
         }
+        this.charSelectTimer(60);
         this.timeout = window.setTimeout(
             () => this.clearCards(),
             this.cardsTimeout // one minute
@@ -42,6 +44,31 @@ export class CardChoices {
             this.cardDiv.removeChild(card);
         }
         this.cards = [];
+        if (this.timer) {
+            this.cardDiv.removeChild(this.timer);
+            this.timer = null;
+        }
+    }
+    private charSelectTimer(time: number) {
+        this.timer = document.createElement('div');
+        this.timer.className = 'charSelectTimer';
+        let txt = document.createElement('div');
+        txt.className = 'charSelectTimerTxt';
+        txt.innerText = time.toString();
+        this.timer.appendChild(txt);
+        this.cardDiv.appendChild(this.timer);
+        window.setTimeout(() => this.updateTimer(txt, time - 1), 1000);
+    }
+    private updateTimer(txt: HTMLDivElement, time: number) {
+        if (time < 1){
+            if (this.timer) {
+                this.cardDiv.removeChild(this.timer);
+                this.timer = null;
+            }
+            return;
+        }
+            txt.innerText = time.toString();
+        window.setTimeout(() => this.updateTimer(txt, time - 1), 1000);
     }
 }
 
@@ -208,4 +235,3 @@ function healthBarSVG(amount: {
         <rect class="main" width="${ amount.amount * amount.factor }%" height="100%" mask="url(#healthBarCutout)"/>
     </svg>`;
 }
-

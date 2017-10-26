@@ -6,7 +6,7 @@ export class Queue {
     private timer: HTMLDivElement;
 
     constructor (
-        private readonly bitfighterDiv: HTMLDivElement,
+        private readonly bitbossDiv: HTMLDivElement,
         //private readonly startTimer: (time: number) => void
     ){}
 
@@ -33,13 +33,13 @@ export class Queue {
         timerDiv.appendChild(timer);
         challenger.innerText = "NEW CHALLENGER";
         timer.innerText = time.toString();
-        this.bitfighterDiv.appendChild(timerDiv);
+        this.bitbossDiv.appendChild(timerDiv);
         window.setTimeout(() => this.updateTimer(timerDiv, timer, time - 1), 1000);
     }
 
     private updateTimer(timerDiv: HTMLDivElement, timer: HTMLSpanElement, time: number) {
         if (time < 1){
-            this.bitfighterDiv.removeChild(timerDiv);
+            this.bitbossDiv.removeChild(timerDiv);
             return;
         }
         timer.innerText = time.toString();
