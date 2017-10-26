@@ -19,7 +19,7 @@ export class Queue {
     
     public handleNewTimer(timer: number){
         if (timer > 0)
-            this.startTimer(timer / 1000);
+            this.startTimer(timer / 1000 + 100);
     }
 
     private startTimer(time: number) {
