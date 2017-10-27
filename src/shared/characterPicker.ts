@@ -3,12 +3,6 @@ import { characterSheets } from './globals/characterSheets';
 import { rarityInfo } from './globals/rarity';
 import { Character, Donation, Item, Stats } from './interfaces/interfaces';
 
-export const atkURLs = [
-    'images/icons/fire1.png',
-    'images/icons/fire2.png',
-    'images/icons/fire3.png'
-];
-
 interface Level {
     //level: number;
     readonly bits: number;

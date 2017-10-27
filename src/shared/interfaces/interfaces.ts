@@ -53,6 +53,7 @@ export interface Character {
     // art path needs to be prefixed to become a url
     artPath: string;
     attribute?: 'holy' | 'magic' | 'physical';
+    attackGraphicsPath?: string[];
 }
  
 export interface Stats {

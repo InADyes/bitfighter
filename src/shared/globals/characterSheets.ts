@@ -421,7 +421,12 @@ export const characterSheets: Readonly<Character>[] = [
             speed: 1
         },
         artPath: 'images/champions/9dragon.png',
-        attribute: 'magic'
+        attribute: 'magic',
+        attackGraphicsPath: [
+            'images/icons/fire1.png',
+            'images/icons/fire2.png',
+            'images/icons/fire3.png'
+        ]
     }, // Dragon
     {
         stats: { 

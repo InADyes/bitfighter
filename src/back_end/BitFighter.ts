@@ -211,7 +211,8 @@ export class BitFighter {
                         rarityName: rarityInfo[c.rarity].name || 'rarity not found',
                         rarityColor: rarityInfo[c.rarity].color || 'rarity not found',
                         flavorText: c.flavorText,
-                        classArtURL: c.artPath
+                        classArtURL: c.artPath,
+                        attackGraphicsURLs: c.attackGraphicsPath
                     }
                 })
             },
