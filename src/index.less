@@ -522,29 +522,68 @@
 }
 
 // vv Tim's 60 second timer vv //
-.charSelectTimer{
+.charSelectTimerWrapper {
+  position: absolute;
+  top: calc(50% - 5vw);
+  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  background-color: rgba(236, 235, 235, 0.6);
-  position: absolute;
-  left: calc(50% - 4.5vw);
-  top: calc(50% - 6vw);
-  width: 9vw;
-  height: 9vw;
-  border-radius: 50%;
-  z-index: 6;
-  border: .2vw solid rgba(236, 235, 235, 0.6);
-  box-shadow: inset 0 0 0 .2vw black;
-  .charSelectTimerTxt {
-    font-size: 7vw;
-    color: red;
-    font-family: "Concert One";
+  height: 10vw;
+  overflow: hidden;
+  .charSelectTimerFlipper {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    animation-name: slideIn;
+    animation-duration: 1.6s;
+    background-color: yellow;
+    z-index: 6;
+    transform-style: preserve-3d;
+    .charSelectTimerBack {
+      position: absolute;
+      background-color: rgba(236, 235, 235, 1);
+      border: .2vw solid rgba(236, 235, 235, 1);
+      box-shadow: inset 0 0 0 .2vw black;
+      border-radius: 50%;
+      width: 9vw;
+      height: 9vw;
+      backface-visibility: hidden;
+      transform: rotateY(180deg);
+    }
+    .charSelectTimer {
+      background-color: rgba(236, 235, 235, 0.6);
+      position: absolute;
+      width: 9vw;
+      height: 9vw;
+      border-radius: 50%;
+      border: .2vw solid rgba(236, 235, 235, 0.6);
+      box-shadow: inset 0 0 0 .2vw black;
+      font-size: 7vw;
+      color: red;
+      font-family: "Concert One";
+      backface-visibility: hidden;
+    }
+    @-webkit-keyframes slideIn {
+      0% {
+        top: -100%;
+        transform: rotateY(180deg);
+      }
+      20% {
+        top: -100%;
+      }
+      60% {
+        top: 0%;
+        transform: rotateY(180deg);
+      }
+      100% {
+        transform: rotateY(0deg);
+      }
+    }
   }
 }
 // ^^ Tim's 60 second timer ^^ //
 
-// vv Tim's NEW CHALLENGER timer vv /
+// vv Tim's "NEW CHALLENGER" timer vv /
 #mini-boss-wrapper {
   .timerDiv {
     position: absolute;
@@ -570,22 +609,13 @@
   .timer {
     display: inline-block;
     position: relative;
-    left: 3%;
+    left: 5%;
     color: red;
-    // -webkit-text-stroke-width: 1px;
-    // -webkit-text-stroke-color: white;
     text-shadow: 0 1px 2px rgba(255,255,255,1);
     font-size: 5vw;
     margin: auto;
-    //-webkit-transform: scale(1, 1.1);
   }
   @-webkit-keyframes timerFlash {
-    // 0% {
-    //   background-color: #FF9191;
-    // }
-    // 100% {
-    //   background-color: #8D0000;
-    // }
     30% {
       opacity: 1;
     }
