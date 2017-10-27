@@ -49,6 +49,10 @@ export interface Character {
     name: string;
     flavorText: string;
     skillText: string;
+    cardStats: {[stat: string]: number};
+    // art path needs to be prefixed to become a url
+    artPath: string;
+    attribute?: 'holy' | 'magic' | 'physical';
 }
  
 export interface Stats {

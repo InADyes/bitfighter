@@ -7,7 +7,7 @@ interface Event {
 interface Health extends Event {
     type: 'health';
     attacker: string | null;
-    health: number; // delta
+    health: number;
 }
 
 interface Attack extends Event {
@@ -27,7 +27,7 @@ interface Text extends Event {
 
 interface Buff extends Event {
     type: 'buff';
-    art: number;
+    art: string;
     duration: number;
 }
 

@@ -34,9 +34,6 @@ export class GameState {
 
 	constructor(
 		canvasId: string,
-		private readonly charArt: string[],
-		private readonly buffArt: string[],
-		private readonly atkArt: string[],
 		private readonly characterStateChange: (characters: FrontendCharacter[]) => void
 	) {
 		this.canvas = new fabric.StaticCanvas(canvasId);
@@ -83,13 +80,13 @@ export class GameState {
 				this.canvas.clear();
 				// init players
 				if (msg.characters[0]) {
-					this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt, this.align);
+					this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.align);
 					this.currentBoss = this.player1.getBitBossInfo();
 					updateBitBoss({boss: this.currentBoss});
 					console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
 					recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, null);
 					if (msg.characters[1]) {
-						this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt, this.align);
+						this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.align);
 						if (hasTimer) {
 							window.setTimeout(()=>{
 								flip('back');
@@ -253,11 +250,11 @@ export class GameState {
 		this.scaleWait = 0;
 	}
 
-	public addBuff(art: number, duration: number, p2: number) {
+	public addBuff(artURL: string, duration: number, p2: number) {
 		if (p2 && this.player2)
-			this.player2.addBuff(art, duration);
+			this.player2.addBuff(artURL, duration);
 		else if (this.player1)
-			this.player1.addBuff(art, duration);
+			this.player1.addBuff(artURL, duration);
 	}
 
 	private idleCheck() {

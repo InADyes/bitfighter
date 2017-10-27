@@ -35,23 +35,23 @@ export function fight(
 
     // ------------- type hack starts here
     if (newCombatant.length >= 2) {
-        if (typeMap[newCombatant[0].character] === 0 && typeMap[newCombatant[1].character] === 2)
-            newCombatant[0].addEffect(10000000, buffs[buffTypes.armorBonus]);
+        if (newCombatant[0].character.attribute === 'holy' && newCombatant[1].character.attribute === 'physical')
+            newCombatant[0].addEffect(10000000, buffs.armorBonus);
             
-        if (typeMap[newCombatant[0].character] === 1 && typeMap[newCombatant[1].character] === 0)
-            newCombatant[0].addEffect(10000000, buffs[buffTypes.armorBonus]);
+        if (newCombatant[0].character.attribute === 'magic' && newCombatant[1].character.attribute === 'holy')
+            newCombatant[0].addEffect(10000000, buffs.armorBonus);
 
-        if (typeMap[newCombatant[0].character] === 2 && typeMap[newCombatant[1].character] === 1)
-            newCombatant[0].addEffect(10000000, buffs[buffTypes.armorBonus]);
+        if (newCombatant[0].character.attribute === 'physical' && newCombatant[1].character.attribute === 'magic')
+            newCombatant[0].addEffect(10000000, buffs.armorBonus);
 
-        if (typeMap[newCombatant[1].character] === 0 && typeMap[newCombatant[0].character] === 2)
-            newCombatant[1].addEffect(10000000, buffs[buffTypes.armorBonus]);
+        if (newCombatant[1].character.attribute === 'holy' && newCombatant[0].character.attribute === 'physical')
+            newCombatant[1].addEffect(10000000, buffs.armorBonus);
 
-        if (typeMap[newCombatant[1].character] === 1 && typeMap[newCombatant[0].character] === 0)
-            newCombatant[1].addEffect(10000000, buffs[buffTypes.armorBonus]);
+        if (newCombatant[1].character.attribute === 'magic' && newCombatant[0].character.attribute === 'holy')
+            newCombatant[1].addEffect(10000000, buffs.armorBonus);
 
-        if (typeMap[newCombatant[1].character] === 2 && typeMap[newCombatant[0].character] === 1)
-            newCombatant[1].addEffect(10000000, buffs[buffTypes.armorBonus]);
+        if (newCombatant[1].character.attribute === 'physical' && newCombatant[0].character.attribute === 'magic')
+            newCombatant[1].addEffect(10000000, buffs.armorBonus);
     }
     // ---------- end here
 
@@ -85,22 +85,3 @@ export function fight(
 
     return { combatants: newCombatant, reel }
 }
-
-const enum types {
-    holy,
-    magic,
-    physical
-}
-
-const typeMap = [
-    types.physical, // Scullery Maid
-    types.physical, // Barkeep
-    types.holy,     // Medium
-    types.magic,    // Minstrel
-    types.magic,    // Mage
-    types.physical, // Rogue
-    types.holy,     // Warpriest
-    types.magic,    // Warlock
-    types.physical, // Swashbuckler
-    types.magic,    // Dragon
-];

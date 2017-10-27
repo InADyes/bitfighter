@@ -1,59 +1,15 @@
 import { updateBitBoss } from '../front_end/globalDependencies';
 import { Combatant } from '../shared/Combatant';
-import { Donation, Item, Stats } from './interfaces/interfaces';
+import { Character, Donation, Item, Stats } from './interfaces/interfaces';
 import { characterSheets } from './globals/characterSheets';
 import { Buff } from './interfaces/buff';
 import { Rarity, rarityInfo } from './globals/rarity';
 
-export const artURLs = [
-    "images/champions/0scullery_maid.png",
-    "images/champions/1barkeep.png",
-    "images/champions/2medium.png",
-    "images/champions/3minstrel.png",        
-    "images/champions/4mage.png", 
-    "images/champions/5rogue.png",
-    "images/champions/6warpriest.png",
-    "images/champions/7warlock.png",  
-    "images/champions/8swashbuckler.png",    
-    "images/champions/9dragon.png",
-    "images/champions/10grave_digger.png",
-    "images/champions/10grave_digger.png"
-];
-
-export const buffURLs = [
-    "images/icons/buffs/mop_up.png",
-    "images/icons/buffs/last_call.png",
-    "images/icons/buffs/medium_buff.png",
-    "images/icons/buffs/blinding_chord.png",
-    "images/icons/buffs/magic_missile.png",
-    "images/icons/buffs/backstabbing.png",
-    "images/icons/buffs/curse.png",
-    "images/icons/buffs/damnation_buff.png",
-    "images/icons/buffs/damnation_debuff.png",
-    "images/icons/buffs/whirling_blades.png",
-    "images/icons/buffs/firebreathing.png"
-];
-
 export const atkURLs = [
-    "images/icons/fire1.png",
-    "images/icons/fire2.png",
-    "images/icons/fire3.png"
+    'images/icons/fire1.png',
+    'images/icons/fire2.png',
+    'images/icons/fire3.png'
 ];
-
-export const enum characterTypes {
-    sculleryMaid    = 0,
-    barkeep         = 1,
-    medium          = 2,
-    minstrel        = 3,
-    mage            = 4,
-    rogue           = 5,
-    warpriest       = 6,
-    warlock         = 7,
-    swashbuckler    = 8,
-    dragon          = 9,
-    graveDigger     = 10,
-    bitBoss         = 11
-};
 
 interface Level {
     //level: number;
@@ -70,8 +26,8 @@ export const levels: Level[] = [
     },// level 1
 ];
 
-export function buildStats(character: number, donation: number, level: number) : Stats {
-    const c = characterSheets[character];
+export function buildStats(character: Character, donation: number, level: number) : Stats {
+    const c = character;
 
     return {
         maxHitPoints: c.stats.maxHitPoints + (donation < 2000 ? donation / 4 : 500 + (donation - 2000) / 16),
@@ -103,9 +59,9 @@ export function pickCharacter(
     nameMap: {[name: string]: string},
     ...items: Item[]
 ) : Combatant {
-    const pick = character % characterSheets.length;
+    const pick = characterSheets[character % characterSheets.length];
 
-    let level = rarityInfo[characterSheets[pick].rarity].startingLevel; // 1 indexed
+    let level = rarityInfo[pick.rarity].startingLevel; // 1 indexed
 
     // while we are not the highest level and we have the bits required to be the next level
     while (level < levels.length && donation.amount > levels[level].bits)
@@ -124,7 +80,7 @@ export function pickCharacter(
         donation.bossMessage,
         donation.profileImageURL,
         donation.bossEmoticonURL,
-        nameMap[characterSheets[pick].name] || characterSheets[pick].name,
+        nameMap[pick.name] || pick.name,
         items
     )
 }

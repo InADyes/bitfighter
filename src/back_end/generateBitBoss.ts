@@ -1,6 +1,6 @@
+import { characterSheets } from '../shared/globals/characterSheets';
 import { Donation } from '../shared/interfaces/interfaces';
 import { Combatant } from '../shared/Combatant';
-import { characterTypes } from '../shared/characterPicker';
 
 /**
  * Template for a BitBoss.
@@ -12,7 +12,7 @@ export function generateBitBoss(donation: Donation, health: number) : Combatant 
     return new Combatant(
         donation.id,
         donation.name,
-        characterTypes.bitBoss,
+        characterSheets[11],
         donation.amount,
         health,
         0,

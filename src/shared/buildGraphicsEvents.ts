@@ -167,7 +167,7 @@ export function buildGraphicsEvents(event: FightEvent, combatant: Combatant[]): 
                     type: 'buff',
                     time,
                     character: targetIndex,
-                    art: debuff.art,
+                    art: debuff.artPath,
                     duration: debuff.duration
                 });
                 display.push({
@@ -184,7 +184,7 @@ export function buildGraphicsEvents(event: FightEvent, combatant: Combatant[]): 
                     type: 'buff',
                     time,
                     character: otherCharacter(targetIndex),
-                    art: buff.art,
+                    art: buff.artPath,
                     duration: buff.duration
                 });
                 display.push({
@@ -205,12 +205,6 @@ export function buildGraphicsEvents(event: FightEvent, combatant: Combatant[]): 
             });
             break;
         case 'levelUp':
-            // display.push(new GraphicsEvents.Text(
-            //     time,
-            //     character: targetIndex, //should this always be zero or be characterOther()?
-            //     'Level Up!',
-            //     'gold'
-            // ));
             break;
         default:
             assertNever(event);

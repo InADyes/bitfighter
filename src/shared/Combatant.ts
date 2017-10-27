@@ -1,97 +1,7 @@
 import { characterSheets } from './globals/characterSheets';
 import { Buff } from './interfaces/buff';
 import { CharacterCard } from './interfaces/backToFrontMessage';
-import { characterTypes, buffURLs } from './characterPicker';
-import { Item, Stats } from './interfaces/interfaces';
-
-export type choiceStats = {[stat: string]: number};
-
-export const cardStats: {[details: number]: choiceStats} = {
-    [characterTypes.sculleryMaid]: {
-        accuracy: 6,
-        dodge: 6,
-        armor: 5,
-        damage: 5,
-        speed: 5,
-    },
-    [characterTypes.barkeep]: {
-        accuracy: 3,
-        dodge: 4,
-        armor: 8,
-        damage: 6,
-        speed: 3
-    },
-    [characterTypes.medium]: {
-        accuracy: 5,
-        dodge: 6,
-        armor: 1,
-        damage: 3,
-        speed: 7
-    },
-    [characterTypes.minstrel]: {
-        accuracy: 5,
-        dodge: 6,
-        armor: 2,
-        damage: 5,
-        speed: 8
-    },
-    [characterTypes.mage]: {
-        accuracy: 10,
-        dodge: 4,
-        armor: 5,
-        damage: 2,
-        speed: 10
-    },
-    [characterTypes.rogue]: {
-        accuracy: 8,
-        dodge: 8,
-        armor: 3,
-        damage: 1,
-        speed: 9
-    },
-    [characterTypes.warpriest]: {
-        accuracy: 3,
-        dodge: 3,
-        armor: 10,
-        damage: 3,
-        speed: 4
-    },
-    [characterTypes.warlock]: {
-        accuracy: 2,
-        dodge: 2,
-        armor: 5,
-        damage: 9,
-        speed: 2
-    },
-    [characterTypes.swashbuckler]: {
-        accuracy: 7,
-        dodge: 8,
-        armor: 3,
-        damage: 6,
-        speed: 6
-    },
-    [characterTypes.dragon]: {
-        accuracy: 1,
-        dodge: 1,
-        armor: 8,
-        damage: 10,
-        speed: 1
-    },
-    [characterTypes.graveDigger]: {
-        accuracy: 3,
-        dodge: 2,
-        armor: 8,
-        damage: 4,
-        speed: 4
-    },
-    [characterTypes.bitBoss]: {
-        accuracy: 0,
-        dodge: 0,
-        armor: 0,
-        damage: 0,
-        speed: 0
-    }
-}
+import { Character, Item, Stats } from './interfaces/interfaces';
 
 export class Combatant {
     private buffs: {
@@ -105,7 +15,7 @@ export class Combatant {
     constructor(
         public readonly id: string,
         public readonly name: string,
-        public readonly character: number,
+        public readonly character: Character,
         public readonly initialDonation: number,
         public hitPoints: number,
         public level: number,
@@ -180,25 +90,25 @@ export class Combatant {
     }
     // TODO: only recalculate the level and bonus health
     get card(): CharacterCard {
-        const character = characterSheets[this.character];
+        const character = this.character;
         const crit = character.crits.find(c => (c.buff || c.debuff) !== undefined)
 
         const buff = crit ? (crit.buff || crit.debuff) : undefined;
 
         return {
-            stats: cardStats[this.character] || cardStats[-1],
+            stats: this.character.cardStats,
             baseHealth: this.stats.maxHitPoints,
-            bonusHealth: this.stats.maxHitPoints - characterSheets[this.character].stats.maxHitPoints,
+            bonusHealth: this.stats.maxHitPoints - this.character.stats.maxHitPoints,
             className: this.className,
-            art: this.character,
+            art: this.character.artPath,
             level: this.level,
-            rarity: characterSheets[this.character].rarity,
-            flavorText: characterSheets[this.character].flavorText,
-            skillText: characterSheets[this.character].skillText,
+            rarity: this.character.rarity,
+            flavorText: this.character.flavorText,
+            skillText: this.character.skillText,
             bitBossCheerMote: false,
             selectable: true,
-            buffArt: buff ? buffURLs[buff.art] : 'ERROR: NO BUFF FOUND',
-            buffName: buff ? buff.name : 'ERROR: NO BUFF FOUND'
+            buffArt: buff ? buff.artPath : 'ERROR: NO BUFF FOUND',
+            buffName: buff ? buff.artPath : 'ERROR: NO BUFF FOUND'
         };
     }
     get bossMessage() {return this.p_bossMessage;};

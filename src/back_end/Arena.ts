@@ -2,8 +2,8 @@ import { Packet } from '_debugger';
 import { generateBitBoss } from './generateBitBoss';
 import { sortGraphicsEvents } from '../shared/buildGraphicsEvents';
 import { fight } from '../shared/fight';
-import { Combatant, cardStats } from '../shared/Combatant';
-import { pickCharacter, characterTypes } from '../shared/characterPicker';
+import { Combatant } from '../shared/Combatant';
+import { pickCharacter } from '../shared/characterPicker';
 import { FightEvent } from '../shared/interfaces/fightEvents';
 import { GraphicsEvent} from '../shared/interfaces/graphicsEvents';
 import { BackToFrontMessage, ReelMessage } from '../shared/interfaces/backToFrontMessage';
@@ -146,7 +146,7 @@ export class Arena {
                 name: c.name,
                 maxHitPoints: Math.ceil(c.baseStats.maxHitPoints),
                 currentHitPoints: Math.ceil(c.hitPoints),
-                art: c.character,
+                art: c.character.artPath,
                 profileImageURL: c.profileImageURL,
                 bossMessage: c.bossMessage,
                 card: c.card,
@@ -193,7 +193,7 @@ export class Arena {
             && reel.some(e => e.fight.type === 'death')
             && source.type === 'donation'
         ) {
-            this.combatants.push(pickCharacter(source.donation, characterTypes.graveDigger, this.settings.characterNames));
+            this.combatants.push(pickCharacter(source.donation, 10, this.settings.characterNames));
             this.startFight({
                 baseReel: [{
                     type: 'heal',

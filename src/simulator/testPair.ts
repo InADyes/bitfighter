@@ -1,3 +1,4 @@
+import { characterSheets } from '../shared/globals/characterSheets';
 import { fight } from '../shared/fight';
 import { FightEvent } from '../shared/interfaces/fightEvents';
 import { otherCharacter as other } from '../shared/utility';
@@ -31,7 +32,7 @@ export function testPair(
     fights: number
 ) {
     let results = chars.map(s => new Results(
-        s.character,
+        characterSheets.indexOf(s.character),
         s.initialDonation
     ));
 

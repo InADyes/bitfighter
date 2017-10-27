@@ -1,7 +1,7 @@
 import { characterSheets } from '../shared/globals/characterSheets';
 import { generateBitBoss } from './generateBitBoss';
-import { Combatant, cardStats } from '../shared/Combatant';
-import { pickCharacter, artURLs } from '../shared/characterPicker';
+import { Combatant } from '../shared/Combatant';
+import { pickCharacter } from '../shared/characterPicker';
 import { BackToFrontMessage, CharacterListItem, QueueItem } from '../shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 import { BackendSettings as Settings, GameSave } from './interfaces';
@@ -123,7 +123,7 @@ export class BitFighter {
     private buildQueueMessage(timer?: number): QueueItem[] {
         return this.queue.map(s => ({
             fanDisplayName: s.name, 
-            championTypeName: characterSheets[s.character].name
+            championTypeName: s.character.name
         }));
     }
 
@@ -199,19 +199,19 @@ export class BitFighter {
             {
                 queue: this.buildQueueMessage(),
                 newReel: this.arena.buildReelMessage(),
-                characterList: characterSheets.filter(c => c.name != '').map((c, i) => {
+                characterList: characterSheets.filter(c => c.name != '').map(c => {
                     const crit = c.crits.find(c => (c.buff || c.debuff) !== undefined)
                     const buff = crit ? (crit.buff || crit.debuff) : undefined;
 
                     return {
-                        stats: cardStats[i],
+                        stats: c.cardStats,
                         className: this.settings.characterNames[c.name] || c.name,
                         skillName: buff ? buff.name : 'NO BUFF FOUND',
-                        skillURL: buff ? buff.url : 'no buff',
+                        skillURL: buff ? buff.artPath : 'no buff',
                         rarityName: rarityInfo[c.rarity].name || 'rarity not found',
                         rarityColor: rarityInfo[c.rarity].color || 'rarity not found',
                         flavorText: c.flavorText,
-                        classArtURL: artURLs[i]
+                        classArtURL: c.artPath
                     }
                 })
             },

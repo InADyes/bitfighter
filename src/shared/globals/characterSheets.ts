@@ -18,7 +18,7 @@ export const characterSheets: Readonly<Character>[] = [
             armor: 13,
             regeneration: 800,
             critChanceModifier: 1,
-            critDamageModifier: 1
+            critDamageModifier: 1,
         }, 
         rarity: 'common',
         crits: [
@@ -28,12 +28,21 @@ export const characterSheets: Readonly<Character>[] = [
             },
             {
                 odds: 15,
-                debuff: Buff.buffs[Buff.types.sculleryMaid]
+                debuff: Buff.buffs.sculleryMaid
             },
         ],
         name: 'Scullery Maid',
         flavorText: 'You think fighting dragons is hard, try scrubbing castle floors!',
-        skillText: 'DEBUFF Lowers Accuracy and Dodge'
+        skillText: 'DEBUFF Lowers Accuracy and Dodge',
+        cardStats: {
+            accuracy: 6,
+            dodge: 6,
+            armor: 5,
+            damage: 5,
+            speed: 5
+        },
+        artPath: 'images/champions/0scullery_maid.png',
+        attribute: 'physical'
     }, // Scullery Maid
     {
         stats: { 
@@ -61,12 +70,21 @@ export const characterSheets: Readonly<Character>[] = [
             },
             {
                 odds: 8,
-                debuff: Buff.buffs[Buff.types.barkeep]
+                debuff: Buff.buffs.barkeep
             }
         ],
         name: 'Barkeep',
         flavorText: 'They call my bar the Bongo, because you go there to get beaten.',
-        skillText: 'DEBUFF Cripples Opponent'
+        skillText: 'DEBUFF Cripples Opponent',
+        cardStats: {
+            accuracy: 3,
+            dodge: 4,
+            armor: 8,
+            damage: 6,
+            speed: 3
+        },
+        artPath: 'images/champions/1barkeep.png',
+        attribute: 'physical'
     }, // Barkeep
     {
         stats: { 
@@ -94,12 +112,21 @@ export const characterSheets: Readonly<Character>[] = [
             },
             {
                 odds: 6,
-                debuff: Buff.buffs[Buff.types.medium]
+                debuff: Buff.buffs.medium
             }
         ],
         name: 'Medium',
         flavorText: 'Battles can be boring when you already know the outcome',
-        skillText: 'DEBUFF Lowers Accuracy'
+        skillText: 'DEBUFF Lowers Accuracy',
+        cardStats: {
+            accuracy: 5,
+            dodge: 6,
+            armor: 1,
+            damage: 3,
+            speed: 7
+        },
+        artPath: 'images/champions/2medium.png',
+        attribute: 'holy'
     }, // Medium
     {
         stats: { 
@@ -127,12 +154,21 @@ export const characterSheets: Readonly<Character>[] = [
             },
             {
                 odds: 8,
-                buff: Buff.buffs[Buff.types.minstrel]
+                buff: Buff.buffs.minstrel
             }
         ],
         name: 'Minstrel',
         flavorText: 'I deplore a battle wits with an unarmed opponent.',
-        skillText: 'DEBUFF Blinds Enemy'
+        skillText: 'DEBUFF Blinds Enemy',
+        cardStats: {
+            accuracy: 5,
+            dodge: 6,
+            armor: 2,
+            damage: 5,
+            speed: 8
+        },
+        artPath: 'images/champions/3minstrel.png',
+        attribute: 'magic'
     },
     {
         stats: { 
@@ -160,12 +196,21 @@ export const characterSheets: Readonly<Character>[] = [
             },
             {
                 odds: 20,
-                debuff: Buff.buffs[Buff.types.mage]
+                debuff: Buff.buffs.mage
             }
         ],
         name: 'Mage',
         flavorText: 'I put on my robe and my wizard hat...',
-        skillText: 'DEBUFF Bypasses Armor'
+        skillText: 'DEBUFF Bypasses Armor',
+        cardStats: {
+            accuracy: 10,
+            dodge: 4,
+            armor: 5,
+            damage: 2,
+            speed: 10
+        },
+        artPath: 'images/champions/4mage.png',
+        attribute: 'magic'
     }, // Mage
     {
         stats: { 
@@ -193,12 +238,21 @@ export const characterSheets: Readonly<Character>[] = [
             },
             {
                 odds: 8,
-                buff: Buff.buffs[Buff.types.rogue]
+                buff: Buff.buffs.rogue
             }
         ],
         name: 'Rogue',
         flavorText: 'Rogues do it from behind',
-        skillText: 'BUFF Dodges more Frequently'
+        skillText: 'BUFF Dodges more Frequently',
+        cardStats: {
+            accuracy: 8,
+            dodge: 8,
+            armor: 3,
+            damage: 1,
+            speed: 9
+        },
+        artPath: 'images/champions/5rogue.png',
+        attribute: 'physical'
     }, // Rogue
     {
         stats: { 
@@ -226,12 +280,21 @@ export const characterSheets: Readonly<Character>[] = [
             },
             {
                 odds: 6,
-                buff: Buff.buffs[Buff.types.warpriest]
+                buff: Buff.buffs.warpriest
             }
         ],
         name: 'Warpriest',
         flavorText: 'It\'s only a fleshwound...',
-        skillText: 'BUFF Gains Armor and Health'
+        skillText: 'BUFF Gains Armor and Health',
+        cardStats: {
+            accuracy: 3,
+            dodge: 3,
+            armor: 10,
+            damage: 3,
+            speed: 4
+        },
+        artPath: 'images/champions/6warpriest.png',
+        attribute: 'holy'
     }, // Warpriest
     {
         stats: { 
@@ -259,13 +322,22 @@ export const characterSheets: Readonly<Character>[] = [
             },
             {
                 odds: 10,
-                buff: Buff.buffs[Buff.types.warlockBuff],
-                debuff: Buff.buffs[Buff.types.warlockDebuff]
+                buff: Buff.buffs.warlockBuff,
+                debuff: Buff.buffs.warlockDebuff
             }
         ],
         name: 'Warlock',
         flavorText: 'Souls are like wine, they are better in a glass jar.',
-        skillText: 'BUFF Critical Damage'
+        skillText: 'BUFF Critical Damage',
+        cardStats: {
+            accuracy: 2,
+            dodge: 2,
+            armor: 5,
+            damage: 9,
+            speed: 2
+        },
+        artPath: 'images/champions/7warlock.png',
+        attribute: 'magic'
     }, // Warlock
     {
         stats: { 
@@ -293,12 +365,21 @@ export const characterSheets: Readonly<Character>[] = [
             },
             {
                 odds: 10,
-                buff: Buff.buffs[Buff.types.swashbucklerBuff]
+                buff: Buff.buffs.swashbucklerBuff
             }
         ],
         name: 'Swashbuckler',
         flavorText: 'I have sailed the 7 seas, slain skeletons and monsters and you want me to fight...a scullery maid and a barkeep?',
-        skillText: 'BUFF Increases Accuracy and Dodge'
+        skillText: 'BUFF Increases Accuracy and Dodge',
+        cardStats: {
+            accuracy: 7,
+            dodge: 8,
+            armor: 3,
+            damage: 6,
+            speed: 6
+        },
+        artPath: 'images/champions/8swashbuckler.png',
+        attribute: 'physical'
     }, // Swashbuckler
     {
         stats: { 
@@ -326,12 +407,21 @@ export const characterSheets: Readonly<Character>[] = [
             },
             {
                 odds: 20,
-                debuff: Buff.buffs[Buff.types.dragon]
+                debuff: Buff.buffs.dragon
             }
         ],
         name: 'Dragon',
         flavorText: 'If I wasn\'t supposed to eat adventurers, then why are they made of meat and treasure?',
-        skillText: 'DEBUFF Removes Dodge'
+        skillText: 'DEBUFF Removes Dodge',
+        cardStats: {
+            accuracy: 1,
+            dodge: 1,
+            armor: 8,
+            damage: 10,
+            speed: 1
+        },
+        artPath: 'images/champions/9dragon.png',
+        attribute: 'magic'
     }, // Dragon
     {
         stats: { 
@@ -360,7 +450,15 @@ export const characterSheets: Readonly<Character>[] = [
         ],
         name: 'Grave Digger',
         flavorText: 'The difference between the living and the dead...some dirt and a shovel.',
-        skillText: ''
+        skillText: '',
+        cardStats: {
+            accuracy: 3,
+            dodge: 2,
+            armor: 8,
+            damage: 4,
+            speed: 4
+        },
+        artPath: 'images/champions/10grave_digger.png'
     }, // Grave Digger
     {
         stats: { 
@@ -389,6 +487,14 @@ export const characterSheets: Readonly<Character>[] = [
         ],
         name: '',
         flavorText: 'Easter Egg Email mburson@operaevent.co You are the best coder',
-        skillText: 'I write great code'
+        skillText: 'I write great code',
+        cardStats: {
+            accuracy: 0,
+            dodge: 0,
+            armor: 0,
+            damage: 0,
+            speed: 0
+        },
+        artPath: 'images/champions/10grave_digger.png'
     } // bitboss
 ];

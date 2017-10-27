@@ -1,10 +1,7 @@
 import { characterSheets } from '../shared/globals/characterSheets';
 import { rarityInfo, Rarity, rarities } from '../shared/globals/rarity';
 import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
-import {
-    characterTypes,
-    pickCharacter
-} from '../shared/characterPicker';
+import { pickCharacter } from '../shared/characterPicker';
 import { Combatant } from '../shared/Combatant';
 import { Donation, Item, Character } from '../shared/interfaces/interfaces';
 import { BackendSettings } from './interfaces';

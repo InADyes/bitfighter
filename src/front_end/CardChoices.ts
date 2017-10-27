@@ -1,5 +1,5 @@
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
-import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
+import { CharacterCard, FrontendCharacter } from '../shared/interfaces/backToFrontMessage';
 import { rarityInfo } from '../shared/globals/rarity';
 
 export class CardChoices {
@@ -9,7 +9,6 @@ export class CardChoices {
 
     constructor (
         private readonly cardDiv: HTMLDivElement,
-        private readonly artURLs: string[],
         private readonly emitGameEvent: (message: FrontToBackMessage) => void,
         private readonly cardsTimeout: number
     ){}
@@ -73,19 +72,10 @@ export class CardChoices {
 }
 
 export function updateCombatantCards(
-    cards: {
-        name: string;
-        currentHitPoints: number;
-        maxHitPoints: number;
-        art: number;
-        profileImageURL: string;
-        bossMessage: string;
-        card: CharacterCard;
-    }[],
-    artURLS: string[]
+    cards: FrontendCharacter[]
 ) {
-    const newCard1 = cards[0] ? buildCard(cards[0].card, artURLS) : null;
-    const newCard2 = cards[1] ? buildCard(cards[1].card, artURLS) : null;
+    const newCard1 = cards[0] ? buildCard(cards[0].card) : null;
+    const newCard2 = cards[1] ? buildCard(cards[1].card) : null;
     const oldCard1 = document.getElementById('card1');
     const oldCard2 = document.getElementById('card2');
     if (oldCard1 && newCard1) {
@@ -109,7 +99,7 @@ export function updateCombatantCards(
     }
 }
 
-export function buildCard(character: CharacterCard, artURLs: string[]) {
+export function buildCard(character: CharacterCard) {
     let card = document.createElement('div');
     let info = JSON.stringify(character);
     
@@ -167,7 +157,7 @@ export function buildCard(character: CharacterCard, artURLs: string[]) {
 
     inside.innerHTML = `
     <h3 class="csc_raritycolor${character.rarity}">${character.className}</h3>
-    <div class="csc_image" style="background-image:url('${artURLs[character.art]}')">
+    <div class="csc_image" style="background-image:url('${ character.art }')">
       <div class="csc_bbb_badge">
         <img src="https://s3.amazonaws.com/operaevent-gather/tier_10000.gif" />
         <p>BitBoss<br/>Cheermote<br/>Exclusive</p>

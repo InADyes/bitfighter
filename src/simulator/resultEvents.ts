@@ -1,3 +1,4 @@
+import { characterSheets } from '../shared/globals/characterSheets';
 import { pickCharacter } from '../shared/characterPicker';
 import { fight } from '../shared/fight';
 import { FightEvent } from '../shared/interfaces/fightEvents';
@@ -25,8 +26,8 @@ function printReel(reel: FightEvent[]) {
                 stdout.write('death\n');
                 break;
             case 'crit':
-                const buff = event.buff ? buffs.indexOf(event.buff) : -1;
-                const debuff = event.debuff ? buffs.indexOf(event.debuff) : -1;
+                const buff = event.buff ? event.buff.name : 'none';
+                const debuff = event.debuff ? event.debuff.name : 'none';
 
                 stdout.write(`crit: (buff: ${ buff }, debuff: ${ debuff })\n`)
                 break;
@@ -66,7 +67,7 @@ export function resultEvents() {
 
     const results = reelToResults(
         chars.map(s => new Results(
-            s.character,
+            characterSheets.indexOf(s.character),
             s.initialDonation
         )),
         reel,

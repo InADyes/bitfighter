@@ -47,7 +47,7 @@ export function attack(
 
     damageRoll -= attacked.stats.armor // applied before crit multipliers
 
-    for (let crit of characterSheets[attacker.character].crits) {
+    for (let crit of attacker.character.crits) {
         if (Math.ceil(Math.random() * 100) <= crit.odds * attacker.stats.critChanceModifier) {
             if (crit.damageMultiplier)
                 damageRoll = (damageRoll - attacked.stats.armor) * crit.damageMultiplier * attacker.stats.critDamageModifier;

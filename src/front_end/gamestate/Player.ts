@@ -19,7 +19,7 @@ export class Player {
     private center:         number;
     private trueWidth:      number;
     private textQueue:      any[];
-    private buffs:          number[];
+    private buffs:          string[];
     private buffGroup:      fabric.Group;
     private scale:          number;
     private offset:         number;
@@ -52,10 +52,7 @@ export class Player {
         private readonly data: FrontendCharacter,
         side:                       number, 
         canvas:                     fabric.Canvas, 
-        scale:                      number, 
-        private readonly charArt:   string[], 
-        private readonly buffArt:   string[],
-        private readonly atkArt:    string[],
+        scale:                      number,
         private align:              'left' | 'right' | 'center',
     ) {
         console.log(this.data);
@@ -67,7 +64,7 @@ export class Player {
         this.textQueue = [];
         this.buffs = [];
         this.cWidth = this.canvas.getWidth();
-        this.specialAtk = new Attack(canvas, this.data.art, atkArt, scale, side, this.center, this.align);
+        this.specialAtk = new Attack(canvas, this.data.art, scale, side, this.center, this.align);
     }
 
     public drawMe(player: Player | null, offset: number) {
@@ -78,7 +75,7 @@ export class Player {
         if (this.health < 0)
             return;
         this.drawing = 1;
-        new fabric.Image.fromURL(this.charArt[this.data.art], (oImg: fabric.Image) => {
+        new fabric.Image.fromURL(this.data.art, (oImg: fabric.Image) => {
             if(oImg.width && oImg.height)
                 this.trueWidth = oImg.width/oImg.height * this.height;
             this.setAnimationAmount();
@@ -317,7 +314,7 @@ export class Player {
         this.canvas.add(this.buffGroup);
         let numBuffsPerRow = Math.floor(this.trueWidth / this.buffOffset);
         for (let i = 0; i < this.buffs.length; i++) {
-            new fabric.Image.fromURL(this.buffArt[this.buffs[i]], (oImg: fabric.Image) => {
+            new fabric.Image.fromURL(this.buffs[i], (oImg: fabric.Image) => {
                 if (this.align === "left")
                     oImg.set({left: ((this.offset + this.artAdjust) + this.buffOffset * (i % numBuffsPerRow)) * this.scale});
                 else if (this.align === "right")
@@ -334,13 +331,13 @@ export class Player {
             });
         }
     }
-    public addBuff(buff: number, duration: number) {
-        this.buffs.push(buff);
+    public addBuff(buffArt: string, duration: number) {
+        this.buffs.push(buffArt);
         this.drawBuffs();
         window.setTimeout(
             () => {
                 // remove this particular buff from the array after timeout
-                let i = this.buffs.indexOf(buff);
+                let i = this.buffs.indexOf(buffArt);
                 if (i > -1)
                     this.buffs.splice(i, 1);
                 this.drawBuffs();
@@ -429,20 +426,20 @@ export class Player {
 
 	public dies(player2: Player | null) {
         this.animationLock = 1;
-        if (this.data.art === 9) {
-            this.img.animate('opacity', 0, {
-                duration: 1000,
-                onChange: this.canvas.renderAll.bind(this.canvas),
-                onComplete: () => {
-                    this.canvas.remove(this.img);
-                    this.removeNameAndHp();
-                    if (player2)
-                        player2.moves();
-                    this.animationLock = 0;
-                }
-            });
-        }
-        else {
+        // if (this.data.art === 9) {
+        //     this.img.animate('opacity', 0, {
+        //         duration: 1000,
+        //         onChange: this.canvas.renderAll.bind(this.canvas),
+        //         onComplete: () => {
+        //             this.canvas.remove(this.img);
+        //             this.removeNameAndHp();
+        //             if (player2)
+        //                 player2.moves();
+        //             this.animationLock = 0;
+        //         }
+        //     });
+        // }
+        //else {
             this.img.animate('angle', this.onRight ? '-90' : '90', {
                 duration: 500,
                 onChange: this.canvas.renderAll.bind(this.canvas),
@@ -465,7 +462,7 @@ export class Player {
                     });
                 }
             });
-        }
+        //}
     }
 
     public moves(){

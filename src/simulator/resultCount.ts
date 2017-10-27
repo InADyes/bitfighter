@@ -1,3 +1,4 @@
+import { characterSheets } from '../shared/globals/characterSheets';
 import { pickCharacter } from '../shared/characterPicker';
 import { fight } from '../shared/fight';
 import { stdout } from 'process';
@@ -10,7 +11,7 @@ export function countPairStats(
     count: number
 ) {
     const results = chars.map(s => new Results(
-        s.character,
+        characterSheets.indexOf(s.character),
         s.initialDonation
     ));
     

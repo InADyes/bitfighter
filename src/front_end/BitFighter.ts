@@ -1,10 +1,5 @@
-import {
-    buffURLs as buffURLsNoShim,
-    artURLs as artURLsNoShim,
-    atkURLs as atkURLsNoShim
-} from '../shared/characterPicker';
 import { GameState } from './gamestate/Gamestate';
-import { BackToFrontMessage } from '../shared/interfaces/backToFrontMessage';
+import { BackToFrontMessage, FrontendCharacter } from '../shared/interfaces/backToFrontMessage';
 import { buildCard, updateCombatantCards, CardChoices } from './CardChoices';
 import {
     CharacterChoice,
@@ -18,9 +13,6 @@ export class BitFighter {
     private readonly game: GameState;
     private canvas = document.getElementById('arena');
     private cardChoices: CardChoices;
-    private readonly artURLs = artURLsNoShim.map(url => this.settings.assetsShim + url);
-    private readonly iconURLs = buffURLsNoShim.map(url => this.settings.assetsShim + url);
-    private readonly atkURLs = atkURLsNoShim.map(url => this.settings.assetsShim + url);
     private resizeTimeout: number | null = null;
     private readonly queue = new Queue(
         <HTMLDivElement>document.getElementById('mini-boss-wrapper'),
@@ -35,15 +27,11 @@ export class BitFighter {
     ) {
         this.game = new GameState(
             'arena',
-            this.artURLs,
-            this.iconURLs,
-            this.atkURLs,
-            chars => updateCombatantCards(chars, this.artURLs)
+            chars => updateCombatantCards(chars)
         );
         this.updateSettings(settings);
         this.cardChoices = new CardChoices(
             <HTMLDivElement>document.getElementById('charSelect'),
-            this.artURLs,
             (msg) => this.emitGameEvent('bitFighter', msg),
             this.settings.cardsTimeout
         );
@@ -64,7 +52,7 @@ export class BitFighter {
         if (data.newReel)
             this.game.newMessage(data.newReel, data.timer ? 1 : 0);
         if (data.characterChoices)
-            this.cardChoices.displayCards(data.characterChoices.map(c => buildCard(c, this.artURLs)));
+            this.cardChoices.displayCards(data.characterChoices.map(c => buildCard(c)));
         if (data.queue)
             this.queue.handleNewQueue(data.queue);
         if (data.timer)

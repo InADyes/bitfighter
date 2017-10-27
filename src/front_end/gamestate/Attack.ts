@@ -24,8 +24,7 @@ export class Attack {
     private offset =    0;
     constructor(
         private readonly canvas:    fabric.Canvas,
-        private readonly char:      number,
-        private readonly atkURLs:   string[],
+        private readonly artURL:    string,
         private scale:              number,
         private readonly onRight:   number,
         private center:             number,
@@ -56,10 +55,10 @@ export class Attack {
     }
 
     private checkChar() {
-        if (this.char === 9) {
-            this.setDragon();
-            return (true);
-        }
+        // if (this.char === 9) {
+        //     this.setDragon();
+        //     return (true);
+        // }
         return (false)
     }
     
@@ -72,7 +71,7 @@ export class Attack {
             this.left = this.center; 
         if (!this.imgs[0]) {
             for (let i = 0; i < 3; i++) {
-                new fabric.Image.fromURL(this.atkURLs[i], (oImg: fabric.Image) => {
+                new fabric.Image.fromURL(this.artURL, (oImg: fabric.Image) => {
                     if (oImg.width && oImg.height)
                         this.trueWidth = oImg.width / oImg.height * this.height * this.scale;
                     let atk = oImg.set({

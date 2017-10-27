@@ -1,6 +1,5 @@
 import { GraphicsEvent } from './graphicsEvents';
 import { Character, Stats } from './interfaces';
-import { choiceStats } from '../Combatant';
 import { Rarity } from '../globals/rarity';
 
 // what gets sent to the front end
@@ -10,7 +9,7 @@ export interface FrontendCharacter {
     className: string;
     currentHitPoints: number;
     maxHitPoints: number;
-    art: number;
+    art: string;
     profileImageURL: string;
     bossMessage: string;
     bossEmoticonURL: string;
@@ -25,11 +24,11 @@ export interface ReelMessage { // needs name change
 }
 
 export interface CharacterCard {
-    readonly stats: choiceStats;
+    readonly stats: {[stat: string]: number};
     readonly baseHealth: number;
     readonly bonusHealth: number;
     readonly className: string;
-    readonly art: number;
+    readonly art: string;
     readonly level: number;
     readonly rarity: Rarity;
     readonly flavorText: string;
@@ -46,7 +45,7 @@ export interface QueueItem {
 }
 
 export interface CharacterListItem {
-    readonly stats: choiceStats,
+    readonly stats: {[stat: string]: number},
     readonly className: string,
     readonly skillName: string,
     readonly skillURL: string,
