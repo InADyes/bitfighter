@@ -3,12 +3,10 @@ import { Backend } from './backend/Backend';
 import { Frontend } from './frontend/Frontend';
 import { BackToFrontMessage, FrontEndSettings } from './shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage, CharacterChoice } from './shared/interfaces/frontToBackMessage';
-import { BossData } from './frontend/gamestate/interfaces'
 
 
 window.addEventListener('load', function(){
     const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
-    //const cardDiv = <HTMLDivElement>document.getElementById('charSelect');
     const requestIDs: string[] = [];
     let saveGame: string | undefined = undefined;
 
@@ -91,21 +89,6 @@ window.addEventListener('load', function(){
             }, 0);
         }
     );
-        
-    // Change Alignment - TIM //
-    const changeAlignment = <HTMLButtonElement>document.getElementById('redraw');
-    changeAlignment.addEventListener('click', () => {
-        const left = <HTMLInputElement>document.getElementById('alignLeft');
-        const center = <HTMLInputElement>document.getElementById('alignCenter');
-        const right = <HTMLInputElement>document.getElementById('alignRight');
-        if (left.checked)
-            frontend.updateAlignment('left');
-        else if (center.checked)
-            frontend.updateAlignment('center');
-        else if (right.checked)
-            frontend.updateAlignment('right');
-    })
-    ////////////////////////////
 
     const newDonationButton = <HTMLButtonElement>document.getElementById('new-donation');
     const nameInputNode = <HTMLInputElement>document.getElementById('donation-name');

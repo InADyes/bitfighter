@@ -8,7 +8,8 @@
         "target": "es2016",
         "outDir": "./",
         "mapRoot": "./",
-        "noImplicitAny": false
+        "noImplicitAny": false,
+        "jsx": "react"
     },
     "include": [
         "src/**/*"

@@ -1,13 +1,11 @@
-import { bossMessageTooManyChanges, receiveCharList } from './globalDependencies';
 import { BackToFrontMessage, FrontEndSettings } from '../shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 import { buildCard, CardChoices, updateCombatantCards } from './CardChoices';
-import { GameState } from './gamestate/Gamestate';
 import { Queue } from './Queue';
+import { Arena } from './Arena';
 
 export class Frontend {
-    private readonly game: GameState;
-    private canvas = document.getElementById('arena');
+    private readonly arena: Arena;
     private cardChoices: CardChoices;
     private resizeTimeout: number | null = null;
     private readonly queue = new Queue(

@@ -1,3 +1,4 @@
+import { FrontEndSettings } from '../shared/interfaces/backToFrontMessage';
 import { Donation } from '../shared/interfaces/interfaces';
 import { BackendSettings } from './interfaces';
 
@@ -35,7 +36,8 @@ export function validateSettings(settings: BackendSettings): {settings: BackendS
         bitBossStartingHealth: 'number',
         characterNames: 'object',
         characterArt: 'object',
-        assetPathPrefix: 'string'
+        assetPathPrefix: 'string',
+        frontendSettings: 'object'
     }) || result.err;
 
         
