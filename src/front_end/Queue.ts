@@ -31,7 +31,7 @@ export class Queue {
         let timer = document.createElement('span');
         timer.className = 'timer';
         timerDiv.appendChild(timer);
-        challenger.innerText = "NEW CHALLENGER";
+        challenger.innerText = "NEW CHALLENGER ";
         timer.innerText = time.toString();
         this.bitbossDiv.appendChild(timerDiv);
         window.setTimeout(() => this.updateTimer(timerDiv, timer, time - 1), 1000);

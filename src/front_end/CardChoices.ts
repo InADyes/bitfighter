@@ -4,7 +4,7 @@ import { rarities } from '../shared/characterPicker';
 
 export class CardChoices {
     private cards: HTMLDivElement[];
-    private timer: HTMLDivElement | null;
+    private timerDiv: HTMLDivElement | null;
     private timeout: number | null = null;
 
     constructor (
@@ -44,31 +44,42 @@ export class CardChoices {
             this.cardDiv.removeChild(card);
         }
         this.cards = [];
-        if (this.timer) {
-            this.cardDiv.removeChild(this.timer);
-            this.timer = null;
+        if (this.timerDiv) {
+            this.cardDiv.removeChild(this.timerDiv);
+            this.timerDiv = null;
         }
     }
     private charSelectTimer(time: number) {
-        this.timer = document.createElement('div');
-        this.timer.className = 'charSelectTimer';
-        let txt = document.createElement('div');
-        txt.className = 'charSelectTimerTxt';
-        txt.innerText = time.toString();
-        this.timer.appendChild(txt);
-        this.cardDiv.appendChild(this.timer);
-        window.setTimeout(() => this.updateTimer(txt, time - 1), 1000);
+        // wrapper div
+        this.timerDiv = document.createElement('div');
+        this.timerDiv.className = 'charSelectTimerWrapper';
+        // fipper div
+        let flipper = document.createElement('div');
+        flipper.className = 'charSelectTimerFlipper';
+        // back face div
+        let backFace = document.createElement('div');
+        backFace.className = 'charSelectTimerBack';
+        // actual timer 
+        let timer = document.createElement('div');
+        timer.className = 'charSelectTimer';
+        timer.innerText = time.toString();
+        
+        flipper.appendChild(backFace);
+        flipper.appendChild(timer);
+        this.timerDiv.appendChild(flipper);
+        this.cardDiv.appendChild(this.timerDiv);
+        window.setTimeout(() => this.updateTimer(timer, time - 1), 1000);
     }
-    private updateTimer(txt: HTMLDivElement, time: number) {
+    private updateTimer(timer: HTMLDivElement, time: number) {
         if (time < 1){
-            if (this.timer) {
-                this.cardDiv.removeChild(this.timer);
-                this.timer = null;
+            if (this.timerDiv) {
+                this.cardDiv.removeChild(this.timerDiv);
+                this.timerDiv = null;
             }
             return;
         }
-            txt.innerText = time.toString();
-        window.setTimeout(() => this.updateTimer(txt, time - 1), 1000);
+            timer.innerText = time.toString();
+        window.setTimeout(() => this.updateTimer(timer, time - 1), 1000);
     }
 }
 
