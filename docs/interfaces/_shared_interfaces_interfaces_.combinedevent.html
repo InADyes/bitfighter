@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;shared/fight&quot; | bit-fighter</title>
+	<title>CombinedEvent | bit-fighter</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,97 +56,69 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="_shared_buildevents_.html">&quot;shared/fight&quot;</a>
+					<a href="../modules/_shared_interfaces_interfaces_.html">&quot;shared/interfaces/interfaces&quot;</a>
+				</li>
+				<li>
+					<a href="_shared_interfaces_interfaces_.combinedevent.html">CombinedEvent</a>
 				</li>
 			</ul>
-			<h1>External module &quot;shared/fight&quot;</h1>
+			<h1>Interface CombinedEvent</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Multiple graphics events can be generated per fight event.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">CombinedEvent</span>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Enumerations</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum tsd-parent-kind-external-module tsd-is-not-exported"><a href="../enums/_shared_buildevents_.types.html" class="tsd-kind-icon">types</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Variables</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_shared_buildevents_.html#typemap" class="tsd-kind-icon">type<wbr>Map</a></li>
-							</ul>
-						</section>
 						<section class="tsd-index-section ">
-							<h3>Functions</h3>
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_shared_buildevents_.html#buildevents" class="tsd-kind-icon">build<wbr>Events</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_shared_interfaces_interfaces_.combinedevent.html#fight" class="tsd-kind-icon">fight</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_shared_interfaces_interfaces_.combinedevent.html#graphics" class="tsd-kind-icon">graphics</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-				<h2>Variables</h2>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="typemap" class="tsd-anchor"></a>
-					<h3>type<wbr>Map</h3>
-					<div class="tsd-signature tsd-kind-icon">type<wbr>Map<span class="tsd-signature-symbol">:</span> <a href="../enums/_shared_buildevents_.types.html" class="tsd-signature-type">types</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[types.physical, // Scullery Maidtypes.physical, // Barkeeptypes.holy,     // Mediumtypes.magic,    // Minstreltypes.magic,    // Magetypes.physical, // Roguetypes.holy,     // Warpriesttypes.magic,    // Warlocktypes.physical, // Swashbucklertypes.magic,    // Dragon]</span></div>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="fight" class="tsd-anchor"></a>
+					<h3>fight</h3>
+					<div class="tsd-signature tsd-kind-icon">fight<span class="tsd-signature-symbol">:</span> <a href="../modules/_shared_interfaces_fightevents_.html#fightevent" class="tsd-signature-type">FightEvent</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/shared/fight.ts#L99">shared/fight.ts:99</a></li>
+							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/shared/interfaces/interfaces.ts#L36">shared/interfaces/interfaces.ts:36</a></li>
 						</ul>
 					</aside>
 				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Functions</h2>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="buildevents" class="tsd-anchor"></a>
-					<h3>build<wbr>Events</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">build<wbr>Events<span class="tsd-signature-symbol">(</span>combatant<span class="tsd-signature-symbol">: </span><a href="../classes/_shared_combatant_.combatant.html" class="tsd-signature-type">Combatant</a><span class="tsd-signature-symbol">[]</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/shared/fight.ts#L12">shared/fight.ts:12</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>combatant: <a href="../classes/_shared_combatant_.combatant.html" class="tsd-signature-type">Combatant</a><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter">
-											<h5><span class="tsd-flag ts-flagOptional">Optional</span> source<span class="tsd-signature-symbol">?: </span><a href="_shared_interfaces_source_.html#source" class="tsd-signature-type">Source</a></h5>
-										</li>
-										<li class="tsd-parameter">
-											<h5><span class="tsd-flag ts-flagOptional">Optional</span> start<wbr>Time<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
-										</li>
-									</ul>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
-							<ul class="tsd-parameters">
-								<li class="tsd-parameter">
-									<h5>combatants<span class="tsd-signature-symbol">: </span><a href="../classes/_shared_combatant_.combatant.html" class="tsd-signature-type">Combatant</a><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>reel<span class="tsd-signature-symbol">: </span><a href="../interfaces/_shared_applyfightevents_.combinedevent.html" class="tsd-signature-type">CombinedEvent</a><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-						</li>
-					</ul>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="graphics" class="tsd-anchor"></a>
+					<h3>graphics</h3>
+					<div class="tsd-signature tsd-kind-icon">graphics<span class="tsd-signature-symbol">:</span> <a href="../modules/_shared_interfaces_graphicsevents_.html#graphicsevent" class="tsd-signature-type">GraphicsEvent</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/shared/interfaces/interfaces.ts#L37">shared/interfaces/interfaces.ts:37</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -157,20 +129,38 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="_shared_buildevents_.html">"shared/build<wbr>Events"</a>
+						<a href="../modules/_shared_interfaces_interfaces_.html">"shared/interfaces/interfaces"</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../enums/_shared_buildevents_.types.html" class="tsd-kind-icon">types</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_shared_interfaces_interfaces_.character.html" class="tsd-kind-icon">Character</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_shared_buildevents_.html#typemap" class="tsd-kind-icon">type<wbr>Map</a>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_shared_interfaces_interfaces_.combinedevent.html" class="tsd-kind-icon">Combined<wbr>Event</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_shared_interfaces_interfaces_.combinedevent.html#fight" class="tsd-kind-icon">fight</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_shared_interfaces_interfaces_.combinedevent.html#graphics" class="tsd-kind-icon">graphics</a>
+							</li>
+						</ul>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="_shared_buildevents_.html#buildevents" class="tsd-kind-icon">build<wbr>Events</a>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_shared_interfaces_interfaces_.donation.html" class="tsd-kind-icon">Donation</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_shared_interfaces_interfaces_.item.html" class="tsd-kind-icon">Item</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_shared_interfaces_interfaces_.stats.html" class="tsd-kind-icon">Stats</a>
 					</li>
 				</ul>
 			</nav>

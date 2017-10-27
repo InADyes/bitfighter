@@ -1,12 +1,10 @@
-import { FightEvent } from './interfaces/fightEvents';
-import { GraphicsEvent } from './interfaces/graphicsEvents';
-import { attack, rollAttackSpeed, heal } from './fightActions';
 import { Combatant } from '../shared/Combatant';
-import { applyFightEvents } from './applyFightEvents';
-import { otherCharacter  as other} from './utility';
-import { buffs, types as buffTypes } from './interfaces/buff';
-import { Source } from './interfaces/source';
 import { CombinedEvent } from '../shared/interfaces/interfaces';
+import { applyFightEvents } from './applyFightEvents';
+import { attack, heal, rollAttackSpeed } from './fightActions';
+import { buffs } from './interfaces/buff';
+import { FightEvent } from './interfaces/fightEvents';
+import { Source } from './interfaces/source';
 
 /**
  * Plays out a fight between two characters.
@@ -33,8 +31,10 @@ export function fight(
         }
     }
 
-    applyAttributeBuffs(newCombatant[0], newCombatant[1]);
-    applyAttributeBuffs(newCombatant[1], newCombatant[0]);
+    if (newCombatant.length >= 2) {
+        applyAttributeBuffs(newCombatant[0], newCombatant[1]);
+        applyAttributeBuffs(newCombatant[1], newCombatant[0]);
+    }
 
     // initialize times
     for (let c of newCombatant) {
@@ -70,10 +70,8 @@ export function fight(
 function applyAttributeBuffs(champ: Combatant, challenger: Combatant) {
     if (champ.character.attribute === 'holy' && challenger.character.attribute === 'physical')
         champ.addEffect(10000000, buffs.armorBonus);
-        
-    if (champ.character.attribute === 'magic' && challenger.character.attribute === 'holy')
+    else if (champ.character.attribute === 'magic' && challenger.character.attribute === 'holy')
         champ.addEffect(10000000, buffs.armorBonus);
-
-    if (champ.character.attribute === 'physical' && challenger.character.attribute === 'magic')
+    else if (champ.character.attribute === 'physical' && challenger.character.attribute === 'magic')
         champ.addEffect(10000000, buffs.armorBonus);
 }

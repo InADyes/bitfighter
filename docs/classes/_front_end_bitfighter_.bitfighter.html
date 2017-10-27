@@ -90,13 +90,10 @@
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_front_end_bitfighter_.bitfighter.html#arturls" class="tsd-kind-icon">artURLs</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_front_end_bitfighter_.bitfighter.html#atkurls" class="tsd-kind-icon">atkURLs</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_front_end_bitfighter_.bitfighter.html#canvas" class="tsd-kind-icon">canvas</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_front_end_bitfighter_.bitfighter.html#cardchoices" class="tsd-kind-icon">card<wbr>Choices</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_front_end_bitfighter_.bitfighter.html#emitgameevent" class="tsd-kind-icon">emit<wbr>Game<wbr>Event</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_front_end_bitfighter_.bitfighter.html#game" class="tsd-kind-icon">game</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_front_end_bitfighter_.bitfighter.html#iconurls" class="tsd-kind-icon">iconURLs</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_front_end_bitfighter_.bitfighter.html#queue" class="tsd-kind-icon">queue</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_front_end_bitfighter_.bitfighter.html#resizetimeout" class="tsd-kind-icon">resize<wbr>Timeout</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_front_end_bitfighter_.bitfighter.html#settings" class="tsd-kind-icon">settings</a></li>
@@ -121,13 +118,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Bit<wbr>Fighter<span class="tsd-signature-symbol">(</span>wrapperDiv<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLDivElement</span>, settings<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Settings</span>, emitGameEvent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_front_end_bitfighter_.bitfighter.html" class="tsd-signature-type">BitFighter</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Bit<wbr>Fighter<span class="tsd-signature-symbol">(</span>wrapperDiv<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLDivElement</span>, settings<span class="tsd-signature-symbol">: </span><a href="../interfaces/_front_end_settings_.frontendsettings.html" class="tsd-signature-type">FrontEndSettings</a>, emitGameEvent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_front_end_bitfighter_.bitfighter.html" class="tsd-signature-type">BitFighter</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/front_end/BitFighter.ts#L28">front_end/BitFighter.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/front_end/BitFighter.ts#L17">front_end/BitFighter.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -136,7 +133,7 @@
 									<h5>wrapperDiv: <span class="tsd-signature-type">HTMLDivElement</span></h5>
 								</li>
 								<li>
-									<h5>settings: <span class="tsd-signature-type">Settings</span></h5>
+									<h5>settings: <a href="../interfaces/_front_end_settings_.frontendsettings.html" class="tsd-signature-type">FrontEndSettings</a></h5>
 								</li>
 								<li>
 									<h5>emitGameEvent: <span class="tsd-signature-type">function</span></h5>
@@ -171,32 +168,12 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="arturls" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> artURLs</h3>
-					<div class="tsd-signature tsd-kind-icon">artURLs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;artURLsNoShim.map(url &#x3D;&gt; this.settings.assetsShim + url)</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/front_end/BitFighter.ts#L21">front_end/BitFighter.ts:21</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="atkurls" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> atkURLs</h3>
-					<div class="tsd-signature tsd-kind-icon">atkURLs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;atkURLsNoShim.map(url &#x3D;&gt; this.settings.assetsShim + url)</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/front_end/BitFighter.ts#L23">front_end/BitFighter.ts:23</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="canvas" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> canvas</h3>
 					<div class="tsd-signature tsd-kind-icon">canvas<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol"> =&nbsp;document.getElementById(&#x27;arena&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/front_end/BitFighter.ts#L19">front_end/BitFighter.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/front_end/BitFighter.ts#L11">front_end/BitFighter.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -206,7 +183,7 @@
 					<div class="tsd-signature tsd-kind-icon">card<wbr>Choices<span class="tsd-signature-symbol">:</span> <a href="_front_end_cardchoices_.cardchoices.html" class="tsd-signature-type">CardChoices</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/front_end/BitFighter.ts#L20">front_end/BitFighter.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/front_end/BitFighter.ts#L12">front_end/BitFighter.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -216,7 +193,7 @@
 					<div class="tsd-signature tsd-kind-icon">emit<wbr>Game<wbr>Event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/front_end/BitFighter.ts#L34">front_end/BitFighter.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/front_end/BitFighter.ts#L23">front_end/BitFighter.ts:23</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -250,27 +227,17 @@
 					<div class="tsd-signature tsd-kind-icon">game<span class="tsd-signature-symbol">:</span> <a href="_front_end_gamestate_gamestate_.gamestate.html" class="tsd-signature-type">GameState</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/front_end/BitFighter.ts#L18">front_end/BitFighter.ts:18</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="iconurls" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> iconURLs</h3>
-					<div class="tsd-signature tsd-kind-icon">iconURLs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;buffURLsNoShim.map(url &#x3D;&gt; this.settings.assetsShim + url)</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/front_end/BitFighter.ts#L22">front_end/BitFighter.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/front_end/BitFighter.ts#L10">front_end/BitFighter.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="queue" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> queue</h3>
-					<div class="tsd-signature tsd-kind-icon">queue<span class="tsd-signature-symbol">:</span> <a href="_front_end_queue_.queue.html" class="tsd-signature-type">Queue</a><span class="tsd-signature-symbol"> =&nbsp;new Queue(&lt;HTMLDivElement&gt;document.getElementById(&#x27;bitfighter&#x27;),//(time) &#x3D;&gt; this.game.startTimer(time))</span></div>
+					<div class="tsd-signature tsd-kind-icon">queue<span class="tsd-signature-symbol">:</span> <a href="_front_end_queue_.queue.html" class="tsd-signature-type">Queue</a><span class="tsd-signature-symbol"> =&nbsp;new Queue(&lt;HTMLDivElement&gt;document.getElementById(&#x27;mini-boss-wrapper&#x27;),//(time) &#x3D;&gt; this.game.startTimer(time))</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/front_end/BitFighter.ts#L25">front_end/BitFighter.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/front_end/BitFighter.ts#L14">front_end/BitFighter.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -280,17 +247,17 @@
 					<div class="tsd-signature tsd-kind-icon">resize<wbr>Timeout<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/front_end/BitFighter.ts#L24">front_end/BitFighter.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/front_end/BitFighter.ts#L13">front_end/BitFighter.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="settings" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> settings</h3>
-					<div class="tsd-signature tsd-kind-icon">settings<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Settings</span></div>
+					<div class="tsd-signature tsd-kind-icon">settings<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_front_end_settings_.frontendsettings.html" class="tsd-signature-type">FrontEndSettings</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/front_end/BitFighter.ts#L32">front_end/BitFighter.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/front_end/BitFighter.ts#L21">front_end/BitFighter.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -300,7 +267,7 @@
 					<div class="tsd-signature tsd-kind-icon">wrapper<wbr>Div<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLDivElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/front_end/BitFighter.ts#L31">front_end/BitFighter.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/front_end/BitFighter.ts#L20">front_end/BitFighter.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -317,7 +284,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/front_end/BitFighter.ts#L63">front_end/BitFighter.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/front_end/BitFighter.ts#L48">front_end/BitFighter.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -340,7 +307,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/front_end/BitFighter.ts#L105">front_end/BitFighter.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/front_end/BitFighter.ts#L90">front_end/BitFighter.ts:90</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -363,7 +330,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/front_end/BitFighter.ts#L92">front_end/BitFighter.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/front_end/BitFighter.ts#L77">front_end/BitFighter.ts:77</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -374,19 +341,19 @@
 					<a name="updatesettings" class="tsd-anchor"></a>
 					<h3>update<wbr>Settings</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Settings<span class="tsd-signature-symbol">(</span>settings<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Settings</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Settings<span class="tsd-signature-symbol">(</span>settings<span class="tsd-signature-symbol">: </span><a href="../interfaces/_front_end_settings_.frontendsettings.html" class="tsd-signature-type">FrontEndSettings</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/front_end/BitFighter.ts#L87">front_end/BitFighter.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/front_end/BitFighter.ts#L72">front_end/BitFighter.ts:72</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>settings: <span class="tsd-signature-type">Settings</span></h5>
+									<h5>settings: <a href="../interfaces/_front_end_settings_.frontendsettings.html" class="tsd-signature-type">FrontEndSettings</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -417,12 +384,6 @@
 								<a href="_front_end_bitfighter_.bitfighter.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_front_end_bitfighter_.bitfighter.html#arturls" class="tsd-kind-icon">artURLs</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_front_end_bitfighter_.bitfighter.html#atkurls" class="tsd-kind-icon">atkURLs</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_front_end_bitfighter_.bitfighter.html#canvas" class="tsd-kind-icon">canvas</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
@@ -433,9 +394,6 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_front_end_bitfighter_.bitfighter.html#game" class="tsd-kind-icon">game</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_front_end_bitfighter_.bitfighter.html#iconurls" class="tsd-kind-icon">iconURLs</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_front_end_bitfighter_.bitfighter.html#queue" class="tsd-kind-icon">queue</a>

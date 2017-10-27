@@ -1,18 +1,17 @@
-import { Packet } from '_debugger';
-import { generateBitBoss } from './generateBitBoss';
-import { sortGraphicsEvents } from '../shared/buildGraphicsEvents';
-import { fight } from '../shared/fight';
-import { Combatant } from '../shared/Combatant';
-import { pickCharacter } from '../shared/characterPicker';
-import { FightEvent } from '../shared/interfaces/fightEvents';
-import { GraphicsEvent} from '../shared/interfaces/graphicsEvents';
-import { BackToFrontMessage, ReelMessage } from '../shared/interfaces/backToFrontMessage';
-import { BackendSettings as Settings } from './interfaces';
-import { applyFightEvents } from '../shared/applyFightEvents'
-import { CharacterChoiceHandler } from './CharacterChoiceHandler';
 import { hrtime } from 'process';
-import { Donation, CombinedEvent } from '../shared/interfaces/interfaces';
+
+import { applyFightEvents } from '../shared/applyFightEvents';
+import { sortGraphicsEvents } from '../shared/buildGraphicsEvents';
+import { pickCharacter } from '../shared/characterPicker';
+import { Combatant } from '../shared/Combatant';
+import { fight } from '../shared/fight';
+import { ReelMessage } from '../shared/interfaces/backToFrontMessage';
+import { FightEvent } from '../shared/interfaces/fightEvents';
+import { GraphicsEvent } from '../shared/interfaces/graphicsEvents';
+import { CombinedEvent, Donation } from '../shared/interfaces/interfaces';
 import { Source } from '../shared/interfaces/source';
+import { generateBitBoss } from './generateBitBoss';
+import { BackendSettings as Settings } from './interfaces';
 
 /**
  * Re-implementation of performanceNow() for node.

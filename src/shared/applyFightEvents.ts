@@ -1,11 +1,8 @@
-import { FightEvent } from '../shared/interfaces/fightEvents';
 import { Combatant } from '../shared/Combatant';
-import { otherCharacter } from '../shared/utility';
-import { buildStats, levels } from '../shared/characterPicker';
-import { buildGraphicsEvents } from './buildGraphicsEvents';
-import { GraphicsEvent } from './interfaces/graphicsEvents';
-import { assertNever } from './utility';
+import { FightEvent } from '../shared/interfaces/fightEvents';
 import { CombinedEvent } from '../shared/interfaces/interfaces';
+import { buildGraphicsEvents } from './buildGraphicsEvents';
+import { assertNever } from './utility';
 
 /**
  * Applies events to the given combatants.

@@ -1,6 +1,6 @@
+import { Combatant } from '../shared/Combatant';
 import { characterSheets } from '../shared/globals/characterSheets';
 import { Donation } from '../shared/interfaces/interfaces';
-import { Combatant } from '../shared/Combatant';
 
 /**
  * Template for a BitBoss.

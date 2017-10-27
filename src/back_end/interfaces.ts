@@ -1,5 +1,5 @@
-import { Donation } from '../shared/interfaces/interfaces';
 import { Combatant } from '../shared/Combatant';
+import { Donation } from '../shared/interfaces/interfaces';
 import { PendingChoice } from './CharacterChoiceHandler';
 
 export interface BackendSettings {

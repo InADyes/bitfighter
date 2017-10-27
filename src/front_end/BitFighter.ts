@@ -1,13 +1,10 @@
+import { bossMessageTooManyChanges, receiveCharList } from './globalDependencies';
+import { BackToFrontMessage } from '../shared/interfaces/backToFrontMessage';
+import { FrontEndSettings } from './settings';
+import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
+import { buildCard, CardChoices, updateCombatantCards } from './CardChoices';
 import { GameState } from './gamestate/Gamestate';
-import { BackToFrontMessage, FrontendCharacter } from '../shared/interfaces/backToFrontMessage';
-import { buildCard, updateCombatantCards, CardChoices } from './CardChoices';
-import {
-    CharacterChoice,
-    FrontToBackMessage
-} from '../shared/interfaces/frontToBackMessage';
-import { FrontEndSettings as Settings } from './settings';
 import { Queue } from './Queue';
-import { flip, receiveCharList, bossMessageTooManyChanges } from './globalDependencies';
 
 export class BitFighter {
     private readonly game: GameState;
@@ -21,7 +18,7 @@ export class BitFighter {
 
     constructor(
         private readonly wrapperDiv: HTMLDivElement,
-        private settings: Settings,
+        private settings: FrontEndSettings,
         // todo: find out what gameslug is for
         private readonly emitGameEvent: (gameSlug: string, message: FrontToBackMessage) => void
     ) {
@@ -72,7 +69,7 @@ export class BitFighter {
             bossMessageTooManyChanges();
     }
 
-    public updateSettings(settings: Settings) {
+    public updateSettings(settings: FrontEndSettings) {
         this.settings = settings;
         this.updateScale();
     }

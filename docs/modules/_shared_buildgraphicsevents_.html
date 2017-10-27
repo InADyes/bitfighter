@@ -79,7 +79,7 @@
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_shared_buildgraphicsevents_.html#build" class="tsd-kind-icon">build</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_shared_buildgraphicsevents_.html#buildgraphicsevents" class="tsd-kind-icon">build<wbr>Graphics<wbr>Events</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_shared_buildgraphicsevents_.html#sortgraphicsevents" class="tsd-kind-icon">sort<wbr>Graphics<wbr>Events</a></li>
 							</ul>
 						</section>
@@ -95,18 +95,23 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="build" class="tsd-anchor"></a>
-					<h3>build</h3>
+					<a name="buildgraphicsevents" class="tsd-anchor"></a>
+					<h3>build<wbr>Graphics<wbr>Events</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">build<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><a href="_shared_interfaces_fightevents_.html#fightevent" class="tsd-signature-type">FightEvent</a>, combatant<span class="tsd-signature-symbol">: </span><a href="../classes/_shared_combatant_.combatant.html" class="tsd-signature-type">Combatant</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_shared_interfaces_graphicsevents_.html#graphicsevent" class="tsd-signature-type">GraphicsEvent</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">build<wbr>Graphics<wbr>Events<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><a href="_shared_interfaces_fightevents_.html#fightevent" class="tsd-signature-type">FightEvent</a>, combatant<span class="tsd-signature-symbol">: </span><a href="../classes/_shared_combatant_.combatant.html" class="tsd-signature-type">Combatant</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_shared_interfaces_graphicsevents_.html#graphicsevent" class="tsd-signature-type">GraphicsEvent</a><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/shared/buildGraphicsEvents.ts#L33">shared/buildGraphicsEvents.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/shared/buildGraphicsEvents.ts#L36">shared/buildGraphicsEvents.ts:36</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates the graphics events resulting from given fight event.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -114,6 +119,9 @@
 								</li>
 								<li>
 									<h5>combatant: <a href="../classes/_shared_combatant_.combatant.html" class="tsd-signature-type">Combatant</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Required so that id identifiers used in fight events can become index&#39;s.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_shared_interfaces_graphicsevents_.html#graphicsevent" class="tsd-signature-type">GraphicsEvent</a><span class="tsd-signature-symbol">[]</span></h4>
@@ -130,7 +138,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/shared/buildGraphicsEvents.ts#L25">shared/buildGraphicsEvents.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/shared/buildGraphicsEvents.ts#L24">shared/buildGraphicsEvents.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -152,7 +160,7 @@
 					<div class="tsd-signature tsd-kind-icon">event<wbr>Order<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/shared/buildGraphicsEvents.ts#L9">shared/buildGraphicsEvents.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/shared/buildGraphicsEvents.ts#L8">shared/buildGraphicsEvents.ts:8</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
@@ -161,7 +169,7 @@
 						<div class="tsd-signature tsd-kind-icon">attack<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/shared/buildGraphicsEvents.ts#L10">shared/buildGraphicsEvents.ts:10</a></li>
+								<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/shared/buildGraphicsEvents.ts#L9">shared/buildGraphicsEvents.ts:9</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -171,7 +179,7 @@
 						<div class="tsd-signature tsd-kind-icon">buff<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/shared/buildGraphicsEvents.ts#L11">shared/buildGraphicsEvents.ts:11</a></li>
+								<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/shared/buildGraphicsEvents.ts#L10">shared/buildGraphicsEvents.ts:10</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -181,7 +189,7 @@
 						<div class="tsd-signature tsd-kind-icon">clear<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;2</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/shared/buildGraphicsEvents.ts#L12">shared/buildGraphicsEvents.ts:12</a></li>
+								<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/shared/buildGraphicsEvents.ts#L11">shared/buildGraphicsEvents.ts:11</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -191,7 +199,7 @@
 						<div class="tsd-signature tsd-kind-icon">health<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/shared/buildGraphicsEvents.ts#L13">shared/buildGraphicsEvents.ts:13</a></li>
+								<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/shared/buildGraphicsEvents.ts#L12">shared/buildGraphicsEvents.ts:12</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -201,7 +209,7 @@
 						<div class="tsd-signature tsd-kind-icon">text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/29c65b6/src/shared/buildGraphicsEvents.ts#L14">shared/buildGraphicsEvents.ts:14</a></li>
+								<li>Defined in <a href="https://github.com/the-opera-house/bitfighter/blob/4a81d85/src/shared/buildGraphicsEvents.ts#L13">shared/buildGraphicsEvents.ts:13</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -225,7 +233,7 @@
 						<a href="../enums/_shared_buildgraphicsevents_.colors.html" class="tsd-kind-icon">colors</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="_shared_buildgraphicsevents_.html#build" class="tsd-kind-icon">build</a>
+						<a href="_shared_buildgraphicsevents_.html#buildgraphicsevents" class="tsd-kind-icon">build<wbr>Graphics<wbr>Events</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_shared_buildgraphicsevents_.html#sortgraphicsevents" class="tsd-kind-icon">sort<wbr>Graphics<wbr>Events</a>

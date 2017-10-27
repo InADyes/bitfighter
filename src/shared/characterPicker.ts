@@ -1,9 +1,7 @@
-import { updateBitBoss } from '../front_end/globalDependencies';
 import { Combatant } from '../shared/Combatant';
-import { Character, Donation, Item, Stats } from './interfaces/interfaces';
 import { characterSheets } from './globals/characterSheets';
-import { Buff } from './interfaces/buff';
-import { Rarity, rarityInfo } from './globals/rarity';
+import { rarityInfo } from './globals/rarity';
+import { Character, Donation, Item, Stats } from './interfaces/interfaces';
 
 export const atkURLs = [
     'images/icons/fire1.png',

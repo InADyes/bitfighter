@@ -1,7 +1,6 @@
-import { characterSheets } from './globals/characterSheets';
-import { FightEvent } from './interfaces/fightEvents';
 import { Combatant } from '../shared/Combatant';
 import { Source } from '../shared/interfaces/source';
+import { FightEvent } from './interfaces/fightEvents';
 
 /**
  * Increases internal timer by attack speed roll.

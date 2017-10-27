@@ -1,6 +1,6 @@
-import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
-import { CharacterCard, FrontendCharacter } from '../shared/interfaces/backToFrontMessage';
 import { rarityInfo } from '../shared/globals/rarity';
+import { CharacterCard, FrontendCharacter } from '../shared/interfaces/backToFrontMessage';
+import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 
 export class CardChoices {
     private cards: HTMLDivElement[];

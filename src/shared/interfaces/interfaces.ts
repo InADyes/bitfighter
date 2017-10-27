@@ -1,7 +1,7 @@
+import { Rarity } from '../globals/rarity';
 import { Buff } from './buff';
 import { FightEvent } from './fightEvents';
 import { GraphicsEvent } from './graphicsEvents';
-import { Rarity } from '../globals/rarity';
 
 /**
  * All information pertaining to a paticular donation.

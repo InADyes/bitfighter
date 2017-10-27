@@ -1,8 +1,7 @@
-import { applyFightEvents } from './applyFightEvents';
-import { GraphicsEvent } from './interfaces/graphicsEvents';
-import { FightEvent } from './interfaces/fightEvents';
-import { otherCharacter, assertNever } from './utility';
 import { Combatant } from './Combatant';
+import { FightEvent } from './interfaces/fightEvents';
+import { GraphicsEvent } from './interfaces/graphicsEvents';
+import { assertNever, otherCharacter } from './utility';
 
 // could be programatically genrated in a cleaner way if we end up with a lot
 // used to determine order of events when the timestamp is the same
