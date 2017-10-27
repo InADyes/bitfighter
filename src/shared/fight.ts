@@ -33,27 +33,8 @@ export function fight(
         }
     }
 
-    // ------------- type hack starts here
-    if (newCombatant.length >= 2) {
-        if (newCombatant[0].character.attribute === 'holy' && newCombatant[1].character.attribute === 'physical')
-            newCombatant[0].addEffect(10000000, buffs.armorBonus);
-            
-        if (newCombatant[0].character.attribute === 'magic' && newCombatant[1].character.attribute === 'holy')
-            newCombatant[0].addEffect(10000000, buffs.armorBonus);
-
-        if (newCombatant[0].character.attribute === 'physical' && newCombatant[1].character.attribute === 'magic')
-            newCombatant[0].addEffect(10000000, buffs.armorBonus);
-
-        if (newCombatant[1].character.attribute === 'holy' && newCombatant[0].character.attribute === 'physical')
-            newCombatant[1].addEffect(10000000, buffs.armorBonus);
-
-        if (newCombatant[1].character.attribute === 'magic' && newCombatant[0].character.attribute === 'holy')
-            newCombatant[1].addEffect(10000000, buffs.armorBonus);
-
-        if (newCombatant[1].character.attribute === 'physical' && newCombatant[0].character.attribute === 'magic')
-            newCombatant[1].addEffect(10000000, buffs.armorBonus);
-    }
-    // ---------- end here
+    applyAttributeBuffs(newCombatant[0], newCombatant[1]);
+    applyAttributeBuffs(newCombatant[1], newCombatant[0]);
 
     // initialize times
     for (let c of newCombatant) {
@@ -84,4 +65,15 @@ export function fight(
     }
 
     return { combatants: newCombatant, reel }
+}
+
+function applyAttributeBuffs(champ: Combatant, challenger: Combatant) {
+    if (champ.character.attribute === 'holy' && challenger.character.attribute === 'physical')
+        champ.addEffect(10000000, buffs.armorBonus);
+        
+    if (champ.character.attribute === 'magic' && challenger.character.attribute === 'holy')
+        champ.addEffect(10000000, buffs.armorBonus);
+
+    if (champ.character.attribute === 'physical' && challenger.character.attribute === 'magic')
+        champ.addEffect(10000000, buffs.armorBonus);
 }
