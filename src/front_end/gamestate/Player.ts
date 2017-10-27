@@ -68,7 +68,6 @@ export class Player {
         this.buffs = [];
         this.cWidth = this.canvas.getWidth();
         this.specialAtk = new Attack(canvas, this.data.art, atkArt, scale, side, this.center, this.align);
-        console.log(this.bfDiv);
     }
 
     public drawMe(player: Player | null, offset: number) {
