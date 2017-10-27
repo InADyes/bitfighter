@@ -56,6 +56,15 @@ export interface CharacterListItem {
     readonly flavorText: string
 }
 
+export interface FrontEndSettings {
+    position: {
+        x: number;
+        y: number;
+    };
+    size: number;
+    cardsTimeout: number;
+}
+
 export interface BackToFrontMessage {
     readonly newReel?: ReelMessage;
     readonly characterChoices?: CharacterCard[];
@@ -71,4 +80,5 @@ export interface BackToFrontMessage {
     };
     readonly characterList?: CharacterListItem[];
     readonly bossMessageChangeFailed?: true;
+    readonly settings?: FrontEndSettings;
 }

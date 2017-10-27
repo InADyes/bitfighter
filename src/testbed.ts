@@ -1,10 +1,9 @@
 import { pickCharacter } from './shared/characterPicker';
-import { BitFighter as BitFighterBack } from './back_end/BitFighter';
-import { BitFighter as BitFighterFront } from './front_end/BitFighter';
-import { BackToFrontMessage } from './shared/interfaces/backToFrontMessage';
+import { Backend } from './backend/Backend';
+import { Frontend } from './frontend/Frontend';
+import { BackToFrontMessage, FrontEndSettings } from './shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage, CharacterChoice } from './shared/interfaces/frontToBackMessage';
-import { FrontEndSettings } from './front_end/settings';
-import { BossData } from './front_end/gamestate/interfaces'
+import { BossData } from './frontend/gamestate/interfaces'
 
 
 window.addEventListener('load', function(){
@@ -23,7 +22,7 @@ window.addEventListener('load', function(){
     bossKillButton.addEventListener('click', () => backend.bossKill() );
 
     function newGame(savedGame?: string) {
-        return new BitFighterBack(
+        return new Backend(
             (message, id) => {
                 window.setTimeout(()=> {
                     console.log('message, back to front:', message);
@@ -59,7 +58,15 @@ window.addEventListener('load', function(){
                 characterArt: {},
                 bitFighterEnabled: true,
                 bitBossStartingHealth: 750,
-                assetPathPrefix: 'shim_test/'
+                assetPathPrefix: 'shim_test/',
+                frontendSettings: {
+                    position: {
+                        x: 10,
+                        y: 40
+                    },
+                    size: 1,
+                    cardsTimeout: 60000
+                }
             },
             str => saveGame = str,
             (gameState, donationType, amount) => {
@@ -71,17 +78,8 @@ window.addEventListener('load', function(){
     
     let backend = newGame();
 
-    const frontend = new BitFighterFront(
+    const frontend = new Frontend(
         wrapperDiv,
-        {
-            position: {
-                x: 10,
-                y: 40
-            },
-            size: 1,
-            cardsTimeout: 60000,
-            assetsShim: './shim_test/'
-        },
         (slug, message) => {
             window.setTimeout(() => {
                 console.log('message, front to back:', message);
@@ -91,8 +89,7 @@ window.addEventListener('load', function(){
     
                 backend.receivedFanGameState(id, message);
             }, 0);
-        },
-        // cardDiv
+        }
     );
         
     // Change Alignment - TIM //

@@ -1,6 +1,7 @@
 import { Combatant } from '../shared/Combatant';
 import { Donation } from '../shared/interfaces/interfaces';
 import { PendingChoice } from './CharacterChoiceHandler';
+import { FrontEndSettings } from '../shared/interfaces/backToFrontMessage';
 
 export interface BackendSettings {
     delayBetweenFights: number; // milliseconds
@@ -14,6 +15,7 @@ export interface BackendSettings {
     characterNames: {[character: string]: string};
     characterArt: {[character: string]: string};
     assetPathPrefix: string;
+    frontendSettings: FrontEndSettings;
 }
 
 export interface GameSave {

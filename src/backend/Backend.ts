@@ -16,7 +16,7 @@ import * as _ from 'lodash';
 /**
  * Main backend module. One instance supports one influencer game instance.
  */
-export class BitFighter {
+export class Backend {
     private readonly queue: Combatant[] = [];
     private timeout: NodeJS.Timer | null = null;
     private readonly characterChoiceHandler: CharacterChoiceHandler;

@@ -1,12 +1,11 @@
 import { bossMessageTooManyChanges, receiveCharList } from './globalDependencies';
-import { BackToFrontMessage } from '../shared/interfaces/backToFrontMessage';
-import { FrontEndSettings } from './settings';
+import { BackToFrontMessage, FrontEndSettings } from '../shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 import { buildCard, CardChoices, updateCombatantCards } from './CardChoices';
 import { GameState } from './gamestate/Gamestate';
 import { Queue } from './Queue';
 
-export class BitFighter {
+export class Frontend {
     private readonly game: GameState;
     private canvas = document.getElementById('arena');
     private cardChoices: CardChoices;
@@ -18,7 +17,6 @@ export class BitFighter {
 
     constructor(
         private readonly wrapperDiv: HTMLDivElement,
-        private settings: FrontEndSettings,
         // todo: find out what gameslug is for
         private readonly emitGameEvent: (gameSlug: string, message: FrontToBackMessage) => void
     ) {
