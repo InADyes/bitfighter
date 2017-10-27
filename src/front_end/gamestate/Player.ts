@@ -456,7 +456,6 @@ export class Player {
                             this.removeNameAndHp();
                             if (player2) {
                                 if (this.align == 'right'){
-                                    console.log(`P1 OFFSET:`, this.offset);
                                     player2.setOffset(this.offset);
                                 }
                                 player2.moves();
@@ -559,10 +558,8 @@ export class Player {
     }
 
     public eraseMe() {
-        if (this.img) {
-            console.log("asdsad");
+        if (this.img)
             this.canvas.remove(this.img);
-        }
         this.removeNameAndHp();
         this.canvas.remove(this.buffGroup);
     }

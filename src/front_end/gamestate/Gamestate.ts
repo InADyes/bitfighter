@@ -113,12 +113,12 @@ export class GameState {
 						if (hasTimer) {
 							window.setTimeout(()=>{
 								flip('back');
-								console.log("flip back");
+								console.log("TIM: flip back");
 							}, 4000)
 						}
 						else {
 							flip('back');
-							console.log("flip back");
+							console.log("TIM: flip back");
 						}
 						this.ogTime = performance.now();
 					}
@@ -163,7 +163,6 @@ export class GameState {
 		let delay = nextTime - (performance.now() - this.ogTime);
 		if (delay < 0)
 			delay = 0;
-		//console.log(nextTime, performance.now(), this.ogTime, delay);
 		this.eventLoopTimeout = window.setTimeout(
 			() => this.getNextEvent(),
 			delay //used to be nextTime - event.time
@@ -258,7 +257,6 @@ export class GameState {
 	}
 
 	public setNewScale(scale: number) {
-		console.log(`TIM: My new scale: ${scale}`);
 		this.scaleWait = scale;
 		let oldScale = this.scale;
 		this.scale = this.scaleWait;
@@ -284,7 +282,7 @@ export class GameState {
 		// If bitfighter mode idles for full amount, switch to bitboss mode
 		this.idleId = window.setTimeout(
 			() => {
-				console.log("flip to front");
+				console.log("TIM: flip to front");
 				flip('front')
 			}, 4000
 		);
