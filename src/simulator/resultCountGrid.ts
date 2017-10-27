@@ -39,7 +39,7 @@ export function resultCountGrid() {
                         bossMessage: 'yo',
                         bossEmoticonURL: 'hey',
                         bitBossCheerMote: true
-                    }, character2.v1, {}),
+                    }, characterSheets[character2.v1]),
                     pickCharacter({
                         id: '1',
                         name: 'hao',
@@ -48,7 +48,7 @@ export function resultCountGrid() {
                         bossMessage: 'yo',
                         bossEmoticonURL: 'hey',
                         bitBossCheerMote: true
-                    }, character1.v1, {})
+                    }, characterSheets[character1.v1])
                 ],
                 testCount
             );

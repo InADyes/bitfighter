@@ -1,5 +1,6 @@
 import { testPair, printResults } from './testPair'
 import { pickCharacter } from '../shared/characterPicker';
+import { characterSheets } from '../shared/globals/characterSheets';
 
 export function resultStats() {
     const results = testPair(
@@ -12,7 +13,7 @@ export function resultStats() {
                 bossMessage: 'yo',
                 bossEmoticonURL: '',
                 bitBossCheerMote: true
-            }, Number(process.argv[2]), {}),
+            }, characterSheets[Number(process.argv[2])]),
             pickCharacter({
                 id: '1',
                 name: 'hao',
@@ -21,7 +22,7 @@ export function resultStats() {
                 bossMessage: 'yo',
                 bossEmoticonURL: '',
                 bitBossCheerMote: true
-            }, Number(process.argv[4]), {})
+            }, characterSheets[Number(process.argv[4])])
         ],
         Number(process.argv[6])
     )

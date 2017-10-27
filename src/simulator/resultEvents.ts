@@ -50,7 +50,7 @@ export function resultEvents() {
             bossMessage: 'yo',
             bossEmoticonURL: 'hey',
             bitBossCheerMote: true
-        }, Number(process.argv[2]), {}),
+        }, characterSheets[Number(process.argv[2])]),
         pickCharacter({
             id: '1',
             name: 'hao',
@@ -59,7 +59,7 @@ export function resultEvents() {
             bossMessage: 'yo',
             bossEmoticonURL: 'hey',
             bitBossCheerMote: true
-        }, Number(process.argv[4]), {})
+        }, characterSheets[Number(process.argv[4])])
     ];
 
     const reel = fight(chars).reel.map(e => e.fight);

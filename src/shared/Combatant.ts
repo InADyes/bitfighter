@@ -1,4 +1,3 @@
-import { characterSheets } from './globals/characterSheets';
 import { Buff } from './interfaces/buff';
 import { CharacterCard } from './interfaces/backToFrontMessage';
 import { Character, Item, Stats } from './interfaces/interfaces';
@@ -64,12 +63,12 @@ export class Combatant {
             if (b.dodge) 
                 this.calculatedStats.dodge *= b.dodge;
             if (b.attackSpeed) {
-                this.calculatedStats.attackSpeed.min *= b.attackSpeed;
-                this.calculatedStats.attackSpeed.max *= b.attackSpeed;
+                this.calculatedStats.attackSpeed.min *= b.attackSpeed.min;
+                this.calculatedStats.attackSpeed.max *= b.attackSpeed.max;
             }
             if (b.attackDamage) {
-                this.calculatedStats.attackDamage.min *= b.attackDamage;
-                this.calculatedStats.attackDamage.max *= b.attackDamage;
+                this.calculatedStats.attackDamage.min *= b.attackDamage.min;
+                this.calculatedStats.attackDamage.max *= b.attackDamage.max;
             }
             if (b.armor)
                 this.calculatedStats.armor *= b.armor;

@@ -56,8 +56,10 @@ window.addEventListener('load', function(){
                     'Scullery Maid': 'Scullery Maid mII',
                     'Mage': 'Mage mII'
                 },
+                characterArt: {},
                 bitFighterEnabled: true,
-                bitBossStartingHealth: 750
+                bitBossStartingHealth: 750,
+                assetPathPrefix: 'shim_test/'
             },
             str => saveGame = str,
             (gameState, donationType, amount) => {
@@ -112,37 +114,23 @@ window.addEventListener('load', function(){
     const nameInputNode = <HTMLInputElement>document.getElementById('donation-name');
     const idInputNode = <HTMLInputElement>document.getElementById('donation-id');
     const bitsInputNode = <HTMLInputElement>document.getElementById('donation-bits');
-    const artInputNode = <HTMLInputElement>document.getElementById('donation-art');
     const emoteInputNode = <HTMLInputElement>document.getElementById('bitboss-emote');
     newDonationButton.addEventListener('click', element => {
         const id = idInputNode.value;
         const name = nameInputNode.value;
         const amount = Number(bitsInputNode.value);
-        const art = Number(artInputNode.value);
         const emote = emoteInputNode.checked;
 
         idInputNode.value = String(id + 1);
 
-        if (art <= -1) {
-            backend.donation(
-                id,
-                name,
-                amount,
-                'todo: url goes here',
-                'how\'re you doin\'?',
-                'todo: emoticon url goes here',
-                emote
-            );
-        } else {
-            backend.newCombatant(pickCharacter({
-                name,
-                id,
-                amount,
-                profileImageURL: 'todo: url goes here',
-                bossMessage: 'how\'re you doin\'?',
-                bossEmoticonURL: 'emoticon url here',
-                bitBossCheerMote: emote
-            }, art, {}));
-        }
+        backend.donation(
+            id,
+            name,
+            amount,
+            'todo: url goes here',
+            'how\'re you doin\'?',
+            'todo: emoticon url goes here',
+            emote
+        );
     });
 });

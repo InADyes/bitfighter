@@ -1,37 +1,18 @@
+import { Stats } from './interfaces';
+
 /**
  * Each buff is multiplied agaisnt a stat to create a new that is then used.
  * See Combatant for implementation.
+ * 
+ * Attack speed doesn't get applied cleanly right now.
  */
-export interface Buff {
-    readonly duration: number, // milliseconds
-    readonly artPath: string,
-    readonly name: string,
-    readonly accuracy?: number,
-    readonly dodge?: number,
-    readonly attackSpeed?: number, // doesn't work very well right now
-    readonly attackDamage?: number,
-    readonly armor?: number,
-    readonly regeneration?: number,
-    readonly critChanceModifier?: number
-    readonly critDamageModifier?: number
+export interface Buff extends Partial<Stats>{
+    duration: number; // milliseconds
+    artPath: string;
+    name: string;
 }
 
-export const enum types {
-    sculleryMaid            = 0,
-    barkeep                 = 1,
-    medium                  = 2,
-    minstrel                = 3,
-    mage                    = 4,
-    rogue                   = 5,
-    warpriest               = 6,
-    warlockBuff             = 7,
-    warlockDebuff           = 8,
-    swashbucklerBuff        = 9,
-    dragon                  = 10,
-    armorBonus              = 11,
-}
-
-export const buffs: {[name: string]: Buff} = {
+export const buffs: { readonly [name: string]: Readonly<Buff> } = {
     sculleryMaid: {
         duration: 6000,
         artPath: 'images/icons/buffs/mop_up.png',

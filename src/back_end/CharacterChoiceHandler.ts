@@ -1,6 +1,5 @@
 import { pickCharacter } from '../shared/characterPicker';
 import { Combatant } from '../shared/Combatant';
-import { characterSheets } from '../shared/globals/characterSheets';
 import { rarities, Rarity } from '../shared/globals/rarity';
 import { CharacterCard } from '../shared/interfaces/backToFrontMessage';
 import { Character, Donation, Item } from '../shared/interfaces/interfaces';
@@ -108,7 +107,7 @@ export class CharacterChoiceHandler {
         }
     }
 
-    public requestChoice(donation: Donation, ...items: Item[]) {
+    public requestChoice(donation: Donation, characterSheets: Character[], ...items: Item[]) {
         if (this.pendingCharacterChoices.find(c => c.id === donation.id) !== undefined)
             return; // todo: what should happen if they donate while they still have cards?
 
@@ -157,8 +156,7 @@ export class CharacterChoiceHandler {
 
         const combatantChoices = choices.map(c => pickCharacter(
             donation,
-            characterSheets.indexOf(c),
-            this.settings.characterNames,
+            c,
             ...items
         ));
 
@@ -207,4 +205,5 @@ export class CharacterChoiceHandler {
 
         this.newCombatant(pendingChoice.characters[pick % pendingChoice.characters.length]);
     }
+
 }

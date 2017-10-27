@@ -33,7 +33,9 @@ export function validateSettings(settings: BackendSettings): {settings: BackendS
         defaultChampion: 'object',
         bitFighterEnabled: 'boolean',
         bitBossStartingHealth: 'number',
-        characterNames: 'object'
+        characterNames: 'object',
+        characterArt: 'object',
+        assetPathPrefix: 'string'
     }) || result.err;
 
         

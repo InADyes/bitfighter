@@ -1,3 +1,4 @@
+import { characterSheets } from '../shared/globals/characterSheets';
 import { hrtime } from 'process';
 
 import { applyFightEvents } from '../shared/applyFightEvents';
@@ -8,10 +9,10 @@ import { fight } from '../shared/fight';
 import { ReelMessage } from '../shared/interfaces/backToFrontMessage';
 import { FightEvent } from '../shared/interfaces/fightEvents';
 import { GraphicsEvent } from '../shared/interfaces/graphicsEvents';
-import { CombinedEvent, Donation } from '../shared/interfaces/interfaces';
+import { Character, CombinedEvent, Donation } from '../shared/interfaces/interfaces';
 import { Source } from '../shared/interfaces/source';
 import { generateBitBoss } from './generateBitBoss';
-import { BackendSettings as Settings } from './interfaces';
+import { BackendSettings } from './interfaces';
 
 /**
  * Re-implementation of performanceNow() for node.
@@ -35,9 +36,10 @@ export class Arena {
     private events: Readonly<CombinedEvent>[] = [];
 
     constructor(
-        public settings: Settings,
+        public settings: BackendSettings,
         private readonly newFightResults: (message: ReelMessage, timer?: number) => void,
-        private readonly fightOver: () => void
+        private readonly fightOver: () => void,
+        private readonly characterSheets: Character[]
     ) {}
 
     public clearTimeouts() {
@@ -192,7 +194,10 @@ export class Arena {
             && reel.some(e => e.fight.type === 'death')
             && source.type === 'donation'
         ) {
-            this.combatants.push(pickCharacter(source.donation, 10, this.settings.characterNames));
+            this.combatants.push(pickCharacter(
+                source.donation,
+                characterSheets.find(c => c.rarity === 'graveDigger') || characterSheets[0]
+            ));
             this.startFight({
                 baseReel: [{
                     type: 'heal',
@@ -260,6 +265,7 @@ export class Arena {
         ) {
             this.combatants.push(generateBitBoss(
                 event.fight.source.donation,
+                this.characterSheets,
                 this.settings.bitBossStartingHealth + event.fight.overkill
             ));
             this.results = this.combatants;

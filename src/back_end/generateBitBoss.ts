@@ -1,11 +1,10 @@
 import { Combatant } from '../shared/Combatant';
-import { characterSheets } from '../shared/globals/characterSheets';
-import { Donation } from '../shared/interfaces/interfaces';
+import { Donation, Character } from '../shared/interfaces/interfaces';
 
 /**
  * Template for a BitBoss.
  */
-export function generateBitBoss(donation: Donation, health: number) : Combatant {
+export function generateBitBoss(donation: Donation, characterSheets: Character[], health: number) : Combatant {
     if (health < 1)
         health = 1;
 

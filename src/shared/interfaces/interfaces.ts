@@ -38,7 +38,7 @@ export interface CombinedEvent {
 };
  
 export interface Character {
-    stats: Stats;
+    stats: Readonly<Stats>;
     rarity: Rarity;
     crits: {
         odds: number;

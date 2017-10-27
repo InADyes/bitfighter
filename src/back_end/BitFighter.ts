@@ -1,15 +1,17 @@
+import { Buff } from '../shared/interfaces/buff';
 import { pickCharacter } from '../shared/characterPicker';
 import { Combatant } from '../shared/Combatant';
 import { characterSheets } from '../shared/globals/characterSheets';
 import { rarityInfo } from '../shared/globals/rarity';
 import { BackToFrontMessage, QueueItem } from '../shared/interfaces/backToFrontMessage';
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
-import { Item } from '../shared/interfaces/interfaces';
+import { Item, Character } from '../shared/interfaces/interfaces';
 import { Arena } from './Arena';
 import { CharacterChoiceHandler } from './CharacterChoiceHandler';
 import { generateBitBoss } from './generateBitBoss';
-import { BackendSettings as Settings, GameSave } from './interfaces';
+import { BackendSettings, GameSave } from './interfaces';
 import { validateDonation, validateSettings } from './validations';
+import * as _ from 'lodash';
 
 /**
  * Main backend module. One instance supports one influencer game instance.
@@ -17,17 +19,16 @@ import { validateDonation, validateSettings } from './validations';
 export class BitFighter {
     private readonly queue: Combatant[] = [];
     private timeout: NodeJS.Timer | null = null;
-
     private readonly characterChoiceHandler: CharacterChoiceHandler;
     private arena: Arena;
-    private settings: Readonly<Settings>;
+    private readonly characterSheets: Character[];
 
     constructor(
         private sendMessageToFront: (
             message: BackToFrontMessage,
             fan?: string
         ) => void,
-        settings: Settings,
+        private settings: Readonly<BackendSettings>,
         private readonly setSaveJSON: (jsonStr: string) => void,
         private readonly logDonation: (
             gameState: string,
@@ -38,8 +39,8 @@ export class BitFighter {
     ) {
 
         // --- initialize properties
-        const ret = validateSettings(settings);
-        this.settings = ret.settings;
+        this.characterSheets = characterSheets.map(c => _.cloneDeep(c));
+        this.updateSettings(settings);
 
         this.characterChoiceHandler = new CharacterChoiceHandler(
             combatant => this.newCombatant(combatant),
@@ -56,10 +57,10 @@ export class BitFighter {
                     timer
                 });
             },
-            () => this.addToArena()
+            () => this.addToArena(),
+            this.characterSheets
         );
         // ---
-
 
         if (gameStateJSON) {
             const save = JSON.parse(gameStateJSON) as GameSave;
@@ -78,10 +79,9 @@ export class BitFighter {
         if (this.settings.bitFighterEnabled)
             return pickCharacter(
                 this.settings.defaultChampion,
-                Math.floor(Math.random() * (characterSheets.length - 2)),
-                this.settings.characterNames
+                this.characterSheets[Math.floor(Math.random() * (this.characterSheets.length - 2))]
             );
-        return generateBitBoss(this.settings.defaultChampion, this.settings.bitBossStartingHealth);
+        return generateBitBoss(this.settings.defaultChampion, this.characterSheets, this.settings.bitBossStartingHealth);
     }
 
     public clearTimeouts() {
@@ -106,9 +106,17 @@ export class BitFighter {
     /**
      * Updates the game settings.
      */
-    public applySettings(settings: Settings) {
-        this.settings = settings;
-        this.arena.settings = settings;
+    public applySettings(settings: BackendSettings) {
+        this.updateSettings(settings);
+        this.arena.settings = this.settings;
+    }
+
+    private updateSettings(settings: BackendSettings) {
+        const ret = validateSettings(settings);
+        this.settings = ret.settings;
+        for (let i = 0; i < characterSheets.length; i++)
+            applySettingsToCharacter(this.characterSheets[i], characterSheets[i], ret.settings);
+
     }
 
     private saveState() {
@@ -207,12 +215,12 @@ export class BitFighter {
                         stats: c.cardStats,
                         className: this.settings.characterNames[c.name] || c.name,
                         skillName: buff ? buff.name : 'NO BUFF FOUND',
-                        skillURL: buff ? buff.artPath : 'no buff',
+                        skillURL: buff ? this.settings + buff.artPath : 'no buff',
                         rarityName: rarityInfo[c.rarity].name || 'rarity not found',
                         rarityColor: rarityInfo[c.rarity].color || 'rarity not found',
                         flavorText: c.flavorText,
-                        classArtURL: c.artPath,
-                        attackGraphicsURLs: c.attackGraphicsPath
+                        classArtURL: this.settings.assetPathPrefix + c.artPath,
+                        attackGraphicsURLs: this.settings.assetPathPrefix + c.attackGraphicsPath
                     }
                 })
             },
@@ -259,7 +267,7 @@ export class BitFighter {
             && this.characterChoiceHandler.hasPendingChoice(id) === false
         ) {
             this.logDonation(gameState, 'newCombatant', donation.amount);
-            this.characterChoiceHandler.requestChoice(donation, ...items);
+            this.characterChoiceHandler.requestChoice(donation, this.characterSheets, ...items);
 
         // otherwise try and damage the chapion
         } else {
@@ -269,7 +277,7 @@ export class BitFighter {
     }
     
     // public for testing purposes (bypasses front end character choice)
-    public newCombatant(combatant: Combatant) {
+    private newCombatant(combatant: Combatant) {
         this.queue.push(combatant)
 
 
@@ -304,5 +312,37 @@ export class BitFighter {
             countdown || 0,
             ...this.queue.splice(0, newFighterCount)
         );
+    }
+}
+
+/*
+** Could change the way settings are applied for less memory usage.
+*/
+
+function applySettingsToCharacter(
+    target: Character,
+    original: Readonly<Character>,
+    settings: BackendSettings
+) {
+    const t = target;
+    const o = original;
+    const s = settings;
+
+    if (s.characterArt[o.name])
+        t.artPath = s.assetPathPrefix + o.artPath;
+    t.artPath = s.assetPathPrefix + o.artPath;
+    if (o.attackGraphicsPath) {
+        for (let i = 0; i < o.attackGraphicsPath.length; i++) {
+            if (t.attackGraphicsPath)
+                t.attackGraphicsPath[i] = s.assetPathPrefix + o.attackGraphicsPath[i];
+        }
+    }
+    if (s.characterNames[o.name])
+        t.name = s.characterNames[t.name];
+    for (let i = 0; i < o.crits.length; i++) {
+        if (t.crits[i].buff) // wtf do i need these casts??
+            (t.crits[i].buff as Buff).artPath = s.assetPathPrefix + (o.crits[i].buff as Buff).artPath;
+        if (t.crits[i].debuff)
+            (t.crits[i].debuff as Buff).artPath = s.assetPathPrefix + (o.crits[i].debuff as Buff).artPath;
     }
 }

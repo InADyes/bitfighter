@@ -1,5 +1,4 @@
 import { Combatant } from '../shared/Combatant';
-import { characterSheets } from './globals/characterSheets';
 import { rarityInfo } from './globals/rarity';
 import { Character, Donation, Item, Stats } from './interfaces/interfaces';
 
@@ -47,24 +46,22 @@ export function buildStats(character: Character, donation: number, level: number
  */
 export function pickCharacter(
     donation: Donation,
-    character: number,
-    nameMap: {[name: string]: string},
+    character: Character,
     ...items: Item[]
 ) : Combatant {
-    const pick = characterSheets[character % characterSheets.length];
 
-    let level = rarityInfo[pick.rarity].startingLevel; // 1 indexed
+    let level = rarityInfo[character.rarity].startingLevel; // 1 indexed
 
     // while we are not the highest level and we have the bits required to be the next level
     while (level < levels.length && donation.amount > levels[level].bits)
         level++;
 
-    const stats = buildStats(pick, donation.amount, level);
+    const stats = buildStats(character, donation.amount, level);
 
     return new Combatant(
         donation.id,
         donation.name,
-        pick,
+        character,
         donation.amount,
         stats.maxHitPoints,
         level,
@@ -72,7 +69,7 @@ export function pickCharacter(
         donation.bossMessage,
         donation.profileImageURL,
         donation.bossEmoticonURL,
-        nameMap[pick.name] || pick.name,
+        character.name,
         items
     )
 }
