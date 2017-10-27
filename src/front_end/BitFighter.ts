@@ -96,14 +96,12 @@ export class BitFighter {
         }
         this.resizeTimeout = window.setTimeout(() => {
             this.resizeTimeout = null;
-            console.log('WIDTH: ', this.wrapperDiv.offsetWidth);
             const scale = this.wrapperDiv.offsetWidth / 500;
             this.game.setNewScale(scale);
         }, 100)
     }
 
     public updateAlignment(alignTo: 'left' | 'right' | 'center') {
-        console.log("ALIGN:", alignTo);
         this.game.setAlign(alignTo);
     }
 }
