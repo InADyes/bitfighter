@@ -222,7 +222,8 @@ export class Backend {
                         classArtURL: this.settings.assetPathPrefix + c.artPath,
                         attackGraphicsURLs: this.settings.assetPathPrefix + c.attackGraphicsPath
                     }
-                })
+                }),
+                settings: this.settings.frontendSettings
             },
             id
         )
