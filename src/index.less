@@ -528,18 +528,21 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  height: 10vw;
+  height: 12vw;
   overflow: hidden;
   .charSelectTimerFlipper {
     display: flex;
     justify-content: center;
     position: relative;
     animation-name: slideIn;
-    animation-duration: 1.6s;
+    animation-duration: 1.8s;
     background-color: yellow;
     z-index: 6;
     transform-style: preserve-3d;
     .charSelectTimerBack {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: absolute;
       background-color: rgba(236, 235, 235, 1);
       border: .2vw solid rgba(236, 235, 235, 1);
@@ -549,6 +552,14 @@
       height: 9vw;
       backface-visibility: hidden;
       transform: rotateY(180deg);
+    }
+    #bitbossEmoji {
+      max-width: 100%;
+      max-height: 100%;
+      width: 60%;
+      height: 60%;
+      position: relative;
+      opacity: .5;
     }
     .charSelectTimer {
       background-color: rgba(236, 235, 235, 0.6);
@@ -571,9 +582,12 @@
       20% {
         top: -100%;
       }
-      60% {
-        top: 0%;
+      45% {
+        top: 20%;
         transform: rotateY(180deg);
+      }
+      70% {
+        top: 0%;
       }
       100% {
         transform: rotateY(0deg);
