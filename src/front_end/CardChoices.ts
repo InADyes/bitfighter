@@ -59,6 +59,8 @@ export class CardChoices {
         // back face div
         let backFace = document.createElement('div');
         backFace.className = 'charSelectTimerBack';
+        // backFace.innerHTML = "<img src='../images/icons/bitboss.png' id='bitbossEmoji'>";
+        backFace.innerHTML = "<img src='../src/images/icons/bitboss.png' id='bitbossEmoji'>";
         // actual timer 
         let timer = document.createElement('div');
         timer.className = 'charSelectTimer';
