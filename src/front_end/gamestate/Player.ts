@@ -5,6 +5,9 @@ import { FrontendCharacter } from '../../shared/interfaces/backToFrontMessage';
 import { BossData } from './interfaces';
 
 export class Player {
+    //new stuff
+    private image:          HTMLImageElement;
+    //
     private health:         number;
     private onRight:        number;
     private img:            fabric.Object;
@@ -68,12 +71,27 @@ export class Player {
         this.buffs = [];
         this.cWidth = this.canvas.getWidth();
         this.specialAtk = new Attack(canvas, this.data.art, atkArt, scale, side, this.center, this.align);
+        //new stuff
+        this.image = document.createElement('img');
+        this.image.src = this.charArt[this.data.art];
+        this.image.classList.add('character')
+        if (this.onRight)
+            this.image.classList.add('player2');
+
+        this.hpDiv = document.createElement('div');
+        this.red = document.createElement('div');
+        this.red.className = 'hpBarBase';
+        this.yellow = document.createElement('div');
+        this.yellowBar.className = 'hpBarBase';
+        this.green = document.createElement('div');
+        this.green.className = 'hpBarBase';
+        //
     }
 
     public drawMe(player: Player | null, offset: number) {
         //new stuff
-        this.pDiv.innerText = `<img src='${ this.charArt[this.data.art] }'`;
-        console.log("asd");
+        this.pDiv.innerHTML = '';
+        this.pDiv.appendChild(this.image);
         //
         this.offset = offset;
         this.specialAtk.setOffset(offset);
