@@ -27,13 +27,13 @@ export class Player {
     private atkAnimReturn:  number;
     private movesAmount:    number;
     private specialAtk:     Attack;
-    private height =        70;
+    private height =        80;
     private hpWidth =       6.5;
     private textLock =      0;
     private animationLock = 0;
-    private nameHeight =    110;
+    private nameHeight =    120;
     private strokeWidth =   2;
-    private fontSize =      15;
+    private fontSize =      20;
     private font =          'Concert One'
     private buffOffset =    15;
     private buffTop =       125;
@@ -41,11 +41,11 @@ export class Player {
     private drawing =       0;
 
     // Adjust these to move elements around
-    private artAdjust =     50;
-    private hpAdjust =      35;
-    private artTop =        110;
-    private hpTextTop =     22;
-    private textTop =       20;
+    private artAdjust =     60;
+    private hpAdjust =      45;
+    private artTop =        120;
+    private hpTextTop =     15;
+    private textTop =       23;
     private centerHpAdjust = 6;
 
     constructor(
