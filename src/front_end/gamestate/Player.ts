@@ -36,7 +36,7 @@ export class Player {
     private fontSize =      20;
     private font =          'Concert One'
     private buffOffset =    15;
-    private buffTop =       125;
+    private buffTop =       140;
     private buffSize =      25;
     private drawing =       0;
 
@@ -323,7 +323,7 @@ export class Player {
                 else if (this.align === "right")
                     oImg.set({left: this.cWidth - (this.offset + this.artAdjust + this.buffOffset * (numBuffsPerRow - i % numBuffsPerRow)) * this.scale});
                 else if (this.align === "center")
-                    oImg.set({left: !this.onRight ? this.center - (this.trueWidth + this.buffOffset * (i % numBuffsPerRow)) * this.scale : this.center + (this.buffOffset * (i % numBuffsPerRow)) * this.scale});
+                    oImg.set({left: !this.onRight ? this.center - (this.trueWidth - this.buffOffset * (i % numBuffsPerRow)) * this.scale : this.center + (this.buffOffset * (i % numBuffsPerRow)) * this.scale});
                 let currentbuff = oImg.set({
                     top: i < numBuffsPerRow ? this.buffTop * this.scale: (this.buffTop + this.buffSize * Math.floor(i / numBuffsPerRow) - 5) * this.scale,
                     height: this.buffSize * this.scale,
