@@ -11,6 +11,11 @@ import { recalcHp, flip, updateBitBoss } from '../globalDependencies'
 // declare function flip(side: 'front' | 'back'): void;
 // declare function updateBitBoss(bossData: {boss: BossData, attacker?: BossData}): void;
 export class GameState {
+	// new stuff
+	private arenaDiv:			HTMLDivElement;
+	private p1Div:				HTMLDivElement;
+	private p2Div:				HTMLDivElement;
+	//
 	private eventLoopTimeout:	number | null;
 	private lastTime: 			number;
 	private canvas:				fabric.Canvas; 
@@ -40,6 +45,17 @@ export class GameState {
 		private readonly characterStateChange:	(characters: FrontendCharacter[]) => void,
 		private readonly bfDiv:					HTMLDivElement
 	) {
+		// new stuff
+		this.arenaDiv = document.createElement('div');
+		this.arenaDiv.id = 'bfArena';
+		this.p1Div = document.createElement('div');
+		this.p2Div = document.createElement('div');
+		this.p1Div.className = 'playerDiv';
+		this.p2Div.className = 'playerDiv';
+		this.arenaDiv.appendChild(this.p1Div);
+		this.arenaDiv.appendChild(this.p2Div);
+		this.bfDiv.appendChild(this.arenaDiv);
+		//
 		this.canvas = new fabric.StaticCanvas(canvasId);
 		this.canvas.setWidth(this.baseWidth);
 		this.canvas.setWidth(this.baseHeight);
@@ -92,7 +108,7 @@ export class GameState {
 						this.buffArt,
 						this.atkArt,
 						this.align,
-						this.bfDiv
+						this.p1Div
 					);
 					this.currentBoss = this.player1.getBitBossInfo();
 					updateBitBoss({boss: this.currentBoss});
@@ -108,7 +124,7 @@ export class GameState {
 							this.buffArt,
 							this.atkArt,
 							this.align,
-							this.bfDiv
+							this.p2Div
 						);
 						if (hasTimer) {
 							window.setTimeout(()=>{

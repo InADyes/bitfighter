@@ -49,7 +49,7 @@ export class Player {
     private centerHpAdjust = 6;
 
     constructor(
-        private readonly data: FrontendCharacter,
+        private readonly data:      FrontendCharacter,
         side:                       number, 
         canvas:                     fabric.Canvas, 
         scale:                      number, 
@@ -57,7 +57,7 @@ export class Player {
         private readonly buffArt:   string[],
         private readonly atkArt:    string[],
         private align:              'left' | 'right' | 'center',
-        private readonly bfDiv:     HTMLDivElement
+        private readonly pDiv:  HTMLDivElement
     ) {
         this.health = data.currentHitPoints;
         this.onRight = side;
@@ -71,6 +71,10 @@ export class Player {
     }
 
     public drawMe(player: Player | null, offset: number) {
+        //new stuff
+        this.pDiv.innerText = `<img src='${ this.charArt[this.data.art] }'`;
+        console.log("asd");
+        //
         this.offset = offset;
         this.specialAtk.setOffset(offset);
         if (this.img)
