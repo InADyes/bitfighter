@@ -13,9 +13,12 @@ export class ReactRoot extends React.Component {
         this.state = props;
     }
     render() {
+        const time = this.state.timerEndTime - performance.now();
+
+
         return <div id="bitFighter">
             {this.state.characterChoices ? ChoiceCards(this.state.characterChoices) : ''}
-            {this.state.timer ? CountDown(this.state.timer) : ''} 
+            {time > -100 ? CountDown(time) : ''} 
             <div id="fight">{Fight(this.state.combatants)}</div>
             <div id="hoverCards">{this.state.hoverCards.map(c => InfoCard(c))}</div>
         </div>;
@@ -23,5 +26,5 @@ export class ReactRoot extends React.Component {
 }
 
 function CountDown(time: number) {
-    return <div id="coutdown">{time}</div>
+    return <div id="coutdown">{Math.round(time / 1000)}</div>
 }

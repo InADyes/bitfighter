@@ -5,6 +5,6 @@ import InfoCard from './InfoCard';
 
 export default function ChoiceCards(choices: CharacterCard[]) {
     return <div id="choiceCards">
-        {choices.map((c, i) => InfoCard(c, i))}
+        {choices.map((c, i) => InfoCard(c, {key: i}))}
     </div>
 }

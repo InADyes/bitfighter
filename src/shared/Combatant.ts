@@ -107,7 +107,7 @@ export class Combatant {
             bitBossCheerMote: false,
             selectable: true,
             buffArt: buff ? buff.artPath : 'ERROR: NO BUFF FOUND',
-            buffName: buff ? buff.artPath : 'ERROR: NO BUFF FOUND'
+            buffName: buff ? buff.name : 'ERROR: NO BUFF FOUND'
         };
     }
     get bossMessage() {return this.p_bossMessage;};

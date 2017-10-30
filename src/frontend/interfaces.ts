@@ -6,7 +6,7 @@ import {
 } from '../shared/interfaces/backToFrontMessage';
 
 export interface State {
-    timer?: number;
+    timerEndTime: number;
     hoverCards: CharacterCard[];
     combatants: FrontendCharacter[];
     queue: QueueItem[];

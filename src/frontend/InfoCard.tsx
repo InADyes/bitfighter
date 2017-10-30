@@ -6,25 +6,26 @@ import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 
 export default function InfoCard(
     info: CharacterCardInfo,
-    key?: number
+    options: {key?: number, onClick?: () => void} = {}
 ) {
     let classes = 'characterCard';
 
     if (info.selectable === false)
         classes += ' not_selectable';
     if (info.bitBossCheerMote)
-        classes += ' cheerMote';
+        classes += ' cheermote';
 
-    return <div className={classes} key={key}>
+    return <div className={classes} key={options.key} onClick={options.onClick}>
         <div className="inner">
             <h3 className={info.rarity}>{info.className}</h3>
-            <div style={{backgroundImage: `url('${ info.art }')`}}></div>
-            <div className="badge">
-                <img src="https://s3.amazonaws.com/operaevent-gather/tier_10000.gif" />
-                <p>BitBoss<br/>Cheermote<br/>Exclusive</p>
-            </div>
-            <div className="hoverWrap">
-                <div className="flavorText">{info.flavorText}</div>
+            <div className="image" style={{backgroundImage: `url('${ info.art }')`}}>
+                {info.bitBossCheerMote ? <div className="cheermoteBadge">
+                    <img src="https://s3.amazonaws.com/operaevent-gather/tier_10000.gif" />
+                    <p>BitBoss<br/>Cheermote<br/>Exclusive</p>
+                </div> : ''}
+                <div className="hoverWrap">
+                    <div className="flavorText">{info.flavorText}</div>
+                </div>
             </div>
             <div className="left">
                 <div className="skill">
