@@ -8,8 +8,8 @@ export class CardChoices {
     private timeout: number | null = null;
 
     constructor (
-        private readonly cardDiv: HTMLDivElement,
         private readonly emitGameEvent: (message: FrontToBackMessage) => void,
+        private readonly cardDiv: HTMLDivElement,
         private readonly cardsTimeout: number
     ){}
 

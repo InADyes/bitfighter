@@ -6,7 +6,7 @@ import { FrontToBackMessage, CharacterChoice } from './shared/interfaces/frontTo
 
 
 window.addEventListener('load', function(){
-    const wrapperDiv = <HTMLDivElement>document.getElementById('bitfighter');
+    const wrapperDiv = <HTMLDivElement>document.getElementById('root');
     const requestIDs: string[] = [];
     let saveGame: string | undefined = undefined;
 
