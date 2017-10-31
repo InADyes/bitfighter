@@ -22,10 +22,12 @@ export class ReactRoot extends React.Component {
                 : ''}
             {time > -100 ? <CountDown time={time} /> : ''} 
             <Fight combatants={this.props.combatants} settings={this.props.settings}/>
-        </div>;
+            </div>;
     }
 }
 
 function CountDown(props: {time: number}) {
-    return <div id="coutdown">{Math.round(props.time / 1000)}</div>
+    return <div id="coutdown">
+        {Math.round(props.time / 1000)}
+        </div>
 }

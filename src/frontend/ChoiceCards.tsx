@@ -13,5 +13,5 @@ export default function ChoiceCards(props: {
         {props.choices.map((c, i) =>
             <InfoCard card={c.card} onClick={c.onClick} key={i} />
         )}
-    </div>
+        </div>
 }

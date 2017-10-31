@@ -33,7 +33,7 @@ export const characterSheets: Readonly<Character>[] = [
         ],
         name: 'Scullery Maid',
         flavorText: 'You think fighting dragons is hard, try scrubbing castle floors!',
-        skillText: 'DEBUFF Lowers Accuracy and Dodge',
+        skillText: 'Lowers Accuracy and Dodge',
         cardStats: {
             accuracy: 6,
             dodge: 6,
@@ -75,7 +75,7 @@ export const characterSheets: Readonly<Character>[] = [
         ],
         name: 'Barkeep',
         flavorText: 'They call my bar the Bongo, because you go there to get beaten.',
-        skillText: 'DEBUFF Cripples Opponent',
+        skillText: 'Cripples Opponent',
         cardStats: {
             accuracy: 3,
             dodge: 4,
@@ -117,7 +117,7 @@ export const characterSheets: Readonly<Character>[] = [
         ],
         name: 'Medium',
         flavorText: 'Battles can be boring when you already know the outcome',
-        skillText: 'DEBUFF Lowers Accuracy',
+        skillText: 'Lowers Accuracy',
         cardStats: {
             accuracy: 5,
             dodge: 6,
@@ -159,7 +159,7 @@ export const characterSheets: Readonly<Character>[] = [
         ],
         name: 'Minstrel',
         flavorText: 'I deplore a battle wits with an unarmed opponent.',
-        skillText: 'DEBUFF Blinds Enemy',
+        skillText: 'Blinds Enemy',
         cardStats: {
             accuracy: 5,
             dodge: 6,
@@ -201,7 +201,7 @@ export const characterSheets: Readonly<Character>[] = [
         ],
         name: 'Mage',
         flavorText: 'I put on my robe and my wizard hat...',
-        skillText: 'DEBUFF Bypasses Armor',
+        skillText: 'Bypasses Armor',
         cardStats: {
             accuracy: 10,
             dodge: 4,
@@ -243,7 +243,7 @@ export const characterSheets: Readonly<Character>[] = [
         ],
         name: 'Rogue',
         flavorText: 'Rogues do it from behind',
-        skillText: 'BUFF Dodges more Frequently',
+        skillText: 'Dodges more Frequently',
         cardStats: {
             accuracy: 8,
             dodge: 8,
@@ -285,7 +285,7 @@ export const characterSheets: Readonly<Character>[] = [
         ],
         name: 'Warpriest',
         flavorText: 'It\'s only a fleshwound...',
-        skillText: 'BUFF Gains Armor and Health',
+        skillText: 'Gains Armor and Health',
         cardStats: {
             accuracy: 3,
             dodge: 3,
@@ -328,7 +328,7 @@ export const characterSheets: Readonly<Character>[] = [
         ],
         name: 'Warlock',
         flavorText: 'Souls are like wine, they are better in a glass jar.',
-        skillText: 'BUFF Critical Damage',
+        skillText: 'Critical Damage',
         cardStats: {
             accuracy: 2,
             dodge: 2,
@@ -369,8 +369,8 @@ export const characterSheets: Readonly<Character>[] = [
             }
         ],
         name: 'Swashbuckler',
-        flavorText: 'I have sailed the 7 seas, slain skeletons and monsters and you want me to fight...a scullery maid and a barkeep?',
-        skillText: 'BUFF Increases Accuracy and Dodge',
+        flavorText: 'I have sailed the seven seas, slain knights and monsters. You want me to fight... a scullery maid and barkeep?',
+        skillText: 'Increases Accuracy and Dodge',
         cardStats: {
             accuracy: 7,
             dodge: 8,
@@ -412,7 +412,7 @@ export const characterSheets: Readonly<Character>[] = [
         ],
         name: 'Dragon',
         flavorText: 'If I wasn\'t supposed to eat adventurers, then why are they made of meat and treasure?',
-        skillText: 'DEBUFF Removes Dodge',
+        skillText: 'Removes Dodge',
         cardStats: {
             accuracy: 1,
             dodge: 1,
