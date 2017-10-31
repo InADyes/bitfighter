@@ -2,8 +2,9 @@ import * as React from 'react';
 
 import { State } from './interfaces';
 import InfoCard from './InfoCard';
-import Fight from './Fight';
+import BitFight from './BitFight';
 import ChoiceCards from './ChoiceCards';
+import BitBoss from './BitBoss';
 
 export class ReactRoot extends React.Component {
     public props: State;
@@ -19,9 +20,10 @@ export class ReactRoot extends React.Component {
                 <ChoiceCards
                     choices={this.props.characterChoices}
                     />
-                : ''}
-            {time > -100 ? <CountDown time={time} /> : ''} 
-            <Fight combatants={this.props.combatants} settings={this.props.settings}/>
+                : undefined}
+            {time > -100 ? <CountDown time={time} /> : undefined} 
+            <BitFight combatants={this.props.combatants} settings={this.props.settings}/>
+            <BitBoss boss={this.props.combatants[0]} position={this.props.settings.bitBossPosition}/>
             </div>;
     }
 }

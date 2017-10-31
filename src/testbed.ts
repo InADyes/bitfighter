@@ -58,11 +58,16 @@ window.addEventListener('load', function(){
                 bitBossStartingHealth: 750,
                 assetPathPrefix: 'shim_test/',
                 frontendSettings: {
-                    position: {
-                        x: 10,
-                        y: 40
+                    bitBossPosition: {
+                        x: 40,
+                        y: 10,
+                        scale: 1
                     },
-                    size: 1,
+                    bitFighterPosition: {
+                        x: 10,
+                        y: 20,
+                        scale: 3
+                    },
                     cardsTimeout: 60000
                 }
             },

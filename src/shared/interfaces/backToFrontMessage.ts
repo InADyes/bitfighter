@@ -57,11 +57,16 @@ export interface CharacterListItem {
 }
 
 export interface FrontEndSettings {
-    position: {
+    bitFighterPosition: {
         x: number;
         y: number;
+        scale: number;
     };
-    size: number;
+    bitBossPosition: {
+        x: number;
+        y: number;
+        scale: number;
+    }
     cardsTimeout: number;
 }
 
