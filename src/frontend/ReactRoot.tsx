@@ -9,16 +9,19 @@ export class ReactRoot extends React.Component {
     public props: State;
 
     render() {
+        if (this.props.settings === null)
+            return null;
+
         const time = this.props.timerEndTime - performance.now();
 
-        return <div id="bitFighter" >
+        return <div id="bitFighter">
             {this.props.characterChoices ?
                 <ChoiceCards
                     choices={this.props.characterChoices}
                     />
                 : ''}
             {time > -100 ? <CountDown time={time} /> : ''} 
-            <Fight combatants={this.props.combatants} />
+            <Fight combatants={this.props.combatants} settings={this.props.settings}/>
             {/* <div id="hoverCards">{this.props.combatants.map(c => <InfoCard card={c.card} />)}</div> */}
         </div>;
     }

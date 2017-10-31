@@ -2,7 +2,8 @@ import {
     CharacterCard,
     CharacterListItem,
     FrontendCharacter,
-    QueueItem
+    QueueItem,
+    FrontEndSettings
 } from '../shared/interfaces/backToFrontMessage';
 
 export interface State {
@@ -10,8 +11,9 @@ export interface State {
     combatants: FrontendCharacter[];
     queue: QueueItem[];
     characterList: CharacterListItem[];
-    characterChoices?: {
+    characterChoices: {
         card: CharacterCard;
         onClick: () => void;
-    }[];
+    }[] | null;
+    settings: FrontEndSettings | null;
 }

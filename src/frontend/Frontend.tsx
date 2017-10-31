@@ -21,10 +21,11 @@ export class Frontend {
         timerEndTime: 0,
         combatants: [],
         queue: [],
-        characterList: []
+        characterList: [],
+        settings: null,
+        characterChoices: null
     };
     private reactRoot = new ReactRoot(this.state);
-    private settings: FrontEndSettings | null = null;
     constructor(
         private container: HTMLDivElement,
         private readonly emitGameEvent: (gameSlug: 'bitFighter', message: FrontToBackMessage) => void
@@ -37,10 +38,10 @@ export class Frontend {
         const m = message;
 
         if (m.settings)
-            this.settings = m.settings;
+            this.state.settings = m.settings;
         if (m.newReel)
             this.newReel(m.newReel);
-        if (m.characterChoices && this.settings && this.characterChoicesTimout === null) {
+        if (m.characterChoices && this.characterChoicesTimout === null) {
             this.state.characterChoices = m.characterChoices.map((c, i) => ({
                 card: c,
                 onClick: () => {
@@ -48,7 +49,7 @@ export class Frontend {
                         window.clearTimeout(this.characterChoicesTimout);
                         this.characterChoicesTimout = null;
                     }
-                    this.state.characterChoices = [];
+                    this.state.characterChoices = null;
                     this.render();
                     this.emitGameEvent('bitFighter', {characterChoice: i});
                 } 
@@ -56,10 +57,10 @@ export class Frontend {
             this.characterChoicesTimout = window.setTimeout(
                 () => {
                     this.characterChoicesTimout = null;
-                    this.state.characterChoices = [];
+                    this.state.characterChoices = null;
                     this.render();
                 },
-                this.settings.cardsTimeout
+                this.state.settings ? this.state.settings.cardsTimeout : 0
             );
         }
         if (m.queue)
