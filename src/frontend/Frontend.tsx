@@ -23,7 +23,8 @@ export class Frontend {
         queue: [],
         characterList: [],
         settings: null,
-        characterChoices: null
+        characterChoices: null,
+        view: 'bitBoss'
     };
     private reactRoot = new ReactRoot(this.state);
     constructor(
@@ -139,7 +140,7 @@ export class Frontend {
                     this.render();
                     this.playEvents();
                 },
-                this.reel[0].time - window.performance.now() - this.reelStartTime
+                this.reelStartTime + this.reel[0].time - window.performance.now()
             );
         }
     }

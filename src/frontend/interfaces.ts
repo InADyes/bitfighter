@@ -16,4 +16,5 @@ export interface State {
         onClick: () => void;
     }[] | null;
     settings: FrontEndSettings | null;
+    view: 'bitBoss' | 'bitFighter';
 }
