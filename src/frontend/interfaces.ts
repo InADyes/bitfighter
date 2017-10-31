@@ -11,5 +11,8 @@ export interface State {
     combatants: FrontendCharacter[];
     queue: QueueItem[];
     characterList: CharacterListItem[];
-    characterChoices?: CharacterCard[];
+    characterChoices?: {
+        card: CharacterCard;
+        onClick: () => void;
+    }[];
 }

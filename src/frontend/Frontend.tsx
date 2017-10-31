@@ -1,4 +1,5 @@
 import * as ReactDOM from 'react-dom';
+import * as React from 'react';
 
 import {
     BackToFrontMessage,
@@ -27,9 +28,9 @@ export class Frontend {
     private settings: FrontEndSettings | null = null;
     constructor(
         private container: HTMLDivElement,
-        private readonly emitGameEvent: (gameSlug: string, message: FrontToBackMessage) => void
+        private readonly emitGameEvent: (gameSlug: 'bitFighter', message: FrontToBackMessage) => void
     ) {
-        this.emitGameEvent('bitFigher', {
+        this.emitGameEvent('bitFighter', {
             requestReel: true
         })
     }
@@ -41,7 +42,14 @@ export class Frontend {
         if (m.newReel)
             this.newReel(m.newReel);
         if (m.characterChoices && this.settings && this.characterChoicesTimout === null) {
-            this.state.characterChoices = m.characterChoices;
+            this.state.characterChoices = m.characterChoices.map((c, i) => ({
+                card: c,
+                onClick: () => {
+                    this.state.characterChoices = [];
+                    this.render();
+                    this.emitGameEvent('bitFighter', {characterChoice: i});
+                } 
+            }));
             this.characterChoicesTimout = window.setTimeout(
                 () => {
                     this.state.characterChoices = [];
@@ -81,8 +89,8 @@ export class Frontend {
     }
 
     private render() {
-        ReactDOM.render(
-            this.reactRoot.render(),
+        const test = ReactDOM.render(
+            <ReactRoot {...this.state} />,
             this.container 
         );
     }
@@ -122,11 +130,11 @@ export class Frontend {
                     const time = this.reel[0].time;
                     do {
                         this.applyNextEvent();
-                    } while (this.reel[0].time === time);
+                    } while (this.reel[0] && this.reel[0].time === time);
                     this.render();
                     this.playEvents();
                 },
-                window.performance.now() - this.reelStartTime - this.reel[0].time
+                this.reel[0].time - window.performance.now() - this.reelStartTime
             );
         }
     }

@@ -1,8 +1,4 @@
-export interface CharacterChoice {
-    choice: number;
-}
-
 export interface FrontToBackMessage {
-    characterChoice?: CharacterChoice;
+    characterChoice?: number;
     requestReel?: true;
 }

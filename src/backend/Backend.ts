@@ -193,7 +193,7 @@ export class Backend {
      */
     public receivedFanGameState(id: string, choice: FrontToBackMessage) {
         if (choice.characterChoice)
-            this.characterChoiceHandler.completeChoice(id, choice.characterChoice.choice, true);
+            this.characterChoiceHandler.completeChoice(id, choice.characterChoice, true);
         if (choice.requestReel)
             this.initFans(id);
     }

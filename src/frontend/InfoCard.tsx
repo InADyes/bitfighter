@@ -5,36 +5,38 @@ import { CharacterCard as CharacterCardInfo } from '../shared/interfaces/backToF
 import { FrontToBackMessage } from '../shared/interfaces/frontToBackMessage';
 
 export default function InfoCard(
-    info: CharacterCardInfo,
-    options: {key?: number, onClick?: () => void} = {}
+    props: {
+        card: CharacterCardInfo;
+        onClick?: () => void;
+    }
 ) {
     let classes = 'characterCard';
 
-    if (info.selectable === false)
+    if (props.card.selectable === false)
         classes += ' not_selectable';
-    if (info.bitBossCheerMote)
+    if (props.card.bitBossCheerMote)
         classes += ' cheermote';
 
-    return <div className={classes} key={options.key} onClick={options.onClick}>
+    return <div className={classes} onClick={props.card.selectable ?props.onClick : undefined}>
         <div className="inner">
-            <h3 className={info.rarity}>{info.className}</h3>
-            <div className="image" style={{backgroundImage: `url('${ info.art }')`}}>
-                {info.bitBossCheerMote ? <div className="cheermoteBadge">
+            <h3 className={props.card.rarity}>{props.card.className}</h3>
+            <div className="image" style={{backgroundImage: `url('${ props.card.art }')`}}>
+                {props.card.bitBossCheerMote ? <div className="cheermoteBadge">
                     <img src="https://s3.amazonaws.com/operaevent-gather/tier_10000.gif" />
                     <p>BitBoss<br/>Cheermote<br/>Exclusive</p>
-                </div> : ''}
+                </div> : undefined}
                 <div className="hoverWrap">
-                    <div className="flavorText">{info.flavorText}</div>
+                    <div className="flavorText">{props.card.flavorText}</div>
                 </div>
             </div>
             <div className="left">
                 <div className="skill">
-                    <h4 className={info.rarity}>{info.buffName}</h4>
-                    <p><img src={ info.buffArt }/>{ info.skillText }</p>
+                    <h4 className={props.card.rarity}>{props.card.buffName}</h4>
+                    <p><img src={ props.card.buffArt }/>{ props.card.skillText }</p>
                     <div className="clear"></div>
                 </div>
                 <div className="rarity">
-                    <h4 className={info.rarity}>{info.rarity}</h4>
+                    <h4 className={props.card.rarity}>{props.card.rarity}</h4>
                 </div>
             </div>
             <div className="stats">

@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import { FrontendCharacter } from '../shared/interfaces/backToFrontMessage';
 
-export default function Fight(combatants: FrontendCharacter[]) {
-    return combatants.map((c, i) => 
+export default function Fight(props: {combatants: FrontendCharacter[]}) {
+    return <div id="fight"> {props.combatants.map((c, i) => 
         <div className="combatant" key={i}>
             <div>
                 <div className="hitPonts">{`${c.currentHitPoints}/${c.maxHitPoints}`}</div>
@@ -11,5 +11,5 @@ export default function Fight(combatants: FrontendCharacter[]) {
             </div>
             <img src={c.art} alt={c.className}/>
         </div>
-    );
+    )}</div>;
 }
