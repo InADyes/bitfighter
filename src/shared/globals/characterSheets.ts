@@ -365,7 +365,7 @@ export const characterSheets: Readonly<Character>[] = [
             },
             {
                 odds: 10,
-                buff: Buff.buffs.swashbucklerBuff
+                buff: Buff.buffs.swashbuckler
             }
         ],
         name: 'Swashbuckler',
