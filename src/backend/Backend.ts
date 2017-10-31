@@ -192,7 +192,7 @@ export class Backend {
      * Called when the front end sends something back. Routs the message parts.
      */
     public receivedFanGameState(id: string, choice: FrontToBackMessage) {
-        if (choice.characterChoice)
+        if (choice.characterChoice !== undefined)
             this.characterChoiceHandler.completeChoice(id, choice.characterChoice, true);
         if (choice.requestReel)
             this.initFans(id);

@@ -82,7 +82,7 @@ window.addEventListener('load', function(){
             window.setTimeout(() => {
                 console.log('message, front to back:', message);
                 let id = '-1';
-                if (message.characterChoice)
+                if (message.characterChoice !== undefined)
                     id = requestIDs.shift() || '-1';
     
                 backend.receivedFanGameState(id, message);
