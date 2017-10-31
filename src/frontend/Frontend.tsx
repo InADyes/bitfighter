@@ -45,6 +45,10 @@ export class Frontend {
             this.state.characterChoices = m.characterChoices.map((c, i) => ({
                 card: c,
                 onClick: () => {
+                    if (this.characterChoicesTimout) {
+                        window.clearTimeout(this.characterChoicesTimout);
+                        this.characterChoicesTimout = null;
+                    }
                     this.state.characterChoices = [];
                     this.render();
                     this.emitGameEvent('bitFighter', {characterChoice: i});
@@ -52,6 +56,7 @@ export class Frontend {
             }));
             this.characterChoicesTimout = window.setTimeout(
                 () => {
+                    this.characterChoicesTimout = null;
                     this.state.characterChoices = [];
                     this.render();
                 },

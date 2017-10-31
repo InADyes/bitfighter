@@ -21,8 +21,8 @@ export default function InfoCard(
         <div className="inner">
             <h3 className={props.card.rarity}>{props.card.className}</h3>
             <div className="image" style={{backgroundImage: `url('${ props.card.art }')`}}>
-                {props.card.bitBossCheerMote ? <div className="cheermoteBadge">
                     <img src="https://s3.amazonaws.com/operaevent-gather/tier_10000.gif" />
+                {props.card.bitBossCheerMote ? <div className="cheermoteBadge">
                     <p>BitBoss<br/>Cheermote<br/>Exclusive</p>
                 </div> : undefined}
                 <div className="hoverWrap">

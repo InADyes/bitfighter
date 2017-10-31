@@ -2,7 +2,7 @@ import { pickCharacter } from './shared/characterPicker';
 import { Backend } from './backend/Backend';
 import { Frontend } from './frontend/Frontend';
 import { BackToFrontMessage, FrontEndSettings } from './shared/interfaces/backToFrontMessage';
-import { FrontToBackMessage, CharacterChoice } from './shared/interfaces/frontToBackMessage';
+import { FrontToBackMessage } from './shared/interfaces/frontToBackMessage';
 
 
 window.addEventListener('load', function(){
