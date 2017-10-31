@@ -47,7 +47,7 @@
     height: 0px;
     text-align: center;
     .characterCard {
-      width: 150px;
+      height: 25vw;
     }
   }
   &:hover .cardWrap {
@@ -68,14 +68,13 @@
     cursor: pointer;
   }
   .characterCard {
-    width: 25vw;
-    height: 50vw;
     position: relative;
   }
 }
 
 .characterCard {
-  max-width: 200px;
+  width: 25vw;
+  height: 50vw;
   animation: .5s dropInFade both;
   display: inline-block;
   margin: 0 .3vw .7vw .3vw;
@@ -142,6 +141,9 @@
   h3 {
     text-align:center;
     color: white;
+    &.common {
+      color: black;
+    }
     padding: 1vw 0;
     font-size: 2vw;
     margin-top: 0;
@@ -164,7 +166,7 @@
     top: -0.7vw;
     background: black;
     padding: 1% 2%;
-    width: 33%;
+    max-width: 33%;
     -ms-transform: rotate(-10deg); /* IE 9 */
     -webkit-transform: rotate(-10deg); /* Safari */
     transform: rotate(-10deg);
@@ -172,7 +174,12 @@
       color: white;
       float:left;
       text-align: left;
-      font-size: .6vw;
+      font-size: 1.4vw;
+    }
+    img {
+      width: 6vh;
+      float: left;
+      padding-right: 2%;
     }
   }
 
@@ -246,6 +253,9 @@
       padding: 0.1vw;
       text-align: center;
       color: white;
+      &.common {
+        color: black;
+      }
       font-size: 1.3vw;
     }
   }
@@ -259,6 +269,9 @@
       padding: 0.3vw 0vw;
       text-align: center;
       color: white;
+      &.common {
+        color: black;
+      }
       font-size: 1.2vw;
     }
   }
