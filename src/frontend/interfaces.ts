@@ -7,7 +7,6 @@ import {
 
 export interface State {
     timerEndTime: number;
-    hoverCards: CharacterCard[];
     combatants: FrontendCharacter[];
     queue: QueueItem[];
     characterList: CharacterListItem[];

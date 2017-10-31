@@ -19,7 +19,6 @@ export class Frontend {
     private reel: GraphicsEvent[] = [];
     private state: State = {
         timerEndTime: 0,
-        hoverCards: [],
         combatants: [],
         queue: [],
         characterList: []

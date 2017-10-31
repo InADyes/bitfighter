@@ -19,7 +19,7 @@ export class ReactRoot extends React.Component {
                 : ''}
             {time > -100 ? <CountDown time={time} /> : ''} 
             <Fight combatants={this.props.combatants} />
-            <div id="hoverCards">{this.props.hoverCards.map(c => <InfoCard card={c} />)}</div>
+            {/* <div id="hoverCards">{this.props.combatants.map(c => <InfoCard card={c.card} />)}</div> */}
         </div>;
     }
 }

@@ -32,8 +32,16 @@
   flex-direction: row;
   .combatant {
     height: 100%;
+    position: relative;
     img {
       height: 100%;
+    }
+    .characterCard {
+      position: fixed;
+      display: none;
+    }
+    &:hover .characterCard {
+      display: block;
     }
   }
 }
@@ -49,14 +57,17 @@
   .characterCard:not(.not_selectable) {
     cursor: pointer;
   }
+  .characterCard {
+    width: 25%;
+    height: 75%;
+  }
 }
 
 .characterCard {
+  max-width: 200px;
   animation: .5s dropInFade both;
-  width: 25%;
-  margin: 0 .5vh 1vh .5vh;
   display: inline-block;
-  height: 75%;
+  margin: 0 .5vh 1vh .5vh;
   font-family: 'Press Start 2P';
   border: 2px solid #000;
   box-sizing: border-box;  

@@ -8,6 +8,7 @@ export default function InfoCard(
     props: {
         card: CharacterCard;
         onClick?: () => void;
+        noSprite?: boolean;
     }
 ) {
     let classes = 'characterCard';
@@ -26,7 +27,7 @@ export default function InfoCard(
         </div>}
         <div className="inner">
             <h3 className={props.card.rarity}>{props.card.className}</h3>
-            <div className="image" style={{backgroundImage: `url('${ props.card.art }')`}}>
+            {props.noSprite ? undefined : <div className="image" style={{backgroundImage: `url('${ props.card.art }')`}}>
                 {props.card.bitBossCheerMote ? <div className="cheermoteBadge">
                     <img src="https://s3.amazonaws.com/operaevent-gather/tier_10000.gif" />
                     <p>BitBoss<br/>Cheermote<br/>Exclusive</p>
@@ -34,7 +35,7 @@ export default function InfoCard(
                 <div className="hoverWrap">
                     <div className="flavorText">{props.card.flavorText}</div>
                 </div>
-            </div>
+            </div>}
             <div className="left">
                 <div className="skill">
                     <h4 className={props.card.rarity}>{props.card.buffName}</h4>
