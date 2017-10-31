@@ -46,7 +46,37 @@ export default function InfoCard(
                 </div>
             </div>
             <div className="stats">
+                <table><tbody>
+                    <tr>
+                        <td>Health</td>
+                        <td colSpan={2}>{props.card.baseHealth}</td>
+                    </tr>
+                    <tr className="bonusHealth">
+                        <td>Bonus</td>
+                        <td colSpan={2}>{props.card.bonusHealth}</td>
+                    </tr>
+                    {Object.keys(props.card.stats).map((k, i) => (
+                        <Stat name={k} value={props.card.stats[k]} key={i}/>
+                    ))}
+                    <tr>
+                        <td>Level</td>
+                        <td colSpan={2}>{props.card.level}</td>
+                    </tr>
+                </tbody></table>
             </div>
         </div>
     </div>;
+}
+
+function Stat(props: {name: string; value: number}) {
+    return <tr>
+        <td>{props.name}</td>
+        <td className="bar">
+            <div
+                className="innerBar"
+                style={{width: `${props.value * 10}%`}}
+                >
+                </div>
+            </td>
+        </tr>
 }
