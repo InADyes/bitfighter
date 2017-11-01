@@ -13,11 +13,11 @@ export default class CountDown extends React.Component {
     }
 
     componentDidMount() {
-        // this.intervalID = window.setInterval(
-        //     () => {
-        //         this.setState({time: this.state.time});
-        //     }
-        // );
+        this.intervalID = window.setInterval(
+            () => {
+                this.setState({time: this.state.time});
+            }
+        );
     }
 
     componentWillUnmount() {
@@ -25,6 +25,6 @@ export default class CountDown extends React.Component {
     }
 
     render() {
-        return <div id="countDown">{this.state.time}</div>
+        return <div id="countDown">{Math.floor(this.state.time / 1000)}</div>
     }
 }
