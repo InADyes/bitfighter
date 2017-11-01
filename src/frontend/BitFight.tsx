@@ -23,7 +23,7 @@ export default function BitFight(
             <Combatant
                 combatant={c}
                 key={i}
-                side={i < 1 ? 'right' : 'left'}
+                direction={i < 1 ? 'right' : 'left'}
                 animateToggle={false}
                 />
         ))}

@@ -6,16 +6,19 @@ import InfoCard from './InfoCard';
 export default function Combatant(
     props: {
         combatant: FrontendCharacter,
-        side: 'left' | 'right',
+        direction: 'left' | 'right',
         animateToggle: boolean
     }
 ) {
     const c = props.combatant;
-
+    console.log(props.direction);
     return <div className="combatant">
-                {props.side === 'right'
-                    ? [<Char art={c.art} className={c.className} />, <HpBar currentHitPoints={c.currentHitPoints} maxHitPoints={c.maxHitPoints} name={c.name} />]
-                    : [<HpBar currentHitPoints={c.currentHitPoints} maxHitPoints={c.maxHitPoints} name={c.name} />, <Char art={c.art} className={c.className} />]}
+                {props.direction === 'left'
+                    ? <Char art={c.art} className={c.className} />
+                    : <HpBar currentHitPoints={c.currentHitPoints} maxHitPoints={c.maxHitPoints} name={c.name} />}
+                {props.direction === 'left'
+                    ? <HpBar currentHitPoints={c.currentHitPoints} maxHitPoints={c.maxHitPoints} name={c.name} />
+                    : <Char art={c.art} className={c.className} />}
                 <div className="cardWrap">
                     <InfoCard card={c.card} noSprite={true}/>
                 </div>
@@ -30,7 +33,7 @@ function Char(
 ) {
     return (
         <div className="charImages">
-            <img src={props.art} alt={props.className}/>
+            <img src={props.art} alt={props.className} className="charImg"/>
             <div className="buffs"></div>
         </div>
     );
