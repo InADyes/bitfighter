@@ -4,7 +4,11 @@ import { FrontendCharacter } from '../shared/interfaces/backToFrontMessage';
 import InfoCard from './InfoCard';
 
 export default function Combatant(
-    props: {combatant: FrontendCharacter}
+    props: {
+        combatant: FrontendCharacter,
+        side: 'left' | 'right',
+        animateToggle: boolean
+    }
 ) {
     const c = props.combatant;
 

@@ -13,15 +13,15 @@ export default class CountDown extends React.Component {
     }
 
     componentDidMount() {
-        this.intervalID = window.setInterval(
-            () => {
-                this.setState({time: this.state.time});
-            }
-        );
+        // this.intervalID = window.setInterval(
+        //     () => {
+        //         this.setState({time: this.state.time});
+        //     }
+        // );
     }
 
     componentWillUnmount() {
-
+        console.log('unmount');
     }
 
     render() {
