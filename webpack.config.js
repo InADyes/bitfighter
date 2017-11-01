@@ -10,27 +10,9 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = [
     {
-        entry: {
-            viewer: './src/viewer.ts',
-        },
-        output: {
-            filename: './dist/[name].js'
-        },
-        resolve: {
-            extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']
-        },
-        module: {
-            loaders: [
-                // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
-                { test: /\.tsx?$/, loader: 'ts-loader' }
-            ]
-        },
-        devtool: 'source-map'
-    },
-    {
         target: 'node',
         entry: {
-            BitFighter: './src/back_end/BitFighter.ts'
+            BitFighter: './src/backend/Backend.ts'
         },
         output: {
             filename: './dist/[name].js',
