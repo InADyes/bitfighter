@@ -14,7 +14,7 @@ export default function Combatant(
     console.log(props.direction);
     return <div className="combatant">
                 {props.direction === 'left'
-                    ? <Char art={c.art} className={c.className} />
+                    ? <Char art={c.art} className={c.className} direction={props.direction} />
                     : <HpBar currentHitPoints={c.currentHitPoints} maxHitPoints={c.maxHitPoints} name={c.name} />}
                 {props.direction === 'left'
                     ? <HpBar currentHitPoints={c.currentHitPoints} maxHitPoints={c.maxHitPoints} name={c.name} />
@@ -28,12 +28,13 @@ export default function Combatant(
 function Char(
     props: {
         art: string,
-        className: string
+        className: string,
+        direction: string        
     }
 ) {
     return (
         <div className="charImages">
-            <img src={props.art} alt={props.className} className="charImg"/>
+            <img src={props.art} alt={props.className} className={props.direction == 'left' ? "charImg player2" : "charImg"}/>
             <div className="buffs"></div>
         </div>
     );
