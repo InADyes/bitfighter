@@ -5,6 +5,7 @@ import InfoCard from './InfoCard';
 import BitFight from './BitFight';
 import ChoiceCards from './ChoiceCards';
 import BitBoss from './BitBoss';
+import CountDown from './CountDown';
 
 export class ReactRoot extends React.Component {
     public props: State;
@@ -28,8 +29,8 @@ export class ReactRoot extends React.Component {
     }
 }
 
-function CountDown(props: {time: number}) {
-    return <div id="coutdown">
-        {Math.round(props.time / 1000)}
-        </div>
-}
+// function CountDown2(props: {time: number}) {
+//     return <div id="coutdown">
+//         {Math.round(props.time / 1000)}
+//         </div>
+// }

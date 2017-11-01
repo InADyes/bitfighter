@@ -20,7 +20,12 @@ export default function BitFight(
 
     return <div id="combatantsWrapper" style={style}>
         {props.combatants.map((c, i) => (
-            <Combatant combatant={c} key={i} />
+            <Combatant
+                combatant={c}
+                key={i}
+                side={i < 1 ? 'right' : 'left'}
+                animateToggle={false}
+                />
         ))}
         </div>;
 }
