@@ -11,7 +11,6 @@ export default function Combatant(
     }
 ) {
     const c = props.combatant;
-    console.log(props.direction);
     return <div className="combatant">
                 {props.direction === 'left'
                     ? <Char art={c.art} className={c.className} direction={props.direction} />
