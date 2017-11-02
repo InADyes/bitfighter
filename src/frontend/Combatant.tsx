@@ -18,7 +18,7 @@ export default function Combatant(
                     : <HpBar currentHitPoints={c.currentHitPoints} maxHitPoints={c.maxHitPoints} name={c.name} />}
                 {props.direction === 'left'
                     ? <HpBar currentHitPoints={c.currentHitPoints} maxHitPoints={c.maxHitPoints} name={c.name} />
-                    : <Char art={c.art} className={c.className} />}
+                    : <Char art={c.art} className={c.className} direction={props.direction}/>}
                 <div className="cardWrap">
                     <InfoCard card={c.card} noSprite={true}/>
                 </div>
