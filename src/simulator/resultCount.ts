@@ -56,5 +56,4 @@ export function resultCount() {
     let results = countPairStats(chars, count);
 
     printResults(results);
-    console.log(`average kills, ${ results[1].losses / results[0].losses }`)
 }

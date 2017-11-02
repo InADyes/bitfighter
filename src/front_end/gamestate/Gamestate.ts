@@ -54,7 +54,7 @@ export class GameState {
 			window.setTimeout(() => {this.newMessage(msg, hasTimer)}, 10);
 			return;
 		}
-		console.log(`TIM MSG:`, msg.characters);
+		// console.log(`TIM MSG:`, msg.characters);
 		// Update hover cards
 		this.characterCards = msg.characters;
 		this.characterStateChange(msg.characters);
@@ -86,19 +86,19 @@ export class GameState {
 					this.player1 = new Player.Player(msg.characters[0], 0, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt, this.align);
 					this.currentBoss = this.player1.getBitBossInfo();
 					updateBitBoss({boss: this.currentBoss});
-					console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
+					// console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
 					recalcHp(0, this.currentBoss.hp, this.currentBoss.maxHp, null);
 					if (msg.characters[1]) {
 						this.player2 = new Player.Player(msg.characters[1], 1, this.canvas, this.scale, this.charArt, this.buffArt, this.atkArt, this.align);
 						if (hasTimer) {
 							window.setTimeout(()=>{
 								flip('back');
-								console.log("TIM: flip back");
+								// console.log("TIM: flip back");
 							}, 4000)
 						}
 						else {
 							flip('back');
-							console.log("TIM: flip back");
+							// console.log("TIM: flip back");
 						}
 						this.ogTime = performance.now();
 					}
@@ -207,7 +207,7 @@ export class GameState {
 			this.player1.clearBuffs();
 			if (this.player2) {
 				this.currentBoss = this.player2.getBitBossInfo();
-				console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
+				// console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
 				updateBitBoss({boss: this.currentBoss});
 				this.player2.clearBuffs();
 			}
@@ -262,7 +262,7 @@ export class GameState {
 		// If bitfighter mode idles for full amount, switch to bitboss mode
 		this.idleId = window.setTimeout(
 			() => {
-				console.log("TIM: flip to front");
+				// console.log("TIM: flip to front");
 				flip('front')
 			}, 4000
 		);
@@ -322,7 +322,7 @@ export class GameState {
 			this.player1.updateBossMessage(str);
 			this.currentBoss = this.player1.getBitBossInfo();
 			updateBitBoss({ boss: this.currentBoss });
-			console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
+			// console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
 		}
 	}
 
@@ -333,7 +333,7 @@ export class GameState {
 			this.player1.updateEmote(str);
 			this.currentBoss = this.player1.getBitBossInfo();
 			updateBitBoss({ boss: this.currentBoss });
-			console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
+			// console.log(`TIM SAYS: UPDATE BITBOSS`, this.currentBoss);
 		}
 	}
 

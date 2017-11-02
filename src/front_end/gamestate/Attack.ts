@@ -108,7 +108,6 @@ export class Attack {
     private updateImgs() {
         this.checkChar();
         for (let i = 0; i < this.imgs.length; i++) {
-            console.log("in update images",this.left);
             this.imgs[i].set({
                 left: this.left,
                 top: this.artTop * this.scale, 
