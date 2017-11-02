@@ -19,6 +19,10 @@
    src: url(~'./fonts/LemonMilklight.otf');
 }
 
+body {
+  background-color: orange;///////////////////////////////////////////////////////
+}
+
 #bitFighter {
   position: relative;
   width: 100%;
@@ -74,7 +78,6 @@
 }
 
 .combatant {
-  background-color: orange;//////////////////////////////
   position: relative;
   // display: inline-flex;
   // flex-direction: row;
@@ -83,6 +86,7 @@
   align-items: center;
   height: 100%;
   .charImages {
+    background-color: green;
     height: 100%;
     .charImg {
         max-width: 100%;
@@ -94,7 +98,7 @@
     .buffs {
         border: 1px solid black;
         position: relative;
-        top: 20%;
+        top: 10%;
         width: 100%;
         height: 35%;
         background-color: pink;
@@ -107,19 +111,24 @@
       top: 0%;
       height: 100%;
       width: 3.5vw;
+      font-family: 'Concert One';
+      font-size: 1.3em;
+      text-shadow: 0px 0px 3px white;
       .hp {
           position: absolute;
-          top: -20%;
+          top: -15%;
       }
       .name {
           position: absolute;
           top: 100%;
+          white-space: nowrap;
       }
       .redBar {
           position: absolute;
           width: 35%;
           height: 100%;
           background-color: rgb(245, 82, 82);
+          box-shadow: 0px 0px 10px white;
       }
       .yellowBar {
           position: absolute;
@@ -133,7 +142,7 @@
           height: 100%;
           background-color: rgb(91, 238, 91);
       }
-}
+  }
   .cardWrap {
     position: absolute;
     bottom: 0px;
@@ -416,5 +425,81 @@
     clear:both;
     width: 100;
   }
+}
 
+.charSelectTimerWrapper {
+  position: absolute;
+  top: 85%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 12vw;
+  overflow: hidden;
+  z-index: 100;
+  .charSelectTimerFlipper {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    animation-name: slideIn;
+    animation-duration: 1.8s;
+    background-color: yellow;
+    z-index: 6;
+    transform-style: preserve-3d;
+    .charSelectTimerBack {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      background-color: rgba(236, 235, 235, 1);
+      border: .2vw solid rgba(236, 235, 235, 1);
+      box-shadow: inset 0 0 0 .2vw black;
+      border-radius: 50%;
+      width: 9vw;
+      height: 9vw;
+      backface-visibility: hidden;
+      transform: rotateY(180deg);
+      text-align: center;
+    }
+    #bitbossEmoji {
+      max-width: 100%;
+      max-height: 100%;
+      width: 60%;
+      height: 60%;
+      position: relative;
+      opacity: .5;
+    }
+    .charSelectTimer {
+      background-color: rgba(236, 235, 235, 0.6);
+      position: absolute;
+      width: 9vw;
+      height: 9vw;
+      border-radius: 50%;
+      border: .2vw solid rgba(236, 235, 235, 0.6);
+      box-shadow: inset 0 0 0 .2vw black;
+      font-size: 7vw;
+      color: red;
+      font-family: "Concert One";
+      backface-visibility: hidden;
+      text-align: center;
+    }
+    @-webkit-keyframes slideIn {
+      0% {
+        top: -100%;
+        transform: rotateY(180deg);
+      }
+      20% {
+        top: -100%;
+      }
+      45% {
+        top: 20%;
+        transform: rotateY(180deg);
+      }
+      70% {
+        top: 0%;
+      }
+      100% {
+        transform: rotateY(0deg);
+      }
+    }
+  }
 }
