@@ -31,18 +31,17 @@ export class ReactRoot extends React.Component {
             return null;
 
         return <div id="bitFighter">
-            <ChoiceCards
-                choices={this.props.characterChoices}
+            <ChoiceCards {...this.props.characterChoices}
                 />
-            <CountDown time={this.props.countDown} />
-            <BitFight
+            <CountDown time={this.props.countDownTo} />
+            {/* <BitFight
                 combatants={this.state.combatants}
                 position={this.state.settings.bitFighterPosition}
                 />
             <BitBoss
                 boss={this.state.combatants[0]}
                 position={this.state.settings.bitBossPosition}
-                />
+                /> */}
             </div>;
     }
 }
