@@ -8,14 +8,18 @@ import Combatant from './Combatant';
 export default function BitFight(
     props: {
         combatants: FrontendCharacter[];
-        settings: FrontEndSettings;
+        position: {
+            x: number;
+            y: number;
+            scale: number;
+        };
     }
 ) {
     const style = {
-        left: `${ props.settings.bitFighterPosition.x }%`,
-        top: `${ props.settings.bitFighterPosition.y }%`,
-        height: `${ props.settings.bitFighterPosition.scale * 5 }vw`,
-        width: `${ props.settings.bitFighterPosition.scale * 30 }vw`
+        left: `${ props.position.x }%`,
+        top: `${ props.position.y }%`,
+        height: `${ props.position.scale * 5 }vw`,
+        width: `${ props.position.scale * 30 }vw`
     }
 
     return <div id="combatantsWrapper" style={style}>

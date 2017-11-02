@@ -2,14 +2,16 @@ import * as React from 'react';
 
 export default class CountDown extends React.Component {
     public props: {
-        time: number; // in seconds
+        time?: number;
     };
     public state: {time: number};
     private intervalID: number | null;
 
-    constructor(props: {time: number}) {
+    constructor(props: {time?: number}) {
         super(props);
-        this.state = props;
+        this.state = {
+            time: props.time || -1
+        };
     }
 
     clearInterval() {

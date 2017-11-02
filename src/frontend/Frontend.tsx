@@ -13,17 +13,22 @@ import { ReactRoot } from './ReactRoot';
 import { assertNever } from '../shared/utility';
 
 export class Frontend {
-    private reelStartTime: number = 0;
-    private reelTimout: number | null = null;
-    private characterChoicesTimout: number | null = null;
-    private reel: GraphicsEvent[] = [];
     private state: State = {
-        countDown: 10,
-        combatants: [],
+        countDownTo: 0,
+        fight: {
+            characters: [],
+            reel: []
+        },
         queue: [],
         characterList: [],
         settings: null,
-        characterChoices: null,
+        characterChoices: {
+            cards: [],
+            endTime: 0,
+            callBack: (choice) => {
+                this.emitGameEvent('bitFighter', {characterChoice: choice});
+            }
+        },
         view: 'bitBoss'
     };
     private reactRoot = new ReactRoot(this.state);
@@ -42,54 +47,29 @@ export class Frontend {
             this.state.settings = m.settings;
         if (m.newReel)
             this.newReel(m.newReel);
-        if (m.characterChoices && this.characterChoicesTimout === null) {
-            this.state.characterChoices = m.characterChoices.map((c, i) => ({
-                card: c,
-                onClick: () => {
-                    if (this.characterChoicesTimout) {
-                        window.clearTimeout(this.characterChoicesTimout);
-                        this.characterChoicesTimout = null;
-                    }
-                    this.state.characterChoices = null;
-                    this.render();
-                    this.emitGameEvent('bitFighter', {characterChoice: i});
-                } 
-            }));
-            this.characterChoicesTimout = window.setTimeout(
-                () => {
-                    this.characterChoicesTimout = null;
-                    this.state.characterChoices = null;
-                    this.render();
-                },
-                this.state.settings ? this.state.settings.cardsTimeout : 0
-            );
-        }
+        if (m.characterChoices)
+            this.state.characterChoices.cards = m.characterChoices
         if (m.queue)
             this.state.queue = m.queue;
         if (m.timer)
-            this.state.countDown = m.timer;
-        if (
-            m.updateBossMessage
-            && this.state.combatants[m.updateBossMessage.championIndex]
+            this.state.countDownTo = window.performance.now() + m.timer;
+        if (m.updateBossMessage
+            && this.state.fight.characters[m.updateBossMessage.championIndex]
         ) {
-            this.state.combatants[m.updateBossMessage.championIndex].bossMessage = m.updateBossMessage.bossMessage;
+            this.state.fight.characters[m.updateBossMessage.championIndex].bossMessage = m.updateBossMessage.bossMessage;
         }
         if (
             m.updateBossEmoticonURL
-            && this.state.combatants[m.updateBossEmoticonURL.championIndex]
+            && this.state.fight.characters[m.updateBossEmoticonURL.championIndex]
         ) {
-            this.state.combatants[m.updateBossEmoticonURL.championIndex].bossEmoticonURL = m.updateBossEmoticonURL.bossEmoticonURL;
+            this.state.fight.characters[m.updateBossEmoticonURL.championIndex].bossEmoticonURL = m.updateBossEmoticonURL.bossEmoticonURL;
         }
         if (m.characterList)
             this.state.characterList = m.characterList;
         if (m.bossMessageChangeFailed)
             window.alert('boss message name change failed');
 
-        this.render();
-    }
-
-    private render() {
-        const test = ReactDOM.render(
+        ReactDOM.render(
             <ReactRoot {...this.state} />,
             this.container 
         );
@@ -101,10 +81,6 @@ export class Frontend {
         } else {
             this.startReel(reel);
         }
-    }
-
-    private updateTimer() {
-
     }
 
     private startReel(reel: ReelMessage) {

@@ -1,20 +1,23 @@
+import { GraphicsEvent } from '../shared/interfaces/graphicsEvents';
 import {
     CharacterCard,
     CharacterListItem,
     FrontendCharacter,
     QueueItem,
-    FrontEndSettings
+    FrontEndSettings,
+    ReelMessage
 } from '../shared/interfaces/backToFrontMessage';
 
 export interface State {
-    countDown: number;
-    combatants: FrontendCharacter[];
+    countDownTo: number;
+    fight: ReelMessage;
     queue: QueueItem[];
     characterList: CharacterListItem[];
     characterChoices: {
-        card: CharacterCard;
-        onClick: () => void;
-    }[] | null;
+        cards: CharacterCard[];
+        endTime: number;
+        callBack: (character: number) => void;
+    };
     settings: FrontEndSettings | null;
     view: 'bitBoss' | 'bitFighter';
 }
