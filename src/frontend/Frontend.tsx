@@ -24,9 +24,11 @@ export class Frontend {
         settings: null,
         characterChoices: {
             cards: [],
-            endTime: 0,
+            endTime: -1,
             callBack: (choice) => {
                 this.emitGameEvent('bitFighter', {characterChoice: choice});
+                this.state.characterChoices.endTime = -1;
+                this.render();
             }
         },
         view: 'bitBoss'
@@ -71,6 +73,10 @@ export class Frontend {
         if (m.bossMessageChangeFailed)
             window.alert('boss message name change failed');
 
+        this.render();
+    }
+
+    private render() {
         ReactDOM.render(
             <ReactRoot {...this.state} />,
             this.container 
