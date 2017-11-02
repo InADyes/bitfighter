@@ -18,10 +18,10 @@ export default function ChoiceCards(
     return (
     <div>
         <div id="choiceCards">
-            {props.choices.map((c, i) =>
+            {props.cards.map((c, i) =>
                 <InfoCard
                     card={c}
-                    onClick={() => props.pickCallback(i)}
+                    onClick={() => props.callBack(i)}
                     key={i}
                     />
             )}
