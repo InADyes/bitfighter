@@ -22,7 +22,7 @@ export default function ChoiceCards(props: {
                     60
                 </div>
                 <div className="charSelectTimerBack">
-                    bitboss icon goes here
+                    <img src="../src/images/icons/bitboss.png" id='bitbossEmoji'></img>
                 </div>
             </div>
         </div>
