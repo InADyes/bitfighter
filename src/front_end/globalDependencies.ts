@@ -14,12 +14,10 @@ declare const window: {
         readonly fanDisplayName: string;
         readonly championTypeName: string;
     }[]) => void,
-    readonly winner: (name: string) => void,
-    readonly bossTextOut: (color: string, text: string) => void,
     readonly bossMessageTooManyChanges: () => void
 };
 
-const keys: (keyof typeof window)[] = ['flip', 'receiveCharList', 'recalcHp', 'updateBitBoss', 'receiveQueue', 'winner', 'bossTextOut', 'bossMessageTooManyChanges'];
+const keys: (keyof typeof window)[] = ['flip', 'receiveCharList', 'recalcHp', 'updateBitBoss', 'receiveQueue', 'bossMessageTooManyChanges'];
 
 for (let key of keys) {
     if (typeof window[key] !== 'function' )
@@ -31,5 +29,4 @@ export const receiveCharList = window.receiveCharList;
 export const recalcHp = window.recalcHp;
 export const updateBitBoss = window.updateBitBoss;
 export const receiveQueue = window.receiveQueue;
-export const winner = window.winner;
 export const bossMessageTooManyChanges = window.bossMessageTooManyChanges;
