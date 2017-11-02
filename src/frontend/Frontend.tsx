@@ -18,7 +18,7 @@ export class Frontend {
     private characterChoicesTimout: number | null = null;
     private reel: GraphicsEvent[] = [];
     private state: State = {
-        timerEndTime: 0,
+        countDown: 10,
         combatants: [],
         queue: [],
         characterList: [],
@@ -66,14 +66,8 @@ export class Frontend {
         }
         if (m.queue)
             this.state.queue = m.queue;
-        if (m.timer) {
-            this.state.timerEndTime = window.performance.now() + m.timer;
-            for (let i = 1000; i <= m.timer; i += 1000) {
-                window.setTimeout(() => {
-                    this.render();
-                }, i)
-            }
-        }
+        if (m.timer)
+            this.state.countDown = m.timer;
         if (
             m.updateBossMessage
             && this.state.combatants[m.updateBossMessage.championIndex]

@@ -2,29 +2,52 @@ import * as React from 'react';
 
 export default class CountDown extends React.Component {
     public props: {
-        time: number;
+        time: number; // in seconds
     };
     public state: {time: number};
-    private intervalID: number;
+    private intervalID: number | null;
 
     constructor(props: {time: number}) {
         super(props);
         this.state = props;
     }
 
-    componentDidMount() {
+    clearInterval() {
+        if (this.intervalID !== null) {
+            window.clearInterval(this.intervalID);
+            this.intervalID = null;
+        } 
+    }
+
+    setInterval() {
         this.intervalID = window.setInterval(
-            () => {
-                this.setState({time: this.state.time});
-            }
+            () => this.setState((s: {time: number}) => {
+                if (s.time < 0 && this.intervalID)
+                    this.clearInterval();
+
+                return {time: s.time - 1};
+            }),
+            1000
         );
     }
 
+    componentWillReceiveProps(newProps: {time: number}) {
+        this.setState(() => newProps);
+        this.clearInterval();
+        this.setInterval();
+    }
+
+    componentDidMount() {
+        this.setInterval();
+    }
+
     componentWillUnmount() {
-        console.log('unmount');
+        this.clearInterval();
     }
 
     render() {
-        return <div id="countDown">{Math.floor(this.state.time / 1000)}</div>
+        if (this.state.time >= 0)
+            return <div id="countDown">{this.state.time}</div>
+        return null;
     }
 }

@@ -14,15 +14,13 @@ export class ReactRoot extends React.Component {
         if (this.props.settings === null)
             return null;
 
-        const time = this.props.timerEndTime - performance.now();
-
         return <div id="bitFighter">
             {this.props.characterChoices ?
                 <ChoiceCards
                     choices={this.props.characterChoices}
                     />
                 : undefined}
-            {time > -100 ? <CountDown time={time} /> : undefined} 
+            {<CountDown time={Math.floor(this.props.countDown)} />} 
             <BitFight combatants={this.props.combatants} settings={this.props.settings}/>
             <BitBoss boss={this.props.combatants[0]} position={this.props.settings.bitBossPosition}/>
             </div>;
