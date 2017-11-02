@@ -46,9 +46,11 @@ export class Frontend {
         if (m.settings)
             this.state.settings = m.settings;
         if (m.newReel)
-            this.newReel(m.newReel);
-        if (m.characterChoices)
+            this.state.fight = m.newReel
+        if (m.characterChoices && this.state.settings) {
             this.state.characterChoices.cards = m.characterChoices
+            this.state.characterChoices.endTime = performance.now() +  this.state.settings.cardsTimeout;
+        }
         if (m.queue)
             this.state.queue = m.queue;
         if (m.timer)
@@ -75,72 +77,72 @@ export class Frontend {
         );
     }
 
-    private newReel(reel: ReelMessage) {
-        if (reel.patch && reel.patch > this.reelStartTime) {
-            console.log('would do patching here');
-        } else {
-            this.startReel(reel);
-        }
-    }
+    // private newReel(reel: ReelMessage) {
+    //     if (reel.patch && reel.patch > this.reelStartTime) {
+    //         console.log('would do patching here');
+    //     } else {
+    //         this.startReel(reel);
+    //     }
+    // }
 
-    private startReel(reel: ReelMessage) {
-        this.state.combatants = reel.characters;
-        this.reel = reel.reel;
-        this.reelStartTime = window.performance.now();
+    // private startReel(reel: ReelMessage) {
+    //     this.state.combatants = reel.characters;
+    //     this.reel = reel.reel;
+    //     this.reelStartTime = window.performance.now();
 
-        // if this is a patch backdate the time and play the first event immediatly 
-        if (reel.patch && this.reel[0]) {
-            this.reelStartTime -= this.reel[0].time;
-            this.applyNextEvent();
-        }
-        this.playEvents();
-    }
+    //     // if this is a patch backdate the time and play the first event immediatly 
+    //     if (reel.patch && this.reel[0]) {
+    //         this.reelStartTime -= this.reel[0].time;
+    //         this.applyNextEvent();
+    //     }
+    //     this.playEvents();
+    // }
 
-    private playEvents() {
-        if (this.reelTimout)
-            window.clearTimeout(this.reelTimout);
-        if (this.reel[0]) {
-            this.reelTimout = window.setTimeout(
-                () => {
-                    this.reelTimout = null;
-                    const time = this.reel[0].time;
-                    do {
-                        this.applyNextEvent();
-                    } while (this.reel[0] && this.reel[0].time === time);
-                    this.render();
-                    this.playEvents();
-                },
-                this.reelStartTime + this.reel[0].time - window.performance.now()
-            );
-        }
-    }
+    // private playEvents() {
+    //     if (this.reelTimout)
+    //         window.clearTimeout(this.reelTimout);
+    //     if (this.reel[0]) {
+    //         this.reelTimout = window.setTimeout(
+    //             () => {
+    //                 this.reelTimout = null;
+    //                 const time = this.reel[0].time;
+    //                 do {
+    //                     this.applyNextEvent();
+    //                 } while (this.reel[0] && this.reel[0].time === time);
+    //                 this.render();
+    //                 this.playEvents();
+    //             },
+    //             this.reelStartTime + this.reel[0].time - window.performance.now()
+    //         );
+    //     }
+    // }
 
-    private applyNextEvent() {
-        const event = this.reel.shift();
+    // private applyNextEvent() {
+    //     const event = this.reel.shift();
 
-        if (event === undefined) {
-            console.error('no next event');
-            return;
-        }
+    //     if (event === undefined) {
+    //         console.error('no next event');
+    //         return;
+    //     }
 
-        switch (event.type) {
-            case 'health':
-                this.state.combatants[event.character].currentHitPoints = event.health;
-                break;
-            case 'attack':
-                console.log(`character ${ event.character} attacks`);
-                break;
-            case 'clear':
-                this.state.combatants.splice(event.character, 1);
-                break;
-            case 'text':
-                console.log('text out: ', event.text);
-                break;
-            case 'buff':
-                console.log('buff: ', event.character);
-                break;
-            default:
-                assertNever(event);
-        }
-    }
+    //     switch (event.type) {
+    //         case 'health':
+    //             this.state.combatants[event.character].currentHitPoints = event.health;
+    //             break;
+    //         case 'attack':
+    //             console.log(`character ${ event.character} attacks`);
+    //             break;
+    //         case 'clear':
+    //             this.state.combatants.splice(event.character, 1);
+    //             break;
+    //         case 'text':
+    //             console.log('text out: ', event.text);
+    //             break;
+    //         case 'buff':
+    //             console.log('buff: ', event.character);
+    //             break;
+    //         default:
+    //             assertNever(event);
+    //     }
+    // }
 }
