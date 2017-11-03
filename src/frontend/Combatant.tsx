@@ -11,22 +11,16 @@ interface Props {
     reel: GraphicsEvent[]
 }
 
-interface State {
-    combatant: FrontendCharacter;
-}
-
 export default class Combatant extends React.Component {
     public props: Props;
-    public state: State;
+    public state: FrontendCharacter;
     private timoutID: number | null = null;
     private nextEventIndex: number = 0;
 
     constructor(props: Props) {
         super(props);
 
-        this.state = {
-            combatant: props.combatant
-        };
+        this.state = props.combatant;
         this.timoutNextEvent();
     }
 
@@ -46,18 +40,14 @@ export default class Combatant extends React.Component {
     }
 
     private applyEvent(event: GraphicsEvent) {
-        this.setState((state: State) => (
-            {
-                combatant: Combatant.buildChanges(event)
-            }
+        this.setState((): Partial<FrontendCharacter> => (
+                Combatant.buildChanges(event)
         ));
     }
 
     componentWillReceiveProps(props: Props) {
-        this.setState((): State =>  (
-            {
-                combatant: props.combatant
-            }
+        this.setState((): FrontendCharacter => (
+            props.combatant
         ));
     
         this.nextEventIndex = 0;
@@ -66,6 +56,7 @@ export default class Combatant extends React.Component {
         this.timoutNextEvent();
     }
 
+    // BUG: should this be returing a partial or 
     private static buildChanges(
         ...events: GraphicsEvent[]
     ): Partial<FrontendCharacter> {
@@ -92,7 +83,7 @@ export default class Combatant extends React.Component {
     }
 
     render() {
-        const c = this.state.combatant;
+        const c = this.state;
         return (
             <div className="combatant">
                     {this.props.direction === 'left'
