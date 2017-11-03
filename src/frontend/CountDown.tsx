@@ -49,7 +49,12 @@ export default class CountDown extends React.Component {
 
     render() {
         if (this.state.time >= 0)
-            return <div id="countDown">{this.state.time}</div>
+            return (
+                <div className="timerDiv">
+                    <span className="challenger">NEW CHALLENGER</span>
+                    <span className="timer">{this.state.time}</span>
+                </div>
+            )
         return null;
     }
 }
