@@ -33,7 +33,7 @@ export class ReactRoot extends React.Component {
         return <div id="bitFighter">
             <ChoiceCards {...this.props.characterChoices}
                 />
-            <CountDown time={this.props.countDownTo} />
+            <CountDown endTime={this.props.countDownTo} />
             <BitFight
                 combatants={this.props.fight.characters}
                 position={this.props.settings.bitFighterPosition}
