@@ -1,3 +1,4 @@
+import { Packet } from '_debugger';
 import * as ReactDOM from 'react-dom';
 import * as React from 'react';
 
@@ -14,7 +15,7 @@ import { assertNever } from '../shared/utility';
 
 export class Frontend {
     private state: State = {
-        countDownTo: 0,
+        countDownTo: -1,
         fight: {
             characters: [],
             reel: []
@@ -33,7 +34,6 @@ export class Frontend {
         },
         view: 'bitBoss'
     };
-    private reactRoot = new ReactRoot(this.state);
     constructor(
         private container: HTMLDivElement,
         private readonly emitGameEvent: (gameSlug: 'bitFighter', message: FrontToBackMessage) => void
@@ -47,8 +47,10 @@ export class Frontend {
 
         if (m.settings)
             this.state.settings = m.settings;
-        if (m.newReel)
+        if (m.newReel) {
+            ajustReelTimings(m.newReel.reel);
             this.state.fight = m.newReel
+        }
         if (m.characterChoices && this.state.settings) {
             this.state.characterChoices.cards = m.characterChoices
             this.state.characterChoices.endTime = performance.now() +  this.state.settings.cardsTimeout;
@@ -151,4 +153,12 @@ export class Frontend {
     //             assertNever(event);
     //     }
     // }
+}
+
+function ajustReelTimings(reel: GraphicsEvent[]) {
+    const time = window.performance.now();
+
+    for (let event of reel) {
+        event.time += time;
+    }
 }

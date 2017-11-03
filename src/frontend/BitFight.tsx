@@ -1,3 +1,4 @@
+import { GraphicsEvent } from '../shared/interfaces/graphicsEvents';
 import * as React from 'react';
 
 import { FrontendCharacter, FrontEndSettings } from '../shared/interfaces/backToFrontMessage';
@@ -13,6 +14,7 @@ export default function BitFight(
             y: number;
             scale: number;
         };
+        reel: GraphicsEvent[];
     }
 ) {
     const style = {
@@ -28,7 +30,7 @@ export default function BitFight(
                 combatant={c}
                 key={i}
                 direction={i < 1 ? 'right' : 'left'}
-                animateToggle={false}
+                reel={props.reel}
                 />
         ))}
         </div>;

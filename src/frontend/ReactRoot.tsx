@@ -27,18 +27,19 @@ export class ReactRoot extends React.Component {
     public props: State;
 
     render() {
-        if (this.props.settings === undefined)
+        if (this.props.settings === null)
             return null;
 
         return <div id="bitFighter">
             <ChoiceCards {...this.props.characterChoices}
                 />
             <CountDown time={this.props.countDownTo} />
-            {/* <BitFight
-                combatants={this.state.combatants}
-                position={this.state.settings.bitFighterPosition}
+            <BitFight
+                combatants={this.props.fight.characters}
+                position={this.props.settings.bitFighterPosition}
+                reel={this.props.fight.reel}
                 />
-            <BitBoss
+            {/* <BitBoss
                 boss={this.state.combatants[0]}
                 position={this.state.settings.bitBossPosition}
                 /> */}
