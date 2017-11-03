@@ -29,11 +29,11 @@ export default class CountDown extends React.Component {
 
     setInterval() {
         this.intervalID = window.setInterval(
-            () => this.setState((s: {endTime: number}) => {
-                if (s.endTime < 0 && this.intervalID)
+            () => this.setState((s: State): State => {
+                if (s.timeLeft < 0 && this.intervalID)
                     this.clearInterval();
 
-                return {endTime: s.endTime - 1};
+                return {timeLeft: s.timeLeft + 1};
             }),
             1000
         );
@@ -41,7 +41,7 @@ export default class CountDown extends React.Component {
 
     componentWillReceiveProps(newProps: Props) {
         this.setState((): State => ({
-            timeLeft: newProps.endTime - window.performance.now()
+            timeLeft: Math.floor((newProps.endTime - window.performance.now()) / 1000)
         }));
         this.clearInterval();
         this.setInterval();
@@ -56,13 +56,15 @@ export default class CountDown extends React.Component {
     }
 
     render() {
+        console.log("time left: ",this.state.timeLeft);
         if (this.state.timeLeft >= 0)
             return (
-                <div className="endTimerDiv">
+                <div className="timerDiv">
                     <span className="challenger">NEW CHALLENGER</span>
-                    <span className="endTimer">{this.state.timeLeft}</span>
+                    <span className="timer">{this.state.timeLeft}</span>
                 </div>
             )
+        this.clearInterval();
         return null;
     }
 }

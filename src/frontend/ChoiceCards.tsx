@@ -43,7 +43,9 @@ export default class ChoiceCards extends React.Component{
     }
 
     componentWillReceiveProps(newProps: Props) {
-        this.setState((): State => ({ timeLeft: newProps.endTime - window.performance.now() }));
+        this.setState((): State => ({
+            timeLeft: newProps.endTime - window.performance.now()
+        }));
         this.clearInterval();
         this.setInterval();
     }
