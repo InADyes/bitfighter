@@ -30,7 +30,7 @@ export default function BitFight(
                 combatant={c}
                 key={i}
                 direction={i < 1 ? 'right' : 'left'}
-                reel={props.reel}
+                reel={props.reel.filter(e => e.character === i)}
                 />
         ))}
         </div>;

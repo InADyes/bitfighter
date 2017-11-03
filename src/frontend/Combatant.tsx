@@ -12,16 +12,83 @@ interface Props {
 }
 
 interface State {
-    combatant: FrontendCharacter
+    combatant: FrontendCharacter;
 }
 
 export default class Combatant extends React.Component {
     public props: Props;
     public state: State;
+    private timoutID: number | null = null;
+    private nextEventIndex: number = 0;
 
     constructor(props: Props) {
         super(props);
-        this.state = {combatant: props.combatant};
+
+        this.state = {
+            combatant: props.combatant
+        };
+        this.timoutNextEvent();
+    }
+
+    private timoutNextEvent(){
+        const event = this.props.reel[this.nextEventIndex];
+
+        if (event === undefined)
+            return;
+        
+        this.nextEventIndex++;
+
+        
+        this.timoutID =  window.setTimeout(
+            () => this.applyEvent(event),
+            event.time - performance.now()
+        );
+    }
+
+    private applyEvent(event: GraphicsEvent) {
+        this.setState((state: State) => (
+            {
+                combatant: Combatant.buildChanges(event)
+            }
+        ));
+    }
+
+    componentWillReceiveProps(props: Props) {
+        this.setState((): State =>  (
+            {
+                combatant: props.combatant
+            }
+        ));
+    
+        this.nextEventIndex = 0;
+        if (this.timoutID)
+            window.clearTimeout(this.timoutID);
+        this.timoutNextEvent();
+    }
+
+    private static buildChanges(
+        ...events: GraphicsEvent[]
+    ): Partial<FrontendCharacter> {
+        const character: Partial<FrontendCharacter> = {};
+
+        for (let e of events) {
+            switch(e.type) {
+                case 'health':
+                    character.currentHitPoints = e.health;
+                    break;
+                case 'attack':
+                    break;
+                case 'text':
+                    break;
+                case 'buff':
+                    break;
+                case 'clear':
+                    break;
+                
+            }
+        }
+
+        return character;
     }
 
     render() {
@@ -38,7 +105,7 @@ export default class Combatant extends React.Component {
                         <InfoCard card={c.card} noSprite={true}/>
                         </div>
                 </div>
-        )
+        );
     }
 }
 
