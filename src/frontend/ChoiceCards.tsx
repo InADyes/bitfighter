@@ -17,6 +17,7 @@ export default class ChoiceCards extends React.Component{
     public props:       Props;
     public state:       { timeLeft: number };
     private intervalID: number | null = null;
+
     constructor(props: Props) {
         super(props)
         this.state = {timeLeft: props.endTime - window.performance.now()};

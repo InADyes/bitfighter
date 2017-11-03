@@ -1,16 +1,22 @@
 import * as React from 'react';
 
-export default class CountDown extends React.Component {
-    public props: {
-        time?: number;
-    };
-    public state: {time: number};
-    private intervalID: number | null;
+interface Props {
+    endTime: number;
+}
 
-    constructor(props: {time?: number}) {
+interface State {
+    timeLeft: number;    
+}
+
+export default class CountDown extends React.Component {
+    public props:       Props;
+    public state:       State;
+    private intervalID: number | null = null;
+
+    constructor(props: Props) {
         super(props);
         this.state = {
-            time: props.time || -1
+            timeLeft: Math.floor((props.endTime - window.performance.now()) / 1000)
         };
     }
 
@@ -23,18 +29,20 @@ export default class CountDown extends React.Component {
 
     setInterval() {
         this.intervalID = window.setInterval(
-            () => this.setState((s: {time: number}) => {
-                if (s.time < 0 && this.intervalID)
+            () => this.setState((s: {endTime: number}) => {
+                if (s.endTime < 0 && this.intervalID)
                     this.clearInterval();
 
-                return {time: s.time - 1};
+                return {endTime: s.endTime - 1};
             }),
             1000
         );
     }
 
-    componentWillReceiveProps(newProps: {time: number}) {
-        this.setState(() => newProps);
+    componentWillReceiveProps(newProps: Props) {
+        this.setState((): State => ({
+            timeLeft: newProps.endTime - window.performance.now()
+        }));
         this.clearInterval();
         this.setInterval();
     }
@@ -48,11 +56,11 @@ export default class CountDown extends React.Component {
     }
 
     render() {
-        if (this.state.time >= 0)
+        if (this.state.timeLeft >= 0)
             return (
-                <div className="timerDiv">
+                <div className="endTimerDiv">
                     <span className="challenger">NEW CHALLENGER</span>
-                    <span className="timer">{this.state.time}</span>
+                    <span className="endTimer">{this.state.timeLeft}</span>
                 </div>
             )
         return null;
