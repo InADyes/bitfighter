@@ -4,7 +4,8 @@
 *.log
 
 # compiled
-/dist/**/*.js
+/build
+/dist
 /testbed/testbed.js
 *.map
 

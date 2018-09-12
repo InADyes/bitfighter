@@ -6,9 +6,10 @@
     "main": "index.js",
     "scripts": {
         "dev": "webpack",
-        "deploy": "webpack --config webpack.production.config.js",
+        "deploy": "webpack --config webpack.production.config.js && npm run copy",
         "cordova": "webpack --config webpack.cordova.config.js",
-        "test": "eslint './src/**/*.js'"
+        "test": "eslint './src/**/*.js'",
+        "copy": "cpx -R \"./build/**/*\" ./dist"
     },
     "license": "MIT",
     "devDependencies": {
@@ -22,6 +23,7 @@
         "clean-webpack-plugin": "^0.1.18",
         "copy-webpack-plugin": "^4.4.1",
         "cordova": "^8.0.0",
+        "cpx": "^1.5.0",
         "eslint": "^4.17.0",
         "eslint-config-standard": "^10.2.1",
         "eslint-plugin-import": "^2.8.0",
