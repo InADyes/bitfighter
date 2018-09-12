@@ -1,0 +1,172 @@
+{"frames": {
+
+"Attack/re_5_ATTACK_000.png":
+{
+	"frame": {"x":1,"y":153,"w":277,"h":308},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":30,"y":15,"w":277,"h":308},
+	"sourceSize": {"w":362,"h":327}
+},
+"Attack/re_5_ATTACK_002.png":
+{
+	"frame": {"x":1,"y":481,"w":335,"h":285},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":40,"w":335,"h":285},
+	"sourceSize": {"w":362,"h":327}
+},
+"Attack/re_5_ATTACK_004.png":
+{
+	"frame": {"x":581,"y":237,"w":340,"h":274},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":53,"w":340,"h":274},
+	"sourceSize": {"w":362,"h":327}
+},
+"Attack/re_5_ATTACK_006.png":
+{
+	"frame": {"x":923,"y":237,"w":299,"h":279},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":53,"y":40,"w":299,"h":279},
+	"sourceSize": {"w":362,"h":327}
+},
+"Attack/re_5_ATTACK_007.png":
+{
+	"frame": {"x":280,"y":203,"w":299,"h":276},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":48,"y":44,"w":299,"h":276},
+	"sourceSize": {"w":362,"h":327}
+},
+"Die/re_7_DIE_000.png":
+{
+	"frame": {"x":631,"y":518,"w":292,"h":311},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":80,"y":11,"w":292,"h":311},
+	"sourceSize": {"w":437,"h":390}
+},
+"Die/re_7_DIE_002.png":
+{
+	"frame": {"x":1540,"y":1,"w":323,"h":266},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":19,"y":58,"w":323,"h":266},
+	"sourceSize": {"w":437,"h":390}
+},
+"Die/re_7_DIE_003.png":
+{
+	"frame": {"x":1226,"y":1,"w":312,"h":248},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":37,"y":74,"w":312,"h":248},
+	"sourceSize": {"w":437,"h":390}
+},
+"Die/re_7_DIE_005.png":
+{
+	"frame": {"x":287,"y":1,"w":321,"h":200},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":78,"y":115,"w":321,"h":200},
+	"sourceSize": {"w":437,"h":390}
+},
+"Die/re_7_DIE_009.png":
+{
+	"frame": {"x":1,"y":1,"w":284,"h":150},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":123,"y":184,"w":284,"h":150},
+	"sourceSize": {"w":437,"h":390}
+},
+"Hurt/re_6_HURT_000.png":
+{
+	"frame": {"x":925,"y":518,"w":292,"h":311},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":86,"y":11,"w":292,"h":311},
+	"sourceSize": {"w":379,"h":340}
+},
+"Hurt/re_6_HURT_001.png":
+{
+	"frame": {"x":1224,"y":251,"w":314,"h":280},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":31,"y":44,"w":314,"h":280},
+	"sourceSize": {"w":379,"h":340}
+},
+"Hurt/re_6_HURT_002.png":
+{
+	"frame": {"x":610,"y":1,"w":306,"h":233},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":94,"w":306,"h":233},
+	"sourceSize": {"w":379,"h":340}
+},
+"Hurt/re_6_HURT_003.png":
+{
+	"frame": {"x":918,"y":1,"w":306,"h":234},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":93,"w":306,"h":234},
+	"sourceSize": {"w":379,"h":340}
+},
+"Hurt/re_6_HURT_004.png":
+{
+	"frame": {"x":1540,"y":269,"w":314,"h":281},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":31,"y":43,"w":314,"h":281},
+	"sourceSize": {"w":379,"h":340}
+},
+"Idle/re_1_IDLE_000.png":
+{
+	"frame": {"x":338,"y":513,"w":291,"h":310},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":25,"y":11,"w":291,"h":310},
+	"sourceSize": {"w":317,"h":321}
+},
+"Idle/re_1_IDLE_001.png":
+{
+	"frame": {"x":1219,"y":533,"w":296,"h":312},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":20,"y":9,"w":296,"h":312},
+	"sourceSize": {"w":317,"h":321}
+},
+"Idle/re_1_IDLE_002.png":
+{
+	"frame": {"x":1517,"y":552,"w":298,"h":314},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":7,"w":298,"h":314},
+	"sourceSize": {"w":317,"h":321}
+},
+"Idle/re_1_IDLE_003.png":
+{
+	"frame": {"x":1517,"y":552,"w":298,"h":314},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":7,"w":298,"h":314},
+	"sourceSize": {"w":317,"h":321}
+},
+"Idle/re_1_IDLE_004.png":
+{
+	"frame": {"x":1219,"y":533,"w":296,"h":312},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":20,"y":9,"w":296,"h":312},
+	"sourceSize": {"w":317,"h":321}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "data.png",
+	"format": "RGBA8888",
+	"size": {"w":1864,"h":867},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:7a0cb66820c04ad9f19411f5472117d3:1059bb017d51f5b69a4f671d12e01795:188fa90ea8d99ef04ad566f057518186$"
+}
+}

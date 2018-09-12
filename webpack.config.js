@@ -1,121 +1,80 @@
-const path = require('path');
-const webpack = require('webpack');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+var path = require('path')
+var webpack = require('webpack')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
+var BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 
-// for exporting into the global scope
-// output: {
-//     libraryTarget: 'var',
-//     library: 'foo'
-// }
+// Phaser webpack config
+var phaserModule = path.join(__dirname, '/node_modules/phaser-ce/')
+var phaser = path.join(phaserModule, 'build/custom/phaser-split.js')
+var pixi = path.join(phaserModule, 'build/custom/pixi.js')
+var p2 = path.join(phaserModule, 'build/custom/p2.js')
 
-module.exports = [
-    {
-        entry: {
-            viewer: './src/viewer.ts',
-        },
-        output: {
-            filename: './dist/[name].js'
-        },
-        resolve: {
-            extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']
-        },
-        module: {
-            loaders: [
-                // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
-                { test: /\.tsx?$/, loader: 'ts-loader' }
-            ]
-        },
-        devtool: 'source-map'
-    },
-    {
-        target: 'node',
-        entry: {
-            BitFighter: './src/back_end/BitFighter.ts'
-        },
-        output: {
-            filename: './dist/[name].js',
-            libraryTarget: 'commonjs2',
-        },
-        resolve: {
-            extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']
-        },
-        module: {
-            loaders: [
-                // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
-                { test: /\.tsx?$/, loader: 'ts-loader' }
-            ]
-        },
-        devtool: 'source-map'
-    },   
-    {
-        entry: {
-            index: './src/testbed.ts'
-        },
-        output: {
-            filename: './testbed/testbed.js'
-        },
-        resolve: {
-            extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']
-        },
-        module: {
-            loaders: [
-                // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
-                { test: /\.tsx?$/, loader: 'ts-loader' }
-            ]
-        },
-        devtool: 'source-map'//,
-        //target: 'node'
-    },
-    {
-        entry: {
-            index: './src/index.less'
-        },
-        output: {
-            filename: './testbed/index.css'
-        },
-        resolve: {
-            extensions: ['.js', '.less'],
-        },
-        module: {
+var definePlugin = new webpack.DefinePlugin({
+  __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true'))
+})
 
-            rules: [
-          {
-            test: /\.less$/,
-            use: ExtractTextPlugin.extract({
-              fallback: 'style-loader',
-              //resolve-url-loader may be chained before sass-loader if necessary 
-              use: ['css-loader?url=false', 'less-loader']
-            })
-          }
-        ]
-    
-        },
-        plugins: [
-            new ExtractTextPlugin("./testbed/index.css"),
-            new ExtractTextPlugin("./dist/viewer.css")
-          ]
-        // devtool: 'source-map'//,
-        //target: 'node'
-    },
-    {
-        entry: {
-            simulator: './src/simulator/simulator.ts'
-        },
-        output: {
-            filename: 'simulator.js',
-            devtoolModuleFilenameTemplate: 'file://[absolute-resource-path]',
-            devtoolFallbackModuleFilenameTemplate: 'file://[absolute-resource-path]?[hash]'
-        },
-        resolve: {
-            extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']
-        },
-        module: {
-            loaders: [
-                // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
-                { test: /\.tsx?$/, loader: 'ts-loader' }
-            ]
-        },
-        devtool: 'source-map',
-        target: 'node'
+module.exports = {
+  entry: {
+    app: [
+      'babel-polyfill',
+      path.resolve(__dirname, 'src/main.js')
+    ],
+    vendor: ['pixi', 'p2', 'phaser', 'webfontloader']
+  },
+  devtool: 'cheap-source-map',
+  output: {
+    pathinfo: true,
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: './dist/',
+    filename: 'bundle.js'
+  },
+  watch: true,
+  plugins: [
+    definePlugin,
+    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor'/* chunkName= */, filename: 'vendor.bundle.js'/* filename= */}),
+    new HtmlWebpackPlugin({
+      filename: '../index.html',
+      template: './src/index.html',
+      chunks: ['vendor', 'app'],
+      chunksSortMode: 'manual',
+      minify: {
+        removeAttributeQuotes: false,
+        collapseWhitespace: false,
+        html5: false,
+        minifyCSS: false,
+        minifyJS: false,
+        minifyURLs: false,
+        removeComments: false,
+        removeEmptyAttributes: false
+      },
+      hash: false
+    }),
+    new BrowserSyncPlugin({
+      host: process.env.IP || 'localhost',
+      port: process.env.PORT || 3000,
+      server: {
+        baseDir: ['./', './build']
+      }
+    })
+  ],
+  module: {
+    rules: [
+      { test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'src') },
+      { test: /pixi\.js/, use: ['expose-loader?PIXI'] },
+      { test: /phaser-split\.js$/, use: ['expose-loader?Phaser'] },
+      { test: /p2\.js/, use: ['expose-loader?p2'] }
+    ]
+  },
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  },
+  resolve: {
+    alias: {
+      'phaser': phaser,
+      'pixi': pixi,
+      'p2': p2
     }
-];
+  }
+}
