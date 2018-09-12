@@ -1,0 +1,1591 @@
+[{
+    "player": -1,
+    "action": "arrange-players",
+    "targets": [],
+    "meta": {
+      "players": [{
+          "name": "Nifty255",
+          "team": 0,
+          "buffs": [],
+          "class": {
+            "_id": "5b51a6ae309bb40e26e20fad",
+            "rarity": 0,
+            "skills": [{
+              "name": "Crippled",
+              "skill_name": "Cripple",
+              "description": "Lowers attack speed.",
+              "type": "skill",
+              "odds": 0.08,
+              "duration": 5000,
+              "friendly": false,
+              "multi": true,
+              "stack": 1000,
+              "refresh": true,
+              "stat_effect": {
+                "attack_speed": {
+                  "min": 0.75,
+                  "max": 0.75
+                }
+              }
+            }],
+            "name": "Barkeep",
+            "flavor_text": "They call my bar the Bongo, because you go there to get beaten.",
+            "skill_text": "DEBUFF Cripples Opponent",
+            "stats": {
+              "max_hit_points": 1200,
+              "accuracy": 100,
+              "dodge": 50,
+              "attack_speed": {
+                "min": 725,
+                "max": 1350
+              },
+              "attack_damage": {
+                "min": 50,
+                "max": 75
+              },
+              "armor": 13,
+              "regeneration": 600,
+              "crit_chance_modifier": 0.0125,
+              "crit_damage_modifier": 1.5
+            }
+          },
+          "stats": {
+            "max_hit_points": 1200,
+            "accuracy": 100,
+            "dodge": 50,
+            "attack_speed": {
+              "min": 725,
+              "max": 1350
+            },
+            "attack_damage": {
+              "min": 50,
+              "max": 75
+            },
+            "armor": 13,
+            "regeneration": 600,
+            "crit_chance_modifier": 0.0125,
+            "crit_damage_modifier": 1.5
+          },
+          "currentHp": 1200,
+          "initiative": 1233
+        },
+        {
+          "name": "profoundcode",
+          "team": 1,
+          "buffs": [],
+          "class": {
+            "_id": "5b518c22309bb407bb7be159",
+            "rarity": 0,
+            "skills": [{
+              "name": "Mopped Up",
+              "skill_name": "Mop Up",
+              "description": "Lowers accuracy and dodge.",
+              "type": "skill",
+              "odds": 0.15,
+              "duration": 6000,
+              "friendly": false,
+              "multi": true,
+              "stack": 1000,
+              "refresh": true,
+              "stat_effect": {
+                "accuracy": 0.5,
+                "dodge": 0.5
+              }
+            }],
+            "name": "Scullery Maid",
+            "flavor_text": "You think fighting dragons is hard, try scrubbing castle floors!",
+            "skill_text": "DEBUFF Lowers Accuracy and Dodge",
+            "stats": {
+              "max_hit_points": 1000,
+              "accuracy": 110,
+              "dodge": 60,
+              "attack_speed": {
+                "min": 600,
+                "max": 1100
+              },
+              "attack_damage": {
+                "min": 45,
+                "max": 70
+              },
+              "armor": 13,
+              "regeneration": 800,
+              "crit_chance_modifier": 0.025,
+              "crit_damage_modifier": 1.25
+            }
+          },
+          "stats": {
+            "max_hit_points": 1000,
+            "accuracy": 110,
+            "dodge": 60,
+            "attack_speed": {
+              "min": 600,
+              "max": 1100
+            },
+            "attack_damage": {
+              "min": 45,
+              "max": 70
+            },
+            "armor": 13,
+            "regeneration": 800,
+            "crit_chance_modifier": 0.025,
+            "crit_damage_modifier": 1.25
+          },
+          "currentHp": 1000,
+          "initiative": 877
+        }
+      ],
+      "at_start": true
+    },
+    "time": "2018-09-12T15:54:30.549Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1009
+    },
+    "time": "2018-09-12T15:54:34.676Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 53
+    },
+    "time": "2018-09-12T15:54:34.676Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 683
+    },
+    "time": "2018-09-12T15:54:34.808Z"
+  },
+  {
+    "player": 0,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:34.808Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1333
+    },
+    "time": "2018-09-12T15:54:35.032Z"
+  },
+  {
+    "player": 1,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:35.032Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 718
+    },
+    "time": "2018-09-12T15:54:35.359Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 33
+    },
+    "time": "2018-09-12T15:54:35.359Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 723
+    },
+    "time": "2018-09-12T15:54:35.750Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 33
+    },
+    "time": "2018-09-12T15:54:35.750Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 627
+    },
+    "time": "2018-09-12T15:54:36.082Z"
+  },
+  {
+    "player": 0,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:36.082Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 838
+    },
+    "time": "2018-09-12T15:54:36.141Z"
+  },
+  {
+    "player": 1,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:36.141Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 667
+    },
+    "time": "2018-09-12T15:54:36.377Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 40
+    },
+    "time": "2018-09-12T15:54:36.377Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 832
+    },
+    "time": "2018-09-12T15:54:36.808Z"
+  },
+  {
+    "player": 0,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:36.808Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 905
+    },
+    "time": "2018-09-12T15:54:36.920Z"
+  },
+  {
+    "player": 1,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:36.920Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1036
+    },
+    "time": "2018-09-12T15:54:37.209Z"
+  },
+  {
+    "player": 0,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:37.209Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1120
+    },
+    "time": "2018-09-12T15:54:37.713Z"
+  },
+  {
+    "player": 1,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 59
+    },
+    "time": "2018-09-12T15:54:37.713Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 815
+    },
+    "time": "2018-09-12T15:54:37.956Z"
+  },
+  {
+    "player": 0,
+    "action": "buff-apply",
+    "targets": [],
+    "meta": {
+      "name": "Mopped Up",
+      "skill_name": "Mop Up",
+      "description": "Lowers accuracy and dodge.",
+      "type": "skill",
+      "odds": 0.15,
+      "duration": 6000,
+      "friendly": false,
+      "multi": true,
+      "stack": 1000,
+      "refresh": true,
+      "stat_effect": {
+        "accuracy": 0.5,
+        "dodge": 0.5
+      }
+    },
+    "time": "2018-09-12T15:54:37.956Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 47
+    },
+    "time": "2018-09-12T15:54:37.956Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1300
+    },
+    "time": "2018-09-12T15:54:38.329Z"
+  },
+  {
+    "player": 1,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:38.329Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 944
+    },
+    "time": "2018-09-12T15:54:38.528Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 44
+    },
+    "time": "2018-09-12T15:54:38.528Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 769
+    },
+    "time": "2018-09-12T15:54:39.256Z"
+  },
+  {
+    "player": 1,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:39.256Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 837
+    },
+    "time": "2018-09-12T15:54:39.273Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 42
+    },
+    "time": "2018-09-12T15:54:39.273Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1105
+    },
+    "time": "2018-09-12T15:54:39.297Z"
+  },
+  {
+    "player": 1,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:39.297Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 873
+    },
+    "time": "2018-09-12T15:54:40.093Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 47
+    },
+    "time": "2018-09-12T15:54:40.093Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 608
+    },
+    "time": "2018-09-12T15:54:40.170Z"
+  },
+  {
+    "player": 0,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:40.170Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1206
+    },
+    "time": "2018-09-12T15:54:40.378Z"
+  },
+  {
+    "player": 1,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 53
+    },
+    "time": "2018-09-12T15:54:40.378Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 907
+    },
+    "time": "2018-09-12T15:54:40.701Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 42
+    },
+    "time": "2018-09-12T15:54:40.701Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 982
+    },
+    "time": "2018-09-12T15:54:41.285Z"
+  },
+  {
+    "player": 0,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:41.285Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 770
+    },
+    "time": "2018-09-12T15:54:41.376Z"
+  },
+  {
+    "player": 1,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:41.376Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 703
+    },
+    "time": "2018-09-12T15:54:41.683Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 32
+    },
+    "time": "2018-09-12T15:54:41.683Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 840
+    },
+    "time": "2018-09-12T15:54:42.055Z"
+  },
+  {
+    "player": 1,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:42.055Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 771
+    },
+    "time": "2018-09-12T15:54:42.079Z"
+  },
+  {
+    "player": 0,
+    "action": "buff-apply",
+    "targets": [],
+    "meta": {
+      "name": "Mopped Up",
+      "skill_name": "Mop Up",
+      "description": "Lowers accuracy and dodge.",
+      "type": "skill",
+      "odds": 0.15,
+      "duration": 6000,
+      "friendly": false,
+      "multi": true,
+      "stack": 1000,
+      "refresh": true,
+      "stat_effect": {
+        "accuracy": 0.5,
+        "dodge": 0.5
+      }
+    },
+    "time": "2018-09-12T15:54:42.079Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 39
+    },
+    "time": "2018-09-12T15:54:42.079Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 926
+    },
+    "time": "2018-09-12T15:54:42.523Z"
+  },
+  {
+    "player": 1,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 38
+    },
+    "time": "2018-09-12T15:54:42.523Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 978
+    },
+    "time": "2018-09-12T15:54:42.826Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 44
+    },
+    "time": "2018-09-12T15:54:42.826Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 881
+    },
+    "time": "2018-09-12T15:54:43.005Z"
+  },
+  {
+    "player": 1,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 57
+    },
+    "time": "2018-09-12T15:54:43.005Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1093
+    },
+    "time": "2018-09-12T15:54:43.501Z"
+  },
+  {
+    "player": 0,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:43.501Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 851
+    },
+    "time": "2018-09-12T15:54:43.707Z"
+  },
+  {
+    "player": 1,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:43.707Z"
+  },
+  {
+    "player": 0,
+    "action": "buff-remove",
+    "targets": [],
+    "meta": {
+      "index": 0
+    },
+    "time": "2018-09-12T15:54:43.713Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 905
+    },
+    "time": "2018-09-12T15:54:44.098Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 51
+    },
+    "time": "2018-09-12T15:54:44.098Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1004
+    },
+    "time": "2018-09-12T15:54:44.352Z"
+  },
+  {
+    "player": 1,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 54
+    },
+    "time": "2018-09-12T15:54:44.352Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1033
+    },
+    "time": "2018-09-12T15:54:44.618Z"
+  },
+  {
+    "player": 0,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:44.618Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1168
+    },
+    "time": "2018-09-12T15:54:45.102Z"
+  },
+  {
+    "player": 1,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:45.102Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1045
+    },
+    "time": "2018-09-12T15:54:45.385Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 52
+    },
+    "time": "2018-09-12T15:54:45.385Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1309
+    },
+    "time": "2018-09-12T15:54:45.786Z"
+  },
+  {
+    "player": 1,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:45.786Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 716
+    },
+    "time": "2018-09-12T15:54:46.147Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 51
+    },
+    "time": "2018-09-12T15:54:46.147Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 910
+    },
+    "time": "2018-09-12T15:54:46.502Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 39
+    },
+    "time": "2018-09-12T15:54:46.502Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1074
+    },
+    "time": "2018-09-12T15:54:46.694Z"
+  },
+  {
+    "player": 1,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:46.694Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 718
+    },
+    "time": "2018-09-12T15:54:47.057Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 36
+    },
+    "time": "2018-09-12T15:54:47.057Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 605
+    },
+    "time": "2018-09-12T15:54:47.412Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 38
+    },
+    "time": "2018-09-12T15:54:47.412Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1218
+    },
+    "time": "2018-09-12T15:54:47.576Z"
+  },
+  {
+    "player": 1,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:47.576Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 996
+    },
+    "time": "2018-09-12T15:54:47.662Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 54
+    },
+    "time": "2018-09-12T15:54:47.662Z"
+  },
+  {
+    "player": 0,
+    "action": "buff-remove",
+    "targets": [],
+    "meta": {
+      "index": 0
+    },
+    "time": "2018-09-12T15:54:48.055Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 859
+    },
+    "time": "2018-09-12T15:54:48.572Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 54
+    },
+    "time": "2018-09-12T15:54:48.572Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 999
+    },
+    "time": "2018-09-12T15:54:48.630Z"
+  },
+  {
+    "player": 1,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 50
+    },
+    "time": "2018-09-12T15:54:48.630Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1045
+    },
+    "time": "2018-09-12T15:54:48.914Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 38
+    },
+    "time": "2018-09-12T15:54:48.914Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1296
+    },
+    "time": "2018-09-12T15:54:49.571Z"
+  },
+  {
+    "player": 1,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 37
+    },
+    "time": "2018-09-12T15:54:49.571Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 901
+    },
+    "time": "2018-09-12T15:54:49.675Z"
+  },
+  {
+    "player": 0,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:49.675Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 808
+    },
+    "time": "2018-09-12T15:54:50.210Z"
+  },
+  {
+    "player": 1,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 38
+    },
+    "time": "2018-09-12T15:54:50.210Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 988
+    },
+    "time": "2018-09-12T15:54:50.472Z"
+  },
+  {
+    "player": 0,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:50.472Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 949
+    },
+    "time": "2018-09-12T15:54:50.483Z"
+  },
+  {
+    "player": 1,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 45
+    },
+    "time": "2018-09-12T15:54:50.483Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 856
+    },
+    "time": "2018-09-12T15:54:51.198Z"
+  },
+  {
+    "player": 0,
+    "action": "buff-apply",
+    "targets": [],
+    "meta": {
+      "name": "Mopped Up",
+      "skill_name": "Mop Up",
+      "description": "Lowers accuracy and dodge.",
+      "type": "skill",
+      "odds": 0.15,
+      "duration": 6000,
+      "friendly": false,
+      "multi": true,
+      "stack": 1000,
+      "refresh": true,
+      "stat_effect": {
+        "accuracy": 0.5,
+        "dodge": 0.5
+      }
+    },
+    "time": "2018-09-12T15:54:51.198Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 52
+    },
+    "time": "2018-09-12T15:54:51.198Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 950
+    },
+    "time": "2018-09-12T15:54:51.339Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 53
+    },
+    "time": "2018-09-12T15:54:51.339Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1070
+    },
+    "time": "2018-09-12T15:54:51.421Z"
+  },
+  {
+    "player": 1,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 40
+    },
+    "time": "2018-09-12T15:54:51.421Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 680
+    },
+    "time": "2018-09-12T15:54:52.148Z"
+  },
+  {
+    "player": 0,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:52.148Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 977
+    },
+    "time": "2018-09-12T15:54:52.101Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 50
+    },
+    "time": "2018-09-12T15:54:52.101Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 908
+    },
+    "time": "2018-09-12T15:54:52.409Z"
+  },
+  {
+    "player": 1,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:52.409Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1063
+    },
+    "time": "2018-09-12T15:54:53.009Z"
+  },
+  {
+    "player": 1,
+    "action": "dodge",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:53.009Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1012
+    },
+    "time": "2018-09-12T15:54:53.125Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 56
+    },
+    "time": "2018-09-12T15:54:53.125Z"
+  },
+  {
+    "player": 0,
+    "action": "attack",
+    "targets": [
+      1
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 1338
+    },
+    "time": "2018-09-12T15:54:53.472Z"
+  },
+  {
+    "player": 1,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 53
+    },
+    "time": "2018-09-12T15:54:53.472Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 773
+    },
+    "time": "2018-09-12T15:54:54.021Z"
+  },
+  {
+    "player": 0,
+    "action": "buff-apply",
+    "targets": [],
+    "meta": {
+      "name": "Mopped Up",
+      "skill_name": "Mop Up",
+      "description": "Lowers accuracy and dodge.",
+      "type": "skill",
+      "odds": 0.15,
+      "duration": 6000,
+      "friendly": false,
+      "multi": true,
+      "stack": 1000,
+      "refresh": true,
+      "stat_effect": {
+        "accuracy": 0.5,
+        "dodge": 0.5
+      }
+    },
+    "time": "2018-09-12T15:54:54.021Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 55
+    },
+    "time": "2018-09-12T15:54:54.021Z"
+  },
+  {
+    "player": 1,
+    "action": "attack",
+    "targets": [
+      0
+    ],
+    "meta": {
+      "crit": false,
+      "new_initiative": 845
+    },
+    "time": "2018-09-12T15:54:54.245Z"
+  },
+  {
+    "player": 0,
+    "action": "hit",
+    "targets": [],
+    "meta": {
+      "crit": false,
+      "amount": 45
+    },
+    "time": "2018-09-12T15:54:54.245Z"
+  },
+  {
+    "player": 0,
+    "action": "die",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:54.745Z"
+  },
+  {
+    "player": 1,
+    "action": "victory",
+    "targets": [],
+    "meta": {},
+    "time": "2018-09-12T15:54:55.745Z"
+  }
+]
