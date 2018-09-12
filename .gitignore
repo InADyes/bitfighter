@@ -22,7 +22,6 @@
 *.css
 
 # for maxes tsc check task
-/src/**/*.js
 yarn.lock
 
 !/node_modules/fabric/dist/fabric.js
