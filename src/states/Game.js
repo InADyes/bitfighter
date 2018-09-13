@@ -138,7 +138,7 @@ export default class extends Phaser.State {
               break;
             case 'victory':
               this.activePlayers[round.player].goIdle();
-              this.addText('Victory!');
+              this.addText('Victory!', 3000, 'green');
               setTimeout(() => {
                 window.location.reload();
               }, 5000);
@@ -169,16 +169,16 @@ export default class extends Phaser.State {
       this.addText('1', 1000);
     }, 2000);
     setTimeout(() => {
-      this.addText('Fight', 1000);
+      this.addText('Fight', 1000, 'green');
     }, 3000);
   }
-  addText(txtToDisplay, timeToDisplay = 3000) {
+  addText(txtToDisplay, timeToDisplay = 3000, textColor = 'white') {
     const txt = this.game.add.text(
       0,
       30,
       txtToDisplay, {
         font: '46px Luckiest Guy',
-        fill: 'yellow',
+        fill: textColor,
         smoothed: false
       }
     );
