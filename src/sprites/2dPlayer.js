@@ -59,6 +59,7 @@ export default class extends Phaser.Sprite {
     // Tween setup
     this.setupTweens();
     this.createNameText();
+    this.createHealthText();
     this.goIdle();
   }
 
@@ -137,6 +138,8 @@ export default class extends Phaser.Sprite {
 
   goHurt(dmg) {
     this.playerInfo.currentHp -= dmg;
+    this.healthText.text = this.playerInfo.currentHp > 0 ? this.playerInfo.currentHp : 0;
+    this.healthText.x = (this.healthBar.x + this.healthBar.width / 2) - this.healthText.width / 2;
     if (this.playerInfo.currentHp < 1) {
       return this.goDie();
     }
@@ -167,6 +170,7 @@ export default class extends Phaser.Sprite {
       this.playerName.destroy();
       this.healthBar.destroy();
       this.healthBarBase.destroy();
+      this.healthText.destroy();
     }, 3000);
   }
 
@@ -174,9 +178,6 @@ export default class extends Phaser.Sprite {
     this.createTextHandler('Dodge', 'right');
   }
 
-  goBuff(name, apply) {
-    this.createBuffTextHandler(name, apply);
-  }
   goAddBuff(buff, apply) {
     this.buffList.push(buff);
     this.createBuffTextHandler(`Applied ${buff.meta.name}`, apply);
@@ -220,12 +221,29 @@ export default class extends Phaser.Sprite {
       this.y + this.height / 2,
       this.playerInfo.name, {
         font: '32px Luckiest Guy',
-        fill: 'yellow',
+        fill: 'white',
         smoothed: false
       }
     );
     this.playerName.x = this.x - this.playerName.width / 2;
     this.game.add.existing(this.playerName);
+  }
+
+  createHealthText() {
+
+    this.healthText = this.game.add.text(
+      0,
+      30,
+      this.playerInfo.currentHp, {
+        font: '32px Luckiest Guy',
+        fill: 'white',
+        smoothed: false
+      }
+    );
+    this.healthText.x = (this.healthBar.x + this.healthBar.width / 2) - this.healthText.width / 2;
+    // this.healthText.x = this.leftOrRight === 'right' ? this.game.width - (this.healthText.width + 15) : 15;
+    // this.healthText.x = this.x - this.healthText.width / 2;
+    this.game.add.existing(this.healthText);
   }
 
   createTextHandler(txt, side = 'left') {
