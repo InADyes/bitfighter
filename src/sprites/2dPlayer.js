@@ -233,9 +233,9 @@ export default class extends Phaser.Sprite {
 
     this.healthText = this.game.add.text(
       0,
-      30,
+      this.healthBar.y,
       this.playerInfo.currentHp, {
-        font: '32px Luckiest Guy',
+        font: '24px Luckiest Guy',
         fill: 'white',
         smoothed: false
       }
