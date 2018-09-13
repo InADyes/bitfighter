@@ -206,8 +206,8 @@ export default class extends Phaser.State {
   }
 
   loadRandomMatchFromAPI() {
-    $.post(
-      'https://staging-cofnode.operaevent.co/start-match/5907b6d90b4f524ca6a4fe28',
+    $.get(
+      'http://staging-cofnode.operaevent.co/start-match/5907b6d90b4f524ca6a4fe28',
       function (data) {
         console.log('data', data);
       }
