@@ -52,10 +52,9 @@ export default class extends Phaser.State {
   addPlayer(asset, player, stats, position) {
     const _player = new Player2d({
       game: this.game,
-      x:
-        position === 'left'
-          ? this.world.centerX - 150
-          : this.world.centerX + 150,
+      x: position === 'left' ?
+        this.world.centerX - 150 :
+        this.world.centerX + 150,
       y: this.world.centerY,
       asset: asset,
       position: position,
@@ -69,15 +68,15 @@ export default class extends Phaser.State {
     const socket = io('https://staging-cofnode.operaevent.co/');
     window.socket = socket;
 
-    socket.on('connect', function() {
+    socket.on('connect', function () {
       console.log('connected');
     });
 
-    socket.on('event', function(data) {
+    socket.on('event', function (data) {
       incomingEvent(data);
     });
 
-    socket.on('disconnect', function() {
+    socket.on('disconnect', function () {
       console.log('disconnect');
     });
 
@@ -144,13 +143,13 @@ export default class extends Phaser.State {
               }, 5000);
               break;
             case 'buff-apply':
-              this.activePlayers[round.player].goBuff(
-                'Apply ' + round.meta.name,
-                true
+              this.activePlayers[round.player].goAddBuff(
+                round,
+                true,
               );
               break;
             case 'buff-remove':
-              this.activePlayers[round.player].goBuff('Remove Buff', false);
+              this.activePlayers[round.player].goRemoveBuff(round, false);
               break;
             default:
               break;
@@ -179,7 +178,7 @@ export default class extends Phaser.State {
   loadRandomMatchFromAPI() {
     $.post(
       'https://staging-cofnode.operaevent.co/start-match/5907b6d90b4f524ca6a4fe28',
-      function(data) {
+      function (data) {
         console.log('data', data);
       }
     );

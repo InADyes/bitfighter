@@ -1,6 +1,6 @@
 export default {
   gameWidth: 760,
   gameHeight: 400,
-  localStorageName: "phaseres6webpack",
-  webfonts: ["Chela One"]
+  localStorageName: 'phaseres6webpack',
+  webfonts: ['Luckiest Guy']
 };
