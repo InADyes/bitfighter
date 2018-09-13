@@ -13,7 +13,7 @@ export default class extends Phaser.State {
 
   create() {
     this.loadRandomMatchFromAPI();
-    this.loadFakeData();
+    // this.loadFakeData();
     this.characters = [
       'cyclop-1',
       'cyclop-2',
@@ -119,12 +119,6 @@ export default class extends Phaser.State {
         setTimeout(() => {
           switch (round.action) {
             case 'attack':
-              console.log(
-                round.player,
-                round.action,
-                round.meta.new_initiative,
-                Date.parse(round.time)
-              );
               this.activePlayers[round.player].goAttack();
               break;
             case 'hit':
@@ -208,8 +202,9 @@ export default class extends Phaser.State {
   loadRandomMatchFromAPI() {
     $.get(
       'http://staging-cofnode.operaevent.co/start-match/5907b6d90b4f524ca6a4fe28',
-      function (data) {
-        console.log('data', data);
+      (data) => {
+        console.log('### Playing Pregenerated Match ###');
+        this.playRecordedMatch(data);
       }
     );
   }
