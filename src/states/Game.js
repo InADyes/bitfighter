@@ -1,27 +1,29 @@
 /* globals __DEV__ */
-import Phaser from "phaser";
-import Player from "../sprites/Player";
+import Phaser from 'phaser';
+import Player from '../sprites/Player';
 import Player2d from '../sprites/2dPlayer';
 
 export default class extends Phaser.State {
   init() {
+    this.stage.disableVisibilityChange = true;
     this.socketInit();
     this.activePlayers = [];
   }
   preload() {}
 
   create() {
+    this.loadRandomMatchFromAPI();
     this.loadFakeData();
     this.characters = [
-      "cyclop-1",
-      "cyclop-2",
-      "cyclop-3",
-      "golem-1",
-      "golem-2",
-      "golem-3",
-      "necromancer-1",
-      "necromancer-2",
-      "necromancer-3"
+      'cyclop-1',
+      'cyclop-2',
+      'cyclop-3',
+      'golem-1',
+      'golem-2',
+      'golem-3',
+      'necromancer-1',
+      'necromancer-2',
+      'necromancer-3'
     ];
 
     /* this.addPlayer(
@@ -50,7 +52,7 @@ export default class extends Phaser.State {
   addPlayer(asset, player, stats, position) {
     const _player = new Player2d({
       game: this.game,
-      x: position === "left" ?
+      x: position === 'left' ?
         this.world.centerX - 150 : this.world.centerX + 150,
       y: this.world.centerY,
       asset: asset,
@@ -62,30 +64,30 @@ export default class extends Phaser.State {
   }
 
   socketInit() {
-    const socket = io("https://staging-cofnode.operaevent.co/");
+    const socket = io('https://staging-cofnode.operaevent.co/');
     window.socket = socket;
 
-    socket.on("connect", function () {
-      console.log("connected");
+    socket.on('connect', function () {
+      console.log('connected');
     });
 
-    socket.on("event", function (data) {
+    socket.on('event', function (data) {
       incomingEvent(data);
     });
 
-    socket.on("disconnect", function () {
-      console.log("disconnect");
+    socket.on('disconnect', function () {
+      console.log('disconnect');
     });
 
     function incomingEvent(data) {
       const action = data.action;
       const actionData = data.data;
       switch (action) {
-        case "ArrangePlayers":
-          console.log("arrange players", actionData);
+        case 'ArrangePlayers':
+          console.log('arrange players', actionData);
           break;
-        case "Attack":
-          console.log("attack", actionData);
+        case 'Attack':
+          console.log('attack', actionData);
           break;
         default:
           break;
@@ -105,7 +107,6 @@ export default class extends Phaser.State {
         baseStartTime = round.time;
 
         for (const player of round.meta.players) {
-
           this.addPlayer(
             player.class.name,
             player,
@@ -117,20 +118,25 @@ export default class extends Phaser.State {
         setTimeout(() => {
           switch (round.action) {
             case 'attack':
-              console.log(round.player, round.action, round.meta.new_initiative, Date.parse(round.time));
-              this.activePlayers[round.player].goAttack()
+              console.log(
+                round.player,
+                round.action,
+                round.meta.new_initiative,
+                Date.parse(round.time)
+              );
+              this.activePlayers[round.player].goAttack();
               break;
             case 'hit':
-              this.activePlayers[round.player].goHurt(round.meta.amount)
+              this.activePlayers[round.player].goHurt(round.meta.amount);
               break;
             case 'die':
               // this.activePlayers[round.player].goDie()
               break;
             case 'dodge':
-              this.activePlayers[round.player].goDodge()
+              this.activePlayers[round.player].goDodge();
               break;
             case 'victory':
-              this.activePlayers[round.player].goIdle()
+              this.activePlayers[round.player].goIdle();
               if (__DEV__) {
                 setTimeout(() => {
                   window.location.reload();
@@ -138,7 +144,10 @@ export default class extends Phaser.State {
               }
               break;
             case 'buff-apply':
-              this.activePlayers[round.player].goBuff('Apply ' + round.meta.name, true);
+              this.activePlayers[round.player].goBuff(
+                'Apply ' + round.meta.name,
+                true
+              );
               break;
             case 'buff-remove':
               this.activePlayers[round.player].goBuff('Remove Buff', false);
@@ -146,7 +155,7 @@ export default class extends Phaser.State {
             default:
               break;
           }
-        }, Date.parse(round.time) - Date.parse(baseStartTime))
+        }, Date.parse(round.time) - Date.parse(baseStartTime));
       }
     }
   }
@@ -154,17 +163,22 @@ export default class extends Phaser.State {
   loadFakeData() {
     const oReq = new XMLHttpRequest();
     oReq.onload = reqListener;
-    const rand = Math.floor(Math.random() * 2) + 1
+    const rand = Math.floor(Math.random() * 2) + 1;
     oReq.open('get', `assets/test.json`, true);
     oReq.send();
 
-    const play = (data) => {
+    const play = data => {
       this.playRecordedMatch(data);
-    }
+    };
 
     function reqListener(e) {
       play(JSON.parse(this.responseText));
     }
+  }
 
+  loadRandomMatchFromAPI() {
+    $.post("https://staging-cofnode.operaevent.co/start-match/5907b6d90b4f524ca6a4fe28", function (data) {
+      console.log('data', data);
+    });
   }
 }

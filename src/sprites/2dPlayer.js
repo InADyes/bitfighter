@@ -133,9 +133,9 @@ export default class extends Phaser.Sprite {
     this.createTextHandler(`Hit ${dmg}`);
     const rawPerctLeft = (this.playerInfo.currentHp / this.playerInfo.stats.max_hit_points);
     const perctLeft = Math.floor(rawPerctLeft * 100);
-    if (perctLeft < 15) {
+    if (perctLeft < 25) {
       this.healthBar.tint = 0xff0000;
-    } else if (perctLeft < 35) {
+    } else if (perctLeft < 50) {
       this.healthBar.tint = 0xff3300;
     } else if (perctLeft < 75) {
       this.healthBar.tint = 0xffff00;
@@ -183,7 +183,7 @@ export default class extends Phaser.Sprite {
     this.healthBarBase.width = 40;
     this.healthBarBase.anchor.setTo(0, 1);
     this.healthBarBase.height = 250;
-
+    this.healthBarBase.alpha = 0.3;
     this.healthBar = this.game.add.image(
       x,
       this.y + this.height / 2,
