@@ -53,8 +53,7 @@ export default class extends Phaser.State {
     const _player = new Player2d({
       game: this.game,
       x: position === 'left' ?
-        this.world.centerX - 150 :
-        this.world.centerX + 150,
+        this.world.centerX - 150 : this.world.centerX + 150,
       y: this.world.centerY,
       asset: asset,
       position: position,
@@ -115,6 +114,7 @@ export default class extends Phaser.State {
             player.team === 0 ? 'left' : 'right'
           );
         }
+        this.startFightCountdownTxt();
       } else {
         setTimeout(() => {
           switch (round.action) {
@@ -138,6 +138,7 @@ export default class extends Phaser.State {
               break;
             case 'victory':
               this.activePlayers[round.player].goIdle();
+              this.addText('Victory!');
               setTimeout(() => {
                 window.location.reload();
               }, 5000);
@@ -157,6 +158,35 @@ export default class extends Phaser.State {
         }, Date.parse(round.time) - Date.parse(baseStartTime));
       }
     }
+  }
+
+  startFightCountdownTxt() {
+    this.addText('3', 1000);
+    setTimeout(() => {
+      this.addText('2', 1000);
+    }, 1000);
+    setTimeout(() => {
+      this.addText('1', 1000);
+    }, 2000);
+    setTimeout(() => {
+      this.addText('Fight', 1000);
+    }, 3000);
+  }
+  addText(txtToDisplay, timeToDisplay = 3000) {
+    const txt = this.game.add.text(
+      0,
+      30,
+      txtToDisplay, {
+        font: '46px Luckiest Guy',
+        fill: 'yellow',
+        smoothed: false
+      }
+    );
+    txt.x = this.game.world.centerX - txt.width / 2;
+    this.game.add.existing(txt);
+    setTimeout(() => {
+      txt.destroy();
+    }, timeToDisplay);
   }
 
   loadFakeData() {
