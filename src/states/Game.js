@@ -53,8 +53,10 @@ export default class extends Phaser.State {
     console.log(player);
     const _player = new Player2d({
       game: this.game,
-      x: position === 'left' ?
-        this.world.centerX - this.world.width / 5 : this.world.centerX + this.world.width / 5,
+      x:
+        position === 'left'
+          ? this.world.centerX - this.world.width / 5
+          : this.world.centerX + this.world.width / 5,
       y: this.world.centerY,
       asset: asset,
       position: position,
@@ -73,7 +75,7 @@ export default class extends Phaser.State {
     const socket = io('https://staging-cofnode.operaevent.co/');
     window.socket = socket;
 
-    socket.on('connect', function () {
+    socket.on('connect', function() {
       console.log('connected');
       const influencer_id = params[0].split('=')[1];
       const access_token = params[1].split('=')[1];
@@ -84,22 +86,22 @@ export default class extends Phaser.State {
       });
     });
 
-    socket.on('current-champs', function (data) {
+    socket.on('current-champs', function(data) {
       console.log('current-champs', data);
     });
 
-    socket.on('live-fight', function (data) {
+    socket.on('live-fight', function(data) {
       console.log('live-fight', data);
     });
-    socket.on('joininfluencer-fail', function (data) {
+    socket.on('joininfluencer-fail', function(data) {
       console.log('joininfluencer-fail', data);
     });
 
-    socket.on('event', function (data) {
+    socket.on('event', function(data) {
       incomingEvent(data);
     });
 
-    socket.on('disconnect', function (data) {
+    socket.on('disconnect', function(data) {
       console.log('disconnect', data);
     });
 
@@ -189,11 +191,16 @@ export default class extends Phaser.State {
     }, 3000);
   }
   addText(txtToDisplay, timeToDisplay = 3000, textColor = 'white') {
-    const txt = this.game.add.text(0, this.game.world.centerY - (this.game.world.centerY / 5), txtToDisplay, {
-      font: '46px Luckiest Guy',
-      fill: textColor,
-      smoothed: false
-    });
+    const txt = this.game.add.text(
+      0,
+      this.game.world.centerY - this.game.world.centerY / 5,
+      txtToDisplay,
+      {
+        font: '46px Luckiest Guy',
+        fill: textColor,
+        smoothed: false
+      }
+    );
     txt.x = this.game.world.centerX - txt.width / 2;
     this.game.add.existing(txt);
     setTimeout(() => {
@@ -209,21 +216,21 @@ export default class extends Phaser.State {
     const influencer_id = params[0].split('=')[1];
     const access_token = params[1].split('=')[1];
     $.ajax({
-      url: 'https://staging-cofnode.operaevent.co/random-match/5907b6d90b4f524ca6a4fe28',
-      method: "GET",
-      dataType: "json",
+      url: `https://staging-cofnode.operaevent.co/random-match/${influencer_id}`,
+      method: 'GET',
+      dataType: 'json',
       crossDomain: true,
-      contentType: "application/json; charset=utf-8",
+      contentType: 'application/json; charset=utf-8',
       cache: false,
-      beforeSend: function (xhr) {
+      beforeSend: function(xhr) {
         /* Authorization header */
-        xhr.setRequestHeader("Authorization", access_token);
+        xhr.setRequestHeader('Authorization', access_token);
       },
-      success: (data) => {
+      success: data => {
         console.log('### Playing Pregenerated Match ###');
         this.playRecordedMatch(data);
       },
-      error: function (jqXHR, textStatus, errorThrown) {
+      error: function(jqXHR, textStatus, errorThrown) {
         console.error('Random Match', textStatus);
       }
     });
