@@ -36,16 +36,16 @@ export default class extends Phaser.State {
 
     const characters2d = [
       'Barkeep',
-      'dragon',
-      'grave_digger',
-      'mage',
-      'medium',
-      'minstrel',
-      'rogue',
+      'Dragon',
+      'Grave Digger',
+      'Mage',
+      'Medium',
+      'Minstrel',
+      'Rogue',
       'Scullery Maid',
-      'swashbuckler',
-      'warlock',
-      'warpriest'
+      'Swashbuckler',
+      'Warlock',
+      'Warpriest'
     ];
 
     characters2d.forEach(char => {
