@@ -209,7 +209,7 @@ export default class extends Phaser.State {
     const influencer_id = params[0].split('=')[1];
     const access_token = params[1].split('=')[1];
     $.ajax({
-      url: 'http://staging-cofnode.operaevent.co/random-match/5907b6d90b4f524ca6a4fe28',
+      url: 'https://staging-cofnode.operaevent.co/random-match/5907b6d90b4f524ca6a4fe28',
       method: "GET",
       dataType: "json",
       crossDomain: true,
