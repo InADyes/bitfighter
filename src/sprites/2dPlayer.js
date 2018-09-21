@@ -44,7 +44,12 @@ export default class extends Phaser.Sprite {
     /* if (this.width < 300) {
       this.scale.setTo(1.65);
     } */
-    this.scale.setTo(0.5);
+    /* console.log('width', this.width, game.width / 4, (game.width / 4) / this.width);
+    console.log('height', this.height, game.height);
+    console.log('scale', this.scale); */
+    // this.scale.setTo(0.5);
+    this.scale.setTo((game.width / 3) / this.width, (game.height / 2) / this.height);
+
 
     if (this.leftOrRight === 'right') {
       this.scale.x *= -1;
@@ -174,6 +179,10 @@ export default class extends Phaser.Sprite {
     }, 3000);
   }
 
+  goVictory() {
+    this.createVictoryTextHandler();
+  }
+
   goDodge() {
     this.createTextHandler('Dodge', 'right');
   }
@@ -268,6 +277,26 @@ export default class extends Phaser.Sprite {
     setTimeout(() => {
       banner.destroy();
     }, 1500);
+  }
+
+  createVictoryTextHandler() {
+    let banner = this.game.add.text(0, this.y, 'Victory', {
+      font: `36px Luckiest Guy`,
+      fill: `green`,
+      smoothed: false
+    });
+    banner.x = this.x - banner.width / 2;
+    this.game.add.existing(banner);
+    this.game.add.tween(banner).to({
+        y: -banner.height
+      },
+      2000,
+      Phaser.Easing.Linear.None,
+      true
+    );
+    setTimeout(() => {
+      banner.destroy();
+    }, 2100);
   }
 
   createBuffTextHandler(txt, apply) {

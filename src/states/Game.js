@@ -50,10 +50,11 @@ export default class extends Phaser.State {
   }
 
   addPlayer(asset, player, stats, position) {
+    console.log(player);
     const _player = new Player2d({
       game: this.game,
       x: position === 'left' ?
-        this.world.centerX - 150 : this.world.centerX + 150,
+        this.world.centerX - this.world.width / 5 : this.world.centerX + this.world.width / 5,
       y: this.world.centerY,
       asset: asset,
       position: position,
@@ -64,19 +65,42 @@ export default class extends Phaser.State {
   }
 
   socketInit() {
+    if (window.location.search === '') {
+      return console.error('No Params. Influencer ID and Token required');
+    }
+    const params = window.location.search.replace('?', '').split('&');
+
     const socket = io('https://staging-cofnode.operaevent.co/');
     window.socket = socket;
 
     socket.on('connect', function () {
       console.log('connected');
+      const influencer_id = params[0].split('=')[1];
+      const access_token = params[1].split('=')[1];
+
+      socket.emit('joininfluencer', {
+        influencer_id,
+        access_token
+      });
+    });
+
+    socket.on('current-champs', function (data) {
+      console.log('current-champs', data);
+    });
+
+    socket.on('live-fight', function (data) {
+      console.log('live-fight', data);
+    });
+    socket.on('joininfluencer-fail', function (data) {
+      console.log('joininfluencer-fail', data);
     });
 
     socket.on('event', function (data) {
       incomingEvent(data);
     });
 
-    socket.on('disconnect', function () {
-      console.log('disconnect');
+    socket.on('disconnect', function (data) {
+      console.log('disconnect', data);
     });
 
     function incomingEvent(data) {
@@ -132,16 +156,14 @@ export default class extends Phaser.State {
               break;
             case 'victory':
               this.activePlayers[round.player].goIdle();
-              this.addText('Victory!', 3000, 'green');
+              this.activePlayers[round.player].goVictory();
+              // this.addText('Victory!', 3000, 'green');
               setTimeout(() => {
                 window.location.reload();
               }, 5000);
               break;
             case 'buff-apply':
-              this.activePlayers[round.player].goAddBuff(
-                round,
-                true,
-              );
+              this.activePlayers[round.player].goAddBuff(round, true);
               break;
             case 'buff-remove':
               this.activePlayers[round.player].goRemoveBuff(round, false);
@@ -167,15 +189,11 @@ export default class extends Phaser.State {
     }, 3000);
   }
   addText(txtToDisplay, timeToDisplay = 3000, textColor = 'white') {
-    const txt = this.game.add.text(
-      0,
-      30,
-      txtToDisplay, {
-        font: '46px Luckiest Guy',
-        fill: textColor,
-        smoothed: false
-      }
-    );
+    const txt = this.game.add.text(0, this.game.world.centerY - (this.game.world.centerY / 5), txtToDisplay, {
+      font: '46px Luckiest Guy',
+      fill: textColor,
+      smoothed: false
+    });
     txt.x = this.game.world.centerX - txt.width / 2;
     this.game.add.existing(txt);
     setTimeout(() => {
@@ -183,29 +201,31 @@ export default class extends Phaser.State {
     }, timeToDisplay);
   }
 
-  loadFakeData() {
-    const oReq = new XMLHttpRequest();
-    oReq.onload = reqListener;
-    const rand = Math.floor(Math.random() * 2) + 1;
-    oReq.open('get', `assets/test.json`, true);
-    oReq.send();
-
-    const play = data => {
-      this.playRecordedMatch(data);
-    };
-
-    function reqListener(e) {
-      play(JSON.parse(this.responseText));
-    }
-  }
-
   loadRandomMatchFromAPI() {
-    $.get(
-      'http://staging-cofnode.operaevent.co/start-match/5907b6d90b4f524ca6a4fe28',
-      (data) => {
+    if (window.location.search === '') {
+      return console.error('Params required');
+    }
+    const params = window.location.search.replace('?', '').split('&');
+    const influencer_id = params[0].split('=')[1];
+    const access_token = params[1].split('=')[1];
+    $.ajax({
+      url: 'http://staging-cofnode.operaevent.co/random-match/5907b6d90b4f524ca6a4fe28',
+      method: "GET",
+      dataType: "json",
+      crossDomain: true,
+      contentType: "application/json; charset=utf-8",
+      cache: false,
+      beforeSend: function (xhr) {
+        /* Authorization header */
+        xhr.setRequestHeader("Authorization", access_token);
+      },
+      success: (data) => {
         console.log('### Playing Pregenerated Match ###');
         this.playRecordedMatch(data);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.error('Random Match', textStatus);
       }
-    );
+    });
   }
 }

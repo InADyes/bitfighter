@@ -11,15 +11,15 @@ import config from "./config";
 class Game extends Phaser.Game {
   constructor() {
     const docElement = document.documentElement;
-    const width =
-      docElement.clientWidth > config.gameWidth
-        ? config.gameWidth
-        : docElement.clientWidth;
-    const height =
-      docElement.clientHeight > config.gameHeight
-        ? config.gameHeight
-        : docElement.clientHeight;
+    let height, width;
 
+    if (window.innerWidth < config.gameWidth + 100 || window.innerHeight < config.gameHeight + 100) {
+      height = config.gameHeight;
+      width = config.gameWidth;
+    } else {
+      height = window.innerHeight;
+      width = window.innerWidth;
+    }
     super(width, height, Phaser.CANVAS, "content", null, false);
 
     this.state.add("Boot", BootState, false);
@@ -37,7 +37,7 @@ window.game = new Game();
 
 if (window.cordova) {
   var app = {
-    initialize: function() {
+    initialize: function () {
       document.addEventListener(
         "deviceready",
         this.onDeviceReady.bind(this),
@@ -47,14 +47,14 @@ if (window.cordova) {
 
     // deviceready Event Handler
     //
-    onDeviceReady: function() {
+    onDeviceReady: function () {
       this.receivedEvent("deviceready");
 
       // When the device is ready, start Phaser Boot state.
       window.game.state.start("Boot");
     },
 
-    receivedEvent: function(id) {
+    receivedEvent: function (id) {
       console.log("Received Event: " + id);
     }
   };
