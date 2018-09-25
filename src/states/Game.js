@@ -58,6 +58,7 @@ export default class extends Phaser.State {
 
     if (params.length === 2) {
       console.log('old fight', params[2]);
+      return this.loadMatchFromAPI();
     }
 
     const socket = io('https://staging-cofnode.operaevent.co/');
