@@ -88,12 +88,12 @@ export default class extends Phaser.State {
       }
     });
 
-    socket.on('live-fight', async (data) => {
+    socket.on('live-fight', (data) => {
       console.log('live-fight', data);
       if (Array.isArray(data)) {
         const baseStartTime = new Date();
         for (const round of data) {
-          this.activeTimeouts.push(setTimeout(() => {
+          this.activeTimeouts.push(setTimeout(async () => {
             if (round.action === 'arrange-players') {
               baseStartTime = round.time;
               await this.clearActivePlayers();
