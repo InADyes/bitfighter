@@ -171,12 +171,16 @@ export default class extends Phaser.Sprite {
     this.attackTween.stop();
     this.dieTween.start();
     setTimeout(() => {
-      this.destroy();
-      this.playerName.destroy();
-      this.healthBar.destroy();
-      this.healthBarBase.destroy();
-      this.healthText.destroy();
+      this.quickKill();
     }, 3000);
+  }
+
+  quickKill() {
+    this.destroy();
+    this.playerName.destroy();
+    this.healthBar.destroy();
+    this.healthBarBase.destroy();
+    this.healthText.destroy();
   }
 
   goVictory() {

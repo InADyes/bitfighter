@@ -8,6 +8,7 @@ export default class extends Phaser.State {
     this.stage.disableVisibilityChange = true;
     this.socketInit();
     this.activePlayers = [];
+    this.activeTimeouts = [];
   }
   preload() {}
 
@@ -25,22 +26,6 @@ export default class extends Phaser.State {
       'necromancer-2',
       'necromancer-3'
     ];
-
-    /* this.addPlayer(
-      characters[Math.floor(Math.random() * characters.length)],
-      null,
-      null,
-      "right"
-    );
-    this.addPlayer(
-      characters[Math.floor(Math.random() * characters.length)],
-      null,
-      null,
-      "left"
-    ); */
-    /* setTimeout(() => {
-      location.reload();
-    }, 15000); */
   }
 
   render() {
@@ -88,11 +73,7 @@ export default class extends Phaser.State {
       console.log('current-champs', data);
       if (Array.isArray(data) && data.length > 0) {
         if (Array.isArray(this.activePlayers) && this.activePlayers.length > 0) {
-          for (const player of this.activePlayers) {
-            player.kill();
-            this.activePlayers.slice()
-          }
-          this.activePlayers = [];
+          this.clearActivePlayers();
         }
         for (const player of data) {
 
@@ -108,6 +89,30 @@ export default class extends Phaser.State {
 
     socket.on('live-fight', function (data) {
       console.log('live-fight', data);
+      if (Array.isArray(data)) {
+        const baseStartTime = new Date();
+        for (const round of data) {
+          this.activeTimeouts.push(setTimeout(() => {
+            if (round.action === 'arrange-players') {
+              baseStartTime = round.time;
+              this.clearActivePlayers();
+              for (const player of round.meta.players) {
+
+                this.addPlayer(
+                  player.class.name,
+                  player,
+                  null,
+                  player.team === 0 ? 'left' : 'right'
+                );
+              }
+            } else {
+              this.parseRound(round);
+            }
+            this.activeTimeouts.pop();
+          }, Date.parse(round.time) - Date.parse(baseStartTime)));
+        }
+      }
+
     });
     socket.on('joininfluencer-fail', function (data) {
       console.log('joininfluencer-fail', data);
@@ -135,6 +140,15 @@ export default class extends Phaser.State {
           break;
       }
     }
+  }
+
+  clearActivePlayers() {
+    for (const player of this.activePlayers) {
+      player.quickKill();
+      player.kill();
+      this.activePlayers.slice()
+    }
+    this.activePlayers = [];
   }
 
   playRecordedMatch(data) {
