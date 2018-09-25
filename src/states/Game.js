@@ -192,11 +192,9 @@ export default class extends Phaser.State {
       case 'die':
         // this.activePlayers[round.player].goDie()
         break;
-
-        function
-      case 'dofunction
-      this.afunction[round.player].goDodge();
-      break;
+      case 'dodge':
+        this.activePlayers[round.player].goDodge();
+        break;
       case 'victory':
         this.activePlayers[round.player].goIdle();
         this.activePlayers[round.player].goVictory();
