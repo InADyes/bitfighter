@@ -228,7 +228,7 @@ export default class extends Phaser.Sprite {
     this.playerName = this.game.add.text(
       0,
       this.y + this.height / 2,
-      this.playerInfo.name, {
+      this.playerInfo.name || this.playerInfo.username, {
         font: '32px Luckiest Guy',
         fill: 'white',
         smoothed: false
@@ -243,7 +243,7 @@ export default class extends Phaser.Sprite {
     this.healthText = this.game.add.text(
       0,
       this.healthBar.y,
-      this.playerInfo.currentHp, {
+      this.playerInfo.currentHp || this.playerInfo.hp, {
         font: '24px Luckiest Guy',
         fill: 'white',
         smoothed: false

@@ -12,7 +12,7 @@ export default class extends Phaser.State {
   preload() {}
 
   create() {
-    this.loadRandomMatchFromAPI();
+    // this.loadRandomMatchFromAPI();
     // this.loadFakeData();
     this.characters = [
       'cyclop-1',
@@ -53,10 +53,8 @@ export default class extends Phaser.State {
     console.log(player);
     const _player = new Player2d({
       game: this.game,
-      x:
-        position === 'left'
-          ? this.world.centerX - this.world.width / 5
-          : this.world.centerX + this.world.width / 5,
+      x: position === 'left' ?
+        this.world.centerX - this.world.width / 5 : this.world.centerX + this.world.width / 5,
       y: this.world.centerY,
       asset: asset,
       position: position,
@@ -75,7 +73,7 @@ export default class extends Phaser.State {
     const socket = io('https://staging-cofnode.operaevent.co/');
     window.socket = socket;
 
-    socket.on('connect', function() {
+    socket.on('connect', function () {
       console.log('connected');
       const influencer_id = params[0].split('=')[1];
       const access_token = params[1].split('=')[1];
@@ -86,22 +84,40 @@ export default class extends Phaser.State {
       });
     });
 
-    socket.on('current-champs', function(data) {
+    socket.on('current-champs', (data) => {
       console.log('current-champs', data);
+      if (Array.isArray(data) && data.length > 0) {
+        if (Array.isArray(this.activePlayers) && this.activePlayers.length > 0) {
+          for (const player of this.activePlayers) {
+            player.kill();
+            this.activePlayers.slice()
+          }
+          this.activePlayers = [];
+        }
+        for (const player of data) {
+
+          this.addPlayer(
+            player.character_type,
+            player,
+            null,
+            player.team === 0 ? 'left' : 'right'
+          );
+        }
+      }
     });
 
-    socket.on('live-fight', function(data) {
+    socket.on('live-fight', function (data) {
       console.log('live-fight', data);
     });
-    socket.on('joininfluencer-fail', function(data) {
+    socket.on('joininfluencer-fail', function (data) {
       console.log('joininfluencer-fail', data);
     });
 
-    socket.on('event', function(data) {
+    socket.on('event', function (data) {
       incomingEvent(data);
     });
 
-    socket.on('disconnect', function(data) {
+    socket.on('disconnect', function (data) {
       console.log('disconnect', data);
     });
 
@@ -143,38 +159,42 @@ export default class extends Phaser.State {
         this.startFightCountdownTxt();
       } else {
         setTimeout(() => {
-          switch (round.action) {
-            case 'attack':
-              this.activePlayers[round.player].goAttack();
-              break;
-            case 'hit':
-              this.activePlayers[round.player].goHurt(round.meta.amount);
-              break;
-            case 'die':
-              // this.activePlayers[round.player].goDie()
-              break;
-            case 'dodge':
-              this.activePlayers[round.player].goDodge();
-              break;
-            case 'victory':
-              this.activePlayers[round.player].goIdle();
-              this.activePlayers[round.player].goVictory();
-              // this.addText('Victory!', 3000, 'green');
-              setTimeout(() => {
-                window.location.reload();
-              }, 5000);
-              break;
-            case 'buff-apply':
-              this.activePlayers[round.player].goAddBuff(round, true);
-              break;
-            case 'buff-remove':
-              this.activePlayers[round.player].goRemoveBuff(round, false);
-              break;
-            default:
-              break;
-          }
+          this.parseRound(round);
         }, Date.parse(round.time) - Date.parse(baseStartTime));
       }
+    }
+  }
+
+  parseRound(round) {
+    switch (round.action) {
+      case 'attack':
+        this.activePlayers[round.player].goAttack();
+        break;
+      case 'hit':
+        this.activePlayers[round.player].goHurt(round.meta.amount);
+        break;
+      case 'die':
+        // this.activePlayers[round.player].goDie()
+        break;
+      case 'dodge':
+        this.activePlayers[round.player].goDodge();
+        break;
+      case 'victory':
+        this.activePlayers[round.player].goIdle();
+        this.activePlayers[round.player].goVictory();
+        // this.addText('Victory!', 3000, 'green');
+        setTimeout(() => {
+          window.location.reload();
+        }, 5000);
+        break;
+      case 'buff-apply':
+        this.activePlayers[round.player].goAddBuff(round, true);
+        break;
+      case 'buff-remove':
+        this.activePlayers[round.player].goRemoveBuff(round, false);
+        break;
+      default:
+        break;
     }
   }
 
@@ -194,8 +214,7 @@ export default class extends Phaser.State {
     const txt = this.game.add.text(
       0,
       this.game.world.centerY - this.game.world.centerY / 5,
-      txtToDisplay,
-      {
+      txtToDisplay, {
         font: '46px Luckiest Guy',
         fill: textColor,
         smoothed: false
@@ -222,7 +241,7 @@ export default class extends Phaser.State {
       crossDomain: true,
       contentType: 'application/json; charset=utf-8',
       cache: false,
-      beforeSend: function(xhr) {
+      beforeSend: function (xhr) {
         /* Authorization header */
         xhr.setRequestHeader('Authorization', access_token);
       },
@@ -230,7 +249,7 @@ export default class extends Phaser.State {
         console.log('### Playing Pregenerated Match ###');
         this.playRecordedMatch(data);
       },
-      error: function(jqXHR, textStatus, errorThrown) {
+      error: function (jqXHR, textStatus, errorThrown) {
         console.error('Random Match', textStatus);
       }
     });
