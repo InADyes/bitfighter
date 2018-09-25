@@ -89,7 +89,7 @@ export default class extends Phaser.State {
     });
 
     socket.on('live-fight', (data) => {
-      // console.log('live-fight', data);
+      console.log('live-fight', data);
       if (Array.isArray(data)) {
         let baseStartTime = new Date();
         for (const round of data) {

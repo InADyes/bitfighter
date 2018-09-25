@@ -246,7 +246,7 @@ export default class extends Phaser.Sprite {
     let max_hit_points = (this.playerInfo.stats) ? this.playerInfo.stats.max_hit_points : this.playerInfo.currentHp;
     const rawPerctLeft =
       this.playerInfo.currentHp / max_hit_points;
-    console.log('raw', rawPerctLeft);
+
     const perctLeft = Math.floor(rawPerctLeft * 100);
     if (perctLeft < 25) {
       this.healthBar.tint = 0xff0000;
