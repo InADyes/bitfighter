@@ -164,7 +164,7 @@ export default class extends Phaser.Sprite {
   }
 
   goHeal(heal) {
-    this.playerInfo.currentHp += dmg;
+    this.playerInfo.currentHp += heal;
     this.healthText.text = this.playerInfo.currentHp > 0 ? this.playerInfo.currentHp : 0;
     this.healthText.x = (this.healthBar.x + this.healthBar.width / 2) - this.healthText.width / 2;
     if (this.playerInfo.currentHp < 1) {
