@@ -170,7 +170,7 @@ export default class extends Phaser.Sprite {
     if (this.playerInfo.currentHp < 1) {
       return this.goDie();
     }
-    this.createBuffTextHandler(`Healed ${heal}`, true);
+    this.createBuffTextHandler(`Healed ${heal}`, false);
     const rawPerctLeft =
       this.playerInfo.currentHp / this.playerInfo.stats.max_hit_points;
     const perctLeft = Math.floor(rawPerctLeft * 100);
@@ -243,7 +243,20 @@ export default class extends Phaser.Sprite {
     this.healthBar.width = 40;
     this.healthBar.anchor.setTo(0, 1);
     this.healthBar.height = 250;
-
+    let max_hit_points = (this.playerInfo.stats) ? this.playerInfo.stats.max_hit_points : this.playerInfo.currentHp;
+    const rawPerctLeft =
+      this.playerInfo.currentHp / max_hit_points;
+    console.log('raw', rawPerctLeft);
+    const perctLeft = Math.floor(rawPerctLeft * 100);
+    if (perctLeft < 25) {
+      this.healthBar.tint = 0xff0000;
+    } else if (perctLeft < 50) {
+      this.healthBar.tint = 0xff3300;
+    } else if (perctLeft < 75) {
+      this.healthBar.tint = 0xffff00;
+    }
+    const newHealthBarHeight = 250 * rawPerctLeft;
+    this.healthBar.height = newHealthBarHeight > 0 ? newHealthBarHeight : 0;
     this.game.add.existing(this.healthBarBase);
     this.game.add.existing(this.healthBar);
   }

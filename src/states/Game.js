@@ -36,7 +36,7 @@ export default class extends Phaser.State {
   }
 
   addPlayer(asset, player, stats, position) {
-    console.log(player);
+
     const _player = new Player2d({
       game: this.game,
       x: position === 'left' ?
@@ -76,8 +76,8 @@ export default class extends Phaser.State {
         if (Array.isArray(this.activePlayers) && this.activePlayers.length > 0) {
           this.clearActivePlayers();
         }
-        for (const player of data) {
-
+        for (let player of data) {
+          player.currentHp = player.hp;
           this.addPlayer(
             player.character_type,
             player,
@@ -89,14 +89,13 @@ export default class extends Phaser.State {
     });
 
     socket.on('live-fight', (data) => {
-      console.log('live-fight', data);
+      // console.log('live-fight', data);
       if (Array.isArray(data)) {
         let baseStartTime = new Date();
         for (const round of data) {
           if (round.action === 'arrange-players') {
             baseStartTime = round.time;
           }
-          console.log('round', round);
           const timeout = setTimeout(async () => {
             if (round.action === 'arrange-players') {
               await this.clearActivePlayers();
@@ -124,28 +123,9 @@ export default class extends Phaser.State {
       console.log('joininfluencer-fail', data);
     });
 
-    socket.on('event', function (data) {
-      incomingEvent(data);
-    });
-
     socket.on('disconnect', function (data) {
       console.log('disconnect', data);
     });
-
-    function incomingEvent(data) {
-      const action = data.action;
-      const actionData = data.data;
-      switch (action) {
-        case 'ArrangePlayers':
-          console.log('arrange players', actionData);
-          break;
-        case 'Attack':
-          console.log('attack', actionData);
-          break;
-        default:
-          break;
-      }
-    }
   }
 
   clearActivePlayers() {
