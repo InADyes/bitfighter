@@ -4,7 +4,6 @@ import Player from '../sprites/Player';
 import Player2d from '../sprites/2dPlayer';
 
 export default class extends Phaser.State {
-
   init() {
     this.stage.disableVisibilityChange = true;
     this.activePlayers = [];
@@ -36,11 +35,12 @@ export default class extends Phaser.State {
   }
 
   addPlayer(asset, player, stats, position) {
-
     const _player = new Player2d({
       game: this.game,
-      x: position === 'left' ?
-        this.world.centerX - this.world.width / 5 : this.world.centerX + this.world.width / 5,
+      x:
+        position === 'left'
+          ? this.world.centerX - this.world.width / 5
+          : this.world.centerX + this.world.width / 5,
       y: this.world.centerY,
       asset: asset,
       position: position,
@@ -56,10 +56,14 @@ export default class extends Phaser.State {
     }
     const params = window.location.search.replace('?', '').split('&');
 
+    if (params.length === 2) {
+      console.log('old fight', params[2]);
+    }
+
     const socket = io('https://staging-cofnode.operaevent.co/');
     window.socket = socket;
 
-    socket.on('connect', function () {
+    socket.on('connect', function() {
       console.log('connected');
       const influencer_id = params[0].split('=')[1];
       const access_token = params[1].split('=')[1];
@@ -70,10 +74,13 @@ export default class extends Phaser.State {
       });
     });
 
-    socket.on('current-champs', (data) => {
+    socket.on('current-champs', data => {
       console.log('current-champs', data);
       if (Array.isArray(data) && data.length > 0) {
-        if (Array.isArray(this.activePlayers) && this.activePlayers.length > 0) {
+        if (
+          Array.isArray(this.activePlayers) &&
+          this.activePlayers.length > 0
+        ) {
           this.clearActivePlayers();
         }
         for (let player of data) {
@@ -88,42 +95,15 @@ export default class extends Phaser.State {
       }
     });
 
-    socket.on('live-fight', (data) => {
+    socket.on('live-fight', data => {
       console.log('live-fight', data);
-      if (Array.isArray(data)) {
-        let baseStartTime = new Date();
-        for (const round of data) {
-          if (round.action === 'arrange-players') {
-            baseStartTime = round.time;
-          }
-          const timeout = setTimeout(async () => {
-            if (round.action === 'arrange-players') {
-              await this.clearActivePlayers();
-              for (const player of round.meta.players) {
-
-                this.addPlayer(
-                  player.class.name,
-                  player,
-                  null,
-                  player.team === 0 ? 'left' : 'right'
-                );
-              }
-              this.startFightCountdownTxt();
-            } else {
-              this.parseRound(round);
-            }
-            this.activeTimeouts.pop();
-          }, Date.parse(round.time) - Date.parse(baseStartTime));
-          this.activeTimeouts.push(timeout);
-        }
-      }
-
+      this.parseFight(data);
     });
-    socket.on('joininfluencer-fail', function (data) {
+    socket.on('joininfluencer-fail', function(data) {
       console.log('joininfluencer-fail', data);
     });
 
-    socket.on('disconnect', function (data) {
+    socket.on('disconnect', function(data) {
       console.log('disconnect', data);
     });
   }
@@ -132,35 +112,36 @@ export default class extends Phaser.State {
     for (const player of this.activePlayers) {
       player.quickKill();
       player.kill();
-      this.activePlayers.slice()
+      this.activePlayers.slice();
     }
     this.activePlayers = [];
   }
 
-  playRecordedMatch(data) {
-    if (!Array.isArray(data)) {
-      return;
-    }
-
-    let baseStartTime = null;
-
-    for (const round of data) {
-      if (round.action === 'arrange-players') {
-        baseStartTime = round.time;
-
-        for (const player of round.meta.players) {
-          this.addPlayer(
-            player.class.name,
-            player,
-            null,
-            player.team === 0 ? 'left' : 'right'
-          );
+  parseFight(data) {
+    if (Array.isArray(data)) {
+      let baseStartTime = new Date();
+      for (const round of data) {
+        if (round.action === 'arrange-players') {
+          baseStartTime = round.time;
         }
-        this.startFightCountdownTxt();
-      } else {
-        setTimeout(() => {
-          this.parseRound(round);
+        const timeout = setTimeout(async () => {
+          if (round.action === 'arrange-players') {
+            await this.clearActivePlayers();
+            for (const player of round.meta.players) {
+              this.addPlayer(
+                player.class.name,
+                player,
+                null,
+                player.team === 0 ? 'left' : 'right'
+              );
+            }
+            this.startFightCountdownTxt();
+          } else {
+            this.parseRound(round);
+          }
+          this.activeTimeouts.pop();
         }, Date.parse(round.time) - Date.parse(baseStartTime));
+        this.activeTimeouts.push(timeout);
       }
     }
   }
@@ -190,12 +171,7 @@ export default class extends Phaser.State {
         victor.quickKill();
         victor.kill();
         this.clearActivePlayers();
-        this.addPlayer(
-          victor.asset,
-          victor.playerInfo,
-          null,
-          'left'
-        );
+        this.addPlayer(victor.asset, victor.playerInfo, null, 'left');
         break;
       case 'buff-apply':
         this.activePlayers[round.player].goAddBuff(round, true);
@@ -224,7 +200,8 @@ export default class extends Phaser.State {
     const txt = this.game.add.text(
       0,
       this.game.world.centerY - this.game.world.centerY / 5,
-      txtToDisplay, {
+      txtToDisplay,
+      {
         font: '46px Luckiest Guy',
         fill: textColor,
         smoothed: false
@@ -235,6 +212,31 @@ export default class extends Phaser.State {
     setTimeout(() => {
       txt.destroy();
     }, timeToDisplay);
+  }
+
+  loadMatchFromAPI() {
+    const params = window.location.search.replace('?', '').split('&');
+    const oldFight = params[2].split('=')[1];
+    const access_token = params[1].split('=')[1];
+    $.ajax({
+      url: `https://staging-cofnode.operaevent.co/getfight/${oldFight}`,
+      method: 'GET',
+      dataType: 'json',
+      crossDomain: true,
+      contentType: 'application/json; charset=utf-8',
+      cache: false,
+      beforeSend: function(xhr) {
+        /* Authorization header */
+        xhr.setRequestHeader('Authorization', access_token);
+      },
+      success: data => {
+        console.log('### Playing Pregenerated Match ###');
+        this.parseFight(data);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error('Match', textStatus);
+      }
+    });
   }
 
   loadRandomMatchFromAPI() {
@@ -251,7 +253,7 @@ export default class extends Phaser.State {
       crossDomain: true,
       contentType: 'application/json; charset=utf-8',
       cache: false,
-      beforeSend: function (xhr) {
+      beforeSend: function(xhr) {
         /* Authorization header */
         xhr.setRequestHeader('Authorization', access_token);
       },
@@ -259,7 +261,7 @@ export default class extends Phaser.State {
         console.log('### Playing Pregenerated Match ###');
         this.playRecordedMatch(data);
       },
-      error: function (jqXHR, textStatus, errorThrown) {
+      error: function(jqXHR, textStatus, errorThrown) {
         console.error('Random Match', textStatus);
       }
     });
