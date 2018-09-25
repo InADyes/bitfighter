@@ -4,8 +4,7 @@ import Player from '../sprites/Player';
 import Player2d from '../sprites/2dPlayer';
 
 export default class extends Phaser.State {
-  activePlayers;
-  activeTimeouts;
+
   init() {
     this.stage.disableVisibilityChange = true;
     this.activePlayers = [];
@@ -89,7 +88,7 @@ export default class extends Phaser.State {
       }
     });
 
-    socket.on('live-fight', function (data) {
+    socket.on('live-fight', (data) => {
       console.log('live-fight', data);
       if (Array.isArray(data)) {
         const baseStartTime = new Date();
