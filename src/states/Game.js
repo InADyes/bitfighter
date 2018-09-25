@@ -4,11 +4,13 @@ import Player from '../sprites/Player';
 import Player2d from '../sprites/2dPlayer';
 
 export default class extends Phaser.State {
+  activePlayers;
+  activeTimeouts;
   init() {
     this.stage.disableVisibilityChange = true;
-    this.socketInit();
     this.activePlayers = [];
     this.activeTimeouts = [];
+    this.socketInit();
   }
   preload() {}
 
