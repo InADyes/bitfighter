@@ -56,7 +56,7 @@ export default class extends Phaser.State {
     }
     const params = window.location.search.replace('?', '').split('&');
 
-    if (params.length === 2) {
+    if (params.length === 3) {
       console.log('old fight', params);
       return this.loadMatchFromAPI();
     }
