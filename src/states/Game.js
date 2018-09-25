@@ -193,6 +193,9 @@ export default class extends Phaser.State {
       case 'hit':
         this.activePlayers[round.player].goHurt(round.meta.amount);
         break;
+      case 'healed':
+        this.activePlayers[round.player].goHeal(round.meta.amount);
+        break;
       case 'die':
         // this.activePlayers[round.player].goDie()
         break;
