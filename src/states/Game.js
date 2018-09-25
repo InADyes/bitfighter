@@ -88,7 +88,7 @@ export default class extends Phaser.State {
       }
     });
 
-    socket.on('live-fight', (data) => {
+    socket.on('live-fight', async (data) => {
       console.log('live-fight', data);
       if (Array.isArray(data)) {
         const baseStartTime = new Date();
@@ -96,7 +96,7 @@ export default class extends Phaser.State {
           this.activeTimeouts.push(setTimeout(() => {
             if (round.action === 'arrange-players') {
               baseStartTime = round.time;
-              this.clearActivePlayers();
+              await this.clearActivePlayers();
               for (const player of round.meta.players) {
 
                 this.addPlayer(
@@ -106,6 +106,7 @@ export default class extends Phaser.State {
                   player.team === 0 ? 'left' : 'right'
                 );
               }
+              this.startFightCountdownTxt();
             } else {
               this.parseRound(round);
             }
@@ -191,9 +192,11 @@ export default class extends Phaser.State {
       case 'die':
         // this.activePlayers[round.player].goDie()
         break;
-      case 'dodge':
-        this.activePlayers[round.player].goDodge();
-        break;
+
+        function
+      case 'dofunction
+      this.afunction[round.player].goDodge();
+      break;
       case 'victory':
         this.activePlayers[round.player].goIdle();
         this.activePlayers[round.player].goVictory();
