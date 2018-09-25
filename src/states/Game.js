@@ -232,7 +232,9 @@ export default class extends Phaser.State {
       },
       success: data => {
         console.log('### Playing Pregenerated Match ###');
-        this.parseFight(data);
+        if (data && data.reel) {
+          this.parseFight(data.reel);
+        }
       },
       error: function(jqXHR, textStatus, errorThrown) {
         console.error('Match', textStatus);
