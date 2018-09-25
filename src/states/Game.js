@@ -91,11 +91,14 @@ export default class extends Phaser.State {
     socket.on('live-fight', (data) => {
       console.log('live-fight', data);
       if (Array.isArray(data)) {
-        const baseStartTime = new Date();
+        let baseStartTime = new Date();
         for (const round of data) {
-          this.activeTimeouts.push(setTimeout(async () => {
+          if (round.action === 'arrange-players') {
+            baseStartTime = round.time;
+          }
+          console.log('round', round);
+          const timeout = setTimeout(async () => {
             if (round.action === 'arrange-players') {
-              baseStartTime = round.time;
               await this.clearActivePlayers();
               for (const player of round.meta.players) {
 
@@ -111,7 +114,8 @@ export default class extends Phaser.State {
               this.parseRound(round);
             }
             this.activeTimeouts.pop();
-          }, Date.parse(round.time) - Date.parse(baseStartTime)));
+          }, Date.parse(round.time) - Date.parse(baseStartTime));
+          this.activeTimeouts.push(timeout);
         }
       }
 
@@ -199,9 +203,16 @@ export default class extends Phaser.State {
         this.activePlayers[round.player].goIdle();
         this.activePlayers[round.player].goVictory();
         // this.addText('Victory!', 3000, 'green');
-        setTimeout(() => {
-          window.location.reload();
-        }, 5000);
+        const victor = this.activePlayers[round.player];
+        victor.quickKill();
+        victor.kill();
+        this.clearActivePlayers();
+        this.addPlayer(
+          victor.asset,
+          victor.playerInfo,
+          null,
+          'left'
+        );
         break;
       case 'buff-apply':
         this.activePlayers[round.player].goAddBuff(round, true);

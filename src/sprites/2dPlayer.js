@@ -20,7 +20,7 @@ export default class extends Phaser.Sprite {
     this.originalX = x;
     this.game = game;
     this.playerInfo = player;
-
+    this.asset = asset;
     this.playerName = null;
     this.buffList = [];
     if (stats) {
