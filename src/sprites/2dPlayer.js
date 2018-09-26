@@ -118,6 +118,9 @@ export default class extends Phaser.Sprite {
   update() {}
 
   goAttack() {
+    if (!this) {
+      return;
+    }
     this.idleTween.pause();
     this.game.add.tween(this).to({
         x: this.originalX
@@ -130,6 +133,9 @@ export default class extends Phaser.Sprite {
   }
 
   goIdle() {
+    if (!this) {
+      return;
+    }
     if (this.attackTween.isRunning) {
       this.attackTween.stop();
     }
@@ -142,6 +148,9 @@ export default class extends Phaser.Sprite {
   }
 
   goHurt(dmg) {
+    if (!this) {
+      return;
+    }
     this.playerInfo.currentHp -= dmg;
     this.healthText.text = this.playerInfo.currentHp > 0 ? this.playerInfo.currentHp : 0;
     this.healthText.x = (this.healthBar.x + this.healthBar.width / 2) - this.healthText.width / 2;
@@ -164,6 +173,9 @@ export default class extends Phaser.Sprite {
   }
 
   goHeal(heal) {
+    if (!this) {
+      return;
+    }
     this.playerInfo.currentHp += heal;
     this.healthText.text = this.playerInfo.currentHp > 0 ? this.playerInfo.currentHp : 0;
     this.healthText.x = (this.healthBar.x + this.healthBar.width / 2) - this.healthText.width / 2;
@@ -186,6 +198,9 @@ export default class extends Phaser.Sprite {
   }
 
   goDie() {
+    if (!this) {
+      return;
+    }
     this.healthBar.height = 0;
     this.idleTween.pause();
     this.attackTween.stop();
@@ -196,6 +211,9 @@ export default class extends Phaser.Sprite {
   }
 
   quickKill() {
+    if (!this) {
+      return;
+    }
     this.destroy();
     this.playerName.destroy();
     this.healthBar.destroy();
@@ -204,18 +222,30 @@ export default class extends Phaser.Sprite {
   }
 
   goVictory() {
+    if (!this) {
+      return;
+    }
     this.createVictoryTextHandler();
   }
 
   goDodge() {
+    if (!this) {
+      return;
+    }
     this.createTextHandler('Dodge', 'right');
   }
 
   goAddBuff(buff, apply) {
+    if (!this) {
+      return;
+    }
     this.buffList.push(buff);
     this.createBuffTextHandler(`Applied ${buff.meta.name}`, apply);
   }
   goRemoveBuff(buff, apply) {
+    if (!this) {
+      return;
+    }
     this.createBuffTextHandler(`Remove ${this.buffList[buff.meta.index].meta.name}`, apply);
     this.buffList = this.buffList.slice(buff.meta.index, 1);
   }
