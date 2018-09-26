@@ -243,7 +243,7 @@ export default class extends Phaser.Sprite {
     this.createBuffTextHandler(`Applied ${buff.meta.name}`, apply);
   }
   goRemoveBuff(buff, apply) {
-    if (!this) {
+    if (!this || this.buffList.length < (buff.meta.index + 1)) {
       return;
     }
     this.createBuffTextHandler(`Remove ${this.buffList[buff.meta.index].meta.name}`, apply);
