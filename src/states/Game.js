@@ -166,6 +166,7 @@ export default class extends Phaser.State {
         break;
       case 'die':
         // this.activePlayers[round.player].goDie()
+
         break;
       case 'dodge':
         this.activePlayers[round.player].goDodge();
@@ -173,6 +174,9 @@ export default class extends Phaser.State {
       case 'victory':
         this.activePlayers[round.player].goIdle();
         this.activePlayers[round.player].goVictory();
+        for (const time of this.activeTimeouts) {
+          clearTimeout(time);
+        }
         // this.addText('Victory!', 3000, 'green');
         const victor = this.activePlayers[round.player];
         victor.quickKill();
