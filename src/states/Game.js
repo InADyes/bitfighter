@@ -147,7 +147,6 @@ export default class extends Phaser.State {
           } else {
             this.parseRound(round);
           }
-          this.activeTimeouts.pop();
         }, Date.parse(round.time) - Date.parse(baseStartTime));
         this.activeTimeouts.push(timeout);
       }
