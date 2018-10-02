@@ -59,7 +59,7 @@ export default class extends Phaser.State {
       return this.loadMatchFromAPI();
     }
 
-    const socket = io('https://cofnode.operaevent.co/');
+    const socket = io('https://staging-cofnode.operaevent.co/');
     window.socket = socket;
 
     socket.on('connect', function () {
