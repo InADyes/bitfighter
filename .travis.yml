@@ -1,0 +1,26 @@
+sudo: required
+dist: trusty
+language: node_js
+git:
+  depth: 3
+branches:
+  only:
+  - master
+  - staging
+cache:
+  directories:
+  - node_modules
+node_js:
+- '8.4'
+
+script:
+# - npm run ci
+# - if [ "$TRAVIS_BRANCH" = "dev" ]; then npm run build:dev; fi
+- if [ "$TRAVIS_BRANCH" = "staging" ]; then npm run deploy; fi
+- if [ "$TRAVIS_BRANCH" = "master" ]; then npm run deploy; fi
+- ls
+
+after_success:
+- pip install --user awscli
+# - if [ "$TRAVIS_BRANCH" = "staging" ]; then sh deploy.sh staging; fi
+- if [ "$TRAVIS_BRANCH" = "master" ]; then sh deploy.sh production; fi
