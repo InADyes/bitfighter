@@ -6,6 +6,9 @@
     "main": "index.js",
     "scripts": {
         "dev": "webpack",
+        "build": "npm run deploy",
+        "build:staging": "npm run deploy -- --env.staging",
+        "build:prod": "npm run deploy -- --env.production",
         "deploy": "webpack --config webpack.production.config.js",
         "cordova": "webpack --config webpack.cordova.config.js",
         "test": "eslint './src/**/*.js'",
@@ -32,6 +35,7 @@
         "eslint-plugin-standard": "^3.0.1",
         "expose-loader": "^0.7.4",
         "html-webpack-plugin": "^2.30.1",
+        "string-replace-loader": "^2.1.1",
         "webpack": "^3.12.0"
     },
     "dependencies": {
