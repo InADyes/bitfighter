@@ -22,5 +22,5 @@ script:
 
 after_success:
 - pip install --user awscli
-# - if [ "$TRAVIS_BRANCH" = "staging" ]; then sh deploy.sh staging; fi
+- if [ "$TRAVIS_BRANCH" = "staging" ]; then sh deploy.sh staging; fi
 - if [ "$TRAVIS_BRANCH" = "master" ]; then sh deploy.sh production; fi
