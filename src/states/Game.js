@@ -179,13 +179,18 @@ export default class extends Phaser.State {
         }
         // this.addText('Victory!', 3000, 'green');
         const victor = this.activePlayers[round.player];
-        victor.quickKill();
-        victor.kill();
-        this.clearActivePlayers();
-        this.addPlayer(victor.asset, victor.playerInfo, null, 'left');
+        setTimeout(() => {
+          victor.quickKill();
+          victor.kill();
+          this.clearActivePlayers();
+          this.addPlayer(victor.asset, victor.playerInfo, null, 'left');
+        }, 1000);
         break;
       case 'buff-apply':
         this.activePlayers[round.player].goAddBuff(round, true);
+        // HERE Ravi. We would need a conditional to make see if max_hit_points exists
+        // then call 
+        // this.activePlayers[round.player].goHeal(MAX_HIT_POINTS_VAR_HERE);
         break;
       case 'buff-remove':
         this.activePlayers[round.player].goRemoveBuff(round, false);
