@@ -20,7 +20,7 @@ class Game extends Phaser.Game {
       height = window.innerHeight;
       width = window.innerWidth;
     }
-    super(width, height, Phaser.CANVAS, "content", null, false);
+    super(width, height, Phaser.CANVAS, "content", null, true);
 
     this.state.add("Boot", BootState, false);
     this.state.add("Splash", SplashState, false);
