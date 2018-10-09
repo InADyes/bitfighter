@@ -188,7 +188,7 @@ export default class extends Phaser.State {
           victor.kill();
           this.clearActivePlayers();
           this.addPlayer(victor.asset, victor.playerInfo, null, 'left');
-        }, 1000);
+        }, 2500);
         break;
       case 'buff-apply':
         this.activePlayers[round.player].goAddBuff(round, true);
