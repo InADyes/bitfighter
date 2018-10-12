@@ -37,10 +37,8 @@ export default class extends Phaser.State {
   addPlayer(asset, player, stats, position) {
     const _player = new Player2d({
       game: this.game,
-      x:
-        position === 'left'
-          ? this.world.centerX - this.world.width / 5
-          : this.world.centerX + this.world.width / 5,
+      x: position === 'left' ?
+        this.world.centerX - this.world.width / 5 : this.world.centerX + this.world.width / 5,
       y: this.world.centerY,
       asset: asset,
       position: position,
@@ -64,7 +62,7 @@ export default class extends Phaser.State {
     const socket = io('https://staging-cofnode.operaevent.co/');
     window.socket = socket;
 
-    socket.on('connect', function() {
+    socket.on('connect', function () {
       console.log('connected');
       const influencer_id = params[0].split('=')[1];
       const access_token = params[1].split('=')[1];
@@ -100,11 +98,11 @@ export default class extends Phaser.State {
       console.log('live-fight', data);
       this.parseFight(data);
     });
-    socket.on('joininfluencer-fail', function(data) {
+    socket.on('joininfluencer-fail', function (data) {
       console.log('joininfluencer-fail', data);
     });
 
-    socket.on('disconnect', function(data) {
+    socket.on('disconnect', function (data) {
       console.log('disconnect', data);
     });
   }
@@ -113,7 +111,6 @@ export default class extends Phaser.State {
     for (const player of this.activePlayers) {
       player.quickKill();
       player.kill();
-      this.activePlayers.slice();
     }
     this.activePlayers = [];
   }
@@ -124,9 +121,11 @@ export default class extends Phaser.State {
         Array.isArray(this.activeTimeouts) &&
         this.activeTimeouts.length > 0
       ) {
+        console.log('clearing timeouts', this.activeTimeouts);
         for (const time of this.activeTimeouts) {
           clearTimeout(time);
         }
+        console.log('cleared timeouts', this.activeTimeouts);
       }
       this.activeTimeouts = [];
       let baseStartTime = new Date();
@@ -177,10 +176,13 @@ export default class extends Phaser.State {
         break;
       case 'victory':
         this.activePlayers[round.player].goIdle();
-        this.activePlayers[round.player].goVictory();
+        setTimeout(() => {
+          this.activePlayers[round.player].goVictory();
+        }, 1000);
         for (const time of this.activeTimeouts) {
           clearTimeout(time);
         }
+        this.activeTimeouts = [];
         // this.addText('Victory!', 3000, 'green');
         const victor = this.activePlayers[round.player];
         setTimeout(() => {
@@ -190,13 +192,14 @@ export default class extends Phaser.State {
           this.addPlayer(victor.asset, victor.playerInfo, null, 'left');
         }, 2500);
         break;
+      case 'throw-item':
       case 'buff-apply':
         this.activePlayers[round.player].goAddBuff(round, true);
         // Check if Buff/Item has a healing effect to it.
         if (
           round.meta &&
           round.meta.stat_effect &&
-          round.meta.stat_effect.max_hit_points
+          round.meta.stat_effect.hasOwnProperty('max_hit_points')
         ) {
           this.activePlayers[round.player].goHeal(
             round.meta.stat_effect.max_hit_points
@@ -227,8 +230,7 @@ export default class extends Phaser.State {
     const txt = this.game.add.text(
       0,
       this.game.world.centerY - this.game.world.centerY / 5,
-      txtToDisplay,
-      {
+      txtToDisplay, {
         font: '46px Luckiest Guy',
         fill: textColor,
         smoothed: false
@@ -252,7 +254,7 @@ export default class extends Phaser.State {
       crossDomain: true,
       contentType: 'application/json; charset=utf-8',
       cache: false,
-      beforeSend: function(xhr) {
+      beforeSend: function (xhr) {
         /* Authorization header */
         xhr.setRequestHeader('Authorization', access_token);
       },
@@ -262,7 +264,7 @@ export default class extends Phaser.State {
           this.parseFight(data.reel);
         }
       },
-      error: function(jqXHR, textStatus, errorThrown) {
+      error: function (jqXHR, textStatus, errorThrown) {
         console.error('Match', textStatus);
       }
     });
@@ -282,7 +284,7 @@ export default class extends Phaser.State {
       crossDomain: true,
       contentType: 'application/json; charset=utf-8',
       cache: false,
-      beforeSend: function(xhr) {
+      beforeSend: function (xhr) {
         /* Authorization header */
         xhr.setRequestHeader('Authorization', access_token);
       },
@@ -290,7 +292,7 @@ export default class extends Phaser.State {
         console.log('### Playing Pregenerated Match ###');
         this.playRecordedMatch(data);
       },
-      error: function(jqXHR, textStatus, errorThrown) {
+      error: function (jqXHR, textStatus, errorThrown) {
         console.error('Random Match', textStatus);
       }
     });

@@ -276,7 +276,7 @@ export default class extends Phaser.Sprite {
     this.healthBar.width = 40;
     this.healthBar.anchor.setTo(0, 1);
     this.healthBar.height = 250;
-    let max_hit_points = (this.playerInfo.stats) ? this.playerInfo.stats.max_hit_points : this.playerInfo.currentHp;
+    let max_hit_points = (this.playerInfo.stats && this.playerInfo.stats.hasOwnProperty('max_hit_points')) ? this.playerInfo.stats.max_hit_points : this.playerInfo.currentHp;
     const rawPerctLeft =
       this.playerInfo.currentHp / max_hit_points;
 
