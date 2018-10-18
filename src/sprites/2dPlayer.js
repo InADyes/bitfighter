@@ -81,7 +81,7 @@ export default class extends Phaser.Sprite {
       {
         x: atkTweenData
       },
-      100
+      200
     );
     this.attackTween.onComplete.add(attackReverseTween, this);
 
@@ -90,7 +90,7 @@ export default class extends Phaser.Sprite {
         {
           x: this.originalX
         },
-        100,
+        200,
         'Linear',
         true
       );
