@@ -84,6 +84,9 @@ export default class extends Phaser.State {
         }
         for (let player of data) {
           player.currentHp = player.hp;
+          player.stats = {
+            max_hit_points: player.max_hp
+          };
           this.addPlayer(
             player.character_type,
             player,
@@ -196,6 +199,7 @@ export default class extends Phaser.State {
       case 'buff-apply':
         this.activePlayers[round.player].goAddBuff(round, true);
         // Check if Buff/Item has a healing effect to it.
+        console.log('throw-item/buff-apply', round);
         if (
           round.meta &&
           round.meta.stat_effect &&
