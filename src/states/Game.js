@@ -57,7 +57,6 @@ export default class extends Phaser.State {
     const params = window.location.search.replace('?', '').split('&');
 
     if (params.length === 3) {
-      console.log('old fight', params);
       return this.loadMatchFromAPI();
     }
 
@@ -126,11 +125,9 @@ export default class extends Phaser.State {
         Array.isArray(this.activeTimeouts) &&
         this.activeTimeouts.length > 0
       ) {
-        console.log('clearing timeouts', this.activeTimeouts);
         for (const time of this.activeTimeouts) {
           clearTimeout(time);
         }
-        console.log('cleared timeouts', this.activeTimeouts);
       }
       this.activeTimeouts = [];
       let baseStartTime = new Date();
@@ -201,7 +198,6 @@ export default class extends Phaser.State {
       case 'buff-apply':
         this.activePlayers[round.player].goAddBuff(round, true);
         // Check if Buff/Item has a healing effect to it.
-        console.log('throw-item/buff-apply', round);
         if (
           round.meta &&
           round.meta.stat_effect &&

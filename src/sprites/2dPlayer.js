@@ -81,7 +81,7 @@ export default class extends Phaser.Sprite {
       {
         x: atkTweenData
       },
-      200
+      100
     );
     this.attackTween.onComplete.add(attackReverseTween, this);
 
@@ -90,7 +90,7 @@ export default class extends Phaser.Sprite {
         {
           x: this.originalX
         },
-        200,
+        100,
         'Linear',
         true
       );
@@ -166,6 +166,8 @@ export default class extends Phaser.Sprite {
       this.healthBar.tint = 0xff3300;
     } else if (perctLeft < 75) {
       this.healthBar.tint = 0xffff00;
+    } else {
+      this.healthBar.tint = 0x00ff00;
     }
     const newHealthBarHeight = 250 * rawPerctLeft;
     this.healthBar.height = newHealthBarHeight > 0 ? newHealthBarHeight : 0;
@@ -199,6 +201,8 @@ export default class extends Phaser.Sprite {
       this.healthBar.tint = 0xff3300;
     } else if (perctLeft < 75) {
       this.healthBar.tint = 0xffff00;
+    } else {
+      this.healthBar.tint = 0x00ff00;
     }
     const newHealthBarHeight = 250 * rawPerctLeft;
     this.healthBar.height = newHealthBarHeight > 0 ? newHealthBarHeight : 0;
