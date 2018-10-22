@@ -55,7 +55,6 @@ export default class extends Phaser.State {
     const params = window.location.search.replace('?', '').split('&');
 
     if (params.length === 3) {
-      console.log('old fight', params);
       return this.loadMatchFromAPI();
     }
 
@@ -84,6 +83,9 @@ export default class extends Phaser.State {
         }
         for (let player of data) {
           player.currentHp = player.hp;
+          player.stats = {
+            max_hit_points: player.max_hp
+          };
           this.addPlayer(
             player.character_type,
             player,
@@ -168,7 +170,7 @@ export default class extends Phaser.State {
         this.activePlayers[round.player].goHeal(round.meta.amount);
         break;
       case 'die':
-        // this.activePlayers[round.player].goDie()
+        this.activePlayers[round.player].goDie();
 
         break;
       case 'dodge':

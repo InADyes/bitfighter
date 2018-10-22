@@ -155,9 +155,7 @@ export default class extends Phaser.Sprite {
       this.playerInfo.currentHp > 0 ? this.playerInfo.currentHp : 0;
     this.healthText.x =
       this.healthBar.x + this.healthBar.width / 2 - this.healthText.width / 2;
-    if (this.playerInfo.currentHp < 1) {
-      return this.goDie();
-    }
+
     this.createTextHandler(`Hit ${dmg}`);
     const rawPerctLeft =
       this.playerInfo.currentHp / this.playerInfo.stats.max_hit_points;
@@ -168,6 +166,8 @@ export default class extends Phaser.Sprite {
       this.healthBar.tint = 0xff3300;
     } else if (perctLeft < 75) {
       this.healthBar.tint = 0xffff00;
+    } else {
+      this.healthBar.tint = 0x00ff00;
     }
     const newHealthBarHeight = this.maxHealthHeight * rawPerctLeft;
     this.healthBar.height = newHealthBarHeight > 0 ? newHealthBarHeight : 0;
@@ -201,6 +201,8 @@ export default class extends Phaser.Sprite {
       this.healthBar.tint = 0xff3300;
     } else if (perctLeft < 75) {
       this.healthBar.tint = 0xffff00;
+    } else {
+      this.healthBar.tint = 0x00ff00;
     }
     const newHealthBarHeight = this.maxHealthHeight * rawPerctLeft;
     this.healthBar.height = newHealthBarHeight > 0 ? newHealthBarHeight : 0;
@@ -299,10 +301,12 @@ export default class extends Phaser.Sprite {
     this.healthBar.tint = 0x00ff00;
 
     this.healthBar.anchor.setTo(0, 1);
+
     this.healthBar.height = this.maxHealthHeight;
     let max_hit_points = this.playerInfo.stats
       ? this.playerInfo.stats.max_hit_points
       : this.playerInfo.currentHp;
+
     const rawPerctLeft = this.playerInfo.currentHp / max_hit_points;
 
     const perctLeft = Math.floor(rawPerctLeft * 100);
