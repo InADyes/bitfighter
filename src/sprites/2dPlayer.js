@@ -13,6 +13,8 @@ export default class extends Phaser.Sprite {
     this.asset = asset;
     this.playerName = null;
     this.buffList = [];
+
+    this.maxHealthHeight = window.innerHeight / 2;
     if (stats) {
       baseStats = {
         health: stats.health,
@@ -153,9 +155,7 @@ export default class extends Phaser.Sprite {
       this.playerInfo.currentHp > 0 ? this.playerInfo.currentHp : 0;
     this.healthText.x =
       this.healthBar.x + this.healthBar.width / 2 - this.healthText.width / 2;
-    /* if (this.playerInfo.currentHp < 1) {
-      return this.goDie();
-    } */
+
     this.createTextHandler(`Hit ${dmg}`);
     const rawPerctLeft =
       this.playerInfo.currentHp / this.playerInfo.stats.max_hit_points;
@@ -169,7 +169,7 @@ export default class extends Phaser.Sprite {
     } else {
       this.healthBar.tint = 0x00ff00;
     }
-    const newHealthBarHeight = 250 * rawPerctLeft;
+    const newHealthBarHeight = this.maxHealthHeight * rawPerctLeft;
     this.healthBar.height = newHealthBarHeight > 0 ? newHealthBarHeight : 0;
   }
 
@@ -204,7 +204,7 @@ export default class extends Phaser.Sprite {
     } else {
       this.healthBar.tint = 0x00ff00;
     }
-    const newHealthBarHeight = 250 * rawPerctLeft;
+    const newHealthBarHeight = this.maxHealthHeight * rawPerctLeft;
     this.healthBar.height = newHealthBarHeight > 0 ? newHealthBarHeight : 0;
   }
 
@@ -266,32 +266,47 @@ export default class extends Phaser.Sprite {
 
   createHealthBar() {
     const width = this.width < 1 ? this.width * -1 : this.wdith;
-    const x = this.leftOrRight === 'right' ? this.game.width - 70 : 30;
+    let x = this.leftOrRight === 'right' ? this.game.width - 70 : 30;
+    if (this.leftOrRight === 'left' && window.innerWidth < 400) {
+      x -= 20;
+    }
+    if (this.leftOrRight === 'right' && window.innerWidth < 400) {
+      x += 20;
+    }
 
     this.healthBarBase = this.game.add.image(
       x,
       this.y + this.height / 2,
       'health_bg'
     );
+    if (window.innerWidth > 700) {
+      this.healthBarBase.width = 40;
+    } else {
+      this.healthBarBase.width = 20;
+    }
     this.healthBarBase.tint = 0xd2cdc7;
-    this.healthBarBase.width = 40;
     this.healthBarBase.anchor.setTo(0, 1);
-    this.healthBarBase.height = 250;
+    this.healthBarBase.height = this.maxHealthHeight;
     this.healthBarBase.alpha = 0.3;
     this.healthBar = this.game.add.image(
       x,
       this.y + this.height / 2,
       'health_bg'
     );
+    if (window.innerWidth > 700) {
+      this.healthBar.width = 40;
+    } else {
+      this.healthBar.width = 20;
+    }
     this.healthBar.tint = 0x00ff00;
-    this.healthBar.width = 40;
+
     this.healthBar.anchor.setTo(0, 1);
-    this.healthBar.height = 250;
-    let max_hit_points =
-      this.playerInfo.stats &&
-      this.playerInfo.stats.hasOwnProperty('max_hit_points')
-        ? this.playerInfo.stats.max_hit_points
-        : this.playerInfo.currentHp;
+
+    this.healthBar.height = this.maxHealthHeight;
+    let max_hit_points = this.playerInfo.stats
+      ? this.playerInfo.stats.max_hit_points
+      : this.playerInfo.currentHp;
+
     const rawPerctLeft = this.playerInfo.currentHp / max_hit_points;
 
     const perctLeft = Math.floor(rawPerctLeft * 100);
@@ -302,19 +317,23 @@ export default class extends Phaser.Sprite {
     } else if (perctLeft < 75) {
       this.healthBar.tint = 0xffff00;
     }
-    const newHealthBarHeight = 250 * rawPerctLeft;
+    const newHealthBarHeight = this.maxHealthHeight * rawPerctLeft;
     this.healthBar.height = newHealthBarHeight > 0 ? newHealthBarHeight : 0;
     this.game.add.existing(this.healthBarBase);
     this.game.add.existing(this.healthBar);
   }
 
   createNameText() {
+    let fontSize = 32;
+    if (window.innerWidth < 400) {
+      fontSize = 18;
+    }
     this.playerName = this.game.add.text(
       0,
       this.y + this.height / 2,
       this.playerInfo.name || this.playerInfo.username,
       {
-        font: '32px Luckiest Guy',
+        font: `${fontSize}px Luckiest Guy`,
         fill: 'white',
         smoothed: false
       }
@@ -324,12 +343,16 @@ export default class extends Phaser.Sprite {
   }
 
   createHealthText() {
+    let fontSize = 24;
+    if (window.innerWidth < 400) {
+      fontSize = 16;
+    }
     this.healthText = this.game.add.text(
       0,
       this.healthBar.y,
       this.playerInfo.currentHp || this.playerInfo.hp,
       {
-        font: '24px Luckiest Guy',
+        font: `${fontSize}px Luckiest Guy`,
         fill: 'white',
         smoothed: false
       }
