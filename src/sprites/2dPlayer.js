@@ -14,7 +14,7 @@ export default class extends Phaser.Sprite {
     this.playerName = null;
     this.buffList = [];
 
-    this.maxHealthHeight = window.innerHeight / 3;
+    this.maxHealthHeight = window.innerHeight / 2;
     if (stats) {
       baseStats = {
         health: stats.health,
@@ -333,12 +333,16 @@ export default class extends Phaser.Sprite {
   }
 
   createHealthText() {
+    let fontSize = 24;
+    if (window.innerWidth < 400) {
+      fontSize = 16;
+    }
     this.healthText = this.game.add.text(
       0,
       this.healthBar.y,
       this.playerInfo.currentHp || this.playerInfo.hp,
       {
-        font: '24px Luckiest Guy',
+        font: `${fontSize}px Luckiest Guy`,
         fill: 'white',
         smoothed: false
       }
