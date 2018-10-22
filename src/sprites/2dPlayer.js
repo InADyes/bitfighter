@@ -13,6 +13,8 @@ export default class extends Phaser.Sprite {
     this.asset = asset;
     this.playerName = null;
     this.buffList = [];
+
+    this.maxHealthHeight = window.innerHeight / 3;
     if (stats) {
       baseStats = {
         health: stats.health,
@@ -167,7 +169,7 @@ export default class extends Phaser.Sprite {
     } else if (perctLeft < 75) {
       this.healthBar.tint = 0xffff00;
     }
-    const newHealthBarHeight = 250 * rawPerctLeft;
+    const newHealthBarHeight = this.maxHealthHeight * rawPerctLeft;
     this.healthBar.height = newHealthBarHeight > 0 ? newHealthBarHeight : 0;
   }
 
@@ -200,7 +202,7 @@ export default class extends Phaser.Sprite {
     } else if (perctLeft < 75) {
       this.healthBar.tint = 0xffff00;
     }
-    const newHealthBarHeight = 250 * rawPerctLeft;
+    const newHealthBarHeight = this.maxHealthHeight * rawPerctLeft;
     this.healthBar.height = newHealthBarHeight > 0 ? newHealthBarHeight : 0;
   }
 
@@ -269,21 +271,21 @@ export default class extends Phaser.Sprite {
       this.y + this.height / 2,
       'health_bg'
     );
-    if (this.width > 700) {
+    if (window.innerWidth > 700) {
       this.healthBarBase.width = 40;
     } else {
       this.healthBarBase.width = 20;
     }
     this.healthBarBase.tint = 0xd2cdc7;
     this.healthBarBase.anchor.setTo(0, 1);
-    this.healthBarBase.height = this.height;
+    this.healthBarBase.height = this.maxHealthHeight;
     this.healthBarBase.alpha = 0.3;
     this.healthBar = this.game.add.image(
       x,
       this.y + this.height / 2,
       'health_bg'
     );
-    if (this.width > 700) {
+    if (window.innerWidth > 700) {
       this.healthBar.width = 40;
     } else {
       this.healthBar.width = 20;
@@ -291,7 +293,7 @@ export default class extends Phaser.Sprite {
     this.healthBar.tint = 0x00ff00;
 
     this.healthBar.anchor.setTo(0, 1);
-    this.healthBar.height = this.height;
+    this.healthBar.height = this.maxHealthHeight;
     let max_hit_points = this.playerInfo.stats
       ? this.playerInfo.stats.max_hit_points
       : this.playerInfo.currentHp;
@@ -305,19 +307,23 @@ export default class extends Phaser.Sprite {
     } else if (perctLeft < 75) {
       this.healthBar.tint = 0xffff00;
     }
-    const newHealthBarHeight = 250 * rawPerctLeft;
+    const newHealthBarHeight = this.maxHealthHeight * rawPerctLeft;
     this.healthBar.height = newHealthBarHeight > 0 ? newHealthBarHeight : 0;
     this.game.add.existing(this.healthBarBase);
     this.game.add.existing(this.healthBar);
   }
 
   createNameText() {
+    let fontSize = 32;
+    if (window.innerWidth < 400) {
+      fontSize = 20;
+    }
     this.playerName = this.game.add.text(
       0,
       this.y + this.height / 2,
       this.playerInfo.name || this.playerInfo.username,
       {
-        font: '32px Luckiest Guy',
+        font: `${fontSize}px Luckiest Guy`,
         fill: 'white',
         smoothed: false
       }
