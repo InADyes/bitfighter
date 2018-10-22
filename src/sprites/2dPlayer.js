@@ -266,10 +266,10 @@ export default class extends Phaser.Sprite {
     const width = this.width < 1 ? this.width * -1 : this.wdith;
     let x = this.leftOrRight === 'right' ? this.game.width - 70 : 30;
     if (this.leftOrRight === 'left' && window.innerWidth < 400) {
-      x -= 50;
+      x -= 20;
     }
     if (this.leftOrRight === 'right' && window.innerWidth < 400) {
-      x += 50;
+      x += 20;
     }
 
     this.healthBarBase = this.game.add.image(
