@@ -316,7 +316,7 @@ export default class extends Phaser.Sprite {
   createNameText() {
     let fontSize = 32;
     if (window.innerWidth < 400) {
-      fontSize = 20;
+      fontSize = 18;
     }
     this.playerName = this.game.add.text(
       0,
