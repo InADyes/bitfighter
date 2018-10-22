@@ -264,7 +264,7 @@ export default class extends Phaser.Sprite {
 
   createHealthBar() {
     const width = this.width < 1 ? this.width * -1 : this.wdith;
-    const x = this.leftOrRight === 'right' ? this.game.width - 70 : 30;
+    let x = this.leftOrRight === 'right' ? this.game.width - 70 : 30;
     if (this.leftOrRight === 'left' && window.innerWidth < 400) {
       x -= 50;
     }
